@@ -1,0 +1,3 @@
+__flush_cache=0x8000636C
+memcpy=0x80005F34
+memset=0x80006038

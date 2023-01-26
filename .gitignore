@@ -1,0 +1,7 @@
+# CodeWarrior compiler
+cw
+
+# Kamek build files/directories
+*.o
+*.bin
+*/build
