@@ -7,7 +7,7 @@ class Page {
 public:
 
     enum PageID {
-        INVALID = -1,
+        NONE = -1,
         UNK_0,
         ESRB_NOTICE,
         HZ60_SUGGESTION,

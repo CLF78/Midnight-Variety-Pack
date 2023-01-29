@@ -7,6 +7,7 @@ class Section {
 public:
 
     enum SectionID {
+        NONE = -1,
         CONSOLE_SHUTDOWN,
         UNK_1,
         LAUNCH_CHANNEL,
