@@ -12,7 +12,8 @@ public:
         LEFT_PRESS,
         RIGHT_PRESS,
         UNK_7,
-        UNK_8 // Home button maybe?
+        UNK_8, // Home button maybe?
+        INPUT_COUNT
     };
 
     virtual TypeInfo* getTypeInfo() const;
