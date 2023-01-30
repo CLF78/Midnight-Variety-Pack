@@ -8,8 +8,8 @@
 #error "Kamek requires the CodeWarrior compiler!"
 #endif
 
-#define static_assert(cond) __static_assert(cond, #cond)
-#define size_assert(type, size) static_assert(sizeof(type) == size)
+#define static_assert(cond) __static_assert((cond), #cond)
+#define size_assert(type, size) static_assert(sizeof(type) == (size))
 #define NULL 0
 
 // Base types
@@ -38,3 +38,4 @@ typedef volatile f64 vf64;
 
 #include "kamek/hooks.h"
 #include "kamek/gekko.h"
+#include "config.h"

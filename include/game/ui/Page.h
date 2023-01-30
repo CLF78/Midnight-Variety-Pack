@@ -255,6 +255,8 @@ public:
     virtual void vf_5c();
     virtual TypeInfo* getTypeInfo() const;
 
+    void insertChild(u32 childIdx, UIControl* child, u32 drawPass);
+
     int pageId;
     int pageState;
     bool canProceed;

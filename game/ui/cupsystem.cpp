@@ -1,0 +1,62 @@
+#include <kamek.h>
+#include <game/ui/page/RaceCupSelectPage.h>
+#ifdef CUSTOM_CUP_SYSTEM
+
+// Update memory size of page
+kmCallDefCpp(0x80623D94, u32) {
+    return sizeof(RaceCupSelectPage) + sizeof(RaceCupSelectPageEx);
+}
+
+// Construct extra buttons
+kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
+    SheetSelectControl::construct(&self->extension.arrows);
+    return self;
+}
+
+// Add the buttons to the children count
+// We do this by modifying the layoutCount variable from 2 to 3
+kmCallDefAsm(0x80627708) {
+    li r8, 3
+    stw r8, 0x3D8(r27) // use r8 instead of r9 to avoid clobbering it
+    blr
+}
+
+// Skip MKChannel-specific button
+kmCallDefAsm(0x80841088) {
+
+    // Original check
+    cmpwi r4, 2
+    bnelr
+
+    // Check the hasBackButton attribute to skip the button
+    lbz r5, 0x3DC(r3)
+    cmpwi r5, 0
+    blr
+}
+
+// Add the buttons to the layout
+kmCallDefCpp(0x808410F4, void*, RaceCupSelectPage* page, int childIdx) {
+
+    // Add offset to account for the extra MKChannel button
+    // Use the hasBackButton attribute for this
+    int childId = childIdx + page->hasBackButton;
+
+    // Initialize arrows
+    if (childId == 3) {
+        SheetSelectControl* arrows = &page->extension.arrows;
+        page->insertChild(childIdx, arrows, 0);
+        arrows->load("button", "TimeAttackGhostListArrowRight", "ButtonArrowRight",
+                    "TimeAttackGhostListArrowLeft", "ButtonArrowLeft", 1, false, false);
+        return arrows;
+    }
+
+    // Original failsafe
+    return NULL;
+}
+
+// Disable the track THPs
+kmWrite32(0x808412B0, 0x60000000);
+kmWrite32(0x808412E8, 0x60000000);
+kmWrite32(0x80841FB0, 0x60000000);
+
+#endif

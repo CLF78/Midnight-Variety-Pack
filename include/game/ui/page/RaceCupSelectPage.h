@@ -1,7 +1,17 @@
 #include <kamek.h>
 #include <game/ui/ctrl/CtrlMenuCupSelectCup.h>
+#include <game/ui/ctrl/SheetSelectControl.h>
 #include <game/ui/page/MenuPage.h>
 #include <game/ui/MultiControlInputManager.h>
+
+// Expansion structure for the custom cup system
+#ifdef CUSTOM_CUP_SYSTEM
+struct RaceCupSelectPageEx {
+    SheetSelectControl arrows;
+};
+#else
+struct RaceCupSelectPageEx;
+#endif
 
 class UIControlTimer;
 
@@ -24,5 +34,8 @@ public:
 
     Page* voteOrRandomPage;
     UIControlTimer* timer;
+
+    RaceCupSelectPageEx extension;
+
 };
-size_assert(RaceCupSelectPage, 0x23E0);
+size_assert(RaceCupSelectPage, 0x23E0 + sizeof(RaceCupSelectPageEx));
