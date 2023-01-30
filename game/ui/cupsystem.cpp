@@ -7,8 +7,10 @@ kmCallDefCpp(0x80623D94, u32) {
     return sizeof(RaceCupSelectPage) + sizeof(RaceCupSelectPageEx);
 }
 
-// Construct extra buttons
+// Construct the expansion data
 kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
+
+    // Construct extra buttons
     SheetSelectControl::construct(&self->extension.arrows);
     return self;
 }
@@ -42,6 +44,9 @@ kmCallDefCpp(0x808410F4, void*, RaceCupSelectPage* page, int childIdx) {
     int childId = childIdx + page->hasBackButton;
 
     // Initialize arrows
+    // TODO make a custom BRCTR with the following positions:
+    // - Right button = (275, 100, 0)
+    // - Left button = (-75, 100, 0)
     if (childId == 3) {
         SheetSelectControl* arrows = &page->extension.arrows;
         page->insertChild(childIdx, arrows, 0);
@@ -53,6 +58,9 @@ kmCallDefCpp(0x808410F4, void*, RaceCupSelectPage* page, int childIdx) {
     // Original failsafe
     return NULL;
 }
+
+// Disable X wrapping for button selection
+kmWrite8(0x80841247, 1);
 
 // Disable the track THPs
 kmWrite32(0x808412B0, 0x60000000);

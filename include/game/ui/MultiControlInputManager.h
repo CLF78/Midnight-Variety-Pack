@@ -23,12 +23,14 @@ public:
     };
     size_assert(Player, 0x5C);
 
+    typedef int (*calcDistanceFunc)(Player* src, Player* dest, u32 direction);
+
     EGG::List list;
     InputHandler<MultiControlInputManager>* handlers[MenuInputManager::INPUT_COUNT];
     bool actionsSet[MenuInputManager::INPUT_COUNT];
     u8 _49[MenuInputManager::INPUT_COUNT];
 
     Player players[5];
-    u32 _220;
+    calcDistanceFunc distFunc;
 };
 size_assert(MultiControlInputManager, 0x224);
