@@ -1,6 +1,6 @@
 #include <kamek.h>
 #include <game/ui/page/RaceCupSelectPage.h>
-#ifdef CUSTOM_CUP_SYSTEM
+#if CUSTOM_CUP_SYSTEM
 
 // Update memory size of page
 kmCallDefCpp(0x80623D94, u32) {
@@ -18,6 +18,8 @@ kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
 // Add the buttons to the children count
 // We do this by modifying the layoutCount variable from 2 to 3
 kmCallDefAsm(0x80627708) {
+    nofralloc
+
     li r8, 3
     stw r8, 0x3D8(r27) // use r8 instead of r9 to avoid clobbering it
     blr
@@ -25,6 +27,7 @@ kmCallDefAsm(0x80627708) {
 
 // Skip MKChannel-specific button
 kmCallDefAsm(0x80841088) {
+    nofralloc
 
     // Original check
     cmpwi r4, 2

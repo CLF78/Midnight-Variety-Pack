@@ -1,3 +1,6 @@
-insertChild__4PageFUiP9UIControlUi=0x8060246c
-construct__18SheetSelectControlFPv=0x80635ec4
+insertChild__4PageFUiP9UIControlUi=0x8060246C
+construct__18SheetSelectControlFPv=0x80635EC4
 load__18SheetSelectControlFPCcPCcPCcPCcPCcUibb=0x80636120
+create__15MultiDvdArchiveFi=0x8052A098
+SCGetLanguage=0x801B1D0C
+snprintf=0x80011938
