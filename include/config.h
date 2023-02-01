@@ -40,8 +40,8 @@
 #define CUSTOM_CUP_SYSTEM true
 
 // BRCTR filenames for the custom cup selection arrows.
-#define CUP_ARROW_L_BRCTR "CourseSelectCupArrowLeft"
-#define CUP_ARROW_R_BRCTR "CourseSelectCupArrowRight"
+#define CUP_ARROW_L_BRCTR "CupSelectCupArrowLeft"
+#define CUP_ARROW_R_BRCTR "CupSelectCupArrowRight"
 
 ///////////////////////
 // Dependency Checks //

@@ -1,5 +1,6 @@
 #include <kamek.h>
 #include <game/ui/page/RaceCupSelectPage.h>
+#include <game/ui/SectionManager.h>
 #if CUSTOM_CUP_SYSTEM
 
 // Update memory size of page
@@ -47,14 +48,23 @@ kmCallDefCpp(0x808410F4, void*, RaceCupSelectPage* page, int childIdx) {
     int childId = childIdx + page->hasBackButton;
 
     // Initialize arrows
-    // TODO make a custom BRCTR with the following positions:
-    // - Right button = (275, 100, 0)
-    // - Left button = (-75, 100, 0)
     if (childId == 3) {
+
+        // Insert entry
         SheetSelectControl* arrows = &page->extension.arrows;
         page->insertChild(childIdx, arrows, 0);
-        arrows->load("button", "TimeAttackGhostListArrowRight", "ButtonArrowRight",
-                    "TimeAttackGhostListArrowLeft", "ButtonArrowLeft", 1, false, false);
+
+        // Determine the variant to use depending on the player count
+        const char* rightVar = "ButtonArrowRight";
+        const char* leftVar = "ButtonArrowLeft";
+        if (SectionManager::getPlayerCount() > 2) {
+            rightVar = "ButtonArrowRight2";
+            leftVar = "ButtonArrowLeft2";
+        }
+
+        // Load BRCTR
+        arrows->load("button", CUP_ARROW_R_BRCTR, rightVar,
+                    CUP_ARROW_L_BRCTR, leftVar, 1, false, false);
         return arrows;
     }
 

@@ -120,40 +120,6 @@ kmBranchDefCpp(0x8052A2FC, NULL, void, MultiDvdArchive* self) {
     }
 }
 
-// Update archive count for other files
-kmWrite8(0x8052A0E7, 3);
-
-// Add archives for other files
-kmBranchDefCpp(0x8052A648, NULL, void, MultiDvdArchive* self) {
-
-    // This is used for the following files: Font.szs, Earth.szs, MiiBody.szs, Driver.szs,
-    // Award/Lose/Ending.szs and BackModel.szs
-    // Priority order:
-    // 1) Font(MULTI_ARCHIVE_USER_SUFFIX).szs
-    // 2) Font(MULTI_ARCHIVE_DISTRO_SUFFIX).szs
-    // 3) Font.szs
-
-    snprintf(self->suffixes[0], 0x80, ".szs");
-    snprintf(self->suffixes[1], 0x80, "%s.szs", MULTI_ARCHIVE_DISTRO_SUFFIX);
-    snprintf(self->suffixes[2], 0x80, "%s.szs", MULTI_ARCHIVE_USER_SUFFIX);
-
-    for (int i = 0; i < self->archiveCount; i++) {
-        self->kinds[i] = MultiDvdArchive::SUFFIX_ONLY;
-    }
-}
-
-// This is a fix because NTSC-K uses Font_K.szs instead of Font.szs
-#ifdef REGION_K
-kmCallDefCpp(0x8053FE20, MultiDvdArchive*, int type) {
-    MultiDvdArchive* ret = MultiDvdArchive::create(type);
-
-    if (type == MultiDvdArchive::FONT)
-        snprintf(ret->suffixes[0], 0x80, "_K.szs");
-
-    return ret;
-}
-#endif
-
 // Get the loaded file count for ResourceManager
 kmBranchDefCpp(0x8054179C, NULL, u16, MultiDvdArchive* self) {
     u16 loadedCount = 0;

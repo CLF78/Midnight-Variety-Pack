@@ -4,3 +4,4 @@ load__18SheetSelectControlFPCcPCcPCcPCcPCcUibb=0x80636120
 create__15MultiDvdArchiveFi=0x8052A098
 SCGetLanguage=0x801B1D0C
 snprintf=0x80011938
+getPlayerCount__14SectionManagerFv=0x808605FC
