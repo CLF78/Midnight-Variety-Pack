@@ -1,4 +1,5 @@
 #include <kamek.h>
+#include <stdlib/new.h>
 #include <game/ui/ControlInputManager.h>
 #include <game/ui/InputHandler.h>
 #include <game/ui/LayoutUIControl.h>
@@ -30,6 +31,7 @@ size_assert(SheetSelectButton, 0x248);
 
 class SheetSelectControl : public UIControl {
 public:
+    SheetSelectControl();
     virtual ~SheetSelectControl();
     virtual void init();
 
@@ -37,22 +39,24 @@ public:
     virtual const char* getTypeName() const;
 
     virtual void vf_38();
-    virtual void scrollA();
-    virtual void scrollB();
+    virtual void onRightSelected();
+    virtual void onLeftSelected();
     virtual void vf_44();
 
     void load(const char *dir, const char *rightFile, const char *rightVariant,
             const char *leftFile, const char *leftVariant, u32 playerFlags, bool r10,
             bool pointerOnly);
 
-    InputHandler<SheetSelectButton>* rightHandler;
-    InputHandler<SheetSelectButton>* leftHandler;
+    InputHandlerEx<SheetSelectButton, SheetSelectControl>* rightHandler;
+    InputHandlerEx<SheetSelectButton, SheetSelectControl>* leftHandler;
     u32 playerFlags;
     u32 _A4;
 
     SheetSelectButton rightButton;
     SheetSelectButton leftButton;
 
-    static SheetSelectControl* construct(void* buffer); // actually the constructor but i have to do it this way
+    static SheetSelectControl* construct(void* buffer) {
+        return new(buffer) SheetSelectControl();
+    }
 };
 size_assert(SheetSelectControl, 0x538);

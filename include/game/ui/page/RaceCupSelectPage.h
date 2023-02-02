@@ -4,13 +4,22 @@
 #include <game/ui/page/MenuPage.h>
 #include <game/ui/MultiControlInputManager.h>
 
-// Expansion structure for the custom cup system
+// Expansion structures for the custom cup system
 #ifdef CUSTOM_CUP_SYSTEM
-struct RaceCupSelectPageEx {
+class RaceCupSelectArrow : public SheetSelectButton {
+public:
+    void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId);
+    void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId);
+};
+
+class RaceCupSelectPageEx {
+public:
     SheetSelectControl arrows;
+    InputHandlerEx<SheetSelectButton, SheetSelectControl> leftHandler;
+    InputHandlerEx<SheetSelectButton, SheetSelectControl> rightHandler;
 };
 #else
-struct RaceCupSelectPageEx;
+class RaceCupSelectPageEx;
 #endif
 
 class UIControlTimer;
@@ -35,6 +44,7 @@ public:
     Page* voteOrRandomPage;
     UIControlTimer* timer;
 
+    // Custom structures from here onwards
     RaceCupSelectPageEx extension;
 
 };

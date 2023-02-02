@@ -3,6 +3,9 @@
 #include <game/ui/SectionManager.h>
 #if CUSTOM_CUP_SYSTEM
 
+void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {}
+void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {}
+
 // Update memory size of page
 kmCallDefCpp(0x80623D94, u32) {
     return sizeof(RaceCupSelectPage) + sizeof(RaceCupSelectPageEx);
@@ -13,6 +16,19 @@ kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
 
     // Construct extra buttons
     SheetSelectControl::construct(&self->extension.arrows);
+
+    // Set the input handlers
+    InputHandlerEx<RaceCupSelectArrow, SheetSelectControl>::construct(
+                                               (RaceCupSelectArrow*)&self->extension.arrows.leftButton,
+                                               &RaceCupSelectArrow::onLeftArrowPress,
+                                               &self->extension.leftHandler);
+    self->extension.arrows.leftHandler = &self->extension.leftHandler;
+
+    InputHandlerEx<RaceCupSelectArrow, SheetSelectControl>::construct(
+                                                (RaceCupSelectArrow*)&self->extension.arrows.leftButton,
+                                                &RaceCupSelectArrow::onRightArrowPress,
+                                                &self->extension.rightHandler);
+    self->extension.arrows.rightHandler = &self->extension.rightHandler;
     return self;
 }
 
