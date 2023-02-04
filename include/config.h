@@ -10,12 +10,18 @@
 // Compile the code.
 // The end.
 
+//////////////////
+// DO NOT TOUCH //
+//////////////////
+#define ON true
+#define OFF false
+
 ///////////////////////
 // Unlock Everything //
 ///////////////////////
 
 // Unlocks every character, vehicle, cup and class without touching the original savegame.
-#define UNLOCK_SAVEGAME true
+#define UNLOCK_SAVEGAME ON
 
 //////////////////////////
 // Multi Archive System //
@@ -23,7 +29,7 @@
 
 // Allows the game to look for resources in additional files, allowing both mod authors and
 // the playerbase to introduce asset changes without modifying the original files.
-#define MULTI_ARCHIVE_SYSTEM true
+#define MULTI_ARCHIVE_SYSTEM ON
 
  // File suffix for distro-provided assets.
 #define MULTI_ARCHIVE_DISTRO_SUFFIX "MKM"
@@ -35,9 +41,24 @@
 // Custom Cup System //
 ///////////////////////
 
-// Enables all the extensions required for supporting more/less than 8 cups.
-// Required dependencies: UNLOCK_SAVEGAME, MULTI_ARCHIVE_SYSTEM.
-#define CUSTOM_CUP_SYSTEM true
+// Enables the extensions required for supporting more/less than 8 cups.
+// Required dependency: UNLOCK_SAVEGAME.
+#define CUSTOM_CUP_SYSTEM ON
+
+// Enables the cup system for race tracks.
+#define CUSTOM_CUP_COURSE_SUPPORT ON
+
+// Enables the cup system for battle arenas.
+#define CUSTOM_CUP_BATTLE_SUPPORT ON
+
+// Enables custom music slot support.
+#define EXTENDED_MUSIC_SLOTS ON
+
+// Enables random variant support.
+#define RANDOM_TRACKS ON
+
+// Enables defining random variant chances.
+#define RANDOM_TRACKS_CHANCES ON
 
 // BRCTR filenames for the custom cup selection arrows.
 #define CUP_ARROW_L_BRCTR "CupSelectCupArrowLeft"
@@ -50,8 +71,4 @@
 // DO NOT TOUCH ANYTHING BEYOND THIS COMMENT
 #if (!UNLOCK_SAVEGAME && CUSTOM_CUP_SYSTEM)
 #error "UNLOCK_SAVEGAME is required for CUSTOM_CUP_SYSTEM!"
-#endif
-
-#if (!MULTI_ARCHIVE_SYSTEM && CUSTOM_CUP_SYSTEM)
-#error "MULTI_ARCHIVE_SYSTEM is required for CUSTOM_CUP_SYSTEM!"
 #endif

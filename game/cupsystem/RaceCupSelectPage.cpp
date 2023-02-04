@@ -1,7 +1,7 @@
 #include <kamek.h>
 #include <game/ui/page/RaceCupSelectPage.h>
 #include <game/ui/SectionManager.h>
-#if CUSTOM_CUP_SYSTEM
+#if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
 
 // Update memory size of page
 kmCallDefCpp(0x80623D94, u32) {
