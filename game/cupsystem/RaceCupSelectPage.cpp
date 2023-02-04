@@ -3,9 +3,6 @@
 #include <game/ui/SectionManager.h>
 #if CUSTOM_CUP_SYSTEM
 
-void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {}
-void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {}
-
 // Update memory size of page
 kmCallDefCpp(0x80623D94, u32) {
     return sizeof(RaceCupSelectPage) + sizeof(RaceCupSelectPageEx);
@@ -42,50 +39,25 @@ kmCallDefAsm(0x80627708) {
     blr
 }
 
-// Skip MKChannel-specific button
-kmCallDefAsm(0x80841088) {
-    nofralloc
-
-    // Original check
-    cmpwi r4, 2
-    bnelr
-
-    // Check the hasBackButton attribute to skip the button
-    lbz r5, 0x3DC(r3)
-    cmpwi r5, 0
-    blr
-}
-
 // Add the buttons to the layout
-kmCallDefCpp(0x808410F4, void*, RaceCupSelectPage* page, int childIdx) {
+kmBranchDefCpp(0x80841090, 0x808410F8, SheetSelectControl*, RaceCupSelectPage* page, int childIdx) {
 
-    // Add offset to account for the extra MKChannel button
-    // Use the hasBackButton attribute for this
-    int childId = childIdx + page->hasBackButton;
+    // Insert entry
+    SheetSelectControl* arrows = &page->extension.arrows;
+    page->insertChild(childIdx, arrows, 0);
 
-    // Initialize arrows
-    if (childId == 3) {
-
-        // Insert entry
-        SheetSelectControl* arrows = &page->extension.arrows;
-        page->insertChild(childIdx, arrows, 0);
-
-        // Determine the variant to use depending on the player count
-        const char* rightVar = "ButtonArrowRight";
-        const char* leftVar = "ButtonArrowLeft";
-        if (SectionManager::getPlayerCount() > 2) {
-            rightVar = "ButtonArrowRight2";
-            leftVar = "ButtonArrowLeft2";
-        }
-
-        // Load BRCTR
-        arrows->load("button", CUP_ARROW_R_BRCTR, rightVar,
-                    CUP_ARROW_L_BRCTR, leftVar, 1, false, false);
-        return arrows;
+    // Determine the variant to use depending on the player count
+    const char* rightVar = "ButtonArrowRight";
+    const char* leftVar = "ButtonArrowLeft";
+    if (SectionManager::getPlayerCount() > 2) {
+        rightVar = "ButtonArrowRight2";
+        leftVar = "ButtonArrowLeft2";
     }
 
-    // Original failsafe
-    return NULL;
+    // Load BRCTR
+    arrows->load("button", CUP_ARROW_R_BRCTR, rightVar,
+                CUP_ARROW_L_BRCTR, leftVar, 1, false, false);
+    return arrows;
 }
 
 // Disable X wrapping for button selection

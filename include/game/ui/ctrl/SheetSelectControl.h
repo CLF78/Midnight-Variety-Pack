@@ -56,7 +56,7 @@ public:
     SheetSelectButton leftButton;
 
     static SheetSelectControl* construct(void* buffer) {
-        return new(buffer) SheetSelectControl();
+        return new(buffer) SheetSelectControl;
     }
 };
 size_assert(SheetSelectControl, 0x538);
