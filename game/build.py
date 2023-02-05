@@ -39,7 +39,7 @@ CFLAGS = [
     '-maxerrors', '1',
     '-msext', 'on',
     '-nostdinc',
-    '-O4,s',
+    '-O4',
     '-once',
     '-pragma', '"cpp_extensions on"',
     '-pragma', '"cpp1x on"',
