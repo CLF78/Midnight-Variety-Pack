@@ -55,7 +55,7 @@ namespace CupFile {
 
     #if CUSTOM_CUP_COURSE_SUPPORT
     #define TRACK_COUNT 5
-    #define CUP_COUNT 1
+    #define CUP_COUNT 9
 
     static const Track tracks[TRACK_COUNT];
     static const Cup cups[CUP_COUNT];

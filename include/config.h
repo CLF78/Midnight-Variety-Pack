@@ -60,6 +60,10 @@
 // Enables defining random variant chances.
 #define RANDOM_TRACKS_CHANCES ON
 
+// Directory holding the VS/Battle cup icons, inside the SZS file.
+#define CUP_ICON_DIR_VS "/cups/vs"
+#define CUP_ICON_DIR_BT "/cups/bt"
+
 // BRCTR filenames for the custom cup selection arrows.
 #define CUP_ARROW_L_BRCTR "CupSelectCupArrowLeft"
 #define CUP_ARROW_R_BRCTR "CupSelectCupArrowRight"

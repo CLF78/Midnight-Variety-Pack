@@ -3,6 +3,7 @@
 #include <game/ui/UIAnimator.h>
 #include <game/ui/Layout.h>
 #include <game/ui/MessageGroup.h>
+#include <game/ui/MessageInfo.h>
 
 class PictureSourceLayout;
 class Pane;
@@ -20,6 +21,10 @@ public:
     virtual void vf30();
 
     virtual void loadResources(const char* arcName, const char* layoutName);
+
+    void setMsgId(u32 bmgId, MessageInfo* info);
+    void setMatIcon(const char* materialName, const char* iconPaneName);
+    void resetText();
 
     UIAnimator animator;
     MainLayout mainLayout;

@@ -5,7 +5,7 @@
 #include <game/ui/MultiControlInputManager.h>
 
 // Expansion structures for the custom cup system
-#ifdef CUSTOM_CUP_SYSTEM
+#if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
 class RaceCupSelectArrow : public SheetSelectButton {
 public:
     void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId);
@@ -17,6 +17,7 @@ public:
     SheetSelectControl arrows;
     InputHandlerEx<SheetSelectButton, SheetSelectControl> leftHandler;
     InputHandlerEx<SheetSelectButton, SheetSelectControl> rightHandler;
+    s32 curPage;
 };
 #else
 class RaceCupSelectPageEx;
