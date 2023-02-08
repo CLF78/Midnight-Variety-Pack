@@ -27,6 +27,8 @@ class UIControlTimer;
 
 class RaceCupSelectPage : public MenuPage {
 public:
+    static const char* getCupIconPane(int buttonId);
+
     MultiControlInputManager multiControlInputManager;
     u32 curChildCount;
 

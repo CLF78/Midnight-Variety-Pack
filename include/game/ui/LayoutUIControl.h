@@ -5,9 +5,6 @@
 #include <game/ui/MessageGroup.h>
 #include <game/ui/MessageInfo.h>
 
-class PictureSourceLayout;
-class Pane;
-
 class LayoutUIControl : public UIControl {
 public:
     virtual ~LayoutUIControl();
@@ -31,6 +28,6 @@ public:
     MessageGroup specificMessageGroup;
     MessageGroup commonMessageGroup;
     PictureSourceLayout* pictureSourceLayout;
-    Pane* mainPane;
+    nw4r::lyt::Pane* mainPane;
 };
 size_assert(LayoutUIControl, 0x174);

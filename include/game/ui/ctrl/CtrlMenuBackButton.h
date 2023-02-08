@@ -15,6 +15,6 @@ public:
     int bmgId;
     u32 fadeoutState;
     float fadeoutOpacity;
-    Pane* pane;
+    nw4r::lyt::Pane* pane;
 };
 size_assert(CtrlMenuBackButton, 0x264);

@@ -24,8 +24,8 @@ public:
     u32 playerFlags;
     bool enabled;
 
-    Pane* fuchiPane;
-    Pane* rootPane;
+    nw4r::lyt::Pane* fuchiPane;
+    nw4r::lyt::Pane* rootPane;
 };
 size_assert(SheetSelectButton, 0x248);
 

@@ -38,6 +38,8 @@ public:
     virtual MessageInfo* getMsgInfo();
     virtual void initVideos();
 
+    static MenuPage* getMenuPage(int pageId);
+
     MiiGroup* miiGroup;
 
     PushButton** buttons;

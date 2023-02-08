@@ -29,8 +29,8 @@ public:
     int buttonId;
     int playerCount;
 
-    Pane* fuchiPane;
-    Pane* colorBasePane;
+    nw4r::lyt::Pane* fuchiPane;
+    nw4r::lyt::Pane* colorBasePane;
 
     int selectionSound;
 };

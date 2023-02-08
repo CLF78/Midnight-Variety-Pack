@@ -57,26 +57,26 @@ namespace CupFile {
     #define TRACK_COUNT 5
     #define CUP_COUNT 9
 
-    static const Track tracks[TRACK_COUNT];
-    static const Cup cups[CUP_COUNT];
+    extern const Track tracks[TRACK_COUNT];
+    extern const Cup cups[CUP_COUNT];
     #endif
 
     #if CUSTOM_CUP_BATTLE_SUPPORT
     #define ARENA_COUNT 1
     #define BATTLE_CUP_COUNT 1
 
-    static const Track arenas[ARENA_COUNT];
-    static const Cup battleCups[BATTLE_CUP_COUNT];
+    extern const Track arenas[ARENA_COUNT];
+    extern const Cup battleCups[BATTLE_CUP_COUNT];
     #endif
 
     #if (RANDOM_TRACKS && CUSTOM_CUP_COURSE_SUPPORT)
     #define RANDOM_TRACK_COUNT 1
-    static const RandomTrack randomTracks[RANDOM_TRACK_COUNT];
+    extern const RandomTrack randomTracks[RANDOM_TRACK_COUNT];
     #endif
 
     #if (RANDOM_TRACKS && CUSTOM_CUP_BATTLE_SUPPORT)
     #define RANDOM_ARENA_COUNT 1
-    static const RandomTrack randomArenas[RANDOM_ARENA_COUNT];
+    extern const RandomTrack randomArenas[RANDOM_ARENA_COUNT];
     #endif
 
 } // namespace CupFile

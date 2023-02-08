@@ -5,7 +5,7 @@ class MenuMovie {
 public:
     virtual ~MenuMovie();
 
-    Pane** panes;
+    nw4r::lyt::Pane** panes;
     Page* parent;
     u8 _C;
     u32 _10;

@@ -2,6 +2,7 @@
 #include <game/ui/page/RaceCupSelectPage.h>
 #include <game/ui/SectionManager.h>
 #include "cupsystem/CupData.h"
+#include "cupsystem/CupManager.h"
 #if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
 #if (CUP_COUNT > 8)
 
@@ -28,6 +29,10 @@ kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
                                                 &RaceCupSelectArrow::onRightArrowPress,
                                                 &self->extension.rightHandler);
     self->extension.arrows.rightHandler = &self->extension.rightHandler;
+
+    // Set the correct page
+    s32 lastTrack = SectionManager::instance->globalContext->lastCourse;
+    self->extension.curPage = CupManager::getStartingPageFromTrack(lastTrack);
     return self;
 }
 
@@ -67,6 +72,9 @@ kmBranchDefCpp(0x80841090, 0x808410F8, SheetSelectControl*, RaceCupSelectPage* p
 #if (CUP_COUNT == 2 || CUP_COUNT > 8)
 kmWrite8(0x80841247, 1);
 #endif
+
+// Set the default track to -1
+kmWrite16(0x805E4218, 0x9123);
 
 // Disable the track THPs
 kmWrite32(0x808412B0, 0x60000000);
