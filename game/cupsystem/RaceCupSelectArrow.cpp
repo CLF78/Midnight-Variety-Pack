@@ -67,13 +67,8 @@ extern "C" void ReplaceCupIcon(int buttonId, PushButton* button) {
         button->setMatIcon("icon_light_01", "icon_08_hatena");
         button->setMatIcon("icon_light_02", "icon_08_hatena");
     } else {
-        // Set the icon pane
-        const char* iconPane = RaceCupSelectPage::getCupIconPane(buttonId);
-        button->setMatIcon("icon", iconPane);
-        button->setMatIcon("icon_light_01", iconPane);
-        button->setMatIcon("icon_light_02", iconPane);
-
         // Get the icon pane again
+        const char* iconPane = RaceCupSelectPage::getCupIconPane(buttonId);
         nw4r::lyt::Pane* pane = button->pictureSourceLayout->getPaneByName(iconPane);
 
         // Get its material
@@ -87,6 +82,11 @@ extern "C" void ReplaceCupIcon(int buttonId, PushButton* button) {
 
         // Replace the texture
         texMap->ReplaceImage(cupTexture, 0);
+
+        // Set the icon pane
+        button->setMatIcon("icon", iconPane);
+        button->setMatIcon("icon_light_01", iconPane);
+        button->setMatIcon("icon_light_02", iconPane);
     }
 }
 
@@ -107,6 +107,19 @@ extern "C" u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
     u32 pos = CupManager::getCupPositionFromIdx(cupIdx, self->extension.curPage);
     return CupManager::getCupButtonFromPosition(pos);
 }
+
+
+extern "C" u32 GetTrackName(u32 buttonId, u32 track) {
+
+    // Get the current page
+    RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
+    u32 cupPos = CupManager::getCupPositionFromButton(buttonId);
+    u32 cupIdx = CupManager::getCupIdxFromPosition(cupPos, page->extension.curPage);
+
+    // Get the text message
+    return CupManager::getTrackName(cupIdx, track);
+}
+
 
 // Bypass cup unlock check on startup
 kmWrite32(0x807E58F8, 0x480000C4);
@@ -179,6 +192,32 @@ void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 lo
         self->cupHolder.courseHolder.courseNames[i].resetText();
     }
 }
+
+// Preserve r4 in r28 and prevent updating it
+kmWrite32(0x807E601C, 0x7C9C2378);
+kmWrite32(0x807E6088, 0x60000000);
+kmWrite32(0x807E60B4, 0x60000000);
+
+// Update track names on selection change
+kmCallDefAsm(0x807E608C) {
+    mr r3, r28
+    mr r4, r27
+    b GetTrackName
+}
+
+// Preserve r3 in r27 and prevent updating it
+kmWrite32(0x807E6114, 0x60000000);
+kmWrite32(0x807E611C, 0x7C7B1B78);
+kmWrite32(0x807E6184, 0x60000000);
+kmWrite32(0x807E61B0, 0x60000000);
+
+// Update track names on startup
+kmCallDefAsm(0x807E6188) {
+    mr r3, r27
+    mr r4, r29
+    b GetTrackName
+}
+
 
 #endif
 #endif

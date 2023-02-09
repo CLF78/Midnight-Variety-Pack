@@ -35,7 +35,10 @@ public:
 
     // Gets the cup column from its index
     static u32 getCupPageFromIdx(u32 idx) {
-        return idx / 2;
+        if (CUP_COUNT > 8)
+            return idx / 2;
+        else
+            return 0;
     }
 
     // Gets the maximum amount of pages
@@ -45,6 +48,10 @@ public:
 
     // Gets the cup index from the starting page and the screen position
     static u32 getCupIdxFromPosition(u32 pos, u32 page) {
+
+        // If maxPage is 0, return the position itself
+        if (CUP_COUNT <= 8)
+            return pos;
 
         // Account for wrap-around
         u32 pageDiff = getMaxCupPage() - page;
@@ -60,6 +67,10 @@ public:
     // Gets the cup screen position from the starting page and the cup index
     static u32 getCupPositionFromIdx(u32 idx, u32 page) {
 
+        // If maxPage is 0, return the index itself
+        if (CUP_COUNT <= 8)
+            return idx;
+
         // Account for wrap-around
 	    u32 pageDiff = getMaxCupPage() - page;
 	    if (pageDiff <= 2) {
@@ -74,6 +85,10 @@ public:
     // Gets the starting page from the given track
     static u32 getStartingPageFromTrack(s32 track) {
 
+        // If maxPage is 0, return page 0
+        if (CUP_COUNT <= 8)
+            return 0;
+
         // Get the page
         u32 cupPage = getCupPageFromIdx(getCupIdxFromTrack(track));
 
@@ -83,5 +98,22 @@ public:
             cupPage = maxCupPage - 3;
 
         return cupPage;
+    }
+
+    // Gets the track name BMG id from a cup index and a track index
+    static u16 getTrackName(u32 cupIdx, u32 track) {
+
+        // Failsaves
+        if (cupIdx >= CUP_COUNT || track > 6)
+            return 0;
+
+        // Get the entry id
+        u16 trackIdx = CupFile::cups[cupIdx].entryId[track];
+
+        // Get the name (no failsaves, can't be arsed)
+        if (trackIdx & IS_RANDOM)
+            return CupFile::randomTracks[trackIdx & ~IS_RANDOM].variantNameId;
+        else
+            return CupFile::tracks[trackIdx].trackNameId;
     }
 };
