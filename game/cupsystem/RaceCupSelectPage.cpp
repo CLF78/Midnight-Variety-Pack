@@ -4,9 +4,22 @@
 #include "cupsystem/CupData.h"
 #include "cupsystem/CupManager.h"
 #if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
-#if (CUP_COUNT > 8)
+
+// Set the default track to -1
+kmWrite16(0x805E4218, 0x9123);
+
+// Disable the track THPs
+kmWrite32(0x808412B0, 0x60000000);
+kmWrite32(0x808412E8, 0x60000000);
+kmWrite32(0x80841FB0, 0x60000000);
+
+// Disable X wrapping for button selection
+#if (CUP_COUNT == 2 || CUP_COUNT > 8)
+kmWrite8(0x80841247, 1);
+#endif
 
 // Update memory size of page
+#if (CUP_COUNT > 8)
 kmCallDefCpp(0x80623D94, u32) {
     return sizeof(RaceCupSelectPage) + sizeof(RaceCupSelectPageEx);
 }
@@ -34,6 +47,14 @@ kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
     s32 lastTrack = SectionManager::instance->globalContext->lastCourse;
     self->extension.curPage = CupManager::getStartingPageFromTrack(lastTrack);
     return self;
+}
+
+// Destroy the expansion data
+kmCallDefCpp(0x8084226C, void, RaceCupSelectPage* self) {
+
+    // Only delete the arrows, since the other fields do not have/need a destructor
+    SheetSelectControl* arrows = &self->extension.arrows;
+    delete arrows;
 }
 
 // Add the buttons to the children count
@@ -66,19 +87,6 @@ kmBranchDefCpp(0x80841090, 0x808410F8, SheetSelectControl*, RaceCupSelectPage* p
                 CUP_ARROW_L_BRCTR, leftVar, 1, false, false);
     return arrows;
 }
+
 #endif
-
-// Disable X wrapping for button selection
-#if (CUP_COUNT == 2 || CUP_COUNT > 8)
-kmWrite8(0x80841247, 1);
-#endif
-
-// Set the default track to -1
-kmWrite16(0x805E4218, 0x9123);
-
-// Disable the track THPs
-kmWrite32(0x808412B0, 0x60000000);
-kmWrite32(0x808412E8, 0x60000000);
-kmWrite32(0x80841FB0, 0x60000000);
-
 #endif

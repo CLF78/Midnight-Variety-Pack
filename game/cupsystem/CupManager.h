@@ -101,14 +101,19 @@ public:
         return cupPage;
     }
 
+    // Gets the cup name BMG id from a cup index
+    static u16 getCupName(u32 cupIdx) {
+        return (cupIdx >= CUP_COUNT) ? 0 : CupFile::cups[cupIdx].cupName;
+    }
+
     // Gets the track name BMG id from a cup index and a track index
     static u16 getTrackName(u32 cupIdx, u32 track) {
 
-        // Failsafe, return anempty message if the cup or track indexes are invalid
+        // Failsafe, return an empty message if the cup or track indexes are invalid
         if (cupIdx >= CUP_COUNT || track > 5)
             return 0;
 
-        // Get the entry id, return the "?" message if the track is marked as non existant
+        // Get the entry id, return an empty message if the track is marked as non existant
         u16 trackIdx = CupFile::cups[cupIdx].entryId[track];
         if (trackIdx == EMPTY_TRACK)
             return 0;
