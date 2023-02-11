@@ -6,12 +6,12 @@ public:
 
     // Gets the cup button ID from a position - algorithm by Ismy
     static u32 getCupButtonFromPosition(u32 pos) {
-        return (pos >> 1) + ((pos % 2) << 2);
+        return ((pos >> 1) + ((pos % 2) << 2)) & 7;
     }
 
     // Gets the cup position from a button ID - algorithm by Ismy
     static u32 getCupPositionFromButton(u32 button) {
-        return ((button << 1) % 8) + (button >> 2);
+        return (((button << 1) % 8) + (button >> 2)) & 7;
     }
 
     // Finds the cup a track belongs to
@@ -21,6 +21,7 @@ public:
         if (track == -1)
             return 0;
 
+        // Find the track
         for (int i = 0; i < CUP_COUNT; i++) {
             const CupFile::Cup* cup = &CupFile::cups[i];
             for (int j = 0; j < 5; j++) {
@@ -29,7 +30,7 @@ public:
             }
         }
 
-        // Failsafe
+        // Track not found, default to top left
         return 0;
     }
 
@@ -103,17 +104,27 @@ public:
     // Gets the track name BMG id from a cup index and a track index
     static u16 getTrackName(u32 cupIdx, u32 track) {
 
-        // Failsaves
-        if (cupIdx >= CUP_COUNT || track > 6)
+        // Failsafe, return anempty message if the cup or track indexes are invalid
+        if (cupIdx >= CUP_COUNT || track > 5)
             return 0;
 
-        // Get the entry id
+        // Get the entry id, return the "?" message if the track is marked as non existant
         u16 trackIdx = CupFile::cups[cupIdx].entryId[track];
+        if (trackIdx == EMPTY_TRACK)
+            return 0;
 
-        // Get the name (no failsaves, can't be arsed)
-        if (trackIdx & IS_RANDOM)
-            return CupFile::randomTracks[trackIdx & ~IS_RANDOM].variantNameId;
-        else
-            return CupFile::tracks[trackIdx].trackNameId;
+        // Get the random flag and turn it off
+        bool isRandom = (trackIdx & IS_RANDOM) != 0;
+        trackIdx &= ~IS_RANDOM;
+
+        // Get the name (and make sure no index overflow occurs)
+        if (!isRandom)
+            return (trackIdx < TRACK_COUNT) ? CupFile::tracks[trackIdx].trackNameId : 0;
+
+        #if RANDOM_TRACKS
+        return (trackIdx < RANDOM_TRACK_COUNT) ? CupFile::randomTracks[trackIdx].variantNameId : 0;
+        #else
+        return 0;
+        #endif
     }
 };

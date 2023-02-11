@@ -74,11 +74,8 @@ extern "C" void ReplaceCupIcon(int buttonId, PushButton* button) {
         // Get its material
         nw4r::lyt::Material* mat = pane->GetMaterial();
 
-        // Get the material's texture count
-        u8 texMapIdx = mat->flags >> 28;
-
         // Get the texmap entry
-        nw4r::lyt::TexMap* texMap = &mat->GetTexMapAry()[texMapIdx-1];
+        nw4r::lyt::TexMap* texMap = mat->GetTexMapAry();
 
         // Replace the texture
         texMap->ReplaceImage(cupTexture, 0);
@@ -108,7 +105,6 @@ extern "C" u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
     return CupManager::getCupButtonFromPosition(pos);
 }
 
-
 extern "C" u32 GetTrackName(u32 buttonId, u32 track) {
 
     // Get the current page
@@ -119,7 +115,6 @@ extern "C" u32 GetTrackName(u32 buttonId, u32 track) {
     // Get the text message
     return CupManager::getTrackName(cupIdx, track);
 }
-
 
 // Bypass cup unlock check on startup
 kmWrite32(0x807E58F8, 0x480000C4);

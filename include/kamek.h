@@ -36,6 +36,9 @@ typedef volatile u64 vu64;
 typedef volatile f32 vf32;
 typedef volatile f64 vf64;
 
+// Macros
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+
 #include "kamek/hooks.h"
 #include "kamek/gekko.h"
 #include "config.h"
