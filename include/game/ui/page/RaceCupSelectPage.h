@@ -3,6 +3,7 @@
 #include <game/ui/ctrl/SheetSelectControl.h>
 #include <game/ui/page/MenuPage.h>
 #include <game/ui/MultiControlInputManager.h>
+#include <game/ui/UIControlTimer.h>
 
 // Expansion structures for the custom cup system
 #if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
@@ -22,8 +23,6 @@ public:
 #else
 class RaceCupSelectPageEx;
 #endif
-
-class UIControlTimer;
 
 class RaceCupSelectPage : public MenuPage {
 public:

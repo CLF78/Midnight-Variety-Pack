@@ -1,8 +1,11 @@
 #include <kamek.h>
+#include <game/ui/PushButton.h>
 #include "cupsystem/CupData.h"
 
 class CupManager {
 public:
+    // Replaces a cup button's icon with a custom one, given the button ID and the current page
+    static void replaceCupIcon(int buttonId, PushButton* button, u32 curPage);
 
     // Gets the cup button ID from a position - algorithm by Ismy
     static u32 getCupButtonFromPosition(u32 pos) {
@@ -101,35 +104,55 @@ public:
         return cupPage;
     }
 
+    static u32 getStartingButtonFromTrack(s32 track, u32 curPage) {
+        u32 cupIdx = getCupIdxFromTrack(track);
+        u32 pos = getCupPositionFromIdx(cupIdx, curPage);
+        return getCupButtonFromPosition(pos);
+    }
+
     // Gets the cup name BMG id from a cup index
-    static u16 getCupName(u32 cupIdx) {
+    static u16 getCupNameFromIdx(u32 cupIdx) {
         return (cupIdx >= CUP_COUNT) ? 0 : CupFile::cups[cupIdx].cupName;
     }
 
+    // Gets the cup name BMG id from a button ID and the current page
+    static u16 getCupNameFromButton(int buttonId, u32 curPage) {
+        u32 cupPos = getCupPositionFromButton(buttonId);
+        u32 cupIdx = getCupIdxFromPosition(cupPos, curPage);
+        return getCupNameFromIdx(cupIdx);
+    }
+
     // Gets the track name BMG id from a cup index and a track index
-    static u16 getTrackName(u32 cupIdx, u32 track) {
+    static u16 getTrackNameFromCupIdx(u32 cupIdx, u32 trackIdx) {
 
         // Failsafe, return an empty message if the cup or track indexes are invalid
-        if (cupIdx >= CUP_COUNT || track > 5)
+        if (cupIdx >= CUP_COUNT || trackIdx > 5)
             return 0;
 
         // Get the entry id, return an empty message if the track is marked as non existant
-        u16 trackIdx = CupFile::cups[cupIdx].entryId[track];
-        if (trackIdx == EMPTY_TRACK)
+        u16 trackEntry = CupFile::cups[cupIdx].entryId[trackIdx];
+        if (trackEntry == EMPTY_TRACK)
             return 0;
 
         // Get the random flag and turn it off
-        bool isRandom = (trackIdx & IS_RANDOM) != 0;
-        trackIdx &= ~IS_RANDOM;
+        bool isRandom = (trackEntry & IS_RANDOM) != 0;
+        trackEntry &= ~IS_RANDOM;
 
         // Get the name (and make sure no index overflow occurs)
         if (!isRandom)
-            return (trackIdx < TRACK_COUNT) ? CupFile::tracks[trackIdx].trackNameId : 0;
+            return (trackEntry < TRACK_COUNT) ? CupFile::tracks[trackEntry].trackNameId : 0;
 
         #if RANDOM_TRACKS
-        return (trackIdx < RANDOM_TRACK_COUNT) ? CupFile::randomTracks[trackIdx].variantNameId : 0;
+        return (trackEntry < RANDOM_TRACK_COUNT) ? CupFile::randomTracks[trackEntry].variantNameId : 0;
         #else
         return 0;
         #endif
+    }
+
+    // Gets the track name BMG id from a button ID and a track index
+    static u16 getTrackNameFromButtonId(u32 buttonId, u32 trackIdx, u32 curPage) {
+        u32 cupPos = getCupPositionFromButton(buttonId);
+        u32 cupIdx = getCupIdxFromPosition(cupPos, curPage);
+        return getTrackNameFromCupIdx(cupIdx, trackIdx);
     }
 };
