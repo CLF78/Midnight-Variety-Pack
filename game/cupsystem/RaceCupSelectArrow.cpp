@@ -55,7 +55,7 @@ extern "C" void ReplaceCupIcon(int buttonId, PushButton* button) {
 
     // Get the cup texture name
     char buffer[64];
-    snprintf(buffer, sizeof(buffer), "%s/%d.tpl", CUP_ICON_DIR_VS, cupIdx);
+    snprintf(buffer, sizeof(buffer), CUP_ICON_DIR_VS "/%d.tpl", cupIdx);
 
     // Get the cup texture
     size_t textureSize;

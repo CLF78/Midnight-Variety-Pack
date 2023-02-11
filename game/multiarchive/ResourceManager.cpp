@@ -38,7 +38,7 @@ kmBranchDefAsm(0x80541904, 0x80541924) {
 }
 
 // Bypass missing archives when loading them
-extern "C" DvdArchive* getMenuArchive(MultiDvdArchive* self, u32 i) {
+DvdArchive* getMenuArchive(MultiDvdArchive* self, u32 i) {
     u16 loadedCount = 0;
     for (u16 j = 0; j < self->archiveCount; j++) {
         if (self->archives[j].state == DvdArchive::MOUNTED) {

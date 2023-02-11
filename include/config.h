@@ -6,7 +6,7 @@
 // Guide //
 ///////////
 
-// Change the settings to be true/false (or alter their value) based on your needs.
+// Change the settings to be ON/OFF (or alter their value) based on your needs.
 // Compile the code.
 // The end.
 
@@ -21,15 +21,19 @@
 ///////////////////////
 
 // Unlocks every character, vehicle, cup and class without touching the original savegame.
+// Unlock screens are also disabled.
 #define UNLOCK_SAVEGAME ON
 
 //////////////////////////
 // Multi Archive System //
 //////////////////////////
 
-// Allows the game to look for resources in additional files, allowing both mod authors and
-// the playerbase to introduce asset changes without modifying the original files.
+// Allows the game to look for resources in additional files, allowing
+// for the introduction of asset changes without modifying the original files.
 #define MULTI_ARCHIVE_SYSTEM ON
+
+// Add support for user-provided assets.
+#define MULTI_ARCHIVE_ALLOW_USER_FILES ON
 
  // File suffix for distro-provided assets.
 #define MULTI_ARCHIVE_DISTRO_SUFFIX "MKM"
