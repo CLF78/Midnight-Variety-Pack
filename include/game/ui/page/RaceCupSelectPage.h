@@ -31,7 +31,7 @@ public:
     MultiControlInputManager multiControlInputManager;
     u32 curChildCount;
 
-    InputHandler<RaceCupSelectPage> onBackClick;
+    InputHandler<RaceCupSelectPage> onBtnClick;
     InputHandler<RaceCupSelectPage> onBtnSelect;
     InputHandler<RaceCupSelectPage> onBtnDeselect;
     InputHandler<RaceCupSelectPage> onBackPress;

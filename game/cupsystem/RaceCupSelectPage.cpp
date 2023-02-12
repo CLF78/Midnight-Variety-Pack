@@ -9,7 +9,7 @@
 kmWrite16(0x805E4218, 0x9123);
 
 // Common function
-extern "C" u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
+extern "C" static u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
     return CupManager::getStartingButtonFromTrack(track, self->extension.curPage);
 }
 
@@ -30,7 +30,7 @@ kmCallDefAsm(0x808417A4) {
 }
 
 // Update default button on cup selection
-extern "C" void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, RaceCupSelectPage* self) {
+extern "C" static void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, RaceCupSelectPage* self) {
     u32 cupPos = CupManager::getCupPositionFromButton(buttonId);
     u32 cupIdx = CupManager::getCupIdxFromPosition(cupPos, self->extension.curPage);
     sectionMgr->globalContext->lastCourse = CupFile::cups[cupIdx].entryId[0];
@@ -46,7 +46,8 @@ kmBranchDefAsm(0x808417B4, 0x808417CC) {
     blr
 }
 
-extern "C" RaceConfig* StoreCupAndCourse(RaceCupSelectPage* self) {
+// Store the last selected cup and the first track along with its behaviour slot
+extern "C" static RaceConfig* StoreCupAndCourse(RaceCupSelectPage* self) {
     RaceConfig* rdata = RaceConfig::instance;
     u32 cupPos = CupManager::getCupPositionFromButton(self->selectedButton);
     u32 cupIdx = CupManager::getCupIdxFromPosition(cupPos, self->extension.curPage);
@@ -63,11 +64,6 @@ kmBranchDefAsm(0x8084180C, 0x8084183C) {
     bl StoreCupAndCourse
     blr
 }
-
-/*
-TODO check if any other hook is required in the cup select screen
-TODO course select screen
-*/
 
 // Skip unlock check
 kmWrite32(0x80841214, 0x38600001);

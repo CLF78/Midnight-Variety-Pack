@@ -4,7 +4,7 @@
 #if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
 
 // Common function
-extern "C" u16 GetTrackName(u32 buttonId, u32 track) {
+extern "C" static u16 GetTrackName(u32 buttonId, u32 track) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
     return CupManager::getTrackNameFromButton(buttonId, track, page->extension.curPage);
 }
