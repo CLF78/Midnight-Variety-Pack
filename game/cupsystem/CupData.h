@@ -49,7 +49,7 @@ namespace CupFile {
         const u16* trackIndexes; // The indexes in the track section of each random variant
 
         #if RANDOM_TRACKS_CHANCES
-        const u8* chanceIndexes; // The chances of each variant to be picked
+        const u8* chanceIndexes; // The chances of each variant to be picked. Value from 1 to 256.
         #endif
     };
 

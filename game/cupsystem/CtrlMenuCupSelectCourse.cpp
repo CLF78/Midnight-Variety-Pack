@@ -6,7 +6,7 @@
 // Common function
 extern "C" u16 GetTrackName(u32 buttonId, u32 track) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    return CupManager::getTrackNameFromButtonId(buttonId, track, page->extension.curPage);
+    return CupManager::getTrackNameFromButton(buttonId, track, page->extension.curPage);
 }
 
 // Update track names on selection change

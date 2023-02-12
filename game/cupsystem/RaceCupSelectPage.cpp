@@ -1,4 +1,5 @@
 #include <kamek.h>
+#include <game/system/RaceConfig.h>
 #include <game/ui/page/RaceCupSelectPage.h>
 #include <game/ui/SectionManager.h>
 #include "cupsystem/CupManager.h"
@@ -7,18 +8,69 @@
 // Set the default track to -1
 kmWrite16(0x805E4218, 0x9123);
 
-// Set default button
+// Common function
 extern "C" u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
     return CupManager::getStartingButtonFromTrack(track, self->extension.curPage);
 }
 
-// Glue code
+// Get default button on startup
 kmCallDefAsm(0x80841170) {
     nofralloc
 
     mr r4, r31
     b GetDefaultButton
 }
+
+// Get default button on cup selection
+kmCallDefAsm(0x808417A4) {
+    nofralloc
+
+    mr r4, r30
+    b GetDefaultButton
+}
+
+// Update default button on cup selection
+extern "C" void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, RaceCupSelectPage* self) {
+    u32 cupPos = CupManager::getCupPositionFromButton(buttonId);
+    u32 cupIdx = CupManager::getCupIdxFromPosition(cupPos, self->extension.curPage);
+    sectionMgr->globalContext->lastCourse = CupFile::cups[cupIdx].entryId[0];
+}
+
+// Glue code
+kmBranchDefAsm(0x808417B4, 0x808417CC) {
+    nofralloc
+
+    mr r4, r28
+    mr r5, r30
+    bl UpdateDefaultButton
+    blr
+}
+
+extern "C" RaceConfig* StoreCupAndCourse(RaceCupSelectPage* self) {
+    RaceConfig* rdata = RaceConfig::instance;
+    u32 cupPos = CupManager::getCupPositionFromButton(self->selectedButton);
+    u32 cupIdx = CupManager::getCupIdxFromPosition(cupPos, self->extension.curPage);
+    rdata->menuScenario.settings.cupId = cupIdx;
+    u32 trackIdx = CupManager::getTrackFileFromCupIdx(cupIdx, 0);
+    CupManager::currentSzs = trackIdx;
+    rdata->menuScenario.settings.courseId = CupFile::tracks[trackIdx].specialSlot;
+    return rdata;
+}
+
+// Glue code
+kmBranchDefAsm(0x8084180C, 0x8084183C) {
+    mr r3, r30
+    bl StoreCupAndCourse
+    blr
+}
+
+/*
+TODO check if any other hook is required in the cup select screen
+TODO course select screen
+*/
+
+// Skip unlock check
+kmWrite32(0x80841214, 0x38600001);
 
 // Disable the track THPs
 kmWrite32(0x808412B0, 0x60000000);

@@ -1,6 +1,5 @@
 #include <kamek.h>
-
-class Mii;
+#include <game/system/Mii.h>
 
 class MessageInfo {
 public:
