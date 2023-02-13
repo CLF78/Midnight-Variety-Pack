@@ -4,15 +4,21 @@
 #if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
 
 // Update track names on selection change
-extern "C" static u16 GetTrackName(u32 buttonId, u32 track) {
+extern "C" static u16 GetTrackName(u32 track, PushButton* button) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    return CupManager::getTrackNameFromButton(buttonId, track, page->extension.curPage);
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
+    u16 msgId = CupManager::getTrackNameFromCupIdx(cupIdx, track);
+
+    button->hidden = msgId == 0;
+    button->inputManager.unselectable = msgId == 0;
+
+    return msgId;
 }
 
 // Glue code
 kmCallDefAsm(0x807E5244) {
-    mr r3, r23
-    mr r4, r27
+    mr r3, r27
+    mr r4, r21
     b GetTrackName
 }
 

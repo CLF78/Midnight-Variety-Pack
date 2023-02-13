@@ -165,8 +165,7 @@ u16 CupManager::getCupNameFromIdx(u32 cupIdx) {
 }
 
 u16 CupManager::getCupNameFromButton(int buttonId, u32 curPage) {
-    u32 cupPos = CupManager::getCupPositionFromButton(buttonId);
-    u32 cupIdx = CupManager::getCupIdxFromPosition(cupPos, curPage);
+    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, curPage);
     return CupManager::getCupNameFromIdx(cupIdx);
 }
 
@@ -197,8 +196,7 @@ u16 CupManager::getTrackNameFromCupIdx(u32 cupIdx, u32 trackIdx) {
 }
 
 u16 CupManager::getTrackNameFromButton(u32 buttonId, u32 trackIdx, u32 curPage) {
-    u32 cupPos = CupManager::getCupPositionFromButton(buttonId);
-    u32 cupIdx = CupManager::getCupIdxFromPosition(cupPos, curPage);
+    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, curPage);
     return CupManager::getTrackNameFromCupIdx(cupIdx, trackIdx);
 }
 
