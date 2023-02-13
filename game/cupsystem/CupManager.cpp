@@ -15,8 +15,7 @@ Random CupManager::randomizer = Random();
 void CupManager::replaceCupIcon(int buttonId, PushButton* button, u32 curPage) {
 
     // Get the cup index
-    u32 cupPos = getCupPositionFromButton(buttonId);
-    u32 cupIdx = getCupIdxFromPosition(cupPos, curPage);
+    u32 cupIdx = getCupIdxFromButton(buttonId, curPage);
 
     // Instead of replacing the texture, hide the cup entirely if it exceeds the maximum index
     bool hide = (cupIdx >= CUP_COUNT);
@@ -116,6 +115,11 @@ u32 CupManager::getCupIdxFromPosition(u32 pos, u32 page) {
     return pos + page * 2;
 }
 
+u32 CupManager::getCupIdxFromButton(u32 button, u32 page) {
+    u32 cupPos = CupManager::getCupPositionFromButton(button);
+    return CupManager::getCupIdxFromPosition(cupPos, page);
+}
+
 u32 CupManager::getCupPositionFromIdx(u32 idx, u32 page) {
 
     // If maxPage is 0, return the index itself
@@ -150,7 +154,7 @@ u32 CupManager::getStartingPageFromTrack(s32 track) {
     return cupPage;
 }
 
-u32 CupManager::getStartingButtonFromTrack(s32 track, u32 curPage) {
+u32 CupManager::getStartingCupButtonFromTrack(s32 track, u32 curPage) {
     u32 cupIdx = CupManager::getCupIdxFromTrack(track);
     u32 pos = CupManager::getCupPositionFromIdx(cupIdx, curPage);
     return CupManager::getCupButtonFromPosition(pos);
@@ -222,6 +226,17 @@ s32 CupManager::getTrackFileFromCupIdx(u32 cupIdx, u32 trackIdx) {
     #else
     return EMPTY_TRACK;
     #endif
+}
+
+s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx) {
+    const CupFile::Cup* cup = &CupFile::cups[cupIdx];
+
+    for (int i = 0; i < 5; i++) {
+        if (cup->entryId[i] == track)
+            return i;
+    }
+
+    return 0;
 }
 
 #if RANDOM_TRACKS

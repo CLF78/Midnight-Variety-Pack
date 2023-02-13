@@ -16,9 +16,9 @@ public:
     virtual const char* getTypeName() const;
 
     ControlInputManager m_inputManager;
-    InputHandler<SheetSelectButton> _1F8;
-    InputHandler<SheetSelectButton> _20C;
     InputHandler<SheetSelectButton> onScrollHandler;
+    InputHandler<SheetSelectButton> onDeselectHandler;
+    InputHandler<SheetSelectButton> onSelectHandler;
 
     int arrowSide;
     u32 playerFlags;

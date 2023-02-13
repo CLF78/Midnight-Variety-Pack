@@ -23,6 +23,9 @@ public:
     // Gets the cup index from the starting page and the screen position
     static u32 getCupIdxFromPosition(u32 pos, u32 page);
 
+    // Gets the cup index from the button id and the current page
+    static u32 getCupIdxFromButton(u32 button, u32 page);
+
     // Gets the cup column from its index
     static u32 getCupPageFromIdx(u32 idx);
 
@@ -32,8 +35,11 @@ public:
     // Gets the starting page from the given track
     static u32 getStartingPageFromTrack(s32 track);
 
-    // Gets the starting button from the given track and page number
-    static u32 getStartingButtonFromTrack(s32 track, u32 curPage);
+    // Gets the starting cup button from the given track and page number
+    static u32 getStartingCupButtonFromTrack(s32 track, u32 curPage);
+
+    // Gets the starting course button from the given track and cup number
+    static s32 getStartingCourseButtonFromTrack(s32 track, u32 cupIdx);
 
     // Gets the cup name BMG id from a cup index
     static u16 getCupNameFromIdx(u32 cupIdx);

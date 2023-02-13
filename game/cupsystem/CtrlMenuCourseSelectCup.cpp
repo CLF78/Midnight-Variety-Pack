@@ -2,6 +2,7 @@
 #include <game/ui/page/RaceCupSelectPage.h>
 #include <game/ui/ctrl/CtrlMenuCourseSelectCup.h>
 #include "cupsystem/CupManager.h"
+#if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
 
 // Skip unlock check
 kmWrite32(0x807E4610, 0x38600001);
@@ -27,3 +28,5 @@ kmBranchDefAsm(0x807E4648, 0x807E468C) {
     bl ReplaceCupIcon
     blr
 }
+
+#endif

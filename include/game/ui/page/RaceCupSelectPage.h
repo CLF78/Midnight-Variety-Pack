@@ -41,7 +41,7 @@ public:
     u32 activeControllers;
 
     CtrlMenuCupSelectCup cupHolder;
-    u32 selectedButton;
+    u32 selectedButtonId;
 
     Page* voteOrRandomPage;
     UIControlTimer* timer;
