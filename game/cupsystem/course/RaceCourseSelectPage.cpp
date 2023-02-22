@@ -39,11 +39,11 @@ extern "C" static RaceConfig* StoreCourse(u32 trackIdx, PushButton* button) {
     // Get the actual SZS file to be used and store it
     u32 cupIdx = CupManager::getCupIdxFromTrack(trackIdx);
     u32 actualTrackIdx = CupManager::getTrackFileFromCupIdx(cupIdx, button->buttonId);
-    CupManager::currentSzs = trackIdx;
+    CupManager::currentSzs = actualTrackIdx;
 
     // Store course slot in RaceConfig and return the pointer
     RaceConfig* rdata = RaceConfig::instance;
-    rdata->menuScenario.settings.courseId = CupFile::tracks[trackIdx].specialSlot;
+    rdata->menuScenario.settings.courseId = CupFile::tracks[actualTrackIdx].specialSlot;
     return rdata;
 }
 
