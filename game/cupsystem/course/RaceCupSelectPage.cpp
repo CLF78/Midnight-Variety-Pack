@@ -3,7 +3,7 @@
 #include <game/ui/page/RaceCupSelectPage.h>
 #include <game/ui/SectionManager.h>
 #include "cupsystem/CupManager.h"
-#if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
+#if (CUSTOM_CUP_COURSE_SUPPORT)
 
 // Set the default track to -1
 kmWrite16(0x805E4218, 0x9123);
@@ -18,7 +18,7 @@ kmWrite32(0x80841FB0, 0x60000000);
 
 // Get default cup button
 extern "C" static u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
-    return CupManager::getStartingCupButtonFromTrack(track, CupManager::getCurrPage(self));
+    return CupManager::getStartingCupButtonFromTrack(track, CupManager::getCurrPageVS(self));
 }
 
 // Glue code for startup
@@ -39,7 +39,7 @@ kmCallDefAsm(0x808417A4) {
 
 // Update default button on cup selection
 extern "C" static void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, RaceCupSelectPage* self) {
-    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, CupManager::getCurrPage(self));
+    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, CupManager::getCurrPageVS(self));
     sectionMgr->globalContext->lastCourse = CupFile::cups[cupIdx].entryId[0];
 }
 
@@ -58,7 +58,7 @@ extern "C" static RaceConfig* StoreCupAndCourse(RaceCupSelectPage* self) {
     RaceConfig* rdata = RaceConfig::instance;
 
     // Store the selected cup
-    u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, CupManager::getCurrPage(self));
+    u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, CupManager::getCurrPageVS(self));
     rdata->menuScenario.settings.cupId = cupIdx;
 
     // Store the cup's first track as the last selected track

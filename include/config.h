@@ -45,15 +45,10 @@
 // Custom Cup System //
 ///////////////////////
 
-// Enables the extensions required for supporting more/less than 8 cups.
+// Enables the extensions required for supporting more/less than 8 cups for VS/Battle.
 // Required dependency: UNLOCK_SAVEGAME.
-#define CUSTOM_CUP_SYSTEM ON
-
-// Enables the cup system for race tracks.
 #define CUSTOM_CUP_COURSE_SUPPORT ON
-
-// Enables the cup system for battle arenas.
-#define CUSTOM_CUP_BATTLE_SUPPORT ON
+#define CUSTOM_CUP_BATTLE_SUPPORT OFF
 
 // Enables custom music slot support.
 #define EXTENDED_MUSIC_SLOTS ON
@@ -76,11 +71,13 @@
 #define CUP_ARROW_L_BRCTR "CupSelectCupArrowLeft"
 #define CUP_ARROW_R_BRCTR "CupSelectCupArrowRight"
 
-///////////////////////
-// Dependency Checks //
-///////////////////////
+///////////////////////////////////
+// Dependency Checks/Other Stuff //
+///////////////////////////////////
 
 // DO NOT TOUCH ANYTHING BEYOND THIS COMMENT
+#define CUSTOM_CUP_SYSTEM (CUSTOM_CUP_COURSE_SUPPORT || CUSTOM_CUP_BATTLE_SUPPORT)
+
 #if (!UNLOCK_SAVEGAME && CUSTOM_CUP_SYSTEM)
 #error "UNLOCK_SAVEGAME is required for CUSTOM_CUP_SYSTEM!"
 #endif

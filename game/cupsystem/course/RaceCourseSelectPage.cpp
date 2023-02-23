@@ -4,7 +4,7 @@
 #include <game/ui/SectionManager.h>
 #include <game/system/RaceConfig.h>
 #include "cupsystem/CupManager.h"
-#if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
+#if (CUSTOM_CUP_COURSE_SUPPORT)
 
 // Turn off track THPs
 kmWrite16(0x808404D4, 0x4800);
@@ -18,7 +18,7 @@ extern "C" static u32 GetTrack(RaceCourseSelectPage* self,
                                PushButton* button) {
 
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, CupManager::getCurrPage(page));
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, CupManager::getCurrPageVS(page));
     return CupFile::cups[cupIdx].entryId[button->buttonId];
 }
 

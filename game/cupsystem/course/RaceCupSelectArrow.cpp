@@ -1,7 +1,7 @@
 #include <kamek.h>
 #include <game/ui/page/RaceCupSelectPage.h>
 #include "cupsystem/CupManager.h"
-#if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT && RACE_CUP_ARROWS_ENABLED)
+#if (CUSTOM_CUP_COURSE_SUPPORT && RACE_CUP_ARROWS_ENABLED)
 
 // This function runs whenever the left arrow is selected or pressed
 void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {

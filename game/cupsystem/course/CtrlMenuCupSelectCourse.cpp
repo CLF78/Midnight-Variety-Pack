@@ -1,12 +1,12 @@
 #include <kamek.h>
 #include <game/ui/page/RaceCupSelectPage.h>
 #include "cupsystem/CupManager.h"
-#if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
+#if (CUSTOM_CUP_COURSE_SUPPORT)
 
 // Update track names
 extern "C" static u16 GetTrackName(u32 buttonId, u32 track) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, CupManager::getCurrPage(page));
+    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, CupManager::getCurrPageVS(page));
     u32 trackIdx = CupFile::cups[cupIdx].entryId[track];
     return CupManager::getTrackNameFromTrackIdx(trackIdx);
 }

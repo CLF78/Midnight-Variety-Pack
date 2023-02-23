@@ -7,7 +7,6 @@
 #include "cupsystem/CupCounts.h"
 
 // Expansion structures for the custom cup system
-#if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT && RACE_CUP_ARROWS_ENABLED)
 class RaceCupSelectArrow : public SheetSelectButton {
 public:
     void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId);
@@ -21,9 +20,6 @@ public:
     InputHandlerEx<SheetSelectButton, SheetSelectControl> rightHandler;
     s32 curPage;
 };
-#else
-class RaceCupSelectPageEx;
-#endif
 
 class RaceCupSelectPage : public MenuPage {
 public:
@@ -48,7 +44,13 @@ public:
     UIControlTimer* timer;
 
     // Custom structures from here onwards
+    #if (CUSTOM_CUP_COURSE_SUPPORT && RACE_CUP_ARROWS_ENABLED)
     RaceCupSelectPageEx extension;
-
+    #endif
 };
+
+#if (CUSTOM_CUP_COURSE_SUPPORT && RACE_CUP_ARROWS_ENABLED)
 size_assert(RaceCupSelectPage, 0x23E0 + sizeof(RaceCupSelectPageEx));
+#else
+size_assert(RaceCupSelectPage, 0x23E0);
+#endif
