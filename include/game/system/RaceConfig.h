@@ -121,6 +121,17 @@ public:
             ITEMS_NONE
         };
 
+        bool isBattle() const {
+            switch (gameMode) {
+                case GAMEMODE_BT:
+                case GAMEMODE_PUBLIC_BT:
+                case GAMEMODE_PRIVATE_BT:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         u32 courseId;
         u32 engineClass;
         u32 gameMode;

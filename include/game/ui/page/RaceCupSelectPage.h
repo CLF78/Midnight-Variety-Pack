@@ -4,9 +4,10 @@
 #include <game/ui/page/MenuPage.h>
 #include <game/ui/MultiControlInputManager.h>
 #include <game/ui/UIControlTimer.h>
+#include "cupsystem/CupCounts.h"
 
 // Expansion structures for the custom cup system
-#if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
+#if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT && RACE_CUP_ARROWS_ENABLED)
 class RaceCupSelectArrow : public SheetSelectButton {
 public:
     void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId);

@@ -3,19 +3,20 @@
 #include "cupsystem/CupManager.h"
 #if (CUSTOM_CUP_SYSTEM && CUSTOM_CUP_COURSE_SUPPORT)
 
-// Bypass cup unlock check on startup
+// Bypass cup unlock check
 kmWrite32(0x807E58F8, 0x480000C4);
 
-// Replace cup names on startup
+// Replace cup names
 kmCallDefCpp(0x807E59E8, u16, int cupButtonId) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    return CupManager::getCupNameFromButton(cupButtonId, page->extension.curPage);
+    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, CupManager::getCurrPage(page));
+    return CupFile::cups[cupIdx].cupName;
 };
 
-// Replace cup icons on startup
+// Replace cup icons
 extern "C" static void ReplaceCupIcon(int buttonId, PushButton* button) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    CupManager::replaceCupIcon(buttonId, button, page->extension.curPage);
+    CupManager::replaceCupIcon(buttonId, button, CupManager::getCurrPage(page));
 }
 
 // Glue code

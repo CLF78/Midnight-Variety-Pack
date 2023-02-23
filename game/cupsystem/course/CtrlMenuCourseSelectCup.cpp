@@ -10,13 +10,14 @@ kmWrite32(0x807E4610, 0x38600001);
 // Replace cup name
 kmCallDefCpp(0x807E4620, u16, int cupButtonId) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    return CupManager::getCupNameFromButton(cupButtonId, page->extension.curPage);
+    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, CupManager::getCurrPage(page));
+    return CupFile::cups[cupIdx].cupName;
 };
 
 // Replace cup icons
 extern "C" static void ReplaceCupIcon(int buttonId, PushButton* button) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    CupManager::replaceCupIcon(buttonId, button, page->extension.curPage);
+    CupManager::replaceCupIcon(buttonId, button, CupManager::getCurrPage(page));
 }
 
 // Glue code

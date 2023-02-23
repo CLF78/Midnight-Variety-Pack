@@ -6,20 +6,19 @@
 - TRACK_NAME_DISPLAY_AUTHOR config option
 - MUSIC_NAME_DISPLAY config option
 - MUSIC_NAME_DISPLAY_AUTHOR config option
-- LEX_SUPPORT config option
 - LEX_SUPPORT_EXTENDED config option
 - Nintendo track support (?)
 */
 
 #define IS_RANDOM 0x8000 // Flag that marks the track as a list of random variants
-#define EMPTY_TRACK 0xFFFF // Flag that marks the track as undefined
+#define EMPTY_TRACK 0xFFFF // Value that marks the track as undefined
 
 namespace CupFile {
 
     // Structure for each individual track (battle or arena)
-    // The SZS file id is inferred from the entry index
+    // The SZS file id is inferred from the entry's index
     struct Track {
-        u8 specialSlot; // The behaviour slot, to be replaced by extended LEX
+        u8 specialSlot; // The behaviour slot, to be partially replaced by extended LEX
         u8 musicSlot; // The fallback music slot, in case custom BRSTMs are disabled or the file is missing
         u16 trackNameId; // The BMG id of the track name
 
@@ -36,16 +35,17 @@ namespace CupFile {
     };
 
     // Structure for cups
-    // The cup texture id is inferred from the entry index
+    // The cup texture id is inferred from the entry's index
     struct Cup {
         u16 cupName; // The BMG id of the cup name
         u16 entryId[5]; // The Track/RandomTrack entry index, depending on the IS_RANDOM flag
     };
 
     // Structure for random track variants
+    // The id is inferred from the entry's index
     struct RandomTrack {
         u16 count; // The amount of variants
-        u16 variantNameId; // The random option name (for the cup select screen)
+        u16 variantNameId; // The random option name (for the selection screens)
         const u16* trackIndexes; // The indexes in the track section of each random variant
 
         #if RANDOM_TRACKS_CHANCES

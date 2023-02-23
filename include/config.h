@@ -35,10 +35,10 @@
 // Add support for user-provided assets.
 #define MULTI_ARCHIVE_ALLOW_USER_FILES ON
 
- // File suffix for distro-provided assets.
+// File suffix for distro-provided assets.
 #define MULTI_ARCHIVE_DISTRO_SUFFIX "MKM"
 
- // File suffix for user-provided assets.
+// File suffix for user-provided assets.
 #define MULTI_ARCHIVE_USER_SUFFIX "_Dif"
 
 ///////////////////////
@@ -63,6 +63,10 @@
 
 // Enables defining random variant chances.
 #define RANDOM_TRACKS_CHANCES ON
+
+// Directory holding the tracks, inside the /Race/Course folder
+#define TRACK_DIR_VS "/vs"
+#define TRACK_DIR_BT "/bt"
 
 // Directory holding the VS/Battle cup icons, inside the SZS file.
 #define CUP_ICON_DIR_VS "/cups/vs"

@@ -9,13 +9,16 @@
 // Turn off track THPs
 kmWrite16(0x808404D4, 0x4800);
 
+// Temporary fix for some track order thing
+kmWrite32(0x80840A1C, 0x38800000);
+
 // Get the track to fill GlobalContext with
 extern "C" static u32 GetTrack(RaceCourseSelectPage* self,
                                CtrlMenuCourseSelectCourse* courseHolder,
                                PushButton* button) {
 
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, CupManager::getCurrPage(page));
     return CupFile::cups[cupIdx].entryId[button->buttonId];
 }
 
@@ -37,8 +40,7 @@ extern "C" static RaceConfig* StoreCourse(u32 trackIdx, PushButton* button) {
     SectionManager::instance->globalContext->lastCourse = trackIdx;
 
     // Get the actual SZS file to be used and store it
-    u32 cupIdx = CupManager::getCupIdxFromTrack(trackIdx);
-    u32 actualTrackIdx = CupManager::getTrackFileFromCupIdx(cupIdx, button->buttonId);
+    u32 actualTrackIdx = CupManager::getTrackFileFromTrackIdx(trackIdx);
     CupManager::currentSzs = actualTrackIdx;
 
     // Store course slot in RaceConfig and return the pointer
@@ -54,8 +56,5 @@ kmBranchDefAsm(0x808409C0, 0x808409DC) {
     bl StoreCourse
     blr
 }
-
-// Temporary fix for some track order thingy
-kmWrite32(0x80840A1C, 0x38800000);
 
 #endif

@@ -2,6 +2,7 @@
 #include "cupsystem/CupManager.h"
 #include <game/ui/page/RaceCupSelectPage.h>
 #include <game/system/MultiDvdArchive.h>
+#include <game/system/RaceConfig.h>
 #include <game/system/ResourceManager.h>
 #include <game/util/Random.h>
 #include <stdlib/stdio.h>
@@ -31,17 +32,16 @@ void CupManager::replaceCupIcon(int buttonId, PushButton* button, u32 curPage) {
     snprintf(buffer, sizeof(buffer), CUP_ICON_DIR_VS "/%d.tpl", cupIdx);
 
     // Get the cup texture
-    size_t textureSize;
-    void* cupTexture = ResourceManager::instance->getFile(MultiDvdArchive::MENU, buffer, &textureSize);
+    void* cupTexture = ResourceManager::instance->getFile(MultiDvdArchive::MENU, buffer, NULL);
 
     // If the file does not exist, fall back to the "?" icon
-    if (cupTexture == NULL) {
-        button->setMatIcon("icon", "icon_08_hatena");
-        button->setMatIcon("icon_light_01", "icon_08_hatena");
-        button->setMatIcon("icon_light_02", "icon_08_hatena");
-    } else {
-        // Get the icon pane
-        const char* iconPane = RaceCupSelectPage::getCupIconPane(buttonId);
+    const char* iconPane = "icon_08_hatena";
+
+    // If the texture exists, apply it
+    if (cupTexture != NULL) {
+
+        // Get the actual icon pane
+        iconPane = RaceCupSelectPage::getCupIconPane(buttonId);
         nw4r::lyt::Pane* pane = button->pictureSourceLayout->getPaneByName(iconPane);
 
         // Get its material
@@ -52,12 +52,12 @@ void CupManager::replaceCupIcon(int buttonId, PushButton* button, u32 curPage) {
 
         // Replace the texture
         texMap->ReplaceImage(cupTexture, 0);
-
-        // Set the pane
-        button->setMatIcon("icon", iconPane);
-        button->setMatIcon("icon_light_01", iconPane);
-        button->setMatIcon("icon_light_02", iconPane);
     }
+
+    // Set the pane
+    button->setMatIcon("icon", iconPane);
+    button->setMatIcon("icon_light_01", iconPane);
+    button->setMatIcon("icon_light_02", iconPane);
 }
 
 u32 CupManager::getCupButtonFromPosition(u32 pos) {
@@ -88,7 +88,7 @@ u32 CupManager::getCupIdxFromTrack(s32 track) {
 }
 
 u32 CupManager::getCupPageFromIdx(u32 idx) {
-    if (CUP_COUNT > 8)
+    if (RACE_CUP_ARROWS_ENABLED)
         return idx / 2;
     else
         return 0;
@@ -101,7 +101,7 @@ u32 CupManager::getMaxCupPage() {
 u32 CupManager::getCupIdxFromPosition(u32 pos, u32 page) {
 
     // If maxPage is 0, return the position itself
-    if (CUP_COUNT <= 8)
+    if (!RACE_CUP_ARROWS_ENABLED)
         return pos;
 
     // Account for wrap-around
@@ -123,7 +123,7 @@ u32 CupManager::getCupIdxFromButton(u32 button, u32 page) {
 u32 CupManager::getCupPositionFromIdx(u32 idx, u32 page) {
 
     // If maxPage is 0, return the index itself
-    if (CUP_COUNT <= 8)
+    if (!RACE_CUP_ARROWS_ENABLED)
         return idx;
 
     // Account for wrap-around
@@ -140,7 +140,7 @@ u32 CupManager::getCupPositionFromIdx(u32 idx, u32 page) {
 u32 CupManager::getStartingPageFromTrack(s32 track) {
 
     // If maxPage is 0, return page 0
-    if (CUP_COUNT <= 8)
+    if (!RACE_CUP_ARROWS_ENABLED)
         return 0;
 
     // Get the page
@@ -160,69 +160,37 @@ u32 CupManager::getStartingCupButtonFromTrack(s32 track, u32 curPage) {
     return CupManager::getCupButtonFromPosition(pos);
 }
 
-u16 CupManager::getCupNameFromIdx(u32 cupIdx) {
-    return (cupIdx >= CUP_COUNT) ? 0 : CupFile::cups[cupIdx].cupName;
-}
-
-u16 CupManager::getCupNameFromButton(int buttonId, u32 curPage) {
-    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, curPage);
-    return CupManager::getCupNameFromIdx(cupIdx);
-}
-
-u16 CupManager::getTrackNameFromCupIdx(u32 cupIdx, u32 trackIdx) {
-
-    // Failsafe, return an empty message if the cup or track indexes are invalid
-    if (cupIdx >= CUP_COUNT || trackIdx > 5)
-        return 0;
-
-    // Get the entry id, return an empty message if the track is marked as non existant
-    u16 trackEntry = CupFile::cups[cupIdx].entryId[trackIdx];
-    if (trackEntry == EMPTY_TRACK)
-        return 0;
+u16 CupManager::getTrackNameFromTrackIdx(u32 trackIdx) {
 
     // Get the random flag and turn it off
-    bool isRandom = (trackEntry & IS_RANDOM) != 0;
-    trackEntry &= ~IS_RANDOM;
+    bool isRegular = (trackIdx & IS_RANDOM) == 0;
+    trackIdx &= ~IS_RANDOM;
 
     // Get the name (and make sure no index overflow occurs)
-    if (!isRandom)
-        return (trackEntry < TRACK_COUNT) ? CupFile::tracks[trackEntry].trackNameId : 0;
+    if (isRegular)
+        return (trackIdx < TRACK_COUNT) ? CupFile::tracks[trackIdx].trackNameId : 0;
 
     #if RANDOM_TRACKS
-    return (trackEntry < RANDOM_TRACK_COUNT) ? CupFile::randomTracks[trackEntry].variantNameId : 0;
+        return (trackIdx < RANDOM_TRACK_COUNT) ? CupFile::randomTracks[trackIdx].variantNameId : 0;
     #else
-    return 0;
+        return 0;
     #endif
 }
 
-u16 CupManager::getTrackNameFromButton(u32 buttonId, u32 trackIdx, u32 curPage) {
-    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, curPage);
-    return CupManager::getTrackNameFromCupIdx(cupIdx, trackIdx);
-}
-
-s32 CupManager::getTrackFileFromCupIdx(u32 cupIdx, u32 trackIdx) {
-
-    // Failsafe, return EMPTY_TRACK if the cup or track indexes are invalid
-    if (cupIdx >= CUP_COUNT || trackIdx > 5)
-        return EMPTY_TRACK;
-
-    // Get the entry id, return an invalid track if the track is marked as non existant
-    u16 trackEntry = CupFile::cups[cupIdx].entryId[trackIdx];
-    if (trackEntry == EMPTY_TRACK)
-        return trackEntry;
+s32 CupManager::getTrackFileFromTrackIdx(u32 trackIdx) {
 
     // Get the random flag and turn it off
-    bool isRandom = (trackEntry & IS_RANDOM) != 0;
-    trackEntry &= ~IS_RANDOM;
+    bool isRegular = (trackIdx & IS_RANDOM) == 0;
+    trackIdx &= ~IS_RANDOM;
 
     // Get the ID (and make sure no index overflow occurs)
-    if (!isRandom)
-        return (trackEntry < TRACK_COUNT) ? trackEntry : EMPTY_TRACK;
+    if (isRegular)
+        return (trackIdx < TRACK_COUNT) ? trackIdx : EMPTY_TRACK;
 
     #if RANDOM_TRACKS
-    return getRandomTrackIdxFromTrackIdx(trackEntry);
+        return getRandomTrackIdxFromTrackIdx(trackIdx);
     #else
-    return EMPTY_TRACK;
+        return EMPTY_TRACK;
     #endif
 }
 
@@ -237,6 +205,34 @@ s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx) {
     return 0;
 }
 
+// Replace SZS file on the fly
+void CupManager::getTrackFilename(char* buffer, int bufferSize, const char* format, const char* arg) {
+    if (CUSTOM_CUP_BATTLE_SUPPORT && RaceConfig::instance->menuScenario.settings.isBattle())
+        snprintf(buffer, bufferSize, "/Race/Course" TRACK_DIR_BT "/%d.szs", currentSzs);
+    else if (CUSTOM_CUP_COURSE_SUPPORT)
+        snprintf(buffer, bufferSize, "/Race/Course" TRACK_DIR_VS "/%d.szs", currentSzs);
+    else
+        snprintf(buffer, bufferSize, format, arg);
+}
+
+// Replace SZS file on the fly (_d variant)
+void CupManager::getTrackFilenameD(char* buffer, int bufferSize, const char* format, const char* arg) {
+    if (CUSTOM_CUP_BATTLE_SUPPORT && RaceConfig::instance->menuScenario.settings.isBattle())
+        snprintf(buffer, bufferSize, "/Race/Course" TRACK_DIR_BT "/%d_d.szs", currentSzs);
+    else if (CUSTOM_CUP_COURSE_SUPPORT)
+        snprintf(buffer, bufferSize, "/Race/Course" TRACK_DIR_VS "/%d_d.szs", currentSzs);
+    else
+        snprintf(buffer, bufferSize, format, arg);
+}
+
+u32 CupManager::getCurrPage(RaceCupSelectPage* self) {
+    #if (RACE_CUP_ARROWS_ENABLED)
+        return self->extension.curPage;
+    #else
+        return 0;
+    #endif
+}
+
 #if RANDOM_TRACKS
 s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
 
@@ -247,24 +243,24 @@ s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
     // Get the random track holder
     const CupFile::RandomTrack* holder = &CupFile::randomTracks[trackEntry];
 
-    // If random track chances are off, simply pick a random index among the valid ones
     #if (!RANDOM_TRACKS_CHANCES)
-    u32 idx = CupManager::randomizer.nextU32(holder->count);
-    return holder->trackIndexes[idx];
+        // If random track chances are off, simply pick a random index among the valid ones
+        u32 idx = CupManager::randomizer.nextU32(holder->count);
+        return holder->trackIndexes[idx];
 
-    // Else, get a number between 0 and 255, and loop through the chances until
-    // the generated number is smaller
     #else
-    u8 chanceVal = CupManager::randomizer.nextU32(256);
-    u8 currChance = 0;
-    for (int i = 0; i < holder->count; i++) {
-        currChance += holder->chanceIndexes[i];
-        if (chanceVal < currChance - 1)
-            return holder->trackIndexes[i];
-    }
+        // Else, get a number between 0 and 255, and loop through the chances until
+        // the generated number is smaller
+        u8 chanceVal = CupManager::randomizer.nextU32(256);
+        u8 currChance = 0;
+        for (int i = 0; i < holder->count; i++) {
+            currChance += holder->chanceIndexes[i];
+            if (chanceVal < currChance - 1)
+                return holder->trackIndexes[i];
+        }
 
-    // Failsafe that should never trigger
-    return EMPTY_TRACK;
+        // Failsafe that should never trigger
+        return EMPTY_TRACK;
     #endif
 }
 #endif
