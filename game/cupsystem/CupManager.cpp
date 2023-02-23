@@ -297,9 +297,9 @@ s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx) {
 // Replace SZS file on the fly
 void CupManager::getTrackFilename(char* buffer, int bufferSize, const char* format, const char* arg) {
     if (CUSTOM_CUP_BATTLE_SUPPORT && RaceConfig::instance->menuScenario.settings.isBattle())
-        snprintf(buffer, bufferSize, "/Race/Course" TRACK_DIR_BT "/%d.szs", currentSzs);
+        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_BT "/%d", currentSzs);
     else if (CUSTOM_CUP_COURSE_SUPPORT)
-        snprintf(buffer, bufferSize, "/Race/Course" TRACK_DIR_VS "/%d.szs", currentSzs);
+        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_VS "/%d", currentSzs);
     else
         snprintf(buffer, bufferSize, format, arg);
 }
@@ -307,9 +307,9 @@ void CupManager::getTrackFilename(char* buffer, int bufferSize, const char* form
 // Replace SZS file on the fly (_d variant)
 void CupManager::getTrackFilenameD(char* buffer, int bufferSize, const char* format, const char* arg) {
     if (CUSTOM_CUP_BATTLE_SUPPORT && RaceConfig::instance->menuScenario.settings.isBattle())
-        snprintf(buffer, bufferSize, "/Race/Course" TRACK_DIR_BT "/%d_d.szs", currentSzs);
+        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_BT "/%d_d", currentSzs);
     else if (CUSTOM_CUP_COURSE_SUPPORT)
-        snprintf(buffer, bufferSize, "/Race/Course" TRACK_DIR_VS "/%d_d.szs", currentSzs);
+        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_VS "/%d_d", currentSzs);
     else
         snprintf(buffer, bufferSize, format, arg);
 }
@@ -340,11 +340,11 @@ s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
     #else
         // Else, get a number between 0 and 255, and loop through the chances until
         // the generated number is smaller
-        u8 chanceVal = CupManager::randomizer.nextU32(256);
-        u8 currChance = 0;
+        u32 chanceVal = CupManager::randomizer.nextU32(256);
+        u32 currChance = 0;
         for (int i = 0; i < holder->count; i++) {
             currChance += holder->chanceIndexes[i];
-            if (chanceVal < currChance - 1)
+            if (chanceVal < currChance)
                 return holder->trackIndexes[i];
         }
 
