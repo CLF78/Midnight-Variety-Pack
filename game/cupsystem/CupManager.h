@@ -1,11 +1,106 @@
 #include <kamek.h>
 #include <game/ui/PushButton.h>
 #include <game/ui/page/RaceCupSelectPage.h>
+#include <game/system/RaceConfig.h>
 #include <game/util/Random.h>
 #include "cupsystem/CupData.h"
 
 class CupManager {
 public:
+
+    ////////////////////
+    // Inline Helpers //
+    ////////////////////
+
+    static const char* GetCupIconDir() {
+        if (RaceConfig::instance->menuScenario.settings.isBattle())
+            return (CUSTOM_CUP_BATTLE_SUPPORT) ? CUP_ICON_DIR_BT "/%d.tpl" : NULL;
+        else
+            return (CUSTOM_CUP_COURSE_SUPPORT) ? CUP_ICON_DIR_VS "/%d.tpl" : NULL;
+    }
+
+    static bool GetCupArrowsEnabled() {
+        if (RaceConfig::instance->menuScenario.settings.isBattle())
+            return (CUSTOM_CUP_BATTLE_SUPPORT) ? BATTLE_CUP_ARROWS_ENABLED : false;
+        else
+            return (CUSTOM_CUP_COURSE_SUPPORT) ? RACE_CUP_ARROWS_ENABLED : false;
+    }
+
+    static u32 GetCupCount() {
+        if (RaceConfig::instance->menuScenario.settings.isBattle())
+            return (CUSTOM_CUP_BATTLE_SUPPORT) ? BATTLE_CUP_COUNT : 2;
+        else
+            return (CUSTOM_CUP_COURSE_SUPPORT) ? CUP_COUNT : 8;
+    }
+
+    static u32 GetTrackCount() {
+        if (RaceConfig::instance->menuScenario.settings.isBattle())
+            return (CUSTOM_CUP_BATTLE_SUPPORT) ? ARENA_COUNT : 10;
+        else
+            return (CUSTOM_CUP_COURSE_SUPPORT) ? TRACK_COUNT : 32;
+    }
+
+    #if RANDOM_TRACKS
+    static u32 GetRandomTrackCount() {
+        if (RaceConfig::instance->menuScenario.settings.isBattle())
+            return (CUSTOM_CUP_BATTLE_SUPPORT) ? RANDOM_ARENA_COUNT : 10;
+        else
+            return (CUSTOM_CUP_COURSE_SUPPORT) ? RANDOM_TRACK_COUNT : 32;
+    }
+    #endif
+
+    static const CupFile::Cup* GetCupArray() {
+        if (RaceConfig::instance->menuScenario.settings.isBattle()) {
+            #if CUSTOM_CUP_BATTLE_SUPPORT
+                return CupFile::battleCups;
+            #else
+                return NULL;
+            #endif
+
+        } else {
+            #if CUSTOM_CUP_COURSE_SUPPORT
+                return CupFile::cups;
+            #else
+                return NULL;
+            #endif
+        }
+    }
+
+    static const CupFile::Track* GetTrackArray() {
+        if (RaceConfig::instance->menuScenario.settings.isBattle()) {
+            #if CUSTOM_CUP_BATTLE_SUPPORT
+                return CupFile::arenas;
+            #else
+                return NULL;
+            #endif
+
+        } else {
+            #if CUSTOM_CUP_COURSE_SUPPORT
+                return CupFile::tracks;
+            #else
+                return NULL;
+            #endif
+        }
+    }
+
+    #if RANDOM_TRACKS
+    static const CupFile::RandomTrack* GetRandomTrackArray() {
+        if (RaceConfig::instance->menuScenario.settings.isBattle()) {
+            #if CUSTOM_CUP_BATTLE_SUPPORT
+                return CupFile::randomArenas;
+            #else
+                return NULL;
+            #endif
+
+        } else {
+            #if CUSTOM_CUP_COURSE_SUPPORT
+                return CupFile::randomTracks;
+            #else
+                return NULL;
+            #endif
+        }
+    }
+    #endif
 
     ////////////////////////
     // Cup Button Helpers //
