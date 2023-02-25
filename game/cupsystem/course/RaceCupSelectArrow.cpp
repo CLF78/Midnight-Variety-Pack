@@ -19,7 +19,7 @@ void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 loc
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
         u32 cupIdx = CupManager::getCupIdxFromButton(i, self->extension.curPage);
         cupButton->setMsgId(CupFile::cups[cupIdx].cupName, NULL);
-        CupManager::replaceCupIcon(i, cupButton, self->extension.curPage);
+        CupManager::updateCupButton(i, cupButton, self->extension.curPage);
     }
 
     // Remove the text in the course selection
@@ -44,7 +44,7 @@ void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 lo
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
         u32 cupIdx = CupManager::getCupIdxFromButton(i, self->extension.curPage);
         cupButton->setMsgId(CupFile::cups[cupIdx].cupName, NULL);
-        CupManager::replaceCupIcon(i, cupButton, self->extension.curPage);
+        CupManager::updateCupButton(i, cupButton, self->extension.curPage);
     }
 
     // Remove the text in the course selection

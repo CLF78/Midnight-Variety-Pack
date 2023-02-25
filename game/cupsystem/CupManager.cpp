@@ -1,6 +1,6 @@
 #include <kamek.h>
 #include "cupsystem/CupManager.h"
-#include <game/ui/page/RaceCupSelectPage.h>
+#include <game/ui/UIUtils.h>
 #include <game/system/MultiDvdArchive.h>
 #include <game/system/ResourceManager.h>
 #include <game/util/Random.h>
@@ -10,7 +10,7 @@
 // Default to -1
 s32 CupManager::currentSzs = -1;
 
-void CupManager::replaceCupIcon(int buttonId, PushButton* button, u32 curPage) {
+void CupManager::updateCupButton(int buttonId, PushButton* button, u32 curPage) {
 
     // Get the cup index
     u32 cupIdx = getCupIdxFromButton(buttonId, curPage);
@@ -23,6 +23,15 @@ void CupManager::replaceCupIcon(int buttonId, PushButton* button, u32 curPage) {
     // Return early since this cup won't exist anyway
     if (hide)
         return;
+
+    // Set the pane
+    const char* iconPane = replaceCupIcon(buttonId, button, cupIdx);
+    button->setMatIcon("icon", iconPane);
+    button->setMatIcon("icon_light_01", iconPane);
+    button->setMatIcon("icon_light_02", iconPane);
+}
+
+const char* CupManager::replaceCupIcon(int iconId, LayoutUIControl* element, u32 cupIdx) {
 
     // Get the cup texture name
     char buffer[64];
@@ -38,8 +47,8 @@ void CupManager::replaceCupIcon(int buttonId, PushButton* button, u32 curPage) {
     if (cupTexture != NULL) {
 
         // Get the actual icon pane
-        iconPane = RaceCupSelectPage::getCupIconPane(buttonId);
-        nw4r::lyt::Pane* pane = button->pictureSourceLayout->getPaneByName(iconPane);
+        iconPane = UIUtils::getCupIconPane(iconId);
+        nw4r::lyt::Pane* pane = element->pictureSourceLayout->getPaneByName(iconPane);
 
         // Get its material
         nw4r::lyt::Material* mat = pane->GetMaterial();
@@ -51,10 +60,7 @@ void CupManager::replaceCupIcon(int buttonId, PushButton* button, u32 curPage) {
         texMap->ReplaceImage(cupTexture, 0);
     }
 
-    // Set the pane
-    button->setMatIcon("icon", iconPane);
-    button->setMatIcon("icon_light_01", iconPane);
-    button->setMatIcon("icon_light_02", iconPane);
+    return iconPane;
 }
 
 u32 CupManager::getCupButtonFromPosition(u32 pos) {
@@ -72,8 +78,8 @@ u32 CupManager::getCupIdxFromTrack(s32 track) {
         return 0;
 
     // Find the track
-    for (int i = 0; i < CupManager::GetCupCount(); i++) {
-        const CupFile::Cup* cup = &CupManager::GetCupArray()[i];
+    for (int i = 0; i < GetCupCount(); i++) {
+        const CupFile::Cup* cup = &GetCupArray()[i];
         for (int j = 0; j < 5; j++) {
             if (cup->entryId[j] == track)
                 return i;
@@ -85,24 +91,24 @@ u32 CupManager::getCupIdxFromTrack(s32 track) {
 }
 
 u32 CupManager::getCupPageFromIdx(u32 idx) {
-    if (CupManager::GetCupArrowsEnabled())
+    if (GetCupArrowsEnabled())
         return idx / 2;
     else
         return 0;
 }
 
 u32 CupManager::getMaxCupPage() {
-    return CupManager::getCupPageFromIdx(CupManager::GetCupCount() - 1);
+    return getCupPageFromIdx(GetCupCount() - 1);
 }
 
 u32 CupManager::getCupIdxFromPosition(u32 pos, u32 page) {
 
     // If maxPage is 0, return the position itself
-    if (!CupManager::GetCupArrowsEnabled())
+    if (!GetCupArrowsEnabled())
         return pos;
 
     // Account for wrap-around
-    u32 pageDiff = CupManager::getMaxCupPage() - page;
+    u32 pageDiff = getMaxCupPage() - page;
     if (pageDiff <= 2) {
         u32 wrapThreshold = (pageDiff + 1) * 2;
         if (pos >= wrapThreshold)
@@ -113,18 +119,18 @@ u32 CupManager::getCupIdxFromPosition(u32 pos, u32 page) {
 }
 
 u32 CupManager::getCupIdxFromButton(u32 button, u32 page) {
-    u32 cupPos = CupManager::getCupPositionFromButton(button);
-    return CupManager::getCupIdxFromPosition(cupPos, page);
+    u32 cupPos = getCupPositionFromButton(button);
+    return getCupIdxFromPosition(cupPos, page);
 }
 
 u32 CupManager::getCupPositionFromIdx(u32 idx, u32 page) {
 
     // If maxPage is 0, return the index itself
-    if (!CupManager::GetCupArrowsEnabled())
+    if (!GetCupArrowsEnabled())
         return idx;
 
     // Account for wrap-around
-    u32 pageDiff = CupManager::getMaxCupPage() - page;
+    u32 pageDiff = getMaxCupPage() - page;
     if (pageDiff <= 2) {
         u32 wrapThreshold = page * 2;
         if (idx < wrapThreshold)
@@ -137,11 +143,11 @@ u32 CupManager::getCupPositionFromIdx(u32 idx, u32 page) {
 u32 CupManager::getStartingPageFromTrack(s32 track) {
 
     // If maxPage is 0, return page 0
-    if (!CupManager::GetCupArrowsEnabled())
+    if (!GetCupArrowsEnabled())
         return 0;
 
     // Get the page
-    u32 cupPage = CupManager::getCupPageFromIdx(CupManager::getCupIdxFromTrack(track));
+    u32 cupPage = getCupPageFromIdx(getCupIdxFromTrack(track));
 
     // Fix the page number so the cups don't wrap around when reaching the screen
     u32 maxCupPage = CupManager::getMaxCupPage();
@@ -152,9 +158,9 @@ u32 CupManager::getStartingPageFromTrack(s32 track) {
 }
 
 u32 CupManager::getStartingCupButtonFromTrack(s32 track, u32 curPage) {
-    u32 cupIdx = CupManager::getCupIdxFromTrack(track);
-    u32 pos = CupManager::getCupPositionFromIdx(cupIdx, curPage);
-    return CupManager::getCupButtonFromPosition(pos);
+    u32 cupIdx = getCupIdxFromTrack(track);
+    u32 pos = getCupPositionFromIdx(cupIdx, curPage);
+    return getCupButtonFromPosition(pos);
 }
 
 u16 CupManager::getTrackNameFromTrackIdx(u32 trackIdx) {
@@ -165,10 +171,10 @@ u16 CupManager::getTrackNameFromTrackIdx(u32 trackIdx) {
 
     // Get the name (and make sure no index overflow occurs)
     if (isRegular)
-        return (trackIdx < CupManager::GetTrackCount()) ? CupManager::GetTrackArray()[trackIdx].trackNameId : 0;
+        return (trackIdx < GetTrackCount()) ? GetTrackArray()[trackIdx].trackNameId : 0;
 
     #if RANDOM_TRACKS
-        return (trackIdx < CupManager::GetRandomTrackCount()) ? CupManager::GetRandomTrackArray()[trackIdx].variantNameId : 0;
+        return (trackIdx < GetRandomTrackCount()) ? GetRandomTrackArray()[trackIdx].variantNameId : 0;
     #else
         return 0;
     #endif
@@ -182,7 +188,7 @@ s32 CupManager::getTrackFileFromTrackIdx(u32 trackIdx) {
 
     // Get the ID (and make sure no index overflow occurs)
     if (isRegular)
-        return (trackIdx < CupManager::GetTrackCount()) ? trackIdx : EMPTY_TRACK;
+        return (trackIdx < GetTrackCount()) ? trackIdx : EMPTY_TRACK;
 
     #if RANDOM_TRACKS
         return getRandomTrackIdxFromTrackIdx(trackIdx);
@@ -192,7 +198,7 @@ s32 CupManager::getTrackFileFromTrackIdx(u32 trackIdx) {
 }
 
 s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx) {
-    const CupFile::Cup* cup = &CupManager::GetCupArray()[cupIdx];
+    const CupFile::Cup* cup = &GetCupArray()[cupIdx];
 
     for (int i = 0; i < 5; i++) {
         if (cup->entryId[i] == track)
@@ -238,17 +244,17 @@ Random CupManager::randomizer = Random();
 s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
 
     // Get the random track holder
-    const CupFile::RandomTrack* holder = &CupManager::GetRandomTrackArray()[trackEntry];
+    const CupFile::RandomTrack* holder = &GetRandomTrackArray()[trackEntry];
 
     #if (!RANDOM_TRACKS_CHANCES)
         // If random track chances are off, simply pick a random index among the valid ones
-        u32 idx = CupManager::randomizer.nextU32(holder->count);
+        u32 idx = randomizer.nextU32(holder->count);
         return holder->trackIndexes[idx];
 
     #else
         // Else, get a number between 0 and 255, and loop through the chances until
         // the generated number is smaller
-        u32 chanceVal = CupManager::randomizer.nextU32(256);
+        u32 chanceVal = randomizer.nextU32(256);
         u32 currChance = 0;
         for (int i = 0; i < holder->count; i++) {
             currChance += holder->chanceIndexes[i];

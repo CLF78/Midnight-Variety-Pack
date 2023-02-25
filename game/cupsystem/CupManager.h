@@ -183,10 +183,13 @@ public:
     // The randomizer used by CupManager
     static Random randomizer;
 
-    /////////////////////
-    // Other Utilities //
-    /////////////////////
+    //////////////////////
+    // Cup Icon Helpers //
+    //////////////////////
 
     // Replaces a cup button's icon with a custom one, given the button ID and the current page
-    static void replaceCupIcon(int buttonId, PushButton* button, u32 curPage);
+    static void updateCupButton(int buttonId, PushButton* button, u32 curPage);
+
+    // Replaces a cup texture with a custom one, given the icon ID and the cup index
+    static const char* replaceCupIcon(int iconId, LayoutUIControl* element, u32 cupIdx);
 };

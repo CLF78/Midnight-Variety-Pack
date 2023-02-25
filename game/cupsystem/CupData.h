@@ -19,7 +19,7 @@ namespace CupFile {
     // The SZS file id is inferred from the entry's index
     struct Track {
         u8 specialSlot; // The behaviour slot, to be partially replaced by extended LEX
-        u8 musicSlot; // The fallback music slot, in case custom BRSTMs are disabled or the file is missing
+        u8 musicSlot; // The music slot, for SFX and custom BRSTM fallback
         u16 trackNameId; // The BMG id of the track name
 
         // TODO make this conditional
