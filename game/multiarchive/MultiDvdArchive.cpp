@@ -2,7 +2,6 @@
 #include <rvl/sc/sc.h>
 #include <stdlib/stdio.h>
 #include <game/system/MultiDvdArchive.h>
-#if MULTI_ARCHIVE_SYSTEM
 
 // Gets the language code for file loading
 // This is region-dependent
@@ -48,7 +47,7 @@ const char* getLanguageCode() {
 }
 
 // Update archive count for Common files
-kmWrite8(0x8052A10B, 4 + 2 * MULTI_ARCHIVE_ALLOW_USER_FILES);
+kmWrite8(0x8052A10B, 6);
 
 // Add archives for Common files
 kmBranchDefCpp(0x8052A3C0, NULL, void, MultiDvdArchive* self) {
@@ -73,11 +72,8 @@ kmBranchDefCpp(0x8052A3C0, NULL, void, MultiDvdArchive* self) {
 
     snprintf(self->suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
     snprintf(self->suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
-
-    #if MULTI_ARCHIVE_ALLOW_USER_FILES
     snprintf(self->suffixes[4], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
     snprintf(self->suffixes[5], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
-    #endif
 
     for (int i = 0; i < self->archiveCount; i++) {
         self->kinds[i] = MultiDvdArchive::SUFFIX_ONLY;
@@ -85,7 +81,7 @@ kmBranchDefCpp(0x8052A3C0, NULL, void, MultiDvdArchive* self) {
 }
 
 // Update archive count for UI files
-kmWrite8(0x8052A18B, 4 + 2 * MULTI_ARCHIVE_ALLOW_USER_FILES);
+kmWrite8(0x8052A18B, 6);
 
 // Add archives for menu files
 kmBranchDefCpp(0x8052A2FC, NULL, void, MultiDvdArchive* self) {
@@ -111,15 +107,10 @@ kmBranchDefCpp(0x8052A2FC, NULL, void, MultiDvdArchive* self) {
     snprintf(self->suffixes[1], 0x80, "_%s.szs", languageCode);
     snprintf(self->suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
     snprintf(self->suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
-
-    #if MULTI_ARCHIVE_ALLOW_USER_FILES
     snprintf(self->suffixes[4], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
     snprintf(self->suffixes[5], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
-    #endif
 
     for (int i = 0; i < self->archiveCount; i++) {
         self->kinds[i] = MultiDvdArchive::SUFFIX_ONLY;
     }
 }
-
-#endif

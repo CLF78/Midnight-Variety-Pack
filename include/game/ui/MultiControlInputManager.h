@@ -23,7 +23,15 @@ public:
     };
     size_assert(Player, 0x5C);
 
+    enum WrapType {
+        XY_WRAP,
+        Y_WRAP,
+        NO_WRAP,
+        LINEAR
+    };
+
     typedef int (*calcDistanceFunc)(Player* src, Player* dest, u32 direction);
+    void setDistanceFunc(int wrapType);
 
     EGG::List list;
     InputHandler<MultiControlInputManager>* handlers[MenuInputManager::INPUT_COUNT];

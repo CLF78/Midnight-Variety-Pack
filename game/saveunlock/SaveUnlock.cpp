@@ -1,6 +1,5 @@
 #include <kamek.h>
 #include <game/ui/Section.h>
-#if UNLOCK_SAVEGAME
 
 // Unlock everything without save (original code by _tZ)
 kmBranchDefCpp(0x8054994C, NULL, bool) {
@@ -11,5 +10,3 @@ kmBranchDefCpp(0x8054994C, NULL, bool) {
 kmBranchDefCpp(0x80854FA4, NULL, Section::SectionID) {
     return Section::NONE;
 }
-
-#endif

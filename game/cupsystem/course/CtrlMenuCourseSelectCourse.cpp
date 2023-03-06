@@ -1,7 +1,6 @@
 #include <kamek.h>
 #include <game/ui/page/RaceCupSelectPage.h>
 #include "cupsystem/CupManager.h"
-#if (CUSTOM_CUP_COURSE_SUPPORT)
 
 // Use ordered button IDs instead of using the corresponding course IDs
 kmWrite8(0x807E525C, 0x93);
@@ -9,8 +8,8 @@ kmWrite8(0x807E525C, 0x93);
 // Update track names on selection change
 extern "C" static u16 GetTrackName(u32 track, PushButton* button) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, CupManager::getCurrPageVS(page));
-    u32 trackIdx = CupFile::cups[cupIdx].entryId[track];
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
+    u32 trackIdx = CupManager::GetCupArray()[cupIdx].entryId[track];
     u16 msgId = CupManager::getTrackNameFromTrackIdx(trackIdx);
 
     button->hidden = msgId == 0;
@@ -34,8 +33,8 @@ extern "C" static bool IsDefaultButton(u32 cupButtonId, u32 trackButtonId, s32 t
 
     // Else check the specific cup entries
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, CupManager::getCurrPageVS(page));
-    return CupFile::cups[cupIdx].entryId[trackButtonId] == trackIdx;
+    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage);
+    return CupManager::GetCupArray()[cupIdx].entryId[trackButtonId] == trackIdx;
 }
 
 // Glue code
@@ -77,5 +76,3 @@ kmBranchDefAsm(0x807E5374, 0x807E53B8) {
     mr r19, r3
     blr
 }
-
-#endif

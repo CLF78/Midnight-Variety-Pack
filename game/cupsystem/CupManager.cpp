@@ -5,10 +5,10 @@
 #include <game/system/ResourceManager.h>
 #include <game/util/Random.h>
 #include <stdlib/stdio.h>
-#if CUSTOM_CUP_SYSTEM
 
 // Default to -1
 s32 CupManager::currentSzs = -1;
+u32 CupManager::currentTrackList = TRACKS_MODERN;
 
 void CupManager::updateCupButton(int buttonId, PushButton* button, u32 curPage) {
 
@@ -173,11 +173,7 @@ u16 CupManager::getTrackNameFromTrackIdx(u32 trackIdx) {
     if (isRegular)
         return (trackIdx < GetTrackCount()) ? GetTrackArray()[trackIdx].trackNameId : 0;
 
-    #if RANDOM_TRACKS
-        return (trackIdx < GetRandomTrackCount()) ? GetRandomTrackArray()[trackIdx].variantNameId : 0;
-    #else
-        return 0;
-    #endif
+    return (trackIdx < GetRandomTrackCount()) ? GetRandomTrackArray()[trackIdx].variantNameId : 0;
 }
 
 s32 CupManager::getTrackFileFromTrackIdx(u32 trackIdx) {
@@ -190,11 +186,7 @@ s32 CupManager::getTrackFileFromTrackIdx(u32 trackIdx) {
     if (isRegular)
         return (trackIdx < GetTrackCount()) ? trackIdx : EMPTY_TRACK;
 
-    #if RANDOM_TRACKS
-        return getRandomTrackIdxFromTrackIdx(trackIdx);
-    #else
-        return EMPTY_TRACK;
-    #endif
+    return getRandomTrackIdxFromTrackIdx(trackIdx);
 }
 
 s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx) {
@@ -210,35 +202,20 @@ s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx) {
 
 // Replace SZS file on the fly
 void CupManager::getTrackFilename(char* buffer, int bufferSize, const char* format, const char* arg) {
-    if (CUSTOM_CUP_BATTLE_SUPPORT && RaceConfig::instance->menuScenario.settings.isBattle())
+    if (RaceConfig::instance->menuScenario.settings.isBattle())
         snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_BT "/%d", currentSzs);
-    else if (CUSTOM_CUP_COURSE_SUPPORT)
-        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_VS "/%d", currentSzs);
     else
-        snprintf(buffer, bufferSize, format, arg);
+        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_VS "/%d", currentSzs);
 }
 
 // Replace SZS file on the fly (_d variant)
 void CupManager::getTrackFilenameD(char* buffer, int bufferSize, const char* format, const char* arg) {
-    if (CUSTOM_CUP_BATTLE_SUPPORT && RaceConfig::instance->menuScenario.settings.isBattle())
+    if (RaceConfig::instance->menuScenario.settings.isBattle())
         snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_BT "/%d_d", currentSzs);
-    else if (CUSTOM_CUP_COURSE_SUPPORT)
-        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_VS "/%d_d", currentSzs);
     else
-        snprintf(buffer, bufferSize, format, arg);
+        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_VS "/%d_d", currentSzs);
 }
 
-#if CUSTOM_CUP_COURSE_SUPPORT
-u32 CupManager::getCurrPageVS(RaceCupSelectPage* self) {
-    #if (RACE_CUP_ARROWS_ENABLED)
-        return self->extension.curPage;
-    #else
-        return 0;
-    #endif
-}
-#endif
-
-#if RANDOM_TRACKS
 Random CupManager::randomizer = Random();
 
 s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
@@ -246,26 +223,16 @@ s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
     // Get the random track holder
     const CupFile::RandomTrack* holder = &GetRandomTrackArray()[trackEntry];
 
-    #if (!RANDOM_TRACKS_CHANCES)
-        // If random track chances are off, simply pick a random index among the valid ones
-        u32 idx = randomizer.nextU32(holder->count);
-        return holder->trackIndexes[idx];
+    // Get a number between 0 and 255, and loop through the chances until
+    // the generated number is smaller
+    u32 chanceVal = randomizer.nextU32(256);
+    u32 currChance = 0;
+    for (int i = 0; i < holder->count; i++) {
+        currChance += holder->chanceIndexes[i];
+        if (chanceVal < currChance)
+            return holder->trackIndexes[i];
+    }
 
-    #else
-        // Else, get a number between 0 and 255, and loop through the chances until
-        // the generated number is smaller
-        u32 chanceVal = randomizer.nextU32(256);
-        u32 currChance = 0;
-        for (int i = 0; i < holder->count; i++) {
-            currChance += holder->chanceIndexes[i];
-            if (chanceVal < currChance)
-                return holder->trackIndexes[i];
-        }
-
-        // Failsafe that should never trigger
-        return EMPTY_TRACK;
-    #endif
+    // Failsafe that should never trigger
+    return EMPTY_TRACK;
 }
-
-#endif
-#endif

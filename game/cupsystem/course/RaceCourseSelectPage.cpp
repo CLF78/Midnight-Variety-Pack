@@ -4,7 +4,6 @@
 #include <game/ui/SectionManager.h>
 #include <game/system/RaceConfig.h>
 #include "cupsystem/CupManager.h"
-#if (CUSTOM_CUP_COURSE_SUPPORT)
 
 // Turn off track THPs
 kmWrite16(0x808404D4, 0x4800);
@@ -13,20 +12,20 @@ kmWrite16(0x808404D4, 0x4800);
 kmWrite32(0x80840A1C, 0x38800000);
 
 // Get the track to fill GlobalContext with
-extern "C" static u32 GetTrack(RaceCourseSelectPage* self,
+extern "C" static u32 GetStartingTrack(RaceCourseSelectPage* self,
                                CtrlMenuCourseSelectCourse* courseHolder,
                                PushButton* button) {
 
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, CupManager::getCurrPageVS(page));
-    return CupFile::cups[cupIdx].entryId[button->buttonId];
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
+    return CupManager::GetCupArray()[cupIdx].entryId[button->buttonId];
 }
 
 // Glue code
 kmBranchDefAsm(0x80840858, 0x8084085C) {
 
     // Call C++ function
-    bl GetTrack
+    bl GetStartingTrack
 
     // Move result to r31
     mr r31, r3
@@ -56,5 +55,3 @@ kmBranchDefAsm(0x808409C0, 0x808409DC) {
     bl StoreCourse
     blr
 }
-
-#endif

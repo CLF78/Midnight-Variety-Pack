@@ -19,7 +19,7 @@ const CupFile::RandomTrack CupFile::randomTracks[] = {
     {ARRAY_SIZE(rnd_001_trx), 0x2390, rnd_001_trx, rnd_001_chn},
 };
 
-const CupFile::Cup CupFile::cups[] = {
+const CupFile::Cup CupFile::cupsModern[] = {
     {0x23C7, {2, 3, IS_RANDOM | 0, 4, EMPTY_TRACK}},
     {0x23C8, {2, 3, IS_RANDOM | 0, 4, EMPTY_TRACK}},
     {0x23C9, {2, 3, IS_RANDOM | 0, 4, EMPTY_TRACK}},
@@ -29,4 +29,28 @@ const CupFile::Cup CupFile::cups[] = {
     {0x23CD, {2, 3, IS_RANDOM | 0, 4, EMPTY_TRACK}},
     {0x23CE, {2, 3, IS_RANDOM | 0, 4, EMPTY_TRACK}},
     {0x23CF, {2, 3, IS_RANDOM | 0, 4, EMPTY_TRACK}},
+};
+
+const CupFile::Cup CupFile::cupsRetro[] = {
+    {0x23C7, {2, 3, IS_RANDOM | 0, 4, EMPTY_TRACK}},
+};
+
+const CupFile::Cup CupFile::cupsVariety[] = {
+    {0x23C7, {2, 3, IS_RANDOM | 0, 4, EMPTY_TRACK}},
+};
+
+const CupFile::Track CupFile::arenas[] = {
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+};
+
+const u16 rndA_001_trx[] = {0, 1};
+const u8 rndA_001_chn[] = {128, 128};
+
+const CupFile::RandomTrack CupFile::randomArenas[] = {
+    {ARRAY_SIZE(rndA_001_trx), 0, rndA_001_trx, rndA_001_chn},
+};
+
+const CupFile::Cup CupFile::battleCups[] = {
+    {0x23C7, {0, 1, IS_RANDOM | 0, 1, 1}},
 };

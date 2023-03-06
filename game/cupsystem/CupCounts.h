@@ -3,11 +3,10 @@
 ///////////////////////////////////////////////////////
 
 #define TRACK_COUNT 5
-#define CUP_COUNT 9
-#define ARENA_COUNT 1
-#define BATTLE_CUP_COUNT 1
+#define ARENA_COUNT 2
 #define RANDOM_TRACK_COUNT 1
 #define RANDOM_ARENA_COUNT 1
-
-#define RACE_CUP_ARROWS_ENABLED (CUP_COUNT > 8)
-#define BATTLE_CUP_ARROWS_ENABLED (BATTLE_CUP_COUNT > 8)
+#define MODERN_CUP_COUNT 9
+#define RETRO_CUP_COUNT 1
+#define VARIETY_CUP_COUNT 1
+#define BATTLE_CUP_COUNT 1

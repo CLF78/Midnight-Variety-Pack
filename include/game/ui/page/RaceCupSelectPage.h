@@ -42,13 +42,6 @@ public:
     UIControlTimer* timer;
 
     // Custom structures from here onwards
-    #if (CUSTOM_CUP_COURSE_SUPPORT && RACE_CUP_ARROWS_ENABLED)
     RaceCupSelectPageEx extension;
-    #endif
 };
-
-#if (CUSTOM_CUP_COURSE_SUPPORT && RACE_CUP_ARROWS_ENABLED)
 size_assert(RaceCupSelectPage, 0x23E0 + sizeof(RaceCupSelectPageEx));
-#else
-size_assert(RaceCupSelectPage, 0x23E0);
-#endif

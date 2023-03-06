@@ -8,99 +8,96 @@
 class CupManager {
 public:
 
+    enum Tracklist {
+        TRACKS_MODERN,
+        TRACKS_RETRO,
+        TRACKS_VARIETY
+    };
+
+    //////////////////////
+    // Static Variables //
+    //////////////////////
+
+    // The current selected track (for both VS and BT)
+    static s32 currentSzs;
+
+    // The track list currently in use (VS only)
+    static u32 currentTrackList;
+
+    // The randomizer used by CupManager
+    static Random randomizer;
+
     ////////////////////
     // Inline Helpers //
     ////////////////////
 
     static const char* GetCupIconDir() {
         if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return (CUSTOM_CUP_BATTLE_SUPPORT) ? CUP_ICON_DIR_BT "/%d.tpl" : NULL;
-        else
-            return (CUSTOM_CUP_COURSE_SUPPORT) ? CUP_ICON_DIR_VS "/%d.tpl" : NULL;
-    }
-
-    static bool GetCupArrowsEnabled() {
-        if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return (CUSTOM_CUP_BATTLE_SUPPORT) ? BATTLE_CUP_ARROWS_ENABLED : false;
-        else
-            return (CUSTOM_CUP_COURSE_SUPPORT) ? RACE_CUP_ARROWS_ENABLED : false;
+            return CUP_ICON_DIR_BT "/%d.tpl";
+        else {
+            switch (currentTrackList) {
+                default: return CUP_ICON_DIR_VS_MODERN "/%d.tpl";
+                case TRACKS_RETRO: return CUP_ICON_DIR_VS_RETRO "/%d.tpl";
+                case TRACKS_VARIETY: return CUP_ICON_DIR_VS_VARIETY "/%d.tpl";
+            }
+        }
     }
 
     static u32 GetCupCount() {
         if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return (CUSTOM_CUP_BATTLE_SUPPORT) ? BATTLE_CUP_COUNT : 2;
-        else
-            return (CUSTOM_CUP_COURSE_SUPPORT) ? CUP_COUNT : 8;
+            return BATTLE_CUP_COUNT;
+        else {
+            switch (currentTrackList) {
+                default: return MODERN_CUP_COUNT;
+                case TRACKS_RETRO: return RETRO_CUP_COUNT;
+                case TRACKS_VARIETY: return VARIETY_CUP_COUNT;
+            }
+        }
     }
 
     static u32 GetTrackCount() {
         if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return (CUSTOM_CUP_BATTLE_SUPPORT) ? ARENA_COUNT : 10;
+            return ARENA_COUNT;
         else
-            return (CUSTOM_CUP_COURSE_SUPPORT) ? TRACK_COUNT : 32;
+            return TRACK_COUNT;
     }
 
-    #if RANDOM_TRACKS
     static u32 GetRandomTrackCount() {
         if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return (CUSTOM_CUP_BATTLE_SUPPORT) ? RANDOM_ARENA_COUNT : 10;
+            return RANDOM_ARENA_COUNT;
         else
-            return (CUSTOM_CUP_COURSE_SUPPORT) ? RANDOM_TRACK_COUNT : 32;
+            return RANDOM_TRACK_COUNT;
     }
-    #endif
 
     static const CupFile::Cup* GetCupArray() {
-        if (RaceConfig::instance->menuScenario.settings.isBattle()) {
-            #if CUSTOM_CUP_BATTLE_SUPPORT
-                return CupFile::battleCups;
-            #else
-                return NULL;
-            #endif
-
-        } else {
-            #if CUSTOM_CUP_COURSE_SUPPORT
-                return CupFile::cups;
-            #else
-                return NULL;
-            #endif
+        if (RaceConfig::instance->menuScenario.settings.isBattle())
+            return CupFile::battleCups;
+        else {
+            switch (currentTrackList) {
+                default: return CupFile::cupsModern;
+                case TRACKS_RETRO: return CupFile::cupsRetro;
+                case TRACKS_VARIETY: return CupFile::cupsVariety;
+            }
         }
     }
 
     static const CupFile::Track* GetTrackArray() {
-        if (RaceConfig::instance->menuScenario.settings.isBattle()) {
-            #if CUSTOM_CUP_BATTLE_SUPPORT
-                return CupFile::arenas;
-            #else
-                return NULL;
-            #endif
-
-        } else {
-            #if CUSTOM_CUP_COURSE_SUPPORT
-                return CupFile::tracks;
-            #else
-                return NULL;
-            #endif
-        }
+        if (RaceConfig::instance->menuScenario.settings.isBattle())
+            return CupFile::arenas;
+        else
+            return CupFile::tracks;
     }
 
-    #if RANDOM_TRACKS
     static const CupFile::RandomTrack* GetRandomTrackArray() {
-        if (RaceConfig::instance->menuScenario.settings.isBattle()) {
-            #if CUSTOM_CUP_BATTLE_SUPPORT
-                return CupFile::randomArenas;
-            #else
-                return NULL;
-            #endif
-
-        } else {
-            #if CUSTOM_CUP_COURSE_SUPPORT
-                return CupFile::randomTracks;
-            #else
-                return NULL;
-            #endif
-        }
+        if (RaceConfig::instance->menuScenario.settings.isBattle())
+            return CupFile::randomArenas;
+        else
+            return CupFile::randomTracks;
     }
-    #endif
+
+    static bool GetCupArrowsEnabled() {
+        return GetCupCount() > 8;
+    }
 
     ////////////////////////
     // Cup Button Helpers //
@@ -139,9 +136,6 @@ public:
     // Gets the cup page from its index
     static u32 getCupPageFromIdx(u32 idx);
 
-    // Gets the current cup page (for VS Mode)
-    static u32 getCurrPageVS(RaceCupSelectPage* self);
-
     // Gets the maximum amount of cup pages
     static u32 getMaxCupPage();
 
@@ -176,12 +170,6 @@ public:
 
     // Gets a random track index, given a random track entry
     static s32 getRandomTrackIdxFromTrackIdx(u16 trackEntry);
-
-    // The current selected track (for both VS and BT)
-    static s32 currentSzs;
-
-    // The randomizer used by CupManager
-    static Random randomizer;
 
     //////////////////////
     // Cup Icon Helpers //

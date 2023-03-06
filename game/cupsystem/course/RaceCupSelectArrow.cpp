@@ -1,7 +1,6 @@
 #include <kamek.h>
 #include <game/ui/page/RaceCupSelectPage.h>
 #include "cupsystem/CupManager.h"
-#if (CUSTOM_CUP_COURSE_SUPPORT && RACE_CUP_ARROWS_ENABLED)
 
 // This function runs whenever the left arrow is selected or pressed
 void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {
@@ -18,7 +17,7 @@ void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 loc
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
         u32 cupIdx = CupManager::getCupIdxFromButton(i, self->extension.curPage);
-        cupButton->setMsgId(CupFile::cups[cupIdx].cupName, NULL);
+        cupButton->setMsgId(CupManager::GetCupArray()[cupIdx].cupName, NULL);
         CupManager::updateCupButton(i, cupButton, self->extension.curPage);
     }
 
@@ -43,7 +42,7 @@ void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 lo
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
         u32 cupIdx = CupManager::getCupIdxFromButton(i, self->extension.curPage);
-        cupButton->setMsgId(CupFile::cups[cupIdx].cupName, NULL);
+        cupButton->setMsgId(CupManager::GetCupArray()[cupIdx].cupName, NULL);
         CupManager::updateCupButton(i, cupButton, self->extension.curPage);
     }
 
@@ -52,5 +51,3 @@ void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 lo
         self->cupHolder.courseHolder.courseNames[i].resetText();
     }
 }
-
-#endif

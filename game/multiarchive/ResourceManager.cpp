@@ -1,6 +1,5 @@
 #include <kamek.h>
 #include <game/system/MultiDvdArchive.h>
-#if MULTI_ARCHIVE_SYSTEM
 
 // Externs for ASM calls
 extern "C" DvdArchive* getMenuArchive(MultiDvdArchive* self, u32 i);
@@ -51,5 +50,3 @@ DvdArchive* getMenuArchive(MultiDvdArchive* self, u32 i) {
 
     return NULL;
 }
-
-#endif

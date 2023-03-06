@@ -3,87 +3,8 @@
 #include <game/ui/page/RaceCupSelectPage.h>
 #include <game/ui/SectionManager.h>
 #include "cupsystem/CupManager.h"
-#if (CUSTOM_CUP_COURSE_SUPPORT)
-
-// Set the default track to -1
-kmWrite16(0x805E4218, 0x9123);
-
-// Skip unlock check
-kmWrite32(0x80841214, 0x38600001);
-
-// Disable the track THPs
-kmWrite32(0x808412B0, 0x60000000);
-kmWrite32(0x808412E8, 0x60000000);
-kmWrite32(0x80841FB0, 0x60000000);
-
-// Get default cup button
-extern "C" static u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
-    return CupManager::getStartingCupButtonFromTrack(track, CupManager::getCurrPageVS(self));
-}
-
-// Glue code for startup
-kmCallDefAsm(0x80841170) {
-    nofralloc
-
-    mr r4, r31
-    b GetDefaultButton
-}
-
-// Glue code for cup selection
-kmCallDefAsm(0x808417A4) {
-    nofralloc
-
-    mr r4, r30
-    b GetDefaultButton
-}
-
-// Update default button on cup selection
-extern "C" static void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, RaceCupSelectPage* self) {
-    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, CupManager::getCurrPageVS(self));
-    sectionMgr->globalContext->lastCourse = CupFile::cups[cupIdx].entryId[0];
-}
-
-// Glue code
-kmBranchDefAsm(0x808417B4, 0x808417CC) {
-    nofralloc
-
-    mr r4, r28
-    mr r5, r30
-    bl UpdateDefaultButton
-    blr
-}
-
-// Store the last selected cup and the first track along with its behaviour slot
-extern "C" static RaceConfig* StoreCupAndCourse(RaceCupSelectPage* self) {
-    RaceConfig* rdata = RaceConfig::instance;
-
-    // Store the selected cup
-    u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, CupManager::getCurrPageVS(self));
-    rdata->menuScenario.settings.cupId = cupIdx;
-
-    // Store the cup's first track as the last selected track
-    u32 trackIdx = CupManager::getTrackFileFromTrackIdx(CupFile::cups[cupIdx].entryId[0]);
-    CupManager::currentSzs = trackIdx;
-
-    // Set the track's slot as the course id
-    rdata->menuScenario.settings.courseId = CupFile::tracks[trackIdx].specialSlot;
-    return rdata;
-}
-
-// Glue code
-kmBranchDefAsm(0x8084180C, 0x8084183C) {
-    mr r3, r30
-    bl StoreCupAndCourse
-    blr
-}
-
-// Disable X wrapping for button selection
-#if (CUP_COUNT == 2 || RACE_CUP_ARROWS_ENABLED)
-kmWrite8(0x80841247, 1);
-#endif
 
 // Update memory size of page
-#if RACE_CUP_ARROWS_ENABLED
 kmCallDefCpp(0x80623D94, u32) {
     return sizeof(RaceCupSelectPage) + sizeof(RaceCupSelectPageEx);
 }
@@ -152,5 +73,84 @@ kmBranchDefCpp(0x80841090, 0x808410F8, SheetSelectControl*, RaceCupSelectPage* p
     return arrows;
 }
 
-#endif
-#endif
+// Skip unlock check
+kmWrite32(0x80841214, 0x38600001);
+
+// Disable the track THPs
+kmWrite16(0x80841280, 0x4800);
+kmWrite16(0x808412CC, 0x4800);
+kmWrite16(0x80841F94, 0x4800);
+
+// Get default cup button
+extern "C" static u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
+    return CupManager::getStartingCupButtonFromTrack(track, self->extension.curPage);
+}
+
+// Glue code for startup
+kmCallDefAsm(0x80841170) {
+    nofralloc
+
+    mr r4, r31
+    b GetDefaultButton
+}
+
+// Glue code for cup selection
+kmCallDefAsm(0x808417A4) {
+    nofralloc
+
+    mr r4, r30
+    b GetDefaultButton
+}
+
+// Update default button on cup selection
+extern "C" static void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, RaceCupSelectPage* self) {
+    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, self->extension.curPage);
+    sectionMgr->globalContext->lastCourse = CupManager::GetCupArray()[cupIdx].entryId[0];
+}
+
+// Glue code
+kmBranchDefAsm(0x808417B4, 0x808417CC) {
+    nofralloc
+
+    mr r4, r28
+    mr r5, r30
+    bl UpdateDefaultButton
+    blr
+}
+
+// Store the last selected cup and the first track along with its behaviour slot
+extern "C" static RaceConfig* StoreCupAndCourse(RaceCupSelectPage* self) {
+    RaceConfig* rdata = RaceConfig::instance;
+
+    // Store the selected cup
+    u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, self->extension.curPage);
+    rdata->menuScenario.settings.cupId = cupIdx;
+
+    // Store the cup's first track as the last selected track
+    u32 trackIdx = CupManager::getTrackFileFromTrackIdx(CupManager::GetCupArray()[cupIdx].entryId[0]);
+    CupManager::currentSzs = trackIdx;
+
+    // Set the track's slot as the course id
+    rdata->menuScenario.settings.courseId = CupFile::tracks[trackIdx].specialSlot;
+    return rdata;
+}
+
+// Glue code
+kmBranchDefAsm(0x8084180C, 0x8084183C) {
+    mr r3, r30
+    bl StoreCupAndCourse
+    blr
+}
+
+// Adjust X wrapping and arrow display
+kmBranchDefCpp(0x80841238, 0x8084124C, void, RaceCupSelectPage* self) {
+
+    // Set the distance function appropriately
+    // 0 wraps on the X and Y axis, 1 wraps on Y axis only
+    int wrapType = (CupManager::GetCupCount() == 2 || CupManager::GetCupArrowsEnabled());
+    self->multiControlInputManager.setDistanceFunc(wrapType);
+
+    // Disable the arrows if not required
+    self->extension.arrows.leftButton.enabled = CupManager::GetCupArrowsEnabled();
+    self->extension.arrows.rightButton.enabled = CupManager::GetCupArrowsEnabled();
+}

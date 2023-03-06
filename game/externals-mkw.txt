@@ -25,3 +25,4 @@ __ct__6RandomFv=0x80555464
 __dt__6RandomFv=0x80555538
 nextU32__6RandomFUi=0x805555CC
 __register_global_object=0x80021338
+setDistanceFunc__24MultiControlInputManagerFi=0x805F0DB4
