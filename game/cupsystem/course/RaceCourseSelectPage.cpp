@@ -8,9 +8,6 @@
 // Turn off track THPs
 kmWrite16(0x808404D4, 0x4800);
 
-// Temporary fix for some track order thing
-kmWrite32(0x80840A1C, 0x38800000);
-
 // Get the track to fill GlobalContext with
 extern "C" static u32 GetStartingTrack(RaceCourseSelectPage* self,
                                CtrlMenuCourseSelectCourse* courseHolder,
@@ -54,4 +51,23 @@ kmBranchDefAsm(0x808409C0, 0x808409DC) {
     mr r4, r30
     bl StoreCourse
     blr
+}
+
+// Generate the track order when a course is clicked
+extern "C" static void GenerateOrderFromCourse(GlobalContext* self, int start, PushButton* button) {
+
+    // Grab the cup index and track index again
+    RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
+    u32 track = button->buttonId;
+
+    CupManager::generateTrackOrder(self, cupIdx, track);
+}
+
+// Glue code
+kmCallDefAsm(0x80840A24) {
+    nofralloc
+
+    mr r5, r30
+    b GenerateOrderFromCourse
 }

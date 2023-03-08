@@ -1,14 +1,17 @@
 #include <kamek.h>
 #include "cupsystem/CupManager.h"
+#include <game/ui/GlobalContext.h>
 #include <game/ui/UIUtils.h>
 #include <game/system/MultiDvdArchive.h>
 #include <game/system/ResourceManager.h>
 #include <game/util/Random.h>
 #include <stdlib/stdio.h>
 
-// Default to -1
 s32 CupManager::currentSzs = -1;
 u32 CupManager::currentTrackList = TRACKS_MODERN;
+Random CupManager::randomizer = Random();
+u16 CupManager::trackOrder[];
+u16 CupManager::arenaOrder[];
 
 void CupManager::updateCupButton(int buttonId, PushButton* button, u32 curPage) {
 
@@ -78,10 +81,10 @@ u32 CupManager::getCupIdxFromTrack(s32 track) {
         return 0;
 
     // Find the track
+    const CupFile::Cup* cup = GetCupArray();
     for (int i = 0; i < GetCupCount(); i++) {
-        const CupFile::Cup* cup = &GetCupArray()[i];
         for (int j = 0; j < 5; j++) {
-            if (cup->entryId[j] == track)
+            if (cup[i].entryId[j] == track)
                 return i;
         }
     }
@@ -200,23 +203,25 @@ s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx) {
     return 0;
 }
 
-// Replace SZS file on the fly
+// Replace SZS file on the fly (unless it's a demo track)
 void CupManager::getTrackFilename(char* buffer, int bufferSize, const char* format, const char* arg) {
-    if (RaceConfig::instance->menuScenario.settings.isBattle())
+    if (RaceConfig::instance->raceScenario.settings.courseId > 0x36)
+        snprintf(buffer, bufferSize, format, arg);
+    else if (RaceConfig::instance->raceScenario.settings.isBattle())
         snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_BT "/%d", currentSzs);
     else
         snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_VS "/%d", currentSzs);
 }
 
-// Replace SZS file on the fly (_d variant)
+// Replace SZS file on the fly (_d variant) (unless it's a demo track)
 void CupManager::getTrackFilenameD(char* buffer, int bufferSize, const char* format, const char* arg) {
-    if (RaceConfig::instance->menuScenario.settings.isBattle())
+    if (RaceConfig::instance->raceScenario.settings.courseId > 0x36)
+        snprintf(buffer, bufferSize, format, arg);
+    else if (RaceConfig::instance->raceScenario.settings.isBattle())
         snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_BT "/%d_d", currentSzs);
     else
         snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_VS "/%d_d", currentSzs);
 }
-
-Random CupManager::randomizer = Random();
 
 s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
 
@@ -235,4 +240,56 @@ s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
 
     // Failsafe that should never trigger
     return EMPTY_TRACK;
+}
+
+void CupManager::generateTrackOrder(GlobalContext* self, u32 cupIdx, u32 track) {
+
+    // Get the correct cup array and cup count
+    const CupFile::Cup* cups = GetCupArray();
+    const u32 cupCount = GetCupCount();
+    u32 raceCount = cupCount * 4;
+
+    for (int i = 0; i < raceCount; i++) {
+
+        // Make sure the track is valid, else skip it
+        s32 currTrack = getTrackFileFromTrackIdx(cups[cupIdx].entryId[track]);
+        if (currTrack != EMPTY_TRACK)
+            self->trackOrder[i] = currTrack;
+        else
+            raceCount--;
+
+        // Update the track (and the cup if necessary)
+        track++;
+        if (track == 4) {
+            track = 0;
+
+            cupIdx++;
+            if (cupIdx == cupCount)
+                cupIdx = 0;
+        }
+    }
+
+    // Update vsRaceLimit with the correct race count
+    self->vsRaceLimit = raceCount;
+
+}
+
+void CupManager::generateRandomTrackOrder(GlobalContext* self) {
+
+    // Generate a starting order
+    generateTrackOrder(self, 0, 0);
+
+    // Create randomizer
+    Random random = Random();
+
+    // Randomize the tracklist raceCount times
+    u32 raceCount = self->vsRaceLimit;
+    for (int i = 0; i < raceCount; i++) {
+        u32 idx = random.nextU32(raceCount);
+
+        // Swap the first track with the random index
+        u32 tmp = self->trackOrder[0];
+        self->trackOrder[0] = self->trackOrder[idx];
+        self->trackOrder[idx] = tmp;
+    }
 }

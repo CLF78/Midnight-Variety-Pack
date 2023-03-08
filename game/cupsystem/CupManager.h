@@ -1,4 +1,5 @@
 #include <kamek.h>
+#include <game/ui/GlobalContext.h>
 #include <game/ui/PushButton.h>
 #include <game/ui/page/RaceCupSelectPage.h>
 #include <game/system/RaceConfig.h>
@@ -26,6 +27,12 @@ public:
 
     // The randomizer used by CupManager
     static Random randomizer;
+
+    // The array used for track ordering
+    static u16 trackOrder[MAX_CUP_COUNT(MODERN_CUP_COUNT, RETRO_CUP_COUNT, VARIETY_CUP_COUNT) * 4];
+
+    // The array used for arena ordering
+    static u16 arenaOrder[BATTLE_CUP_COUNT * 5];
 
     ////////////////////
     // Inline Helpers //
@@ -170,6 +177,16 @@ public:
 
     // Gets a random track index, given a random track entry
     static s32 getRandomTrackIdxFromTrackIdx(u16 trackEntry);
+
+    /////////////////////////
+    // Track Order Helpers //
+    /////////////////////////
+
+    // Generates a track order given the starting cup and track indexes
+    static void generateTrackOrder(GlobalContext* self, u32 cupIdx, u32 track);
+
+    // Generates a random track order
+    static void generateRandomTrackOrder(GlobalContext* self);
 
     //////////////////////
     // Cup Icon Helpers //

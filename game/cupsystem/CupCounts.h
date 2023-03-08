@@ -10,3 +10,4 @@
 #define RETRO_CUP_COUNT 1
 #define VARIETY_CUP_COUNT 1
 #define BATTLE_CUP_COUNT 1
+#define MAX_CUP_COUNT(t1, t2, t3) ((t1 > t2) ? ((t1 > t3) ? t1 : t3) : ((t2 > t3) ? t2 : t3))
