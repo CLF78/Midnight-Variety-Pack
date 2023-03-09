@@ -174,9 +174,9 @@ u16 CupManager::getTrackNameFromTrackIdx(u32 trackIdx) {
 
     // Get the name (and make sure no index overflow occurs)
     if (isRegular)
-        return (trackIdx < GetTrackCount()) ? GetTrackArray()[trackIdx].trackNameId : 0;
-
-    return (trackIdx < GetRandomTrackCount()) ? GetRandomTrackArray()[trackIdx].variantNameId : 0;
+        return GetTrackArray()[trackIdx].trackNameId;
+    else
+        return GetRandomTrackArray()[trackIdx].variantNameId;
 }
 
 s32 CupManager::getTrackFileFromTrackIdx(u32 trackIdx) {
@@ -187,9 +187,9 @@ s32 CupManager::getTrackFileFromTrackIdx(u32 trackIdx) {
 
     // Get the ID (and make sure no index overflow occurs)
     if (isRegular)
-        return (trackIdx < GetTrackCount()) ? trackIdx : EMPTY_TRACK;
-
-    return getRandomTrackIdxFromTrackIdx(trackIdx);
+        return trackIdx;
+    else
+        return getRandomTrackIdxFromTrackIdx(trackIdx);
 }
 
 s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx) {
@@ -239,7 +239,7 @@ s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
     }
 
     // Failsafe that should never trigger
-    return EMPTY_TRACK;
+    return 0;
 }
 
 void CupManager::generateTrackOrder(GlobalContext* self, u32 cupIdx, u32 track) {
@@ -248,15 +248,12 @@ void CupManager::generateTrackOrder(GlobalContext* self, u32 cupIdx, u32 track) 
     const CupFile::Cup* cups = GetCupArray();
     const u32 cupCount = GetCupCount();
     u32 raceCount = cupCount * 4;
+    self->vsRaceLimit = raceCount;
 
     for (int i = 0; i < raceCount; i++) {
 
         // Make sure the track is valid, else skip it
-        s32 currTrack = getTrackFileFromTrackIdx(cups[cupIdx].entryId[track]);
-        if (currTrack != EMPTY_TRACK)
-            self->trackOrder[i] = currTrack;
-        else
-            raceCount--;
+        self->trackOrder[i] = getTrackFileFromTrackIdx(cups[cupIdx].entryId[track]);
 
         // Update the track (and the cup if necessary)
         track++;
@@ -268,10 +265,6 @@ void CupManager::generateTrackOrder(GlobalContext* self, u32 cupIdx, u32 track) 
                 cupIdx = 0;
         }
     }
-
-    // Update vsRaceLimit with the correct race count
-    self->vsRaceLimit = raceCount;
-
 }
 
 void CupManager::generateRandomTrackOrder(GlobalContext* self) {
@@ -279,13 +272,10 @@ void CupManager::generateRandomTrackOrder(GlobalContext* self) {
     // Generate a starting order
     generateTrackOrder(self, 0, 0);
 
-    // Create randomizer
-    Random random = Random();
-
     // Randomize the tracklist raceCount times
     u32 raceCount = self->vsRaceLimit;
     for (int i = 0; i < raceCount; i++) {
-        u32 idx = random.nextU32(raceCount);
+        u32 idx = randomizer.nextU32(raceCount);
 
         // Swap the first track with the random index
         u32 tmp = self->trackOrder[0];

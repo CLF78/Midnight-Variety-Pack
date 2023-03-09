@@ -11,9 +11,6 @@ extern "C" static u16 GetTrackName(u32 track, PushButton* button) {
     u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
     u32 trackIdx = CupManager::GetCupArray()[cupIdx].entryId[track];
     u16 msgId = CupManager::getTrackNameFromTrackIdx(trackIdx);
-
-    button->hidden = msgId == 0;
-    button->inputManager.unselectable = msgId == 0;
     return msgId;
 }
 

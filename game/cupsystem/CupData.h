@@ -2,7 +2,6 @@
 #include "cupsystem/CupCounts.h"
 
 #define IS_RANDOM 0x8000 // Flag that marks the track as a list of random variants
-#define EMPTY_TRACK 0xFFFF // Value that marks the track as undefined
 
 namespace CupFile {
 
@@ -25,6 +24,14 @@ namespace CupFile {
         u16 entryId[5]; // The Track/RandomTrack entry index, depending on the IS_RANDOM flag
     };
 
+    // Structure for cup holders (tracklists)
+    struct CupHolder {
+        u16 cupListName; // The BMG id of the cup list name
+        u16 cupCount; // The amount of cups
+        const Cup* cups; // The actual cup list
+        const char* cupIconDir; // The directory for cup icons
+    };
+
     // Structure for random track variants
     // The id is inferred from the entry's index
     struct RandomTrack {
@@ -44,5 +51,7 @@ namespace CupFile {
     extern const Cup cupsRetro[RETRO_CUP_COUNT];
     extern const Cup cupsVariety[VARIETY_CUP_COUNT];
     extern const Cup battleCups[BATTLE_CUP_COUNT];
+
+    extern const CupHolder cupHolder[4];
 
 } // namespace CupFile

@@ -29,7 +29,7 @@ public:
     static Random randomizer;
 
     // The array used for track ordering
-    static u16 trackOrder[MAX_CUP_COUNT(MODERN_CUP_COUNT, RETRO_CUP_COUNT, VARIETY_CUP_COUNT) * 4];
+    static u16 trackOrder[VS_CUP_COUNT * 4];
 
     // The array used for arena ordering
     static u16 arenaOrder[BATTLE_CUP_COUNT * 5];
@@ -39,27 +39,17 @@ public:
     ////////////////////
 
     static const char* GetCupIconDir() {
+        int idx = currentTrackList;
         if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return CUP_ICON_DIR_BT "/%d.tpl";
-        else {
-            switch (currentTrackList) {
-                default: return CUP_ICON_DIR_VS_MODERN "/%d.tpl";
-                case TRACKS_RETRO: return CUP_ICON_DIR_VS_RETRO "/%d.tpl";
-                case TRACKS_VARIETY: return CUP_ICON_DIR_VS_VARIETY "/%d.tpl";
-            }
-        }
+            idx = 3;
+        return CupFile::cupHolder[idx].cupIconDir;
     }
 
     static u32 GetCupCount() {
+        int idx = currentTrackList;
         if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return BATTLE_CUP_COUNT;
-        else {
-            switch (currentTrackList) {
-                default: return MODERN_CUP_COUNT;
-                case TRACKS_RETRO: return RETRO_CUP_COUNT;
-                case TRACKS_VARIETY: return VARIETY_CUP_COUNT;
-            }
-        }
+            idx = 3;
+        return CupFile::cupHolder[idx].cupCount;
     }
 
     static u32 GetTrackCount() {
@@ -77,15 +67,10 @@ public:
     }
 
     static const CupFile::Cup* GetCupArray() {
+        int idx = currentTrackList;
         if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return CupFile::battleCups;
-        else {
-            switch (currentTrackList) {
-                default: return CupFile::cupsModern;
-                case TRACKS_RETRO: return CupFile::cupsRetro;
-                case TRACKS_VARIETY: return CupFile::cupsVariety;
-            }
-        }
+            idx = 3;
+        return CupFile::cupHolder[idx].cups;
     }
 
     static const CupFile::Track* GetTrackArray() {
