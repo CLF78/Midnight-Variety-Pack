@@ -7,18 +7,8 @@
 #include "cupsystem/CupManager.h"
 
 // Replace the track name
-extern "C" static void ReplaceTrackName(DemoPage* self) {
-    u32 trackName = CupManager::getTrackNameFromTrackIdx(CupManager::currentSzs);
-    self->courseName.setMsgId(trackName, NULL);
-}
-
-// Glue code
-kmCallDefAsm(0x808552B8) {
-    nofralloc
-
-    // Replace the track name
-    mr r3, r30
-    b ReplaceTrackName
+kmCallDefCpp(0x808552BC, u32) {
+    return CupManager::getTrackNameFromTrackIdx(CupManager::currentSzs);
 }
 
 // Replace the cup icon
