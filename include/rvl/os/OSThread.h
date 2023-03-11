@@ -53,6 +53,8 @@ struct OSThread {
     void* specificData[2];
 };
 
+OSThread* OSGetCurrentThread();
+
 #ifdef __cplusplus
 }
 #endif

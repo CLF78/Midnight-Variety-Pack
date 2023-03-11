@@ -44,3 +44,16 @@
 // BRCTR filenames for the custom cup selection arrows.
 #define CUP_ARROW_L_BRCTR "CupSelectCupArrowLeft"
 #define CUP_ARROW_R_BRCTR "CupSelectCupArrowRight"
+
+///////////////////////
+// Exception Handler //
+///////////////////////
+
+// Displays debug information when the game crashes.
+// Credits: CLF78 (original code), Star (return to menu functionality)
+
+// The distribution's name
+#define EXCEPTION_HANDLER_DISTRO_NAME "Mario Kart Midnight 2"
+
+// The point of contact for users who encounter a crash
+#define EXCEPTION_HANDLER_SUPPORT_ADDRESS "CLF78#1139 on Discord"
