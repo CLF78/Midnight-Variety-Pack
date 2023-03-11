@@ -15,7 +15,6 @@
     __declspec (section ".kamek") static const u32 kmIdentifier(Hook, counter)
 
 // general hook definition macros
-// TODO: debugging data (file, line, ...) for diagnostic use by Kamek maybe? :3
 #define kmHook0(type) \
     kmHookInt(__COUNTER__)[2] = { 0, (type) }
 #define kmHook1(type, arg0) \

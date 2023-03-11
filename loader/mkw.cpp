@@ -60,7 +60,7 @@ const loaderFunctionsEx functions[4] = {
     (EGG_Heap_Alloc_t) 0x80229490,
     (EGG_Heap_Free_t) 0x80229800,
     (EGG_ExpHeap_Create_t) 0x80226698,
-    (EGG::SceneManager**) 0x8029FD54, // TODO verify
+    (EGG::SceneManager**) 0x8029FD54,
     'E'},
 
     {{(OSReport_t) 0x801A24F0,
@@ -75,7 +75,7 @@ const loaderFunctionsEx functions[4] = {
     (EGG_Heap_Alloc_t) 0x80229734,
     (EGG_Heap_Free_t) 0x80229AA4,
     (EGG_ExpHeap_Create_t) 0x8022693C,
-    (EGG::SceneManager**) 0x802A3A00, // TODO verify
+    (EGG::SceneManager**) 0x802A3A54,
     'J'},
 
     {{(OSReport_t) 0x801A292C,
@@ -90,7 +90,7 @@ const loaderFunctionsEx functions[4] = {
     (EGG_Heap_Alloc_t) 0x80229B88,
     (EGG_Heap_Free_t) 0x80229EF8,
     (EGG_ExpHeap_Create_t) 0x80226D90,
-    (EGG::SceneManager**) 0x80292080, // TODO verify
+    (EGG::SceneManager**) 0x802920D4,
     'K'}
 };
 

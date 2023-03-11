@@ -9,4 +9,5 @@ kmCallDefCpp(0x8085AE80, u32, int raceNum) {
     return CupManager::GetTrackArray()[track].specialSlot;
 }
 
-// TODO next arena 808606d0
+// TODO implement the same thing for battle mode
+// Hint: 808606d0
