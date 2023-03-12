@@ -33,3 +33,4 @@ AXSetMasterVolume=0x80126608
 memcpy=0x801D17F8
 returnToMenu__13SystemManagerFv=0x8000B188
 OSGetCurrentThread=0x801A98B0
+preloadCourseAsync__15ResourceManagerFi=0x805419AC

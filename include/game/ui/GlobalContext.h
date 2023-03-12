@@ -29,6 +29,15 @@ public:
 
     s32 lastCourse;
     s32 lastStage;
-    u8 unk2[0x3BC];
+    u8 unk2[0x4D0 - 0x154];
+
+    int demoCameraMode;
+    int demoType;
+    int demoBattleType;
+    u32 _4DC;
+    int demoTrack;
+    int demoArena;
+
+    u8 unk3[0x510-0x4E8];
 };
 size_assert(GlobalContext, 0x510);
