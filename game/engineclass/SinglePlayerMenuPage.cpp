@@ -2,8 +2,11 @@
 #include <game/system/RaceConfig.h>
 #include <game/ui/Page.h>
 
-// Skip the CC selector screen and go to character select
+// Change GP mode to skip the CC selector screen and go to character select
 kmWrite8(0x808AE1FB, Page::CHARACTER_SELECT);
+
+// Change TT mode to go to the CC selector screen
+kmWrite8(0x808AE1FF, Page::GP_CLASS_SELECT);
 
 // Write some required settings that the CC selector screen used to do for us
 extern "C" static void ApplyGPSettings() {
