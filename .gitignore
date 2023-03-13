@@ -4,4 +4,4 @@ cw
 # Kamek build files/directories
 *.o
 *.bin
-*/build
+build
