@@ -4,4 +4,15 @@ cw
 # Kamek build files/directories
 *.o
 *.bin
+
+# Packaged assets
+*.szs
+*.brstm
+
+# Ninja build directory
 build
+
+# Compiled Python scripts
+__pycache__/
+*.py[cod]
+*$py.class

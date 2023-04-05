@@ -1,0 +1,19 @@
+<wiidisc version="1">
+	<id game="RMC"/>
+	<options>
+		<section name="Mario Kart Midnight 2">
+			<option name="Mario Kart Midnight 2">
+				<choice name="Enabled">
+					<patch id="mkm2" />
+				</choice>
+			</option>
+		</section>
+	</options>
+	<patch id="mkm2">
+		<folder external="/mkm2/Tracks" disc="/Race/Course/vs" create="true"/>
+		<folder external="/mkm2/UI" disc="/Scene/UI" create="true"/>
+		<folder external="/mkm2/Code" disc="/" create="true"/>
+		<memory valuefile="/mkm2/Loader.bin" offset="0x80004010"/>
+		<memory offset='0x800060BC' value='4BFFE7DD' />
+	</patch>
+</wiidisc>
