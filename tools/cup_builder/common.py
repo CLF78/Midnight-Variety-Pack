@@ -184,8 +184,7 @@ class Track:
         # Get all names with failsafe
         langs = Language.getAll()
         defaultInput = input.get(f'track_name_{langs[0]}', 'Unknown Track Name')
-        for lang in Language.getAll():
-            ret.names.append(input.get(f'track_name_{lang}', defaultInput))
+        ret.names = [input.get(f'track_name_{lang}', defaultInput) for lang in langs]
 
         return ret
 
@@ -217,8 +216,7 @@ class RandomTrack:
         # Get all names with failsafe
         langs = Language.getAll()
         defaultInput = input.get(f'variant_name_{langs[0]}', 'Unknown Variant Name')
-        for lang in Language.getAll():
-            ret.names.append(input.get(f'variant_name_{lang}', defaultInput))
+        ret.names = [input.get(f'variant_name_{lang}', defaultInput) for lang in langs]
 
         # Get all contained tracks, with failsafe
         for variant in input['variants']:
@@ -262,9 +260,8 @@ class Cup:
 
         # Get all names with failsafe
         langs = Language.getAll()
-        defaultInput = input.get(f'cup_name{langs[0]}', 'Unknown Cup Name')
-        for lang in Language.getAll():
-            ret.names.append(input.get(f'cup_name{lang}', defaultInput))
+        defaultInput = input.get(f'cup_name_{langs[0]}', 'Unknown Cup Name')
+        ret.names = [input.get(f'cup_name_{lang}', defaultInput) for lang in langs]
 
         # Get icon file path, with failsafe
         ret.iconFile = openPath(input.get('icon_file'), '')
