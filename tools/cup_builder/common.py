@@ -266,8 +266,8 @@ class Cup:
         # Get icon file path, with failsafe
         ret.iconFile = openPath(input.get('icon_file'), '')
 
-        # Get all tracks inside the cup
-        for track in input['tracks']:
+        # Get all tracks inside the cup, with failsafe
+        for track in input.get('tracks', []):
             if 'variants' in track:
                 ret.tracks.append(RandomTrack.fromDict(track, jsonPath))
             elif 'track_file' in track:
