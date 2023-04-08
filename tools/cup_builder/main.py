@@ -13,14 +13,15 @@ import json
 
 # If any other error occurs, let QtPy throw its own exceptions without intervention
 try:
-    from qtpy import QtWidgets
+    from qtpy import QtWidgets, QtGui
     from qtpy.QtCore import Qt
 except ImportError:
     raise Exception('QtPy is not installed in this Python environment. Go online and download it.')
 
 # Local imports
-from common import Tracklist, Cup, RandomTrack, Track
+from common import Tracklist
 from cups import CupListHolder
+from parsing import importData
 from randtracks import RandomTrackList
 from tracks import TrackList
 
@@ -77,6 +78,7 @@ class MainWindow(QtWidgets.QMainWindow):
         closeicon = self.style().standardIcon(QtWidgets.QStyle.StandardPixmap.SP_DialogCancelButton)
         file.addAction('New Cup Definition', self.clearData, 'CTRL+N')
         file.addAction('Open Cup Definition', self.openData, 'CTRL+O')
+        file.addAction('Check Validity', self.checkData, 'CTRL+K')
         file.addAction('Save Cup Definition', self.saveData, 'CTRL+S')
         file.addAction(closeicon, 'Exit', self.close, 'CTRL+Q')
 
@@ -121,82 +123,78 @@ class MainWindow(QtWidgets.QMainWindow):
             # Clear data first
             self.clearData()
 
-            # Open the file
-            with open(file, encoding='utf-8') as f:
-                data = json.load(f)
+            # Get the parsed data
+            tracks, randTracks, cups = importData(file)
 
-            # Keep track of loaded tracks to make sure no duplicates occur
-            tracks = []
-            randTracks = []
-
-            # Load main window lists
+            # Get main window lists
             mw = self.centralWidget()
             trackWidget = mw.tracks
             randTrackWidget = mw.randomTracks
 
-            # Parse the dict
-            for key, cupWidget in zip(Tracklist.getAll(), mw.cups.getCupLists()):
-
-                # Get cup list with failsafe
-                cupList = data.get(key, [])
-
-                # Initialize cup list
+            # Fill the cup lists
+            for cupList, cupWidget in zip(cups, mw.cups.getCupLists()):
                 for cup in cupList:
-
-                    # Convert the cup list from dict
-                    newCup = Cup.fromDict(cup, file)
-
-                    # Add the cup entry to the tree
-                    newitem = cupWidget.parent().addItem(cupWidget, newCup)
-
-                    # Parse the tracks
-                    for track in newCup.tracks:
-
-                        # For tracks, check the existing path and add it if no identical path is found
-                        if isinstance(track, Track):
-                            found = False
-                            for existingTrack in tracks:
-                                if track.path == existingTrack.path:
-                                    found = True
-                                    track = existingTrack
-                                    break
-
-                            if not found:
-                                tracks.append(track)
-                                trackWidget.addTrack(track)
-                        
-                        # For random tracks, perform track replacement and
-                        # check if the variants match an existing random track
-                        elif isinstance(track, RandomTrack):
-
-                            # Perform track replacement first as it is required for the comparison
-                            for i, j in enumerate(track.tracks):
-                                found = False
-                                for existingTrack in tracks:
-                                    if j[0].path == existingTrack.path:
-                                        track.tracks[i][0] = existingTrack
-                                        found = True
-                                        break
-
-                                # Add any track exclusive to this variant
-                                if not found:
-                                    tracks.append(track.tracks[i][0])
-                                    trackWidget.addTrack(track.tracks[i][0])
-
-                            # Deduplicate the random variants
-                            found = False
-                            for existingTrack in randTracks:
-                                if track.tracks == existingTrack.tracks:
-                                    found = True
-                                    track = existingTrack
-                                    break
-
-                            if not found:
-                                randTracks.append(track)
-                                randTrackWidget.addTrack(track)
-                    
-                        # Add the item to the tree
+                    newitem = cupWidget.parent().addItem(cupWidget, cup)
+                    for track in cup.tracks:
                         cupWidget.parent().addItem(newitem, track)
+
+            # Fill the track lists (we need to do this separately for exclusive random track variants)
+            for track in tracks:
+                trackWidget.addTrack(track)
+            for randTrack in randTracks:
+                randTrackWidget.addTrack(randTrack)
+
+    def checkData(self):
+
+        # Get the main window
+        mw = self.centralWidget()
+        trackWidget = mw.tracks.list
+        randTrackWidget = mw.randomTracks.list
+
+        # Initialize error list
+        errors = set()
+
+        # Check the cup lists
+        for cupList, cupListName in zip(mw.cups.getCupLists(), Tracklist.getAllPretty()):
+            if cupList.topLevelItemCount() == 0:
+                errors.add(f'The {cupListName} cup list is empty!')
+
+            for i in range(cupList.topLevelItemCount()):
+                cup = cupList.topLevelItem(i)
+                cupData = cup.data(0, 0x100)
+                cupData.tracks = [cup.child(j).data(0, 0x100) for j in range(cup.childCount())]
+                errors.update(cupData.check(cupListName == Tracklist.BT.value))
+
+        # Check any other track that was left out
+        for i in range(trackWidget.count()):
+            errors.update(trackWidget.item(i).data(0x100).check())
+
+        for i in range(randTrackWidget.count()):
+            errors.update(randTrackWidget.item(i).data(0x100).check())
+
+        # Create the dialog to show the errors
+        errorDialog = QtWidgets.QDialog(self)
+        errorDialog.setWindowTitle('Scan Completed!')
+        lyt = QtWidgets.QVBoxLayout(errorDialog)
+        if errors:
+            errors = list(errors)
+            errors.sort()
+            lyt.addWidget(QtWidgets.QLabel('The following errors were found:', errorDialog))
+            errorDisplay = QtWidgets.QTextEdit(errorDialog)
+            errorDisplay.setReadOnly(True)
+            errorDisplay.setWordWrapMode(QtGui.QTextOption.NoWrap)
+            errorDisplay.setPlainText('\n'.join(errors))
+            lyt.addWidget(errorDisplay)
+        else:
+            lyt.addWidget(QtWidgets.QLabel('No errors found!', errorDialog))
+
+        # Add a close button
+        closeBtn = QtWidgets.QPushButton('OK', errorDialog)
+        closeBtn.clicked.connect(errorDialog.close)
+        lyt.addWidget(closeBtn, alignment=Qt.AlignCenter)
+
+        # Execute the dialog
+        errorDialog.exec()
 
 
 def main():

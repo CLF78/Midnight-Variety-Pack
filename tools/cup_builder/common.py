@@ -101,6 +101,10 @@ class Language(Enum):
     def getAll() -> list[str]:
         return [str(i) for i in Language]
 
+    @staticmethod
+    def getAllPretty() -> list[str]:
+        return [i.value for i in Language]
+
 
 class Tracklist(Enum):
     VS_MODERN = 'Modern'
@@ -139,6 +143,41 @@ class Track:
 
         self.musicFileFast = ''
         self.musicAuthorFast = ''
+
+    def check(self) -> set[str]:
+        errors = set()
+        langs = Language.getAllPretty()
+        trackName = self.names[0]
+        for i, name in enumerate(self.names):
+            if not name:
+                errors.add(f'Invalid {langs[i]} track name for {trackName}!')
+
+        if not os.path.isfile(self.path):
+            errors.add(f'Track file for {trackName} not found!')
+
+        if not os.path.isfile(self.musicFile):
+            errors.add(f'Music file for {trackName} not found!')
+
+        if self.specialSlot not in Slot:
+            errors.add(f'Invalid track slot for {trackName}!')
+
+        if self.musicSlot not in Slot:
+            errors.add(f'Invalid music slot for {trackName}!')
+
+        if not self.trackAuthor:
+            errors.add(f'Track author not set for {trackName}!')
+
+        if not self.musicAuthor:
+            errors.add(f'Music author not set for {trackName}!')
+
+        if self.musicFileFast:
+            if not os.path.isfile(self.musicFileFast):
+                errors.add(f'Fast music file for {trackName} not found!')
+
+            if not self.musicAuthorFast:
+                errors.add(f'Fast music author not set for {trackName}!')
+
+        return errors
 
     def asDict(self, jsonPath: str) -> dict:
         ret = {}
@@ -194,6 +233,24 @@ class RandomTrack:
         self.names = ['New Random Track' for _ in Language]
         self.tracks = []
 
+    def check(self) -> set[str]:
+        errors = set()
+        langs = Language.getAllPretty()
+        trackName = self.names[0]
+        for i, name in enumerate(self.names):
+            if not name:
+                errors.add(f'Invalid {langs[i]} track name for {trackName}!')
+
+        totalChances = 0
+        for track, chance in self.tracks:
+            errors.update(track.check())
+            totalChances += chance
+
+        if totalChances != 256:
+            errors.add(f'Invalid variant chances for {trackName}!')
+
+        return errors
+
     def asDict(self, jsonPath: str) -> dict:
         ret = {}
 
@@ -235,6 +292,25 @@ class Cup:
         self.names = ['New Cup' for _ in Language]
         self.iconFile = ''
         self.tracks = []
+
+    def check(self, isBattle: bool) -> set[str]:
+        errors = set()
+        langs = Language.getAllPretty()
+        cupName = self.names[0]
+        for i, name in enumerate(self.names):
+            if not name:
+                errors.add(f'Invalid {langs[i]} cup name for {cupName}!')
+
+        if not os.path.isfile(self.iconFile):
+            errors.add(f'Cup icon file for {cupName} not found!')
+
+        if len(self.tracks) != 4 + isBattle:
+            errors.add(f'Invalid track count for {cupName}!')
+
+        for track in self.tracks:
+            errors.update(track.check())
+
+        return errors
 
     def asDict(self, jsonPath: str) -> dict:
         ret = {}
