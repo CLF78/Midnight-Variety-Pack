@@ -340,7 +340,7 @@ class Cup:
         ret.names = [input.get(f'cup_name_{lang}', defaultInput) for lang in langs]
 
         # Get icon file path, with failsafe
-        ret.iconFile = openPath(input.get('icon_file'), '')
+        ret.iconFile = openPath(input.get('icon_file', ''), jsonPath)
 
         # Get all tracks inside the cup, with failsafe
         for track in input.get('tracks', []):

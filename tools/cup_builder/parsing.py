@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-# parser.py
-# Parses the JSON data and applies the exported data (and viceversa)
+# parsing.py
+# Parses the JSON data and checks it
 
 import json
 
@@ -64,18 +64,27 @@ def importData(file: str):
     # Return all the obtained data
     return tracks.values(), randTracks.values(), cups
 
-"""
-TODO:
 
-deduplicate:
-- bmgs (use dict[str: int], with text as key and id as value)
-- szs files (use dict[str: int], with original path as key and id as value)
-- brstm files (use dict[str: int], with original path as key and id as value)
-- icon files (use dict[str: str], with original path as key and destination path as value)
+def checkData(cupLists: list[list[Cup]], randTracks: list[RandomTrack], tracks: list[Track]) -> list[str]:
 
-operations:
-- write code
-- copy and rename track files (using hard link)
-- copy and rename BRSTM files (using hard link)
-- copy and rename icon files (using hard link)
-"""
+    # Initialize error list
+    errors = set()
+
+    # Check the cup lists
+    for cupList, cupListName in zip(cupLists, Tracklist.getAllPretty()):
+        if len(cupList) == 0:
+            errors.add(f'The {cupListName} cup list is empty!')
+
+        for cup in cupList:
+            errors.update(cup.check(cupListName == Tracklist.BT.value))
+
+    # Check any other track that was left out
+    for randTrack in randTracks:
+        errors.update(randTrack.check())
+
+    for track in tracks:
+        errors.update(track.check())
+
+    errors = list(errors)
+    errors.sort()
+    return errors

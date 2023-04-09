@@ -21,7 +21,7 @@ except ImportError:
 # Local imports
 from common import Tracklist
 from cups import CupListHolder
-from parsing import importData
+from parsing import importData, checkData
 from randtracks import RandomTrackList
 from tracks import TrackList
 
@@ -150,35 +150,30 @@ class MainWindow(QtWidgets.QMainWindow):
         mw = self.centralWidget()
         trackWidget = mw.tracks.list
         randTrackWidget = mw.randomTracks.list
+        cupLists = []
 
-        # Initialize error list
-        errors = set()
-
-        # Check the cup lists
-        for cupList, cupListName in zip(mw.cups.getCupLists(), Tracklist.getAllPretty()):
-            if cupList.topLevelItemCount() == 0:
-                errors.add(f'The {cupListName} cup list is empty!')
-
+        # Collect the cups
+        for cupList in mw.cups.getCupLists():
+            cups = []
             for i in range(cupList.topLevelItemCount()):
                 cup = cupList.topLevelItem(i)
                 cupData = cup.data(0, 0x100)
                 cupData.tracks = [cup.child(j).data(0, 0x100) for j in range(cup.childCount())]
-                errors.update(cupData.check(cupListName == Tracklist.BT.value))
+                cups.append(cupData)
+            cupLists.append(cups)
 
-        # Check any other track that was left out
-        for i in range(trackWidget.count()):
-            errors.update(trackWidget.item(i).data(0x100).check())
+        # Collect the tracks
+        tracks = [trackWidget.item(i).data(0x100) for i in range(trackWidget.count())]
+        randTracks = [randTrackWidget.item(i).data(0x100) for i in range(randTrackWidget.count())]
 
-        for i in range(randTrackWidget.count()):
-            errors.update(randTrackWidget.item(i).data(0x100).check())
+        # Feed the data to the check function
+        errors = checkData(cupLists, randTracks, tracks)
 
         # Create the dialog to show the errors
         errorDialog = QtWidgets.QDialog(self)
         errorDialog.setWindowTitle('Scan Completed!')
         lyt = QtWidgets.QVBoxLayout(errorDialog)
         if errors:
-            errors = list(errors)
-            errors.sort()
             lyt.addWidget(QtWidgets.QLabel('The following errors were found:', errorDialog))
             errorDisplay = QtWidgets.QTextEdit(errorDialog)
             errorDisplay.setReadOnly(True)
