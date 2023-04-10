@@ -123,9 +123,8 @@ class Tracklist(Enum):
     def getAllPretty() -> list[str]:
         return [i.value for i in Tracklist]
 
-    @staticmethod
-    def getTrackCount(val: str) -> int:
-        return 5 if val == Tracklist.BT.value else 4
+    def getTrackCount(self) -> int:
+        return 5 if self == Tracklist.BT else 4
 
 
 class Track:
@@ -139,9 +138,11 @@ class Track:
         self.trackAuthor = ''
 
         self.musicFile = ''
+        self.musicName = ''
         self.musicAuthor = ''
 
         self.musicFileFast = ''
+        self.musicNameFast = ''
         self.musicAuthorFast = ''
 
     def check(self) -> set[str]:
@@ -151,6 +152,9 @@ class Track:
         for i, name in enumerate(self.names):
             if not name:
                 errors.add(f'Invalid {langs[i]} track name for {trackName}!')
+
+        if not self.musicName:
+            errors.add(f'Music name not set for {trackName}!')
 
         if not os.path.isfile(self.path):
             errors.add(f'Track file for {trackName} not found!')
@@ -174,6 +178,9 @@ class Track:
             if not os.path.isfile(self.musicFileFast):
                 errors.add(f'Fast music file for {trackName} not found!')
 
+            if not self.musicNameFast:
+                errors.add(f'Fast music name not set for {trackName}!')
+
             if not self.musicAuthorFast:
                 errors.add(f'Fast music author not set for {trackName}!')
 
@@ -196,11 +203,13 @@ class Track:
         ret['track_slot'] = self.specialSlot.value
         ret['music_slot'] = self.musicSlot.value
         ret['music_file'] = savePath(self.musicFile, jsonPath)
+        ret['music_name'] = self.musicName
         ret['music_artist'] = self.musicAuthor
 
         # Only save the fast music path and author if they're not empty
         if fastPath := savePath(self.musicFileFast, jsonPath):
             ret['music_file_fast'] = fastPath
+            ret['music_name_fast'] = self.musicNameFast
             ret['music_author_fast'] = self.musicAuthorFast
 
         return ret
@@ -216,8 +225,10 @@ class Track:
         ret.specialSlot = Slot(input.get('track_slot', Slot.LUIGI_CIRCUIT.value))
         ret.musicSlot = Slot(input.get('music_slot', Slot.LUIGI_CIRCUIT.value))
         ret.musicFile = openPath(input.get('music_file', ''), jsonPath)
+        ret.musicName = input.get('music_name', '')
         ret.musicAuthor = input.get('music_author', '')
         ret.musicFileFast = openPath(input.get('music_file_fast', ''), jsonPath)
+        ret.musicNameFast = input.get('music_name_fast', '')
         ret.musicAuthorFast = input.get('music_author_fast', '')
 
         # Get all names with failsafe
@@ -293,7 +304,7 @@ class Cup:
         self.iconFile = ''
         self.tracks = []
 
-    def check(self, isBattle: bool) -> set[str]:
+    def check(self, trlist: Tracklist) -> set[str]:
         errors = set()
         langs = Language.getAllPretty()
         cupName = self.names[0]
@@ -304,7 +315,7 @@ class Cup:
         if not os.path.isfile(self.iconFile):
             errors.add(f'Cup icon file for {cupName} not found!')
 
-        if len(self.tracks) != 4 + isBattle:
+        if len(self.tracks) != trlist.getTrackCount():
             errors.add(f'Invalid track count for {cupName}!')
 
         for track in self.tracks:

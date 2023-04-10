@@ -83,11 +83,17 @@ class TrackEditor(QtWidgets.QDialog):
         self.musicAuthorEdit.editingFinished.connect(self.updateAuthors)
         self.musicAuthorEditFast = QtWidgets.QLineEdit(track.musicAuthorFast, self)
         self.musicAuthorEditFast.editingFinished.connect(self.updateAuthors)
+        self.musicNameEdit = QtWidgets.QLineEdit(track.musicName, self)
+        self.musicNameEdit.editingFinished.connect(self.updateAuthors)
+        self.musicNameEditFast = QtWidgets.QLineEdit(track.musicNameFast, self)
+        self.musicNameEditFast.editingFinished.connect(self.updateAuthors)
 
         lyt.addRow('Music File:', musicPickFormLyt)
+        lyt.addRow('Music Name:', self.musicNameEdit)
         lyt.addRow('Music Author(s):', self.musicAuthorEdit)
 
         lyt.addRow('Fast Music File (Optional):', musicPickFormLytFast)
+        lyt.addRow('Fast Music Name (Optional):', self.musicNameEditFast)
         lyt.addRow('Fast Music Author(s) (Optional):', self.musicAuthorEditFast)
 
     def updateTrackSlot(self, index: int):
@@ -120,6 +126,16 @@ class TrackEditor(QtWidgets.QDialog):
         else:
             self.musicAuthorEditFast.setText(self.data.musicAuthorFast)
 
+        if text := self.musicNameEdit.text():
+            self.data.musicName = text
+        else:
+            self.musicNameEdit.setText(self.data.musicName)
+
+        if text := self.musicNameEditFast.text():
+            self.data.musicNameFast = text
+        else:
+            self.musicNameEditFast.setText(self.data.musicNameFast)
+
     def pickTrackFile(self):
         if file := QtWidgets.QFileDialog.getOpenFileName(self,
                                             'Choose a Track File',
@@ -138,9 +154,11 @@ class TrackEditor(QtWidgets.QDialog):
             if isFast:
                 self.data.musicFileFast = file
                 self.musicPickPathFast.setText(file)
+                self.musicNameEditFast.setText(os.path.basename(os.path.splitext(file)[0]))
             else:
                 self.data.musicFile = file
                 self.musicPickPath.setText(file)
+                self.musicNameEdit.setText(os.path.basename(os.path.splitext(file)[0]))
 
     def closeEvent(self, e: QtGui.QCloseEvent):
 
@@ -219,7 +237,7 @@ class TrackList(QtWidgets.QWidget):
     
             # Find all SZS files recursively
             szsFiles = set()
-            for root, dirs, files in os.walk(directory):
+            for root, _, files in os.walk(directory):
                 for file in files:
                     if file.endswith(".szs"):
                         szsFiles.add(os.path.join(root, file))

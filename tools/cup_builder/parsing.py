@@ -71,12 +71,12 @@ def checkData(cupLists: list[list[Cup]], randTracks: list[RandomTrack], tracks: 
     errors = set()
 
     # Check the cup lists
-    for cupList, cupListName in zip(cupLists, Tracklist.getAllPretty()):
+    for cupList, cupListName in zip(cupLists, Tracklist):
         if len(cupList) == 0:
-            errors.add(f'The {cupListName} cup list is empty!')
+            errors.add(f'The {str(cupListName)} cup list is empty!')
 
         for cup in cupList:
-            errors.update(cup.check(cupListName == Tracklist.BT.value))
+            errors.update(cup.check(cupListName))
 
     # Check any other track that was left out
     for randTrack in randTracks:
