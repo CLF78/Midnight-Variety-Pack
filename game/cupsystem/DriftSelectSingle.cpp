@@ -11,7 +11,7 @@ kmCallDefCpp(0x8084E5C4, void, GlobalContext* self) {
     // Store the first track properly
     u16 firstTrack = self->trackOrder[0];
     CupManager::currentSzs = firstTrack;
-    RaceConfig::instance->menuScenario.settings.courseId = CupManager::GetTrackArray()[firstTrack].specialSlot;
+    RaceConfig::instance->menuScenario.settings.courseId = CupFile::tracks[firstTrack].specialSlot;
 }
 
 // Remove original store

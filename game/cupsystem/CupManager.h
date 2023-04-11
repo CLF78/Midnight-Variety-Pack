@@ -52,39 +52,11 @@ public:
         return CupFile::cupHolder[idx].cupCount;
     }
 
-    static u32 GetTrackCount() {
-        if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return ARENA_COUNT;
-        else
-            return TRACK_COUNT;
-    }
-
-    static u32 GetRandomTrackCount() {
-        if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return RANDOM_ARENA_COUNT;
-        else
-            return RANDOM_TRACK_COUNT;
-    }
-
     static const CupFile::Cup* GetCupArray() {
         int idx = currentTrackList;
         if (RaceConfig::instance->menuScenario.settings.isBattle())
             idx = 3;
         return CupFile::cupHolder[idx].cups;
-    }
-
-    static const CupFile::Track* GetTrackArray() {
-        if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return CupFile::arenas;
-        else
-            return CupFile::tracks;
-    }
-
-    static const CupFile::RandomTrack* GetRandomTrackArray() {
-        if (RaceConfig::instance->menuScenario.settings.isBattle())
-            return CupFile::randomArenas;
-        else
-            return CupFile::randomTracks;
     }
 
     static bool GetCupArrowsEnabled() {

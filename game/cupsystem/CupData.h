@@ -42,10 +42,8 @@ namespace CupFile {
     };
 
     extern const Track tracks[TRACK_COUNT];
-    extern const Track arenas[ARENA_COUNT];
 
     extern const RandomTrack randomTracks[RANDOM_TRACK_COUNT];
-    extern const RandomTrack randomArenas[RANDOM_ARENA_COUNT];
 
     extern const Cup cupsModern[MODERN_CUP_COUNT];
     extern const Cup cupsRetro[RETRO_CUP_COUNT];

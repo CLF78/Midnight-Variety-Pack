@@ -5,8 +5,7 @@
 
 // Store the selected track's music slot
 extern "C" static void StoreMusicSlot(RaceAudioManager* manager, u32 originalSlot) {
-    const CupFile::Track* trackArray = CupManager::GetTrackArray();
-    manager->courseId = trackArray[CupManager::currentSzs].musicSlot;
+    manager->courseId = CupFile::tracks[CupManager::currentSzs].musicSlot;
 }
 
 // Glue code

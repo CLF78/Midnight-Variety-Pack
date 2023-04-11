@@ -31,15 +31,11 @@
 // The extensions required for supporting more/less than 8 cups for VS/Battle.
 // Credits: CLF78 (original code), Ismy (cup button to/from cup position algorithm)
 
-// Directories holding the tracks, inside the /Race/Course folder
-#define TRACK_DIR_VS "/vs"
-#define TRACK_DIR_BT "/bt"
-
 // Directories holding the VS/Battle cup icons, inside the SZS file.
 #define CUP_ICON_DIR_VS_MODERN "/cups/modern"
 #define CUP_ICON_DIR_VS_RETRO "/cups/retro"
 #define CUP_ICON_DIR_VS_VARIETY "/cups/variety"
-#define CUP_ICON_DIR_BT "/cups/bt"
+#define CUP_ICON_DIR_BT "/cups/battle"
 
 // BRCTR filenames for the custom cup selection arrows.
 #define CUP_ARROW_L_BRCTR "CupSelectCupArrowLeft"

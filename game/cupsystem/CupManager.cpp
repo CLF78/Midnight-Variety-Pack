@@ -174,9 +174,9 @@ u16 CupManager::getTrackNameFromTrackIdx(u32 trackIdx) {
 
     // Get the name (and make sure no index overflow occurs)
     if (isRegular)
-        return GetTrackArray()[trackIdx].trackNameId;
+        return CupFile::tracks[trackIdx].trackNameId;
     else
-        return GetRandomTrackArray()[trackIdx].variantNameId;
+        return CupFile::randomTracks[trackIdx].variantNameId;
 }
 
 s32 CupManager::getTrackFileFromTrackIdx(u32 trackIdx) {
@@ -207,26 +207,22 @@ s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx) {
 void CupManager::getTrackFilename(char* buffer, int bufferSize, const char* format, const char* arg) {
     if (RaceConfig::instance->raceScenario.settings.courseId > 0x36)
         snprintf(buffer, bufferSize, format, arg);
-    else if (RaceConfig::instance->raceScenario.settings.isBattle())
-        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_BT "/%d", currentSzs);
     else
-        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_VS "/%d", currentSzs);
+        snprintf(buffer, bufferSize, "Race/Course/%d", currentSzs);
 }
 
 // Replace SZS file on the fly (_d variant) (unless it's a demo track)
 void CupManager::getTrackFilenameD(char* buffer, int bufferSize, const char* format, const char* arg) {
     if (RaceConfig::instance->raceScenario.settings.courseId > 0x36)
         snprintf(buffer, bufferSize, format, arg);
-    else if (RaceConfig::instance->raceScenario.settings.isBattle())
-        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_BT "/%d_d", currentSzs);
     else
-        snprintf(buffer, bufferSize, "Race/Course" TRACK_DIR_VS "/%d_d", currentSzs);
+        snprintf(buffer, bufferSize, "Race/Course/%d_d", currentSzs);
 }
 
 s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
 
     // Get the random track holder
-    const CupFile::RandomTrack* holder = &GetRandomTrackArray()[trackEntry];
+    const CupFile::RandomTrack* holder = &CupFile::randomTracks[trackEntry];
 
     // Get a number between 0 and 255, and loop through the chances until
     // the generated number is smaller

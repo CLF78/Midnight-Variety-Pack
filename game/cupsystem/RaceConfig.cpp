@@ -14,7 +14,7 @@ kmBranchDefCpp(0x8052F208, 0x8052F228, RaceConfig::Scenario*, RaceConfig::Scenar
 
     // Store the track and the special slot
     CupManager::currentSzs = actualTrackIdx;
-    self->settings.courseId = CupManager::GetTrackArray()[actualTrackIdx].specialSlot;
+    self->settings.courseId = CupFile::tracks[actualTrackIdx].specialSlot;
 
     // Return the first argument to avoid breaking the following code
     return self;

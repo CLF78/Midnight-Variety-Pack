@@ -39,18 +39,6 @@ const CupFile::Cup CupFile::cupsVariety[] = {
     {0x23C7, {2, 3, IS_RANDOM | 0, 4, 0}},
 };
 
-const CupFile::Track CupFile::arenas[] = {
-    {0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0},
-};
-
-const u16 rndA_001_trx[] = {0, 1};
-const u8 rndA_001_chn[] = {128, 128};
-
-const CupFile::RandomTrack CupFile::randomArenas[] = {
-    {ARRAY_SIZE(rndA_001_trx), 0, rndA_001_trx, rndA_001_chn},
-};
-
 const CupFile::Cup CupFile::battleCups[] = {
     {0x23C7, {0, 1, IS_RANDOM | 0, 1, 1}},
 };
