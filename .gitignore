@@ -9,8 +9,10 @@ cw
 *.szs
 *.brstm
 
-# Ninja build directory
+# Build directories
 build
+*.build
+out
 
 # Compiled Python scripts
 __pycache__/
