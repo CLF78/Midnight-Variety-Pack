@@ -7,7 +7,7 @@
 # Since we use the Walrus Operator, force Python 3.8 or higher
 import sys
 if sys.version_info < (3, 8):
-    raise Exception('Please update your copy of Python to 3.8 or greater. Currently running on: ' + sys.version.split()[0])
+    raise SystemExit('Please update your copy of Python to 3.8 or greater. Currently running on: ' + sys.version.split()[0])
 
 import json
 
@@ -16,7 +16,7 @@ try:
     from qtpy import QtWidgets, QtGui
     from qtpy.QtCore import Qt
 except ImportError:
-    raise Exception('QtPy is not installed in this Python environment. Go online and download it.')
+    raise SystemExit('QtPy is not installed in this Python environment. Go online and download it.')
 
 # Local imports
 from common import Tracklist

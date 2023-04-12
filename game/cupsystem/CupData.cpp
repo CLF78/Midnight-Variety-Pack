@@ -19,7 +19,7 @@ const CupFile::RandomTrack CupFile::randomTracks[] = {
     {ARRAY_SIZE(rnd_001_trx), 0x2390, rnd_001_trx, rnd_001_chn},
 };
 
-const CupFile::Cup CupFile::cupsModern[] = {
+const CupFile::Cup cupsModern[] = {
     {0x23C7, {2, 3, IS_RANDOM | 0, 4, 0}},
     {0x23C8, {2, 3, IS_RANDOM | 0, 4, 0}},
     {0x23C9, {2, 3, IS_RANDOM | 0, 4, 0}},
@@ -31,21 +31,21 @@ const CupFile::Cup CupFile::cupsModern[] = {
     {0x23CF, {2, 3, IS_RANDOM | 0, 4, 0}},
 };
 
-const CupFile::Cup CupFile::cupsRetro[] = {
+const CupFile::Cup cupsRetro[] = {
     {0x23C7, {2, 3, IS_RANDOM | 0, 4, 0}},
 };
 
-const CupFile::Cup CupFile::cupsVariety[] = {
+const CupFile::Cup cupsVariety[] = {
     {0x23C7, {2, 3, IS_RANDOM | 0, 4, 0}},
 };
 
-const CupFile::Cup CupFile::battleCups[] = {
+const CupFile::Cup cupsBattle[] = {
     {0x23C7, {0, 1, IS_RANDOM | 0, 1, 1}},
 };
 
 const CupFile::CupHolder CupFile::cupHolder[] = {
-    {0, MODERN_CUP_COUNT, CupFile::cupsModern, CUP_ICON_DIR_VS_MODERN "/%d.tpl"},
-    {0, RETRO_CUP_COUNT, CupFile::cupsRetro, CUP_ICON_DIR_VS_RETRO "/%d.tpl"},
-    {0, VARIETY_CUP_COUNT, CupFile::cupsVariety, CUP_ICON_DIR_VS_VARIETY "/%d.tpl"},
-    {0, BATTLE_CUP_COUNT, CupFile::battleCups, CUP_ICON_DIR_BT "/%d.tpl"}
+    {0, ARRAY_SIZE(cupsModern), cupsModern, CUP_ICON_DIR_VS_MODERN "/%d.tpl"},
+    {0, ARRAY_SIZE(cupsRetro), cupsRetro, CUP_ICON_DIR_VS_RETRO "/%d.tpl"},
+    {0, ARRAY_SIZE(cupsVariety), cupsVariety, CUP_ICON_DIR_VS_VARIETY "/%d.tpl"},
+    {0, ARRAY_SIZE(cupsBattle), cupsBattle, CUP_ICON_DIR_BT "/%d.tpl"},
 };

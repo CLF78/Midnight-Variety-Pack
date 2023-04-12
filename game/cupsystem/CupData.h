@@ -45,11 +45,6 @@ namespace CupFile {
 
     extern const RandomTrack randomTracks[RANDOM_TRACK_COUNT];
 
-    extern const Cup cupsModern[MODERN_CUP_COUNT];
-    extern const Cup cupsRetro[RETRO_CUP_COUNT];
-    extern const Cup cupsVariety[VARIETY_CUP_COUNT];
-    extern const Cup battleCups[BATTLE_CUP_COUNT];
-
     extern const CupHolder cupHolder[4];
 
 } // namespace CupFile

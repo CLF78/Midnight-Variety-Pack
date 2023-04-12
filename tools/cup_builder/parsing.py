@@ -7,7 +7,7 @@ import json
 
 from common import Tracklist, Cup, RandomTrack, Track
 
-def importData(file: str):
+def importData(file: str) -> tuple[list[Track], list[RandomTrack], list[list[Cup]]]:
 
     # Open the file
     with open(file, encoding='utf-8') as f:
@@ -62,7 +62,7 @@ def importData(file: str):
         cups.append(parsedCupList)
 
     # Return all the obtained data
-    return tracks.values(), randTracks.values(), cups
+    return list(tracks.values()), list(randTracks.values()), cups
 
 
 def checkData(cupLists: list[list[Cup]], randTracks: list[RandomTrack], tracks: list[Track]) -> list[str]:
