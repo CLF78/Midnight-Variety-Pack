@@ -9,10 +9,10 @@ cw
 *.szs
 *.brstm
 
-# Build directories
-build
+# Build artifacts
+build/
+out/
 *.ninja
-out
 
 # Compiled Python scripts
 __pycache__/
