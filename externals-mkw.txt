@@ -1,3 +1,6 @@
+__flush_cache=0x8000636C
+memcpy=0x80005F34
+memset=0x80006038
 insertChild__4PageFUiP9UIControlUi=0x8060246C
 __ct__18SheetSelectControlFv=0x80635EC4
 load__18SheetSelectControlFPCcPCcPCcPCcPCcUibb=0x80636120

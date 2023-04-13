@@ -11,7 +11,7 @@ cw
 
 # Build directories
 build
-*.build
+*.ninja
 out
 
 # Compiled Python scripts
