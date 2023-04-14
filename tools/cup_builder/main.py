@@ -10,6 +10,7 @@ if sys.version_info < (3, 8):
     raise SystemExit('Please update your copy of Python to 3.8 or greater. Currently running on: ' + sys.version.split()[0])
 
 import json
+import os
 
 # If any other error occurs, let QtPy throw its own exceptions without intervention
 try:
@@ -42,6 +43,7 @@ class MainWidget(QtWidgets.QWidget):
 
         self.lastBrstmDir = ''
         self.lastPngDir = ''
+        self.currentFile = ''
 
         splitter.addWidget(self.cups)
         splitter.addWidget(self.randomTracks)
@@ -80,6 +82,7 @@ class MainWindow(QtWidgets.QMainWindow):
         file.addAction('Open Cup Definition', self.openData, 'CTRL+O')
         file.addAction('Check Validity', self.checkData, 'CTRL+K')
         file.addAction('Save Cup Definition', self.saveData, 'CTRL+S')
+        file.addAction('Save Cup Definition As', self.saveDataAs, 'CTRL+SHIFT+S')
         file.addAction(closeicon, 'Exit', self.close, 'CTRL+Q')
 
     def clearData(self):
@@ -90,15 +93,24 @@ class MainWindow(QtWidgets.QMainWindow):
 
         mw.randomTracks.list.clear()
         mw.tracks.list.clear()
+        mw.currentFile = ''
+
+    def saveDataAs(self):
+
+        # Reset current file and call function
+        self.centralWidget().currentFile = ''
+        self.saveData()
 
     def saveData(self):
 
         # Get file to save to
-        if file := QtWidgets.QFileDialog.getSaveFileName(self, 'Save Cup File To', 'cups.json',
-                                                     'Cup File Data (*.json);;')[0]:
+        mw = self.centralWidget()
+        if file := mw.currentFile if mw.currentFile else \
+            QtWidgets.QFileDialog.getSaveFileName(self, 'Save Cup File To', 'cups.json',
+                                                'Cup File Data (*.json);;')[0]:
 
             # Initialize vars
-            mw = self.centralWidget()
+            mw.currentFile = file
             data = {}
 
             # Encode the data
@@ -114,11 +126,16 @@ class MainWindow(QtWidgets.QMainWindow):
             with open(file, 'w', encoding='utf8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
 
+            # Inform the user
+            QtWidgets.QMessageBox.information(self, 'Save Completed!', 'Save completed successfully!')
+
     def openData(self):
 
         # Get file to open
-        if file := QtWidgets.QFileDialog.getOpenFileName(self, 'Open Cup File', '',
-                                                     'Cup File Data (*.json);;')[0]:
+        if file := QtWidgets.QFileDialog.getOpenFileName(self,
+                                                        'Open Cup File',
+                                                        os.path.dirname(self.centralWidget().currentFile),
+                                                        'Cup File Data (*.json);;')[0]:
 
             # Clear data first
             self.clearData()
@@ -128,6 +145,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # Get main window lists
             mw = self.centralWidget()
+            mw.currentFile = file
             trackWidget = mw.tracks
             randTrackWidget = mw.randomTracks
 

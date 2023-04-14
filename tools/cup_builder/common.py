@@ -3,7 +3,6 @@
 # common.py
 # Common structures and program logic.
 
-import hashlib
 import os.path
 from enum import Enum
 
@@ -16,13 +15,6 @@ def openPath(filePath: str, jsonPath: str) -> str:
     if not filePath:
         return filePath
     return os.path.normpath(os.path.join(jsonPath, filePath))
-
-def hashFile(filePath: str) -> str:
-    if os.path.isfile(filePath):
-        with open(filePath, 'rb') as f:
-            return hashlib.sha1(f.read()).hexdigest()
-    return ''
-
 
 class Slot(Enum):
     def __str__(self) -> str:
@@ -139,10 +131,6 @@ class Track:
     def __init__(self, path: str):
         self.path = path
 
-        self.trackHash = ''
-        self.musicHash = ''
-        self.fastMusicHash = ''
-
         self.specialSlot = Slot.LUIGI_CIRCUIT
         self.musicSlot = Slot.LUIGI_CIRCUIT
 
@@ -152,10 +140,6 @@ class Track:
         self.musicFile = ''
         self.musicName = ''
         self.musicAuthor = ''
-
-        self.musicFileFast = ''
-        self.musicNameFast = ''
-        self.musicAuthorFast = ''
 
     def check(self) -> set[str]:
         errors = set()
@@ -174,12 +158,6 @@ class Track:
         if not os.path.isfile(self.musicFile):
             errors.add(f'Music file for {trackName} not found!')
 
-        if hashFile(self.path) != self.trackHash:
-            errors.add(f'Incorrect track hash for {trackName}!')
-
-        if hashFile(self.musicFile) != self.musicHash:
-            errors.add(f'Incorrect music hash for {trackName}!')
-
         if self.specialSlot not in Slot:
             errors.add(f'Invalid track slot for {trackName}!')
 
@@ -191,19 +169,6 @@ class Track:
 
         if not self.musicAuthor:
             errors.add(f'Music author not set for {trackName}!')
-
-        if self.musicFileFast:
-            if not os.path.isfile(self.musicFileFast):
-                errors.add(f'Fast music file for {trackName} not found!')
-
-            if hashFile(self.musicFileFast) != self.fastMusicHash:
-                errors.add(f'Incorrect fast music hash for {trackName}!')
-
-            if not self.musicNameFast:
-                errors.add(f'Fast music name not set for {trackName}!')
-
-            if not self.musicAuthorFast:
-                errors.add(f'Fast music author not set for {trackName}!')
 
         return errors
 
@@ -220,22 +185,12 @@ class Track:
 
         # Save all the other parameters
         ret['track_file'] = savePath(self.path, jsonPath)
-        ret['track_hash'] = hashFile(self.path)
         ret['track_author'] = self.trackAuthor
         ret['track_slot'] = self.specialSlot.value
         ret['music_slot'] = self.musicSlot.value
         ret['music_file'] = savePath(self.musicFile, jsonPath)
-        ret['music_hash'] = hashFile(self.musicFile)
         ret['music_name'] = self.musicName
         ret['music_author'] = self.musicAuthor
-
-        # Only save the fast music path and author if they're not empty
-        if fastPath := savePath(self.musicFileFast, jsonPath):
-            ret['music_file_fast'] = fastPath
-            ret['music_hash_fast'] = hashFile(self.musicFileFast)
-            ret['music_name_fast'] = self.musicNameFast
-            ret['music_author_fast'] = self.musicAuthorFast
-
         return ret
 
     @staticmethod
@@ -246,17 +201,11 @@ class Track:
 
         # Load all the data with failsaves
         ret.trackAuthor = input.get('track_author', ret.trackAuthor)
-        ret.trackHash = input.get('track_hash', '')
         ret.specialSlot = Slot(input.get('track_slot', Slot.LUIGI_CIRCUIT.value))
         ret.musicSlot = Slot(input.get('music_slot', Slot.LUIGI_CIRCUIT.value))
         ret.musicFile = openPath(input.get('music_file', ''), jsonPath)
-        ret.musicHash = input.get('music_hash', '')
         ret.musicName = input.get('music_name', '')
         ret.musicAuthor = input.get('music_author', '')
-        ret.musicFileFast = openPath(input.get('music_file_fast', ''), jsonPath)
-        ret.fastMusicHash = input.get('music_hash_fast', '')
-        ret.musicNameFast = input.get('music_name_fast', '')
-        ret.musicAuthorFast = input.get('music_author_fast', '')
 
         # Get all names with failsafe
         langs = Language.getAll()
@@ -329,7 +278,6 @@ class Cup:
     def __init__(self):
         self.names = ['New Cup' for _ in Language]
         self.iconFile = ''
-        self.iconHash = ''
         self.tracks = []
 
     def check(self, trlist: Tracklist) -> set[str]:
@@ -342,9 +290,6 @@ class Cup:
 
         if not os.path.isfile(self.iconFile):
             errors.add(f'Cup icon file for {cupName} not found!')
-
-        if hashFile(self.iconFile) != self.iconHash:
-            errors.add(f'Incorrect cup icon hash for {cupName}!')
 
         if len(self.tracks) != trlist.getTrackCount():
             errors.add(f'Invalid track count for {cupName}!')
@@ -367,7 +312,6 @@ class Cup:
 
         # Save the icon file path
         ret['icon_file'] = savePath(self.iconFile, jsonPath)
-        ret['icon_hash'] = hashFile(self.iconFile)
 
         # Save each contained track
         ret['tracks'] = [track.asDict(jsonPath) for track in self.tracks]
@@ -384,7 +328,6 @@ class Cup:
 
         # Get icon file path, with failsafe
         ret.iconFile = openPath(input.get('icon_file', ''), jsonPath)
-        ret.iconHash = input.get('icon_hash', '')
 
         # Get all tracks inside the cup, with failsafe
         for track in input.get('tracks', []):

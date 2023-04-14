@@ -91,13 +91,10 @@ class BRSTMManager():
         self.currentId = 0
         self.savedSongs = {}
 
-    def update(self, song: str, fastSong: str):
+    def update(self, song: str):
         if song not in self.savedSongs:
             self.savedSongs[song] = (self.currentId, False)
             self.currentId += 1
-
-        if fastSong and fastSong not in self.savedSongs:
-            self.savedSongs[fastSong] = (self.savedSongs[song], True)
 
     def save(self):
         os.makedirs(self.saveDir, exist_ok=True)
@@ -139,14 +136,11 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     # Add the track metadata
     for track in tracks:
         szsMng.update(track.path)
-        brstmMng.update(track.musicFile, track.musicFileFast)
+        brstmMng.update(track.musicFile)
         bmgMng.update(track.names)
         bmgMng.updateSingle(track.trackAuthor)
         bmgMng.updateSingle(track.musicAuthor)
         bmgMng.updateSingle(track.musicName)
-        if track.musicFileFast:
-            bmgMng.updateSingle(track.musicNameFast)
-            bmgMng.updateSingle(track.musicAuthorFast)
 
     # Add the random track metadata
     for randTrack in randTracks:

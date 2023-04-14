@@ -63,38 +63,22 @@ class TrackEditor(QtWidgets.QDialog):
         self.musicPickPath = QtWidgets.QLineEdit(track.musicFile, self)
         self.musicPickPath.setReadOnly(True)
         self.musicPickPath.setPlaceholderText('(none selected)')
-        self.musicPickPathFast = QtWidgets.QLineEdit(track.musicFileFast, self)
-        self.musicPickPathFast.setReadOnly(True)
-        self.musicPickPathFast.setPlaceholderText('(none selected)')
 
         self.musicPickButton = QtWidgets.QPushButton('...', self)
-        self.musicPickButton.clicked.connect(lambda: self.pickMusicFile(False))
-        self.musicPickButtonFast = QtWidgets.QPushButton('...', self)
-        self.musicPickButtonFast.clicked.connect(lambda: self.pickMusicFile(True))
+        self.musicPickButton.clicked.connect(self.pickMusicFile)
 
         musicPickFormLyt = QtWidgets.QHBoxLayout()
         musicPickFormLyt.addWidget(self.musicPickPath)
         musicPickFormLyt.addWidget(self.musicPickButton)
-        musicPickFormLytFast = QtWidgets.QHBoxLayout()
-        musicPickFormLytFast.addWidget(self.musicPickPathFast)
-        musicPickFormLytFast.addWidget(self.musicPickButtonFast)
 
         self.musicAuthorEdit = QtWidgets.QLineEdit(track.musicAuthor, self)
         self.musicAuthorEdit.editingFinished.connect(self.updateAuthors)
-        self.musicAuthorEditFast = QtWidgets.QLineEdit(track.musicAuthorFast, self)
-        self.musicAuthorEditFast.editingFinished.connect(self.updateAuthors)
         self.musicNameEdit = QtWidgets.QLineEdit(track.musicName, self)
         self.musicNameEdit.editingFinished.connect(self.updateAuthors)
-        self.musicNameEditFast = QtWidgets.QLineEdit(track.musicNameFast, self)
-        self.musicNameEditFast.editingFinished.connect(self.updateAuthors)
 
         lyt.addRow('Music File:', musicPickFormLyt)
         lyt.addRow('Music Name:', self.musicNameEdit)
         lyt.addRow('Music Author(s):', self.musicAuthorEdit)
-
-        lyt.addRow('Fast Music File (Optional):', musicPickFormLytFast)
-        lyt.addRow('Fast Music Name (Optional):', self.musicNameEditFast)
-        lyt.addRow('Fast Music Author(s) (Optional):', self.musicAuthorEditFast)
 
     def updateTrackSlot(self, index: int):
         self.data.specialSlot = Slot.fromIdx(index)
@@ -121,20 +105,10 @@ class TrackEditor(QtWidgets.QDialog):
         else:
             self.musicAuthorEdit.setText(self.data.musicAuthor)
 
-        if text := self.musicAuthorEditFast.text():
-            self.data.musicAuthorFast = text
-        else:
-            self.musicAuthorEditFast.setText(self.data.musicAuthorFast)
-
         if text := self.musicNameEdit.text():
             self.data.musicName = text
         else:
             self.musicNameEdit.setText(self.data.musicName)
-
-        if text := self.musicNameEditFast.text():
-            self.data.musicNameFast = text
-        else:
-            self.musicNameEditFast.setText(self.data.musicNameFast)
 
     def pickTrackFile(self):
         if file := QtWidgets.QFileDialog.getOpenFileName(self,
@@ -144,20 +118,15 @@ class TrackEditor(QtWidgets.QDialog):
             self.data.path = file
             self.trackPickPath.setText(file)
 
-    def pickMusicFile(self, isFast: bool):
+    def pickMusicFile(self):
         if file := QtWidgets.QFileDialog.getOpenFileName(self,
                                             'Choose a Music File',
                                             self.lastdir,
                                             'Binary Revolution STreaM (*.brstm)')[0]:
             self.lastdir = os.path.dirname(file)
-
-            if isFast:
-                self.data.musicFileFast = file
-                self.musicPickPathFast.setText(file)
-                self.musicNameEditFast.setText(os.path.basename(os.path.splitext(file)[0]))
-            else:
-                self.data.musicFile = file
-                self.musicPickPath.setText(file)
+            self.data.musicFile = file
+            self.musicPickPath.setText(file)
+            if not self.musicNameEdit.text():
                 self.musicNameEdit.setText(os.path.basename(os.path.splitext(file)[0]))
 
     def closeEvent(self, e: QtGui.QCloseEvent):
