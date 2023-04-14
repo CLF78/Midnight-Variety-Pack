@@ -191,9 +191,9 @@ class CupListHolder(QtWidgets.QWidget):
         self.label = QtWidgets.QLabel('Cup Layouts:', self)
         self.tabs = QtWidgets.QTabWidget(self)
 
-        for i in Tracklist.getAllPretty():
+        for i in Tracklist:
             tab = CupList(self.tabs, Tracklist.getTrackCount(i))
-            self.tabs.addTab(tab, i)
+            self.tabs.addTab(tab, i.value)
 
         lyt = QtWidgets.QVBoxLayout(self)
         lyt.addWidget(self.label)

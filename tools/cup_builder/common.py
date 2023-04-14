@@ -227,7 +227,7 @@ class Track:
         ret['music_file'] = savePath(self.musicFile, jsonPath)
         ret['music_hash'] = hashFile(self.musicFile)
         ret['music_name'] = self.musicName
-        ret['music_artist'] = self.musicAuthor
+        ret['music_author'] = self.musicAuthor
 
         # Only save the fast music path and author if they're not empty
         if fastPath := savePath(self.musicFileFast, jsonPath):

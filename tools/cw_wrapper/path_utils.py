@@ -10,7 +10,10 @@ import sys
 
 class PathConverter():
     def __init__(self, rootDir: str, isWinPath: bool):
-        if not isWinPath:
+        if sys.platform == 'win32':
+            self.linuxDir = self.windowsDir = rootDir
+
+        elif not isWinPath:
             self.linuxDir = rootDir
             self.windowsDir = subprocess.check_output(['winepath', '-w', rootDir],
                                                             encoding='utf-8',
@@ -26,11 +29,14 @@ class PathConverter():
             return path.replace('\\', '\\\\')
 
         relpath = posixpath.relpath(path, self.linuxDir)
-        return ntpath.join(self.windowsDir, relpath).replace('\\', '\\\\')
+        return ntpath.join(self.windowsDir, relpath).replace('/', '\\').replace('\\', '\\\\')
 
     def w2u(self, path: str):
+        if sys.platform == 'win32':
+            return path.replace('\\\\', '\\')
+
         relpath = ntpath.relpath(path, self.windowsDir)
-        return posixpath.join(self.linuxDir, relpath).replace('\\', '/')
+        return posixpath.join(self.linuxDir, relpath).replace('\\\\', '\\').replace('\\', '/')
 
 
 def changePathRoot(file: str, oldRoot: str, newRoot: str) -> str:

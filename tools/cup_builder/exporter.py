@@ -42,7 +42,7 @@ class BMGManager():
 
         # Add the text to the files
         for text, file in zip(texts, self.textFiles):
-            file[id] = {'font': 'regular', 'string': text}
+            file[id] = {'string': text}
 
 
     def updateSingle(self, text: str):
@@ -114,6 +114,7 @@ class IconManager():
             subprocess.Popen(['wimgt', 'encode', iconPath, '-D', destPath, '-o', '--n-mm=OFF', '-x', 'TPL.R3'], stdout=subprocess.PIPE)
             self.savedIcons[iconPath] = destPath
         else:
+            os.makedirs(os.path.dirname(destPath), exist_ok=True)
             linkPath(self.savedIcons[iconPath], destPath)
 
 
