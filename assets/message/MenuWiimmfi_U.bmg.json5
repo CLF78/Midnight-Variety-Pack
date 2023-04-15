@@ -1,0 +1,107 @@
+{
+    "2013": {
+        string: "Wiimmfi",
+    },
+    "2018": {
+        string: "Main Menu ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "2024": {
+        string: "Play via Wiimmfi!",
+    },
+    "2025": {
+        string: "Play with a friend via Wiimmfi!",
+    },
+    "2033": {
+        string: "Wiimmfi (1P)",
+    },
+    "2034": {
+        string: "Wiimmfi (2P)",
+    },
+    "2072": {
+        string: "You've been disconnected\nfrom Wiimmfi. You will\nreturn to the Main Menu.",
+    },
+    "2104": {
+        string: "Select License ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "2113": {
+        string: "{current player|} and\n{arg player|0} will\nboth connect to Wiimmfi.",
+    },
+    "4010": {
+        string: "Connecting to Wiimmfi...",
+    },
+    "4011": {
+        string: "Disconnect from Wiimmfi?",
+    },
+    "4016": {
+        string: "You cannot use this Mii name\non Wiimmfi. \n\nPlease reconnect after\nchanging the Mii name.",
+    },
+    "4100": {
+        string: "Room ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "4602": {
+        string: "There was an error during login.\nFor help, visit http://wiimmfi.de/error\n\nError Code: {arg integer|0 5}",
+    },
+    "4603": {
+        string: "There was an error during login.\nFor help, visit http://wiimmfi.de/error\n\nError Code: {arg integer|0 5}",
+    },
+    "4605": {
+        string: "There was an error during login.\nFor help, visit http://wiimmfi.de/error\n\nError Code: {arg integer|0 5}",
+    },
+    "4606": {
+        string: "There was an error during login.\n For help, visit http://wiimmfi.de/error\n\nError Code: {arg integer|0 5}",
+    },
+    "5300": {
+        string: "Connecting to Wiimmfi...",
+    },
+    "5301": {
+        string: "I'm not on Wiimmfi now!",
+    },
+    "6120": {
+        string: "You will be connected to\nWiimmfi. Is that OK?",
+    },
+    "6122": {
+        string: "You will be connected to\nWiimmfi. Is that OK?",
+    },
+    "6716": {
+        string: "You don't have a friend code,\n{current player|}.\n\nYour friend code is a 12-digit\nnumber that lets you connect\nto Wiimmfi.\n\nPlease see the Mario Kart Wii\nInstruction Booklet for more information.",
+    },
+    "7001": {
+        string: "Wiimmfi",
+    },
+    "7251": {
+        string: "In Mario Kart Wii, you can\ndisplay your region information\nand national flag on:\n・The Wiimmfi globe.\n・Your Time Trial ghost.\n\nThis data will be sent to your\nWiimmfi opponents.",
+    },
+    "7401": {
+        string: "When you play Mario Kart Wii via\nWiimmfi server, the following data will\nautomatically be sent to the Wiimmfi server:\n\n・your Mii and nickname\n・your records and ghost data\nThis information could also be\nviewable to other Mario Kart Wii\nplayers.",
+    },
+    "7402": {
+        string: "Will you allow game data\nto be sent to the Wiimmfi server?",
+    },
+    "7405": {
+        string: "You have chosen to allow\nsending of game data to the Wiimmfi server.",
+    },
+    "7406": {
+        string: "You will not be able to play\nMario Kart Wii over Wiimmfi.\nIs this OK?",
+    },
+    "7407": {
+        string: "You have chosen not to allow\nsending of game data to the Wiimmfi server.",
+    },
+    "7501": {
+        string: "Other people's Miis will\nappear in Wiimmfi\nmatches, rankings, and other\nplaces in Mario Kart Wii.\n\nChoose whether or not to\ndisplay other people's Miis\nas they are.",
+    },
+    "8112": {
+        string: "You won 1,000 Wiimmfi races!",
+    },
+    "8127": {
+        string: "You won 5,000 Wiimmfi races!",
+    },
+    "8129": {
+        string: "You won 250 Wiimmfi races!",
+    },
+    "8142": {
+        string: "You won 50 Wiimmfi races!",
+    },
+    "8163": {
+        string: "You won 3,000 Wiimmfi races!",
+    },
+}

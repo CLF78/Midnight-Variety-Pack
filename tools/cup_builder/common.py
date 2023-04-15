@@ -3,6 +3,7 @@
 # common.py
 # Common structures and program logic.
 
+import hashlib
 import os.path
 from enum import Enum
 
@@ -15,6 +16,13 @@ def openPath(filePath: str, jsonPath: str) -> str:
     if not filePath:
         return filePath
     return os.path.normpath(os.path.join(jsonPath, filePath))
+
+def hashFile(filePath: str) -> str:
+    if os.path.isfile(filePath):
+        with open(filePath, 'rb') as f:
+            return hashlib.sha1(f.read()).hexdigest()
+    return ''
+
 
 class Slot(Enum):
     def __str__(self) -> str:
@@ -131,6 +139,9 @@ class Track:
     def __init__(self, path: str):
         self.path = path
 
+        self.trackHash = ''
+        self.musicHash = ''
+
         self.specialSlot = Slot.LUIGI_CIRCUIT
         self.musicSlot = Slot.LUIGI_CIRCUIT
 
@@ -157,6 +168,12 @@ class Track:
 
         if not os.path.isfile(self.musicFile):
             errors.add(f'Music file for {trackName} not found!')
+
+        if hashFile(self.path) != self.trackHash:
+            errors.add(f'Incorrect track hash for {trackName}!')
+
+        if hashFile(self.musicFile) != self.musicHash:
+            errors.add(f'Incorrect music hash for {trackName}!')
 
         if self.specialSlot not in Slot:
             errors.add(f'Invalid track slot for {trackName}!')
@@ -185,10 +202,12 @@ class Track:
 
         # Save all the other parameters
         ret['track_file'] = savePath(self.path, jsonPath)
+        ret['track_hash'] = self.trackHash
         ret['track_author'] = self.trackAuthor
         ret['track_slot'] = self.specialSlot.value
         ret['music_slot'] = self.musicSlot.value
         ret['music_file'] = savePath(self.musicFile, jsonPath)
+        ret['music_hash'] = self.musicHash
         ret['music_name'] = self.musicName
         ret['music_author'] = self.musicAuthor
         return ret
@@ -201,9 +220,11 @@ class Track:
 
         # Load all the data with failsaves
         ret.trackAuthor = input.get('track_author', ret.trackAuthor)
+        ret.trackHash = input.get('track_hash', '')
         ret.specialSlot = Slot(input.get('track_slot', Slot.LUIGI_CIRCUIT.value))
         ret.musicSlot = Slot(input.get('music_slot', Slot.LUIGI_CIRCUIT.value))
         ret.musicFile = openPath(input.get('music_file', ''), jsonPath)
+        ret.musicHash = input.get('music_hash', '')
         ret.musicName = input.get('music_name', '')
         ret.musicAuthor = input.get('music_author', '')
 
@@ -278,6 +299,7 @@ class Cup:
     def __init__(self):
         self.names = ['New Cup' for _ in Language]
         self.iconFile = ''
+        self.iconHash = ''
         self.tracks = []
 
     def check(self, trlist: Tracklist) -> set[str]:
@@ -290,6 +312,9 @@ class Cup:
 
         if not os.path.isfile(self.iconFile):
             errors.add(f'Cup icon file for {cupName} not found!')
+
+        if hashFile(self.iconFile) != self.iconHash:
+            errors.add(f'Incorrect cup icon hash for {cupName}!')
 
         if len(self.tracks) != trlist.getTrackCount():
             errors.add(f'Invalid track count for {cupName}!')
@@ -312,6 +337,7 @@ class Cup:
 
         # Save the icon file path
         ret['icon_file'] = savePath(self.iconFile, jsonPath)
+        ret['icon_hash'] = self.iconHash
 
         # Save each contained track
         ret['tracks'] = [track.asDict(jsonPath) for track in self.tracks]
@@ -328,6 +354,7 @@ class Cup:
 
         # Get icon file path, with failsafe
         ret.iconFile = openPath(input.get('icon_file', ''), jsonPath)
+        ret.iconHash = input.get('icon_hash', '')
 
         # Get all tracks inside the cup, with failsafe
         for track in input.get('tracks', []):

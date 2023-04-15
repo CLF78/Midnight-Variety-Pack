@@ -1,0 +1,155 @@
+{
+    "2013": {
+        string: "Wiimmfi",
+    },
+    "2018": {
+        string: "Main Menu ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "2024": {
+        string: "Play via Wiimmfi!",
+    },
+    "2025": {
+        string: "Play with a friend via Wiimmfi!",
+    },
+    "2033": {
+        string: "Wiimmfi (1P)",
+    },
+    "2034": {
+        string: "Wiimmfi (2P)",
+    },
+    "2070": {
+        string: "Unable to connect to Wiimmfi.\nThere is no save data.\n\nYou can manage the Wii System Memory\non the Data Management Screen\nof the Wii Options.",
+    },
+    "2072": {
+        string: "You will now disconnect\nfrom Wiimmfi and\nreturn to the main menu.",
+    },
+    "2104": {
+        string: "Select Licence ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "2113": {
+        string: "{current player|} and {arg player|0}\nwill connect to Wiimmfi\ntogether. Is this OK?",
+    },
+    "4008": {
+        string: "There are no Friends registered\nin your Friend Roster.\n\nRegister Friends to play\ntogether on Wiimmfi.",
+    },
+    "4010": {
+        string: "Connecting to Wiimmfi...",
+    },
+    "4011": {
+        string: "Disconnect from Wiimmfi?",
+    },
+    "4016": {
+        string: "You cannot access Wiimmfi\nusing this Mii name. \nPlease change your\nMii name and try again.",
+    },
+    "4100": {
+        string: "Room ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "4602": {
+        string: "There was an error during login.\nFor help, visit http://wiimmfi.de/error\n\nError Code: {arg integer|0 5}",
+    },
+    "4603": {
+        string: "There was an error during login.\nFor help, visit http://wiimmfi.de/error\n\nError Code: {arg integer|0 5}",
+    },
+    "4605": {
+        string: "There was an error during login.\nFor help, visit http://wiimmfi.de/error\n\nError Code: {arg integer|0 5}",
+    },
+    "4606": {
+        string: "There was an error during login.\n For help, visit http://wiimmfi.de/error\n\nError Code: {arg integer|0 5}",
+    },
+    "5015": {
+        string: "Hone your Time Trial technique\nby challenging ghost data from\nplayers around the world in a\nseries of races via Wiimmfi!",
+    },
+    "5017": {
+        string: "Hone your Time Trial technique\nby challenging ghost data from\nplayers around the world in a\nseries of races via Wiimmfi!\n\nYour current record:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5018": {
+        string: "Hone your Time Trial technique\nby challenging ghost data from\nplayers around the world in a\nseries of races via Wiimmfi!\n\nYour current record:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5019": {
+        string: "Hone your Time Trial technique\nby challenging ghost data from\nplayers around the world in a\nseries of races via Wiimmfi!\n\nYour current record:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5020": {
+        string: "Hone your Time Trial technique\nby challenging ghost data from\nplayers around the world in a\nseries of races via Wiimmfi!\n\nYour current record:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5021": {
+        string: "Hone your Time Trial technique\nby challenging ghost data from\nplayers around the world in a\nseries of races via Wiimmfi!\n\nYour current record:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5022": {
+        string: "Hone your Time Trial technique\nby challenging ghost data from\nplayers around the world in a\nseries of races via Wiimmfi!\n\nYour current record:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5023": {
+        string: "Hone your Time Trial technique\nby challenging ghost data from\nplayers around the world in a\nseries of races via Wiimmfi!\n\nYour current record:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5024": {
+        string: "Hone your Time Trial technique\nby challenging ghost data from\nplayers around the world in a\nseries of races via Wiimmfi!\n\nYour current record:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5300": {
+        string: "I'm on Wiimmfi!",
+    },
+    "5301": {
+        string: "I'm not on Wiimmfi!",
+    },
+    "6120": {
+        string: "Connect to Wiimmfi?",
+    },
+    "6122": {
+        string: "Connect to Wiimmfi?",
+    },
+    "6716": {
+        string: "You do not have a Friend Code.\n\nA Friend Code is a 12-digit number that\nis automatically assigned to you the\nfirst time you connect to Wiimmfi.\n\nFor more information, please refer to\nthe Mario Kart Wii Instruction Booklet.",
+    },
+    "7001": {
+        string: "Wiimmfi",
+    },
+    "7251": {
+        string: "Mario Kart Wii can show your country flag\nand region in the following places:\n\n・as a globe position on Wiimmfi\n・in your ghost data\n\nIf you choose to make this information\navailable, it will be sent to other\nplayers when playing via Wiimmfi.",
+    },
+    "7252": {
+        string: "Do you want to display your country\nflag and region on Wiimmfi?\n",
+    },
+    "7255": {
+        string: "You have chosen to display your\ncountry flag and region on Wiimmfi.",
+    },
+    "7256": {
+        string: "You have chosen not to display your\ncountry flag and region on Wiimmfi.",
+    },
+    "7401": {
+        string: "When you play Mario Kart Wii via\nWiimmfi server, the following data will\nautomatically be sent to the Wiimmfi server:\n\n・your Mii and nickname\n・your records and ghost data\n\nThis data may also be shared with\nother players on Wiimmfi.",
+    },
+    "7402": {
+        string: "Will you allow game data\nto be sent to the Wiimmfi server?",
+    },
+    "7405": {
+        string: "You have chosen to allow\nsending of game data to the Wiimmfi server.",
+    },
+    "7406": {
+        string: "Are you sure this is OK? You will be\nunable to play Mario Kart Wii via\nWiimmfi server with this setting.",
+    },
+    "7407": {
+        string: "You have chosen not to allow\nsending of game data to the Wiimmfi server.",
+    },
+    "7501": {
+        string: "Miis created by other players\nmay be displayed during races\nand battles, in ranking data\nand other places on Wiimmfi.\n\nYou can choose to allow these Miis to\nbe displayed as they are, or to replace\nthem with Miis created by Nintendo.",
+    },
+    "8112": {
+        string: "You've won 1000 times on Wiimmfi!",
+    },
+    "8127": {
+        string: "You've won 5000 times on Wiimmfi!",
+    },
+    "8129": {
+        string: "You've won 250 times on Wiimmfi!",
+    },
+    "8142": {
+        string: "You've won 50 times on Wiimmfi!",
+    },
+    "8163": {
+        string: "You've won 3000 times on Wiimmfi!",
+    },
+    "8203": {
+        string: "Wiimmfi Records",
+    },
+    "8220": {
+        string: "Wiimmfi Friends Record",
+    },
+}

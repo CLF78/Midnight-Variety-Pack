@@ -1,0 +1,98 @@
+{
+    "2013": {
+        string: "Wiimmfi",
+    },
+    "2018": {
+        string: "Menú principal ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "2024": {
+        string: "¡Juega en la Wiimmfi!",
+    },
+    "2025": {
+        string: "¡Juega con un amigo en la Wiimmfi!",
+    },
+    "2033": {
+        string: "Wiimmfi (1J)",
+    },
+    "2034": {
+        string: "Wiimmfi (2J)",
+    },
+    "2072": {
+        string: "Te has desconectado de\nWiimmfi. Vas a volver\nal menú principal.",
+    },
+    "2104": {
+        string: "Seleccionar licencia ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "2113": {
+        string: "{current player|} y {arg player|0}\nse conectarán juntos\na Wiimmfi.",
+    },
+    "4008": {
+        string: "Tu lista de amigos está vacía.\nAñade a tus amigos para poder\njugar juntos en Wiimmfi.",
+    },
+    "4010": {
+        string: "Accediendo a Wiimmfi...",
+    },
+    "4011": {
+        string: "¿Quieres desconectarte\nde la Wiimmfi?",
+    },
+    "4100": {
+        string: "Sala ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "4602": {
+        string: "Hubo un error durante el inicio de sesión.\nPara más información, visita http://wiimmfi.de/error\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4603": {
+        string: "Hubo un error durante el inicio de sesión.\nPara más información, visita http://wiimmfi.de/error\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4605": {
+        string: "Hubo un error durante el inicio de sesión.\nPara más información, visita http://wiimmfi.de/error\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4606": {
+        string: "Hubo un error durante el inicio de sesión.\nPara más información, visita http://wiimmfi.de/error\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "5300": {
+        string: "¡Estoy en Wiimmfi!",
+    },
+    "5301": {
+        string: "No estoy en Wiimmfi.",
+    },
+    "6120": {
+        string: "Vas a conectarte a Wiimmfi.\n¿Estás de acuerdo?",
+    },
+    "6122": {
+        string: "Vas a conectarte a Wiimmfi.\n¿Estás de acuerdo?",
+    },
+    "7001": {
+        string: "Wiimmfi",
+    },
+    "7401": {
+        string: "Cuando juegas a Mario Kart Wii a través de Wiimmfi, \nla siguiente información se envía automáticamente a Wiimmfi:\n・Tu Mii y tu apodo.\n・Tus resultados y tus fantasmas.\nEstos datos se podrán compartir\ncon otros jugadores de Mario Kart Wii.",
+    },
+    "7402": {
+        string: "¿Permite que se envíen datos a Wiimmfi?",
+    },
+    "7405": {
+        string: "Has establecido que se permita el intercambio \nde datos de Mario Kart Wii.",
+    },
+    "7406": {
+        string: "No podrás jugar a Mario Kart Wii a través de Wiimmfi,\n¿es eso correcto?",
+    },
+    "7407": {
+        string: "Has establecido que no se permita el intercambio \nde datos de Mario Kart Wii.",
+    },
+    "8112": {
+        string: "¡Has ganado 1,000 veces en línea!",
+    },
+    "8127": {
+        string: "¡Has ganado 5,000 veces en línea!",
+    },
+    "8129": {
+        string: "¡Has ganado 250 veces en línea!",
+    },
+    "8142": {
+        string: "¡Has ganado 50 veces en línea!",
+    },
+    "8163": {
+        string: "¡Has ganado 3,000 veces en línea!",
+    },
+}

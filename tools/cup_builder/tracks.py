@@ -8,7 +8,7 @@ import os
 from qtpy import QtWidgets, QtGui
 from qtpy.QtCore import Qt
 
-from common import Track, Slot, Language
+from common import Track, Slot, Language, hashFile
 from widgets import getMainWindow
 
 class TrackEditor(QtWidgets.QDialog):
@@ -116,6 +116,7 @@ class TrackEditor(QtWidgets.QDialog):
                                             os.path.dirname(self.data.path),
                                             'YAZ0 Compressed File (*.szs)')[0]:
             self.data.path = file
+            self.data.trackHash = hashFile(file)
             self.trackPickPath.setText(file)
 
     def pickMusicFile(self):
@@ -125,6 +126,7 @@ class TrackEditor(QtWidgets.QDialog):
                                             'Binary Revolution STreaM (*.brstm)')[0]:
             self.lastdir = os.path.dirname(file)
             self.data.musicFile = file
+            self.data.musicHash = hashFile(file)
             self.musicPickPath.setText(file)
             if not self.musicNameEdit.text():
                 self.musicNameEdit.setText(os.path.basename(os.path.splitext(file)[0]))
@@ -223,7 +225,9 @@ class TrackList(QtWidgets.QWidget):
 
                 # If so, add it
                 if not found:
-                    self.addTrack(Track(file))
+                    data = Track(file)
+                    data.trackHash = hashFile(file)
+                    self.addTrack(data)
 
     def updateButtons(self):
 

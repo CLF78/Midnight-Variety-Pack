@@ -1,0 +1,161 @@
+{
+    "2011": {
+        string: "Einzelspieler",
+    },
+    "2013": {
+        string: "Wiimmfi",
+    },
+    "2018": {
+        string: "Hauptmenü ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "2024": {
+        string: "Spiele via Wiimmfi!",
+    },
+    "2025": {
+        string: "Spielt zu zweit mit anderen via Wiimmfi!",
+    },
+    "2033": {
+        string: "Wiimmfi (1S)",
+    },
+    "2034": {
+        string: "Wiimmfi (2S)",
+    },
+    "2070": {
+        string: "Keine Verbindung zu Wiimmfi\nmöglich. Es existiert\nkeine Speicherdatei.\nIm Datenverwaltungsbildschirm\ndes Speichers der Wii-Konsole\nkannst du den Inhalt des\nSpeichers der Wii-Konsole verwalten.",
+    },
+    "2072": {
+        string: "Die Verbindung zu Wiimmfi wurde\nunterbrochen. Du kehrst nun\nzurück zum Hauptmenü.",
+    },
+    "2104": {
+        string: "Profil auswählen ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "2113": {
+        string: "{current player|} und {arg player|0}\nwerden gemeinsam mit\nWiimmfi verbunden.",
+    },
+    "4008": {
+        string: "Es sind keine Freunde in deiner\nFreundesliste registriert.\n\nRegistriere Freunde, um mit ihnen\nzusammen via Wiimmfi zu spielen.",
+    },
+    "4010": {
+        string: "Verbinde mit Wiimmfi...",
+    },
+    "4011": {
+        string: "Soll die Verbindung\nzu Wiimmfi\nwirklich beendet werden?",
+    },
+    "4016": {
+        string: "Du kannst keine Verbindung zu\nWiimmfi herstellen, wenn du\ndiesen Mii-Namen verwendest.\nBitte ändere deinen Mii-Namen\nund versuche es noch einmal.",
+    },
+    "4100": {
+        string: "Raum ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "4327": {
+        string: "Nächstes Rennen: Spiegel!",
+    },
+    "4602": {
+        string: "Während der Anmeldung ist ein\nFehler aufgetreten. Details über\ndiesen Fehler findest du unter\nhttp://wiimmfi.de/error\n\nFehlercode: {arg integer|0 5}",
+    },
+    "4603": {
+        string: "Während der Anmeldung ist ein\nFehler aufgetreten. Details über\ndiesen Fehler findest du unter\nhttp://wiimmfi.de/error\n\nFehlercode: {arg integer|0 5}",
+    },
+    "4605": {
+        string: "Während der Anmeldung ist ein\nFehler aufgetreten. Details über\ndiesen Fehler findest du unter\nhttp://wiimmfi.de/error\n\nFehlercode: {arg integer|0 5}",
+    },
+    "4606": {
+        string: "Während der Anmeldung ist ein\nFehler aufgetreten. Details über\ndiesen Fehler findest du unter\nhttp://wiimmfi.de/error\n\nFehlercode: {arg integer|0 5}",
+    },
+    "5015": {
+        string: "Verfeinere deine Technik und tritt\nvia Wiimmfi in einer Reihe von\nGeistrennen gegen Spieler aus\nder ganzen Welt an!\nGewinne so viele Rennen wie möglich!",
+    },
+    "5017": {
+        string: "Verfeinere deine Technik und tritt\nvia Wiimmfi in einer Reihe von\nGeistrennen gegen Spieler aus\nder ganzen Welt an!\nGewinne so viele Rennen wie möglich!\n{arg cond messages|0 5026 5027}: {arg integer|0 0}\n{arg cond messages|1 5028 5029}: {arg integer|1 0}",
+    },
+    "5018": {
+        string: "Verfeinere deine Technik und tritt\nvia Wiimmfi in einer Reihe von\nGeistrennen gegen Spieler aus\nder ganzen Welt an!\nGewinne so viele Rennen wie möglich!\n{arg cond messages|0 5026 5027}: {arg integer|0 0}\n{arg cond messages|1 5028 5029}: {arg integer|1 0}",
+    },
+    "5019": {
+        string: "Verfeinere deine Technik und tritt\nvia Wiimmfi in einer Reihe von\nGeistrennen gegen Spieler aus\nder ganzen Welt an!\nGewinne so viele Rennen wie möglich!\n{arg cond messages|0 5026 5027}: {arg integer|0 0}\n{arg cond messages|1 5028 5029}: {arg integer|1 0}",
+    },
+    "5020": {
+        string: "Verfeinere deine Technik und tritt\nvia Wiimmfi in einer Reihe von\nGeistrennen gegen Spieler aus\nder ganzen Welt an!\nGewinne so viele Rennen wie möglich!\n{arg cond messages|0 5026 5027}: {arg integer|0 0}\n{arg cond messages|1 5028 5029}: {arg integer|1 0}",
+    },
+    "5021": {
+        string: "Verfeinere deine Technik und tritt\nvia Wiimmfi in einer Reihe von\nGeistrennen gegen Spieler aus\nder ganzen Welt an!\nGewinne so viele Rennen wie möglich!\n{arg cond messages|0 5026 5027}: {arg integer|0 0}\n{arg cond messages|1 5028 5029}: {arg integer|1 0}",
+    },
+    "5022": {
+        string: "Verfeinere deine Technik und tritt\nvia Wiimmfi in einer Reihe von\nGeistrennen gegen Spieler aus\nder ganzen Welt an!\nGewinne so viele Rennen wie möglich!\n{arg cond messages|0 5026 5027}: {arg integer|0 0}\n{arg cond messages|1 5028 5029}: {arg integer|1 0}",
+    },
+    "5023": {
+        string: "Verfeinere deine Technik und tritt\nvia Wiimmfi in einer Reihe von\nGeistrennen gegen Spieler aus\nder ganzen Welt an!\nGewinne so viele Rennen wie möglich!\n{arg cond messages|0 5026 5027}: {arg integer|0 0}\n{arg cond messages|1 5028 5029}: {arg integer|1 0}",
+    },
+    "5024": {
+        string: "Verfeinere deine Technik und tritt\nvia Wiimmfi in einer Reihe von\nGeistrennen gegen Spieler aus\nder ganzen Welt an!\nGewinne so viele Rennen wie möglich!\n{arg cond messages|0 5026 5027}: {arg integer|0 0}\n{arg cond messages|1 5028 5029}: {arg integer|1 0}",
+    },
+    "5300": {
+        string: "Verbunden mit Wiimmfi!",
+    },
+    "5301": {
+        string: "Nicht mit Wiimmfi verbunden!",
+    },
+    "6120": {
+        string: "Mit Wiimmfi verbinden?",
+    },
+    "6122": {
+        string: "Mit Wiimmfi verbinden?",
+    },
+    "6716": {
+        string: "Du hast keinen Freundescode.\nDer Freundescode besteht aus\n12 Ziffern und wird dir automatisch\nzugeteilt, wenn du zum ersten Mal eine\nVerbindung zu Wiimmfi herstellst.\nLies bitte die Wii-Bedienungsanleitung,\num weitere Informationen zu erhalten.\n",
+    },
+    "7001": {
+        string: "Wiimmfi",
+    },
+    "7251": {
+        string: "Mario Kart Wii kann deine Landes-\nflagge und Region an folgenden\nStellen anzeigen:\n- Globus-Position (Wiimmfi)\n- Geistdaten\nDu kannst entscheiden, ob diese\nInformationen für andere Spieler,\ndie via Wiimmfi verbunden sind,\neinsehbar sind.",
+    },
+    "7252": {
+        string: "Möchtest du, dass deine Landes-\nflagge und deine Region erkennbar\nsind, wenn du mit Wiimmfi\nverbunden bist?",
+    },
+    "7255": {
+        string: "Deine Landesflagge und Regions-\neinstellung sind für andere\neinsehbar, während du mit Wiimmfi\nverbunden bist.",
+    },
+    "7256": {
+        string: "Deine Landesflagge und Regions-\neinstellung sind für andere\nnicht einsehbar, während du mit\nWiimmfi verbunden bist.",
+    },
+    "7401": {
+        string: "Spielst du Mario Kart Wii online,\ndann werden automatisch\ndie folgenden Daten an\nWiimmfi gesendet:\n- dein Mii und Spitzname\n- deine Rekorde und Geistdaten\n\nDiese Daten können andere\nSpieler via Wiimmfi einsehen.",
+    },
+    "7402": {
+        string: "Dürfen Daten an\nWiimmfi gesendet werden?",
+    },
+    "7405": {
+        string: "Du hast die Erlaubnis erteilt, dass\nDaten an Wiimmfi gesendet werden.",
+    },
+    "7406": {
+        string: "Du möchtest es nicht erlauben?\nIn diesem Fall kannst du\nMario Kart Wii nicht via\nWiimmfi spielen.",
+    },
+    "7407": {
+        string: "Du hast nicht erlaubt, dass\nDaten an Wiimmfi gesendet werden.",
+    },
+    "7501": {
+        string: "Miis von Spielern aus der ganzen\nWelt werden unter anderem bei Rennen,\nWettkämpfen, in Ranglistendaten\nwährend der Verbindung via\nWiimmfi dargestellt.\nDu kannst entscheiden, ob diese\nMiis in Mario Kart Wii dargestellt\nwerden oder ob sie von Nintendo-\nMiis ersetzt werden sollen.",
+    },
+    "8112": {
+        string: "1.000 Siege in Wiimmfi-Rennen!",
+    },
+    "8127": {
+        string: "5.000 Siege in Wiimmfi-Rennen!",
+    },
+    "8129": {
+        string: "250 Siege in Wiimmfi-Rennen!",
+    },
+    "8142": {
+        string: "50 Siege in Wiimmfi-Rennen!",
+    },
+    "8163": {
+        string: "3.000 Siege in Wiimmfi-Rennen!",
+    },
+    "8203": {
+        string: "Wiimmfi-Rekorde",
+    },
+    "8220": {
+        string: "Wiimmfi-Freundes-Rekord",
+    },
+}

@@ -1,0 +1,68 @@
+{
+    "2013": {
+        string: "Wiimmfi",
+    },
+    "2018": {
+        string: "Menu principale ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "2024": {
+        string: "Gioca nella Wiimmfi!",
+    },
+    "2025": {
+        string: "Gioca con un amico nella Wiimmfi!",
+    },
+    "2033": {
+        string: "Wiimmfi (1G)",
+    },
+    "2034": {
+        string: "Wiimmfi (2G)",
+    },
+    "2104": {
+        string: "Seleziona patente ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "4010": {
+        string: "Collegamento alla Wiimmfi in corso...",
+    },
+    "4011": {
+        string: "Vuoi interrompere il collegamento\nalla Wiimmfi?",
+    },
+    "4100": {
+        string: "Stanza ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "4602": {
+        string: "Si è verificato un errore durante il login.\nPer maggiori informazioni, visita \nil link http://wimmfi.de/error\n\nCodice errore: {arg integer|0 5}",
+    },
+    "4603": {
+        string: "Si è verificato un errore durante il login.\nPer maggiori informazioni, visita \nil link http://wimmfi.de/error\n\nCodice errore: {arg integer|0 5}",
+    },
+    "4605": {
+        string: "Si è verificato un errore durante il login.\nPer maggiori informazioni, visita \nil link http://wimmfi.de/error\n\nCodice errore: {arg integer|0 5}",
+    },
+    "4606": {
+        string: "Si è verificato un errore durante il login.\nPer maggiori informazioni, visita \nil link http://wimmfi.de/error\n\nCodice errore: {arg integer|0 5}",
+    },
+    "5300": {
+        string: "Sono nella Wiimmfi!",
+    },
+    "5301": {
+        string: "Non sono nella Wiimmfi!",
+    },
+    "7001": {
+        string: "Wiimmfi",
+    },
+    "7401": {
+        string: "Quando si giocha a Mario Kart Wii via Wiimmfi, \ni seguenti dati saranno automaticamente inviati a Wiimmfi: \n\n・ il tuo Mii e il tuo nickname\n・ i tuoi risultati e i tuoi dati fantasma.\n\nQueste informazioni saranno visibili\nad altri giocatori su Wiimmfi.",
+    },
+    "7402": {
+        string: "Vuoi permettere l'invio di\nquesti dati a Wiimmfi?",
+    },
+    "7405": {
+        string: "Hai acconsentito a inviare\ni tuoi dati di Mario Kart Wii\na Wiimmfi.",
+    },
+    "7406": {
+        string: "Sei sicuro? Non sarà possibile giocare a Mario Kart Wii \nsu Wiimmfi con questa opzione attivata.",
+    },
+    "7407": {
+        string: "Hai scelto di non inviare i tuoi dati di \nMario Kart Wii a Wiimmfi.",
+    },
+}

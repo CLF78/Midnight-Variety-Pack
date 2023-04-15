@@ -1,0 +1,146 @@
+{
+    "2013": {
+        string: "Wiimmfi",
+    },
+    "2018": {
+        string: "Menu principal ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "2024": {
+        string: "Jouez via la Wiimmfi!",
+    },
+    "2025": {
+        string: "Jouez avec un ami via la Wiimmfi!",
+    },
+    "2033": {
+        string: "Wiimmfi (1J)",
+    },
+    "2034": {
+        string: "Wiimmfi (2J)",
+    },
+    "2070": {
+        string: "Impossible de se connecter à Wiimmfi\nIl n'y a pas de donnée de sauvegarde.\n\nVous pouvez gérer la mémoire du système Wii\nsur l'écran de gestion des données\ndes options Wii.",
+    },
+    "2072": {
+        string: "Vous allez maintenant vous\ndéconnectez de Wiimmfi et\nrevenir au menu principal.",
+    },
+    "2104": {
+        string: "Choix du permis ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "2113": {
+        string: "{current player|} et {arg player|0}\nvont se connecter à Wiimmfi\nensemble. Est-ce correct ?",
+    },
+    "4008": {
+        string: "Il n'y a pas d'amis enregistrés\ndans votre liste d'amis.\n\nEnregistrez des amis pour jouer\nensemble en ligne.",
+    },
+    "4010": {
+        string: "Accès à la connexion Wi-Fi Wiimmfi...",
+    },
+    "4011": {
+        string: "Voulez-vous interrompre la\nconnexion Wi-Fi Wiimmfi?",
+    },
+    "4100": {
+        string: "Salle ({color|yor 5}Wiimmfi{color|unspecified})",
+    },
+    "4602": {
+        string: "Une erreur est survenue durant le login.\nhttp://wiimmfi.de/error pour \nde plus amples informations.\n\nCode d'erreur: {arg integer|0 5}",
+    },
+    "4603": {
+        string: "Une erreur est survenue durant le login.\nhttp://wiimmfi.de/error pour \nde plus amples informations.\n\nCode d'erreur: {arg integer|0 5}",
+    },
+    "4605": {
+        string: "Une erreur est survenue durant le login.\nhttp://wiimmfi.de/error pour \nde plus amples informations.\n\nCode d'erreur: {arg integer|0 5}",
+    },
+    "4606": {
+        string: "Une erreur est survenue durant le login.\nhttp://wiimmfi.de/error pour \nde plus amples informations.\n\nCode d'erreur: {arg integer|0 5}",
+    },
+    "5015": {
+        string: "Affûtez votre technique de contre la montre\nen défiant les données fantômes de\nles joueurs du monde entier dans une\nsérie de courses via Wiimmfi !",
+    },
+    "5017": {
+        string: "Affûtez votre technique de contre la montre\nen défiant les données fantômes de\nles joueurs du monde entier dans une\nsérie de courses via Wiimmfi !\n\nVotre record actuelle:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5018": {
+        string: "Affûtez votre technique de contre la montre\nen défiant les données fantômes de\nles joueurs du monde entier dans une\nsérie de courses via Wiimmfi !\n\nVotre record actuelle:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5019": {
+        string: "Affûtez votre technique de contre la montre\nen défiant les données fantômes de\nles joueurs du monde entier dans une\nsérie de courses via Wiimmfi !\n\nVotre record actuelle:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5020": {
+        string: "Affûtez votre technique de contre la montre\nen défiant les données fantômes de\nles joueurs du monde entier dans une\nsérie de courses via Wiimmfi !\n\nVotre record actuelle:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5021": {
+        string: "Affûtez votre technique de contre la montre\nen défiant les données fantômes de\nles joueurs du monde entier dans une\nsérie de courses via Wiimmfi !\n\nVotre record actuelle:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5022": {
+        string: "Affûtez votre technique de contre la montre\nen défiant les données fantômes de\nles joueurs du monde entier dans une\nsérie de courses via Wiimmfi !\n\nVotre record actuelle:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5023": {
+        string: "Affûtez votre technique de contre la montre\nen défiant les données fantômes de\nles joueurs du monde entier dans une\nsérie de courses via Wiimmfi !\n\nVotre record actuelle:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5024": {
+        string: "Affûtez votre technique de contre la montre\nen défiant les données fantômes de\nles joueurs du monde entier dans une\nsérie de courses via Wiimmfi !\n\nVotre record actuelle:\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "6120": {
+        string: "Se connecter à Wiimmfi ?",
+    },
+    "6122": {
+        string: "Se connecter à Wiimmfi ?",
+    },
+    "6716": {
+        string: "Vous n'avez pas de code d'ami.\n\nUn code d'ami est un numéro à 12 chiffres qui\nvous est automatiquement attribué la\npremière fois que vous vous connectez à Wiimmfi.\n\nPour plus d'informations, veuillez vous référer à\nle livret d’instructions Mario Kart Wii.",
+    },
+    "7001": {
+        string: "Wiimmfi",
+    },
+    "7251": {
+        string: "Mario Kart Wii peut montrer le drapeau de votre pays\net région dans les endroits suivants:\n\n・ Comme position du globe sur Wiimmfi\n・ Dans vos données fantômes\n\nSi vous choisissez de faire cette information\ndisponible, il sera envoyé à d'autres\njoueurs en jouant via Wiimmfi.",
+    },
+    "7252": {
+        string: "Voulez-vous afficher le drapeau de\nvotre pays et votre région sur Wiimmfi ?",
+    },
+    "7255": {
+        string: "Vous avez choisi d'afficher le drapeau\nde votre pays et votre région sur Wiimmfi.",
+    },
+    "7256": {
+        string: "Vous avez choisi de ne pas afficher votre drapeau\nde votre pays ainsi que votre région sur Wiimmfi.",
+    },
+    "7401": {
+        string: "Si vous jouez à Mario Kart Wii en Wiimmfi, \nles données suivantes seront envoyées au serveur :\n\n・votre Mii et votre surnom\n・vos records et vos fantômes\n\nCes informations peuvent être vues par tous\nles joueurs connectés au Wiimmfi.",
+    },
+    "7402": {
+        string: "Autoriser l'envoi de données à Wiimmfi ?",
+    },
+    "7405": {
+        string: "Vous avez accepté d'envoyer\nvos données Mario Kart Wii\nau Wiimmfi.",
+    },
+    "7406": {
+        string: "Si vous n'acceptez pas d'envoyer ces\ndonnées au Wiimmfi, vous ne pourrez pas\njouer à Mario Kart Wii via Wiimmfi.\n\nVoulez-vous continuer?",
+    },
+    "7407": {
+        string: "Vous avez refusé d'envoyer\nvos données Mario Kart Wii\nau Wiimmfi.",
+    },
+    "7501": {
+        string: "Miis créés par d'autres joueurs\npeut être affiché pendant les courses\net batailles, dans le classement\net d'autres endroits sur Wiimmfi.\n\nVous pouvez choisir de permettre à ces Mii\nd'être affichés tels quels ou à remplacer\nles avec les Miis créés par Nintendo.",
+    },
+    "8112": {
+        string: "Vous avez 1000 victoires en ligne!",
+    },
+    "8127": {
+        string: "Vous avez 5000 victoires en ligne!",
+    },
+    "8129": {
+        string: "Vous avez 250 victoires en ligne!",
+    },
+    "8142": {
+        string: "Vous avez 50 victoires en ligne!",
+    },
+    "8163": {
+        string: "Vous avez 3000 victoires en ligne!",
+    },
+    "8203": {
+        string: "Records en ligne",
+    },
+    "8220": {
+        string: "Records d'amis en ligne",
+    },
+}

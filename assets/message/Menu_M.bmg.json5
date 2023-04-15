@@ -1,0 +1,4103 @@
+{
+    "1": {
+        string: null,
+    },
+    "2000": {
+        string: "OK",
+    },
+    "2001": {
+        string: "←{arg back button|0}Volver",
+    },
+    "2002": {
+        string: "Sí",
+    },
+    "2003": {
+        string: "No",
+    },
+    "2004": {
+        string: null,
+    },
+    "2005": {
+        string: "→",
+    },
+    "2006": {
+        string: null,
+    },
+    "2007": {
+        string: "←",
+    },
+    "2008": {
+        string: null,
+    },
+    "2009": {
+        string: "{arg integer|0 0}/{arg integer|1 0}",
+    },
+    "2010": {
+        string: "Mario Kart Wii",
+    },
+    "2011": {
+        string: "Un jugador",
+    },
+    "2012": {
+        string: "Multijugador",
+    },
+    "2013": {
+        string: "CWF de Nintendo",
+    },
+    "2014": {
+        string: "Canal Mario Kart",
+    },
+    "2015": {
+        string: "Ajustes de licencia",
+    },
+    "2016": {
+        string: "Resultados",
+    },
+    "2017": {
+        string: "Oprime el Botón A",
+    },
+    "2018": {
+        string: "Menú principal",
+    },
+    "2019": {
+        string: null,
+    },
+    "2020": {
+        string: "¡Grand Prix y mucho más para un jugador!",
+    },
+    "2021": {
+        string: "¡Carreras y batallas con dos jugadores!",
+    },
+    "2022": {
+        string: "¡Carreras y batallas con tres jugadores!",
+    },
+    "2023": {
+        string: "¡Carreras y batallas con cuatro jugadores!",
+    },
+    "2024": {
+        string: "¡Juega en la CWF de Nintendo!",
+    },
+    "2025": {
+        string: "¡Juega con un amigo en la CWF de Nintendo!",
+    },
+    "2026": {
+        string: "¡Clasificaciones, torneos y mucho más!",
+    },
+    "2027": {
+        string: "¡Comprueba los resultados y cambia de Mii!",
+    },
+    "2028": {
+        string: null,
+    },
+    "2029": {
+        string: null,
+    },
+    "2030": {
+        string: "Multijugador (2J)",
+    },
+    "2031": {
+        string: "Multijugador (3J)",
+    },
+    "2032": {
+        string: "Multijugador (4J)",
+    },
+    "2033": {
+        string: "CWF de Nintendo (1J)",
+    },
+    "2034": {
+        string: "CWF de Nintendo (2J)",
+    },
+    "2035": {
+        string: null,
+    },
+    "2050": {
+        string: "Asegúrate de que el\ndisco de Mario Kart Wii\nesté insertado y espera\na que empiece el juego.",
+    },
+    "2051": {
+        string: "No se puede leer el disco.\nConsulta el manual de\noperaciones de la consola Wii\npara obtener más información.",
+    },
+    "2052": {
+        string: "Ocurrió un Error.\n\nOprime el Botón EJECT, saca el disco\ny apaga la consola. Consulta el manual\nde operaciones de la consola Wii para\nobtener más información.",
+    },
+    "2053": {
+        string: "No hay suficiente espacio libre en\nla memoria de la consola Wii.\nBloques libres necesarios: 23.\nTransfiere datos a una tarjeta SD\no borra los que no necesites en\nla pantalla de Gestión de datos.",
+    },
+    "2054": {
+        string: "La memoria de la consola Wii\nestá dañada. Consulta el manual\nde operaciones de la consola Wii\npara obtener más información.",
+    },
+    "2055": {
+        string: "Estos datos están dañados\ny no se pueden usar.\n¿Quieres borrar el archivo\ny crear uno nuevo?",
+    },
+    "2056": {
+        string: null,
+    },
+    "2057": {
+        string: "No se ha podido acceder a la\nmemoria de la consola Wii.\nConsulta el manual de\noperaciones de la consola Wii\npara obtener más información.",
+    },
+    "2058": {
+        string: "Vas a volver al Menú de Wii.",
+    },
+    "2059": {
+        string: "Empezar sin guardar",
+    },
+    "2060": {
+        string: "Menú de Wii",
+    },
+    "2061": {
+        string: "No puedes elegir este menú\nporque no hay datos guardados.",
+    },
+    "2062": {
+        string: "No se han encontrado datos guardados.\nPor favor inserta el disco de Mario Kart\nWii.",
+    },
+    "2063": {
+        string: "Reproducir el disco",
+    },
+    "2064": {
+        string: "Vas a volver al Menú de\nWii. ¿Estás de acuerdo?",
+    },
+    "2065": {
+        string: "Guardando. No toques el \nBotón Power ni el Botón RESET.",
+    },
+    "2066": {
+        string: "No se pueden cargar los\ndatos del Canal Mii. Ve al \nCanal Mii para comprobarlos.",
+    },
+    "2067": {
+        string: "Si borras este Mii del Canal Mii,\ntambién lo borrarás de Mario Kart Wii,\nasí que ten cuidado.",
+    },
+    "2068": {
+        string: "Se ha utilizado un Mii invitado en la\nlicencia que se acaba de crear. Puedes\ncrear tu propio Mii en el Canal Mii.",
+    },
+    "2069": {
+        string: "Solo puedes enviar 5 fantasmas\ncada vez que juegas.\n\nVuélvelo a intentar la próxima vez\nque juegues Mario Kart Wii.",
+    },
+    "2070": {
+        string: "No puedes acceder a este modo del juego\nporque no hay datos guardados.\n\nPuedes organizar los datos de la memoria\nde la consola Wii en la pantalla de Gestión\nde datos de las Opciones de Wii.",
+    },
+    "2071": {
+        string: "No hay suficiente espacio libre\nen la memoria de la consola Wii.\nTransfiere datos a una tarjeta SD\no borra los que no necesites en\nla pantalla de Gestión de datos.",
+    },
+    "2072": {
+        string: "Te has desconectado de la\nCWF de Nintendo. Vas a volver\nal menú principal.",
+    },
+    "2073": {
+        string: "Ha cambiado la configuración de país,\npor lo que se tienen que crear nuevos datos\nde guardado. Si no deseas perder los datos \nexistentes, vuelve al Menú de Wii y restablece\nla anterior configuración de país.",
+    },
+    "2074": {
+        string: "Crear nuevos datos de guardado",
+    },
+    "2075": {
+        string: null,
+    },
+    "2100": {
+        string: null,
+    },
+    "2101": {
+        string: "Se creará una nueva\nlicencia de Mario Kart Wii.",
+    },
+    "2102": {
+        string: "Crear una licencia",
+    },
+    "2103": {
+        string: "Borrar licencia",
+    },
+    "2104": {
+        string: "Seleccionar licencia",
+    },
+    "2105": {
+        string: null,
+    },
+    "2106": {
+        string: null,
+    },
+    "2107": {
+        string: null,
+    },
+    "2108": {
+        string: null,
+    },
+    "2109": {
+        string: null,
+    },
+    "2110": {
+        string: "{arg integer|0 4}-{arg integer|1 4}-{arg integer|2 4}",
+    },
+    "2111": {
+        string: "Se creará una nueva\nlicencia para {arg player|0}.\n\n¿Estás de acuerdo?",
+    },
+    "2112": {
+        string: "{arg player|0} será el\nnuevo Mii de esta licencia.\n¿Estás de acuerdo?",
+    },
+    "2113": {
+        string: "{current player|} y {arg player|0}\nse conectarán juntos\na la CWF de Nintendo.",
+    },
+    "2114": {
+        string: null,
+    },
+    "2120": {
+        string: "Ver resultados",
+    },
+    "2121": {
+        string: "Consulta los resultados de {current player|}.",
+    },
+    "2122": {
+        string: "Cambiar el Mii de esta licencia.",
+    },
+    "2123": {
+        string: "Elige un Mii.",
+    },
+    "2124": {
+        string: null,
+    },
+    "2125": {
+        string: null,
+    },
+    "2126": {
+        string: null,
+    },
+    "2127": {
+        string: null,
+    },
+    "2128": {
+        string: "Borrar la licencia de {current player|}.",
+    },
+    "2129": {
+        string: null,
+    },
+    "2130": {
+        string: null,
+    },
+    "2131": {
+        string: null,
+    },
+    "2132": {
+        string: null,
+    },
+    "2133": {
+        string: null,
+    },
+    "2134": {
+        string: null,
+    },
+    "2135": {
+        string: "Cerrar",
+    },
+    "2136": {
+        string: null,
+    },
+    "2150": {
+        string: null,
+    },
+    "2151": {
+        string: "Tu nueva licencia está lista.",
+    },
+    "2152": {
+        string: "Se borrará la licencia\nde {current player|}.\n¿Estás de acuerdo?",
+    },
+    "2153": {
+        string: "Se ha borrado la licencia\nde {current player|}.",
+    },
+    "2154": {
+        string: null,
+    },
+    "2155": {
+        string: "Ha cambiado el Mii\nde esta licencia.",
+    },
+    "2156": {
+        string: null,
+    },
+    "2157": {
+        string: "Borrar licencia",
+    },
+    "2158": {
+        string: "También se borrarán la lista de amigos\ny los fantasmas de esta licencia.\n\n¿Estás de acuerdo?",
+    },
+    "2159": {
+        string: null,
+    },
+    "2200": {
+        string: "Cambiar Miis",
+    },
+    "2201": {
+        string: "¡Elige un Mii!",
+    },
+    "2202": {
+        string: "Consola Wii",
+    },
+    "2203": {
+        string: "Invitado",
+    },
+    "2204": {
+        string: null,
+    },
+    "2205": {
+        string: "El Mii para esta licencia se\nha eliminado del Canal Mii.\n\nElige otro Mii.",
+    },
+    "2206": {
+        string: null,
+    },
+    "2207": {
+        string: null,
+    },
+    "2208": {
+        string: null,
+    },
+    "2209": {
+        string: null,
+    },
+    "2210": {
+        string: null,
+    },
+    "2250": {
+        string: null,
+    },
+    "2251": {
+        string: null,
+    },
+    "2252": {
+        string: null,
+    },
+    "2253": {
+        string: null,
+    },
+    "2254": {
+        string: null,
+    },
+    "2255": {
+        string: null,
+    },
+    "2256": {
+        string: null,
+    },
+    "2257": {
+        string: null,
+    },
+    "2258": {
+        string: "Las pilas del mando\nde Wii están a punto\nde agotarse.",
+    },
+    "2259": {
+        string: null,
+    },
+    "2260": {
+        string: null,
+    },
+    "2261": {
+        string: null,
+    },
+    "2262": {
+        string: null,
+    },
+    "2300": {
+        string: null,
+    },
+    "2301": {
+        string: "1 \n{font scale|50}jugador",
+    },
+    "2302": {
+        string: "2 \n{font scale|50}jugadores",
+    },
+    "2303": {
+        string: "3 \n{font scale|50}jugadores",
+    },
+    "2304": {
+        string: "4 \n{font scale|50}jugadores",
+    },
+    "2305": {
+        string: "{2 chars| }",
+    },
+    "2306": {
+        string: "{2 chars| }",
+    },
+    "2307": {
+        string: null,
+    },
+    "2400": {
+        string: null,
+    },
+    "2401": {
+        string: "Registrar un mando",
+    },
+    "2402": {
+        string: "Oprime el Botón A del mando del jugador 2.",
+    },
+    "2403": {
+        string: "Oprime el Botón A del mando del jugador 3.",
+    },
+    "2404": {
+        string: "Oprime el Botón A del mando del jugador 4.",
+    },
+    "2405": {
+        string: null,
+    },
+    "2406": {
+        string: null,
+    },
+    "2407": {
+        string: null,
+    },
+    "2408": {
+        string: null,
+    },
+    "2409": {
+        string: null,
+    },
+    "2500": {
+        string: "¿Seguro?",
+    },
+    "2501": {
+        string: "Cambiar",
+    },
+    "2502": {
+        string: "Oprime el Botón A en el mando del jugador 1.",
+    },
+    "2503": {
+        string: "Oprime el Botón A en el mando del jugador 2.",
+    },
+    "2504": {
+        string: "Oprime el Botón A en el mando del jugador 3.",
+    },
+    "2505": {
+        string: "Oprime el Botón A en el mando del jugador 4.",
+    },
+    "2506": {
+        string: "Estos son los mandos que se usarán.",
+    },
+    "2507": {
+        string: "Cambia los mandos.",
+    },
+    "2508": {
+        string: "{arg message|0}Añadir un mando de Wii",
+    },
+    "2509": {
+        string: "Oprime {1 char|} y {1 char|} a la vez.",
+    },
+    "2510": {
+        string: "{arg message|0} OK",
+    },
+    "2511": {
+        string: null,
+    },
+    "2512": {
+        string: null,
+    },
+    "2513": {
+        string: null,
+    },
+    "2514": {
+        string: null,
+    },
+    "2550": {
+        string: "{1 char|}",
+    },
+    "2551": {
+        string: "{1 char|}",
+    },
+    "2552": {
+        string: "{1 char|}",
+    },
+    "2553": {
+        string: "{1 char|}",
+    },
+    "2554": {
+        string: "{1 char|}",
+    },
+    "2555": {
+        string: "{color|player 1}OK",
+    },
+    "2556": {
+        string: "{color|player 2}OK",
+    },
+    "2557": {
+        string: "{color|player 3}OK",
+    },
+    "2558": {
+        string: "{color|player 4}OK",
+    },
+    "2559": {
+        string: null,
+    },
+    "2600": {
+        string: "¿Quieres instalar el Canal Mario\nKart en tu Menú de Wii? Bloques\nlibres necesarios: {arg integer|0 0}.",
+    },
+    "2601": {
+        string: "Sí",
+    },
+    "2602": {
+        string: "No",
+    },
+    "2603": {
+        string: null,
+    },
+    "2604": {
+        string: null,
+    },
+    "2605": {
+        string: null,
+    },
+    "2606": {
+        string: null,
+    },
+    "2607": {
+        string: "Canal Mario Kart",
+    },
+    "2608": {
+        string: "Si añades el Canal Mario Kart a tu\nMenú de Wii, podrás acceder al\ncanal sin tener que insertar el\ndisco de Mario Kart Wii.",
+    },
+    "2609": {
+        string: "El Canal Mario Kart ya\nestá instalado en tu\nMenú de Wii.",
+    },
+    "2610": {
+        string: "No hay suficiente espacio libre en\nla memoria de la consola Wii.\nBloques libres necesarios: {arg integer|0 0}.\n\nTransfiere datos a una tarjeta SD\no borra los que no necesites en\nla pantalla de Gestión de datos.\nPara organizar el contenido de la\nmemoria de la consola Wii, ve a la\npantalla de Gestión de datos de la\nconsola Wii.",
+    },
+    "2611": {
+        string: "No hay suficiente espacio libre\nen la memoria de la consola Wii.\nTransfiere datos a una tarjeta SD\no borra los que no necesites en\nla pantalla de Gestión de datos.\nPara organizar el contenido de la\nmemoria de la consola Wii, ve a la\npantalla de Gestión de datos de la\nconsola Wii.",
+    },
+    "2612": {
+        string: "No hay suficiente espacio libre en el\nMenú de Wii. Transfiere canales a una\ntarjeta SD o borra los que no necesites\nen la pantalla de Gestión de datos.",
+    },
+    "2613": {
+        string: "La memoria de la consola Wii está\ndañada. Consulta el manual de\noperaciones de la consola Wii para\nobtener más información.",
+    },
+    "2614": {
+        string: null,
+    },
+    "3000": {
+        string: "Grand Prix",
+    },
+    "3001": {
+        string: "Contrarreloj",
+    },
+    "3002": {
+        string: "Carrera VS.",
+    },
+    "3003": {
+        string: "Batalla",
+    },
+    "3004": {
+        string: null,
+    },
+    "3005": {
+        string: null,
+    },
+    "3006": {
+        string: "50cc\n{font scale|50}Karts",
+    },
+    "3007": {
+        string: "100cc\n{font scale|50}Motos",
+    },
+    "3008": {
+        string: "150cc\n{font scale|50}Karts y motos",
+    },
+    "3009": {
+        string: "Espejo\n{font scale|50}Karts y motos",
+    },
+    "3010": {
+        string: "50cc\n{font scale|50}Karts y motos",
+    },
+    "3011": {
+        string: "100cc\n{font scale|50}Karts y motos",
+    },
+    "3012": {
+        string: "{arg message|0}Cambiar",
+    },
+    "3013": {
+        string: null,
+    },
+    "3050": {
+        string: "¡Compite por el primer lugar en los cuatro circuitos!",
+    },
+    "3051": {
+        string: "Carrera individual para conseguir el mejor récord.",
+    },
+    "3052": {
+        string: "¡Compite según tus reglas!",
+    },
+    "3053": {
+        string: "¡Compite según tus reglas!",
+    },
+    "3054": {
+        string: "¡Batalla en equipos!",
+    },
+    "3055": {
+        string: "¡Batalla en equipos!",
+    },
+    "3056": {
+        string: null,
+    },
+    "3057": {
+        string: null,
+    },
+    "3058": {
+        string: null,
+    },
+    "3059": {
+        string: null,
+    },
+    "3060": {
+        string: "Grand Prix para principiantes (solo karts).",
+    },
+    "3061": {
+        string: "Grand Prix para iniciados (solo motos).",
+    },
+    "3062": {
+        string: "Grand Prix para expertos (karts y motos).",
+    },
+    "3063": {
+        string: "Grand Prix Espejo (karts y motos).",
+    },
+    "3064": {
+        string: "Grand Prix para principiantes (karts y motos).",
+    },
+    "3065": {
+        string: "Grand Prix para iniciados (karts y motos).",
+    },
+    "3066": {
+        string: null,
+    },
+    "3100": {
+        string: "Contrarreloj",
+    },
+    "3101": {
+        string: "No hay fantasmas para este circuito.",
+    },
+    "3102": {
+        string: null,
+    },
+    "3103": {
+        string: "Clasificaciones",
+    },
+    "3104": {
+        string: null,
+    },
+    "3200": {
+        string: "Tipo de batalla",
+    },
+    "3201": {
+        string: "Batalla de globos",
+    },
+    "3202": {
+        string: "Carrera de monedas",
+    },
+    "3203": {
+        string: null,
+    },
+    "3204": {
+        string: null,
+    },
+    "3250": {
+        string: "Explota los globos de tus oponentes.",
+    },
+    "3251": {
+        string: "Recoge todas las monedas que puedas.",
+    },
+    "3252": {
+        string: null,
+    },
+    "3253": {
+        string: null,
+    },
+    "3305": {
+        string: "Derrape",
+    },
+    "3306": {
+        string: "Automático",
+    },
+    "3307": {
+        string: "Manual",
+    },
+    "3308": {
+        string: "Ayuda",
+    },
+    "3309": {
+        string: "■ Derrape automático ■\nDerrapas automáticamente \nal tomar una curva, sin\n{arg back button|0}saltos ni miniturbos.\n\n■ Derrape manual ■\n{arg back button|0}Salta al tomar una curva\n y derrapa para activar un miniturbo.",
+    },
+    "3310": {
+        string: "Obtén información sobre los diferentes tipos de derrape.",
+    },
+    "3311": {
+        string: "Velocidad",
+    },
+    "3312": {
+        string: "Peso",
+    },
+    "3313": {
+        string: "Aceleración",
+    },
+    "3314": {
+        string: "Manejo",
+    },
+    "3315": {
+        string: "Derrape",
+    },
+    "3316": {
+        string: "Todoterreno",
+    },
+    "3317": {
+        string: "Miniturbo",
+    },
+    "3318": {
+        string: null,
+    },
+    "3350": {
+        string: "Derrape automático (sin miniturbo).",
+    },
+    "3351": {
+        string: "Derrape usando los botones (con miniturbo).",
+    },
+    "3352": {
+        string: null,
+    },
+    "3360": {
+        string: "{arg message|0} Trofeo: {arg message|1} Clase: {arg message|2}",
+    },
+    "3361": {
+        string: "Contrarreloj",
+    },
+    "3362": {
+        string: "{arg message|0}",
+    },
+    "3363": {
+        string: "Carrera VS. {arg message|0}",
+    },
+    "3364": {
+        string: "{1 char|} Batalla de globos",
+    },
+    "3365": {
+        string: "{1 char|} Carrera de monedas",
+    },
+    "3366": {
+        string: "Carrera VS. en equipo {arg message|0}",
+    },
+    "3370": {
+        string: "{1 char|}",
+    },
+    "3371": {
+        string: "{1 char|}",
+    },
+    "3372": {
+        string: "{1 char|}",
+    },
+    "3373": {
+        string: "{1 char|}",
+    },
+    "3374": {
+        string: "{1 char|}",
+    },
+    "3375": {
+        string: "{1 char|}",
+    },
+    "3376": {
+        string: "{1 char|}",
+    },
+    "3377": {
+        string: "{1 char|}",
+    },
+    "3378": {
+        string: "{1 char|}",
+    },
+    "3379": {
+        string: "{1 char|}",
+    },
+    "3380": {
+        string: "{1 char|}",
+    },
+    "3381": {
+        string: "F",
+    },
+    "3382": {
+        string: " 　",
+    },
+    "3383": {
+        string: null,
+    },
+    "3384": {
+        string: null,
+    },
+    "3400": {
+        string: "Reglas",
+    },
+    "3401": {
+        string: "Cilindradas",
+    },
+    "3402": {
+        string: "Personajes",
+    },
+    "3403": {
+        string: "Vehículos",
+    },
+    "3404": {
+        string: "Copas",
+    },
+    "3405": {
+        string: "Circuitos",
+    },
+    "3406": {
+        string: "Escenarios",
+    },
+    "3407": {
+        string: "Fantasmas",
+    },
+    "3408": {
+        string: "Batalla",
+    },
+    "3409": {
+        string: "Carrera VS.",
+    },
+    "3410": {
+        string: "Categoría",
+    },
+    "3411": {
+        string: "50cc",
+    },
+    "3412": {
+        string: "100cc",
+    },
+    "3413": {
+        string: "150cc",
+    },
+    "3414": {
+        string: "Espejo",
+    },
+    "3415": {
+        string: "Categoría de 50cc para principiantes.",
+    },
+    "3416": {
+        string: "Categoría de 100cc para iniciados.",
+    },
+    "3417": {
+        string: "Categoría de 150cc para expertos.",
+    },
+    "3418": {
+        string: "Circuitos invertidos en la categoría de 150cc.",
+    },
+    "3420": {
+        string: "CPU",
+    },
+    "3421": {
+        string: "Fácil",
+    },
+    "3422": {
+        string: "Normal",
+    },
+    "3423": {
+        string: "Difícil",
+    },
+    "3424": {
+        string: "Desactivado",
+    },
+    "3425": {
+        string: "Los personajes controlados por la CPU son menos hábiles.",
+    },
+    "3426": {
+        string: "Los personajes controlados por la CPU tienen un nivel medio.",
+    },
+    "3427": {
+        string: "Los personajes controlados por la CPU son más hábiles.",
+    },
+    "3428": {
+        string: "Ningún personaje está controlado por la CPU.",
+    },
+    "3430": {
+        string: "Vehículos",
+    },
+    "3431": {
+        string: "Karts",
+    },
+    "3432": {
+        string: "Motos",
+    },
+    "3433": {
+        string: "Todos",
+    },
+    "3434": {
+        string: "Los personajes controlados por la CPU compiten en karts.",
+    },
+    "3435": {
+        string: "Los personajes controlados por la CPU compiten en motos.",
+    },
+    "3436": {
+        string: "Los personajes controlados por la CPU compiten en karts y motos.",
+    },
+    "3437": {
+        string: "Los personajes controlados por la CPU compiten en karts.",
+    },
+    "3438": {
+        string: "Los personajes controlados por la CPU compiten en motos.",
+    },
+    "3439": {
+        string: "Los personajes controlados por la CPU compiten en karts y motos.",
+    },
+    "3440": {
+        string: "Circuitos",
+    },
+    "3441": {
+        string: "Elegir",
+    },
+    "3442": {
+        string: "Aleatorio",
+    },
+    "3443": {
+        string: "En orden",
+    },
+    "3444": {
+        string: "Elige el circuito para cada carrera.",
+    },
+    "3445": {
+        string: "Los circuitos se eligen aleatoriamente.",
+    },
+    "3446": {
+        string: "Corre los circuitos en el orden de las copas.",
+    },
+    "3447": {
+        string: "Elige el escenario de cada batalla.",
+    },
+    "3448": {
+        string: "Los escenarios se eligen aleatoriamente.",
+    },
+    "3449": {
+        string: "Compite en los escenarios en orden.",
+    },
+    "3450": {
+        string: "Carreras",
+    },
+    "3451": {
+        string: "{arg integer|0 1}",
+    },
+    "3452": {
+        string: "Victorias",
+    },
+    "3460": {
+        string: "{arg integer|0 1}",
+    },
+    "3461": {
+        string: "Carrera en equipo",
+    },
+    "3462": {
+        string: "Carrera en equipo",
+    },
+    "3463": {
+        string: "Carrera individual",
+    },
+    "3464": {
+        string: null,
+    },
+    "3465": {
+        string: "Establece el número de carreras.",
+    },
+    "3466": {
+        string: "Establece el número de victorias necesarias para ganar.",
+    },
+    "3467": {
+        string: "Obtén la mayor puntuación compitiendo en equipo.",
+    },
+    "3468": {
+        string: "Consigue la puntuación y clasificación más altas.",
+    },
+    "3469": {
+        string: "Escenario",
+    },
+    "3470": {
+        string: "¿Seguro que quieres salir \nde esta Carrera VS.?",
+    },
+    "3471": {
+        string: "¿Seguro que quieres \nsalir de esta Batalla?",
+    },
+    "3472": {
+        string: "Corre con estas reglas.",
+    },
+    "3473": {
+        string: "Compite en una batalla con estas reglas.",
+    },
+    "3474": {
+        string: "Establece algunas reglas para la carrera.",
+    },
+    "3475": {
+        string: "Establece algunas reglas para la batalla.",
+    },
+    "3476": {
+        string: null,
+    },
+    "3480": {
+        string: "Objetos",
+    },
+    "3481": {
+        string: "Recomendado",
+    },
+    "3482": {
+        string: "Alocados",
+    },
+    "3483": {
+        string: "Básicos",
+    },
+    "3484": {
+        string: "Ninguno",
+    },
+    "3485": {
+        string: "Todos los objetos aparecen con la misma frecuencia.",
+    },
+    "3486": {
+        string: "Los objetos poderosos aparecen con mayor frecuencia.",
+    },
+    "3487": {
+        string: "Los objetos poderosos aparecen con menor frecuencia.",
+    },
+    "3488": {
+        string: "Carrera sin objetos.",
+    },
+    "3489": {
+        string: null,
+    },
+    "3500": {
+        string: "Configuración del equipo",
+    },
+    "3501": {
+        string: "Equipo\nazul",
+    },
+    "3502": {
+        string: "Equipo\nrojo",
+    },
+    "3503": {
+        string: "Ver los equipos",
+    },
+    "3504": {
+        string: "Jugar con estos equipos.",
+    },
+    "3505": {
+        string: "Corredores",
+    },
+    "3506": {
+        string: "{color|team blue}Equipo \nazul",
+    },
+    "3507": {
+        string: "{color|team red}Equipo \nrojo",
+    },
+    "3508": {
+        string: "Todos pertenecen al mismo equipo.\n\nVuelve a formar los equipos.",
+    },
+    "3509": {
+        string: null,
+    },
+    "3550": {
+        string: "Empezar la carrera",
+    },
+    "3551": {
+        string: "Empezar la batalla",
+    },
+    "3552": {
+        string: "Empezar el torneo",
+    },
+    "3553": {
+        string: null,
+    },
+    "4000": {
+        string: "Mundial",
+    },
+    "4001": {
+        string: "Continental",
+    },
+    "4002": {
+        string: "Amigos",
+    },
+    "4003": {
+        string: "Carrera fantasma",
+    },
+    "4004": {
+        string: "Conexión Wi-Fi de Nintendo",
+    },
+    "4005": {
+        string: null,
+    },
+    "4006": {
+        string: null,
+    },
+    "4007": {
+        string: null,
+    },
+    "4008": {
+        string: "Tu lista de amigos está vacía.\nAñade a tus amigos para poder\njugar juntos en la CWF de\nNintendo.",
+    },
+    "4009": {
+        string: null,
+    },
+    "4010": {
+        string: "Accediendo a la CWF de Nintendo...",
+    },
+    "4011": {
+        string: "¿Quieres desconectarte \nde la CWF de Nintendo?",
+    },
+    "4012": {
+        string: "Sí",
+    },
+    "4013": {
+        string: "No",
+    },
+    "4014": {
+        string: null,
+    },
+    "4015": {
+        string: null,
+    },
+    "4016": {
+        string: "No puedes acceder a la\nConexión Wi-Fi de Nintendo\ncon este nombre de Mii.\nCámbialo y vuelve a\nintentarlo.",
+    },
+    "4017": {
+        string: null,
+    },
+    "4018": {
+        string: "Has perdido la conexión con los\ndemás jugadores.",
+    },
+    "4019": {
+        string: "¿Quieres salir\nde la sala?",
+    },
+    "4020": {
+        string: "¿Quieres cerrar\nla sala?",
+    },
+    "4021": {
+        string: "Has perdido la conexión con el \njugador que creó la sala. Vas a \nvolver a tu lista de amigos.",
+    },
+    "4022": {
+        string: "No has podido unirte a este amigo.\n\nVuelve a intentarlo más tarde.",
+    },
+    "4023": {
+        string: null,
+    },
+    "4024": {
+        string: "Equipos",
+    },
+    "4025": {
+        string: null,
+    },
+    "4100": {
+        string: "Sala",
+    },
+    "4101": {
+        string: "Crear una sala",
+    },
+    "4102": {
+        string: "Uniéndote a un amigo...",
+    },
+    "4103": {
+        string: null,
+    },
+    "4104": {
+        string: null,
+    },
+    "4105": {
+        string: null,
+    },
+    "4106": {
+        string: "Buscando oponentes...",
+    },
+    "4107": {
+        string: "¡Tus oponentes han sido elegidos!",
+    },
+    "4108": {
+        string: "Esperando a tus amigos...",
+    },
+    "4109": {
+        string: "Empezar el juego",
+    },
+    "4110": {
+        string: "¡Juguemos una Carrera VS.!",
+    },
+    "4111": {
+        string: "¡Juguemos una Carrera VS. en equipo!",
+    },
+    "4112": {
+        string: "¡Juguemos una Batalla de globos!",
+    },
+    "4113": {
+        string: "¡Juguemos una Carrera de monedas!",
+    },
+    "4114": {
+        string: null,
+    },
+    "4150": {
+        string: "Añadir amigos",
+    },
+    "4151": {
+        string: "¡{arg player|0}, ya te he añadido!",
+    },
+    "4152": {
+        string: "No hay jugadores que\npuedas añadir como amigos.",
+    },
+    "4153": {
+        string: null,
+    },
+    "4154": {
+        string: "¡{arg player|0}, ya somos amigos!",
+    },
+    "4155": {
+        string: null,
+    },
+    "4200": {
+        string: "Mensaje",
+    },
+    "4201": {
+        string: "{arg integer|0 2}/{arg integer|1 2}",
+    },
+    "4202": {
+        string: "{arg integer|0 0} {font scale|70}PC",
+    },
+    "4203": {
+        string: "{arg integer|0 0} {font scale|70}PB",
+    },
+    "4204": {
+        string: "Espera un momento...",
+    },
+    "4205": {
+        string: "Carrera VS. mundial",
+    },
+    "4206": {
+        string: "Batalla mundial",
+    },
+    "4207": {
+        string: "Carrera VS. continental",
+    },
+    "4208": {
+        string: "Batalla continental",
+    },
+    "4300": {
+        string: "Elige un modo.",
+    },
+    "4301": {
+        string: "Espera un momento...",
+    },
+    "4302": {
+        string: "Se ha decidido el modo de juego.",
+    },
+    "4303": {
+        string: null,
+    },
+    "4304": {
+        string: null,
+    },
+    "4305": {
+        string: "Carrera VS.",
+    },
+    "4306": {
+        string: "Carrera VS.",
+    },
+    "4307": {
+        string: null,
+    },
+    "4308": {
+        string: "Batalla",
+    },
+    "4309": {
+        string: "Batalla",
+    },
+    "4310": {
+        string: "Enfréntate a jugadores de todo el mundo.",
+    },
+    "4311": {
+        string: "Enfréntate a jugadores de tu continente.",
+    },
+    "4312": {
+        string: "Enfréntate solo a tus amigos.",
+    },
+    "4313": {
+        string: "Compite contra fantasmas de jugadores de todo el mundo.",
+    },
+    "4314": {
+        string: "¡Carrera con un máximo de 12 jugadores!",
+    },
+    "4315": {
+        string: "¡Batalla entre dos equipos de hasta 6 jugadores!",
+    },
+    "4316": {
+        string: "Crea una sala para jugar con tus amigos.",
+    },
+    "4317": {
+        string: "Comprueba qué están haciendo tus amigos.",
+    },
+    "4318": {
+        string: "Añade una nueva clave de amigo.",
+    },
+    "4319": {
+        string: null,
+    },
+    "4320": {
+        string: "¡La siguiente carrera es de 100cc!",
+    },
+    "4321": {
+        string: "¡La siguiente carrera es de 150cc!",
+    },
+    "4322": {
+        string: "¡La siguiente carrera es en el modo Espejo!",
+    },
+    "4323": {
+        string: "{1 char|} Batalla de globos",
+    },
+    "4324": {
+        string: "{1 char|} Carrera de monedas",
+    },
+    "4325": {
+        string: "¡La siguiente carrera es de 100cc!",
+    },
+    "4326": {
+        string: "¡La siguiente carrera es de 150cc!",
+    },
+    "4327": {
+        string: "¡La siguiente carrera es en el modo Espejo!",
+    },
+    "4328": {
+        string: "¡La siguiente carrera es de 100cc!",
+    },
+    "4329": {
+        string: "¡La siguiente carrera es de 150cc!",
+    },
+    "4330": {
+        string: "¡La siguiente carrera es en el modo Espejo!",
+    },
+    "4331": {
+        string: null,
+    },
+    "4332": {
+        string: null,
+    },
+    "4333": {
+        string: null,
+    },
+    "4334": {
+        string: null,
+    },
+    "4350": {
+        string: "¿Quieres votar por un circuito?",
+    },
+    "4351": {
+        string: "Votar",
+    },
+    "4352": {
+        string: "Aleatorio",
+    },
+    "4353": {
+        string: "?",
+    },
+    "4354": {
+        string: "Votos",
+    },
+    "4355": {
+        string: "Votos",
+    },
+    "4356": {
+        string: "¿Quieres votar por un escenario?",
+    },
+    "4357": {
+        string: "Preparando la carrera...",
+    },
+    "4358": {
+        string: "Preparando la batalla...",
+    },
+    "4359": {
+        string: null,
+    },
+    "4360": {
+        string: "Esperando a que todos voten...",
+    },
+    "4361": {
+        string: "",
+    },
+    "4362": {
+        string: "¡Se ha decidido el circuito!",
+    },
+    "4363": {
+        string: "¡Se ha decidido el escenario!",
+    },
+    "4364": {
+        string: null,
+    },
+    "4370": {
+        string: "Envía un mensaje a todos los jugadores de la sala.",
+    },
+    "4371": {
+        string: "Elige el mensaje que quieres enviar.",
+    },
+    "4372": {
+        string: "Empieza un juego con estos jugadores.",
+    },
+    "4373": {
+        string: "Elige qué quieres jugar.",
+    },
+    "4374": {
+        string: "Envía invitaciones para hacer nuevos amigos.",
+    },
+    "4375": {
+        string: "Este mensaje solo se enviará al jugador al que invites.",
+    },
+    "4376": {
+        string: null,
+    },
+    "4390": {
+        string: "Añade una clave de amigo.",
+    },
+    "4391": {
+        string: "¿Añadir esta clave de amigo?",
+    },
+    "4392": {
+        string: "Enfréntate a amigos.",
+    },
+    "4393": {
+        string: "Se va a borrar esta clave de amigo.",
+    },
+    "4394": {
+        string: null,
+    },
+    "4395": {
+        string: null,
+    },
+    "4396": {
+        string: null,
+    },
+    "4397": {
+        string: null,
+    },
+    "4499": {
+        string: "¡Aquí estoy!",
+    },
+    "4500": {
+        string: "¡Hola!",
+    },
+    "4501": {
+        string: "¡Buenas noches!",
+    },
+    "4502": {
+        string: "¡Cuánto tiempo ha pasado!",
+    },
+    "4503": {
+        string: "¡Buena suerte!",
+    },
+    "4504": {
+        string: "¡Gracias por esperar!",
+    },
+    "4505": {
+        string: "¡Saludos!",
+    },
+    "4506": {
+        string: "¿Estamos todos?",
+    },
+    "4507": {
+        string: "¡Vamos a esperar un poco!",
+    },
+    "4508": {
+        string: "¿Listos?",
+    },
+    "4509": {
+        string: "¿Empezamos?",
+    },
+    "4510": {
+        string: "Esperemos 3 minutos más...",
+    },
+    "4511": {
+        string: "Voy a hacer una pausa...",
+    },
+    "4512": {
+        string: "¡Bien!",
+    },
+    "4513": {
+        string: "¡Vamos a empezar!",
+    },
+    "4514": {
+        string: "No sean muy duros conmigo...",
+    },
+    "4515": {
+        string: "¡Voy a darlo todo!",
+    },
+    "4516": {
+        string: "¿Qué jugamos?",
+    },
+    "4517": {
+        string: "¿Alguna preferencia?",
+    },
+    "4518": {
+        string: "¿Carrera VS. o Batalla?",
+    },
+    "4519": {
+        string: "Lo veo complicado...",
+    },
+    "4520": {
+        string: "¡Una Carrera VS.!",
+    },
+    "4521": {
+        string: "¡Una Carrera VS. en equipo!",
+    },
+    "4522": {
+        string: "¡Una Batalla de globos!",
+    },
+    "4523": {
+        string: "¡Una Carrera de monedas!",
+    },
+    "4524": {
+        string: "¡Usemos vehículos pequeños!",
+    },
+    "4525": {
+        string: "¡Usemos vehículos medianos!",
+    },
+    "4526": {
+        string: "¡Usemos vehículos grandes!",
+    },
+    "4527": {
+        string: "¡Voy a correr con un Mii!",
+    },
+    "4528": {
+        string: "¡Utilizaré el Wii Wheel!",
+    },
+    "4529": {
+        string: "¡Voy a correr en kart!",
+    },
+    "4530": {
+        string: "¡Voy a correr en moto!",
+    },
+    "4531": {
+        string: "No sé qué elegir...",
+    },
+    "4532": {
+        string: "¿Qué circuito?",
+    },
+    "4533": {
+        string: "Hmmm...",
+    },
+    "4534": {
+        string: "¡Elijamos \"Aleatorio\"!",
+    },
+    "4535": {
+        string: "¡Probemos un circuito nuevo!",
+    },
+    "4536": {
+        string: "¡Circuito de Luigi!",
+    },
+    "4537": {
+        string: "¡Pradera Mu-Mu!",
+    },
+    "4538": {
+        string: "¡Barranco Champiñón!",
+    },
+    "4539": {
+        string: "¡Fábrica de Toad!",
+    },
+    "4540": {
+        string: "¡Circuito de Mario!",
+    },
+    "4541": {
+        string: "¡Centro Cocotero!",
+    },
+    "4542": {
+        string: "¡Cima DK!",
+    },
+    "4543": {
+        string: "¡Mina de Wario!",
+    },
+    "4544": {
+        string: "¡Circuito de Daisy!",
+    },
+    "4545": {
+        string: "¡Colina Koopa!",
+    },
+    "4546": {
+        string: "¡Camino Forestal!",
+    },
+    "4547": {
+        string: "¡Volcán Gruñón!",
+    },
+    "4548": {
+        string: "¡Ruinas Seco-Seco!",
+    },
+    "4549": {
+        string: "¡Autopista de la Luna!",
+    },
+    "4550": {
+        string: "¡Castillo de Bowser!",
+    },
+    "4551": {
+        string: "¡Senda Arco Iris!",
+    },
+    "4552": {
+        string: "¡GCN Playa de Peach!",
+    },
+    "4553": {
+        string: "¡DS Cataratas de Yoshi!",
+    },
+    "4554": {
+        string: "¡SNES Valle Fantasmal 2!",
+    },
+    "4555": {
+        string: "¡N64 Pista de Mario!",
+    },
+    "4556": {
+        string: "¡N64 Tierra Sorbete!",
+    },
+    "4557": {
+        string: "¡GBA Playa Shy Guy!",
+    },
+    "4558": {
+        string: "¡DS Ciudad Delfino!",
+    },
+    "4559": {
+        string: "¡GCN Estadio Waluigi!",
+    },
+    "4560": {
+        string: "¡DS Desierto Sol-Sol!",
+    },
+    "4561": {
+        string: "¡GBA Castillo de Bowser 3!",
+    },
+    "4562": {
+        string: "¡N64 Jungla de DK!",
+    },
+    "4563": {
+        string: "¡GCN Circuito de Mario!",
+    },
+    "4564": {
+        string: "¡SNES Circuito de Mario 3!",
+    },
+    "4565": {
+        string: "¡DS Jardín de Peach!",
+    },
+    "4566": {
+        string: "¡GCN Montaña DK!",
+    },
+    "4567": {
+        string: "¡N64 Castillo de Bowser!",
+    },
+    "4568": {
+        string: "¡Plaza Cúbica!",
+    },
+    "4569": {
+        string: "¡Muelle Delfino!",
+    },
+    "4570": {
+        string: "¡Estadio de Funky!",
+    },
+    "4571": {
+        string: "¡Ruleta de Chain Chomp!",
+    },
+    "4572": {
+        string: "¡Desierto de Thwomp!",
+    },
+    "4573": {
+        string: "¡SNES Circuito de Batalla 4!",
+    },
+    "4574": {
+        string: "¡GBA Circuito de Batalla 3!",
+    },
+    "4575": {
+        string: "¡N64 Rascacielos!",
+    },
+    "4576": {
+        string: "¡GCN Tierra Galleta!",
+    },
+    "4577": {
+        string: "¡DS Casa Crepuscular!",
+    },
+    "4578": {
+        string: "¡El equipo rojo es el mejor!",
+    },
+    "4579": {
+        string: "¡El equipo azul es el mejor!",
+    },
+    "4580": {
+        string: "¡Hurra!",
+    },
+    "4581": {
+        string: "¡Soy el mejor!",
+    },
+    "4582": {
+        string: "¡Son todos rapidísimos!",
+    },
+    "4583": {
+        string: "¡Felicidades!",
+    },
+    "4584": {
+        string: "¡Estuvo bien!",
+    },
+    "4585": {
+        string: "¡Ha sido impresionante!",
+    },
+    "4586": {
+        string: "¡No hay derecho!",
+    },
+    "4587": {
+        string: "El que ríe último, ríe mejor.",
+    },
+    "4588": {
+        string: "¡Una vez más!",
+    },
+    "4589": {
+        string: "¡Aún no ha terminado!",
+    },
+    "4590": {
+        string: "¡La siguiente es la última!",
+    },
+    "4591": {
+        string: "Voy a abandonar...",
+    },
+    "4592": {
+        string: "¡Gracias por jugar!",
+    },
+    "4593": {
+        string: "¡Gracias!",
+    },
+    "4594": {
+        string: "¡Felices sueños!",
+    },
+    "4595": {
+        string: "¡Hasta pronto!",
+    },
+    "4596": {
+        string: null,
+    },
+    "4597": {
+        string: null,
+    },
+    "4598": {
+        string: null,
+    },
+    "4599": {
+        string: null,
+    },
+    "4600": {
+        string: "Ocurrió un error de comunicación.\nVas a volver al menú principal.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4601": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4602": {
+        string: "La Conexión Wi-Fi de Nintendo tiene un\nvolumen de tráfico demasiado elevado o\nel servicio se ha interrumpido.\nVuelve a intentar conectarte más tarde.\nPara obtener ayuda, visita el sitio web\nsupport.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4603": {
+        string: "No se ha podido acceder a la Conexión\nWi-Fi de Nintendo. Para obtener ayuda,\nconsulta el folleto de instrucciones del\njuego o visita el sitio web\nsupport.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4604": {
+        string: "El servicio de Conexión Wi-Fi de Nintendo\nya no está disponible para este juego.\nVisita support.nintendo.com para ver la lista\ncompleta de juegos actualmente compatibles\ncon la Conexión Wi-Fi de Nintendo.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4605": {
+        string: "No se ha podido acceder a la\nConexión Wi-Fi de Nintendo. Para\nobtener ayuda, consulta el folleto\nde instrucciones del juego o visita\nsupport.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4606": {
+        string: "La Conexión Wi-Fi de Nintendo tiene un\nvolumen de tráfico demasiado elevado o\nel servicio se ha interrumpido.\nVuelve a intentar conectarte más tarde.\nPara obtener ayuda, visita el sitio web\nsupport.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4607": {
+        string: "No hay suficiente espacio libre en\nla memoria de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4608": {
+        string: "La memoria de la consola\nWii está dañada. Consulta el\nmanual de operaciones de la\nconsola Wii para obtener\nmás información.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4609": {
+        string: "Error de comunicación. Vuelve\na intentarlo. Para obtener ayuda,\nvisita support.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4610": {
+        string: "Error de descarga. Vuelve a intentarlo.\nPara obtener ayuda, visita el sitio web\nsupport.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4611": {
+        string: "Error de comunicación. Vuelve\na intentarlo. Para obtener ayuda,\nvisita support.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4612": {
+        string: "Error de comunicación. Vuelve\na intentarlo. Para obtener ayuda,\nvisita support.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4613": {
+        string: "Error de comunicación. Vuelve\na intentarlo. Para obtener ayuda,\nvisita support.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4614": {
+        string: "Error de comunicación. Vuelve\na intentarlo. Para obtener ayuda,\nvisita support.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4615": {
+        string: "Error de comunicación. Vuelve\na intentarlo. Para obtener ayuda,\nvisita support.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4616": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4617": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4618": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4619": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4620": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4621": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4622": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4623": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4624": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4625": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4626": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4627": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4628": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4629": {
+        string: "Error de comunicación. Se ha\ninterrumpido la comunicación a la\nCWF de Nintendo. Para obtener\nayuda, visita el sitio web\nsupport.nintendo.com.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "4630": {
+        string: null,
+    },
+    "5000": {
+        string: "Canal Mario Kart",
+    },
+    "5001": {
+        string: "Lista de amigos",
+    },
+    "5002": {
+        string: "Clasificaciones",
+    },
+    "5003": {
+        string: "Carrera fantasma",
+    },
+    "5004": {
+        string: "Torneos",
+    },
+    "5005": {
+        string: null,
+    },
+    "5006": {
+        string: "Añadir amigo",
+    },
+    "5007": {
+        string: null,
+    },
+    "5008": {
+        string: "Menú de Wii",
+    },
+    "5009": {
+        string: "Lista de fantasmas descargados",
+    },
+    "5010": {
+        string: "Torneos",
+    },
+    "5011": {
+        string: "Lista de amigos",
+    },
+    "5012": {
+        string: null,
+    },
+    "5013": {
+        string: null,
+    },
+    "5014": {
+        string: "Empezar la carrera",
+    },
+    "5015": {
+        string: "Para mejorar tu técnica, reta a los \nfantasmas de jugadores de todo el mundo \ny disputa una serie de carreras a través \nde la CWF de Nintendo. ",
+    },
+    "5016": {
+        string: "Mi fantasma",
+    },
+    "5017": {
+        string: "Para mejorar tu técnica, reta a los \nfantasmas de jugadores de todo el mundo \ny disputa una serie de carreras a través \nde la CWF de Nintendo. \n\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5018": {
+        string: "Para mejorar tu técnica, reta a los \nfantasmas de jugadores de todo el mundo \ny disputa una serie de carreras a través \nde la CWF de Nintendo. \n\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5019": {
+        string: "Para mejorar tu técnica, reta a los \nfantasmas de jugadores de todo el mundo \ny disputa una serie de carreras a través \nde la CWF de Nintendo. \n\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5020": {
+        string: "Para mejorar tu técnica, reta a los \nfantasmas de jugadores de todo el mundo \ny disputa una serie de carreras a través \nde la CWF de Nintendo. \n\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5021": {
+        string: "Para mejorar tu técnica, reta a los \nfantasmas de jugadores de todo el mundo \ny disputa una serie de carreras a través \nde la CWF de Nintendo. \n\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5022": {
+        string: "Para mejorar tu técnica, reta a los \nfantasmas de jugadores de todo el mundo \ny disputa una serie de carreras a través \nde la CWF de Nintendo. \n\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5023": {
+        string: "Para mejorar tu técnica, reta a los \nfantasmas de jugadores de todo el mundo \ny disputa una serie de carreras a través \nde la CWF de Nintendo. \n\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5024": {
+        string: "Para mejorar tu técnica, reta a los \nfantasmas de jugadores de todo el mundo \ny disputa una serie de carreras a través \nde la CWF de Nintendo. \n\n{arg integer|0 0} {arg cond messages|0 5026 5027} - {arg integer|1 0} {arg cond messages|1 5028 5029}",
+    },
+    "5025": {
+        string: "{arg integer|0 0} {arg cond messages|0 5026 5027}",
+    },
+    "5026": {
+        string: "victoria",
+    },
+    "5027": {
+        string: "victorias",
+    },
+    "5028": {
+        string: "derrota",
+    },
+    "5029": {
+        string: "derrotas",
+    },
+    "5030": {
+        string: null,
+    },
+    "5050": {
+        string: "Amigos",
+    },
+    "5051": {
+        string: "Fantasmas",
+    },
+    "5052": {
+        string: "Clasificaciones de Contrarreloj",
+    },
+    "5053": {
+        string: null,
+    },
+    "5054": {
+        string: "Clasificaciones de torneos",
+    },
+    "5055": {
+        string: null,
+    },
+    "5060": {
+        string: "Comprueba qué están haciendo tus amigos.",
+    },
+    "5061": {
+        string: "Compara tu clasificación con la de otros jugadores.",
+    },
+    "5062": {
+        string: "Comprueba y borra los fantasmas descargados.",
+    },
+    "5063": {
+        string: "Participa en torneos de Mario Kart Wii.",
+    },
+    "5064": {
+        string: "Reta a fantasmas de todo el mundo.",
+    },
+    "5065": {
+        string: null,
+    },
+    "5066": {
+        string: "Envía y recibe fantasmas.",
+    },
+    "5067": {
+        string: null,
+    },
+    "5068": {
+        string: "¡Consulta las clasificaciones de los torneos!",
+    },
+    "5069": {
+        string: null,
+    },
+    "5070": {
+        string: null,
+    },
+    "5071": {
+        string: null,
+    },
+    "5072": {
+        string: null,
+    },
+    "5073": {
+        string: null,
+    },
+    "5074": {
+        string: null,
+    },
+    "5075": {
+        string: null,
+    },
+    "5080": {
+        string: null,
+    },
+    "5081": {
+        string: null,
+    },
+    "5082": {
+        string: null,
+    },
+    "5083": {
+        string: null,
+    },
+    "5084": {
+        string: null,
+    },
+    "5085": {
+        string: null,
+    },
+    "5100": {
+        string: "Introduce la clave de amigo.",
+    },
+    "5101": {
+        string: "¿Es correcta esta clave de amigo?\n\n{arg integer|0 4}-{arg integer|1 4}-{arg integer|2 4}",
+    },
+    "5102": {
+        string: "Esta clave de amigo no es válida.\n\n{arg integer|0 4}-{arg integer|1 4}-{arg integer|2 4}",
+    },
+    "5103": {
+        string: "Has añadido esta clave de amigo:\n\n{arg integer|0 4}-{arg integer|1 4}-{arg integer|2 4}",
+    },
+    "5104": {
+        string: "Para poder competir con este\namigo tienes que darle tu\nclave de amigo.\n\nTu clave de amigo es:\n\n{arg integer|0 4}-{arg integer|1 4}-{arg integer|2 4}",
+    },
+    "5105": {
+        string: "{arg integer|0 1}",
+    },
+    "5106": {
+        string: "-",
+    },
+    "5107": {
+        string: null,
+    },
+    "5110": {
+        string: "Esa clave de amigo ya\nestá en tu lista de amigos.",
+    },
+    "5111": {
+        string: "No puedes tener más de\n30 amigos en tu lista.\nTu lista de amigos\nestá llena.",
+    },
+    "5112": {
+        string: "No tienes ninguna clave de amigo.",
+    },
+    "5113": {
+        string: "Esta es la clave de amigo\nde {arg license player|0}.\n\nNo se puede añadir.",
+    },
+    "5115": {
+        string: null,
+    },
+    "5150": {
+        string: null,
+    },
+    "5151": {
+        string: null,
+    },
+    "5152": {
+        string: null,
+    },
+    "5153": {
+        string: null,
+    },
+    "5154": {
+        string: null,
+    },
+    "5155": {
+        string: null,
+    },
+    "5156": {
+        string: null,
+    },
+    "5157": {
+        string: null,
+    },
+    "5200": {
+        string: "Borrar",
+    },
+    "5201": {
+        string: "Unirse a amigo",
+    },
+    "5202": {
+        string: "No te has podido unir.",
+    },
+    "5203": {
+        string: "Todavía no son amigos.",
+    },
+    "5204": {
+        string: null,
+    },
+    "5205": {
+        string: null,
+    },
+    "5206": {
+        string: "victoria",
+    },
+    "5207": {
+        string: "victorias",
+    },
+    "5208": {
+        string: null,
+    },
+    "5209": {
+        string: "Batalla",
+    },
+    "5210": {
+        string: "¿Quieres borrar esta clave de amigo?",
+    },
+    "5211": {
+        string: "Se ha borrado esta clave de amigo.",
+    },
+    "5212": {
+        string: "Borrando clave de amigo...",
+    },
+    "5213": {
+        string: "Borrar clave de amigo",
+    },
+    "5214": {
+        string: "Borrar clave de amigo",
+    },
+    "5215": {
+        string: "Cancelar",
+    },
+    "5216": {
+        string: "{arg cond messages|0 5206 5207}",
+    },
+    "5217": {
+        string: "Se van a borrar todos los fantasmas\nrelacionados con esta clave de amigo.\n\n¿Estás de acuerdo?",
+    },
+    "5218": {
+        string: null,
+    },
+    "5300": {
+        string: "¡Estoy en línea!",
+    },
+    "5301": {
+        string: "No estoy en línea...",
+    },
+    "5302": {
+        string: null,
+    },
+    "5303": {
+        string: null,
+    },
+    "5304": {
+        string: "¡He creado una sala!",
+    },
+    "5305": {
+        string: "¡Estoy jugando con amigos!",
+    },
+    "5306": {
+        string: "¡Estoy jugando con amigos!",
+    },
+    "5307": {
+        string: "¡En una Carrera VS. mundial!",
+    },
+    "5308": {
+        string: "¡Disputo una batalla mundial!",
+    },
+    "5309": {
+        string: "¡En una Carrera VS. continental!",
+    },
+    "5310": {
+        string: "¡En una batalla continental!",
+    },
+    "5311": {
+        string: "¡Organizo una carrera (1/4)!",
+    },
+    "5312": {
+        string: "¡Organizo una carrera (2/4)!",
+    },
+    "5313": {
+        string: "¡Organizo una carrera (3/4)!",
+    },
+    "5314": {
+        string: "¡Organizo una carrera (4/4)!",
+    },
+    "5315": {
+        string: "¡Organizo una batalla (1.ª)!",
+    },
+    "5316": {
+        string: "¡Organizo una batalla (2.ª)!",
+    },
+    "5317": {
+        string: "¡Organizo una batalla (3.ª)!",
+    },
+    "5318": {
+        string: "¡En una batalla (desempate)!",
+    },
+    "5319": {
+        string: "¡Juego con amigos (1.ª carrera)!",
+    },
+    "5320": {
+        string: "¡Juego con amigos (2.ª carrera)!",
+    },
+    "5321": {
+        string: "¡Juego con amigos (3.ª carrera)!",
+    },
+    "5322": {
+        string: "¡Juego con amigos (4.ª carrera)!",
+    },
+    "5323": {
+        string: "¡Juego con amigos (1.ª batalla)!",
+    },
+    "5324": {
+        string: "¡Juego con amigos (2.ª batalla)!",
+    },
+    "5325": {
+        string: "¡Juego con amigos (3.ª batalla)!",
+    },
+    "5326": {
+        string: "¡Juego con amigos (desempate)!",
+    },
+    "5327": {
+        string: null,
+    },
+    "5328": {
+        string: null,
+    },
+    "5350": {
+        string: "Estoy uniéndome a un amigo.",
+    },
+    "5351": {
+        string: null,
+    },
+    "5400": {
+        string: null,
+    },
+    "5401": {
+        string: null,
+    },
+    "5402": {
+        string: "Vas a enviar este fantasma.\n¿Estás de acuerdo?",
+    },
+    "5403": {
+        string: "Enviando el fantasma...",
+    },
+    "5404": {
+        string: "¡El fantasma se ha enviado\na {arg player|0}!\n\n{arg integer|0 0} / 5",
+    },
+    "5405": {
+        string: "¡El fantasma se ha enviado a\n{arg player|0}!\n\n5/5\n\nPodrás enviar más fantasmas la próxima\nvez que juegues a Mario Kart Wii.",
+    },
+    "5406": {
+        string: "No se ha encontrado ningún fantasma,\npor lo que no se ha podido enviar\nninguno como reto.",
+    },
+    "5407": {
+        string: null,
+    },
+    "5500": {
+        string: "Leyendo los datos de fantasmas...",
+    },
+    "5501": {
+        string: "¡Un amigo te ha retado!",
+    },
+    "5502": {
+        string: "La lista de fantasmas descargados está \nllena. No puedes aceptar los retos \nde tus amigos.\n\nBorra un fantasma.",
+    },
+    "5503": {
+        string: "Aún no puedes correr en este circuito.\n\nGana trofeos en el modo de Grand Prix\npara desbloquear más circuitos.",
+    },
+    "5504": {
+        string: "Se ha producido un error al descargar\nun fantasma enviado como reto.",
+    },
+    "5505": {
+        string: null,
+    },
+    "5600": {
+        string: "",
+    },
+    "5601": {
+        string: "Japón",
+    },
+    "5608": {
+        string: "Anguila",
+    },
+    "5609": {
+        string: "Antigua y Barbuda",
+    },
+    "5610": {
+        string: "Argentina",
+    },
+    "5611": {
+        string: "Aruba",
+    },
+    "5612": {
+        string: "Bahamas",
+    },
+    "5613": {
+        string: "Barbados",
+    },
+    "5614": {
+        string: "Belice",
+    },
+    "5615": {
+        string: "Bolivia",
+    },
+    "5616": {
+        string: "Brasil",
+    },
+    "5617": {
+        string: "Islas Vírgenes Británicas",
+    },
+    "5618": {
+        string: "Canadá",
+    },
+    "5619": {
+        string: "Islas Caimán",
+    },
+    "5620": {
+        string: "Chile",
+    },
+    "5621": {
+        string: "Colombia",
+    },
+    "5622": {
+        string: "Costa Rica",
+    },
+    "5623": {
+        string: "Dominica",
+    },
+    "5624": {
+        string: "República Dominicana",
+    },
+    "5625": {
+        string: "Ecuador",
+    },
+    "5626": {
+        string: "El Salvador",
+    },
+    "5628": {
+        string: "Granada",
+    },
+    "5630": {
+        string: "Guatemala",
+    },
+    "5631": {
+        string: "Guyana",
+    },
+    "5632": {
+        string: "Haití",
+    },
+    "5633": {
+        string: "Honduras",
+    },
+    "5634": {
+        string: "Jamaica",
+    },
+    "5636": {
+        string: "México",
+    },
+    "5637": {
+        string: "Montserrat",
+    },
+    "5638": {
+        string: "Antillas Neerlandesas",
+    },
+    "5639": {
+        string: "Nicaragua",
+    },
+    "5640": {
+        string: "Panamá",
+    },
+    "5641": {
+        string: "Paraguay",
+    },
+    "5642": {
+        string: "Perú",
+    },
+    "5643": {
+        string: "San Cristóbal y Nieves",
+    },
+    "5644": {
+        string: "Santa Lucía",
+    },
+    "5645": {
+        string: "San Vicente y las Granadinas",
+    },
+    "5646": {
+        string: "Surinam",
+    },
+    "5647": {
+        string: "Trinidad y Tobago",
+    },
+    "5648": {
+        string: "Islas Turcas y Caicos",
+    },
+    "5649": {
+        string: "Estados Unidos de América",
+    },
+    "5650": {
+        string: "Uruguay",
+    },
+    "5651": {
+        string: "Islas Vírgenes Americanas",
+    },
+    "5652": {
+        string: "Venezuela",
+    },
+    "5665": {
+        string: "Australia",
+    },
+    "5666": {
+        string: "Austria",
+    },
+    "5667": {
+        string: "Bélgica",
+    },
+    "5674": {
+        string: "Dinamarca",
+    },
+    "5676": {
+        string: "Finlandia",
+    },
+    "5677": {
+        string: "Francia",
+    },
+    "5678": {
+        string: "Alemania",
+    },
+    "5679": {
+        string: "Grecia",
+    },
+    "5682": {
+        string: "Irlanda",
+    },
+    "5683": {
+        string: "Italia",
+    },
+    "5688": {
+        string: "Luxemburgo",
+    },
+    "5694": {
+        string: "Países Bajos",
+    },
+    "5695": {
+        string: "Nueva Zelanda",
+    },
+    "5696": {
+        string: "Noruega",
+    },
+    "5698": {
+        string: "Portugal",
+    },
+    "5705": {
+        string: "España",
+    },
+    "5707": {
+        string: "Suecia",
+    },
+    "5708": {
+        string: "Suiza",
+    },
+    "5710": {
+        string: "Reino Unido",
+    },
+    "5728": {
+        string: "",
+    },
+    "5736": {
+        string: "Corea del Sur",
+    },
+    "5744": {
+        string: "",
+    },
+    "5745": {
+        string: "",
+    },
+    "5760": {
+        string: "",
+    },
+    "5855": {
+        string: null,
+    },
+    "6000": {
+        string: "Elige un circuito.",
+    },
+    "6001": {
+        string: "Clasif. de amigos",
+    },
+    "6002": {
+        string: "Clasif. continental",
+    },
+    "6003": {
+        string: "Clasif. mundial",
+    },
+    "6004": {
+        string: "10 mejores",
+    },
+    "6005": {
+        string: "Amigos - {arg message|0}",
+    },
+    "6006": {
+        string: "Continental - {arg message|0}",
+    },
+    "6007": {
+        string: "Mundial - {arg message|0}",
+    },
+    "6008": {
+        string: "10",
+    },
+    "6009": {
+        string: "10 mejores",
+    },
+    "6010": {
+        string: "Jugar el modo Contrarreloj",
+    },
+    "6011": {
+        string: "Empezar carrera",
+    },
+    "6012": {
+        string: "Ver la repetición",
+    },
+    "6013": {
+        string: "Borrar fantasma",
+    },
+    "6014": {
+        string: "Enviar un fantasma",
+    },
+    "6015": {
+        string: "Correr contra fantasma",
+    },
+    "6016": {
+        string: "Contrarreloj individual",
+    },
+    "6017": {
+        string: "NUEVO",
+    },
+    "6018": {
+        string: "Amigos",
+    },
+    "6019": {
+        string: "10 mejores",
+    },
+    "6020": {
+        string: "Continental",
+    },
+    "6021": {
+        string: "10 mejores",
+    },
+    "6022": {
+        string: "Mundial",
+    },
+    "6023": {
+        string: "10 mejores",
+    },
+    "6024": {
+        string: null,
+    },
+    "6050": {
+        string: "TIEMPO",
+    },
+    "6051": {
+        string: "{arg integer|0 1}:{arg integer|1 2}",
+    },
+    "6052": {
+        string: "{arg integer|0 2}:{arg integer|1 2}.{arg integer|2 3}",
+    },
+    "6053": {
+        string: "--:--.---",
+    },
+    "6054": {
+        string: "Campeón continental",
+    },
+    "6055": {
+        string: "Campeón del mundo",
+    },
+    "6056": {
+        string: "Fantasma rival",
+    },
+    "6057": {
+        string: "Amigos",
+    },
+    "6058": {
+        string: "Continental",
+    },
+    "6059": {
+        string: "Mundial",
+    },
+    "6060": {
+        string: "{arg front button|0}",
+    },
+    "6061": {
+        string: "Fantasma familiar",
+    },
+    "6062": {
+        string: "Fantasma de amigo",
+    },
+    "6063": {
+        string: "Fantasma especial",
+    },
+    "6064": {
+        string: "Fantasma del personal",
+    },
+    "6065": {
+        string: null,
+    },
+    "6100": {
+        string: "{arg message|0}: no hay fantasma\npara este circuito.\n",
+    },
+    "6101": {
+        string: "No hay fantasma para\n{arg license player|0}.",
+    },
+    "6102": {
+        string: "No hay datos de fantasma descargados.",
+    },
+    "6103": {
+        string: null,
+    },
+    "6110": {
+        string: "Descargando datos del fantasma...",
+    },
+    "6111": {
+        string: "La lista de fantasmas descargados\nestá llena. No puedes descargar más\nfantasmas.\n\nBorra un fantasma.",
+    },
+    "6112": {
+        string: "Ocurrió un error mientras se\ndescargaba un fantasma.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "6113": {
+        string: "Se ha descargado el fantasma.",
+    },
+    "6114": {
+        string: "Descargando los 10 mejores...",
+    },
+    "6115": {
+        string: "Ocurrió un error al descargar\nlos 10 mejores.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "6116": {
+        string: "No hay datos sobre los 10 mejores.",
+    },
+    "6117": {
+        string: "",
+    },
+    "6120": {
+        string: "Vas a conectarte a la CWF de\nNintendo. ¿Estás de acuerdo?",
+    },
+    "6121": {
+        string: "OK",
+    },
+    "6122": {
+        string: "Vas a conectarte a la CWF de\nNintendo. ¿Estás de acuerdo?",
+    },
+    "6123": {
+        string: "Vas a reemplazar el fantasma actual\npor uno nuevo.\n\n¿Seguro?",
+    },
+    "6124": {
+        string: null,
+    },
+    "6150": {
+        string: "Corre contra este fantasma.",
+    },
+    "6151": {
+        string: "Ver la repetición de la carrera\ncontra el fantasma.",
+    },
+    "6152": {
+        string: "¿Seguro que quieres borrarlo?",
+    },
+    "6153": {
+        string: "Borrar",
+    },
+    "6154": {
+        string: "Cancelar",
+    },
+    "6155": {
+        string: null,
+    },
+    "6201": {
+        string: "1.º",
+    },
+    "6202": {
+        string: "2.º",
+    },
+    "6203": {
+        string: "3.º",
+    },
+    "6204": {
+        string: "4.º",
+    },
+    "6205": {
+        string: "5.º",
+    },
+    "6206": {
+        string: "6.º",
+    },
+    "6207": {
+        string: "7.º",
+    },
+    "6208": {
+        string: "8.º",
+    },
+    "6209": {
+        string: "9.º",
+    },
+    "6210": {
+        string: "10.º",
+    },
+    "6211": {
+        string: "11.°",
+    },
+    "6212": {
+        string: "12.°",
+    },
+    "6213": {
+        string: null,
+    },
+    "6250": {
+        string: "Empieza una carrera Contrarreloj.",
+    },
+    "6251": {
+        string: "Compite con {arg player|0}.",
+    },
+    "6252": {
+        string: "Corre contra el fantasma del campeón continental.",
+    },
+    "6253": {
+        string: "Corre contra el fantasma del campeón del mundo.",
+    },
+    "6254": {
+        string: "Corre contra un fantasma con mejor marca personal que tú.",
+    },
+    "6255": {
+        string: "Comprueba cuáles de tus amigos son los 10 mejores.",
+    },
+    "6256": {
+        string: "Comprueba quiénes son los 10 mejores del continente.",
+    },
+    "6257": {
+        string: "Comprueba quiénes son los 10 mejores del mundo.",
+    },
+    "6258": {
+        string: "Compite contra un fantasma del personal de Mario Kart Wii.",
+    },
+    "6259": {
+        string: "Récord de {arg player|0}.",
+    },
+    "6260": {
+        string: "Récord del campeón continental",
+    },
+    "6261": {
+        string: "Récord del campeón del mundo",
+    },
+    "6262": {
+        string: null,
+    },
+    "6300": {
+        string: "Enviar tu fantasma",
+    },
+    "6301": {
+        string: "{arg player|0} no ha establecido ningún\nrécord en {arg message|0}.",
+    },
+    "6302": {
+        string: "El récord actual de {arg player|0} \nen {arg message|0} es de\n{arg integer|0 2}:{arg integer|1 2}.{arg integer|2 3}.",
+    },
+    "6303": {
+        string: "{arg player|0} no ha establecido ningún\nrécord en {arg message|0}",
+    },
+    "6304": {
+        string: "El récord actual de {arg player|0} \nen {arg message|0} es de\n{arg integer|0 2}:{arg integer|1 2}.{arg integer|2 3}.",
+    },
+    "6305": {
+        string: "Enviando el fantasma...",
+    },
+    "6306": {
+        string: null,
+    },
+    "6310": {
+        string: "En estos momentos el servicio WiiConnect24\nno está disponible. Inténtalo más tarde.\n\nCódigo de error: {arg integer|0 6}",
+    },
+    "6311": {
+        string: "El servicio WiiConnect24 no está disponible\nporque no se puede establecer una conexión\ncon Internet. Comprueba las opciones de Internet\nen la configuración de Wii. Consulta el manual de\noperaciones de la consola Wii para obtener\nmás información.\n\nCódigo de error: {arg integer|0 6}",
+    },
+    "6312": {
+        string: "Debido a un problema con la\nmemoria de la consola Wii, no se\npuede usar el servicio WiiConnect24.\n\nCódigo de error: {arg integer|0 6}",
+    },
+    "6313": {
+        string: "Debes realizar una actualización\nde la consola Wii para poder usar\nWiiConnect24. Para obtener más\ninformación, consulta el manual\nde operaciones de la consola Wii.\n\nCódigo de error: {arg integer|0 6}",
+    },
+    "6314": {
+        string: "En este momento no se puede usar\nel servicio WiiConnect24.\nReinicia la consola y vuelve\na intentarlo.\n\nCódigo de error: {arg integer|0 6}",
+    },
+    "6315": {
+        string: "No se ha configurado WiiConnect24.\nRevisa la configuración en las Opciones\nde Wii. Consulta el manual de operaciones\nde la consola Wii para obtener más\ninformación.\n\nCódigo de error: {arg integer|0 6}",
+    },
+    "6316": {
+        string: "Debido a un problema con la\nmemoria de la consola Wii, no se\npuede usar el servicio WiiConnect24.\n\nCódigo de error: {arg integer|0 6}",
+    },
+    "6317": {
+        string: "El uso de la comunicación en línea\nestá restringido. Consulta los ajustes\ndel Control Parental en las Opciones\nde Wii.",
+    },
+    "6318": {
+        string: "No se ha podido establecer la conexión\na Internet. Comprueba la configuración\nde Internet de la consola Wii.\n\nCódigo de error: 50200",
+    },
+    "6319": {
+        string: "El Canal de Mario Kart\nutiliza WiiConnect24 para\nrecibir información como:\n・Retos de tus amigos.\n・Clasificaciones de jugadores\nde todo el mundo.\n・Fantasmas de otros jugadores.\n・Torneos que se van a celebrar.",
+    },
+    "6320": {
+        string: "Puedes elegir los ajustes del servicio\nWiiConnect24 en las Opciones de Wii.\n\nConsulta el manual de operaciones de\nla consola Wii para obtener más información.",
+    },
+    "6321": {
+        string: "Ocurrió un error.\nNo se puede usar el servicio \nWiiConnect24. Reinicia la \nconsola y vuelve a intentarlo.\n\nCódigo de error: {arg integer|0 6}",
+    },
+    "6322": {
+        string: "",
+    },
+    "6390": {
+        string: "¡YA!",
+    },
+    "6391": {
+        string: "",
+    },
+    "6400": {
+        string: "¡Nuevo reto de un amigo!",
+    },
+    "6401": {
+        string: "¡Datos de fantasma especial!",
+    },
+    "6402": {
+        string: "¡Ha empezado un torneo!",
+    },
+    "6403": {
+        string: "¡Clasificaciones actualizadas!",
+    },
+    "6404": {
+        string: "¡Empezar Carrera fantasma!",
+    },
+    "6405": {
+        string: "¡Récords nuevos de un amigo!",
+    },
+    "6406": {
+        string: "¡Instala el Canal Mario Kart!",
+    },
+    "6407": {
+        string: "¡Activa el servicio de mensajes!",
+    },
+    "6408": {
+        string: "¡Establece tu región!",
+    },
+    "6409": {
+        string: "¡Invita a amigos Wii!",
+    },
+    "6410": {
+        string: "¡Descarga los últimos datos!",
+    },
+    "6411": {
+        string: null,
+    },
+    "6412": {
+        string: null,
+    },
+    "6500": {
+        string: "Ver la lista de fantasmas descargados.",
+    },
+    "6501": {
+        string: "Consulta tu clasificación de Contrarreloj.",
+    },
+    "6502": {
+        string: "Participa en el torneo.",
+    },
+    "6503": {
+        string: "Consulta tu clasificación de Contrarreloj.",
+    },
+    "6504": {
+        string: "Compite contra un fantasma.",
+    },
+    "6505": {
+        string: "Consulta tu clasificación de Contrarreloj.",
+    },
+    "6506": {
+        string: "Consulta las opciones.",
+    },
+    "6507": {
+        string: "Consulta las opciones.",
+    },
+    "6508": {
+        string: "Consulta las opciones.",
+    },
+    "6509": {
+        string: "Envía invitaciones para hacer nuevos amigos.",
+    },
+    "6510": {
+        string: "¡Datos de torneos y actualizaciones!",
+    },
+    "6511": {
+        string: null,
+    },
+    "6512": {
+        string: null,
+    },
+    "6550": {
+        string: "No puedes consultar las clasificaciones\nde los torneos en este momento.",
+    },
+    "6551": {
+        string: "Descargando clasificaciones de torneos...",
+    },
+    "6552": {
+        string: "Ocurrió un error al descargar las\nclasificaciones de los torneos.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "6553": {
+        string: "Puedes consultar las clasificaciones\nde los torneos a partir del día\nsiguiente del comienzo de cada\ntorneo. Espera un poco más.",
+    },
+    "6554": {
+        string: "Primera mitad",
+    },
+    "6555": {
+        string: "Segunda mitad",
+    },
+    "6556": {
+        string: "Aún no se pueden consultar las\nclasificaciones de este torneo.\n\nVuelve a intentarlo mañana.",
+    },
+    "6600": {
+        string: "Un torneo mundial de\nMario Kart Wii está a punto\nde empezar y estará disponible\ndurante un tiempo limitado.\n\nConecta tu consola Wii a\nInternet, activa Wiiconnect24, y\nespera a que empiece el torneo.",
+    },
+    "6601": {
+        string: "¡El torneo anterior ha finalizado y ya\npuedes consultar sus resultados!",
+    },
+    "6602": {
+        string: "{arg string|0}",
+    },
+    "6603": {
+        string: "{arg string|0}",
+    },
+    "6604": {
+        string: "Empezar",
+    },
+    "6605": {
+        string: "Enviar resultado del torneo",
+    },
+    "6606": {
+        string: "Enviando resultado del torneo...",
+    },
+    "6607": {
+        string: "{arg string|0}\n{arg integer|0 2}:{arg integer|1 2}.{arg integer|2 3}",
+    },
+    "6608": {
+        string: "Se ha enviado tu\nresultado del torneo.",
+    },
+    "6609": {
+        string: "No se ha podido enviar el \nresultado del torneo.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "6610": {
+        string: "Fecha límite:\n{arg integer|2 0}/{arg integer|1 0}/{arg integer|0 0}.",
+    },
+    "6611": {
+        string: null,
+    },
+    "6700": {
+        string: "Invitación en el Tablón de Wii",
+    },
+    "6701": {
+        string: "Puedes enviar un mensaje con tu\nclave de amigo al Tablón de Wii\nde tus amigos Wii.\n\n¡Es una manera rápida y fácil de\nhacer amigos en Mario Kart Wii!",
+    },
+    "6702": {
+        string: "Elige a un amigo Wii al que enviar una invitación.",
+    },
+    "6703": {
+        string: "Se va a enviar una invitación al \nTablón de Wii de {arg string|0}.\n\n¿Estás de acuerdo?",
+    },
+    "6704": {
+        string: "Enviando invitación...",
+    },
+    "6705": {
+        string: "Se ha enviado la invitación al \nTablón de Wii de {arg string|0}.\n\nSi {arg string|0} responde\na tu invitación, se harán amigos\ninmediatamente.",
+    },
+    "6706": {
+        string: "No se ha podido enviar la invitación.\n\nCódigo de error: {arg integer|0 6}",
+    },
+    "6707": {
+        string: "{arg string|0}",
+    },
+    "6708": {
+        string: "Se ha enviado el resultado del torneo.\n\nVas a acceder a las clasificaciones \nde los torneos.",
+    },
+    "6709": {
+        string: null,
+    },
+    "6710": {
+        string: "Añadir amigo",
+    },
+    "6711": {
+        string: "Has recibido una invitación\nde {arg string|0}.\nPuedes añadir a esta persona\nen tu lista de amigos\ninmediatamente. Si lo haces,\n{arg string|0} recibirá\ntu clave de amigo.",
+    },
+    "6712": {
+        string: "¿Quieres añadir la \nclave de amigo de \n{arg string|0} a tu \nlista de amigos?",
+    },
+    "6713": {
+        string: "Añadiendo clave de amigo...",
+    },
+    "6714": {
+        string: "La clave de amigo de {arg string|0} \nse ha añadido a tu lista de amigos.",
+    },
+    "6715": {
+        string: "No se ha podido añadir a la lista.\n\nCódigo de error: {arg integer|0 6}",
+    },
+    "6716": {
+        string: "Todavía no tienes una clave\nde amigo.\n\nTu clave de amigo es un número\nde 12 cifras que te permite conectar\na la CWF de Nintendo.\n\nConsulta el folleto de instrucciones\nde Mario Kart Wii para obtener más\ninformación.",
+    },
+    "6717": {
+        string: "Un jugador te ha enviado\nuna invitación para que\nse hagan amigos, pero ya\ntienes 30 claves de amigo\nen tu lista de amigos.\n\nNo puedes añadir más\nclaves de amigo.",
+    },
+    "6718": {
+        string: "Has recibido una invitación,\npero la persona que la envió\nno está en la Agenda de tu\nTablón de Wii.\n\nVuelve al Canal Mario Kart\ny añade su clave de amigo.",
+    },
+    "6719": {
+        string: "Un jugador te ha enviado una \ninvitación para hacerse amigos,\npero su clave de amigo ya está \nregistrada en tu lista de amigos.",
+    },
+    "6720": {
+        string: "",
+    },
+    "6800": {
+        string: "Descargar clasificaciones de torneos",
+    },
+    "6801": {
+        string: "Descargando clasificaciones de torneos...",
+    },
+    "6802": {
+        string: "Clasificaciones de torneos descargadas.",
+    },
+    "6803": {
+        string: "No se han podido descargar las \nclasificaciones de los torneos.\n\nCódigo de error: {arg integer|0 5}",
+    },
+    "6804": {
+        string: null,
+    },
+    "6811": {
+        string: null,
+    },
+    "6812": {
+        string: null,
+    },
+    "6813": {
+        string: null,
+    },
+    "6900": {
+        string: "Descargar los últimos datos",
+    },
+    "6901": {
+        string: "Se van a descargar los últimos \ndatos del Canal Mario Kart.",
+    },
+    "6902": {
+        string: "Descargando los últimos datos...",
+    },
+    "6903": {
+        string: "Se han descargado los últimos \ndatos del Canal Mario Kart.",
+    },
+    "6904": {
+        string: "Ocurrió un error al descargar\nlos últimos datos.\n\nCódigo de error: {arg integer|0 6}",
+    },
+    "6905": {
+        string: null,
+    },
+    "7000": {
+        string: "Opciones",
+    },
+    "7001": {
+        string: "Conexión Wi-Fi de Nintendo",
+    },
+    "7002": {
+        string: "Opciones",
+    },
+    "7003": {
+        string: "Siguiente",
+    },
+    "7004": {
+        string: null,
+    },
+    "7100": {
+        string: "Vibración del mando",
+    },
+    "7101": {
+        string: "¿Quieres activar la función\nde vibración del mando\nde Nintendo GameCube?",
+    },
+    "7102": {
+        string: "Sí",
+    },
+    "7103": {
+        string: "No",
+    },
+    "7104": {
+        string: "Se ha activado la función de\nvibración del mando de\nNintendo GameCube.",
+    },
+    "7105": {
+        string: "Se ha desactivado la\nfunción de vibración\ndel mando de\nNintendo GameCube.",
+    },
+    "7106": {
+        string: null,
+    },
+    "7200": {
+        string: "Configurar tu región",
+    },
+    "7201": {
+        string: "¿Quieres volver al Menú de Wii\npara elegir tu región?",
+    },
+    "7202": {
+        string: null,
+    },
+    "7203": {
+        string: null,
+    },
+    "7204": {
+        string: null,
+    },
+    "7250": {
+        string: "Mostrar bandera y región",
+    },
+    "7251": {
+        string: "Mario Kart Wii puede mostrar la bandera de tu \npaís y tu región en los siguientes lugares:\n\n・En la CWF de Nintendo indicando tu ubicación.\n・En los datos de tu fantasma. \n\nSi decides mostrar estos datos, \ntus oponentes podrán verlos en la \nCWF de Nintendo.",
+    },
+    "7252": {
+        string: "¿Quieres mostrar la bandera de tu país\ny tu región al jugar Mario Kart Wii?",
+    },
+    "7253": {
+        string: "Sí",
+    },
+    "7254": {
+        string: "No",
+    },
+    "7255": {
+        string: "Has decidido mostrar la bandera de tu\npaís y tu región en la CWF de Nintendo.",
+    },
+    "7256": {
+        string: "Has decidido no mostrar la bandera de tu\npaís ni tu región en la CWF de Nintendo.",
+    },
+    "7257": {
+        string: null,
+    },
+    "7300": {
+        string: "Servicio de mensajes",
+    },
+    "7301": {
+        string: "Activa el servicio de mensajes para\nrecibir las últimas noticias del Canal\nMario Kart en tu Tablón de Wii\nmediante el servicio WiiConnect24.\nPuedes desactivarlo en cualquier\nmomento.\n\nRecibirás mensajes sobre: \n・Torneos que vayan a empezar.\n・Descargas de fantasmas especiales.",
+    },
+    "7302": {
+        string: "¿Quieres activar el\nservicio de mensajes\ndel Canal Mario Kart?",
+    },
+    "7303": {
+        string: "Sí",
+    },
+    "7304": {
+        string: "No",
+    },
+    "7305": {
+        string: "Se ha activado el servicio\nde mensajes del Canal\nMario Kart.",
+    },
+    "7306": {
+        string: "No recibirás ningún\nmensaje del Canal\nMario Kart.\n¿Quieres continuar?",
+    },
+    "7307": {
+        string: "",
+    },
+    "7350": {
+        string: "A partir de ahora podrás\nrecibir mensajes en tu \nTablón de Wii a través \ndel Canal Mario Kart.",
+    },
+    "7351": {
+        string: "¿Quieres dejar de recibir mensajes?",
+    },
+    "7352": {
+        string: "Dejar de recibir mensajes\ndel Canal Mario Kart.",
+    },
+    "7353": {
+        string: "Dejar de recibir mensajes\nde todos los canales.",
+    },
+    "7354": {
+        string: "Seguir recibiendo mensajes.",
+    },
+    "7355": {
+        string: "¿Quieres dejar de recibir\nmensajes del Canal Mario Kart?",
+    },
+    "7356": {
+        string: "¿Quieres dejar de recibir\nmensajes de todos los\ncanales?",
+    },
+    "7357": {
+        string: "Seguirás recibiendo mensajes\ndel Canal Mario Kart.",
+    },
+    "7358": {
+        string: "Se ha desactivado el servicio\nde mensajes del Canal\nMario Kart.",
+    },
+    "7359": {
+        string: "El Canal Mario Kart ha\ndejado de enviar mensajes.",
+    },
+    "7360": {
+        string: "Todos los canales han dejado\nde enviar mensajes.",
+    },
+    "7361": {
+        string: "",
+    },
+    "7400": {
+        string: "Compartir datos",
+    },
+    "7401": {
+        string: "Cuando juegues Mario Kart Wii\na través de la CWF de Nintendo,\nse enviará la siguiente información\na Nintendo de manera automática:\n・Tu Mii y tu apodo.\n・Tus resultados y tus fantasmas.\nEstos datos se podrán compartir \ncon otros jugadores de Mario Kart Wii.",
+    },
+    "7402": {
+        string: "¿Quieres permitir que se\nenvíen los datos a Nintendo?",
+    },
+    "7403": {
+        string: "Sí",
+    },
+    "7404": {
+        string: "No",
+    },
+    "7405": {
+        string: "Has decidido enviar \nlos datos de Mario \nKart Wii.",
+    },
+    "7406": {
+        string: "No podrás jugar Mario Kart Wii\na través de la CWF de Nintendo.\n¿Quieres continuar?",
+    },
+    "7407": {
+        string: "Has decidido no enviar\nlos datos de Mario \nKart Wii.",
+    },
+    "7408": {
+        string: "No utilices tu nombre real u otros datos\npersonales en el apodo de tu Mii. Si los\nhas utilizado, sigue uno de los siguientes\nmétodos para cambiar el apodo de tu Mii y\nproteger tu intimidad:\n・Cambia el apodo de tu Mii en el Canal Mii.\n・Elige un Mii Invitado en los ajustes de la\nlicencia.",
+    },
+    "7409": {
+        string: "",
+    },
+    "7500": {
+        string: "Mostrar Miis ",
+    },
+    "7501": {
+        string: "Los Miis de otros jugadores pueden\naparecer durante las carreras o las\nbatallas, en las clasificaciones o en\notros lugares de la CWF de Nintendo.\n\nPuedes elegir si quieres mostrar estos\nMiis o si prefieres sustituirlos por\naquellos Miis creados por Nintendo.",
+    },
+    "7502": {
+        string: "¿Quieres ver en Mario Kart Wii los \nMiis creados por otros jugadores?",
+    },
+    "7503": {
+        string: "Sí",
+    },
+    "7504": {
+        string: "No",
+    },
+    "7505": {
+        string: "Los Miis creados\npor otros jugadores\nse mostrarán en\nMario Kart Wii.",
+    },
+    "7506": {
+        string: "Los Miis creados\npor otros jugadores\nno se mostrarán en\nMario Kart Wii.",
+    },
+    "7507": {
+        string: "Los Miis creados por otros\njugadores se van a sustituir\npor los Miis creados por\nNintendo.\n¿Estás de acuerdo?",
+    },
+    "7508": {
+        string: null,
+    },
+    "7600": {
+        string: null,
+    },
+    "7601": {
+        string: null,
+    },
+    "7602": {
+        string: null,
+    },
+    "7603": {
+        string: null,
+    },
+    "7604": {
+        string: null,
+    },
+    "7605": {
+        string: null,
+    },
+    "7700": {
+        string: "Mario Kart Wii es compatible con el\nmodo de 60Hz (480i). Tu configuración actual\nestá en el modo de 50Hz (576i). Si tu televisión,\nal igual que la mayoría de los modelos, es\ncompatible con el Modo de 60Hz, selecciona este\ntipo de televisión en las Opciones de Wii para\ndisfrutar de una mejor calidad de imagen.\n\nSi deseas cambiar la configuración al modo de\n60Hz, oprime el Botón HOME y vuelve al Menú\nde Wii.",
+    },
+    "7701": {
+        string: "{2 chars|< <}",
+    },
+    "7702": {
+        string: "¡FELICIDADES!",
+    },
+    "7703": {
+        string: "¿Quieres enviar esta foto\nal Tablón de Wii?",
+    },
+    "7704": {
+        string: "Enviando al Tablón de Wii...",
+    },
+    "7705": {
+        string: "¡Se ha enviado la foto\nal Tablón de Wii!",
+    },
+    "7706": {
+        string: "No envíes demasiadas fotos o \nte quedarás sin espacio en el \nTablón de Wii.\n\nCuando esto ocurra, se borrarán los \nmensajes más antiguos para poder \nrecibir nuevos en el Tablón de Wii.",
+    },
+    "7707": {
+        string: "¡Sigue disfrutando de\nMario Kart Wii!",
+    },
+    "8000": {
+        string: "¡Felicidades!\n¡Has desbloqueado la\n{arg message|1} en {arg message|0}!",
+    },
+    "8001": {
+        string: "¡Felicidades!\n¡Has desbloqueado \nel modo Espejo!",
+    },
+    "8002": {
+        string: "¡Felicidades!\n¡Ahora ya puedes\ncorrer con {arg message|0}!",
+    },
+    "8003": {
+        string: "¡Felicidades!\n¡Ahora ya puedes\ncorrer con {arg message|0}!",
+    },
+    "8004": {
+        string: "¡Felicidades!\n¡Has desbloqueado un kart pequeño!\n{arg message|0}",
+    },
+    "8005": {
+        string: "¡Felicidades!\n¡Has desbloqueado un kart mediano!\n{arg message|0}",
+    },
+    "8006": {
+        string: "¡Felicidades!\n¡Has desbloqueado un kart grande!\n{arg message|0}",
+    },
+    "8007": {
+        string: "¡Felicidades!\n¡Has desbloqueado una moto pequeña!\n{arg message|0}",
+    },
+    "8008": {
+        string: "¡Felicidades!\n¡Has desbloqueado una moto mediana!\n{arg message|0}",
+    },
+    "8009": {
+        string: "¡Felicidades!\n¡Has desbloqueado una moto grande!\n{arg message|0}",
+    },
+    "8010": {
+        string: "¡Felicidades!\n¡Has desbloqueado el Grand \nPrix en 50cc (karts y motos)!",
+    },
+    "8011": {
+        string: "¡Felicidades!\n¡Has desbloqueado el Grand \nPrix en 100cc (karts y motos)!",
+    },
+    "8012": {
+        string: null,
+    },
+    "8100": {
+        string: "¡Has conseguido trofeos en las copas Champiñón y Flor en {arg message|0}!",
+    },
+    "8101": {
+        string: "¡Has conseguido un trofeo en la Copa Estrella en {arg message|0}!",
+    },
+    "8102": {
+        string: "¡Has conseguido trofeos en las copas Caparazón y Plátano en {arg message|0}!",
+    },
+    "8103": {
+        string: "¡Has conseguido un trofeo en la Copa Hoja en {arg message|0}!",
+    },
+    "8104": {
+        string: "¡Has ganado todas las copas en 150cc!",
+    },
+    "8105": {
+        string: null,
+    },
+    "8110": {
+        string: "¡Has ganado la Copa Hoja en 100cc!",
+    },
+    "8111": {
+        string: "¡Has disputado una carrera Contrarreloj en todos los circuitos!",
+    },
+    "8112": {
+        string: "¡Has ganado 1,000 veces en la CWF de Nintendo!",
+    },
+    "8113": {
+        string: "¡Has conseguido la clase {1 char|} en todas las copas del Grand Prix Wii en 50cc!",
+    },
+    "8114": {
+        string: "¡Has desbloqueado 8 de los fantasmas expertos del personal!",
+    },
+    "8115": {
+        string: "¡Has ganado la Copa Centella en 50cc!",
+    },
+    "8116": {
+        string: "¡Has conseguido la clase {1 char|} en todas las copas del Grand Prix Retro en 100cc!",
+    },
+    "8117": {
+        string: "¡Has ganado la Copa Especial en 150cc!",
+    },
+    "8118": {
+        string: "¡Has disputado carreras de Contrarreloj en 16 circuitos!",
+    },
+    "8119": {
+        string: "¡Has conseguido la clase {1 char|} en todas las copas en modo Espejo!",
+    },
+    "8120": {
+        string: "¡Has obtenido un regalo de Super Mario Galaxy!",
+    },
+    "8121": {
+        string: "¡Has conseguido la clase {1 char|} en todas las copas del Grand Prix Wii en 150cc!",
+    },
+    "8122": {
+        string: "¡Has desbloqueado 4 de los fantasmas expertos del personal!",
+    },
+    "8123": {
+        string: "¡Has ganado 25 carreras fantasmas!",
+    },
+    "8124": {
+        string: "¡Has ganado la Copa Estrella en 50cc!",
+    },
+    "8125": {
+        string: "¡Has ganado la Copa Especial en 100cc!",
+    },
+    "8126": {
+        string: "¡Has desbloqueado los 32 fantasmas expertos del personal!",
+    },
+    "8127": {
+        string: "¡Has ganado 5,000 veces en la CWF de Nintendo!",
+    },
+    "8128": {
+        string: "¡Has ganado 100 carreras fantasmas!",
+    },
+    "8129": {
+        string: "¡Has ganado 250 veces en la CWF de Nintendo!",
+    },
+    "8130": {
+        string: null,
+    },
+    "8140": {
+        string: "¡Has conseguido la clase {1 char|} en todas las copas del Grand Prix Retro en 50cc!",
+    },
+    "8141": {
+        string: "¡Has desbloqueado 1 de los fantasmas expertos del personal!",
+    },
+    "8142": {
+        string: "¡Has ganado 50 veces en la CWF de Nintendo!",
+    },
+    "8143": {
+        string: "¡Has ganado la Copa Centella Espejo!",
+    },
+    "8144": {
+        string: "¡Has ganado la Copa Hoja en 50cc!",
+    },
+    "8145": {
+        string: "¡Has ganado la Copa Hoja en 150cc!",
+    },
+    "8146": {
+        string: "¡Has desbloqueado 24 de los fantasmas expertos del personal!",
+    },
+    "8147": {
+        string: "¡Has ganado la Copa Especial en 50cc!",
+    },
+    "8148": {
+        string: "¡Has conseguido la clase {1 char|} en todas las copas del Grand Prix Retro en 150cc!",
+    },
+    "8149": {
+        string: "¡Has ganado la Copa Centella en 150cc!",
+    },
+    "8150": {
+        string: "¡Has ganado la Copa Estrella en 150cc!",
+    },
+    "8151": {
+        string: "¡Has disputado carreras Contrarreloj en 8 circuitos diferentes!",
+    },
+    "8152": {
+        string: "¡Has ganado 5 carreras fantasmas!",
+    },
+    "8153": {
+        string: "¡Has ganado la Copa Hoja Espejo!",
+    },
+    "8154": {
+        string: "¡Has ganado la Copa Centella en 100cc!",
+    },
+    "8155": {
+        string: "¡Has conseguido la clase {1 char|} en todas las copas del Grand Prix Wii en 100cc!",
+    },
+    "8156": {
+        string: "¡Has ganado la Copa Estrella Espejo!",
+    },
+    "8157": {
+        string: "¡Has ganado la Copa Estrella en 100cc!",
+    },
+    "8158": {
+        string: "¡Has desbloqueado 12 de los fantasmas expertos del personal!",
+    },
+    "8159": {
+        string: "¡Has ganado 200 carreras fantasmas!",
+    },
+    "8160": {
+        string: "¡Has ganado la Copa Especial Espejo!",
+    },
+    "8161": {
+        string: "¡Has conseguido trofeos en todas las copas en 50cc!",
+    },
+    "8162": {
+        string: "¡Has conseguido trofeos en todas las copas en 100cc!",
+    },
+    "8163": {
+        string: "¡Has ganado 3,000 veces en la CWF de Nintendo!",
+    },
+    "8164": {
+        string: "Número de veces que has jugado Mario Kart Wii: ¡{arg integer|0 0}!",
+    },
+    "8165": {
+        string: null,
+    },
+    "8200": {
+        string: "Resultados generales",
+    },
+    "8201": {
+        string: "Favoritos",
+    },
+    "8202": {
+        string: "Resultados con amigos",
+    },
+    "8203": {
+        string: "Resultados CWF de Nintendo",
+    },
+    "8204": {
+        string: "Otros resultados",
+    },
+    "8210": {
+        string: "Clasificación general",
+    },
+    "8211": {
+        string: "Distancia recorrida",
+    },
+    "8212": {
+        string: "Total de carreras",
+    },
+    "8213": {
+        string: "Total de batallas",
+    },
+    "8214": {
+        string: "Porcentaje de uso de Wii Wheel",
+    },
+    "8215": {
+        string: "Piruetas realizadas",
+    },
+    "8216": {
+        string: "Personaje favorito",
+    },
+    "8217": {
+        string: "Vehículo favorito",
+    },
+    "8218": {
+        string: "Circuito favorito",
+    },
+    "8219": {
+        string: "Escenario favorito",
+    },
+    "8220": {
+        string: "CWF de Nintendo - Amigos",
+    },
+    "8221": {
+        string: null,
+    },
+    "8222": {
+        string: "Retos de fantasmas enviados",
+    },
+    "8223": {
+        string: "Retos de fantasmas recibidos",
+    },
+    "8224": {
+        string: "Ptos. carreras (PC)",
+    },
+    "8225": {
+        string: "Resultado Carrera VS.",
+    },
+    "8226": {
+        string: "Ptos. batallas (PB)",
+    },
+    "8227": {
+        string: "Resultado Batalla",
+    },
+    "8228": {
+        string: "Consecución del primer puesto",
+    },
+    "8229": {
+        string: "% de tiempo en primer puesto",
+    },
+    "8230": {
+        string: "Golpes dados con objetos",
+    },
+    "8231": {
+        string: "Golpes recibidos con objetos",
+    },
+    "8232": {
+        string: "Carreras fantasmas",
+    },
+    "8233": {
+        string: "Torneos disputados",
+    },
+    "8234": {
+        string: null,
+    },
+    "8235": {
+        string: null,
+    },
+    "8236": {
+        string: null,
+    },
+    "8237": {
+        string: null,
+    },
+    "8238": {
+        string: null,
+    },
+    "8260": {
+        string: "{arg message|0}",
+    },
+    "8261": {
+        string: "{arg integer|0 0}",
+    },
+    "8262": {
+        string: "{arg integer|0 0}",
+    },
+    "8263": {
+        string: "{arg integer|0 0}",
+    },
+    "8264": {
+        string: "{arg integer|0 0}%",
+    },
+    "8265": {
+        string: "{arg integer|0 0}",
+    },
+    "8266": {
+        string: "{arg message|0}",
+    },
+    "8267": {
+        string: "{arg message|0}",
+    },
+    "8268": {
+        string: "{arg message|0}",
+    },
+    "8269": {
+        string: "{arg message|0}",
+    },
+    "8270": {
+        string: "Victorias: {arg integer|0 0} Derrotas: {arg integer|1 0}",
+    },
+    "8271": {
+        string: null,
+    },
+    "8272": {
+        string: "{arg integer|0 0}",
+    },
+    "8273": {
+        string: "{arg integer|0 0}",
+    },
+    "8274": {
+        string: "{arg integer|0 0}",
+    },
+    "8275": {
+        string: "Victorias: {arg integer|0 0} Derrotas: {arg integer|1 0}",
+    },
+    "8276": {
+        string: "{arg integer|0 0} ",
+    },
+    "8277": {
+        string: "Victorias: {arg integer|0 0} Derrotas: {arg integer|1 0}",
+    },
+    "8278": {
+        string: "{arg integer|0 0}",
+    },
+    "8279": {
+        string: "{arg integer|0 0}%",
+    },
+    "8280": {
+        string: "{arg integer|0 0}",
+    },
+    "8281": {
+        string: "{arg integer|0 0}",
+    },
+    "8282": {
+        string: "Victorias: {arg integer|0 0} Derrotas: {arg integer|1 0}",
+    },
+    "8283": {
+        string: "{arg integer|0 0}",
+    },
+    "8284": {
+        string: null,
+    },
+    "8400": {
+        string: null,
+    },
+    "8401": {
+        string: null,
+    },
+    "8402": {
+        string: null,
+    },
+    "8403": {
+        string: null,
+    },
+    "8404": {
+        string: null,
+    },
+    "8405": {
+        string: "¡Felicidades, %ls!\n\n¡Has conseguido trofeos en \ntodas las copas! Para celebrarlo,\nqueremos regalarte esta foto.\n¡Gracias por jugar Mario Kart Wii!\n¡Esperamos que sigas disfrutando\ndel juego!",
+    },
+    "8406": {
+        string: "¡Felicidades, %ls!\n\n¡Has ganado todas las copas\nde Mario Kart Wii! Para celebrarlo,\nqueremos regalarte esta foto.\n¡Gracias por jugar Mario Kart Wii!\n¡Esperamos que sigas disfrutando\ndel juego!",
+    },
+    "8407": {
+        string: null,
+    },
+    "8408": {
+        string: null,
+    },
+    "8409": {
+        string: null,
+    },
+    "8410": {
+        string: null,
+    },
+    "8411": {
+        string: null,
+    },
+    "8412": {
+        string: null,
+    },
+    "8413": {
+        string: null,
+    },
+    "8414": {
+        string: null,
+    },
+    "8415": {
+        string: null,
+    },
+    "8416": {
+        string: null,
+    },
+    "8417": {
+        string: null,
+    },
+    "8418": {
+        string: null,
+    },
+    "8419": {
+        string: null,
+    },
+    "8420": {
+        string: null,
+    },
+    "8421": {
+        string: null,
+    },
+    "8422": {
+        string: null,
+    },
+    "8423": {
+        string: null,
+    },
+    "8424": {
+        string: null,
+    },
+    "8425": {
+        string: null,
+    },
+    "8426": {
+        string: null,
+    },
+    "8427": {
+        string: null,
+    },
+    "8428": {
+        string: null,
+    },
+    "8429": {
+        string: null,
+    },
+    "8430": {
+        string: null,
+    },
+    "8440": {
+        string: null,
+    },
+    "8441": {
+        string: null,
+    },
+    "8442": {
+        string: null,
+    },
+    "8443": {
+        string: null,
+    },
+    "8444": {
+        string: null,
+    },
+    "8445": {
+        string: null,
+    },
+    "8446": {
+        string: null,
+    },
+    "8447": {
+        string: null,
+    },
+    "8448": {
+        string: null,
+    },
+    "8449": {
+        string: null,
+    },
+    "8450": {
+        string: null,
+    },
+    "8451": {
+        string: null,
+    },
+    "8452": {
+        string: null,
+    },
+    "8453": {
+        string: null,
+    },
+    "8454": {
+        string: null,
+    },
+    "8455": {
+        string: null,
+    },
+    "8456": {
+        string: null,
+    },
+    "8457": {
+        string: null,
+    },
+    "8458": {
+        string: null,
+    },
+    "8459": {
+        string: null,
+    },
+    "8460": {
+        string: null,
+    },
+    "8461": {
+        string: null,
+    },
+    "8462": {
+        string: "¡Felicidades, %s!\n\n¡Como recompensa por haber conseguido trofeos en todas las copas en 100cc, has desbloqueado el Grand Prix en 100cc (karts y motos)!",
+    },
+    "8463": {
+        string: null,
+    },
+    "8464": {
+        string: null,
+    },
+    "8470": {
+        string: null,
+    },
+    "8471": {
+        string: null,
+    },
+    "8472": {
+        string: null,
+    },
+    "8473": {
+        string: null,
+    },
+    "8474": {
+        string: null,
+    },
+    "8475": {
+        string: null,
+    },
+    "8476": {
+        string: null,
+    },
+    "8477": {
+        string: null,
+    },
+    "8478": {
+        string: null,
+    },
+    "8479": {
+        string: null,
+    },
+    "8480": {
+        string: null,
+    },
+    "8481": {
+        string: null,
+    },
+    "8482": {
+        string: null,
+    },
+    "8483": {
+        string: null,
+    },
+    "8484": {
+        string: null,
+    },
+    "8485": {
+        string: null,
+    },
+    "8486": {
+        string: null,
+    },
+    "8490": {
+        string: "¡Este es un mensaje del Canal\nMario Kart!\n\n{arg string|0}\n\n\n\nCómo desactivar el servicio de\nmensajes:\n\nEste es un mensaje enviado\npor el Canal Mario Kart.\nSi prefieres no recibir más\nmensajes, apunta a \"Retirarte\",\noprime el Botón A, y elige si\nprefieres desactivar el servicio\nde mensajes del Canal Mario\nKart o de todos los canales.",
+    },
+    "8491": {
+        string: "¡Este es un mensaje del Canal Mario\nKart!\n\n{arg string|0}\n\n\n\nCómo desactivar el servicio de\nmensajes:\n\nEste es un mensaje enviado por el\nCanal Mario Kart. Si prefieres no\nrecibir más mensajes, apunta a\n\"Retirarte\", oprime el Botón A, \ny elige si prefieres desactivar el\nservicio de mensajes del Canal\nMario Kart o de todos los canales.",
+    },
+    "8492": {
+        string: "¡Has recibido una invitación de un\njugador de Mario Kart Wii para\nhacerse amigos!\n\n◆Nombre\n%ls\n\n◆Clave de amigo\n%04d-%04d-%04d\n\nSi registran sus claves de amigos\nmutuamente, podrán jugar juntos.\n\nLos jugadores que tienen Mario\nKart Wii y han instalado el Canal\nMario Kart pueden registrarse\nmutuamente de manera inmediata.\n\nLos demás jugadores pueden\nenviarse una respuesta el uno al\notro.",
+    },
+    "8493": {
+        string: "¡%ls ha aceptado \nla invitación para hacerse amigos!\n\nMario Kart Wii\nClave de amigo: %04d-%04d-%04d\n\nEsta clave de amigo se añadirá\nautomáticamente si tienes \nespacio en tu lista de amigos.\n\nSi registran sus respectivas\nclaves de amigo, podrán jugar\nMario Kart Wii juntos en la\nConexión Wi-Fi de Nintendo.\n\n¡Que se diviertan!",
+    },
+    "8494": {
+        string: null,
+    },
+    "8495": {
+        string: null,
+    },
+    "8496": {
+        string: null,
+    },
+    "8497": {
+        string: null,
+    },
+    "8498": {
+        string: null,
+    },
+    "8499": {
+        string: null,
+    },
+    "8500": {
+        string: null,
+    },
+    "8504": {
+        string: null,
+    },
+    "8505": {
+        string: null,
+    },
+    "8510": {
+        string: null,
+    },
+    "8511": {
+        string: null,
+    },
+    "8512": {
+        string: null,
+    },
+    "8513": {
+        string: null,
+    },
+    "8514": {
+        string: null,
+    },
+    "8515": {
+        string: null,
+    },
+    "8516": {
+        string: null,
+    },
+    "8517": {
+        string: null,
+    },
+    "8518": {
+        string: null,
+    },
+    "8519": {
+        string: null,
+    },
+    "8520": {
+        string: null,
+    },
+    "8521": {
+        string: null,
+    },
+    "8522": {
+        string: null,
+    },
+    "8523": {
+        string: null,
+    },
+    "8524": {
+        string: null,
+    },
+    "8525": {
+        string: null,
+    },
+    "8526": {
+        string: null,
+    },
+    "8527": {
+        string: null,
+    },
+    "8528": {
+        string: null,
+    },
+    "8529": {
+        string: null,
+    },
+    "8530": {
+        string: null,
+    },
+    "8540": {
+        string: null,
+    },
+    "8541": {
+        string: null,
+    },
+    "8542": {
+        string: null,
+    },
+    "8543": {
+        string: null,
+    },
+    "8544": {
+        string: null,
+    },
+    "8545": {
+        string: null,
+    },
+    "8546": {
+        string: null,
+    },
+    "8547": {
+        string: null,
+    },
+    "8548": {
+        string: null,
+    },
+    "8549": {
+        string: null,
+    },
+    "8550": {
+        string: null,
+    },
+    "8551": {
+        string: null,
+    },
+    "8552": {
+        string: null,
+    },
+    "8553": {
+        string: null,
+    },
+    "8554": {
+        string: null,
+    },
+    "8555": {
+        string: null,
+    },
+    "8556": {
+        string: null,
+    },
+    "8557": {
+        string: null,
+    },
+    "8558": {
+        string: null,
+    },
+    "8559": {
+        string: null,
+    },
+    "8560": {
+        string: null,
+    },
+    "8561": {
+        string: null,
+    },
+    "8562": {
+        string: null,
+    },
+    "8563": {
+        string: null,
+    },
+    "8564": {
+        string: null,
+    },
+    "8565": {
+        string: null,
+    },
+    "8566": {
+        string: null,
+    },
+    "8567": {
+        string: null,
+    },
+    "99991": {
+        string: null,
+    },
+    "99992": {
+        string: null,
+    },
+    "99993": {
+        string: null,
+    },
+    "99994": {
+        string: null,
+    },
+    "99995": {
+        string: null,
+    },
+    "99996": {
+        string: null,
+    },
+    "99997": {
+        string: null,
+    },
+    "99998": {
+        string: null,
+    },
+}
