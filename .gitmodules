@@ -1,0 +1,3 @@
+[submodule "wuj5"]
+	path = tools/wuj5
+	url = https://github.com/stblr/wuj5.git
