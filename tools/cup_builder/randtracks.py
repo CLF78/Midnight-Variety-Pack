@@ -3,6 +3,8 @@
 # randtracks.py
 # Random track list and random track editor widgets.
 
+from typing import Union
+
 from qtpy import QtWidgets, QtGui
 from qtpy.QtCore import Qt
 
@@ -46,7 +48,7 @@ class RandomTrackEditor(QtWidgets.QDialog):
                 src.setText(self.data.names[i])
         self.setWindowTitle(f'Random Track Editor - {self.trackNames[0].text()}')
 
-    def addTrack(self, track: Track, chance: int):
+    def addTrack(self, track: Union[Track, None], chance: int):
         tracklist = getMainWindow(self).tracks.list
         allTracks = [tracklist.item(i).data(0x100) for i in range(tracklist.count())]
         allTrackNames = [track.names[0] for track in allTracks]
@@ -64,7 +66,7 @@ class RandomTrackEditor(QtWidgets.QDialog):
         removeBtn = QtWidgets.QPushButton('Remove', self)
         removeBtn.clicked.connect(lambda: self.removeTrack(row))
 
-        if track:
+        if track is not None:
             trackSelector.setCurrentIndex(allTracks.index(track))
             chancePicker.setValue(chance)
         else:

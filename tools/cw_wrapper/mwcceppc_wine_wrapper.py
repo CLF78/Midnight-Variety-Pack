@@ -3,12 +3,13 @@
 # mwcceppc_wine_wrapper.py
 # A modified version of RoadrunnerWMC's version with reduced use of winepath to save building time.
 
-import ntpath, posixpath
+import ntpath
 import sys
 import subprocess
+from pathlib import Path, PureWindowsPath
 from path_utils import PathConverter
 
-def fix_makefile(text: str, codePath: str) -> str:
+def fix_makefile(text: str, codePath: Path) -> str:
     """
     Converts all Windows paths to Unix paths within a CodeWarrior-generated Makefile.
     """
@@ -28,11 +29,12 @@ def fix_makefile(text: str, codePath: str) -> str:
             paths.append(line)
 
     # Convert the common path of every collected path
-    converter = PathConverter(ntpath.commonpath(paths), True)
+    converter = PathConverter(PureWindowsPath(ntpath.commonpath(paths)))
 
     # Assemble the new file and return it
     new_lines = []
     for i, path in enumerate(paths):
+        path = PureWindowsPath(path)
         if i == 0:
             continue
         elif i == 1:
@@ -53,7 +55,7 @@ def main():
     argv.pop(0)
 
     # First argument is the path to CodeWarrior
-    cw_exe = argv.pop(0)
+    cw_exe = Path(argv.pop(0))
 
     # Obtain the Windows makefile path from the object code path
     makefile_path_windows = ''
@@ -64,11 +66,11 @@ def main():
             break
 
     # Save the Linux makefile path and replace it in the command line args
-    makefile_path = ''
+    makefile_path = Path()
     for i, arg in enumerate(argv):
         prev_arg = argv[i - 1] if i > 0 else None
         if prev_arg in ['-Mfile', '-MMfile', '-MDfile', '-MMDfile']:
-            makefile_path = arg
+            makefile_path = Path(arg)
             argv[i] = makefile_path_windows
             break
 
@@ -78,9 +80,8 @@ def main():
         exit(proc.returncode)
 
     # Fix up the generated makefile
-    with open(makefile_path, 'r+', encoding='utf-8') as f:
-        makefile_txt = f.read()
-        data = fix_makefile(makefile_txt, posixpath.splitext(makefile_path)[0])
+    with makefile_path.open('r+', encoding='utf-8') as f:
+        data = fix_makefile(f.read(), makefile_path.with_suffix(''))
         f.seek(0)
         f.truncate()
         f.write(data)

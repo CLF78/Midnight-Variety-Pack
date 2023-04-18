@@ -3,52 +3,47 @@
 # path_utils.py
 # Various path utilities.
 
-import ntpath, posixpath
 import os.path
 import subprocess
 import sys
+from pathlib import Path, PosixPath, PureWindowsPath
+from typing import Union
 
 class PathConverter():
-    def __init__(self, rootDir: str, isWinPath: bool):
+    def __init__(self, rootDir: Union[Path, PosixPath, PureWindowsPath]):
         if sys.platform == 'win32':
             self.linuxDir = self.windowsDir = rootDir
 
-        elif not isWinPath:
+        elif isinstance(rootDir, PosixPath):
             self.linuxDir = rootDir
-            self.windowsDir = subprocess.check_output(['winepath', '-w', rootDir],
-                                                            encoding='utf-8',
-                                                            stderr=subprocess.DEVNULL).rstrip('\n')
+            self.windowsDir = PureWindowsPath(subprocess.check_output(['winepath', '-w', rootDir],
+                                                                    encoding='utf-8',
+                                                                    stderr=subprocess.DEVNULL).rstrip('\n'))
         else:
             self.windowsDir = rootDir
-            self.linuxDir = subprocess.check_output(['winepath', '-u', rootDir],
-                                                    encoding='utf-8',
-                                                    stderr=subprocess.DEVNULL).rstrip('\n')
+            self.linuxDir = Path(subprocess.check_output(['winepath', '-u', rootDir],
+                                                        encoding='utf-8',
+                                                        stderr=subprocess.DEVNULL).rstrip('\n'))
 
-    def u2w(self, path: str):
+    def u2w(self, path: Path) -> PureWindowsPath:
         if sys.platform == 'win32':
-            return path.replace('\\', '\\\\')
+            return PureWindowsPath(path)
+        return PureWindowsPath(self.windowsDir, path.relative_to(self.linuxDir))
 
-        relpath = posixpath.relpath(path, self.linuxDir)
-        return ntpath.join(self.windowsDir, relpath).replace('/', '\\').replace('\\', '\\\\')
-
-    def w2u(self, path: str):
+    def w2u(self, path: PureWindowsPath) -> Path:
         if sys.platform == 'win32':
-            return path.replace('\\\\', '\\')
-
-        relpath = ntpath.relpath(path, self.windowsDir)
-        return posixpath.join(self.linuxDir, relpath).replace('\\\\', '\\').replace('\\', '/')
+            return Path(path)
+        return Path(self.linuxDir, path.relative_to(self.windowsDir))
 
 
-def changePathRoot(file: str, oldRoot: str, newRoot: str) -> str:
-    return os.path.join(newRoot, os.path.relpath(file, oldRoot))
+def escapeWinPath(path: PureWindowsPath) -> str:
+    return str(path).replace('\\', '\\\\')
 
-def changeFileExtension(file: str, extension: str, suffix: str = '') -> str:
-    return f'{os.path.splitext(file)[0]}{suffix}{extension}'
+def changePathRoot(file: Path, oldRoot: Path, newRoot: Path) -> Path:
+    return Path(newRoot, file.relative_to(oldRoot))
 
-def getAllFilesWithExt(dir: str, ext: str) -> list[str]:
-    ret = []
-    for root, _, files in os.walk(dir):
-        for file in files:
-            if file.endswith(ext):
-                ret.append(os.path.join(root, file))
-    return ret
+def changePathEnding(file: Path, ending: str) -> Path:
+    return file.with_stem(f'{file.stem}{ending}')
+
+def properRelPath(dest: Path, src: Path) -> Path:
+    return Path(os.path.relpath(dest, src))

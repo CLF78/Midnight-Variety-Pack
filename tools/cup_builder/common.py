@@ -37,7 +37,7 @@ class Slot(Enum):
         return list(Slot).index(self)
 
     @staticmethod
-    def fromIdx(i: int) -> int:
+    def fromIdx(i: int) -> 'Slot':
         return list(Slot)[i]
 
     @staticmethod

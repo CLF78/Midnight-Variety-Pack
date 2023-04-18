@@ -1,42 +1,47 @@
 #!/usr/bin/env python3
 
 # merge.py
-# Merges multiple BMG JSON files into one
+# Merges multiple decoded BMG files into one
 
 from argparse import ArgumentParser
-import os.path
+from pathlib import Path
 
 import json5
 
-# Get arguments
-parser = ArgumentParser(description='Merges multiple BMG JSON files into one')
-parser.add_argument('inputs', nargs='+', help='The files to be merged')
-parser.add_argument('-o', '--output', required=True, help='The path to the output file')
-args = parser.parse_args()
-messages = {}
+def main(inputs: list[Path], output: Path):
 
-# Parse each file
-for path in args.inputs:
+    # Parse each file
+    messages = {}
+    for path in inputs:
 
-    # Failsafe
-    if not os.path.isfile(path):
-        print(f'File {path} does not exist! Skipping...')
-        continue
+        # Failsafe
+        if not path.is_file():
+            print(f'File {path} does not exist! Skipping...')
+            continue
 
-    # Load the data
-    with open(path, encoding='utf-8') as input:
-        data = json5.load(input)
+        # Load the data
+        with path.open(encoding='utf-8') as input:
+            data = json5.load(input)
 
-    # Merge it
-    for message_id, message in data.items():
-        messages[message_id] = {
-            'string': message.get('string', ''),
-            'font': message.get('font', 'regular'),
-        }
+        # Merge it
+        for message_id, message in data.items():
+            messages[message_id] = {
+                'string': message.get('string', ''),
+                'font': message.get('font', 'regular'),
+            }
 
-# Sort the messages by ID
-messages = dict(sorted(messages.items(), key=lambda item: int(item[0])))
+    # Sort the messages by ID
+    messages = {key:messages[key] for key in sorted(messages)}
 
-# Write the output
-with open(args.output, 'w', encoding='utf-8') as out:
-    json5.dump(messages, out, ensure_ascii=False, indent=4, quote_keys=True)
+    # Write the output
+    with output.open('w', encoding='utf-8') as out:
+        json5.dump(messages, out, ensure_ascii=False, indent=4, quote_keys=True)
+
+if __name__ == '__main__':
+
+    # Get arguments
+    parser = ArgumentParser(description='Merges multiple BMG JSON files into one')
+    parser.add_argument('inputs', type=Path, nargs='+', help='The files to be merged')
+    parser.add_argument('-o', '--output', type=Path, required=True, help='The path to the output file')
+    args = parser.parse_args()
+    main(args.inputs, args.output)

@@ -8,16 +8,20 @@
 import sys
 if sys.version_info < (3, 8):
     raise SystemExit('Please update your copy of Python to 3.8 or greater. Currently running on: ' + sys.version.split()[0])
-
-import json
 import os
+
+# Import json5
+try:
+    import json5
+except ImportError:
+    raise SystemExit('JSON5 not found! Please install it with `python -m pip install json5`')
 
 # If any other error occurs, let QtPy throw its own exceptions without intervention
 try:
     from qtpy import QtWidgets, QtGui
     from qtpy.QtCore import Qt
 except ImportError:
-    raise SystemExit('QtPy is not installed in this Python environment. Go online and download it.')
+    raise SystemExit('QtPy not found! Please install it with `python -m pip install qtpy`')
 
 # Local imports
 from common import Tracklist
@@ -106,8 +110,8 @@ class MainWindow(QtWidgets.QMainWindow):
         # Get file to save to
         mw = self.centralWidget()
         if file := mw.currentFile if mw.currentFile else \
-            QtWidgets.QFileDialog.getSaveFileName(self, 'Save Cup File To', 'cups.json',
-                                                'Cup File Data (*.json);;')[0]:
+            QtWidgets.QFileDialog.getSaveFileName(self, 'Save Cup File To', 'cups.json5',
+                                                'Cup File Data (*.json5);;')[0]:
 
             # Initialize vars
             mw.currentFile = file
@@ -124,7 +128,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # Write the file
             with open(file, 'w', encoding='utf8') as f:
-                json.dump(data, f, ensure_ascii=False, indent=4)
+                json5.dump(data, f, ensure_ascii=False, indent=4)
 
             # Inform the user
             QtWidgets.QMessageBox.information(self, 'Save Completed!', 'Save completed successfully!')
@@ -135,7 +139,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if file := QtWidgets.QFileDialog.getOpenFileName(self,
                                                         'Open Cup File',
                                                         os.path.dirname(self.centralWidget().currentFile),
-                                                        'Cup File Data (*.json);;')[0]:
+                                                        'Cup File Data (*.json5);;')[0]:
 
             # Clear data first
             self.clearData()

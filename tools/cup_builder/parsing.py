@@ -3,7 +3,7 @@
 # parsing.py
 # Parses the JSON data and checks it
 
-import json
+import json5
 
 from common import Tracklist, Cup, RandomTrack, Track
 
@@ -11,7 +11,7 @@ def importData(file: str) -> tuple[list[Track], list[RandomTrack], list[list[Cup
 
     # Open the file
     with open(file, encoding='utf-8') as f:
-        data = json.load(f)
+        data = json5.load(f)
 
     # Keep track of loaded tracks to make sure no duplicates occur
     tracks = {}

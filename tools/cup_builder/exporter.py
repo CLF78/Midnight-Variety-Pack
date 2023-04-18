@@ -4,7 +4,7 @@
 # Transforms the JSON data into a concrete folder structure
 
 import argparse
-import json
+import json5
 import os
 import subprocess
 from shutil import which
@@ -65,7 +65,7 @@ class BMGManager():
         for file, ending in zip(self.textFiles, endings):
             path = os.path.join(self.saveDir, f'{fileName}{ending}.bmg.json5')
             with open(path, 'w', encoding='utf-8') as f:
-                json.dump(file, f, ensure_ascii=False, indent=4)
+                json5.dump(file, f, ensure_ascii=False, indent=4)
 
 
 class SZSManager():
