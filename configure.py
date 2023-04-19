@@ -196,6 +196,12 @@ CW_WRAPPER_WIN = Path(TOOL_DIR, 'cw_wrapper', 'mwcceppc_windows_wrapper.py')
 KAMEK = Path(file) if (file := shutil.which('Kamek')) else Path(TOOL_DIR, 'kamek', 'Kamek')
 WUJ5 = Path(TOOL_DIR, 'wuj5', 'wuj5.py')
 
+# Ensure that CW and Kamek are installed
+if not CC.is_file():
+    raise SystemExit('CodeWarrior is not installed! Make sure it is either on PATH or in `tools/cw`!')
+if not KAMEK.is_file():
+    raise SystemExit('Kamek is not installed! Make sure it is either on PATH or in `tools/kamek`!')
+
 #########
 # Files #
 #########
