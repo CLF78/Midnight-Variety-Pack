@@ -34,6 +34,9 @@ except Exception:
 # Helper Functions/Classes #
 ############################
 
+def escapeNinjaPath(path: str) -> str:
+    return path.replace(':', '$:')
+
 class NinjaWriter():
     def __init__(self):
         self.buffer = io.StringIO()
@@ -61,7 +64,7 @@ class NinjaWriter():
             output = ' '.join(map(str, output))
         if isinstance(input, list):
             input = ' '.join(map(str, input))
-        self.buffer.write(f'build {output}: {command} {input}\n')
+        self.buffer.write(f'build {escapeNinjaPath(str(output))}: {command} {escapeNinjaPath(str(input))}\n')
         for key, value in kwargs.items():
             self.buffer.write(f'  {key} = {value}\n')
         self.writeNewline()
@@ -189,8 +192,8 @@ BMG_MERGER = Path(TOOL_DIR, 'bmg_merge', 'merge.py')
 CC = Path(file) if (file := shutil.which('mwcceppc.exe')) else Path(TOOL_DIR, 'cw', 'mwcceppc.exe')
 CUP_BUILDER = Path(TOOL_DIR, 'cup_builder', 'exporter.py')
 CW_WRAPPER = Path(TOOL_DIR, 'cw_wrapper', 'mwcceppc_wine_wrapper.py')
+CW_WRAPPER_WIN = Path(TOOL_DIR, 'cw_wrapper', 'mwcceppc_windows_wrapper.py')
 KAMEK = Path(file) if (file := shutil.which('Kamek')) else Path(TOOL_DIR, 'kamek', 'Kamek')
-MUTE_OUT = '>nul' if sys.platform == 'win32' else '>/dev/null'
 WUJ5 = Path(TOOL_DIR, 'wuj5', 'wuj5.py')
 
 #########
@@ -212,7 +215,7 @@ SYMBOL_FILE = Path(ROOT_DIR, 'externals-mkw.txt')
 writer.writeVariable('builddir', BUILD_DIR)
 writer.writeNewline()
 
-writer.writeVariable('cc', CC if sys.platform == 'win32' else f'{sys.executable} {CW_WRAPPER} {CC}')
+writer.writeVariable('cc', f'{sys.executable} {CW_WRAPPER_WIN if sys.platform == "win32" else CW_WRAPPER} {CC}')
 writer.writeVariable('cflags', CFLAGS)
 writer.writeNewline()
 writer.writeVariable('kamek', KAMEK)
@@ -234,11 +237,11 @@ writer.writeRule('cw',
                 description='Compile $in_short ($region)')
 
 writer.writeRule('kmdynamic',
-                command=f'$kamek $in -dynamic -versions=$port_file -externals=$symbol_file -output-kamek=$out -select-version=$selectversion {MUTE_OUT}',
+                command='$kamek $in -dynamic -versions=$port_file -externals=$symbol_file -output-kamek=$out -select-version=$selectversion',
                 description='Link Code ($selectversion)')
 
 writer.writeRule('kmstatic',
-                command=f'$kamek $in -static=$loadaddr -externals=$symbol_file -output-code=$out -output-riiv=$out_riiv {MUTE_OUT}',
+                command='$kamek $in -static=$loadaddr -externals=$symbol_file -output-code=$out -output-riiv=$out_riiv',
                 description='Link Loader')
 
 writer.writeRule('bmg_merge',
@@ -251,10 +254,10 @@ writer.writeRule('wuj5',
 
 if sys.platform == 'win32':
     writer.writeRule('copy_file',
-                    command='mklink /h $out $in',
+                    command='cmd /c mklink /h $out $in',
                     description='Copy $in_short')
     writer.writeRule('copy_dir',
-                    command='mklink /d $out $in',
+                    command='cmd /c mklink /d $out $in',
                     description='Copy $in_short')
 else:
     writer.writeRule('copy_file',
@@ -265,7 +268,7 @@ else:
                     description='Copy $in_short')
 
 writer.writeRule('pack_files',
-                command=f'wszst c -D $out/%N.szs -o --szs --pt-dir --links --compr 10 $in_dir/*.d {MUTE_OUT}',
+                command='wszst c -q -D $out/%N.szs -o --szs --pt-dir --links --compr 10 $in_dir/*.d',
                 description='Pack Files with WSZST')
 
 ########################
@@ -273,7 +276,7 @@ writer.writeRule('pack_files',
 ########################
 
 writer.writeBuildCommand('cup_builder',
-                        AUTO_GEN_CODE_FILES + AUTO_GEN_BMG_FILES + [CUP_ICONS_OUT_DIR, UI_ASSETS_DIR],
+                        AUTO_GEN_CODE_FILES + AUTO_GEN_BMG_FILES + [CUP_ICONS_OUT_DIR],
                         CUP_FILE,
                         bmgDir=BMG_OUT_DIR,
                         szsDir=TRACKS_OUT_DIR,
