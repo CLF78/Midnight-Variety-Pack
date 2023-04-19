@@ -20,6 +20,11 @@ def enforceAbsPath(path: str):
 def linkPath(src: str, dest: str):
     if os.path.isfile(dest):
         os.remove(dest)
+
+    # This is a fix for Windows' concurrency issues...
+    while not os.path.exists(src):
+        continue
+
     os.link(src, dest)
 
 
