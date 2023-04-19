@@ -31,7 +31,7 @@ def main(inputs: list[Path], output: Path):
             }
 
     # Sort the messages by ID
-    messages = {key:messages[key] for key in sorted(messages)}
+    messages = {key:messages[str(key)] for key in sorted(map(int, messages))}
 
     # Write the output
     with output.open('w', encoding='utf-8') as out:

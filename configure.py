@@ -238,7 +238,7 @@ writer.writeRule('cup_builder',
                 description='Run Cup Exporter')
 
 writer.writeRule('cw',
-                command='$cc $cflags -c -o $out_conv -MDfile $out.d $in_conv',
+                command='$cc $cflags -c -DREGION_$region -o $out_conv -MDfile $out.d $in_conv',
                 depfile='$out.d',
                 description='Compile $in_short ($region)')
 
