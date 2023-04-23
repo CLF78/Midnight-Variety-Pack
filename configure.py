@@ -274,7 +274,7 @@ else:
                     description='Copy $in_short')
 
 writer.writeRule('pack_files',
-                command='wszst c -q -D $out/%N.szs -o --szs --pt-dir --links --compr 10 $in_dir/*.d',
+                command='wszst c -q -D $out_dir/%N.szs -o --szs --pt-dir --links --compr 10 $in_dir/*.d',
                 description='Pack Files with WSZST')
 
 ########################
@@ -427,9 +427,10 @@ for file, subFiles in uiAssets.items():
 
 # Pack the UI assets
 writer.writeBuildCommand('pack_files',
-                        UI_ASSETS_PACKED_DIR,
+                        [Path(UI_ASSETS_PACKED_DIR, f'{file}.szs') for file in uiAssets],
                         ' '.join(map(str, uiAssetManager.outputs.values())),
-                        in_dir=UI_ASSETS_DIR)
+                        in_dir=UI_ASSETS_DIR,
+                        out_dir=UI_ASSETS_PACKED_DIR)
 
 # Write the file out
 with NINJA_FILE.open('w', encoding='utf-8') as f:
