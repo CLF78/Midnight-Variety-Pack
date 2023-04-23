@@ -54,6 +54,8 @@ struct OSThread {
 };
 
 OSThread* OSGetCurrentThread();
+void OSSleepThread(OSThreadQueue *queue);
+void OSWakeupThread(OSThreadQueue *queue);
 
 #ifdef __cplusplus
 }

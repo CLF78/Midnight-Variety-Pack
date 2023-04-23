@@ -38,6 +38,7 @@ typedef volatile f64 vf64;
 
 // Macros
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define min(a, b) ((a) < (b) ? (a) : (b))
 
 #include "kamek/hooks.h"
 #include "kamek/gekko.h"

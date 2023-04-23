@@ -48,6 +48,7 @@ struct DVDFileInfo {
 s32 DVDConvertPathToEntrynum(const char* path);
 
 bool DVDFastOpen(s32 entrynum, DVDFileInfo* fileInfo);
+bool DVDOpen(const char *fileName, DVDFileInfo *fileInfo);
 
 s32 DVDReadPrio(DVDFileInfo* fileInfo, void* addr, s32 length, s32 offset, s32 prio);
 
