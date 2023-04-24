@@ -43,8 +43,8 @@ public:
     virtual void onLeftSelected();
     virtual void vf_44();
 
-    void load(const char *dir, const char *rightFile, const char *rightVariant,
-            const char *leftFile, const char *leftVariant, u32 playerFlags, bool r10,
+    void load(const char* dir, const char* rightFile, const char* rightVariant,
+            const char* leftFile, const char* leftVariant, u32 playerFlags, bool r10,
             bool pointerOnly);
 
     InputHandlerEx<SheetSelectButton, SheetSelectControl>* rightHandler;

@@ -5,7 +5,7 @@ namespace EGG {
 class AudioTrack;
 struct AudioTrackCallback{
     void (*callbackFunc);
-    AudioTrack *ptr;
+    AudioTrack* ptr;
 };
 size_assert(AudioTrackCallback, 0x8);
 

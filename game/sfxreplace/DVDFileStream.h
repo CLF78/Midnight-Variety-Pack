@@ -9,12 +9,12 @@ namespace snd {
 
 class DVDFileStream : public ut::FileStream {
 public:
-    DVDFileStream(const char *path);
+    DVDFileStream(const char* path);
     DVDFileStream(DVDFileInfo* file, u32 start, u32 size);
 
     virtual ~DVDFileStream();
     virtual void Close();
-    virtual s32 Read(void *buf, u32 length);
+    virtual s32 Read(void* buf, u32 length);
     virtual bool CanAsync();
     virtual bool CanRead();
     virtual bool CanWrite();

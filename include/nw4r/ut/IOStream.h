@@ -28,6 +28,7 @@ public:
     IOStreamCallback callback;
     void* arg;
 };
+size_assert(IOStream, 0x14);
 
 } // namespace ut
 } // namespace nw4r
