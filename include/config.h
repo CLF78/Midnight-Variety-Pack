@@ -53,3 +53,13 @@
 
 // The point of contact for users who encounter a crash
 #define EXCEPTION_HANDLER_SUPPORT_ADDRESS "CLF78#1139 on Discord"
+
+////////////////////////////
+// SFX Replacement System //
+////////////////////////////
+
+// Allows to replace SFX with external BRSTMS.
+// Credits: stebler (original code), CLF78 (porting)
+
+// Bit used to indicate replaced SFX
+#define SASR_BIT (1 << 31)
