@@ -1,10 +1,10 @@
 #include <kamek.h>
 #include <nw4r/snd/global.h>
-#include <nw4r/snd/SoundArchiveFile.h>
 #include <nw4r/ut/FileStream.h>
 
 namespace nw4r {
 namespace snd {
+namespace detail { class SoundArchiveFileReader; }
 
 class SoundArchive {
     public:

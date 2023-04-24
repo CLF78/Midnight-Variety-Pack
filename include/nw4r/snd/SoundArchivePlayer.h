@@ -13,6 +13,7 @@
 #include <nw4r/snd/SoundPlayer.h>
 #include <nw4r/snd/SoundStartable.h>
 #include <nw4r/snd/StrmChannel.h>
+#include <nw4r/snd/Util.h>
 #include <nw4r/snd/WsdPlayer.h>
 
 namespace nw4r {

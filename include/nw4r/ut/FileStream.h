@@ -13,7 +13,7 @@ enum SeekOrigin {
 class FileStream : public IOStream {
 public:
     virtual const detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const = 0;
-    virtual u32 GetSize() const = 0;
+    virtual u32 GetSize() = 0;
     virtual void Seek(s32 offset, u32 origin);
     virtual void Cancel();
     virtual bool CancelAsync(IOStreamCallback callback, void* arg);

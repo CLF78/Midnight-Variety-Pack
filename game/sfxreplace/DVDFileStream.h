@@ -12,21 +12,22 @@ public:
     DVDFileStream(const char* path);
     DVDFileStream(DVDFileInfo* file, u32 start, u32 size);
 
+    virtual const ut::detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const { return nullptr; }
     virtual ~DVDFileStream();
     virtual void Close();
     virtual s32 Read(void* buf, u32 length);
-    virtual bool CanAsync();
-    virtual bool CanRead();
-    virtual bool CanWrite();
-    virtual u32 GetOffsetAlign();
-    virtual u32 GetSizeAlign();
-    virtual u32 GetBufferAlign();
+    virtual bool CanAsync() const;
+    virtual bool CanRead() const;
+    virtual bool CanWrite() const;
+    virtual u32 GetOffsetAlign() const;
+    virtual u32 GetSizeAlign() const;
+    virtual u32 GetBufferAlign() const;
     virtual u32 GetSize();
     virtual void Seek(s32 offset, ut::SeekOrigin origin);
     virtual void Cancel();
-    virtual bool CanSeek();
-    virtual bool CanCancel();
-    virtual u32 Tell();
+    virtual bool CanSeek() const;
+    virtual bool CanCancel() const;
+    virtual u32 Tell() const;
 
     bool Open();
 

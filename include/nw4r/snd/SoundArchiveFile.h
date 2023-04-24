@@ -1,4 +1,5 @@
 #include <kamek.h>
+#include <nw4r/snd/SoundArchive.h>
 #include <nw4r/snd/Util.h>
 #include <nw4r/ut/BinaryFileHeader.h>
 

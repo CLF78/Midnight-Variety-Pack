@@ -68,27 +68,27 @@ s32 DVDFileStream::Read(void* dst, u32 size) {
     return size;
 }
 
-bool DVDFileStream::CanAsync() {
+bool DVDFileStream::CanAsync() const {
     return false;
 }
 
-bool DVDFileStream::CanRead() {
+bool DVDFileStream::CanRead() const {
     return true;
 }
 
-bool DVDFileStream::CanWrite() {
+bool DVDFileStream::CanWrite() const {
     return false;
 }
 
-u32 DVDFileStream::GetOffsetAlign() {
+u32 DVDFileStream::GetOffsetAlign() const {
     return 0x20;
 }
 
-u32 DVDFileStream::GetSizeAlign() {
+u32 DVDFileStream::GetSizeAlign() const {
     return 0x20;
 }
 
-u32 DVDFileStream::GetBufferAlign() {
+u32 DVDFileStream::GetBufferAlign() const {
     return 0x20;
 }
 
@@ -123,15 +123,15 @@ void DVDFileStream::Cancel() {
     OSWakeupThread(&queue);
 }
 
-bool DVDFileStream::CanSeek() {
+bool DVDFileStream::CanSeek() const {
     return true;
 }
 
-bool DVDFileStream::CanCancel() {
+bool DVDFileStream::CanCancel() const {
     return true;
 }
 
-u32 DVDFileStream::Tell() {
+u32 DVDFileStream::Tell() const {
     return offset;
 }
 
