@@ -44,11 +44,17 @@ struct SoundArchiveFile {
         u32 rootIdx;
         detail::Util::Table<StringTreeNode> nodeTable;
     };
+
+    ulong detail_GetFileCount() const;
 };
 
 class SoundArchiveFileReader {
     public:
         ulong GetSoundCount() const; // custom function
+
+        SoundArchive::SoundType GetSoundType(ulong soundId) const;
+        bool ReadSoundInfo(ulong soundId, SoundArchive::SoundInfo* soundInfo) const;
+        bool ReadStrmSoundInfo(ulong soundId, SoundArchive::StrmSoundInfo* info ) const;
 
         SoundArchiveFile::Header header;
         const SoundArchiveFile::Info* info;

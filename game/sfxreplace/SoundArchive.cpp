@@ -1,6 +1,82 @@
 #include <kamek.h>
-#include <nw4r/snd/SoundArchive.h>
+#include <nw4r/snd/SoundArchiveFile.h>
+#include <stdlib/new.h>
+#include "sfxreplace/DVDFileStream.h"
 
-ulong nw4r::snd::SoundArchive::GetSoundCount() const {
+using namespace nw4r::snd;
+
+// Add missing wrapper function
+ulong SoundArchive::GetSoundCount() const {
     return fileReader->GetSoundCount();
 }
+
+// Override sound type for replaced sfx
+kmBranchDefCpp(0x8009DF30, NULL, SoundArchive::SoundType, SoundArchive* self, ulong soundId) {
+    if (soundId & SASR_BIT)
+        return nw4r::snd::SoundArchive::SOUND_TYPE_STRM;
+
+    return self->fileReader->GetSoundType(soundId);
+}
+
+// Ensure the original sfx sound info is read
+kmBranchDefCpp(0x8009DF40, NULL, bool, SoundArchive* self, ulong soundId, SoundArchive::SoundInfo* soundInfo) {
+
+    if (!self->fileReader->ReadSoundInfo(soundId & ~SASR_BIT, soundInfo))
+        return false;
+
+    if (soundId & SASR_BIT)
+        soundInfo->fileId = self->detail_GetFileCount() + (soundId & ~SASR_BIT);
+
+    return true;
+}
+
+// Ensure the StrmSoundInfo structure is filled properly
+kmBranchDefCpp(0x8009DF60, NULL, bool, SoundArchive* self,
+                                       ulong soundId,
+                                       SoundArchive::StrmSoundInfo* strmSoundInfo) {
+
+    if (!(soundId & SASR_BIT))
+        return self->fileReader->ReadStrmSoundInfo(soundId, strmSoundInfo);
+
+    // Update some flags to avoid broken defaults
+    switch (self->GetSoundType(soundId & ~SASR_BIT)) {
+    case SoundArchive::SOUND_TYPE_SEQ:
+    case SoundArchive::SOUND_TYPE_WAVE:
+        strmSoundInfo->startPosition = 0;
+        strmSoundInfo->allocChannelCount = 0; // Use the channel count from the BRSTM header
+        strmSoundInfo->allocTrackFlag = 0x1;
+        return true;
+    default:
+        return false;
+    }
+}
+
+// Replace the file stream when opening an sfx
+extern "C" static nw4r::ut::FileStream* OpenFileStreamOverride(SoundArchive* self,
+                                                               u32 fileId,
+                                                               void* buffer,
+                                                               s32 size) {
+
+    if (fileId & SASR_BIT) {
+
+        // Ensure the stream fits the buffer
+        if (size < sizeof(DVDFileStream))
+            return nullptr;
+
+        // Get the stream, bail if it does not exist
+        DVDFileStream* stream = (DVDFileStream*)fileId;
+        if (!stream)
+            return nullptr;
+
+        // Create a new stream
+        return new (buffer) DVDFileStream(&stream->file, 0, 0xFFFFFFFF);
+    }
+
+    // If the fileId is valid, proceed to the original call
+    return self->detail_OpenFileStream(fileId, buffer, size);
+}
+
+// Glue code
+kmCall(0x800A002C, OpenFileStreamOverride);
+kmCall(0x800A2384, OpenFileStreamOverride);
+kmCall(0x800A26C8, OpenFileStreamOverride);
