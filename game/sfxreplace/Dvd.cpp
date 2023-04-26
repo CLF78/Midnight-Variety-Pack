@@ -25,8 +25,8 @@ bool DVDOpenDir(const char* dirName, DVDDir* dir) {
     if (!entryIsDir(entry))
         return false;
 
-    dir->entryNum = (u32)entry;
-    dir->location = (u32)entry + 1;
+    dir->entryNum = entry;
+    dir->location = entry + 1;
     dir->next = nextDir(entry);
     return true;
 }

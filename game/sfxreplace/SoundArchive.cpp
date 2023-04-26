@@ -3,7 +3,8 @@
 #include <rvl/os/OS.h>
 #include <stdlib/new.h>
 
-using namespace nw4r::snd;
+namespace nw4r {
+namespace snd {
 
 // Add missing wrapper function
 ulong SoundArchive::GetSoundCount() const {
@@ -13,7 +14,7 @@ ulong SoundArchive::GetSoundCount() const {
 // Override sound type for replaced sfx
 kmBranchDefCpp(0x8009DF30, NULL, SoundArchive::SoundType, SoundArchive* self, ulong soundId) {
     if (soundId & SASR_BIT)
-        return nw4r::snd::SoundArchive::SOUND_TYPE_STRM;
+        return SoundArchive::SOUND_TYPE_STRM;
 
     return self->fileReader->GetSoundType(soundId);
 }
@@ -52,10 +53,10 @@ kmBranchDefCpp(0x8009DF60, NULL, bool, SoundArchive* self,
 }
 
 // Replace the file stream when opening an sfx
-extern "C" static nw4r::ut::FileStream* OpenFileStreamOverride(SoundArchive* self,
-                                                               u32 fileId,
-                                                               void* buffer,
-                                                               s32 size) {
+extern "C" static ut::FileStream* OpenFileStreamOverride(SoundArchive* self,
+                                                         u32 fileId,
+                                                         void* buffer,
+                                                         s32 size) {
 
     if (fileId & SASR_BIT) {
 
@@ -69,7 +70,7 @@ extern "C" static nw4r::ut::FileStream* OpenFileStreamOverride(SoundArchive* sel
             return nullptr;
 
         // Create a new stream
-        return new (buffer) DvdSoundArchive::DvdFileStream(&stream->fileInfo.dvdInfo, 0, 0xFFFFFFFF);
+        return new (buffer) DvdSoundArchive::DvdFileStream(&stream->fileInfo.dvdInfo, 0, 0x7FFFFFFF);
     }
 
     // If the fileId is valid, proceed to the original call
@@ -80,3 +81,6 @@ extern "C" static nw4r::ut::FileStream* OpenFileStreamOverride(SoundArchive* sel
 kmCall(0x800A002C, OpenFileStreamOverride);
 kmCall(0x800A2384, OpenFileStreamOverride);
 kmCall(0x800A26C8, OpenFileStreamOverride);
+
+} // namespace snd
+} // namespace nw4r

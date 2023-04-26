@@ -18,8 +18,8 @@ size_assert(DvdSoundArchive, 0x18C);
 
 class DvdSoundArchive::DvdFileStream : public ut::DvdLockedFileStream {
 public:
-    DvdFileStream(const DVDFileInfo* fileInfo, u32 offset, u32 size); // Reimplemented
-    DvdFileStream(s32 entryNum, u32 offset, u32 size); // Reimplemented
+    DvdFileStream(const DVDFileInfo* fileInfo, u32 offset, s32 size); // Reimplemented
+    DvdFileStream(s32 entryNum, u32 offset, s32 size); // Reimplemented
 
     virtual s32 Read(void* buf, u32 length);
     virtual void Seek(s32 offset, u32 origin);
@@ -29,6 +29,7 @@ public:
     s32 offset;
     u32 size;
 };
+size_assert(DvdSoundArchive::DvdFileStream, 0x78);
 
 
 } // namespace snd

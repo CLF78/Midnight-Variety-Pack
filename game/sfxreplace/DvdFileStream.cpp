@@ -4,7 +4,7 @@
 namespace nw4r {
 namespace snd {
 
-DvdSoundArchive::DvdFileStream::DvdFileStream(s32 entryNum, u32 offset, u32 size):
+DvdSoundArchive::DvdFileStream::DvdFileStream(s32 entryNum, u32 offset, s32 size):
     ut::DvdLockedFileStream(entryNum),
     offset(offset),
     size(size) {
@@ -12,7 +12,7 @@ DvdSoundArchive::DvdFileStream::DvdFileStream(s32 entryNum, u32 offset, u32 size
     ut::DvdLockedFileStream::Seek(this->offset, ut::FILE_STREAM_SEEK_BEGIN);
 }
 
-DvdSoundArchive::DvdFileStream::DvdFileStream(const DVDFileInfo* fileInfo, u32 offset, u32 size):
+DvdSoundArchive::DvdFileStream::DvdFileStream(const DVDFileInfo* fileInfo, u32 offset, s32 size):
     ut::DvdLockedFileStream(fileInfo, false),
     offset(offset),
     size(size) {

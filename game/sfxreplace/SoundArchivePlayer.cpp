@@ -7,8 +7,8 @@
 #include <stdlib/new.h>
 #include <stdlib/string.h>
 
-using namespace nw4r;
-using namespace nw4r::snd;
+namespace nw4r {
+namespace snd {
 
 // Custom function to obtain the custom sound streams array
 ut::FileStream** SoundArchivePlayer::soundStreams() {
@@ -18,7 +18,7 @@ ut::FileStream** SoundArchivePlayer::soundStreams() {
 
 // Allocate additional memory to store the custom sound streams array
 extern "C" static ulong GetRequiredMemSizeOverride(SoundArchivePlayer* player,
-                                                   const nw4r::snd::SoundArchive* archive) {
+                                                   const SoundArchive* archive) {
     ulong size = player->GetRequiredMemSize(archive);
     size += archive->GetSoundCount() * sizeof(ut::FileStream*);
     return size;
@@ -44,14 +44,14 @@ kmCallDefCpp(0x800A0960, bool, SoundArchivePlayer* self,
 }
 
 // Enable the SASR bit when an external replacement is found
-extern "C" static snd::SoundStartable::StartResult detail_SetupSoundImplOverride(
-                                            SoundArchivePlayer* self,
-                                            SoundHandle* handle,
-                                            ulong soundId,
-                                            detail::BasicSound::AmbientInfo* ambientArgInfo,
-                                            SoundActor* actor,
-                                            bool holdFlag,
-                                            const snd::SoundStartable::StartInfo* startInfo) {
+extern "C" static SoundStartable::StartResult detail_SetupSoundImplOverride(
+                                              SoundArchivePlayer* self,
+                                              SoundHandle* handle,
+                                              ulong soundId,
+                                              detail::BasicSound::AmbientInfo* ambientArgInfo,
+                                              SoundActor* actor,
+                                              bool holdFlag,
+                                              const SoundStartable::StartInfo* startInfo) {
 
     if (self->soundStreams()[soundId])
         soundId |= SASR_BIT;
@@ -65,12 +65,12 @@ kmBranch(0x8009DD88, detail_SetupSoundImplOverride);
 kmBranch(0x800A1810, detail_SetupSoundImplOverride);
 
 // Replace the file id to pass the stream pointer over
-kmCallDefCpp(0x800A20C4, snd::SoundStartable::StartResult,
+kmCallDefCpp(0x800A20C4, SoundStartable::StartResult,
                          SoundArchivePlayer* self,
                          detail::BasicSound* sound,
                          SoundArchive::SoundInfo* commonInfo,
                          const SoundArchive::StrmSoundInfo* info,
-                         snd::SoundStartable::StartInfo::StartOffsetType startOffsetType,
+                         SoundStartable::StartInfo::StartOffsetType startOffsetType,
                          int startOffset) {
 
     // Obtain the sound id from the file id and replace the latter with a pointer to the custom stream
@@ -91,7 +91,7 @@ extern "C" static bool LoadGroupOverride(SoundArchivePlayer* self,
 
     // Try opening the sfx directory
     DVDDir sfxDir;
-    if (DVDOpenDir("/sound/sfx/", &sfxDir)) {
+    if (DVDOpenDir(SASR_SFX_DIR, &sfxDir)) {
 
         // Read each folder entry
         DVDDirEntry curEntry;
@@ -119,8 +119,8 @@ extern "C" static bool LoadGroupOverride(SoundArchivePlayer* self,
 
             // Ignore BRSTM sound type
             switch (self->soundArchive->GetSoundType(soundId)) {
-            case nw4r::snd::SoundArchive::SOUND_TYPE_SEQ:
-            case nw4r::snd::SoundArchive::SOUND_TYPE_WAVE:
+            case SoundArchive::SOUND_TYPE_SEQ:
+            case SoundArchive::SOUND_TYPE_WAVE:
                 break;
             default:
                 continue;
@@ -131,34 +131,34 @@ extern "C" static bool LoadGroupOverride(SoundArchivePlayer* self,
                 continue;
 
             // Read the sound info to get the file id
-            nw4r::snd::SoundArchive::SoundInfo soundInfo;
+            SoundArchive::SoundInfo soundInfo;
             if (!self->soundArchive->ReadSoundInfo(soundId, &soundInfo))
                 continue;
 
             // Read the file info to get the file positions
-            nw4r::snd::SoundArchive::FileInfo fileInfo;
+            SoundArchive::FileInfo fileInfo;
             if (!self->soundArchive->detail_ReadFileInfo(soundInfo.fileId, &fileInfo))
                 continue;
 
             // Find the file position belonging to the correct group id
             for (u32 i = 0; i < fileInfo.filePosCount; i++) {
-                nw4r::snd::SoundArchive::FilePos filePos;
+                SoundArchive::FilePos filePos;
                 if (!self->soundArchive->detail_ReadFilePos(soundInfo.fileId, i, &filePos))
                     continue;
 
                 if (filePos.groupId != groupId)
                     continue;
 
+                // Open it and allocate the custom stream
                 DVDFileInfo fileInfo;
                 if (DVDFastOpen(curEntry.entryNum, &fileInfo)) {
                     void* buffer = allocator->Alloc(sizeof(DvdSoundArchive::DvdFileStream));
-                    DvdSoundArchive::DvdFileStream* stream = new (buffer) DvdSoundArchive::DvdFileStream(curEntry.entryNum, 0, 0xFFFFFFFF);
+                    DvdSoundArchive::DvdFileStream* stream = new (buffer) DvdSoundArchive::DvdFileStream(curEntry.entryNum, 0, 0x7FFFFFFF);
                     self->soundStreams()[soundId] = stream;
                 }
 
                 break;
             }
-
         }
     }
 
@@ -187,3 +187,6 @@ extern "C" static void InvalidateDataOverride(SoundArchivePlayer* self, const vo
 // Glue code
 kmWritePointer(0x802749EC, InvalidateDataOverride);
 kmWritePointer(0x802A292C, InvalidateDataOverride);
+
+} // namespace snd
+} // namespace nw4r

@@ -63,3 +63,6 @@
 
 // Bit used to indicate replaced SFX
 #define SASR_BIT (1 << 31)
+
+// The directory where custom SFX is stored
+#define SASR_SFX_DIR "/sound/sfx"
