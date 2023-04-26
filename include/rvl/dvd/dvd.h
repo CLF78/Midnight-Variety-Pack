@@ -45,6 +45,18 @@ struct DVDFileInfo {
     DVDCallback callback;
 };
 
+typedef struct {
+    u32 entryNum;
+    u32 location;
+    u32 next;
+} DVDDir;
+
+typedef struct {
+    u32 entryNum;
+    u32 isDir;
+    char* name;
+} DVDDirEntry;
+
 s32 DVDConvertPathToEntrynum(const char* path);
 
 bool DVDFastOpen(s32 entrynum, DVDFileInfo* fileInfo);
@@ -53,6 +65,9 @@ bool DVDOpen(const char* fileName, DVDFileInfo* fileInfo);
 s32 DVDReadPrio(DVDFileInfo* fileInfo, void* addr, s32 length, s32 offset, s32 prio);
 
 bool DVDClose(DVDFileInfo* fileInfo);
+
+bool DVDOpenDir(const char* dirName, DVDDir* dir); // Reimplemented function
+bool DVDReadDir(DVDDir* dir, DVDDirEntry* dirent); // Reimplemented function
 
 #ifdef __cplusplus
 }

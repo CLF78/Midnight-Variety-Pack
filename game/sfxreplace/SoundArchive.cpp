@@ -1,7 +1,7 @@
 #include <kamek.h>
-#include <nw4r/snd/SoundArchiveFile.h>
+#include <nw4r/snd/DvdSoundArchive.h>
+#include <rvl/os/OS.h>
 #include <stdlib/new.h>
-#include "sfxreplace/DVDFileStream.h"
 
 using namespace nw4r::snd;
 
@@ -60,16 +60,16 @@ extern "C" static nw4r::ut::FileStream* OpenFileStreamOverride(SoundArchive* sel
     if (fileId & SASR_BIT) {
 
         // Ensure the stream fits the buffer
-        if (size < sizeof(DVDFileStream))
+        if (size < sizeof(DvdSoundArchive::DvdFileStream))
             return nullptr;
 
         // Get the stream, bail if it does not exist
-        DVDFileStream* stream = (DVDFileStream*)fileId;
+        DvdSoundArchive::DvdFileStream* stream = (DvdSoundArchive::DvdFileStream*)fileId;
         if (!stream)
             return nullptr;
 
         // Create a new stream
-        return new (buffer) DVDFileStream(&stream->file, 0, 0xFFFFFFFF);
+        return new (buffer) DvdSoundArchive::DvdFileStream(&stream->fileInfo.dvdInfo, 0, 0xFFFFFFFF);
     }
 
     // If the fileId is valid, proceed to the original call

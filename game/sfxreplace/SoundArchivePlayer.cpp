@@ -1,7 +1,11 @@
+#include <kamek.h>
+#include <nw4r/snd/DvdSoundArchive.h>
 #include <nw4r/snd/SoundArchivePlayer.h>
 #include <nw4r/snd/SoundStartable.h>
+#include <rvl/dvd/dvd.h>
+#include <rvl/os/OS.h>
+#include <stdlib/new.h>
 #include <stdlib/string.h>
-#include "sfxreplace/DVDFileStream.h"
 
 using namespace nw4r;
 using namespace nw4r::snd;
@@ -14,7 +18,7 @@ ut::FileStream** SoundArchivePlayer::soundStreams() {
 
 // Allocate additional memory to store the custom sound streams array
 extern "C" static ulong GetRequiredMemSizeOverride(SoundArchivePlayer* player,
-                                                   const SoundArchive* archive) {
+                                                   const nw4r::snd::SoundArchive* archive) {
     ulong size = player->GetRequiredMemSize(archive);
     size += archive->GetSoundCount() * sizeof(ut::FileStream*);
     return size;
@@ -85,7 +89,80 @@ extern "C" static bool LoadGroupOverride(SoundArchivePlayer* self,
                                         SoundMemoryAllocatable* allocator,
                                         ulong loadBlockSize) {
 
-    // TODO actual scanning
+    // Try opening the sfx directory
+    DVDDir sfxDir;
+    if (DVDOpenDir("/sound/sfx/", &sfxDir)) {
+
+        // Read each folder entry
+        DVDDirEntry curEntry;
+        while (DVDReadDir(&sfxDir, &curEntry)) {
+
+            // If it's a directory, skip it
+            if (curEntry.isDir)
+                continue;
+
+            // Initialize parsing loop
+            u32 soundId = 0;
+            char* cs;
+
+            // Parse each character until a non-decimal character or 9 decimal characters are reached
+            for (cs = curEntry.name; cs - curEntry.name < 9 && '0' <= *cs && *cs <= '9'; cs++)
+                soundId = soundId * 10 + (*cs - '0');
+
+            // If no characters have been parsed, bail
+            if (cs == curEntry.name)
+                continue;
+
+            // If the file does not end in BRSTM, bail
+            if (strcmp(cs, ".brstm"))
+                continue;
+
+            // Ignore BRSTM sound type
+            switch (self->soundArchive->GetSoundType(soundId)) {
+            case nw4r::snd::SoundArchive::SOUND_TYPE_SEQ:
+            case nw4r::snd::SoundArchive::SOUND_TYPE_WAVE:
+                break;
+            default:
+                continue;
+            }
+
+            // If the custom stream already exists, skip
+            if (self->soundStreams()[soundId])
+                continue;
+
+            // Read the sound info to get the file id
+            nw4r::snd::SoundArchive::SoundInfo soundInfo;
+            if (!self->soundArchive->ReadSoundInfo(soundId, &soundInfo))
+                continue;
+
+            // Read the file info to get the file positions
+            nw4r::snd::SoundArchive::FileInfo fileInfo;
+            if (!self->soundArchive->detail_ReadFileInfo(soundInfo.fileId, &fileInfo))
+                continue;
+
+            // Find the file position belonging to the correct group id
+            for (u32 i = 0; i < fileInfo.filePosCount; i++) {
+                nw4r::snd::SoundArchive::FilePos filePos;
+                if (!self->soundArchive->detail_ReadFilePos(soundInfo.fileId, i, &filePos))
+                    continue;
+
+                if (filePos.groupId != groupId)
+                    continue;
+
+                DVDFileInfo fileInfo;
+                if (DVDFastOpen(curEntry.entryNum, &fileInfo)) {
+                    void* buffer = allocator->Alloc(sizeof(DvdSoundArchive::DvdFileStream));
+                    DvdSoundArchive::DvdFileStream* stream = new (buffer) DvdSoundArchive::DvdFileStream(curEntry.entryNum, 0, 0xFFFFFFFF);
+                    self->soundStreams()[soundId] = stream;
+                }
+
+                break;
+            }
+
+        }
+    }
+
+    // Original call
     return self->LoadGroup(groupId, allocator, loadBlockSize);
 }
 
@@ -98,10 +175,10 @@ kmCall(0x80210ED0, LoadGroupOverride);
 extern "C" static void InvalidateDataOverride(SoundArchivePlayer* self, const void* start, const void* end) {
     self->InvalidateData(start, end);
 
-    DVDFileStream** streams = (DVDFileStream**)self->soundStreams();
+    DvdSoundArchive::DvdFileStream** streams = (DvdSoundArchive::DvdFileStream**)self->soundStreams();
     for (u32 soundId = 0; soundId < self->soundArchive->GetSoundCount(); soundId++) {
         if (start <= streams[soundId] && streams[soundId] <= end) {
-            streams[soundId]->~DVDFileStream();
+            streams[soundId]->~DvdFileStream();
             streams[soundId] = nullptr;
         }
     }
