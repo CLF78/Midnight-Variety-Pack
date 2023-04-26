@@ -37,6 +37,7 @@ class BasicSound {
         };
 
         void SetId(ulong id);
+        static s32 GetAmbientPriority(AmbientInfo* info, ulong id);
 };
 
 } // namespace detail
