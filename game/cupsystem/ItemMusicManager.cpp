@@ -7,7 +7,7 @@ extern "C" static float ApplyPitch(ItemMusicManager* self) {
     if (RaceAudioManager::instance->raceState != RaceAudioManager::FINAL_LAP)
         return self->pitch;
 
-    return self->pitch * (1.120f);
+    return self->pitch * FINAL_LAP_MUSIC_PITCH_MULTIPLIER;
 }
 
 // Glue code

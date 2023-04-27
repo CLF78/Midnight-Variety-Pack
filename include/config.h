@@ -41,6 +41,9 @@
 #define CUP_ARROW_L_BRCTR "CupSelectCupArrowLeft"
 #define CUP_ARROW_R_BRCTR "CupSelectCupArrowRight"
 
+// The pitch multiplier for final lap music
+#define FINAL_LAP_MUSIC_PITCH_MULTIPLIER 1.2f
+
 ///////////////////////
 // Exception Handler //
 ///////////////////////
