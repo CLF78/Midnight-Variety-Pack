@@ -13,6 +13,7 @@
 		<folder external="/mkm2/Tracks" disc="/Race/Course" create="true"/>
 		<folder external="/mkm2/UI" disc="/Scene/UI" create="true"/>
 		<folder external="/mkm2/Code" disc="/" create="true"/>
+		<folder external="/mkm2/Music" disc="/sound/strm" create="true"/>
 		<folder external="/mkm2/SFX" disc="/sound/sfx" create="true"/>
 		<memory valuefile="/mkm2/Loader.bin" offset="0x80004010"/>
 		<memory offset='0x800060BC' value='4BFFE7DD' />
