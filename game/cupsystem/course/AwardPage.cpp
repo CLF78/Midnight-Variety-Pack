@@ -17,15 +17,23 @@ extern "C" static const char* ReplaceCupIcon(u32 cupIdx, LayoutUIControl* iconEl
     return CupManager::replaceCupIcon(0, iconElement, cupIdx);
 }
 
-// Glue code
-kmCallDefAsm(0x805BCA44) {
-    nofralloc
-
-    addi r4, r29, 0x1A0
-    b ReplaceCupIcon
+// Replace the cup name
+extern "C" static u16 ReplaceCupName(u32 cupIdx) {
+    return CupManager::GetCupArray()[cupIdx].cupName;
 }
 
-// Replace the cup name
-kmCallDefCpp(0x805BCAAC, u16, u32 cupIdx) {
-    return CupManager::GetCupArray()[cupIdx].cupName;
+// Glue code
+kmBranchDefAsm(0x805BCA44, 0x805BCB60) {
+    nofralloc
+
+    // Get the cup icon
+    addi r4, r29, 0x1A0
+    bl ReplaceCupIcon
+    mr r30, r3
+
+    // Get the cup name
+    mr r3, r27
+    bl ReplaceCupName
+    mr r3, r31
+    blr
 }

@@ -1,0 +1,14 @@
+{
+    "1410": {
+        string: "{arg message|1} 1st Race",
+    },
+    "1411": {
+        string: "{arg message|1} 2nd Race",
+    },
+    "1412": {
+        string: "{arg message|1} 3rd Race",
+    },
+    "1413": {
+        string: "{arg message|1} Final Race",
+    },
+}

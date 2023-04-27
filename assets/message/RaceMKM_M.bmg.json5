@@ -1,0 +1,14 @@
+{
+    "1410": {
+        string: "{arg message|1} - Primera carrera",
+    },
+    "1411": {
+        string: "{arg message|1} - Segunda carrera",
+    },
+    "1412": {
+        string: "{arg message|1} - Tercera carrera",
+    },
+    "1413": {
+        string: "{arg message|1} - Última carrera",
+    },
+}

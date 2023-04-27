@@ -1,0 +1,14 @@
+{
+    "1410": {
+        string: "{arg message|1}　1st レース",
+    },
+    "1411": {
+        string: "{arg message|1}　2nd レース",
+    },
+    "1412": {
+        string: "{arg message|1}　3rd レース",
+    },
+    "1413": {
+        string: "{arg message|1}　ファイナルレース",
+    },
+}

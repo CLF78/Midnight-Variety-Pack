@@ -1,0 +1,14 @@
+{
+    "1410": {
+        string: "{arg message|1} 1st 레이스",
+    },
+    "1411": {
+        string: "{arg message|1} 2nd 레이스",
+    },
+    "1412": {
+        string: "{arg message|1} 3rd 레이스",
+    },
+    "1413": {
+        string: "{arg message|1} 파이널 레이스",
+    },
+}
