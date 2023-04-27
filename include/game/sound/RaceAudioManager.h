@@ -11,11 +11,12 @@ class RaceAudioManager : public EGG::Disposer {
 public:
 
     enum RaceState {
-        INTRO = 0x2,
-        BEFORE_COUNTDOWN = 0x3,
-        NORMAL = 0x4,
-        FAST = 0x5,
-        FINISHED = 0x7
+        INTRO = 2,
+        BEFORE_COUNTDOWN,
+        NORMAL,
+        ENTERING_FINAL_LAP,
+        FINAL_LAP,
+        FINISHED
     };
 
     u32 courseId;

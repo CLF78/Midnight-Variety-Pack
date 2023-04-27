@@ -1,0 +1,27 @@
+#include <kamek.h>
+#include <egg/core/eggDisposer.h>
+#include <nw4r/snd/SoundHandle.h>
+
+class ItemMusicManager : public EGG::Disposer {
+public:
+
+    enum State {
+        KINOKO_BIG,
+        STAR,
+        DAMAGE,
+        IDLE,
+    };
+
+    u32 state;
+    u8 _14[4];
+
+    nw4r::snd::SoundHandle* _18;
+    nw4r::snd::SoundHandle* _1C;
+
+    f32 volume;
+    f32 pitch;
+    f32 _28;
+
+    static ItemMusicManager* instance;
+};
+size_assert(ItemMusicManager, 0x2c);
