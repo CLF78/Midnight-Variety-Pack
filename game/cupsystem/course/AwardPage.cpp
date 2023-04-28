@@ -34,6 +34,6 @@ kmBranchDefAsm(0x805BCA44, 0x805BCB60) {
     // Get the cup name
     mr r3, r27
     bl ReplaceCupName
-    mr r3, r31
+    mr r31, r3
     blr
 }
