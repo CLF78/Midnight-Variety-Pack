@@ -197,6 +197,7 @@ class TrackList(QtWidgets.QWidget):
     def addTrack(self, data: Track):
         newitem = QtWidgets.QListWidgetItem(data.names[0], self.list)
         newitem.setData(0x100, data)
+        self.list.sortItems()
 
     def importTracks(self):
     
@@ -267,3 +268,4 @@ class TrackList(QtWidgets.QWidget):
 
     def editItem(self, item: QtWidgets.QListWidgetItem):
         TrackEditor(self, item.data(0x100), getMainWindow(self).lastBrstmDir).exec()
+        self.list.sortItems()

@@ -162,6 +162,7 @@ class RandomTrackList(QtWidgets.QWidget):
     def addTrack(self, data):
         newitem = QtWidgets.QListWidgetItem(data.names[0], self.list)
         newitem.setData(0x100, data)
+        self.list.sortItems()
 
     def updateButtons(self):
 
@@ -189,3 +190,4 @@ class RandomTrackList(QtWidgets.QWidget):
 
     def editItem(self, item):
         RandomTrackEditor(self, item.data(0x100)).exec()
+        self.list.sortItems()
