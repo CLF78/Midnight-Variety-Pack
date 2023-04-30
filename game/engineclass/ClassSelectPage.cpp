@@ -31,3 +31,13 @@ kmCallDefAsm(0x8083F70C) {
 // TODO remove these when we can easily patch BMGs
 kmWrite32(0x808AD198, 0xBF8);
 kmWrite32(0x808AD19C, 0xBF9);
+
+// Fix the back button when exiting TT mode after changing course/character
+kmCallDefAsm(0x80626A10) {
+    nofralloc
+
+    // Use r11 to avoid clobbering r12
+    li r11, 0x69
+    stw r11, 0x3EC(r28)
+    blr
+}
