@@ -4,7 +4,7 @@
 
 // Pitch the last lap music automatically
 extern "C" static float ApplyPitch(ItemMusicManager* self) {
-    if (RaceAudioManager::instance->raceState != RaceAudioManager::FINAL_LAP)
+    if (RaceAudioManager::instance->raceState != RaceAudioManager::FINAL_LAP || !self->speedUp)
         return self->pitch;
 
     return self->pitch * FINAL_LAP_MUSIC_PITCH_MULTIPLIER;

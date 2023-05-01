@@ -13,7 +13,8 @@ public:
     };
 
     u32 state;
-    u8 _14[4];
+    u8 _14[3];
+    bool speedUp; // custom field
 
     nw4r::snd::SoundHandle* _18;
     nw4r::snd::SoundHandle* _1C;
