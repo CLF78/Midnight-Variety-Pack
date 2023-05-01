@@ -3,7 +3,7 @@
 #include <game/sound/RaceAudioManager.h>
 
 // Pitch the last lap music automatically
-extern "C" static float ApplyPitch(ItemMusicManager* self) {
+kmHookFn float ApplyPitch(ItemMusicManager* self) {
     if (RaceAudioManager::instance->raceState != RaceAudioManager::FINAL_LAP || !self->speedUp)
         return self->pitch;
 

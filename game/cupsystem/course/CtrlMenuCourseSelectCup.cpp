@@ -14,7 +14,7 @@ kmCallDefCpp(0x807E4620, u16, int cupButtonId) {
 };
 
 // Replace cup icons
-extern "C" static void ReplaceCupIcon(int buttonId, PushButton* button) {
+kmHookFn void ReplaceCupIcon(int buttonId, PushButton* button) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
     CupManager::updateCupButton(buttonId, button, page->extension.curPage);
 }

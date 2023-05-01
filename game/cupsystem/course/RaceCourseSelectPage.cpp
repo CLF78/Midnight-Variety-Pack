@@ -9,7 +9,7 @@
 kmWrite16(0x808404D4, 0x4800);
 
 // Get the track to fill GlobalContext with
-extern "C" static u32 GetStartingTrack(RaceCourseSelectPage* self,
+kmHookFn u32 GetStartingTrack(RaceCourseSelectPage* self,
                                CtrlMenuCourseSelectCourse* courseHolder,
                                PushButton* button) {
 
@@ -30,7 +30,7 @@ kmBranchDefAsm(0x80840858, 0x8084085C) {
 }
 
 // Store the selected course along with its behaviour slot
-extern "C" static RaceConfig* StoreCourse(u32 trackIdx, PushButton* button) {
+kmHookFn RaceConfig* StoreCourse(u32 trackIdx, PushButton* button) {
 
     // Store track in GlobalContext
     SectionManager::instance->globalContext->lastCourse = trackIdx;
@@ -54,7 +54,7 @@ kmBranchDefAsm(0x808409C0, 0x808409DC) {
 }
 
 // Generate the track order when a course is clicked
-extern "C" static void GenerateOrderFromCourse(GlobalContext* self, int start, PushButton* button) {
+kmHookFn void GenerateOrderFromCourse(GlobalContext* self, int start, PushButton* button) {
 
     // Grab the cup index and track index again
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);

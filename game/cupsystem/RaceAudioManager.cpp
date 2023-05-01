@@ -4,7 +4,7 @@
 #include "cupsystem/CupManager.h"
 
 // Store the selected track's music slot
-extern "C" static void StoreMusicSlot(RaceAudioManager* manager, u32 originalSlot) {
+kmHookFn void StoreMusicSlot(RaceAudioManager* manager, u32 originalSlot) {
     manager->courseId = CupFile::tracks[CupManager::currentSzs].musicSlot;
 }
 

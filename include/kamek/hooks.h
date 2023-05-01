@@ -8,11 +8,11 @@
 #define kctInjectCall 4
 #define kctPatchExit 5
 
-
 #define kmIdentifier(key, counter) \
     _k##key##counter
 #define kmHookInt(counter) \
     __declspec (section ".kamek") static const u32 kmIdentifier(Hook, counter)
+#define kmHookFn extern "C" static
 
 // general hook definition macros
 #define kmHook0(type) \

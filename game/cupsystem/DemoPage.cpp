@@ -12,7 +12,7 @@ kmCallDefCpp(0x808552BC, u32) {
 }
 
 // Replace the cup icon
-extern "C" static const char* ReplaceCupIcon(DemoPage* self) {
+kmHookFn const char* ReplaceCupIcon(DemoPage* self) {
     u32 cupIdx = RaceConfig::instance->menuScenario.settings.cupId;
     return CupManager::replaceCupIcon(0, &self->topText, cupIdx);
 }

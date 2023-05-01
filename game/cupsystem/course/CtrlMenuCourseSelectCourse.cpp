@@ -6,7 +6,7 @@
 kmWrite8(0x807E525C, 0x93);
 
 // Update track names on selection change
-extern "C" static u16 GetTrackName(u32 track, PushButton* button) {
+kmHookFn u16 GetTrackName(u32 track, PushButton* button) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
     u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
     u32 trackIdx = CupManager::GetCupArray()[cupIdx].entryId[track];
@@ -22,7 +22,7 @@ kmCallDefAsm(0x807E5244) {
 }
 
 // Check if the current button is the one for the default course
-extern "C" static bool IsDefaultButton(u32 cupButtonId, u32 trackButtonId, s32 trackIdx) {
+kmHookFn bool IsDefaultButton(u32 cupButtonId, u32 trackButtonId, s32 trackIdx) {
 
     // Default to the first button in case the track isn't set
     if (trackIdx == -1)
@@ -49,7 +49,7 @@ kmBranchDefAsm(0x807E5258, 0x807E525C) {
 }
 
 // Set the correct default button
-extern "C" static s32 GetDefaultButton(u32 cupButtonId, s32 trackIdx) {
+kmHookFn s32 GetDefaultButton(u32 cupButtonId, s32 trackIdx) {
 
     // Check each button
     for (int i = 0; i < 4; i++) {

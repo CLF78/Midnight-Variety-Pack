@@ -6,7 +6,7 @@ namespace snd {
 namespace detail {
 
 // Trim the SASR bit when setting the BasicSound id
-extern "C" static void SetIDOverride(BasicSound* self, ulong soundId) {
+kmHookFn void SetIDOverride(BasicSound* self, ulong soundId) {
     self->SetId(soundId & ~SASR_BIT);
 }
 

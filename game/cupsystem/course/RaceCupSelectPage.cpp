@@ -82,7 +82,7 @@ kmWrite16(0x808412CC, 0x4800);
 kmWrite16(0x80841F94, 0x4800);
 
 // Get default cup button
-extern "C" static u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
+kmHookFn u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
     return CupManager::getStartingCupButtonFromTrack(track, self->extension.curPage);
 }
 
@@ -103,7 +103,7 @@ kmCallDefAsm(0x808417A4) {
 }
 
 // Update default button on cup selection
-extern "C" static void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, RaceCupSelectPage* self) {
+kmHookFn void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, RaceCupSelectPage* self) {
     u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, self->extension.curPage);
     sectionMgr->globalContext->lastCourse = CupManager::GetCupArray()[cupIdx].entryId[0];
 }
@@ -119,7 +119,7 @@ kmBranchDefAsm(0x808417B4, 0x808417CC) {
 }
 
 // Store the last selected cup and the first track along with its behaviour slot
-extern "C" static RaceConfig* StoreCupAndCourse(RaceCupSelectPage* self) {
+kmHookFn RaceConfig* StoreCupAndCourse(RaceCupSelectPage* self) {
     RaceConfig* rdata = RaceConfig::instance;
 
     // Store the selected cup

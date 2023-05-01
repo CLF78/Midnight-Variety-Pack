@@ -13,12 +13,12 @@ kmWrite32(0x805BC604, 0x60000000);
 kmWrite8(0x805BCF87, 0x90);
 
 // Replace the cup icon
-extern "C" static const char* ReplaceCupIcon(u32 cupIdx, LayoutUIControl* iconElement) {
+kmHookFn const char* ReplaceCupIcon(u32 cupIdx, LayoutUIControl* iconElement) {
     return CupManager::replaceCupIcon(0, iconElement, cupIdx);
 }
 
 // Replace the cup name
-extern "C" static u16 ReplaceCupName(u32 cupIdx) {
+kmHookFn u16 ReplaceCupName(u32 cupIdx) {
     return CupManager::GetCupArray()[cupIdx].cupName;
 }
 

@@ -53,7 +53,7 @@ kmBranchDefCpp(0x8009DF60, NULL, bool, SoundArchive* self,
 }
 
 // Replace the file stream when opening an sfx
-extern "C" static ut::FileStream* OpenFileStreamOverride(SoundArchive* self,
+kmHookFn ut::FileStream* OpenFileStreamOverride(SoundArchive* self,
                                                          u32 fileId,
                                                          void* buffer,
                                                          s32 size) {

@@ -44,7 +44,7 @@ void ReturnToMenu() {
         SystemManager::returnToMenu();
 }
 
-extern "C" static void printStackTrace(u32* sp) {
+kmHookFn void printStackTrace(u32* sp) {
     for (u32 i = 0; i < 16; i++) {
 
         // Check if stack address is valid, if not break

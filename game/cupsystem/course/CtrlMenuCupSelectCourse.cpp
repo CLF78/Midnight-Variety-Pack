@@ -3,7 +3,7 @@
 #include "cupsystem/CupManager.h"
 
 // Update track names
-extern "C" static u16 GetTrackName(u32 buttonId, u32 track) {
+kmHookFn u16 GetTrackName(u32 buttonId, u32 track) {
     RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
     u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, page->extension.curPage);
     u32 trackIdx = CupManager::GetCupArray()[cupIdx].entryId[track];

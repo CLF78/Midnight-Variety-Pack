@@ -17,7 +17,7 @@ ut::FileStream** SoundArchivePlayer::soundStreams() {
 }
 
 // Allocate additional memory to store the custom sound streams array
-extern "C" static ulong GetRequiredMemSizeOverride(SoundArchivePlayer* player,
+kmHookFn ulong GetRequiredMemSizeOverride(SoundArchivePlayer* player,
                                                    const SoundArchive* archive) {
     ulong size = player->GetRequiredMemSize(archive);
     size += archive->GetSoundCount() * sizeof(ut::FileStream*);
@@ -44,14 +44,14 @@ kmCallDefCpp(0x800A0960, bool, SoundArchivePlayer* self,
 }
 
 // Enable the SASR bit when an external replacement is found
-extern "C" static SoundStartable::StartResult detail_SetupSoundImplOverride(
-                                              SoundArchivePlayer* self,
-                                              SoundHandle* handle,
-                                              ulong soundId,
-                                              detail::BasicSound::AmbientInfo* ambientArgInfo,
-                                              SoundActor* actor,
-                                              bool holdFlag,
-                                              const SoundStartable::StartInfo* startInfo) {
+kmHookFn SoundStartable::StartResult detail_SetupSoundImplOverride(
+                                     SoundArchivePlayer* self,
+                                     SoundHandle* handle,
+                                     ulong soundId,
+                                     detail::BasicSound::AmbientInfo* ambientArgInfo,
+                                     SoundActor* actor,
+                                     bool holdFlag,
+                                     const SoundStartable::StartInfo* startInfo) {
 
     if (self->soundStreams()[soundId])
         soundId |= SASR_BIT;
@@ -84,7 +84,7 @@ kmCallDefCpp(0x800A20C4, SoundStartable::StartResult,
 }
 
 // Scan for external SFX replacements
-extern "C" static bool LoadGroupOverride(SoundArchivePlayer* self,
+kmHookFn bool LoadGroupOverride(SoundArchivePlayer* self,
                                         ulong groupId,
                                         SoundMemoryAllocatable* allocator,
                                         ulong loadBlockSize) {
@@ -172,7 +172,7 @@ kmCall(0x80210E04, LoadGroupOverride);
 kmCall(0x80210ED0, LoadGroupOverride);
 
 // Delete the custom sound streams when the data is invalidated
-extern "C" static void InvalidateDataOverride(SoundArchivePlayer* self, const void* start, const void* end) {
+kmHookFn void InvalidateDataOverride(SoundArchivePlayer* self, const void* start, const void* end) {
     self->InvalidateData(start, end);
 
     DvdSoundArchive::DvdFileStream** streams = (DvdSoundArchive::DvdFileStream**)self->soundStreams();

@@ -9,7 +9,7 @@ kmWrite8(0x808AE1FB, Page::CHARACTER_SELECT);
 kmWrite8(0x808AE1FF, Page::GP_CLASS_SELECT);
 
 // Write some required settings that the CC selector screen used to do for us
-extern "C" static void ApplyGPSettings() {
+kmHookFn void ApplyGPSettings() {
     RaceConfig::instance->menuScenario.settings.engineClass = RaceConfig::Settings::CC_150;
     RaceConfig::instance->menuScenario.settings.cpuMode = RaceConfig::Settings::CPU_HARD;
 }
