@@ -193,14 +193,8 @@ CC = Path(file) if (file := shutil.which('mwcceppc.exe')) else Path(TOOL_DIR, 'c
 CUP_BUILDER = Path(TOOL_DIR, 'cup_builder', 'exporter.py')
 CW_WRAPPER = Path(TOOL_DIR, 'cw_wrapper', 'mwcceppc_wine_wrapper.py')
 CW_WRAPPER_WIN = Path(TOOL_DIR, 'cw_wrapper', 'mwcceppc_windows_wrapper.py')
-KAMEK = Path(file) if (file := shutil.which('Kamek')) else Path(TOOL_DIR, 'kamek', 'Kamek')
+KAMEK = Path(file) if (file := shutil.which('Kamek')) else Path(TOOL_DIR, 'kamek', f'Kamek{".exe" if sys.platform == "win32" else ""}')
 WUJ5 = Path(TOOL_DIR, 'wuj5', 'wuj5.py')
-
-# Ensure that CW and Kamek are installed
-if not CC.is_file():
-    raise SystemExit('CodeWarrior is not installed! Make sure it is either on PATH or in `tools/cw`!')
-if not KAMEK.is_file():
-    raise SystemExit('Kamek is not installed! Make sure it is either on PATH or in `tools/kamek`!')
 
 #########
 # Files #
@@ -213,6 +207,45 @@ LOADER_OUT_FILE = Path(OUT_DIR, 'Loader.bin')
 LOADER_OUT_XML = Path(BUILD_DIR, 'Loader.xml')
 PORT_FILE = Path(ROOT_DIR, 'versions-mkw.txt')
 SYMBOL_FILE = Path(ROOT_DIR, 'externals-mkw.txt')
+
+# Initialize UI asset list
+UI_ASSETS = {
+	'AwardMKM': {
+        Path(CUP_ICONS_OUT_DIR): Path('cups')
+	},
+
+	'MenuSingleMKM': {
+		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowLeft.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowLeft.brctr'),
+		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowRight.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowRight.brctr'),
+        Path(CUP_ICONS_OUT_DIR): Path('cups')
+	},
+
+	'MenuMultiMKM': {
+		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowLeft.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowLeft.brctr'),
+		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowRight.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowRight.brctr'),
+        Path(CUP_ICONS_OUT_DIR): Path('cups')
+	},
+
+	'RaceMKM': {
+        Path(CUP_ICONS_OUT_DIR): Path('cups')
+	}
+}
+
+#########################################
+# Parse Arguments and Additional Checks #
+#########################################
+
+if len(sys.argv) > 1 and sys.argv[1] == '--clean':
+    shutil.rmtree(BUILD_DIR, ignore_errors=True)
+    shutil.rmtree(OUT_DIR.parent, ignore_errors=True)
+
+# Ensure that CW and Kamek are installed
+if not CC.is_file():
+    raise SystemExit('CodeWarrior is not installed! Make sure it is either on PATH or in `tools/cw`!')
+if not KAMEK.is_file():
+    raise SystemExit('Kamek is not installed! Make sure it is either on PATH or in `tools/kamek`!')
+if ' ' in str(ROOT_DIR):
+    raise SystemExit('Make sure that the project\'s directory does not have spaces in its path!')
 
 ###################
 # Write Variables #
@@ -364,29 +397,6 @@ writer.writeBuildCommand('kmstatic',
                         out_riiv=LOADER_OUT_XML,
                         loadaddr=hex(LOADER_HOOK_ADDR))
 
-# Initialize UI asset list
-uiAssets = {
-	'AwardMKM': {
-        Path(CUP_ICONS_OUT_DIR): Path('cups')
-	},
-
-	'MenuSingleMKM': {
-		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowLeft.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowLeft.brctr'),
-		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowRight.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowRight.brctr'),
-        Path(CUP_ICONS_OUT_DIR): Path('cups')
-	},
-
-	'MenuMultiMKM': {
-		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowLeft.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowLeft.brctr'),
-		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowRight.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowRight.brctr'),
-        Path(CUP_ICONS_OUT_DIR): Path('cups')
-	},
-
-	'RaceMKM': {
-        Path(CUP_ICONS_OUT_DIR): Path('cups')
-	}
-}
-
 # Merge and add localized messages to the UI asset list
 for locale, bmgFile in zip(LOCALES, AUTO_GEN_BMG_FILES):
     for file, dests in BMG_NAMES.items():
@@ -412,12 +422,12 @@ for locale, bmgFile in zip(LOCALES, AUTO_GEN_BMG_FILES):
             newDict = {destFile: Path('message', f'{file}.bmg')}
             for dest in dests:
                 destKey = f'{dest}MKM_{locale}'
-                if destKey not in uiAssets:
-                    uiAssets[destKey] = {}
-                uiAssets[destKey] |= newDict
+                if destKey not in UI_ASSETS:
+                    UI_ASSETS[destKey] = {}
+                UI_ASSETS[destKey] |= newDict
 
 # Write the UI asset commands
-for file, subFiles in uiAssets.items():
+for file, subFiles in UI_ASSETS.items():
     for src, dest in subFiles.items():
         dest = Path(UI_ASSETS_DIR, f'{file}.d', dest)
         if not src.suffix:
@@ -427,7 +437,7 @@ for file, subFiles in uiAssets.items():
 
 # Pack the UI assets
 writer.writeBuildCommand('pack_files',
-                        [Path(UI_ASSETS_PACKED_DIR, f'{file}.szs') for file in uiAssets],
+                        [Path(UI_ASSETS_PACKED_DIR, f'{file}.szs') for file in UI_ASSETS],
                         ' '.join(map(str, uiAssetManager.outputs.values())),
                         in_dir=UI_ASSETS_DIR,
                         out_dir=UI_ASSETS_PACKED_DIR)
