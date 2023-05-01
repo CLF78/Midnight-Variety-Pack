@@ -96,15 +96,17 @@ class BRSTMManager():
         self.currentId = 0
         self.savedSongs = {}
 
-    def update(self, song: str):
+    def update(self, song: str, fastSong: str):
         if song not in self.savedSongs:
-            self.savedSongs[song] = (self.currentId, False)
+            self.savedSongs[song] = (self.currentId, fastSong)
             self.currentId += 1
 
     def save(self):
         os.makedirs(self.saveDir, exist_ok=True)
         for track, data in self.savedSongs.items():
-            linkPath(track, os.path.join(self.saveDir, f'{data[0]}{"_F" if data[1] else ""}.brstm'))
+            linkPath(track, os.path.join(self.saveDir, f'{data[0]}.brstm'))
+            if data[1]:
+                linkPath(data[1], os.path.join(self.saveDir, f'{data[0]}_F.brstm'))
 
 
 class IconManager():
@@ -141,11 +143,14 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     # Add the track metadata
     for track in tracks:
         szsMng.update(track.path)
-        brstmMng.update(track.musicFile)
+        brstmMng.update(track.musicFile, track.musicFileFast)
         bmgMng.update(track.names)
         bmgMng.updateSingle(track.trackAuthor)
         bmgMng.updateSingle(track.musicAuthor)
         bmgMng.updateSingle(track.musicName)
+        if track.musicFileFast:
+            bmgMng.updateSingle(track.musicAuthorFast)
+            bmgMng.updateSingle(track.musicNameFast)
 
     # Add the random track metadata
     for randTrack in randTracks:

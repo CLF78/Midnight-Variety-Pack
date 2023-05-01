@@ -5,10 +5,11 @@
 
 # Python version check
 # Since we use the Walrus Operator, force Python 3.8 or higher
+import os
 import sys
+
 if sys.version_info < (3, 8):
     raise SystemExit('Please update your copy of Python to 3.8 or greater. Currently running on: ' + sys.version.split()[0])
-import os
 
 # Import json5
 try:
