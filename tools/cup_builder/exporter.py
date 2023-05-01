@@ -188,14 +188,17 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     # Write the track data
     cupDataFile.write('\n\nconst CupFile::Track CupFile::tracks[] = {\n')
     for track in tracks:
-        newline = '    {%d, %d, %d, %d, %d, %d, %d},\n' % (
+        songData = brstmMng.savedSongs[track.musicFile]
+        newline = '    {%d, %d, %d, %d, %d, %d, %d, %d, %d},\n' % (
                 track.specialSlot.value,
                 track.musicSlot.value,
                 bmgMng.usedIds[track.names[0]],
                 bmgMng.usedIds[track.trackAuthor],
-                brstmMng.savedSongs[track.musicFile][0],
+                songData[0],
                 bmgMng.usedIds[track.musicName],
-                bmgMng.usedIds[track.musicAuthor])
+                bmgMng.usedIds[track.musicAuthor],
+                bmgMng.usedIds[track.musicNameFast] if songData[1] else 0,
+                bmgMng.usedIds[track.musicAuthorFast] if songData[1] else 0)
         cupDataFile.write(newline)
     cupDataFile.write('};\n\n')
 

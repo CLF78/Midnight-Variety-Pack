@@ -15,6 +15,8 @@ namespace CupFile {
         u16 musicFileId; // The BRSTM file id (allows reusing BRSTM files)
         u16 musicNameId; // The BMG id of the music name
         u16 musicAuthorId; // The BMG id of the music artist(s)
+        u16 musicNameIdFast; // The BMG id of the fast music name
+        u16 musicAuthorIdFast; // The BMG id of the fast music artist(s)
     };
 
     // Structure for cups
