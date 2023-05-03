@@ -1,51 +1,85 @@
 # Mario Kart Midnight 2
-Mario Kart Midnight 2 is a WIP custom track distribution created by NuoKart, ZPL and CLF78.
+Mario Kart Midnight 2 is a WIP custom track distribution created by NuoKart and CLF78.
 
-## Building Source Code
+## Building the Distribution
 
-### Premises
-* The guides below assume a certain level of savviness. Don't know how to do something? Look it up.
-* Don't like how the folder structure is laid out? Change it.
+### Required Tools and Dependencies
+- [CodeWarrior for MPC55xx/MPC56xx v2.10 Special Edition](https://nxp.com/lgfiles/devsuites/PowerPC/CW55xx_v2_10_SE.exe) ([mirror](https://cache.nxp.com/lgfiles/devsuites/PowerPC/CW55xx_v2_10_SE.exe))
+- [Kamek](https://github.com/Treeki/Kamek/releases)
+- [Python](https://www.python.org/downloads/) (version 3.8 or later)
+- [Wiimm's SZS Tools](https://szs.wiimm.de/download.html)
+- [wuj5](https://github.com/stblr/wuj5)
 
-### Requirements
-- [CodeWarrior for MPC55xx/MPC56xx v2.10 Special Edition](https://nxp.com/lgfiles/devsuites/PowerPC/CW55xx_v2_10_SE.exe)
-- [Kamek](https://github.com/Treeki/Kamek/releases) (pick according to your OS)
+The following Python packages are also required:
+- [json5](https://pypi.org/project/json5/)
+- [ninja](https://pypi.org/project/ninja/)
+
+These additional packages are required for running the Cup Builder tool:
+- One of the four Qt Python bindings:
+    - [PyQt5](https://pypi.org/project/PyQt5/) (recommended)
+    - [PySide2](https://pypi.org/project/PySide2/)
+    - [PyQt6](https://pypi.org/project/PyQt6/)
+    - [PySide6](https://pypi.org/project/PySide6/)
+- [qtpy](https://pypi.org/project/QtPy/)
 
 ### Installation - Windows
-* Clone the GitHub repo to a folder of choice;
-* Install `.NET 5.0` or `.NET 6.0` if not already present, as it is required by Kamek;
-* Add Kamek to your `PATH` variable (restarting your device may be necessary in order for the change to be detected);
-    - If this isn't possible, then edit the build scripts to match Kamek's path.
-* Run the CodeWarrior installer;
-    - Only the `Command Line Tools` component is needed for compilation; you can set this in the custom install configuration.
-* Go to the cloned GitHub repo and make a folder named `cw`;
-* Go to the CodeWarrior installation directory and copy the contents of the `PowerPC_EABI_Tools\Command_Line_Tools` folder to the `cw` folder;
-* Copy `license.dat` and `lmgr11.dll` to the `cw` folder as well;
-* Run `build.py` to build the mod's code or loader. Make sure to check the [notes](#Notes) section.
+- Clone this repository to a folder of choice (make sure the path to the folder has no spaces in it!);
+- Install Python and the Python packages ([through `pip`](https://pip.pypa.io/en/stable/getting-started/));
+- Install [.NET Runtime 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) if not present, which is required for running Kamek;
+- Run the CodeWarrior installer;
+    - Only the `Command Line Tools` component is needed for compilation; this can be set by choosing the `Custom` install configuration;
+    - Remember where the program was installed to, as it will be needed later!
+- Install Wiimm's SZS Tools by executing `windows-install.exe` (it's recommended to restart the device after this step);
+- Go to the cloned repository, go to the `tools` folder and create the following directories:
+    - `cw`;
+    - `kamek`;
+- Go to the CodeWarrior installation directory and copy the contents of the `PowerPC_EABI_Tools/Command_Line_Tools` folder to the `cw` folder;
+    - Copy `license.dat` from the main CodeWarrior directory to the `cw` folder as well;
+- Download Kamek and copy it to the `kamek` folder;
+- Download wuj5 and copy it to the `wuj5` folder;
 
 ### Installation - Mac
 I'm not covering this. Figure it out yourself.
 
 ### Installation - Linux
-* Clone the GitHub repo to a folder of choice;
-* CodeWarrior is a Windows application, therefore `wine` needs to be installed in order to run it;
-* Kamek requires `dotnet` to be installed, so get that as well;
-* Add Kamek to your `PATH` variable (sourcing may be necessary in order for the change to be detected);
-* Do NOT run the CodeWarrior installer in WINE, as the installer will fail;
-* Due to the above, you'll need to extract the needed files manually. To do so, first make sure the `cabextract` package is installed;
-* Place the CodeWarrior installer in the same folder as `extractCW.sh`, then run the script;
-* Run `build.py` to build the mod's code or loader.
+- Clone this repository to a folder of choice (make sure the path to the folder has no spaces in it!);
+- Install Python and the Python packages ([through `pip`](https://pip.pypa.io/en/stable/getting-started/));
+- Install [.NET Runtime 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0), which is required for running Kamek;
+- Install [WINE](https://wiki.winehq.org/Download), which is required for running CodeWarrior;
+- Since the CodeWarrior installer will fail on WINE, the files will need to be extracted manually:
+    - To do so, first make sure the [cabextract](https://www.cabextract.org.uk/) package is installed;
+    - Place the CodeWarrior installer in the same folder as `extractCW.sh`, then run the aforementioned script;
+    - All the files will be placed to the correct folder automatically.
+- Install Wiimm's SZS Tools;
+- Go to the cloned repository, go to the `tools` folder and create a new directory named `kamek`;
+- Download Kamek and copy it to the `kamek` folder;
+- Download wuj5 and copy it to the `wuj5` folder;
 
-### Notes
-* The scripts automatically place the compiled binaries into the `assets/game` folder. Change that if you don't like it;
-* The `game` build script requires a list of regions to compile the code to. Pass ALL to compile the code for every region. The list is as follows:
-    - P = EUR;
-    - E = USA;
-    - J = JAP;
-    - K = KOR;
+### Building
+- Run `configure.py` to create the Ninja build script;
+    - The script accepts a `--clean` argument to remove the existing `build` and `out` folders;
+    - This needs to be run every time a source code/asset file is added/removed.
+- Run `ninja` to build the distribution.
+    - The output will be placed in the `out` folder.
+    - This needs to be run every time a source code/asset file is added/updated/removed. Ninja will not re-run build steps unaffected by the changes.
 
-## Codebase
-- The codebase uses C++ and PowerPC Assembly. C++ is preferred for full function replacements and for any kind of complex logic;
-- No assumption about the use of registers by C++ code is made other than the ABI. If necessary, assembly wrappers are employed to restore/backup registers;
-- The headers attempt to keep a consistent naming scheme and respect the original game's names, definitions and structures. However, all class members are marked as public for ease of use;
-- As code is progressively added/updated, bugs may accidentally be introduced due to incompetence.
+## Customization
+The distribution can be modified for your own purposes in multiple ways.
+
+### Cup Layout
+The cup icons/layout and the tracks within can be changed using the Cup Builder Tool.
+- Ensure the additional dependencies for the tool are installed;
+- Run `tools/cup_builder/main.py` to open the tool;
+- Open `assets/cups.json5` to access Midnight's own track roster.
+
+A few usage notes:
+- The file's validity can be checked with the corresponding menu option.
+    - This is run again during the build process, which will fail should errors be detected.
+- If the cup file is moved to a different directory, the file will have to be updated to ensure the paths still match;
+- The cup file stores track, music and icon hashes internally so that Ninja can detect changes. If one of those elements is updated, the cup file will need to be opened and resaved so the internal hashes match the new files;
+
+### Mod Features
+The various features in the mod (including the aforementioned custom cups) can be toggled and further configured by editing `include/config.h`. While most features are free standing, some are dependent on others; checks are included to prevent most breakages.
+
+### Assets
+Most of the assets in the mod (excluding tracks and music due to file size reasons) are available in decoded form in the `assets` folder. They can be changed, added or removed, provided the `configure.py` script is updated to match.

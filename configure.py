@@ -289,7 +289,7 @@ writer.writeRule('bmg_merge',
 
 writer.writeRule('wuj5',
                 command=f'{sys.executable} {WUJ5} encode $in -o $out',
-                description='Encode $in_short with WUJ5')
+                description='Encode $in_short with wuj5')
 
 if sys.platform == 'win32':
     writer.writeRule('copy_file',
@@ -384,11 +384,18 @@ for file in sorted(loaderInputs):
 
 # Write the Kamek linking rules
 # Code commands
+prevOutput = None
 for region, outputs in outputsByRegion.items():
-    writer.writeBuildCommand('kmdynamic',
-                            Path(KAMEK_OUT_DIR, f'code{region}.bin'),
-                            sorted(outputs) + ['|', '$port_file', '$symbol_file'],
-                            selectversion=region)
+
+    # Fix a parallel execution issue on Windows by marking the previous Kamek output as input for the next build command
+    cmdOut = sorted(outputs) + ['|', '$port_file', '$symbol_file']
+    cmdIn = Path(KAMEK_OUT_DIR, f'code{region}.bin')
+    if prevOutput and sys.platform == 'win32':
+        cmdOut.append(prevOutput)
+
+    # Write the command
+    writer.writeBuildCommand('kmdynamic', cmdIn, cmdOut, selectversion=region)
+    prevOutput = cmdIn
 
 # Loader command
 writer.writeBuildCommand('kmstatic',
