@@ -252,17 +252,23 @@ class TrackList(QtWidgets.QWidget):
             for file in szsFiles:
 
                 # Check that the file wasn't already added to the list
-                found = False
+                data = None
+                trackHash = hashFile(file)
                 for i in range(self.list.count()):
-                    if self.list.item(i).data(0x100).path == file:
-                        found = True
+                    if self.list.item(i).data(0x100).trackHash == trackHash:
+                        data = self.list.item(i).data(0x100)
                         break
 
                 # If so, add it
-                if not found:
+                if not data:
                     data = Track(file)
-                    data.trackHash = hashFile(file)
+                    data.trackHash = trackHash
                     self.addTrack(data)
+
+                # Else update the track path with the new one
+                else:
+                    data.path = file
+
 
     def updateButtons(self):
 
