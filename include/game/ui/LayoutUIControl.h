@@ -15,7 +15,7 @@ public:
 
     virtual const TypeInfo* getTypeInfo() const;
     virtual const char* getTypeName() const;
-    virtual void vf30();
+    virtual void vf_30();
 
     virtual void loadResources(const char* arcName, const char* layoutName);
 

@@ -39,8 +39,7 @@ kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
 kmCallDefCpp(0x8084226C, void, RaceCupSelectPage* self) {
 
     // Only delete the arrows, since the other fields do not have/need a destructor
-    SheetSelectControl* arrows = &self->extension.arrows;
-    delete arrows;
+    self->extension.arrows.~SheetSelectControl();
 }
 
 // Add the buttons to the children count
