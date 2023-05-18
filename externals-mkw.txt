@@ -86,3 +86,5 @@ DVDFastOpen=0x8015E254
 instance__16RaceAudioManager=0x809C27F8
 instance__16ItemMusicManager=0x809C27F0
 strlen=0x80021254
+instance__11SaveManager=0x809BD748
+markLicensesDirty__16SaveGhostManagerFv=0x80621410

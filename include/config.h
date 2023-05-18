@@ -44,6 +44,11 @@
 // The pitch multiplier for final lap music
 #define FINAL_LAP_MUSIC_PITCH_MULTIPLIER 1.2f
 
+// The scores required for reaching 3/2/1 stars
+#define GP_SCORE_3_STARS 60
+#define GP_SCORE_2_STARS 57
+#define GP_SCORE_1_STAR 55
+
 ///////////////////////
 // Exception Handler //
 ///////////////////////

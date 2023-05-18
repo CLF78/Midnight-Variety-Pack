@@ -33,6 +33,8 @@ public:
 
         virtual ~Player();
 
+        int computeGPRank();
+
         u8 _4;
         s8 localPlayerNum;
         s8 playerInputIdx;
@@ -47,7 +49,7 @@ public:
         u16 gpScore;
         u16 _DC;
         s16 gpRankScore;
-        u8 leaderboardPos;
+        u8 gpRank;
         u8 prevFinishPos;
         u8 finishPos;
         Rating rating;
