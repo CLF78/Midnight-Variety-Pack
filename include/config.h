@@ -69,3 +69,19 @@
 
 // The directory where custom SFX is stored
 #define SASR_SFX_DIR "/sound/sfx"
+
+///////////////////////////////
+// Savegame Expansion System //
+///////////////////////////////
+
+// Allows to store additional savegame data outside the regular save.
+// Credits: CLF78 (original code)
+
+// The savegame filename
+#define SAVEEX_FILENAME "midnight.dat"
+
+// The savegame magic
+#define SAVEEX_MAGIC 'NITE'
+
+// The savegame version number
+#define SAVEEX_VERSION_NUMBER 1
