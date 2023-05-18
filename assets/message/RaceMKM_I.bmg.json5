@@ -11,4 +11,7 @@
     "1413": {
         string: "{arg message|1} - 4ª corsa",
     },
+    "1427": {
+        string: "{1 char|}",
+    },
 }

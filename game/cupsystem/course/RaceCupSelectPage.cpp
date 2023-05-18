@@ -1,5 +1,6 @@
 #include <kamek.h>
 #include <game/system/RaceConfig.h>
+#include <game/system/SaveManager.h>
 #include <game/ui/page/RaceCupSelectPage.h>
 #include <game/ui/SectionManager.h>
 #include "cupsystem/CupManager.h"
@@ -153,4 +154,23 @@ kmBranchDefCpp(0x80841238, 0x8084124C, void, RaceCupSelectPage* self) {
     // Disable the arrows if not required
     self->extension.arrows.leftButton.enabled = CupManager::GetCupArrowsEnabled();
     self->extension.arrows.rightButton.enabled = CupManager::GetCupArrowsEnabled();
+}
+
+// Adjust the GP rank display message
+kmBranchDefCpp(0x808416AC, 0x80841714, void, MessageInfo* msgInfo, RaceCupSelectPage* page, u32 cupButton) {
+
+    // Get current license, bail if invalid
+    SaveManager* save = SaveManager::instance;
+    if (save->currentLicenseId == -1)
+        return;
+
+    // Get the cup entry
+    SaveExpansion* licenseEx = &save->expansion.licensesEx[save->currentLicenseId];
+    u32 cupId = CupManager::getCupIdxFromButton(cupButton, page->extension.curPage);
+    SaveExpansion::Cup* cup = &licenseEx->gpRanks[cupId];
+
+    if (cup->completed)
+        msgInfo->messageIds[0] = 3373 + cup->rank;
+    else
+        msgInfo->messageIds[0] = 3382;
 }
