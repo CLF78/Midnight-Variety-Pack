@@ -156,7 +156,7 @@ kmBranchDefCpp(0x80841238, 0x8084124C, void, RaceCupSelectPage* self) {
 }
 
 // Adjust the GP rank display message
-kmBranchDefCpp(0x808416AC, 0x80841714, void, MessageInfo* msgInfo, RaceCupSelectPage* page, u32 cupButton) {
+kmHookFn void GetGPRank(MessageInfo* msgInfo, RaceCupSelectPage* page, u32 cupButton) {
 
     // Get current license, bail if invalid
     SaveManager* save = SaveManager::instance;
@@ -172,4 +172,15 @@ kmBranchDefCpp(0x808416AC, 0x80841714, void, MessageInfo* msgInfo, RaceCupSelect
         msgInfo->messageIds[0] = 3373 + cup->rank;
     else
         msgInfo->messageIds[0] = 3382;
+}
+
+// Glue code
+kmBranchDefAsm(0x808416AC, 0x80841714) {
+    nofralloc
+
+    // Call C++ function
+    mr r4, r31
+    mr r5, r29
+    bl GetGPRank
+    blr
 }
