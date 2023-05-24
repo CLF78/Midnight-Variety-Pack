@@ -14,8 +14,8 @@ public:
     virtual const char* getTypeName() const;
 
     PushButton cupButtons[8];
-    InputHandler<CtrlMenuCupSelectCup> onClickHandler;
-    InputHandler<CtrlMenuCupSelectCup> onSelectHandler;
+    InputHandler0<CtrlMenuCupSelectCup, void> onClickHandler;
+    InputHandler0<CtrlMenuCupSelectCup, void> onSelectHandler;
     u32 currentSelected;
     CtrlMenuMovieLayout movieLayout;
     CtrlMenuCupSelectCourse courseHolder;

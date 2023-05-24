@@ -30,18 +30,18 @@ public:
     virtual void vf_3c();
     virtual void vf_40();
 
-    InputHandler<RadioButtonControl> onSelect;
-    InputHandler<RadioButtonControl> onDeselect;
-    InputHandler<RadioButtonControl> _19C;
-    InputHandler<RadioButtonControl> onForwardPress;
-    InputHandler<RadioButtonControl> onRightPress;
-    InputHandler<RadioButtonControl> onLeftPress;
+    InputHandler0<RadioButtonControl, void> onSelect;
+    InputHandler0<RadioButtonControl, void> onDeselect;
+    InputHandler0<RadioButtonControl, void> _19C;
+    InputHandler0<RadioButtonControl, void> onForwardPress;
+    InputHandler0<RadioButtonControl, void> onRightPress;
+    InputHandler0<RadioButtonControl, void> onLeftPress;
     u32 playerFlags;
 
-    InputHandler<OptionButton>* onSelectedChangeHandler;
-    InputHandler<OptionButton>* _1F4;
-    InputHandler<OptionButton>* _1F8;
-    InputHandler<OptionButton>* setSelectChangedHandler;
+    InputHandler0<OptionButton, void>* onSelectedChangeHandler;
+    InputHandler0<OptionButton, void>* _1F4;
+    InputHandler0<OptionButton, void>* _1F8;
+    InputHandler0<OptionButton, void>* setSelectChangedHandler;
 
     s32 buttonCount;
     s32 prevSelected;

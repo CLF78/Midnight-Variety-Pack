@@ -13,7 +13,7 @@ public:
 
     CtrlMenuMovieButton courseButtons[4];
     LayoutUIControl _B24;
-    InputHandler<CtrlMenuCourseSelectCourse> onClickHandler;
-    InputHandler<CtrlMenuCourseSelectCourse> onSelectHandler;
+    InputHandler0<CtrlMenuCourseSelectCourse, void> onClickHandler;
+    InputHandler0<CtrlMenuCourseSelectCourse, void> onSelectHandler;
 };
 size_assert(CtrlMenuCourseSelectCourse, 0xCC0);

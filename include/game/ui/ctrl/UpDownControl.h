@@ -43,13 +43,13 @@ public:
                     const char* leftArrowCtr, const char* leftArrowLoc, UpDownAnimator* animator,
                     u32 playerFlags, u32 holderFlags, bool unselectable, bool loop, bool _212);
 
-    InputHandler<UpDownControl> onSelect;
-    InputHandler<UpDownControl> onDeselect;
-    InputHandler<UpDownControl> onButtonSelect;
-    InputHandler<UpDownControl> onButtonDeselect;
-    InputHandler<UpDownControl> onFront;
-    InputHandler<UpDownControl> onRight;
-    InputHandler<UpDownControl> onLeft;
+    InputHandler0<UpDownControl, void> onSelect;
+    InputHandler0<UpDownControl, void> onDeselect;
+    InputHandler0<UpDownControl, void> onButtonSelect;
+    InputHandler0<UpDownControl, void> onButtonDeselect;
+    InputHandler0<UpDownControl, void> onFront;
+    InputHandler0<UpDownControl, void> onRight;
+    InputHandler0<UpDownControl, void> onLeft;
 
     u32 playerFlags;
     s32 curSelected;
@@ -64,10 +64,10 @@ public:
 
     UpDownAnimator* animator;
     ControlInputManager inputManager;
-    InputHandler<UpDownControl>* changeHandler;
-    InputHandler<UpDownControl>* frontHandler;
-    InputHandler<UpDownControl>* selectHandler;
-    InputHandler<UpDownControl>* deselectHandler;
+    InputHandler0<UpDownControl, void>* changeHandler;
+    InputHandler0<UpDownControl, void>* frontHandler;
+    InputHandler0<UpDownControl, void>* selectHandler;
+    InputHandler0<UpDownControl, void>* deselectHandler;
 
     nw4r::lyt::Pane* fuchiPattern;
     nw4r::lyt::Pane* colorBase;
@@ -85,6 +85,6 @@ size_assert(UpDownControl, 0x5C8);
 class UpDownAnimator {
 public:
     void* vtable;
-    InputHandler<UpDownControl>* _4;
+    InputHandler0<UpDownControl, void>* _4;
 };
 size_assert(UpDownAnimator, 0x8);

@@ -16,8 +16,8 @@ public:
 class RaceCupSelectPageEx {
 public:
     SheetSelectControl arrows;
-    InputHandlerEx<SheetSelectButton, SheetSelectControl> leftHandler;
-    InputHandlerEx<SheetSelectButton, SheetSelectControl> rightHandler;
+    InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32> leftHandler;
+    InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32> rightHandler;
     s32 curPage;
 };
 
@@ -26,11 +26,11 @@ public:
     MultiControlInputManager multiControlInputManager;
     u32 curChildCount;
 
-    InputHandler<RaceCupSelectPage> onBtnClick;
-    InputHandler<RaceCupSelectPage> onBtnSelect;
-    InputHandler<RaceCupSelectPage> onBtnDeselect;
-    InputHandler<RaceCupSelectPage> onBackPress;
-    InputHandler<RaceCupSelectPage> onStart;
+    InputHandler0<RaceCupSelectPage, void> onBtnClick;
+    InputHandler0<RaceCupSelectPage, void> onBtnSelect;
+    InputHandler0<RaceCupSelectPage, void> onBtnDeselect;
+    InputHandler0<RaceCupSelectPage, void> onBackPress;
+    InputHandler0<RaceCupSelectPage, void> onStart;
 
     u32 activePlayers;
     u32 activeControllers;

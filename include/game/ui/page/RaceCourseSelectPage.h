@@ -10,11 +10,11 @@ public:
     MultiControlInputManager multiControlInputManager;
     u32 curChildCount;
 
-    InputHandler<RaceCourseSelectPage> onBtnClick;
-    InputHandler<RaceCourseSelectPage> onBtnSelect;
-    InputHandler<RaceCourseSelectPage> onBtnDeselect;
-    InputHandler<RaceCourseSelectPage> onBackPress;
-    InputHandler<RaceCourseSelectPage> onStartPress;
+    InputHandler0<RaceCourseSelectPage, void> onBtnClick;
+    InputHandler0<RaceCourseSelectPage, void> onBtnSelect;
+    InputHandler0<RaceCourseSelectPage, void> onBtnDeselect;
+    InputHandler0<RaceCourseSelectPage, void> onBackPress;
+    InputHandler0<RaceCourseSelectPage, void> onStartPress;
 
     u32 activePlayers;
     u32 activeControllers;

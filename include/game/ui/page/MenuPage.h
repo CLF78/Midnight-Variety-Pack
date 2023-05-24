@@ -69,8 +69,8 @@ public:
     int nextSectionId;
     u32 _3F8;
 
-    InputHandler<MenuPage> loadPrevMenuAction;
-    InputHandler<MenuPage> initThpAction;
+    InputHandler0<MenuPage, void> loadPrevMenuAction;
+    InputHandler0<MenuPage, void> initThpAction;
     int videoStartFrame;
     int extraChildNumber;
     bool locked;

@@ -17,13 +17,13 @@ kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
     SheetSelectControl::construct(&self->extension.arrows);
 
     // Set the input handlers
-    InputHandlerEx<RaceCupSelectArrow, SheetSelectControl>::construct(
+    InputHandler2<RaceCupSelectArrow, void, SheetSelectControl*, u32>::construct(
                                                (RaceCupSelectArrow*)&self->extension.arrows.leftButton,
                                                &RaceCupSelectArrow::onLeftArrowPress,
                                                &self->extension.leftHandler);
     self->extension.arrows.leftHandler = &self->extension.leftHandler;
 
-    InputHandlerEx<RaceCupSelectArrow, SheetSelectControl>::construct(
+    InputHandler2<RaceCupSelectArrow, void, SheetSelectControl*, u32>::construct(
                                                 (RaceCupSelectArrow*)&self->extension.arrows.leftButton,
                                                 &RaceCupSelectArrow::onRightArrowPress,
                                                 &self->extension.rightHandler);

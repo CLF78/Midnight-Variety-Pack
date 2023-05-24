@@ -37,7 +37,7 @@ public:
     void setDistanceFunc(int wrapType);
 
     EGG::List list;
-    InputHandler<MultiControlInputManager>* handlers[MenuInputManager::INPUT_COUNT];
+    InputHandler0<MultiControlInputManager, void>* handlers[MenuInputManager::INPUT_COUNT];
     bool actionsSet[MenuInputManager::INPUT_COUNT];
     u8 _49[MenuInputManager::INPUT_COUNT];
 

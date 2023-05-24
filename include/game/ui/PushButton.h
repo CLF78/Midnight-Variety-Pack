@@ -19,12 +19,12 @@ public:
     virtual void onClick();
 
     ControlInputManager inputManager;
-    InputHandler<PushButton> onSelectHandlerObj;
-    InputHandler<PushButton> onDeselectHandlerObj;
-    InputHandler<PushButton> onClickHandlerObj;
-    InputHandler<PushButton>* onSelectHandler;
-    InputHandler<PushButton>* onDeselectHandler;
-    InputHandler<PushButton>* onClickHandler;
+    InputHandler0<PushButton, void> onSelectHandlerObj;
+    InputHandler0<PushButton, void> onDeselectHandlerObj;
+    InputHandler0<PushButton, void> onClickHandlerObj;
+    InputHandler0<PushButton, void>* onSelectHandler;
+    InputHandler0<PushButton, void>* onDeselectHandler;
+    InputHandler0<PushButton, void>* onClickHandler;
 
     int buttonId;
     int playerCount;
