@@ -3,6 +3,7 @@
 #include <game/ui/ControlInputManager.h>
 #include <game/ui/InputHandler.h>
 #include <game/ui/MenuInputManager.h>
+#include <rvl/mtx/mtx.h>
 
 class MultiControlInputManager : public MenuInputManager {
 public:
@@ -29,6 +30,8 @@ public:
         NO_WRAP,
         LINEAR
     };
+
+    virtual ~MultiControlInputManager();
 
     typedef int (*calcDistanceFunc)(Player* src, Player* dest, u32 direction);
     void setDistanceFunc(int wrapType);
