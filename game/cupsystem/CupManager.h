@@ -12,7 +12,8 @@ public:
     enum Tracklist {
         TRACKS_MODERN,
         TRACKS_RETRO,
-        TRACKS_VARIETY
+        TRACKS_VARIETY,
+        TRACKS_BATTLE,
     };
 
     //////////////////////

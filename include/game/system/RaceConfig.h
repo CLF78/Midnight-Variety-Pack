@@ -63,7 +63,11 @@ public:
             CC_50,
             CC_100,
             CC_150,
-            CC_BATTLE
+
+            // Custom classes
+            CC_200,
+            CC_500,
+            BATTLE,
         };
 
         enum GameMode {
