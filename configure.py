@@ -264,7 +264,8 @@ UI_ASSETS = {
 
 	'RaceMKM_K': {
         Path(ASSETS_DIR, 'laptexturefix', 'E', f'tt_lap_E_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_E_lap{a}.tpl') for a in range(4,10) } | {
-        Path(ASSETS_DIR, 'laptexturefix', 'E', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+        Path(ASSETS_DIR, 'laptexturefix', 'E', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt'),
+        Path(ASSETS_DIR, 'laptexturefix', 'K', 'game_image_lap_texture_pattern_0_9.brlan.json5'): Path('game_image', 'anim', 'game_image_lap_texture_pattern_0_9.brlan')
 	},
 
 	'RaceMKM_M': {
