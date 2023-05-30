@@ -89,6 +89,11 @@ class AssetManager():
                                             dest,
                                             src,
                                             in_short=src.name)
+            elif src.suffix == '.png':
+                self.writer.writeBuildCommand('wimgt',
+                            dest,
+                            src,
+                            in_short=src.name)
             else:
                 self.writer.writeBuildCommand('copy_file',
                                             dest,
@@ -227,8 +232,61 @@ UI_ASSETS = {
 	},
 
 	'RaceMKM': {
-        Path(CUP_ICONS_OUT_DIR): Path('cups')
-	}
+        Path(CUP_ICONS_OUT_DIR): Path('cups'),
+        Path(ASSETS_DIR, 'laptexturefix', 'time_number.brctr.json5'): Path('game_image', 'ctrl', 'time_number.brctr'),
+        Path(ASSETS_DIR, 'laptexturefix', 'game_image_lap_texture_pattern_0_9.brlan.json5'): Path('game_image', 'anim', 'game_image_lap_texture_pattern_0_9.brlan')
+	},
+
+	'RaceMKM_E': {
+        Path(ASSETS_DIR, 'laptexturefix', 'E', f'tt_lap_E_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_E_lap{a}.tpl') for a in range(4,10) } | {
+        Path(ASSETS_DIR, 'laptexturefix', 'E', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+	},
+
+	'RaceMKM_F': {
+        Path(ASSETS_DIR, 'laptexturefix', 'F', f'tt_lap_F_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_F_lap{a}.tpl') for a in range(4,10) } | {
+        Path(ASSETS_DIR, 'laptexturefix', 'F', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+	},
+
+	'RaceMKM_G': {
+        Path(ASSETS_DIR, 'laptexturefix', 'G', f'tt_lap_G_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_G_lap{a}.tpl') for a in range(4,10) } | {
+        Path(ASSETS_DIR, 'laptexturefix', 'G', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+	},
+
+	'RaceMKM_I': {
+        Path(ASSETS_DIR, 'laptexturefix', 'I', f'tt_lap_I_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_I_lap{a}.tpl') for a in range(4,10) } | {
+        Path(ASSETS_DIR, 'laptexturefix', 'I', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+	},
+
+	'RaceMKM_J': {
+        Path(ASSETS_DIR, 'laptexturefix', 'E', f'tt_lap_E_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_E_lap{a}.tpl') for a in range(4,10) } | {
+        Path(ASSETS_DIR, 'laptexturefix', 'E', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+	},
+
+	'RaceMKM_K': {
+        Path(ASSETS_DIR, 'laptexturefix', 'E', f'tt_lap_E_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_E_lap{a}.tpl') for a in range(4,10) } | {
+        Path(ASSETS_DIR, 'laptexturefix', 'E', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+	},
+
+	'RaceMKM_M': {
+        Path(ASSETS_DIR, 'laptexturefix', 'S', f'tt_lap_S_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_S_lap{a}.tpl') for a in range(4,10) } | {
+        Path(ASSETS_DIR, 'laptexturefix', 'S', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+	},
+
+	'RaceMKM_Q': {
+        Path(ASSETS_DIR, 'laptexturefix', 'F', f'tt_lap_F_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_F_lap{a}.tpl') for a in range(4,10) } | {
+        Path(ASSETS_DIR, 'laptexturefix', 'F', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+	},
+
+	'RaceMKM_S': {
+        Path(ASSETS_DIR, 'laptexturefix', 'S', f'tt_lap_S_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_S_lap{a}.tpl') for a in range(4,10) } | {
+        Path(ASSETS_DIR, 'laptexturefix', 'S', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+	},
+
+	'RaceMKM_U': {
+        Path(ASSETS_DIR, 'laptexturefix', 'E', f'tt_lap_E_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_E_lap{a}.tpl') for a in range(4,10) } | {
+        Path(ASSETS_DIR, 'laptexturefix', 'E', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+	},
+
 }
 
 #########################################
@@ -290,6 +348,10 @@ writer.writeRule('bmg_merge',
 writer.writeRule('wuj5',
                 command=f'{sys.executable} {WUJ5} encode $in -o $out',
                 description='Encode $in_short with wuj5')
+
+writer.writeRule('wimgt',
+                command='wimgt enc -q -D $out -o --no-mm --transform=TPL.R3 $in',
+                description='Encode $in_short with wimgt')
 
 if sys.platform == 'win32':
     writer.writeRule('copy_file',

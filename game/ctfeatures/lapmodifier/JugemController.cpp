@@ -6,8 +6,9 @@ const float lakituFrames[10] = {0.0f, 0.0f, 0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 
 kmHookFn float getLakituFrame(u32 lap) {
 
     // Clamp lap number
-    if (lap > 9)
-        lap = 9;
+    u32 maxLap = ARRAY_SIZE(lakituFrames) - 1;
+    if (lap > maxLap)
+        lap = maxLap;
 
     // Get frame for index
     return lakituFrames[lap];
