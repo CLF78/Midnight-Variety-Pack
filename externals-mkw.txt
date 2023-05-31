@@ -88,3 +88,4 @@ instance__11SaveManager=0x809BD748
 instance__14SectionManager=0x809C1E38
 instance__16ItemMusicManager=0x809C27F0
 instance__16RaceAudioManager=0x809C27F8
+itemPropertiesTable__14ItemProperties=0x809C36A0
