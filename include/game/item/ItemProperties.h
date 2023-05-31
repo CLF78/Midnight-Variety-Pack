@@ -5,7 +5,7 @@ class ItemHolderPlayer;
 
 struct ItemProperties {
 
-    enum {
+    enum ItemId {
         ITEM_GREEN_SHELL,
         ITEM_RED_SHELL,
         ITEM_BANANA,
@@ -27,9 +27,9 @@ struct ItemProperties {
         ITEM_TRIPLE_BANANA,
         ITEM_INVALID,
         ITEM_NONE,
-    } ItemId;
+    };
 
-    enum {
+    enum ItemObjId {
         ITEMOBJ_GREEN_SHELL,
         ITEMOBJ_RED_SHELL,
         ITEMOBJ_BANANA,
@@ -47,14 +47,14 @@ struct ItemProperties {
         ITEMOBJ_THUNDERCLOUD,
         ITEMOBJ_INVALID,
         ITEMOBJ_NONE,
-    } ItemObjId;
+    };
 
-    enum {
+    enum ItemUseType {
         ITEMUSE_USE,
         ITEMUSE_FIRE,
         ITEMUSE_TAIL,
         ITEMUSE_CIRCLE,
-    } ItemUseType;
+    };
 
     typedef void (*ItemUseFunc) (ItemHolderPlayer* player);
 
@@ -73,4 +73,4 @@ struct ItemProperties {
 
     static ItemProperties itemPropertiesTable[19];
 };
-size_assert(ItemProperties, 0x28);
+size_assert(ItemProperties, 0x1C);
