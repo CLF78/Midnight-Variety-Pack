@@ -61,19 +61,20 @@ kmBranchDefCpp(0x8052A3C0, NULL, void, MultiDvdArchive* self) {
     // 5) Common_X.szs
     // 6) Common.szs
     const char* languageCode = getLanguageCode();
-    snprintf(self->suffixes[0], 0x80, ".szs");
+
+    snprintf(self->suffixes[0], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
+    snprintf(self->suffixes[1], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
+    snprintf(self->suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
+    snprintf(self->suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
 
     // This is required because NTSC-K uses Common_J.szs for some reason
     #ifdef REGION_K
-    snprintf(self->suffixes[1], 0x80, "_J.szs");
+    snprintf(self->suffixes[4], 0x80, "_J.szs");
     #else
-    snprintf(self->suffixes[1], 0x80, "_%s.szs", languageCode);
+    snprintf(self->suffixes[4], 0x80, "_%s.szs", languageCode);
     #endif
 
-    snprintf(self->suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
-    snprintf(self->suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
-    snprintf(self->suffixes[4], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
-    snprintf(self->suffixes[5], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
+    snprintf(self->suffixes[5], 0x80, ".szs");
 
     for (int i = 0; i < self->archiveCount; i++) {
         self->kinds[i] = MultiDvdArchive::SUFFIX_ONLY;
@@ -97,20 +98,36 @@ kmBranchDefCpp(0x8052A2FC, NULL, void, MultiDvdArchive* self) {
     // 6) Race.szs
     const char* languageCode = getLanguageCode();
 
+    snprintf(self->suffixes[0], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
+    snprintf(self->suffixes[1], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
+    snprintf(self->suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
+    snprintf(self->suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
+    snprintf(self->suffixes[4], 0x80, "_%s.szs", languageCode);
+
     // This is required because NTSC-K uses Race_R.szs instead of Race.szs for some reason
     #ifdef REGION_K
-    snprintf(self->suffixes[0], 0x80, "_R.szs");
+    snprintf(self->suffixes[5], 0x80, "_R.szs");
     #else
-    snprintf(self->suffixes[0], 0x80, ".szs");
+    snprintf(self->suffixes[5], 0x80, ".szs");
     #endif
-
-    snprintf(self->suffixes[1], 0x80, "_%s.szs", languageCode);
-    snprintf(self->suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
-    snprintf(self->suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
-    snprintf(self->suffixes[4], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
-    snprintf(self->suffixes[5], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
 
     for (int i = 0; i < self->archiveCount; i++) {
         self->kinds[i] = MultiDvdArchive::SUFFIX_ONLY;
     }
+}
+
+// Reverse the priority loop so that it matches ResourceManager
+kmWrite32(0x8052A784, 0x3BC00000); // initialize counter with 0
+kmWrite32(0x8052A788, 0x3BE00000); // initialize counter with 0
+kmWrite16(0x8052A7DA, 0x0024); // add 0x24 instead of subtracting it
+kmWrite16(0x8052A7DE, 0x0001); // add 1 instead of subtracting it
+kmWrite16(0x8052A7E4, 0x4180); // change bge to blt
+
+kmCallDefAsm(0x8052A7E0) {
+    nofralloc
+
+    // Compare against the archive count instead of zero
+    lhz r0, 0x8(r27)
+    cmpw r30, r0
+    blr
 }
