@@ -13,6 +13,7 @@ def savePath(filePath: str, jsonPath: str) -> str:
     return os.path.relpath(filePath, jsonPath)
 
 def openPath(filePath: str, jsonPath: str) -> str:
+    filePath = filePath.replace('\\', '/')
     if not filePath:
         return filePath
     return os.path.normpath(os.path.join(jsonPath, filePath))
