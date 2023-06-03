@@ -70,6 +70,7 @@ preloadCourseAsync__15ResourceManagerFi=0x805419AC
 __ct__6RandomFv=0x80555464
 __dt__6RandomFv=0x80555538
 nextU32__6RandomFUi=0x805555CC
+activateMega__8KartMoveFv=0x80580B14
 getPaneByName__6LayoutFPCc=0x805E8368
 setDistanceFunc__24MultiControlInputManagerFi=0x805F0DB4
 insertChild__4PageFUiP9UIControlUi=0x8060246C
