@@ -121,6 +121,7 @@ NINJA_FILE = Path(ROOT_DIR, 'build.ninja')
 converter = PathConverter(ROOT_DIR)
 writer = NinjaWriter()
 uiAssetManager = AssetManager(writer)
+commonAssetManager = AssetManager(writer)
 
 ###############
 # Directories #
@@ -140,6 +141,7 @@ BUILD_DIR = Path(ROOT_DIR, 'build')
 BMG_OUT_DIR = Path(BUILD_DIR, 'messages')
 BMG_MERGED_OUT_DIR = Path(BUILD_DIR, 'messages', 'merged')
 CODE_OUT_DIR = Path(BUILD_DIR, 'code')
+COMMON_ASSETS_DIR = Path(BUILD_DIR, 'common')
 CUP_ICONS_OUT_DIR = Path(BUILD_DIR, 'cupicons')
 LOADER_OUT_DIR = Path(BUILD_DIR, 'loader')
 UI_ASSETS_DIR = Path(BUILD_DIR, 'ui')
@@ -147,6 +149,7 @@ UI_ASSETS_DIR = Path(BUILD_DIR, 'ui')
 # Final output directories
 OUT_DIR = Path(ROOT_DIR, 'out', 'mkm')
 KAMEK_OUT_DIR = Path(OUT_DIR, 'Code')
+COMMON_ASSETS_PACKED_DIR = Path(OUT_DIR, 'Common')
 MUSIC_OUT_DIR = Path(OUT_DIR, 'Music')
 TRACKS_OUT_DIR = Path(OUT_DIR, 'Tracks')
 UI_ASSETS_PACKED_DIR = Path(OUT_DIR, 'UI')
@@ -212,6 +215,13 @@ LOADER_OUT_FILE = Path(OUT_DIR, 'Loader.bin')
 LOADER_OUT_XML = Path(BUILD_DIR, 'Loader.xml')
 PORT_FILE = Path(ROOT_DIR, 'versions-mkw.txt')
 SYMBOL_FILE = Path(ROOT_DIR, 'externals-mkw.txt')
+
+# Initialize common asset list
+COMMON_ASSETS = {
+    'CommonMKM': {
+        Path(ASSETS_DIR, 'megatc', 'kumo.brres'): Path('kumo.brres')
+    }
+}
 
 # Initialize UI asset list
 UI_ASSETS = {
@@ -496,6 +506,15 @@ for locale, bmgFile in zip(LOCALES, AUTO_GEN_BMG_FILES):
                     UI_ASSETS[destKey] = {}
                 UI_ASSETS[destKey] |= newDict
 
+# Write the Common asset commands
+for file, subFiles in COMMON_ASSETS.items():
+    for src, dest in subFiles.items():
+        dest = Path(COMMON_ASSETS_DIR, f'{file}.d', dest)
+        if not src.suffix:
+            commonAssetManager.addDir(src, dest)
+        else:
+            commonAssetManager.addFile(src, dest)
+
 # Write the UI asset commands
 for file, subFiles in UI_ASSETS.items():
     for src, dest in subFiles.items():
@@ -504,6 +523,13 @@ for file, subFiles in UI_ASSETS.items():
             uiAssetManager.addDir(src, dest)
         else:
             uiAssetManager.addFile(src, dest)
+
+# Pack the Common assets
+writer.writeBuildCommand('pack_files',
+                        [Path(COMMON_ASSETS_PACKED_DIR, f'{file}.szs') for file in COMMON_ASSETS],
+                        ' '.join(map(str, commonAssetManager.outputs.values())),
+                        in_dir=COMMON_ASSETS_DIR,
+                        out_dir=COMMON_ASSETS_PACKED_DIR)
 
 # Pack the UI assets
 writer.writeBuildCommand('pack_files',
