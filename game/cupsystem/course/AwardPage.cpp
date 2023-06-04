@@ -4,9 +4,28 @@
 #include <game/ui/SectionManager.h>
 #include "cupsystem/CupManager.h"
 
-// Do not trigger the credits at the end of a GP
-// TODO remove this and implement the code
-kmWrite32(0x805BC788, 0x38600000);
+// Trigger the credits if all GPs have been completed
+kmCallDefCpp(0x805BC788, int, u32 cupId, u32 engineClass, bool isMirror, u32 rank) {
+
+    // Copied check from the original function
+    if (rank == 0 || rank > 3)
+        return 0;
+
+    // Get current license, bail if invalid
+    SaveManager* save = SaveManager::instance;
+    if (save->currentLicenseId == -1)
+        return 0;
+
+    // Check that each cup is completed
+    SaveExpansion::Cup* cups = save->expansion.licensesEx[save->currentLicenseId].gpRanks;
+    for (int i = 0; i < CupFile::cupHolder[0].cupCount; i++) {
+        if (!cups[i].completed)
+            return 0;
+    }
+
+    // If so go to the real credits
+    return 2;
+}
 
 // Use the VS trophy for the GP award scene
 kmWrite8(0x805BCF87, 0x90);
