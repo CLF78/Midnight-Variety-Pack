@@ -128,10 +128,10 @@ public:
     static s32 getTrackFileFromTrackIdx(u32 trackIdx);
 
     // Prints the track file path into a buffer
-    static void getTrackFilename(char* buffer, int bufferSize, const char* format, const char* arg);
+    static void getTrackFilename(char* buf, size_t bufSize, const char* fmt, const char* arg, u32 courseData);
 
     // Prints the track file path into a buffer (_d variant)
-    static void getTrackFilenameD(char* buffer, int bufferSize, const char* format, const char* arg);
+    static void getTrackFilenameD(char* buf, size_t bufSize, const char* fmt, const char* arg, u32 courseData);
 
     // Gets a random track index, given a random track entry
     static s32 getRandomTrackIdxFromTrackIdx(u16 trackEntry);

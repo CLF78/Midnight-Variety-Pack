@@ -82,4 +82,4 @@ A few usage notes:
 The various features in the mod (including the aforementioned custom cups) can be toggled and further configured by editing `include/config.h`. While most features are free standing, some are dependent on others; checks are included to prevent most breakages.
 
 ### Assets
-Most of the assets in the mod (excluding tracks and music due to file size reasons) are available in decoded form in the `assets` folder. They can be changed, added or removed, provided the `configure.py` script is updated to match.
+Most of the assets in the mod (excluding tracks and music due to file size reasons) are available in (mostly) decoded form in the `assets` folder. They can be changed, added or removed, provided the `configure.py` script is updated to match.

@@ -3,7 +3,7 @@
 #include <game/system/ResourceManager.h>
 #include "cupsystem/CupManager.h"
 
-// Set the next track for the current cup in GP mode
+// Set the current track for GP mode
 kmBranchDefCpp(0x8052F208, 0x8052F228, RaceConfig::Scenario*, RaceConfig::Scenario* self) {
 
     // Get the next track in the cup
@@ -20,12 +20,18 @@ kmBranchDefCpp(0x8052F208, 0x8052F228, RaceConfig::Scenario*, RaceConfig::Scenar
     return self;
 }
 
-// Load the track in the course cache for replay mode
-kmBranchDefCpp(0x80531F98, NULL, void) {
+// Load the next track in the course cache
+kmBranchDefCpp(0x80531F98, NULL, void, RaceConfig* self, u32 raceNumber) {
 
-    // The previous function already set the track for us, we only have to set the slot for CourseCache
-    u8 slot = CupFile::tracks[CupManager::currentSzs].specialSlot;
-    ResourceManager::instance->preloadCourseAsync(slot);
+    // Get the next track in the cup
+    u32 trackIdx = CupManager::GetCupArray()[self->raceScenario.settings.cupId].entryId[raceNumber + 1];
+
+    // Randomize if necessary
+    u32 actualTrackIdx = CupManager::getTrackFileFromTrackIdx(trackIdx);
+    u8 slot = CupFile::tracks[actualTrackIdx].specialSlot;
+
+    // Call the original function
+    ResourceManager::instance->preloadCourseAsync(actualTrackIdx << 16 | slot);
 }
 
 // Compute GP rank based on score only

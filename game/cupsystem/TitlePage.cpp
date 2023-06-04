@@ -25,7 +25,7 @@ kmBranchDefCpp(0x8063B1FC, 0x8063B338, void, Random* randomizer) {
     SectionManager::instance->globalContext->demoTrack = trackIdx;
 
     // Load the file (give it the slot id so we can still discern demo tracks)
-    ResourceManager::instance->preloadCourseAsync(slotId);
+    ResourceManager::instance->preloadCourseAsync(trackIdx << 16 | slotId);
 }
 
 // TODO Do the same for arenas (hint: 8063B2F4)

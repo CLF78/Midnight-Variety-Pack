@@ -204,19 +204,25 @@ s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx) {
 }
 
 // Replace SZS file on the fly (unless it's a demo track)
-void CupManager::getTrackFilename(char* buffer, int bufferSize, const char* format, const char* arg) {
-    if (RaceConfig::instance->raceScenario.settings.courseId > 0x36)
-        snprintf(buffer, bufferSize, format, arg);
+void CupManager::getTrackFilename(char* buf, size_t bufSize, const char* fmt, const char* arg, u32 courseData) {
+    u16 slot = courseData & 0xFFFF;
+    u16 trackIdx = courseData >> 16;
+
+    if (slot > 0x36)
+        snprintf(buf, bufSize, fmt, arg);
     else
-        snprintf(buffer, bufferSize, "Race/Course/%d", currentSzs);
+        snprintf(buf, bufSize, "Race/Course/%d", trackIdx);
 }
 
 // Replace SZS file on the fly (_d variant) (unless it's a demo track)
-void CupManager::getTrackFilenameD(char* buffer, int bufferSize, const char* format, const char* arg) {
-    if (RaceConfig::instance->raceScenario.settings.courseId > 0x36)
-        snprintf(buffer, bufferSize, format, arg);
+void CupManager::getTrackFilenameD(char* buf, size_t bufSize, const char* fmt, const char* arg, u32 courseData) {
+    u16 slot = courseData & 0xFFFF;
+    u16 trackIdx = courseData >> 16;
+
+    if (slot > 0x36)
+        snprintf(buf, bufSize, fmt, arg);
     else
-        snprintf(buffer, bufferSize, "Race/Course/%d_d", currentSzs);
+        snprintf(buf, bufSize, "Race/Course/%d_d", trackIdx);
 }
 
 s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
