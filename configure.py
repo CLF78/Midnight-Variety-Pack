@@ -244,7 +244,8 @@ UI_ASSETS = {
 	'RaceMKM': {
         Path(CUP_ICONS_OUT_DIR): Path('cups'),
         Path(ASSETS_DIR, 'laptexturefix', 'time_number.brctr.json5'): Path('game_image', 'ctrl', 'time_number.brctr'),
-        Path(ASSETS_DIR, 'laptexturefix', 'game_image_lap_texture_pattern_0_9.brlan.json5'): Path('game_image', 'anim', 'game_image_lap_texture_pattern_0_9.brlan')
+        Path(ASSETS_DIR, 'laptexturefix', 'game_image_lap_texture_pattern_0_9.brlan.json5'): Path('game_image', 'anim', 'game_image_lap_texture_pattern_0_9.brlan'),
+        Path(ASSETS_DIR, 'megatc', 'fm_item_pikakumo.tpl.png'): Path('game_image', 'timg', 'fm_item_pikakumo.tpl')
 	},
 
 	'RaceMKM_E': {
