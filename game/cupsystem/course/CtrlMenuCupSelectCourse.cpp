@@ -4,7 +4,7 @@
 
 // Update track names
 kmHookFn u16 GetTrackName(u32 buttonId, u32 track) {
-    RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
+    RaceCupSelectPage* page = RaceCupSelectPage::getPage(Page::CUP_SELECT);
     u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, page->extension.curPage);
     u32 trackIdx = CupManager::GetCupArray()[cupIdx].entryId[track];
     return CupManager::getTrackNameFromTrackIdx(trackIdx);

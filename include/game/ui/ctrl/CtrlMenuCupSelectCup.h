@@ -18,6 +18,5 @@ public:
     InputHandler0<CtrlMenuCupSelectCup, void> onSelectHandler;
     u32 currentSelected;
     CtrlMenuMovieLayout movieLayout;
-    CtrlMenuCupSelectCourse courseHolder;
 };
-size_assert(CtrlMenuCupSelectCup, 0x1D10);
+size_assert(CtrlMenuCupSelectCup, 0x15CC);

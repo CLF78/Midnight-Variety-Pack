@@ -1,5 +1,6 @@
 #include <kamek.h>
 #include <game/ui/ctrl/CtrlMenuCupSelectCup.h>
+#include <game/ui/ctrl/CtrlMenuCupSelectCourse.h>
 #include <game/ui/ctrl/SheetSelectControl.h>
 #include <game/ui/page/MenuPage.h>
 #include <game/ui/MultiControlInputManager.h>
@@ -36,10 +37,13 @@ public:
     u32 activeControllers;
 
     CtrlMenuCupSelectCup cupHolder;
+    CtrlMenuCupSelectCourse courseHolder;
     u32 selectedButtonId;
 
     Page* voteOrRandomPage;
     UIControlTimer* timer;
+
+    static RaceCupSelectPage* getPage(int pageId);
 
     // Custom structures from here onwards
     RaceCupSelectPageEx extension;

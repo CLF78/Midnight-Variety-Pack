@@ -6,7 +6,7 @@
 void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {
 
     // Get the parent screen
-    RaceCupSelectPage* self = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
+    RaceCupSelectPage* self = RaceCupSelectPage::getPage(Page::CUP_SELECT);
 
     // Update the page number
     self->extension.curPage--;
@@ -23,7 +23,7 @@ void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 loc
 
     // Remove the text in the course selection
     for (int i = 0; i < 4; i++) {
-        self->cupHolder.courseHolder.courseNames[i].resetText();
+        self->courseHolder.courseNames[i].resetText();
     }
 }
 
@@ -31,7 +31,7 @@ void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 loc
 void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {
 
     // Get the parent screen
-    RaceCupSelectPage* self = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
+    RaceCupSelectPage* self = RaceCupSelectPage::getPage(Page::CUP_SELECT);
 
     // Update the page number
     self->extension.curPage++;
@@ -48,6 +48,6 @@ void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 lo
 
     // Remove the text in the course selection
     for (int i = 0; i < 4; i++) {
-        self->cupHolder.courseHolder.courseNames[i].resetText();
+        self->courseHolder.courseNames[i].resetText();
     }
 }

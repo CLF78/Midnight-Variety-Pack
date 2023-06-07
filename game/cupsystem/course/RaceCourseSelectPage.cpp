@@ -13,7 +13,7 @@ kmHookFn u32 GetStartingTrack(RaceCourseSelectPage* self,
                                CtrlMenuCourseSelectCourse* courseHolder,
                                PushButton* button) {
 
-    RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
+    RaceCupSelectPage* page = RaceCupSelectPage::getPage(Page::CUP_SELECT);
     u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
     return CupManager::GetCupArray()[cupIdx].entryId[button->buttonId];
 }
@@ -57,7 +57,7 @@ kmBranchDefAsm(0x808409C0, 0x808409DC) {
 kmHookFn void GenerateOrderFromCourse(GlobalContext* self, int start, PushButton* button) {
 
     // Grab the cup index and track index again
-    RaceCupSelectPage* page = (RaceCupSelectPage*)MenuPage::getMenuPage(Page::CUP_SELECT);
+    RaceCupSelectPage* page = RaceCupSelectPage::getPage(Page::CUP_SELECT);
     u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
     u32 track = button->buttonId;
 
