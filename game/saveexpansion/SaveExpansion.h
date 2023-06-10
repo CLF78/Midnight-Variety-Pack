@@ -1,10 +1,11 @@
 #include <kamek.h>
+#include "cupsystem/CupManager.h"
 #include "cupsystem/CupData.h"
 
 struct SaveExpansion {
 
     SaveExpansion() {
-        gpRanks = new Cup[CupFile::cupHolder[0].cupCount];
+        gpRanks = new Cup[CupFile::cupHolder[CupManager::TRACKS_MODERN].cupCount];
     }
 
     struct Cup {

@@ -2,9 +2,11 @@
 #include <game/ui/ControlInputManager.h>
 #include <game/ui/InputHandler.h>
 #include <game/ui/LayoutUIControl.h>
+#include <stdlib/new.h>
 
 class PushButton : public LayoutUIControl {
 public:
+    PushButton();
     virtual ~PushButton();
 
     virtual void init();
@@ -17,6 +19,9 @@ public:
     virtual void onSelect();
     virtual void onDeselect();
     virtual void onClick();
+
+    void initLayout(const char* dirname, const char* filename, const char* variant, u32 playerFlags,
+                    bool param_6, bool inaccessible);
 
     ControlInputManager inputManager;
     InputHandler0<PushButton, void> onSelectHandlerObj;
@@ -33,5 +38,9 @@ public:
     nw4r::lyt::Pane* colorBasePane;
 
     int selectionSound;
+
+    static PushButton* construct(void* buffer) {
+        return new(buffer) PushButton;
+    }
 };
 size_assert(PushButton, 0x254);

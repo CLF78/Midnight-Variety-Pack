@@ -1,50 +1,56 @@
 #include <kamek.h>
-#include <game/system/RaceConfig.h>
-#include <game/system/SaveManager.h>
-#include <game/ui/page/RaceCupSelectPage.h>
+#include <game/ui/page/BattleCupSelectPage.h>
 #include <game/ui/SectionManager.h>
 #include "cupsystem/CupManager.h"
 
 // Update memory size of page
-kmCallDefCpp(0x80623D94, u32) {
-    return sizeof(RaceCupSelectPage);
+kmCallDefCpp(0x80623E84, u32) {
+    return sizeof(BattleCupSelectPage);
 }
 
 // Construct the expansion data
-kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
+kmBranchDefCpp(0x80629854, NULL, BattleCupSelectPage*, BattleCupSelectPage* self) {
 
-    // Construct extra buttons
+    // Construct the cup buttons
+    for (int i = 0; i < ARRAY_SIZE(self->extension.cupButtons); i++)
+        PushButton::construct(&self->extension.cupButtons[i]);
+
+    // Construct the arrows
     SheetSelectControl::construct(&self->extension.arrows);
 
     // Set the input handlers
-    InputHandler2<RaceCupSelectArrow, void, SheetSelectControl*, u32>::construct(
-                                               (RaceCupSelectArrow*)&self->extension.arrows.leftButton,
-                                               &RaceCupSelectArrow::onLeftArrowPress,
+    InputHandler2<BattleCupSelectArrow, void, SheetSelectControl*, u32>::construct(
+                                               (BattleCupSelectArrow*)&self->extension.arrows.leftButton,
+                                               &BattleCupSelectArrow::onLeftArrowPress,
                                                &self->extension.leftHandler);
     self->extension.arrows.leftHandler = &self->extension.leftHandler;
 
-    InputHandler2<RaceCupSelectArrow, void, SheetSelectControl*, u32>::construct(
-                                                (RaceCupSelectArrow*)&self->extension.arrows.leftButton,
-                                                &RaceCupSelectArrow::onRightArrowPress,
+    InputHandler2<BattleCupSelectArrow, void, SheetSelectControl*, u32>::construct(
+                                                (BattleCupSelectArrow*)&self->extension.arrows.leftButton,
+                                                &BattleCupSelectArrow::onRightArrowPress,
                                                 &self->extension.rightHandler);
     self->extension.arrows.rightHandler = &self->extension.rightHandler;
 
     // Set the correct page
-    s32 lastTrack = SectionManager::instance->globalContext->lastCourse;
+    s32 lastTrack = SectionManager::instance->globalContext->lastStage;
     self->extension.curPage = CupManager::getStartingPageFromTrack(lastTrack);
     return self;
 }
 
 // Destroy the expansion data
-kmCallDefCpp(0x8084226C, void, RaceCupSelectPage* self) {
+kmCallDefCpp(0x80839FEC, void, BattleCupSelectPage* self) {
 
-    // Only delete the arrows, since the other fields do not have/need a destructor
+    // Delete the cup buttons
+    for (int i = 0; i < ARRAY_SIZE(self->extension.cupButtons); i++)
+        self->extension.cupButtons[i].~PushButton();
+
+    // Delete the arrows
     self->extension.arrows.~SheetSelectControl();
 }
 
-// Add the buttons to the children count
+// Add the arrows to the children count
 // We do this by modifying the child count from 2 to 3
-kmCallDefAsm(0x80627708) {
+kmCallDefAsm(0x80629520) {
     nofralloc
 
     li r8, 3
@@ -53,7 +59,10 @@ kmCallDefAsm(0x80627708) {
 }
 
 // Add the arrows to the layout
-kmBranchDefCpp(0x80841090, 0x808410F8, SheetSelectControl*, RaceCupSelectPage* page, int childIdx) {
+kmCallDefCpp(0x8083906C, SheetSelectControl*, BattleCupSelectPage* page, int childIdx) {
+
+    if (childIdx != 2)
+        return nullptr;
 
     // Insert entry
     SheetSelectControl* arrows = &page->extension.arrows;
@@ -73,20 +82,20 @@ kmBranchDefCpp(0x80841090, 0x808410F8, SheetSelectControl*, RaceCupSelectPage* p
     return arrows;
 }
 
-// Skip unlock check
-kmWrite32(0x80841214, 0x38600001);
-
 // Disable the track THPs
-kmWrite32(0x80841260, 0x4800008C);
-kmWrite16(0x80841F94, 0x4800);
+kmWrite32(0x808390EC, 0x48000070);
+kmWrite16(0x80839D30, 0x4800);
+
+// Skip cup id boundary check
+kmWrite32(0x808390BC, 0x48000014);
 
 // Get default cup button
-kmHookFn u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
+kmHookFn u32 GetDefaultButton(s32 track, BattleCupSelectPage* self) {
     return CupManager::getStartingCupButtonFromTrack(track, self->extension.curPage);
 }
 
 // Glue code for startup
-kmCallDefAsm(0x80841170) {
+kmCallDefAsm(0x808390B0) {
     nofralloc
 
     mr r4, r31
@@ -94,7 +103,7 @@ kmCallDefAsm(0x80841170) {
 }
 
 // Glue code for cup selection
-kmCallDefAsm(0x808417A4) {
+kmCallDefAsm(0x808395A4) {
     nofralloc
 
     mr r4, r30
@@ -102,13 +111,13 @@ kmCallDefAsm(0x808417A4) {
 }
 
 // Update default button on cup selection
-kmHookFn void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, RaceCupSelectPage* self) {
+kmHookFn void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, BattleCupSelectPage* self) {
     u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, self->extension.curPage);
-    sectionMgr->globalContext->lastCourse = CupManager::GetCupArray()[cupIdx].entryId[0];
+    sectionMgr->globalContext->lastStage = CupManager::GetCupArray()[cupIdx].entryId[0];
 }
 
 // Glue code
-kmBranchDefAsm(0x808417B4, 0x808417CC) {
+kmBranchDefAsm(0x808395B4, 0x808395CC) {
     nofralloc
 
     mr r4, r28
@@ -118,33 +127,36 @@ kmBranchDefAsm(0x808417B4, 0x808417CC) {
 }
 
 // Store the last selected cup and the first track along with its behaviour slot
-kmHookFn RaceConfig* StoreCupAndCourse(RaceCupSelectPage* self) {
-    RaceConfig* rdata = RaceConfig::instance;
-
-    // Store the selected cup
-    u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, self->extension.curPage);
-    rdata->menuScenario.settings.cupId = cupIdx;
+kmHookFn BattleCupSelectPage* StoreCupAndCourse(BattleCupSelectPage* self) {
 
     // Store the cup's first track as the last selected track
+    u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, self->extension.curPage);
     u32 trackIdx = CupManager::getTrackFileFromTrackIdx(CupManager::GetCupArray()[cupIdx].entryId[0]);
     CupManager::currentSzs = trackIdx;
 
     // Set the track's slot as the course id
-    rdata->menuScenario.settings.courseId = CupFile::tracks[trackIdx].specialSlot;
-    return rdata;
+    RaceConfig::instance->menuScenario.settings.courseId = CupFile::tracks[trackIdx].specialSlot;
+
+    // Return the page to place it in r3
+    return self;
 }
 
 // Glue code
-kmBranchDefAsm(0x8084180C, 0x8084183C) {
+kmBranchDefAsm(0x808395E8, 0x80839614) {
     nofralloc
 
+    // Call C++ function
     mr r3, r30
     bl StoreCupAndCourse
+
+    // Relevant skipped instructions
+    li r4, 0x79
+    mr r5, r31
     blr
 }
 
 // Adjust X wrapping and arrow display
-kmBranchDefCpp(0x80841238, 0x8084124C, void, RaceCupSelectPage* self) {
+kmHookFn void AdjustWrap(BattleCupSelectPage* self) {
 
     // Set the distance function appropriately
     // 0 wraps on the X and Y axis, 1 wraps on Y axis only
@@ -156,32 +168,15 @@ kmBranchDefCpp(0x80841238, 0x8084124C, void, RaceCupSelectPage* self) {
     self->extension.arrows.rightButton.enabled = CupManager::GetCupArrowsEnabled();
 }
 
-// Adjust the GP rank display message
-kmHookFn void GetGPRank(MessageInfo* msgInfo, RaceCupSelectPage* page, u32 cupButton) {
-
-    // Get current license, bail if invalid
-    SaveManager* save = SaveManager::instance;
-    if (save->currentLicenseId == -1)
-        return;
-
-    // Get the cup entry
-    SaveExpansion* licenseEx = &save->expansion.licensesEx[save->currentLicenseId];
-    u32 cupId = CupManager::getCupIdxFromButton(cupButton, page->extension.curPage);
-    SaveExpansion::Cup* cup = &licenseEx->gpRanks[cupId];
-
-    if (cup->completed)
-        msgInfo->messageIds[0] = 3373 + cup->rank;
-    else
-        msgInfo->messageIds[0] = 3382;
-}
-
 // Glue code
-kmBranchDefAsm(0x808416AC, 0x80841714) {
+kmBranchDefAsm(0x808390D8, 0x808390DC) {
     nofralloc
 
-    // Call C++ function
-    mr r4, r31
-    mr r5, r29
-    bl GetGPRank
+    // Call C++ code
+    mr r3, r31
+    bl AdjustWrap
+
+    // Original instruction
+    lwz r12, 0x6C4(r31)
     blr
 }

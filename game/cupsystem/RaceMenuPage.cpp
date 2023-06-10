@@ -9,5 +9,14 @@ kmCallDefCpp(0x8085AE80, u32, int raceNum) {
     return CupFile::tracks[track].specialSlot;
 }
 
-// TODO implement the same thing for battle mode
-// Hint: 808606d0
+// Get the next arena (for BT mode)
+kmCallDefCpp(0x8085AF30, u32, int raceNum) {
+
+    // Account for tiebreakers
+    raceNum = raceNum % (CupFile::cupHolder[CupManager::TRACKS_BATTLE].cupCount * 5);
+
+    // Regular code
+    u16 track = SectionManager::instance->globalContext->arenaOrder[raceNum];
+    CupManager::currentSzs = track;
+    return CupFile::tracks[track].specialSlot;
+}

@@ -285,3 +285,43 @@ void CupManager::generateRandomTrackOrder(GlobalContext* self) {
         self->trackOrder[idx] = tmp;
     }
 }
+
+void CupManager::generateArenaOrder(GlobalContext* self, u32 cupIdx, u32 track) {
+
+    // Get the correct cup array and cup count
+    const CupFile::Cup* cups = GetCupArray();
+    const u32 cupCount = GetCupCount();
+    u32 raceCount = cupCount * 5;
+    for (int i = 0; i < raceCount; i++) {
+
+        // Make sure the track is valid, else skip it
+        self->arenaOrder[i] = getTrackFileFromTrackIdx(cups[cupIdx].entryId[track]);
+
+        // Update the track (and the cup if necessary)
+        track++;
+        if (track == 5) {
+            track = 0;
+
+            cupIdx++;
+            if (cupIdx == cupCount)
+                cupIdx = 0;
+        }
+    }
+}
+
+void CupManager::generateRandomArenaOrder(GlobalContext* self) {
+
+    // Generate a starting order
+    generateArenaOrder(self, 0, 0);
+
+    // Randomize the tracklist once per track
+    u32 raceCount = CupFile::cupHolder[CupManager::TRACKS_BATTLE].cupCount * 5;
+    for (int i = 0; i < raceCount; i++) {
+        u32 idx = randomizer.nextU32(raceCount);
+
+        // Swap the first track with the random index
+        u32 tmp = self->arenaOrder[0];
+        self->arenaOrder[0] = self->arenaOrder[idx];
+        self->arenaOrder[idx] = tmp;
+    }
+}

@@ -1,0 +1,76 @@
+#include <kamek.h>
+#include <game/ui/page/BattleCupSelectPage.h>
+#include "cupsystem/CupManager.h"
+
+// Use ordered button IDs instead of using the corresponding course IDs
+kmWrite8(0x807E1FA9, 0x78);
+
+// Update track names on selection change
+kmHookFn u16 GetTrackName(u32 track) {
+    BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
+    u32 trackIdx = CupManager::GetCupArray()[cupIdx].entryId[track];
+    u16 msgId = CupManager::getTrackNameFromTrackIdx(trackIdx);
+    return msgId;
+}
+
+// Glue code
+kmCallDefAsm(0x807E1F94) {
+    nofralloc
+
+    mr r3, r19
+    b GetTrackName
+}
+
+// Check if the current button is the one for the default course
+kmHookFn bool IsDefaultButton(u32 cupButtonId, u32 trackButtonId, s32 trackIdx) {
+
+    // Default to the first button in case the track isn't set
+    if (trackIdx == -1)
+        return trackButtonId == 0;
+
+    // Else check the specific cup entries
+    BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
+    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage);
+    return CupManager::GetCupArray()[cupIdx].entryId[trackButtonId] == trackIdx;
+}
+
+// Glue code
+kmBranchDefAsm(0x807E1FC4, 0x807E1FC8) {
+
+    // Call C++ function
+    lwz r3, 0x1750(r18)
+    mr r4, r19
+    mr r5, r20
+    bl IsDefaultButton
+
+    // Replace the comparison
+    cmpwi r3, 1
+    blr
+}
+
+// Set the correct default button
+kmHookFn s32 GetDefaultButton(u32 cupButtonId, s32 trackIdx) {
+
+    // Check each button
+    for (int i = 0; i < 5; i++) {
+        if (IsDefaultButton(cupButtonId, i, trackIdx))
+            return i;
+    }
+
+    // No matches found, return -1 to match game behaviour
+    return -1;
+}
+
+// Glue code
+kmBranchDefAsm(0x807E212C, 0x807E2180) {
+
+    // Call C++ function
+    lwz r3, 0x1750(r18)
+    mr r4, r20
+    bl GetDefaultButton
+
+    // Move result to r5
+    mr r5, r3
+    blr
+}

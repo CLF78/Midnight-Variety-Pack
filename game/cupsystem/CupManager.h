@@ -40,24 +40,15 @@ public:
     ////////////////////
 
     static const char* GetCupIconDir() {
-        int idx = currentTrackList;
-        if (RaceConfig::instance->menuScenario.settings.isBattle())
-            idx = 3;
-        return CupFile::cupHolder[idx].cupIconDir;
+        return CupFile::cupHolder[currentTrackList].cupIconDir;
     }
 
     static u32 GetCupCount() {
-        int idx = currentTrackList;
-        if (RaceConfig::instance->menuScenario.settings.isBattle())
-            idx = 3;
-        return CupFile::cupHolder[idx].cupCount;
+        return CupFile::cupHolder[currentTrackList].cupCount;
     }
 
     static const CupFile::Cup* GetCupArray() {
-        int idx = currentTrackList;
-        if (RaceConfig::instance->menuScenario.settings.isBattle())
-            idx = 3;
-        return CupFile::cupHolder[idx].cups;
+        return CupFile::cupHolder[currentTrackList].cups;
     }
 
     static bool GetCupArrowsEnabled() {
@@ -145,6 +136,12 @@ public:
 
     // Generates a random track order
     static void generateRandomTrackOrder(GlobalContext* self);
+
+    // Generates an arena order given the starting cup and track indexes
+    static void generateArenaOrder(GlobalContext* self, u32 cupIdx, u32 track);
+
+    // Generates a random arena order
+    static void generateRandomArenaOrder(GlobalContext* self);
 
     //////////////////////
     // Cup Icon Helpers //

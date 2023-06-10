@@ -13,8 +13,11 @@ kmBranchDefCpp(0x8063B1FC, 0x8063B338, void, Random* randomizer) {
     u32 trackIdx = prevTrackIdx;
 
     do {
-        trackIdx = randomizer->nextU32(TRACK_COUNT);
+        trackIdx = randomizer->nextU32(CupFile::cupHolder[CupManager::TRACKS_MODERN].cupCount * 4);
     } while (trackIdx == prevTrackIdx);
+
+    // Get the track file
+    trackIdx = CupManager::getTrackFileFromTrackIdx(trackIdx);
 
     // Store the special slot
     u8 slotId = CupFile::tracks[trackIdx].specialSlot;
@@ -28,4 +31,28 @@ kmBranchDefCpp(0x8063B1FC, 0x8063B338, void, Random* randomizer) {
     ResourceManager::instance->preloadCourseAsync(trackIdx << 16 | slotId);
 }
 
-// TODO Do the same for arenas (hint: 8063B2F4)
+// Load a random arena for the Demo
+kmBranchDefCpp(0x8063B2F4, 0x8063B338, void, Random* randomizer) {
+
+    // Obtain the arena we want to play and ensure it's not the same as the previous one
+    u32 prevTrackIdx = SectionManager::instance->globalContext->demoArena;
+    u32 trackIdx = prevTrackIdx;
+
+    do {
+        trackIdx = randomizer->nextU32(CupFile::cupHolder[CupManager::TRACKS_BATTLE].cupCount * 5);
+    } while (trackIdx == prevTrackIdx);
+
+    // Get the track file
+    trackIdx = CupManager::getTrackFileFromTrackIdx(trackIdx);
+
+    // Store the special slot
+    u8 slotId = CupFile::tracks[trackIdx].specialSlot;
+    RaceConfig::instance->menuScenario.settings.courseId = slotId;
+
+    // Store the track index
+    CupManager::currentSzs = trackIdx;
+    SectionManager::instance->globalContext->demoArena = trackIdx;
+
+    // Load the file (give it the slot id so we can still discern demo tracks)
+    ResourceManager::instance->preloadCourseAsync(trackIdx << 16 | slotId);
+}

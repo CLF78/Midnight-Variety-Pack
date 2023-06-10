@@ -18,7 +18,7 @@ kmCallDefCpp(0x805BC788, int, u32 cupId, u32 engineClass, bool isMirror, u32 ran
 
     // Check that each cup is completed
     SaveExpansion::Cup* cups = save->expansion.licensesEx[save->currentLicenseId].gpRanks;
-    for (int i = 0; i < CupFile::cupHolder[0].cupCount; i++) {
+    for (int i = 0; i < CupFile::cupHolder[CupManager::TRACKS_MODERN].cupCount; i++) {
         if (!cups[i].completed)
             return 0;
     }

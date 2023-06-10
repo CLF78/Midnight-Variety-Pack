@@ -38,9 +38,9 @@ public:
     virtual void vf_3c();
     virtual void vf_40();
 
-    void initLayout(int entryCount, int curSelected, const char* folderName, const char* ctrName,
-                    const char* locName, const char* rightArrowCtr, const char* rightArrowLoc,
-                    const char* leftArrowCtr, const char* leftArrowLoc, UpDownAnimator* animator,
+    void initLayout(int entryCount, int curSelected, const char* dirname, const char* filename,
+                    const char* variant, const char* rightArrowCtr, const char* rightArrowVariant,
+                    const char* leftArrowCtr, const char* leftArrowVariant, UpDownAnimator* animator,
                     u32 playerFlags, u32 holderFlags, bool unselectable, bool loop, bool _212);
 
     InputHandler0<UpDownControl, void> onSelect;
