@@ -1695,15 +1695,6 @@
     bt: [
         {
             cup_name_eng_eu: "Banana Cup",
-            cup_name_fra_eu: "New Cup",
-            cup_name_spa_eu: "New Cup",
-            cup_name_ger_eu: "New Cup",
-            cup_name_ita_eu: "New Cup",
-            cup_name_eng_us: "New Cup",
-            cup_name_fra_us: "New Cup",
-            cup_name_spa_us: "New Cup",
-            cup_name_jap: "New Cup",
-            cup_name_kor: "New Cup",
             icon_file: "..\\cupicons\\#1 Banana Cup.png",
             icon_hash: "253561f4b1df8d2556fa47a0f7ef1b223e495656",
             tracks: [
