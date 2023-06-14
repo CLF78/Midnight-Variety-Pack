@@ -72,12 +72,16 @@ class TrackEditor(QtWidgets.QDialog):
         self.musicPickButtonFast = QtWidgets.QPushButton('...', self)
         self.musicPickButtonFast.clicked.connect(lambda: self.pickMusicFile(True))
 
+        self.musicRemoveButton = QtWidgets.QPushButton('Remove', self)
+        self.musicRemoveButton.clicked.connect(self.removeFastMusic)
+
         musicPickFormLyt = QtWidgets.QHBoxLayout()
         musicPickFormLyt.addWidget(self.musicPickPath)
         musicPickFormLyt.addWidget(self.musicPickButton)
         musicPickFormLytFast = QtWidgets.QHBoxLayout()
         musicPickFormLytFast.addWidget(self.musicPickPathFast)
         musicPickFormLytFast.addWidget(self.musicPickButtonFast)
+        musicPickFormLytFast.addWidget(self.musicRemoveButton)
 
         self.musicAuthorEdit = QtWidgets.QLineEdit(track.musicAuthor, self)
         self.musicAuthorEdit.editingFinished.connect(self.updateAuthors)
@@ -164,6 +168,15 @@ class TrackEditor(QtWidgets.QDialog):
                 self.musicPickPath.setText(file)
                 if not self.musicNameEdit.text():
                     self.musicNameEdit.setText(os.path.basename(os.path.splitext(file)[0]))
+
+    def removeFastMusic(self):
+        self.data.musicFileFast = ''
+        self.data.fastMusicHash = ''
+        self.data.musicNameFast = ''
+        self.data.musicAuthorFast = ''
+        self.musicPickPathFast.setText('')
+        self.musicNameEditFast.setText('')
+        self.musicAuthorEditFast.setText('')
 
     def closeEvent(self, e: QtGui.QCloseEvent):
 
