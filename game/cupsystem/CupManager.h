@@ -39,20 +39,23 @@ public:
     // Inline Helpers //
     ////////////////////
 
-    static const char* GetCupIconDir() {
+    static const char* GetCupIconDir(bool isBattle) {
+        if (isBattle) return CupFile::cupHolder[CupManager::TRACKS_BATTLE].cupIconDir;
         return CupFile::cupHolder[currentTrackList].cupIconDir;
     }
 
-    static u32 GetCupCount() {
+    static u32 GetCupCount(bool isBattle) {
+        if (isBattle) return CupFile::cupHolder[CupManager::TRACKS_BATTLE].cupCount;
         return CupFile::cupHolder[currentTrackList].cupCount;
     }
 
-    static const CupFile::Cup* GetCupArray() {
+    static const CupFile::Cup* GetCupArray(bool isBattle) {
+        if (isBattle) return CupFile::cupHolder[CupManager::TRACKS_BATTLE].cups;
         return CupFile::cupHolder[currentTrackList].cups;
     }
 
-    static bool GetCupArrowsEnabled() {
-        return GetCupCount() > 8;
+    static bool GetCupArrowsEnabled(bool isBattle) {
+        return GetCupCount(isBattle) > 8;
     }
 
     ////////////////////////
@@ -70,39 +73,39 @@ public:
     static u32 getCupPositionFromButton(u32 button);
 
     // Gets the cup screen position from the starting page and the cup index
-    static u32 getCupPositionFromIdx(u32 idx, u32 page);
+    static u32 getCupPositionFromIdx(u32 idx, u32 page, bool isBattle);
 
     ///////////////////////
     // Cup Index Helpers //
     ///////////////////////
 
     // Gets the cup index a track belongs to
-    static u32 getCupIdxFromTrack(s32 track);
+    static u32 getCupIdxFromTrack(s32 track, bool isBattle);
 
     // Gets the cup index from its screen position and the current page
-    static u32 getCupIdxFromPosition(u32 pos, u32 page);
+    static u32 getCupIdxFromPosition(u32 pos, u32 page, bool isBattle);
 
     // Gets the cup index from its button id and the current page
-    static u32 getCupIdxFromButton(u32 button, u32 page);
+    static u32 getCupIdxFromButton(u32 button, u32 page, bool isBattle);
 
     //////////////////////
     // Cup Page Helpers //
     //////////////////////
 
     // Gets the cup page from its index
-    static u32 getCupPageFromIdx(u32 idx);
+    static u32 getCupPageFromIdx(u32 idx, bool isBattle);
 
     // Gets the maximum amount of cup pages
-    static u32 getMaxCupPage();
+    static u32 getMaxCupPage(bool isBattle);
 
     // Gets the starting page from the given track
-    static u32 getStartingPageFromTrack(s32 track);
+    static u32 getStartingPageFromTrack(s32 track, bool isBattle);
 
     // Gets the starting cup button from the given track and page number
-    static u32 getStartingCupButtonFromTrack(s32 track, u32 curPage);
+    static u32 getStartingCupButtonFromTrack(s32 track, u32 curPage, bool isBattle);
 
     // Gets the starting course button from the given track and cup number
-    static s32 getStartingCourseButtonFromTrack(s32 track, u32 cupIdx);
+    static s32 getStartingCourseButtonFromTrack(s32 track, u32 cupIdx, bool isBattle);
 
     ////////////////////////
     // Track Name Helpers //
@@ -148,8 +151,8 @@ public:
     //////////////////////
 
     // Replaces a cup button's icon with a custom one, given the button ID and the current page
-    static void updateCupButton(int buttonId, PushButton* button, u32 curPage);
+    static void updateCupButton(int buttonId, PushButton* button, u32 curPage, bool isBattle);
 
     // Replaces a cup texture with a custom one, given the icon ID and the cup index
-    static const char* replaceCupIcon(int iconId, LayoutUIControl* element, u32 cupIdx);
+    static const char* replaceCupIcon(int iconId, LayoutUIControl* element, u32 cupIdx, bool isBattle);
 };

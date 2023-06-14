@@ -5,8 +5,8 @@
 // Update track names
 kmHookFn u16 GetTrackName(u32 buttonId, u32 track) {
     BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, page->extension.curPage);
-    u32 trackIdx = CupManager::GetCupArray()[cupIdx].entryId[track];
+    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, page->extension.curPage, true);
+    u32 trackIdx = CupManager::GetCupArray(true)[cupIdx].entryId[track];
     return CupManager::getTrackNameFromTrackIdx(trackIdx);
 }
 

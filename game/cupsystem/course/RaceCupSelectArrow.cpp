@@ -11,14 +11,14 @@ void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 loc
     // Update the page number
     self->extension.curPage--;
     if (self->extension.curPage < 0)
-        self->extension.curPage = CupManager::getMaxCupPage();
+        self->extension.curPage = CupManager::getMaxCupPage(false);
 
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, self->extension.curPage);
-        cupButton->setMsgId(CupManager::GetCupArray()[cupIdx].cupName, NULL);
-        CupManager::updateCupButton(i, cupButton, self->extension.curPage);
+        u32 cupIdx = CupManager::getCupIdxFromButton(i, self->extension.curPage, false);
+        cupButton->setMsgId(CupManager::GetCupArray(false)[cupIdx].cupName, NULL);
+        CupManager::updateCupButton(i, cupButton, self->extension.curPage, false);
     }
 
     // Remove the text in the course selection
@@ -35,15 +35,15 @@ void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 lo
 
     // Update the page number
     self->extension.curPage++;
-    if (self->extension.curPage > CupManager::getMaxCupPage())
+    if (self->extension.curPage > CupManager::getMaxCupPage(false))
         self->extension.curPage = 0;
 
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, self->extension.curPage);
-        cupButton->setMsgId(CupManager::GetCupArray()[cupIdx].cupName, NULL);
-        CupManager::updateCupButton(i, cupButton, self->extension.curPage);
+        u32 cupIdx = CupManager::getCupIdxFromButton(i, self->extension.curPage, false);
+        cupButton->setMsgId(CupManager::GetCupArray(false)[cupIdx].cupName, NULL);
+        CupManager::updateCupButton(i, cupButton, self->extension.curPage, false);
     }
 
     // Remove the text in the course selection

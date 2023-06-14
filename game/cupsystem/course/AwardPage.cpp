@@ -32,12 +32,12 @@ kmWrite8(0x805BCF87, 0x90);
 
 // Replace the cup icon
 kmHookFn const char* ReplaceCupIcon(u32 cupIdx, LayoutUIControl* iconElement) {
-    return CupManager::replaceCupIcon(0, iconElement, cupIdx);
+    return CupManager::replaceCupIcon(0, iconElement, cupIdx, false);
 }
 
 // Replace the cup name
 kmHookFn u16 ReplaceCupName(u32 cupIdx) {
-    return CupManager::GetCupArray()[cupIdx].cupName;
+    return CupManager::GetCupArray(false)[cupIdx].cupName;
 }
 
 // Glue code

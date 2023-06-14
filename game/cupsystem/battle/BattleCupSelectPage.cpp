@@ -33,7 +33,7 @@ kmBranchDefCpp(0x80629854, NULL, BattleCupSelectPage*, BattleCupSelectPage* self
 
     // Set the correct page
     s32 lastTrack = SectionManager::instance->globalContext->lastStage;
-    self->extension.curPage = CupManager::getStartingPageFromTrack(lastTrack);
+    self->extension.curPage = CupManager::getStartingPageFromTrack(lastTrack, true);
     return self;
 }
 
@@ -91,7 +91,7 @@ kmWrite32(0x808390BC, 0x48000014);
 
 // Get default cup button
 kmHookFn u32 GetDefaultButton(s32 track, BattleCupSelectPage* self) {
-    return CupManager::getStartingCupButtonFromTrack(track, self->extension.curPage);
+    return CupManager::getStartingCupButtonFromTrack(track, self->extension.curPage, true);
 }
 
 // Glue code for startup
@@ -112,8 +112,8 @@ kmCallDefAsm(0x808395A4) {
 
 // Update default button on cup selection
 kmHookFn void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, BattleCupSelectPage* self) {
-    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, self->extension.curPage);
-    sectionMgr->globalContext->lastStage = CupManager::GetCupArray()[cupIdx].entryId[0];
+    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, self->extension.curPage, true);
+    sectionMgr->globalContext->lastStage = CupManager::GetCupArray(true)[cupIdx].entryId[0];
 }
 
 // Glue code
@@ -130,8 +130,8 @@ kmBranchDefAsm(0x808395B4, 0x808395CC) {
 kmHookFn BattleCupSelectPage* StoreCupAndCourse(BattleCupSelectPage* self) {
 
     // Store the cup's first track as the last selected track
-    u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, self->extension.curPage);
-    u32 trackIdx = CupManager::getTrackFileFromTrackIdx(CupManager::GetCupArray()[cupIdx].entryId[0]);
+    u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, self->extension.curPage, true);
+    u32 trackIdx = CupManager::getTrackFileFromTrackIdx(CupManager::GetCupArray(true)[cupIdx].entryId[0]);
     CupManager::currentSzs = trackIdx;
 
     // Set the track's slot as the course id
@@ -160,12 +160,12 @@ kmHookFn void AdjustWrap(BattleCupSelectPage* self) {
 
     // Set the distance function appropriately
     // 0 wraps on the X and Y axis, 1 wraps on Y axis only
-    int wrapType = (CupManager::GetCupCount() == 2 || CupManager::GetCupArrowsEnabled());
+    int wrapType = (CupManager::GetCupCount(true) == 2 || CupManager::GetCupArrowsEnabled(true));
     self->multiControlInputManager.setDistanceFunc(wrapType);
 
     // Disable the arrows if not required
-    self->extension.arrows.leftButton.enabled = CupManager::GetCupArrowsEnabled();
-    self->extension.arrows.rightButton.enabled = CupManager::GetCupArrowsEnabled();
+    self->extension.arrows.leftButton.enabled = CupManager::GetCupArrowsEnabled(true);
+    self->extension.arrows.rightButton.enabled = CupManager::GetCupArrowsEnabled(true);
 }
 
 // Glue code

@@ -14,7 +14,7 @@ kmCallDefCpp(0x808552BC, u32) {
 // Replace the cup icon
 kmHookFn const char* ReplaceCupIcon(DemoPage* self) {
     u32 cupIdx = RaceConfig::instance->menuScenario.settings.cupId;
-    return CupManager::replaceCupIcon(0, &self->topText, cupIdx);
+    return CupManager::replaceCupIcon(0, &self->topText, cupIdx, false);
 }
 
 // Glue code
@@ -30,5 +30,5 @@ kmBranchDefAsm(0x80855354, 0x80855364) {
 // Replace the cup name
 kmCallDefCpp(0x808553A0, u32) {
     u32 cupIdx = RaceConfig::instance->menuScenario.settings.cupId;
-    return CupManager::GetCupArray()[cupIdx].cupName;
+    return CupManager::GetCupArray(false)[cupIdx].cupName;
 }

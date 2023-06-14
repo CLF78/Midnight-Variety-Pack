@@ -14,8 +14,8 @@ kmHookFn u32 GetStartingTrack(RaceCourseSelectPage* self,
                                PushButton* button) {
 
     RaceCupSelectPage* page = RaceCupSelectPage::getPage(Page::CUP_SELECT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
-    return CupManager::GetCupArray()[cupIdx].entryId[button->buttonId];
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage, false);
+    return CupManager::GetCupArray(false)[cupIdx].entryId[button->buttonId];
 }
 
 // Glue code
@@ -58,7 +58,7 @@ kmHookFn void GenerateOrderFromCourse(GlobalContext* self, int start, PushButton
 
     // Grab the cup index and track index again
     RaceCupSelectPage* page = RaceCupSelectPage::getPage(Page::CUP_SELECT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage, false);
     u32 track = button->buttonId;
 
     CupManager::generateTrackOrder(self, cupIdx, track);

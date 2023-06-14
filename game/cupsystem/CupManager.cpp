@@ -13,13 +13,13 @@ Random CupManager::randomizer = Random();
 u16 CupManager::trackOrder[];
 u16 CupManager::arenaOrder[];
 
-void CupManager::updateCupButton(int buttonId, PushButton* button, u32 curPage) {
+void CupManager::updateCupButton(int buttonId, PushButton* button, u32 curPage, bool isBattle) {
 
     // Get the cup index
-    u32 cupIdx = getCupIdxFromButton(buttonId, curPage);
+    u32 cupIdx = getCupIdxFromButton(buttonId, curPage, isBattle);
 
     // Instead of replacing the texture, hide the cup entirely if it exceeds the maximum index
-    bool hide = (cupIdx >= CupManager::GetCupCount());
+    bool hide = (cupIdx >= CupManager::GetCupCount(isBattle));
     button->hidden = hide;
     button->inputManager.unselectable = hide;
 
@@ -28,17 +28,17 @@ void CupManager::updateCupButton(int buttonId, PushButton* button, u32 curPage) 
         return;
 
     // Set the pane
-    const char* iconPane = replaceCupIcon(buttonId, button, cupIdx);
+    const char* iconPane = replaceCupIcon(buttonId, button, cupIdx, isBattle);
     button->setMatIcon("icon", iconPane);
     button->setMatIcon("icon_light_01", iconPane);
     button->setMatIcon("icon_light_02", iconPane);
 }
 
-const char* CupManager::replaceCupIcon(int iconId, LayoutUIControl* element, u32 cupIdx) {
+const char* CupManager::replaceCupIcon(int iconId, LayoutUIControl* element, u32 cupIdx, bool isBattle) {
 
     // Get the cup texture name
     char buffer[64];
-    snprintf(buffer, sizeof(buffer), CupManager::GetCupIconDir(), cupIdx);
+    snprintf(buffer, sizeof(buffer), CupManager::GetCupIconDir(isBattle), cupIdx);
 
     // Get the cup texture
     void* cupTexture = ResourceManager::instance->getFile(MultiDvdArchive::MENU, buffer, NULL);
@@ -74,15 +74,15 @@ u32 CupManager::getCupPositionFromButton(u32 button) {
     return (((button << 1) % 8) + (button >> 2)) & 7;
 }
 
-u32 CupManager::getCupIdxFromTrack(s32 track) {
+u32 CupManager::getCupIdxFromTrack(s32 track, bool isBattle) {
 
     // Always start from the top left when the screen is displayed for the first time
     if (track == -1)
         return 0;
 
     // Find the track
-    const CupFile::Cup* cup = GetCupArray();
-    for (int i = 0; i < GetCupCount(); i++) {
+    const CupFile::Cup* cup = GetCupArray(isBattle);
+    for (int i = 0; i < GetCupCount(isBattle); i++) {
         for (int j = 0; j < 5; j++) {
             if (cup[i].entryId[j] == track)
                 return i;
@@ -93,25 +93,25 @@ u32 CupManager::getCupIdxFromTrack(s32 track) {
     return 0;
 }
 
-u32 CupManager::getCupPageFromIdx(u32 idx) {
-    if (GetCupArrowsEnabled())
+u32 CupManager::getCupPageFromIdx(u32 idx, bool isBattle) {
+    if (GetCupArrowsEnabled(isBattle))
         return idx / 2;
     else
         return 0;
 }
 
-u32 CupManager::getMaxCupPage() {
-    return getCupPageFromIdx(GetCupCount() - 1);
+u32 CupManager::getMaxCupPage(bool isBattle) {
+    return getCupPageFromIdx(GetCupCount(isBattle) - 1, isBattle);
 }
 
-u32 CupManager::getCupIdxFromPosition(u32 pos, u32 page) {
+u32 CupManager::getCupIdxFromPosition(u32 pos, u32 page, bool isBattle) {
 
     // If maxPage is 0, return the position itself
-    if (!GetCupArrowsEnabled())
+    if (!GetCupArrowsEnabled(isBattle))
         return pos;
 
     // Account for wrap-around
-    u32 pageDiff = getMaxCupPage() - page;
+    u32 pageDiff = getMaxCupPage(isBattle) - page;
     if (pageDiff <= 2) {
         u32 wrapThreshold = (pageDiff + 1) * 2;
         if (pos >= wrapThreshold)
@@ -121,19 +121,19 @@ u32 CupManager::getCupIdxFromPosition(u32 pos, u32 page) {
     return pos + page * 2;
 }
 
-u32 CupManager::getCupIdxFromButton(u32 button, u32 page) {
+u32 CupManager::getCupIdxFromButton(u32 button, u32 page, bool isBattle) {
     u32 cupPos = getCupPositionFromButton(button);
-    return getCupIdxFromPosition(cupPos, page);
+    return getCupIdxFromPosition(cupPos, page, isBattle);
 }
 
-u32 CupManager::getCupPositionFromIdx(u32 idx, u32 page) {
+u32 CupManager::getCupPositionFromIdx(u32 idx, u32 page, bool isBattle) {
 
     // If maxPage is 0, return the index itself
-    if (!GetCupArrowsEnabled())
+    if (!GetCupArrowsEnabled(isBattle))
         return idx;
 
     // Account for wrap-around
-    u32 pageDiff = getMaxCupPage() - page;
+    u32 pageDiff = getMaxCupPage(isBattle) - page;
     if (pageDiff <= 2) {
         u32 wrapThreshold = page * 2;
         if (idx < wrapThreshold)
@@ -143,26 +143,26 @@ u32 CupManager::getCupPositionFromIdx(u32 idx, u32 page) {
     return idx - page * 2;
 }
 
-u32 CupManager::getStartingPageFromTrack(s32 track) {
+u32 CupManager::getStartingPageFromTrack(s32 track, bool isBattle) {
 
     // If maxPage is 0, return page 0
-    if (!GetCupArrowsEnabled())
+    if (!GetCupArrowsEnabled(isBattle))
         return 0;
 
     // Get the page
-    u32 cupPage = getCupPageFromIdx(getCupIdxFromTrack(track));
+    u32 cupPage = getCupPageFromIdx(getCupIdxFromTrack(track, isBattle), isBattle);
 
     // Fix the page number so the cups don't wrap around when reaching the screen
-    u32 maxCupPage = CupManager::getMaxCupPage();
+    u32 maxCupPage = CupManager::getMaxCupPage(isBattle);
     if (maxCupPage - cupPage <= 3)
         cupPage = maxCupPage - 3;
 
     return cupPage;
 }
 
-u32 CupManager::getStartingCupButtonFromTrack(s32 track, u32 curPage) {
-    u32 cupIdx = getCupIdxFromTrack(track);
-    u32 pos = getCupPositionFromIdx(cupIdx, curPage);
+u32 CupManager::getStartingCupButtonFromTrack(s32 track, u32 curPage, bool isBattle) {
+    u32 cupIdx = getCupIdxFromTrack(track, isBattle);
+    u32 pos = getCupPositionFromIdx(cupIdx, curPage, isBattle);
     return getCupButtonFromPosition(pos);
 }
 
@@ -192,8 +192,8 @@ s32 CupManager::getTrackFileFromTrackIdx(u32 trackIdx) {
         return getRandomTrackIdxFromTrackIdx(trackIdx);
 }
 
-s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx) {
-    const CupFile::Cup* cup = &GetCupArray()[cupIdx];
+s32 CupManager::getStartingCourseButtonFromTrack(s32 track, u32 cupIdx, bool isBattle) {
+    const CupFile::Cup* cup = &GetCupArray(isBattle)[cupIdx];
 
     for (int i = 0; i < 5; i++) {
         if (cup->entryId[i] == track)
@@ -247,8 +247,8 @@ s32 CupManager::getRandomTrackIdxFromTrackIdx(u16 trackEntry) {
 void CupManager::generateTrackOrder(GlobalContext* self, u32 cupIdx, u32 track) {
 
     // Get the correct cup array and cup count
-    const CupFile::Cup* cups = GetCupArray();
-    const u32 cupCount = GetCupCount();
+    const CupFile::Cup* cups = GetCupArray(false);
+    const u32 cupCount = GetCupCount(false);
     u32 raceCount = cupCount * 4;
     self->vsRaceLimit = raceCount;
 
@@ -289,8 +289,8 @@ void CupManager::generateRandomTrackOrder(GlobalContext* self) {
 void CupManager::generateArenaOrder(GlobalContext* self, u32 cupIdx, u32 track) {
 
     // Get the correct cup array and cup count
-    const CupFile::Cup* cups = GetCupArray();
-    const u32 cupCount = GetCupCount();
+    const CupFile::Cup* cups = GetCupArray(true);
+    const u32 cupCount = GetCupCount(true);
     u32 raceCount = cupCount * 5;
     for (int i = 0; i < raceCount; i++) {
 

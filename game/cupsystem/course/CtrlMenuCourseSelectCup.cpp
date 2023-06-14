@@ -9,14 +9,14 @@ kmWrite32(0x807E4610, 0x38600001);
 // Replace cup name
 kmCallDefCpp(0x807E4620, u16, int cupButtonId) {
     RaceCupSelectPage* page = RaceCupSelectPage::getPage(Page::CUP_SELECT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage);
-    return CupManager::GetCupArray()[cupIdx].cupName;
+    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage, false);
+    return CupManager::GetCupArray(false)[cupIdx].cupName;
 };
 
 // Replace cup icons
 kmHookFn void ReplaceCupIcon(int buttonId, PushButton* button) {
     RaceCupSelectPage* page = RaceCupSelectPage::getPage(Page::CUP_SELECT);
-    CupManager::updateCupButton(buttonId, button, page->extension.curPage);
+    CupManager::updateCupButton(buttonId, button, page->extension.curPage, false);
 }
 
 // Glue code

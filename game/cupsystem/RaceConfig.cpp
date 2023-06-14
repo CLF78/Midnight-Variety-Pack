@@ -7,7 +7,7 @@
 kmBranchDefCpp(0x8052F208, 0x8052F228, RaceConfig::Scenario*, RaceConfig::Scenario* self) {
 
     // Get the next track in the cup
-    u32 trackIdx = CupManager::GetCupArray()[self->settings.cupId].entryId[self->settings.raceNumber];
+    u32 trackIdx = CupManager::GetCupArray(false)[self->settings.cupId].entryId[self->settings.raceNumber];
 
     // Randomize if necessary
     u32 actualTrackIdx = CupManager::getTrackFileFromTrackIdx(trackIdx);
@@ -24,7 +24,7 @@ kmBranchDefCpp(0x8052F208, 0x8052F228, RaceConfig::Scenario*, RaceConfig::Scenar
 kmBranchDefCpp(0x80531F98, NULL, void, RaceConfig* self, u32 raceNumber) {
 
     // Get the next track in the cup
-    u32 trackIdx = CupManager::GetCupArray()[self->raceScenario.settings.cupId].entryId[raceNumber + 1];
+    u32 trackIdx = CupManager::GetCupArray(false)[self->raceScenario.settings.cupId].entryId[raceNumber + 1];
 
     // Randomize if necessary
     u32 actualTrackIdx = CupManager::getTrackFileFromTrackIdx(trackIdx);

@@ -8,8 +8,8 @@ kmWrite8(0x807E1FA9, 0x78);
 // Update track names on selection change
 kmHookFn u16 GetTrackName(u32 track) {
     BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
-    u32 trackIdx = CupManager::GetCupArray()[cupIdx].entryId[track];
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage, true);
+    u32 trackIdx = CupManager::GetCupArray(true)[cupIdx].entryId[track];
     u16 msgId = CupManager::getTrackNameFromTrackIdx(trackIdx);
     return msgId;
 }
@@ -31,8 +31,8 @@ kmHookFn bool IsDefaultButton(u32 cupButtonId, u32 trackButtonId, s32 trackIdx) 
 
     // Else check the specific cup entries
     BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage);
-    return CupManager::GetCupArray()[cupIdx].entryId[trackButtonId] == trackIdx;
+    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage, true);
+    return CupManager::GetCupArray(true)[cupIdx].entryId[trackButtonId] == trackIdx;
 }
 
 // Glue code

@@ -31,7 +31,7 @@ kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
 
     // Set the correct page
     s32 lastTrack = SectionManager::instance->globalContext->lastCourse;
-    self->extension.curPage = CupManager::getStartingPageFromTrack(lastTrack);
+    self->extension.curPage = CupManager::getStartingPageFromTrack(lastTrack, false);
     return self;
 }
 
@@ -82,7 +82,7 @@ kmWrite16(0x80841F94, 0x4800);
 
 // Get default cup button
 kmHookFn u32 GetDefaultButton(s32 track, RaceCupSelectPage* self) {
-    return CupManager::getStartingCupButtonFromTrack(track, self->extension.curPage);
+    return CupManager::getStartingCupButtonFromTrack(track, self->extension.curPage, false);
 }
 
 // Glue code for startup
@@ -103,8 +103,8 @@ kmCallDefAsm(0x808417A4) {
 
 // Update default button on cup selection
 kmHookFn void UpdateDefaultButton(SectionManager* sectionMgr, int buttonId, RaceCupSelectPage* self) {
-    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, self->extension.curPage);
-    sectionMgr->globalContext->lastCourse = CupManager::GetCupArray()[cupIdx].entryId[0];
+    u32 cupIdx = CupManager::getCupIdxFromButton(buttonId, self->extension.curPage, false);
+    sectionMgr->globalContext->lastCourse = CupManager::GetCupArray(false)[cupIdx].entryId[0];
 }
 
 // Glue code
@@ -122,11 +122,11 @@ kmHookFn RaceConfig* StoreCupAndCourse(RaceCupSelectPage* self) {
     RaceConfig* rdata = RaceConfig::instance;
 
     // Store the selected cup
-    u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, self->extension.curPage);
+    u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, self->extension.curPage, false);
     rdata->menuScenario.settings.cupId = cupIdx;
 
     // Store the cup's first track as the last selected track
-    u32 trackIdx = CupManager::getTrackFileFromTrackIdx(CupManager::GetCupArray()[cupIdx].entryId[0]);
+    u32 trackIdx = CupManager::getTrackFileFromTrackIdx(CupManager::GetCupArray(false)[cupIdx].entryId[0]);
     CupManager::currentSzs = trackIdx;
 
     // Set the track's slot as the course id
@@ -148,12 +148,12 @@ kmBranchDefCpp(0x80841238, 0x8084124C, void, RaceCupSelectPage* self) {
 
     // Set the distance function appropriately
     // 0 wraps on the X and Y axis, 1 wraps on Y axis only
-    int wrapType = (CupManager::GetCupCount() == 2 || CupManager::GetCupArrowsEnabled());
+    int wrapType = (CupManager::GetCupCount(false) == 2 || CupManager::GetCupArrowsEnabled(false));
     self->multiControlInputManager.setDistanceFunc(wrapType);
 
     // Disable the arrows if not required
-    self->extension.arrows.leftButton.enabled = CupManager::GetCupArrowsEnabled();
-    self->extension.arrows.rightButton.enabled = CupManager::GetCupArrowsEnabled();
+    self->extension.arrows.leftButton.enabled = CupManager::GetCupArrowsEnabled(false);
+    self->extension.arrows.rightButton.enabled = CupManager::GetCupArrowsEnabled(false);
 }
 
 // Adjust the GP rank display message
@@ -166,7 +166,7 @@ kmHookFn void GetGPRank(MessageInfo* msgInfo, RaceCupSelectPage* page, u32 cupBu
 
     // Get the cup entry
     SaveExpansion* licenseEx = &save->expansion.licensesEx[save->currentLicenseId];
-    u32 cupId = CupManager::getCupIdxFromButton(cupButton, page->extension.curPage);
+    u32 cupId = CupManager::getCupIdxFromButton(cupButton, page->extension.curPage, false);
     SaveExpansion::Cup* cup = &licenseEx->gpRanks[cupId];
 
     if (cup->completed)

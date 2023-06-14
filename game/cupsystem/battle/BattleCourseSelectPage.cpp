@@ -36,8 +36,8 @@ kmHookFn u32 GetStartingTrack(BattleStageSelectPage* self,
                               PushButton* button) {
 
     BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
-    return CupManager::GetCupArray()[cupIdx].entryId[button->buttonId];
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage, true);
+    return CupManager::GetCupArray(true)[cupIdx].entryId[button->buttonId];
 }
 
 // Glue code
@@ -85,7 +85,7 @@ kmHookFn void GenerateOrderFromCourse(GlobalContext* self, int start, PushButton
 
     // Grab the cup index and track index again
     BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage);
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage, true);
     u32 track = button->buttonId;
 
     CupManager::generateArenaOrder(self, cupIdx, track);
