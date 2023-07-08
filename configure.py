@@ -392,7 +392,7 @@ else:
                     description='Copy $in_short')
 
 writer.writeRule('pack_files',
-                command='wszst c -q -D $out_dir/%N.szs -o --szs --pt-dir --links --compr 10 $in_dir/*.d',
+                command='wszst c -q -D $out_dir/%N.szs -o --szs --pt-dir --links --compr 10 $in_dir/*.d/',
                 description='Pack Files with WSZST')
 
 ########################
