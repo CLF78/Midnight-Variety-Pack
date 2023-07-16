@@ -153,6 +153,9 @@ public:
     // Replaces a cup button's icon with a custom one, given the button ID and the current page
     static void updateCupButton(int buttonId, PushButton* button, u32 curPage, bool isBattle);
 
+    // Replaces a cup button's icon with a custom one, given the button ID and the current page
+    static void updateCupButton(int buttonId, LayoutUIControl* button, u32 curPage, bool isBattle);
+
     // Replaces a cup texture with a custom one, given the icon ID and the cup index
     static const char* replaceCupIcon(int iconId, LayoutUIControl* element, u32 cupIdx, bool isBattle);
 };

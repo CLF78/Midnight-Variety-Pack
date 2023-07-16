@@ -68,7 +68,7 @@ kmCallDefCpp(0x807E13AC, u16, int cupButtonId) {
 };
 
 // Replace cup icons
-kmHookFn void ReplaceCupIcon(int buttonId, PushButton* button) {
+kmHookFn void ReplaceCupIcon(int buttonId, LayoutUIControl* button) {
     BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
     CupManager::updateCupButton(buttonId, button, page->extension.curPage, true);
 }

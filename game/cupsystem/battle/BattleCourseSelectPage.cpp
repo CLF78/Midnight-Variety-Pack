@@ -1,4 +1,5 @@
 #include <kamek.h>
+#include <game/sound/SoundEffect.h>
 #include <game/ui/page/BattleStageSelectPage.h>
 #include <game/ui/page/BattleCupSelectPage.h>
 #include <game/ui/SectionManager.h>
@@ -98,3 +99,25 @@ kmCallDefAsm(0x8083D0FC) {
     mr r5, r27
     b GenerateOrderFromCourse
 }
+
+kmHookFn void ApplyFadeProperties(BattleStageSelectPage* self) {
+
+    for (int i = 0; i < 8; i++) {
+        CtrlMenuBattleStageSelectCupSub* cupButton = self->getCupButton(i);
+        cupButton->alpha = 300.0f;
+        cupButton->fadeDirection = 1;
+    }
+}
+
+// Apply the fading properties to every cup when pressing the back button
+kmBranchDefCpp(0x8083D168, NULL, void, BattleStageSelectPage* self) {
+
+    // Call dedicated function
+    ApplyFadeProperties(self);
+
+    // Skipped call
+    self->playSound(SE_UI_PAGE_PREV, -1);
+}
+
+// Apply the fading properties to every cup when clicking the back button on screen
+kmBranch(0x8083D134, ApplyFadeProperties);

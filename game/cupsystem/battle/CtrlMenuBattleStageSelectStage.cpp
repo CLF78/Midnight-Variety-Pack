@@ -5,13 +5,16 @@
 // Use ordered button IDs instead of using the corresponding course IDs
 kmWrite8(0x807E1FA9, 0x78);
 
+// Fix movie buttons by stubbing the init function
+void nullsub() {}
+kmWritePointer(0x808D2F70, &nullsub);
+
 // Update track names on selection change
 kmHookFn u16 GetTrackName(u32 track) {
     BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
     u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage, true);
     u32 trackIdx = CupManager::GetCupArray(true)[cupIdx].entryId[track];
-    u16 msgId = CupManager::getTrackNameFromTrackIdx(trackIdx);
-    return msgId;
+    return CupManager::getTrackNameFromTrackIdx(trackIdx);
 }
 
 // Glue code

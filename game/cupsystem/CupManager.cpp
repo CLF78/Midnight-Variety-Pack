@@ -34,6 +34,26 @@ void CupManager::updateCupButton(int buttonId, PushButton* button, u32 curPage, 
     button->setMatIcon("icon_light_02", iconPane);
 }
 
+void CupManager::updateCupButton(int buttonId, LayoutUIControl* button, u32 curPage, bool isBattle) {
+
+    // Get the cup index
+    u32 cupIdx = getCupIdxFromButton(buttonId, curPage, isBattle);
+
+    // Instead of replacing the texture, hide the cup entirely if it exceeds the maximum index
+    bool hide = (cupIdx >= CupManager::GetCupCount(isBattle));
+    button->hidden = hide;
+
+    // Return early since this cup won't exist anyway
+    if (hide)
+        return;
+
+    // Set the pane
+    const char* iconPane = replaceCupIcon(buttonId, button, cupIdx, isBattle);
+    button->setMatIcon("icon", iconPane);
+    button->setMatIcon("icon_light_01", iconPane);
+    button->setMatIcon("icon_light_02", iconPane);
+}
+
 const char* CupManager::replaceCupIcon(int iconId, LayoutUIControl* element, u32 cupIdx, bool isBattle) {
 
     // Get the cup texture name
