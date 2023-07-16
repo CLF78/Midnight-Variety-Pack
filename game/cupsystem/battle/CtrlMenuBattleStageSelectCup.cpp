@@ -10,13 +10,6 @@ kmWrite8(0x807E131B, 8); // Layout children count
 kmWrite8(0x807E141F, 8); // Loop counter
 kmWrite8(0x807E1527, 8); // Another loop counter
 
-// Replace base BRCTR with the VS one
-kmCallDefCpp(0x807E1310, void, ControlLoader* self, const char* dirname,
-             const char* filename, const char* variant, const char** anims) {
-
-    self->load(dirname, "CupSelectNULL", variant, anims);
-}
-
 // Replace cup button BRCTR with the VS one
 kmCallDefCpp(0x807E13A4, void, ControlLoader* self, const char* dirname,
              const char* filename, const char* variant, const char** anims) {

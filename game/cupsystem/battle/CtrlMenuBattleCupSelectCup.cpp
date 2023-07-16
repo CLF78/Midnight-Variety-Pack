@@ -12,13 +12,6 @@ kmWrite8(0x807E0AAF, 8); // Loop counter
 kmWrite8(0x807E0C5F, 8); // Another loop counter
 kmWrite8(0x807E0AC3, 8); // MovieLayout child index
 
-// Replace base BRCTR with the VS one
-kmCallDefCpp(0x807E09C0, void, ControlLoader* self, const char* dirname,
-             const char* filename, const char* variant, const char** anims) {
-
-    self->load(dirname, "CupSelectNULL", variant, anims);
-}
-
 // Replace cup button BRCTR with the VS one
 kmCallDefCpp(0x807E0A20, void, PushButton* self, const char* dirname, const char* filename,
              const char* variant, u32 playerFlags, bool param_6, bool inaccessible) {
