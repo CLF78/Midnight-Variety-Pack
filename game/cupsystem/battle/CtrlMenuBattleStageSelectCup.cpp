@@ -58,7 +58,7 @@ kmBranchDefAsm(0x807E1478, 0x807E147C) {
 }
 
 // Replace isSelected store to account for the new buttons
-kmWrite32(0x807E1520, 0x981D0188);
+kmWrite32(0x807E1520, 0x981DFFFC);
 
 // Replace cup name
 kmCallDefCpp(0x807E13AC, u16, int cupButtonId) {
