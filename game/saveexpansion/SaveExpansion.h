@@ -39,7 +39,7 @@ struct SaveExpansion {
     };
 
     // GP Data
-    Cup *gpRanks;
+    Cup* gpRanks;
 
     // VS/BT Settings
     // TODO finish adding whatever

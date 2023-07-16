@@ -256,6 +256,7 @@ public:
     virtual TypeInfo* getTypeInfo() const;
 
     void insertChild(u32 childIdx, UIControl* child, u32 drawPass);
+    void playSound(int soundId, int param_3);
 
     int pageId;
     int pageState;

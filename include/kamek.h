@@ -4,10 +4,11 @@
  * (c) Treeki 2010-2018
  */
 
-#ifndef __MWERKS__
+#ifndef __CWCC__
 #error "Kamek requires the CodeWarrior compiler!"
 #endif
 
+// Defines
 #define static_assert(cond) __static_assert((cond), #cond)
 #define size_assert(type, size) static_assert(sizeof(type) == (size))
 #define NULL 0
@@ -38,7 +39,6 @@ typedef volatile f64 vf64;
 
 // Macros
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-#define min(a, b) ((a) < (b) ? (a) : (b))
 
 #include "kamek/hooks.h"
 #include "kamek/gekko.h"

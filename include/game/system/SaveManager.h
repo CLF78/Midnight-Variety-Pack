@@ -18,7 +18,7 @@ public:
     SaveExpansion licensesEx[4];
 };
 
-class SaveManager : public EGG::Disposer {
+class SaveManager {
 public:
 
     struct License {
@@ -127,6 +127,7 @@ public:
     };
     size_assert(License, 0x93F0);
 
+    EGG::Disposer inherit;
     virtual ~SaveManager();
 
     void* rawSave;

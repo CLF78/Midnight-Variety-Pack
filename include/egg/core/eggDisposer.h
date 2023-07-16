@@ -8,7 +8,7 @@ class Heap;
 
 class Disposer {
     public:
-        void* vtable;
+        virtual ~Disposer();
         Heap* mContainHeap;
         nw4r::ut::Link mLink;
 };
