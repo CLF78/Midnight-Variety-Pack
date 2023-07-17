@@ -1,8 +1,26 @@
 {
+    "3060": {
+        string: "A Time Trial at regular speed.",
+    },
+    "3061": {
+        string: "A Time Trial at a faster speed.",
+    },
+    "3062": {
+        string: "A Time Trial at a super fast speed.",
+    },
     "3360": {
         string: "Rank: {arg message|0}",
     },
     "3376": {
         string: "{1 char|}",
+    },
+    "20000": {
+        string: "{font scale|80}150cc",
+    },
+    "20001": {
+        string: "{font scale|80}200cc",
+    },
+    "20002": {
+        string: "{font scale|80}500cc",
     },
 }

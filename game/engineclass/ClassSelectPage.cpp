@@ -1,4 +1,5 @@
 #include <kamek.h>
+#include <game/ui/LayoutUIControl.h>
 
 // Skip creating the mirror mode button
 kmWrite32(0x8083F4C4, 0x48000054);
@@ -10,7 +11,7 @@ kmWrite32(0x8083F88C, 0x48000064);
 // Make the "change vehicles" option non-functional
 kmWrite32(0x8083FBC8, 0x4E800020);
 
-// Fix the movies and button names
+// Force kart+bike movies
 kmCallDefAsm(0x8083F70C) {
     nofralloc
 
@@ -27,10 +28,13 @@ kmCallDefAsm(0x8083F70C) {
     blr
 }
 
-// Fix the bottom text messages
-// TODO remove these when we can easily patch BMGs
-kmWrite32(0x808AD198, 0xBF8);
-kmWrite32(0x808AD19C, 0xBF9);
+// Replace CC text with custom messages
+kmCallDefCpp(0x8083F784, void, LayoutUIControl* button, u32 buttonId, MessageInfo* msgInfo) {
+    button->setMsgId(20000 + (buttonId & 3), msgInfo);
+}
+
+// Glue code
+kmWrite32(0x8083F77C, 0x7FA4EB78);
 
 // Fix the back button when exiting TT mode after changing course/character
 kmCallDefAsm(0x80626A10) {
