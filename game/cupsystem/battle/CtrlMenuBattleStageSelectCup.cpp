@@ -22,7 +22,7 @@ kmHookFn CtrlMenuBattleStageSelectCupSub* GetCupButton(u32 idx) {
     return BattleStageSelectPage::getPage(Page::COURSE_SELECT_BT)->getCupButton(idx);
 }
 
-// Glue code for initLayout
+// Glue code
 kmBranchDefAsm(0x807E1334, 0x807E1338) {
     nofralloc
 
@@ -36,31 +36,20 @@ kmBranchDefAsm(0x807E1334, 0x807E1338) {
     blr
 }
 
-// Glue code for init
-kmBranchDefAsm(0x807E1478, 0x807E147C) {
-    nofralloc
-
-    // Call C++ code
-    mr r3, r26
-    bl GetCupButton
-
-    // Replace r29 and execute original instruction
-    mr r29, r3
-    subf r0, r26, r27
-    blr
-}
-
 // Replace isSelected store to account for the new buttons
 kmWrite32(0x807E1520, 0x981DFFFC);
 
 // Replace cup name
-kmCallDefCpp(0x807E13AC, u16, int cupButtonId) {
+kmHookFn u16 GetCupName(int cupButtonId) {
     BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
     u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage, true);
     return CupManager::GetCupArray(true)[cupIdx].cupName;
 };
 
-// Replace cup icons
+// Glue code
+kmCall(0x807E13AC, GetCupName);
+
+// Replace cup icon
 kmHookFn void ReplaceCupIcon(int buttonId, LayoutUIControl* button) {
     BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
     CupManager::updateCupButton(buttonId, button, page->extension.curPage, true);
@@ -73,5 +62,27 @@ kmBranchDefAsm(0x807E13C4, 0x807E1408) {
     // Call C++ function
     mr r4, r28
     bl ReplaceCupIcon
+    blr
+}
+
+// Update cup name and icon when initSelf is called
+kmHookFn CtrlMenuBattleStageSelectCupSub* UpdateCupButton(u32 idx) {
+    CtrlMenuBattleStageSelectCupSub* btn = GetCupButton(idx);
+    btn->setMsgId(GetCupName(idx), nullptr);
+    ReplaceCupIcon(idx, btn);
+    return btn;
+}
+
+// Glue code
+kmBranchDefAsm(0x807E1478, 0x807E147C) {
+    nofralloc
+
+    // Call C++ code
+    mr r3, r26
+    bl UpdateCupButton
+
+    // Replace r29 and execute original instruction
+    mr r29, r3
+    subf r0, r26, r27
     blr
 }
