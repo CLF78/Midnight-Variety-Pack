@@ -82,10 +82,6 @@ kmCallDefCpp(0x8083906C, SheetSelectControl*, BattleCupSelectPage* page, int chi
     return arrows;
 }
 
-// Disable the track THPs
-kmWrite32(0x808390EC, 0x48000070);
-kmWrite16(0x80839D30, 0x4800);
-
 // Skip cup id boundary check
 kmWrite32(0x808390BC, 0x48000014);
 

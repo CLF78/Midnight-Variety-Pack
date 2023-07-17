@@ -78,3 +78,10 @@ kmBranchDefAsm(0x807E0A44, 0x807E0A88) {
     bl ReplaceCupIcon
     blr
 }
+
+// Hide THP movie
+kmCallDefCpp(0x807E0B0C, BattleCupSelectPage*) {
+    BattleCupSelectPage* page = BattleCupSelectPage::getPage(Page::CUP_SELECT_BT);
+    page->cupHolder.movieLayout.hidden = true;
+    return page;
+}
