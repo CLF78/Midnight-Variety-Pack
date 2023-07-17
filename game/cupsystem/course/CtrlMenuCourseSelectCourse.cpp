@@ -22,7 +22,7 @@ kmCallDefAsm(0x807E5244) {
 }
 
 // Check if the current button is the one for the default course
-kmHookFn bool IsDefaultButton(u32 cupButtonId, u32 trackButtonId, s32 trackIdx) {
+kmHookFn bool IsDefaultButton(u32 trackButtonId, s32 trackIdx) {
 
     // Default to the first button in case the track isn't set
     if (trackIdx == -1)
@@ -30,7 +30,7 @@ kmHookFn bool IsDefaultButton(u32 cupButtonId, u32 trackButtonId, s32 trackIdx) 
 
     // Else check the specific cup entries
     RaceCupSelectPage* page = RaceCupSelectPage::getPage(Page::CUP_SELECT);
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage, false);
+    u32 cupIdx = CupManager::getCupIdxFromButton(page->selectedButtonId, page->extension.curPage, false);
     return CupManager::GetCupArray(false)[cupIdx].entryId[trackButtonId] == trackIdx;
 }
 
@@ -38,9 +38,8 @@ kmHookFn bool IsDefaultButton(u32 cupButtonId, u32 trackButtonId, s32 trackIdx) 
 kmBranchDefAsm(0x807E5258, 0x807E525C) {
 
     // Call C++ function
-    mr r3, r23
-    mr r4, r27
-    mr r5, r28
+    mr r3, r27
+    mr r4, r28
     bl IsDefaultButton
 
     // Replace the comparison
@@ -49,11 +48,11 @@ kmBranchDefAsm(0x807E5258, 0x807E525C) {
 }
 
 // Set the correct default button
-kmHookFn s32 GetDefaultButton(u32 cupButtonId, s32 trackIdx) {
+kmHookFn s32 GetDefaultButton(s32 trackIdx) {
 
     // Check each button
     for (int i = 0; i < 4; i++) {
-        if (IsDefaultButton(cupButtonId, i, trackIdx))
+        if (IsDefaultButton(i, trackIdx))
             return i;
     }
 
@@ -65,8 +64,7 @@ kmHookFn s32 GetDefaultButton(u32 cupButtonId, s32 trackIdx) {
 kmBranchDefAsm(0x807E5374, 0x807E53B8) {
 
     // Call C++ function
-    mr r3, r23
-    mr r4, r28
+    mr r3, r28
     bl GetDefaultButton
 
     // Move result to r19

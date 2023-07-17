@@ -2,8 +2,9 @@
 #include <game/ui/GlobalContext.h>
 #include "cupsystem/CupManager.h"
 
-// Set the default track to -1
+// Set the default track and arena to -1
 kmWrite16(0x805E4218, 0x9123);
+kmWrite16(0x805E421C, 0x9123);
 
 // Set the pointers to the tracklists when GlobalContext is constructed
 kmBranchDefCpp(0x805E2FF4, NULL, GlobalContext*, GlobalContext* self) {
