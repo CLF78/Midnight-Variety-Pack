@@ -1,5 +1,11 @@
 #include <kamek.h>
 #include <game/ui/LayoutUIControl.h>
+#include <game/system/RaceConfig.h>
+
+// Replace CCs used for each button
+kmWrite32(0x808AD178, RaceConfig::Settings::CC_150);
+kmWrite32(0x808AD17C, RaceConfig::Settings::CC_200);
+kmWrite32(0x808AD170, RaceConfig::Settings::CC_500);
 
 // Skip creating the mirror mode button
 kmWrite32(0x8083F4C4, 0x48000054);

@@ -90,3 +90,18 @@
 
 // The savegame version number
 #define SAVEEX_VERSION_NUMBER 1
+
+////////////////////////////////
+// Class Engine Modifications //
+////////////////////////////////
+
+// Allows to modify and add class engines
+// Credits: CLF78 (original code)
+
+// The battle speed modifiers
+#define CC_BATTLE_SPEED_MODIFIER 0.7f
+#define CC_50_SPEED_MODIFIER 0.8f
+#define CC_100_SPEED_MODIFIER 0.9f
+#define CC_150_SPEED_MODIFIER 1.0f
+#define CC_200_SPEED_MODIFIER 1.5f
+#define CC_500_SPEED_MODIFIER 2.0f

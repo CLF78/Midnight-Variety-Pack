@@ -405,7 +405,7 @@ writer.writeRule('pack_files',
 ########################
 
 writer.writeBuildCommand('cup_builder',
-                        AUTO_GEN_CODE_FILES + AUTO_GEN_CODE_HEADERS + AUTO_GEN_BMG_FILES + CUP_ICONS_OUT_DIR,
+                        AUTO_GEN_CODE_FILES + AUTO_GEN_CODE_HEADERS + AUTO_GEN_BMG_FILES + [CUP_ICONS_OUT_DIR],
                         CUP_FILE,
                         bmgDir=BMG_OUT_DIR,
                         szsDir=TRACKS_OUT_DIR,
