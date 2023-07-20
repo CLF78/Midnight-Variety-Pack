@@ -38,6 +38,9 @@ public:
     virtual MessageInfo* getMsgInfo();
     virtual void initVideos();
 
+    // actually just onInit but not virtual
+    void callOnInit();
+
     MiiGroup* miiGroup;
 
     PushButton** buttons;

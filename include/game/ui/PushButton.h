@@ -23,6 +23,8 @@ public:
     void initLayout(const char* dirname, const char* filename, const char* variant, u32 playerFlags,
                     bool param_6, bool inaccessible);
 
+    void selectDefault(u32 localPlayerId);
+
     ControlInputManager inputManager;
     InputHandler0<PushButton, void> onSelectHandlerObj;
     InputHandler0<PushButton, void> onDeselectHandlerObj;

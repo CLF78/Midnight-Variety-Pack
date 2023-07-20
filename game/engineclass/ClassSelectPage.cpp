@@ -1,5 +1,6 @@
 #include <kamek.h>
-#include <game/ui/LayoutUIControl.h>
+#include <game/ui/page/ClassSelectPage.h>
+#include <game/ui/SectionManager.h>
 #include <game/system/RaceConfig.h>
 
 // Replace CCs used for each button
@@ -50,4 +51,33 @@ kmCallDefAsm(0x80626A10) {
     li r11, 0x69
     stw r11, 0x3EC(r28)
     blr
+}
+
+// Select the correct button when exiting TT mode
+kmCallDefCpp(0x8083F52C, void, ClassSelectPage* page) {
+
+    // Original call
+    page->callOnInit();
+
+    // If we are not returning from TT mode, bail
+    u32 section = SectionManager::instance->curSection->sectionID;
+    if (section != Section::MENUSINGLE_FROM_TT_CHANGE_CHAR && section != Section::MENUSINGLE_FROM_TT_CHANGE_COURSE)
+        return;
+
+    // Get each button id
+    for (int i = 0; i < page->buttonCount; i++) {
+        PushButton* btn = page->buttons[i];
+        int buttonId = btn->buttonId;
+
+        // Skip all irrelevant buttons
+        if (buttonId != 2 && buttonId != 4 && buttonId != 5)
+            continue;
+
+        // If the engine class matches the current button's, set the button and return
+        u32 engineClass = ClassSelectPage::engineClasses[buttonId];
+        if (RaceConfig::instance->menuScenario.settings.engineClass == engineClass) {
+            btn->selectDefault(0);
+            return;
+        }
+    }
 }
