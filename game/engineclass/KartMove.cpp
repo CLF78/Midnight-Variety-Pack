@@ -59,3 +59,26 @@ kmBranchDefAsm(0x805788BC, 0x805788C0) {
     lwz r0, 0x24(r1)
     blr
 }
+
+// Reduce cannon exit speed
+kmHookFn float ReduceCannonExitSpeed(KartMove* self) {
+
+    u32 engineClass = RaceConfig::instance->raceScenario.settings.engineClass;
+    if (engineClass > RaceConfig::Settings::CC_150)
+        self->speed /= KartMove::speedModifiers[engineClass];
+
+    return self->speed;
+}
+
+// Glue code
+kmBranchDefAsm(0x80584FA0, 0x80584FA4) {
+    nofralloc
+
+    // Call C++ code
+    bl ReduceCannonExitSpeed
+
+    // Move result to f3 and restore r3 as a precaution
+    fmr f3, f1
+    mr r3, r30
+    blr
+}
