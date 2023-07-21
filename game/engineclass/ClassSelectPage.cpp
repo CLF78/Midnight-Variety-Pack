@@ -4,8 +4,8 @@
 #include <game/system/RaceConfig.h>
 
 // Replace CCs used for each button
-kmWrite32(0x808AD178, RaceConfig::Settings::CC_150);
-kmWrite32(0x808AD17C, RaceConfig::Settings::CC_200);
+kmWrite32(0x808AD168, RaceConfig::Settings::CC_150);
+kmWrite32(0x808AD16C, RaceConfig::Settings::CC_200);
 kmWrite32(0x808AD170, RaceConfig::Settings::CC_500);
 
 // Skip creating the mirror mode button
@@ -70,7 +70,7 @@ kmCallDefCpp(0x8083F52C, void, ClassSelectPage* page) {
         int buttonId = btn->buttonId;
 
         // Skip all irrelevant buttons
-        if (buttonId != 2 && buttonId != 4 && buttonId != 5)
+        if (buttonId < 0 || buttonId > 2)
             continue;
 
         // If the engine class matches the current button's, set the button and return

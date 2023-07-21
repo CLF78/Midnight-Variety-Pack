@@ -67,7 +67,6 @@ public:
             // Custom classes
             CC_200,
             CC_500,
-            CC_BATTLE,
             CC_COUNT,
         };
 
