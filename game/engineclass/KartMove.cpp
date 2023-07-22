@@ -28,7 +28,7 @@ kmHookFn KartMove* ResetHardSpeedLimit(KartMove* self) {
 
     u32 engineClass = RaceConfig::instance->raceScenario.settings.engineClass;
     if (engineClass > RaceConfig::Settings::CC_150)
-        self->hardSpeedLimit *= KartMove::speedModifiers[engineClass];
+        self->hardSpeedLimit *= self->speedMultiplier;
 
     // Return the class itself to preserve r3
     return self;
@@ -65,7 +65,7 @@ kmHookFn float ReduceCannonExitSpeed(KartMove* self) {
 
     u32 engineClass = RaceConfig::instance->raceScenario.settings.engineClass;
     if (engineClass > RaceConfig::Settings::CC_150)
-        self->speed /= KartMove::speedModifiers[engineClass];
+        self->speed /= self->speedMultiplier;
 
     return self->speed;
 }
