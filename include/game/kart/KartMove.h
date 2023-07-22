@@ -23,7 +23,11 @@ public:
     float acceleration;
     float draftMultiplier;
 
-    u8 unk[0x2C4-0x38];
+    u8 unk[0xCC-0x38];
+
+    int hopStickX;
+
+    u8 unk2[0x2C4 - 0xD0];
 
     static const float speedModifiers[RaceConfig::Settings::CC_COUNT + 1];
 };
