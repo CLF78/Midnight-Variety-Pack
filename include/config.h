@@ -96,7 +96,7 @@
 ////////////////////////////////
 
 // Allows to modify and add class engines
-// Credits: CLF78 (original code)
+// Credits: MrBean35000vr (original code), CLF78 (porting + new code)
 
 // The battle speed modifiers
 #define CC_BATTLE_SPEED_MODIFIER 0.7f
