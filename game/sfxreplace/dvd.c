@@ -1,8 +1,6 @@
 #include <kamek.h>
 #include <rvl/dvd/dvd.h>
 
-extern "C" {
-
 typedef struct {
     u32 isDirAndStringOff;
     u32 parentOrPosition;
@@ -44,5 +42,3 @@ bool DVDReadDir(DVDDir* dir, DVDDirEntry* dirent) {
     dir->location = entryIsDir(loc) ? nextDir(loc) : (loc+1);
     return true;
 }
-
-} // extern "C"

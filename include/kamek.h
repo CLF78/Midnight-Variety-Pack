@@ -40,6 +40,13 @@ typedef volatile f64 vf64;
 // Macros
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
+// C specific stuff
+#ifndef __cplusplus
+#define bool s32
+#define false 0
+#define true 1
+#endif
+
 #include "kamek/hooks.h"
 #include "kamek/gekko.h"
 #include "config.h"
