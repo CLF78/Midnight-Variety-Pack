@@ -1,12 +1,8 @@
 #include <kamek.h>
 
-// Development NAS auth servers (should not be needed but i'm leaving them here just in case)
-// kmWriteArea(0x8027A400, "http://ca.nas.wiimmfi.de/ca");
-// kmWriteArea(0x8027A44C, "https://main.nas.wiimmfi.de/pp");
-
 // Authentication server
-// TODO provide custom certificate, add required authentication data and verify if login works
-kmWriteArea(0x8027A428, "https://naswii.wiimmfi.de/ac");
+// TODO add remaining authentication data
+kmWriteArea(0x8027A428, "http://naswii.wiimmfi.de/ac");
 
 // Profanity check server (i think)
 kmWriteArea(0x8027A4A8, "http://naswii.wiimmfi.de/pr");
