@@ -1,0 +1,41 @@
+{
+    "3060": {
+        string: "A Time Trial at regular speed.",
+    },
+    "3061": {
+        string: "A Time Trial at a faster speed.",
+    },
+    "3062": {
+        string: "A Time Trial at a super fast speed.",
+    },
+    "3360": {
+        string: "Rank: {arg message|0}",
+    },
+    "3361": {
+        string: "{arg message|0} Time Trials",
+    },
+    "3363": {
+        string: "{arg message|0}{arg string|0}{arg message|1} VS Race",
+    },
+    "3366": {
+        string: "{arg message|0}{arg string|0}{arg message|1} Team VS Race",
+    },
+    "3376": {
+        string: "{1 char|}",
+    },
+    "20000": {
+        string: "{font scale|80}150cc",
+    },
+    "20001": {
+        string: "{font scale|80}200cc",
+    },
+    "20002": {
+        string: "{font scale|80}500cc",
+    },
+    "20003": {
+        string: "200cc",
+    },
+    "20004": {
+        string: "500cc",
+    },
+}

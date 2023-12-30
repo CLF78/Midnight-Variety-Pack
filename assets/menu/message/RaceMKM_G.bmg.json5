@@ -1,0 +1,35 @@
+{
+    "1409": {
+        "string": "{arg message|0}{arg string|0}{arg message|1} - Team-Versus-Rennen - {arg integer|0 0}/{arg integer|1 0}",
+    },
+    "1410": {
+        "string": "{arg message|0} - 1. Rennen",
+    },
+    "1411": {
+        "string": "{arg message|0} - 2. Rennen",
+    },
+    "1412": {
+        "string": "{arg message|0} - 3. Rennen",
+    },
+    "1413": {
+        "string": "{arg message|0} - Letztes Rennen",
+    },
+    "1414": {
+        "string": "{arg message|0}{arg string|0}{arg message|1} - Versus-Rennen - {arg integer|0 0}/{arg integer|1 0}",
+    },
+    "1421": {
+        "string": "{arg message|0}",
+    },
+    "1422": {
+        "string": "{arg message|0}{arg string|0}{arg message|1} - Versus-Rennen",
+    },
+    "1427": {
+        "string": "{1 char|}",
+    },
+    "1600": {
+        "string": "200 ccm",
+    },
+    "1601": {
+        "string": "500 ccm",
+    },
+}

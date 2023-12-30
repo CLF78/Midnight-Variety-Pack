@@ -7,13 +7,14 @@
 # Imports #
 ###########
 
-import io
 import shutil
 import sys
 from pathlib import Path
-from typing import Any
 
-from tools.cw_wrapper.path_utils import PathConverter, escapeWinPath, changePathRoot, changePathEnding
+from tools.utils.asset_manager import GlobalAssetManager
+from tools.utils.ninja_syntax_ex import Writer as NinjaWriter
+from tools.utils.patch_manager import RiivoPatchManager
+from tools.utils.path_utils import change_root, change_stem_suffix, escape_win_path, unix_to_windows, add_to_set
 
 #####################
 # Dependency Checks #
@@ -22,150 +23,126 @@ from tools.cw_wrapper.path_utils import PathConverter, escapeWinPath, changePath
 if sys.version_info < (3, 8):
     raise SystemExit('Please update your copy of Python to 3.8 or greater. Currently running on: ' + sys.version.split()[0])
 
-if not shutil.which('wszst'):
-    raise SystemExit("Wiimm's SZS Tools are not installed! Make sure they're installed and present on PATH!")
-
 try:
     import json5
-except Exception:
+except ImportError:
     raise SystemExit('JSON5 not found! Please install it with `python -m pip install json5`')
 
-############################
-# Helper Functions/Classes #
-############################
+#######################
+# Base Project Layout #
+#######################
 
-def escapeNinjaPath(path: str) -> str:
-    return path.replace(':', '$:')
-
-class NinjaWriter():
-    def __init__(self):
-        self.buffer = io.StringIO()
-
-    def writeNewline(self, count: int = 1):
-        self.buffer.write('\n' * count)
-
-    def writeVariable(self, name: str, value: Any):
-        if isinstance(value, list):
-            self.buffer.write(f'{name} =')
-            for val in value:
-                self.buffer.write(f' $\n  {val}')
-            self.writeNewline()
-        else:
-            self.buffer.write(f'{name} = {value}\n')
-
-    def writeRule(self, ruleName: str, **kwargs):
-        self.buffer.write(f'rule {ruleName}\n')
-        for key, value in kwargs.items():
-            self.buffer.write(f'  {key} = {value}\n')
-        self.writeNewline()
-
-    def writeBuildCommand(self, command: str, output: Any, input: Any, **kwargs):
-        if isinstance(output, list):
-            output = ' '.join(map(str, output))
-        if isinstance(input, list):
-            input = ' '.join(map(str, input))
-        self.buffer.write(f'build {escapeNinjaPath(str(output))}: {command} {escapeNinjaPath(str(input))}\n')
-        for key, value in kwargs.items():
-            self.buffer.write(f'  {key} = {value}\n')
-        self.writeNewline()
-
-    @staticmethod
-    def addPath(files: list[Path], newFile: Path):
-        if newFile.is_file():
-            files.append(newFile)
-
-
-class AssetManager():
-    def __init__(self, writer: NinjaWriter):
-        self.outputs = {}
-        self.writer = writer
-
-    def addFile(self, src: Path, dest: Path):
-        if src not in self.outputs:
-            self.outputs[src] = dest
-
-            if src.suffix == '.json5':
-                self.writer.writeBuildCommand('wuj5',
-                                            dest,
-                                            src,
-                                            in_short=src.name)
-            elif src.suffix == '.png':
-                self.writer.writeBuildCommand('wimgt',
-                            dest,
-                            src,
-                            in_short=src.name)
-            else:
-                self.writer.writeBuildCommand('copy_file',
-                                            dest,
-                                            src,
-                                            in_short=src.name)
-        else:
-            src = self.outputs[src]
-            self.writer.writeBuildCommand('copy_file',
-                                        dest,
-                                        src,
-                                        in_short=src.name)
-
-    def addDir(self, src: Path, dest: Path):
-        self.writer.writeBuildCommand('copy_dir',
-                                    dest,
-                                    src,
-                                    in_short=src.name)
-
-#################
-# Initial Setup #
-#################
-
+# Directories
 ROOT_DIR = Path(__file__).parent
-NINJA_FILE = Path(ROOT_DIR, 'build.ninja')
-converter = PathConverter(ROOT_DIR)
-writer = NinjaWriter()
-uiAssetManager = AssetManager(writer)
-commonAssetManager = AssetManager(writer)
-sfxAssetManager = AssetManager(writer)
-
-###############
-# Directories #
-###############
-
-# Source directories
 ASSETS_DIR = Path(ROOT_DIR, 'assets')
-BMG_SRC_DIR = Path(ASSETS_DIR, 'message')
-CODE_DIR = Path(ROOT_DIR, 'game')
-INCLUDE_DIR = Path(ROOT_DIR, 'include')
-LOADER_DIR = Path(ROOT_DIR, 'loader')
-TOOL_DIR = Path(ROOT_DIR, 'tools')
-
-# Intermediate output directories
-AUTO_GEN_CODE_DIR = Path(CODE_DIR, 'cupsystem')
 BUILD_DIR = Path(ROOT_DIR, 'build')
-BMG_OUT_DIR = Path(BUILD_DIR, 'messages')
-BMG_MERGED_OUT_DIR = Path(BUILD_DIR, 'messages', 'merged')
-CODE_OUT_DIR = Path(BUILD_DIR, 'code')
-COMMON_ASSETS_DIR = Path(BUILD_DIR, 'common')
-CUP_ICONS_OUT_DIR = Path(BUILD_DIR, 'cupicons')
-LOADER_OUT_DIR = Path(BUILD_DIR, 'loader')
+OUT_DIR = Path(ROOT_DIR, 'out', 'mkm2')
+TOOL_DIR = Path(ROOT_DIR, 'tools')
+if ' ' in str(ROOT_DIR):
+    raise SystemExit('Make sure that the project\'s directory does not have spaces in its path!')
+
+# Files
+NINJA_FILE = Path(ROOT_DIR, 'build.ninja')
+PORT_FILE = Path(ROOT_DIR, 'versions-mkw.txt')
+SYMBOL_FILE = Path(ROOT_DIR, 'externals-mkw.txt')
+
+# Constants
+LOCALES = ['E', 'F', 'G', 'I', 'J', 'K', 'M', 'Q', 'S', 'U']
+REGIONS = ['P', 'E', 'J', 'K']
+LOADER_HOOK_ADDR = 0x80004010
+
+##################
+# Mod Components #
+##################
+
+# X_DIR = Original asset directory
+# X_BUILD_DIR = Intermediate compilation directory
+# X_FINAL_DIR = Output directory
+# X_PATCH_DIR = Game disc folder to be patched
+
+# Track directories - for courses
+TRACKS_FINAL_DIR = Path(OUT_DIR, 'Tracks')
+TRACKS_PATCH_DIR = Path('Race', 'Course')
+
+# Common asset directories - for assets that go in /Race/Common.szs
+COMMON_ASSETS_DIR = Path(ASSETS_DIR, 'common')
+COMMON_ASSETS_BUILD_DIR = Path(BUILD_DIR, 'common')
+COMMON_ASSETS_FINAL_DIR = Path(OUT_DIR, 'Common')
+COMMON_ASSETS_PATCH_DIR = Path('Race')
+
+# UI asset directories - for assets that go in /Scene/UI/X.szs
+UI_ASSETS_DIR = Path(ASSETS_DIR, 'menu')
+UI_ASSETS_BUILD_DIR = Path(BUILD_DIR, 'menu')
+UI_ASSETS_FINAL_DIR = Path(OUT_DIR, 'UI')
+UI_ASSETS_PATCH_DIR = Path('Scene', 'UI')
+
+# Text message directories - for the various build steps involving text message files
+BMG_DIR = Path(UI_ASSETS_DIR, 'message')
+BMG_BUILD_DIR = Path(BUILD_DIR, 'messages')
+BMG_MERGED_BUILD_DIR = Path(BMG_BUILD_DIR, 'merged')
+BMG_DESTINATIONS = {
+    'Common': ['Award', 'Globe', 'MenuMulti', 'MenuOther', 'MenuSingle', 'Race'],
+    'Menu': ['Award', 'Globe', 'MenuMulti', 'MenuOther', 'MenuSingle', 'Race'],
+    'Race': ['Award', 'Race']
+}
+
+# Music directories - for track music
+MUSIC_FINAL_DIR = Path(OUT_DIR, 'Music')
+MUSIC_PATCH_DIR = Path('sound', 'strm')
+
+# Sound effects directories - for sound effects (new)
 SFX_DIR = Path(ASSETS_DIR, 'sfx')
-UI_ASSETS_DIR = Path(BUILD_DIR, 'ui')
+SFX_FINAL_DIR = Path(OUT_DIR, 'sfx')
+SFX_PATCH_DIR = Path('sound', 'sfx')
 
-# Final output directories
-OUT_DIR = Path(ROOT_DIR, 'out', 'mkm')
-KAMEK_OUT_DIR = Path(OUT_DIR, 'Code')
-COMMON_ASSETS_PACKED_DIR = Path(OUT_DIR, 'Common')
-MUSIC_OUT_DIR = Path(OUT_DIR, 'Music')
-SFX_OUT_DIR = Path(OUT_DIR, 'sfx')
-TRACKS_OUT_DIR = Path(OUT_DIR, 'Tracks')
-UI_ASSETS_PACKED_DIR = Path(OUT_DIR, 'UI')
+# Code directories - for custom code (new)
+CODE_DIR = Path(ROOT_DIR, 'payload')
+CODE_BUILD_DIR = Path(BUILD_DIR, 'payload')
+CODE_FINAL_DIR = Path(OUT_DIR, 'Code')
 
-###################
-# Other Constants #
-###################
+# Loader directories/files - for loader code (new)
+LOADER_DIR = Path(ROOT_DIR, 'loader')
+LOADER_BUILD_DIR = Path(BUILD_DIR, 'loader')
+LOADER_BUILD_XML = Path(BUILD_DIR, 'Loader.xml')
+LOADER_OUT_FILE = Path(OUT_DIR, 'Loader.bin')
+
+# Cup - for data used/generated by the Cup Builder tool
+CUP_DATA_FILE = Path(ASSETS_DIR, 'course', 'data.json5')
+CUP_DATA_BUILD_DIR = Path(CODE_DIR, 'midnight', 'cup')
+CUP_ICONS_BUILD_DIR = Path(BUILD_DIR, 'cupicons')
+CUP_ICONS_TIMESTAMP_FILE = Path(CUP_ICONS_BUILD_DIR, '.extracted')
+CUP_DATA_OUT_FILE = Path(CUP_DATA_BUILD_DIR, 'CupData.cpp')
+CUP_DATA_COUNT_FILE = Path(CUP_DATA_BUILD_DIR, 'CupCounts.h')
+CUP_DATA_TEXT_FILES = [Path(BMG_BUILD_DIR, f'CupData{locale}.bmg.json5') for locale in LOCALES]
+
+# Auto-generated Riivolution XML
+XML_GAME_ID = 'RMC'
+XML_PATCH_NAME = 'Mario Kart Midnight'
+XML_PATCH_ID = OUT_DIR.stem
+XML_ROOT_DIR = OUT_DIR.parent
+XML_FILE = Path(XML_ROOT_DIR, 'riivolution', f'{XML_PATCH_ID}.xml')
+
+#########
+# Tools #
+#########
+
+BMG_MERGE = Path(TOOL_DIR, 'bmg_tools', 'merge.py')
+CC = Path(file) if (file := shutil.which('mwcceppc.exe')) else Path(TOOL_DIR, 'cw', 'mwcceppc.exe')
+CUP_BUILDER = Path(TOOL_DIR, 'cup_builder', 'exporter.py')
+CW_WRAPPER = Path(TOOL_DIR, 'cw', 'mwcceppc_wine_wrapper.py')
+CW_WRAPPER_WIN = Path(TOOL_DIR, 'cw', 'mwcceppc_windows_wrapper.py')
+KAMEK = Path(file) if (file := shutil.which('Kamek')) else Path(TOOL_DIR, 'kamek', f'Kamek{".exe" if sys.platform == "win32" else ""}')
+WUJ5 = Path(TOOL_DIR, 'wuj5', 'wuj5.py')
+XML_TOOL = Path(TOOL_DIR, 'xml_tool', 'xml_tool.py')
+
+##################
+# Compiler Flags #
+##################
 
 CFLAGS = [
     '-I-',
-    f'-i {escapeWinPath(converter.u2w(CODE_DIR))}',
-    f'-i {escapeWinPath(converter.u2w(INCLUDE_DIR))}',
-    f'-i {escapeWinPath(converter.u2w(LOADER_DIR))}',
+    f'-i {escape_win_path(unix_to_windows(CODE_DIR))}',
+    f'-i {escape_win_path(unix_to_windows(LOADER_DIR))}',
     '-Cpp_exceptions off',
     '-enum int',
     '-fp fmadd',
@@ -186,131 +163,109 @@ CFLAGS = [
     '-sdata2 0',
     '-use_lmw_stmw on']
 
-BMG_NAMES = {
-    'Common': ['Award', 'MenuMulti', 'MenuSingle', 'Race'], #TODO Globe, MenuOther
-    'Menu': ['Award', 'MenuMulti', 'MenuSingle', 'Race'], #TODO Globe, MenuOther
-    'Race': ['Award', 'Race']}
+##########
+# Assets #
+##########
 
-LOADER_HOOK_ADDR = 0x80004010
-LOCALES = ['E', 'F', 'G', 'I', 'J', 'K', 'M', 'Q', 'S', 'U']
-REGIONS = ['P', 'E', 'J', 'K']
+# For raw assets:
+# - The key is the source path
+# - The value can be:
+#   - Empty, if the file does not have to be renamed and the destination matches the source hierarchy
+#   - A string, if the file has to be renamed, but the destination matches the source hierarchy
+#   - A Path, if the file has to be moved because the destination doesn't match the source hierarchy
 
-#########
-# Tools #
-#########
+# For packed assets:
+# - The key is the packed filename WITHOUT EXTENSION
+# - The value is a dict of raw assets to be contained within
 
-BMG_MERGER = Path(TOOL_DIR, 'bmg_merge', 'merge.py')
-CC = Path(file) if (file := shutil.which('mwcceppc.exe')) else Path(TOOL_DIR, 'cw', 'mwcceppc.exe')
-CUP_BUILDER = Path(TOOL_DIR, 'cup_builder', 'exporter.py')
-CW_WRAPPER = Path(TOOL_DIR, 'cw_wrapper', 'mwcceppc_wine_wrapper.py')
-CW_WRAPPER_WIN = Path(TOOL_DIR, 'cw_wrapper', 'mwcceppc_windows_wrapper.py')
-KAMEK = Path(file) if (file := shutil.which('Kamek')) else Path(TOOL_DIR, 'kamek', f'Kamek{".exe" if sys.platform == "win32" else ""}')
-WUJ5 = Path(TOOL_DIR, 'wuj5', 'wuj5.py')
-
-#########
-# Files #
-#########
-
-AUTO_GEN_CODE_FILES = [Path(AUTO_GEN_CODE_DIR, file) for file in ['CupData.cpp']]
-AUTO_GEN_CODE_HEADERS = [Path(AUTO_GEN_CODE_DIR, file) for file in ['CupCounts.h']]
-AUTO_GEN_BMG_FILES = [Path(BMG_OUT_DIR, f'CupData{locale}.bmg.json5') for locale in LOCALES]
-CUP_FILE = Path(ASSETS_DIR, 'cups.json5')
-LOADER_OUT_FILE = Path(OUT_DIR, 'Loader.bin')
-LOADER_OUT_XML = Path(BUILD_DIR, 'Loader.xml')
-PORT_FILE = Path(ROOT_DIR, 'versions-mkw.txt')
-SYMBOL_FILE = Path(ROOT_DIR, 'externals-mkw.txt')
-
-# Initialize common asset list
 COMMON_ASSETS = {
     'CommonMKM': {
-        Path(ASSETS_DIR, 'megatc', 'kumo.brres'): Path('kumo.brres')
+        Path(COMMON_ASSETS_DIR, 'kumo.brres'): None
     }
 }
 
-# Initialize sfx asset list
 SFX_ASSETS = {
-    Path(SFX_DIR, 'Final_Lap.brstm'): Path('116.brstm'),
-    Path(SFX_DIR, 'Mega_Mushroom.brstm'): Path('274.brstm'),
-    Path(SFX_DIR, 'Star.brstm'): Path('270.brstm'),
-    Path(SFX_DIR, 'Title_Screen.brstm'): Path('84.brstm')
+    Path(SFX_DIR, 'Final_Lap.brstm'): '116',
+    Path(SFX_DIR, 'Mega_Mushroom.brstm'): '274',
+    Path(SFX_DIR, 'Star.brstm'): '270',
+    Path(SFX_DIR, 'Title_Screen.brstm'): '84'
 }
 
-# Initialize UI asset list
+# DO NOT ADD TEXT MESSAGES HERE, THEY WILL BE ADDED AUTOMATICALLY BY THE SCRIPT
 UI_ASSETS = {
 	'AwardMKM': {
-        Path(CUP_ICONS_OUT_DIR): Path('cups')
+        Path(CUP_ICONS_BUILD_DIR): Path('cups')
 	},
 
 	'MenuSingleMKM': {
-		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowLeft.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowLeft.brctr'),
-		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowRight.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowRight.brctr'),
-        Path(CUP_ICONS_OUT_DIR): Path('cups')
+		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowLeft.brctr.json5'): None,
+		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowRight.brctr.json5'): None,
+        Path(CUP_ICONS_BUILD_DIR): Path('cups')
 	},
 
 	'MenuMultiMKM': {
-		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowLeft.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowLeft.brctr'),
-		Path(ASSETS_DIR, 'cuparrows', 'CupSelectCupArrowRight.brctr.json5'): Path('button', 'ctrl', 'CupSelectCupArrowRight.brctr'),
-        Path(CUP_ICONS_OUT_DIR): Path('cups')
+		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowLeft.brctr.json5'): None,
+		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowRight.brctr.json5'): None,
+        Path(CUP_ICONS_BUILD_DIR): Path('cups')
 	},
 
 	'RaceMKM': {
-        Path(CUP_ICONS_OUT_DIR): Path('cups'),
-        Path(ASSETS_DIR, 'laptexturefix', 'time_number.brctr.json5'): Path('game_image', 'ctrl', 'time_number.brctr'),
-        Path(ASSETS_DIR, 'laptexturefix', 'game_image_lap_texture_pattern_0_9.brlan.json5'): Path('game_image', 'anim', 'game_image_lap_texture_pattern_0_9.brlan'),
-        Path(ASSETS_DIR, 'megatc', 'fm_item_pikakumo.tpl.png'): Path('game_image', 'timg', 'fm_item_pikakumo.tpl')
+        Path(CUP_ICONS_BUILD_DIR): Path('cups'),
+        Path(UI_ASSETS_DIR, 'game_image', 'ctrl', 'time_number.brctr.json5'): None,
+        Path(UI_ASSETS_DIR, 'game_image', 'anim', 'game_image_lap_texture_pattern_0_9.brlan.json5'): None,
+        Path(UI_ASSETS_DIR, 'game_image', 'timg', 'fm_item_pikakumo.tpl.png'): None
 	},
 
 	'RaceMKM_E': {
-        Path(ASSETS_DIR, 'laptexturefix', 'E', f'tt_lap_E_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_E_lap{a}.tpl') for a in range(4,10) } | {
-        Path(ASSETS_DIR, 'laptexturefix', 'E', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+        Path(UI_ASSETS_DIR, 'game_image', 'timg', f'tt_lap_E_lap{a}.tpl.png'): None for a in range(4,10) } | {
+        Path(UI_ASSETS_DIR, 'game_image', 'blyt', 'time_number_texture_E.brlyt.json5'): 'time_number_texture'
 	},
 
 	'RaceMKM_F': {
-        Path(ASSETS_DIR, 'laptexturefix', 'F', f'tt_lap_F_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_F_lap{a}.tpl') for a in range(4,10) } | {
-        Path(ASSETS_DIR, 'laptexturefix', 'F', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+        Path(UI_ASSETS_DIR, 'game_image', 'timg', f'tt_lap_F_lap{a}.tpl.png'): None for a in range(4,10) } | {
+        Path(UI_ASSETS_DIR, 'game_image', 'blyt', 'time_number_texture_F.brlyt.json5'): 'time_number_texture'
 	},
 
 	'RaceMKM_G': {
-        Path(ASSETS_DIR, 'laptexturefix', 'G', f'tt_lap_G_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_G_lap{a}.tpl') for a in range(4,10) } | {
-        Path(ASSETS_DIR, 'laptexturefix', 'G', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+        Path(UI_ASSETS_DIR, 'game_image', 'timg', f'tt_lap_G_lap{a}.tpl.png'): None for a in range(4,10) } | {
+        Path(UI_ASSETS_DIR, 'game_image', 'blyt', 'time_number_texture_G.brlyt.json5'): 'time_number_texture'
 	},
 
 	'RaceMKM_I': {
-        Path(ASSETS_DIR, 'laptexturefix', 'I', f'tt_lap_I_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_I_lap{a}.tpl') for a in range(4,10) } | {
-        Path(ASSETS_DIR, 'laptexturefix', 'I', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+        Path(UI_ASSETS_DIR, 'game_image', 'timg', f'tt_lap_I_lap{a}.tpl.png'): None for a in range(4,10) } | {
+        Path(UI_ASSETS_DIR, 'game_image', 'blyt', 'time_number_texture_I.brlyt.json5'): 'time_number_texture'
 	},
 
 	'RaceMKM_J': {
-        Path(ASSETS_DIR, 'laptexturefix', 'E', f'tt_lap_E_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_E_lap{a}.tpl') for a in range(4,10) } | {
-        Path(ASSETS_DIR, 'laptexturefix', 'E', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+        Path(UI_ASSETS_DIR, 'game_image', 'timg', f'tt_lap_E_lap{a}.tpl.png'): None for a in range(4,10) } | {
+        Path(UI_ASSETS_DIR, 'game_image', 'blyt', 'time_number_texture_E.brlyt.json5'): 'time_number_texture'
 	},
 
 	'RaceMKM_K': {
-        Path(ASSETS_DIR, 'laptexturefix', 'E', f'tt_lap_E_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_E_lap{a}.tpl') for a in range(4,10) } | {
-        Path(ASSETS_DIR, 'laptexturefix', 'E', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt'),
-        Path(ASSETS_DIR, 'laptexturefix', 'K', 'game_image_lap_texture_pattern_0_9.brlan.json5'): Path('game_image', 'anim', 'game_image_lap_texture_pattern_0_9.brlan')
+        Path(UI_ASSETS_DIR, 'game_image', 'timg', f'tt_lap_E_lap{a}.tpl.png'): None for a in range(4,10) } | {
+        Path(UI_ASSETS_DIR, 'game_image', 'blyt', 'time_number_texture_E.brlyt.json5'): 'time_number_texture',
+        Path(UI_ASSETS_DIR, 'game_image', 'anim', 'game_image_lap_texture_pattern_0_9_K.brlan.json5'): 'game_image_lap_texture_pattern_0_9'
 	},
 
 	'RaceMKM_M': {
-        Path(ASSETS_DIR, 'laptexturefix', 'S', f'tt_lap_S_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_S_lap{a}.tpl') for a in range(4,10) } | {
-        Path(ASSETS_DIR, 'laptexturefix', 'S', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+        Path(UI_ASSETS_DIR, 'game_image', 'timg', f'tt_lap_S_lap{a}.tpl.png'): None for a in range(4,10) } | {
+        Path(UI_ASSETS_DIR, 'game_image', 'blyt', 'time_number_texture_S.brlyt.json5'): 'time_number_texture',
 	},
 
 	'RaceMKM_Q': {
-        Path(ASSETS_DIR, 'laptexturefix', 'F', f'tt_lap_F_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_F_lap{a}.tpl') for a in range(4,10) } | {
-        Path(ASSETS_DIR, 'laptexturefix', 'F', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+        Path(UI_ASSETS_DIR, 'game_image', 'timg', f'tt_lap_F_lap{a}.tpl.png'): None for a in range(4,10) } | {
+        Path(UI_ASSETS_DIR, 'game_image', 'blyt', 'time_number_texture_F.brlyt.json5'): 'time_number_texture',
 	},
 
 	'RaceMKM_S': {
-        Path(ASSETS_DIR, 'laptexturefix', 'S', f'tt_lap_S_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_S_lap{a}.tpl') for a in range(4,10) } | {
-        Path(ASSETS_DIR, 'laptexturefix', 'S', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+        Path(UI_ASSETS_DIR, 'game_image', 'timg', f'tt_lap_S_lap{a}.tpl.png'): None for a in range(4,10) } | {
+        Path(UI_ASSETS_DIR, 'game_image', 'blyt', 'time_number_texture_S.brlyt.json5'): 'time_number_texture',
 	},
 
 	'RaceMKM_U': {
-        Path(ASSETS_DIR, 'laptexturefix', 'E', f'tt_lap_E_lap{a}.tpl.png'): Path('game_image', 'timg', f'tt_lap_E_lap{a}.tpl') for a in range(4,10) } | {
-        Path(ASSETS_DIR, 'laptexturefix', 'E', 'time_number_texture.brlyt.json5'): Path('game_image', 'blyt', 'time_number_texture.brlyt')
+        Path(UI_ASSETS_DIR, 'game_image', 'timg', f'tt_lap_E_lap{a}.tpl.png'): None for a in range(4,10) } | {
+        Path(UI_ASSETS_DIR, 'game_image', 'blyt', 'time_number_texture_E.brlyt.json5'): 'time_number_texture',
 	},
-
 }
 
 #########################################
@@ -320,103 +275,109 @@ UI_ASSETS = {
 if len(sys.argv) > 1 and sys.argv[1] == '--clean':
     shutil.rmtree(BUILD_DIR, ignore_errors=True)
     shutil.rmtree(OUT_DIR.parent, ignore_errors=True)
-    for file in AUTO_GEN_CODE_FILES:
-        file.unlink(True)
-    for file in AUTO_GEN_CODE_HEADERS:
-        file.unlink(True)
-
-# Ensure that CW and Kamek are installed
-if not CC.is_file():
-    raise SystemExit('CodeWarrior is not installed! Make sure it is either on PATH or in `tools/cw`!')
-if not KAMEK.is_file():
-    raise SystemExit('Kamek is not installed! Make sure it is either on PATH or in `tools/kamek`!')
-if ' ' in str(ROOT_DIR):
-    raise SystemExit('Make sure that the project\'s directory does not have spaces in its path!')
+    CUP_DATA_OUT_FILE.unlink(True)
+    CUP_DATA_COUNT_FILE.unlink(True)
 
 ###################
 # Write Variables #
 ###################
 
-writer.writeVariable('builddir', BUILD_DIR)
-writer.writeNewline()
+writer = NinjaWriter()
+writer.variable('builddir', BUILD_DIR)
+writer.newline()
 
-writer.writeVariable('cc', f'{sys.executable} {CW_WRAPPER_WIN if sys.platform == "win32" else CW_WRAPPER} {CC}')
-writer.writeVariable('cflags', CFLAGS)
-writer.writeNewline()
-writer.writeVariable('kamek', KAMEK)
-writer.writeVariable('port_file', PORT_FILE)
-writer.writeVariable('symbol_file', SYMBOL_FILE)
-writer.writeNewline()
+writer.variable('cc', f'{sys.executable} {CW_WRAPPER_WIN if sys.platform == "win32" else CW_WRAPPER} {CC}')
+writer.variable('cflags', CFLAGS)
+writer.newline()
+writer.variable('kamek', KAMEK)
+writer.variable('port_file', PORT_FILE)
+writer.variable('symbol_file', SYMBOL_FILE)
+writer.newline()
+
+# Fix a parallel execution issue on Windows by creating a dedicated pool for Kamek linking
+if sys.platform == 'win32':
+    writer.pool('kamek_pool')
 
 ###############
 # Write Rules #
 ###############
 
-writer.writeRule('cup_builder',
-                command=f'{sys.executable} {CUP_BUILDER} $in $bmgDir $szsDir $brstmDir $iconDir $codeDir',
-                description='Run Cup Exporter')
+writer.rule('cup_builder',
+            command=f'{sys.executable} {CUP_BUILDER} $in $bmgDir $szsDir $brstmDir $iconDir $codeDir $logfile',
+            description='Run Cup Exporter',
+            depfile='$logfile',
+            deps='gcc')
 
-writer.writeRule('cw',
-                command='$cc $cflags -c -DREGION_$region -o $out_conv -MDfile $out.d $in_conv',
-                depfile='$out.d',
-                description='Compile $in_short ($region)')
+writer.rule('cw',
+            command='$cc $cflags -c -DCODE_REGION_$region -o $out_conv -MDfile $out.d $in_conv',
+            depfile='$out.d',
+            description='Compile $in_short ($region)')
 
-writer.writeRule('kmdynamic',
-                command='$kamek $in -dynamic -versions=$port_file -externals=$symbol_file -output-kamek=$out -select-version=$selectversion',
-                description='Link Code ($selectversion)')
+writer.rule('kmdynamic',
+            command='$kamek $in -dynamic -versions=$port_file -externals=$symbol_file -output-kamek=$out -select-version=$selectversion',
+            description='Link Code ($selectversion)',
+            pool='kamek_pool' if sys.platform == 'win32' else '')
 
-writer.writeRule('kmstatic',
-                command='$kamek $in -static=$loadaddr -externals=$symbol_file -output-code=$out -output-riiv=$out_riiv',
-                description='Link Loader')
+writer.rule('kmstatic',
+            command='$kamek $in -static=$loadaddr -externals=$symbol_file -output-code=$out_bin -output-riiv=$out_riiv',
+            description='Link Loader',
+            pool='kamek_pool' if sys.platform == 'win32' else '')
 
-writer.writeRule('bmg_merge',
-                command=f'{sys.executable} {BMG_MERGER} $in -o $out',
-                description='Merge $out_short Messages ($region)')
+writer.rule('bmg_merge',
+            command=f'{sys.executable} {BMG_MERGE} $in -o $out',
+            description='Merge $out_short Messages ($region)')
 
-writer.writeRule('wuj5',
-                command=f'{sys.executable} {WUJ5} encode $in -o $out',
-                description='Encode $in_short with wuj5')
+writer.rule('wuj5',
+            command=f'{sys.executable} {WUJ5} encode $in -o $out',
+            description='Encode $in_short with wuj5')
 
-writer.writeRule('wimgt',
-                command='wimgt enc -q -D $out -o --no-mm --transform=TPL.R3 $in',
-                description='Encode $in_short with wimgt')
+writer.rule('wimgt',
+            command='wimgt enc -q -D $out -o --no-mm --transform=$encode $in',
+            description='Encode $in_short with wimgt')
 
 if sys.platform == 'win32':
-    writer.writeRule('copy_file',
-                    command='cmd /c mklink /h $out $in',
-                    description='Copy $in_short')
-    writer.writeRule('copy_dir',
-                    command='cmd /c mklink /d $out $in',
-                    description='Copy $in_short')
+    writer.rule('copy_file',
+                command='cmd /c mklink /h $out $in',
+                description='Copy $in_short')
+    writer.rule('copy_dir',
+                command='cmd /c mklink /d $out $in_dir',
+                description='Copy $in_short',
+                restat='1')
 else:
-    writer.writeRule('copy_file',
-                    command='ln -f -T $in $out',
-                    description='Copy $in_short')
-    writer.writeRule('copy_dir',
-                    command='ln -sf -T $in $out',
-                    description='Copy $in_short')
+    writer.rule('copy_file',
+                command='ln -f -T $in $out',
+                description='Copy $in_short')
+    writer.rule('copy_dir',
+                command='ln -sf -T $in_dir $out',
+                description='Copy $in_short',
+                restat='1')
 
-writer.writeRule('pack_files',
-                command='wszst c -q -D $out_dir/%N.szs -o --szs --pt-dir --links --compr 10 $in_dir/*.d/',
-                description='Pack Files with WSZST')
+writer.rule('wszst',
+            command='wszst c -q -D $out -o --pt-dir --links --compr $compress $in_dir',
+            description='Pack $in_short with wszst')
+
+writer.rule('xml_tool',
+            command=f'{sys.executable} {XML_TOOL} $out $gameid $modname $patchid $patches $externals',
+            description='Generate Riivolution XML')
 
 ########################
 # Write Build Commands #
 ########################
 
-writer.writeBuildCommand('cup_builder',
-                        AUTO_GEN_CODE_FILES + AUTO_GEN_CODE_HEADERS + AUTO_GEN_BMG_FILES + [CUP_ICONS_OUT_DIR],
-                        CUP_FILE,
-                        bmgDir=BMG_OUT_DIR,
-                        szsDir=TRACKS_OUT_DIR,
-                        brstmDir=MUSIC_OUT_DIR,
-                        iconDir=CUP_ICONS_OUT_DIR,
-                        codeDir=AUTO_GEN_CODE_DIR)
+writer.build('cup_builder',
+            [CUP_DATA_OUT_FILE, CUP_DATA_COUNT_FILE, CUP_ICONS_TIMESTAMP_FILE] + CUP_DATA_TEXT_FILES,
+            CUP_DATA_FILE,
+            bmgDir=BMG_BUILD_DIR,
+            szsDir=TRACKS_FINAL_DIR,
+            brstmDir=MUSIC_FINAL_DIR,
+            iconDir=CUP_ICONS_BUILD_DIR,
+            codeDir=CUP_DATA_BUILD_DIR,
+            logfile=Path(BUILD_DIR, 'data.json5.d'))
 
-# Add autogenerated CPP/C files first, then all the others
+# Scan for C/C++ files and add the auto-generated files
 inputs = set(CODE_DIR.rglob('*.cpp'))
-inputs.update(set(CODE_DIR.rglob('*.c')))
-inputs.update(set(AUTO_GEN_CODE_FILES))
+inputs.update(CODE_DIR.rglob('*.c'))
+inputs.add(CUP_DATA_OUT_FILE)
 
 # Initialize output lists
 outputsByRegion = {key: [] for key in REGIONS}
@@ -437,8 +398,8 @@ for file in sorted(inputs):
     for region in REGIONS:
 
         # Get the destination path
-        output = changePathRoot(file, CODE_DIR, CODE_OUT_DIR)
-        output = changePathEnding(output, region if region in configData else '')
+        output = change_root(file, CODE_DIR, CODE_BUILD_DIR)
+        output = change_stem_suffix(output, region if region in configData else '')
         output = output.with_suffix('.o')
 
         # Add it to the outputs for the current region
@@ -446,13 +407,14 @@ for file in sorted(inputs):
 
         # Write the corresponding build command and make sure it's not duplicated
         if output not in outputs:
-            writer.writeBuildCommand('cw',
-                                    output,
-                                    [file] + AUTO_GEN_CODE_HEADERS,
-                                    out_conv=escapeWinPath(converter.u2w(output)),
-                                    in_conv=escapeWinPath(converter.u2w(file)),
-                                    in_short=file.relative_to(CODE_DIR),
-                                    region=region if region in configData else 'All')
+            writer.build('cw',
+                         output,
+                         file,
+                         order_only_inputs=CUP_DATA_COUNT_FILE,
+                         out_conv=escape_win_path(unix_to_windows(output)),
+                         in_conv=escape_win_path(unix_to_windows(file)),
+                         in_short=file.name,
+                         region=region if region in configData else 'ALL')
             outputs.add(output)
 
 # Initialize containers for loader code output
@@ -463,105 +425,131 @@ loaderOutputs = []
 for file in sorted(loaderInputs):
 
     # Get the destination path
-    output = changePathRoot(file, LOADER_DIR, LOADER_OUT_DIR).with_suffix('.o')
+    output = change_root(file, LOADER_DIR, LOADER_BUILD_DIR).with_suffix('.o')
     loaderOutputs.append(output)
 
     # Write the corresponding build command
-    writer.writeBuildCommand('cw',
-                            output,
-                            [file] + AUTO_GEN_CODE_HEADERS,
-                            out_conv=escapeWinPath(converter.u2w(output)),
-                            in_conv=escapeWinPath(converter.u2w(file)),
-                            in_short=file.relative_to(LOADER_DIR),
-                            region='All')
+    writer.build('cw',
+                 output,
+                 file,
+                 order_only_inputs=CUP_DATA_COUNT_FILE,
+                 out_conv=escape_win_path(unix_to_windows(output)),
+                 in_conv=escape_win_path(unix_to_windows(file)),
+                 in_short=file.stem,
+                 region='ALL')
 
 # Write the Kamek linking rules
 # Code commands
-prevOutput = None
 for region, outputs in outputsByRegion.items():
-
-    # Fix a parallel execution issue on Windows by marking the previous Kamek output as input for the next build command
-    cmdOut = sorted(outputs) + ['|', '$port_file', '$symbol_file']
-    cmdIn = Path(KAMEK_OUT_DIR, f'code{region}.bin')
-    if prevOutput and sys.platform == 'win32':
-        cmdOut.append(prevOutput)
-
-    # Write the command
-    writer.writeBuildCommand('kmdynamic', cmdIn, cmdOut, selectversion=region)
-    prevOutput = cmdIn
+    writer.build('kmdynamic',
+                 Path(CODE_FINAL_DIR, f'code{region}.bin'),
+                 sorted(outputs),
+                 implicit_inputs=['$port_file', '$symbol_file'],
+                 selectversion=region)
 
 # Loader command
-writer.writeBuildCommand('kmstatic',
-                        LOADER_OUT_FILE,
-                        sorted(loaderOutputs) + ['|', '$symbol_file'],
-                        out_riiv=LOADER_OUT_XML,
-                        loadaddr=hex(LOADER_HOOK_ADDR))
+writer.build('kmstatic',
+             [LOADER_OUT_FILE, LOADER_BUILD_XML],
+             sorted(loaderOutputs),
+             implicit_inputs=['$symbol_file'],
+             out_bin=LOADER_OUT_FILE,
+             out_riiv=LOADER_BUILD_XML,
+             loadaddr=hex(LOADER_HOOK_ADDR))
 
 # Merge and add localized messages to the UI asset list
-for locale, bmgFile in zip(LOCALES, AUTO_GEN_BMG_FILES):
-    for file, dests in BMG_NAMES.items():
-        baseFile = Path(BMG_SRC_DIR, file)
-        destFile = Path(BMG_MERGED_OUT_DIR, locale, f'{file}.bmg.json5')
+for locale, cupTextFile in zip(LOCALES, CUP_DATA_TEXT_FILES):
+    for file, dests in BMG_DESTINATIONS.items():
 
+        baseFile = Path(BMG_DIR, file) # original game messages
+        destFile = Path(BMG_MERGED_BUILD_DIR, locale, f'{file}.bmg.json5')
+
+        # Add the possible inputs if they exist
         inputs = []
-        NinjaWriter.addPath(inputs, changePathEnding(baseFile, f'_{locale}.bmg.json5'))
-        NinjaWriter.addPath(inputs, changePathEnding(baseFile, 'Wiimmfi.bmg.json5'))
-        NinjaWriter.addPath(inputs, changePathEnding(baseFile, f'Wiimmfi_{locale}.bmg.json5'))
-        NinjaWriter.addPath(inputs, changePathEnding(baseFile, 'MKM.bmg.json5'))
-        NinjaWriter.addPath(inputs, changePathEnding(baseFile, f'MKM_{locale}.bmg.json5'))
+        add_to_set(inputs, change_stem_suffix(baseFile, f'_{locale}.bmg.json5'))
+        add_to_set(inputs, change_stem_suffix(baseFile, 'Wiimmfi.bmg.json5'))
+        add_to_set(inputs, change_stem_suffix(baseFile, f'Wiimmfi_{locale}.bmg.json5'))
+        add_to_set(inputs, change_stem_suffix(baseFile, 'MKM.bmg.json5'))
+        add_to_set(inputs, change_stem_suffix(baseFile, f'MKM_{locale}.bmg.json5'))
+
+        # Add the auto-generated messages to Common.bmg
         if file == 'Common':
-            inputs.append(bmgFile)
+            inputs.append(cupTextFile)
 
+        # Only run the merge tool if necessary
         if len(inputs) > 1:
-            writer.writeBuildCommand('bmg_merge',
-                                    destFile,
-                                    inputs,
-                                    out_short=destFile.stem,
-                                    region=locale)
+            writer.build('bmg_merge',
+                         destFile,
+                         inputs,
+                         out_short=destFile.stem,
+                         region=locale)
 
-            newDict = {destFile: Path('message', f'{file}.bmg')}
-            for dest in dests:
-                destKey = f'{dest}MKM_{locale}'
-                if destKey not in UI_ASSETS:
-                    UI_ASSETS[destKey] = {}
+        # Add the asset entry to each file that requires it
+        newDict = {destFile: Path('message', f'{file}.bmg')}
+        for dest in dests:
+            destKey = f'{dest}MKM_{locale}'
+            if destKey not in UI_ASSETS:
+                UI_ASSETS[destKey] = newDict
+            else:
                 UI_ASSETS[destKey] |= newDict
 
-# Write the Common asset commands
+# Initialize the asset manager and patch manager
+assetManager = GlobalAssetManager(writer)
+patchManager = RiivoPatchManager(writer, XML_FILE, XML_GAME_ID, XML_PATCH_NAME, XML_PATCH_ID, [LOADER_BUILD_XML])
+
+# Add Common assets
 for file, subFiles in COMMON_ASSETS.items():
-    for src, dest in subFiles.items():
-        dest = Path(COMMON_ASSETS_DIR, f'{file}.d', dest)
-        if not src.suffix:
-            commonAssetManager.addDir(src, dest)
-        else:
-            commonAssetManager.addFile(src, dest)
+    buildDir = Path(COMMON_ASSETS_BUILD_DIR, f'{file}.d')
+    packFile = Path(COMMON_ASSETS_FINAL_DIR, file).with_suffix('.szs')
+    assetManager.addManager(subFiles, COMMON_ASSETS_DIR, buildDir, packFile)
 
-# Write the SFX asset commands
-for src, dest in SFX_ASSETS.items():
-    sfxAssetManager.addFile(src, Path(SFX_OUT_DIR, dest))
+# Add SFX assets
+assetManager.addManager(SFX_ASSETS, SFX_DIR, SFX_FINAL_DIR, SFX_FINAL_DIR)
 
-# Write the UI asset commands
+# Add UI assets
 for file, subFiles in UI_ASSETS.items():
-    for src, dest in subFiles.items():
-        dest = Path(UI_ASSETS_DIR, f'{file}.d', dest)
-        if not src.suffix:
-            uiAssetManager.addDir(src, dest)
-        else:
-            uiAssetManager.addFile(src, dest)
+    buildDir = Path(UI_ASSETS_BUILD_DIR, f'{file}.d')
+    packFile = Path(UI_ASSETS_FINAL_DIR, file).with_suffix('.szs')
+    assetManager.addManager(subFiles, UI_ASSETS_DIR, buildDir, packFile)
 
-# Pack the Common assets
-writer.writeBuildCommand('pack_files',
-                        [Path(COMMON_ASSETS_PACKED_DIR, f'{file}.szs') for file in COMMON_ASSETS],
-                        ' '.join(map(str, commonAssetManager.outputs.values())),
-                        in_dir=COMMON_ASSETS_DIR,
-                        out_dir=COMMON_ASSETS_PACKED_DIR)
+# Write build commands
+assetManager.writeCommands()
 
-# Pack the UI assets
-writer.writeBuildCommand('pack_files',
-                        [Path(UI_ASSETS_PACKED_DIR, f'{file}.szs') for file in UI_ASSETS],
-                        ' '.join(map(str, uiAssetManager.outputs.values())),
-                        in_dir=UI_ASSETS_DIR,
-                        out_dir=UI_ASSETS_PACKED_DIR)
+# Create Riivolution patches
+patchManager.addPatch('folder',
+                      external=f'/{CODE_FINAL_DIR.relative_to(XML_ROOT_DIR)}',
+                      disc='/',
+                      create='true')
+
+patchManager.addPatch('folder',
+                      external=f'/{COMMON_ASSETS_FINAL_DIR.relative_to(XML_ROOT_DIR)}',
+                      disc=f'/{COMMON_ASSETS_PATCH_DIR}',
+                      create='true')
+
+patchManager.addPatch('folder',
+                      external=f'/{MUSIC_FINAL_DIR.relative_to(XML_ROOT_DIR)}',
+                      disc=f'/{MUSIC_PATCH_DIR}',
+                      create='true')
+
+patchManager.addPatch('folder',
+                      external=f'/{SFX_FINAL_DIR.relative_to(XML_ROOT_DIR)}',
+                      disc=f'/{SFX_PATCH_DIR}',
+                      create='true')
+
+patchManager.addPatch('folder',
+                      external=f'/{TRACKS_FINAL_DIR.relative_to(XML_ROOT_DIR)}',
+                      disc=f'/{TRACKS_PATCH_DIR}',
+                      create='true')
+
+patchManager.addPatch('folder',
+                      external=f'/{UI_ASSETS_FINAL_DIR.relative_to(XML_ROOT_DIR)}',
+                      disc=f'/{UI_ASSETS_PATCH_DIR}',
+                      create='true')
+
+patchManager.addPatch('memory',
+                      valuefile=f'/{LOADER_OUT_FILE.relative_to(XML_ROOT_DIR)}',
+                      offset=hex(LOADER_HOOK_ADDR))
+
+patchManager.writeCommand()
 
 # Write the file out
-with NINJA_FILE.open('w', encoding='utf-8') as f:
-    f.write(writer.buffer.getvalue())
+writer.flush(NINJA_FILE)

@@ -1,0 +1,45 @@
+#include <common/Common.hpp>
+#include <egg/core/eggExpHeap.hpp>
+#include <egg/core/eggScene.hpp>
+
+struct HeapCollection {
+
+    enum HeapTag {
+        DEFAULT,
+        RACE_DATA,
+        MISC,
+        UNK_3,
+        GEO_OBJ,
+        JMAP_AND_MDL,
+        MENU,
+        EFFECT,
+        AUDIO,
+        UNK_9,
+        RES,
+        HBM,
+        UNK_C,
+        NETWORKING,
+    };
+
+    EGG::ExpHeap* heapMem1;
+    EGG::ExpHeap* heapMem2;
+    EGG::ExpHeap* heapMemDebug;
+    EGG::ExpHeap::GroupSizeRecord records[3];
+};
+size_assert(HeapCollection, 0xC0C);
+
+class Scene : public EGG::Scene {
+public:
+    enum SceneID {
+        GAME_START,
+        MAIN_MENU,
+        RACE,
+        MULTI = 4,
+        BOOTSTRAP,
+        FLAG_OPEN = 12,
+    };
+
+    HeapCollection heapCollection;
+    u8 _C3C[0xC70 - 0xC3C]; // unused
+};
+size_assert(Scene, 0xC70);

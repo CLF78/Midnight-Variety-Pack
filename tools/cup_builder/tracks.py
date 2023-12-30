@@ -8,7 +8,7 @@ import os
 from qtpy import QtWidgets, QtGui
 from qtpy.QtCore import Qt
 
-from common import Track, Slot, Language, hashFile
+from common import Track, Slot, Language
 from widgets import getMainWindow
 
 class TrackEditor(QtWidgets.QDialog):
@@ -146,7 +146,6 @@ class TrackEditor(QtWidgets.QDialog):
                                             os.path.dirname(self.data.path),
                                             'YAZ0 Compressed File (*.szs)')[0]:
             self.data.path = file
-            self.data.trackHash = hashFile(file)
             self.trackPickPath.setText(file)
 
     def pickMusicFile(self, isFast: bool):
@@ -158,20 +157,17 @@ class TrackEditor(QtWidgets.QDialog):
 
             if isFast:
                 self.data.musicFileFast = file
-                self.data.fastMusicHash = hashFile(file)
                 self.musicPickPathFast.setText(file)
                 if not self.musicNameEditFast.text():
                     self.musicNameEditFast.setText(os.path.basename(os.path.splitext(file)[0]))
             else:
                 self.data.musicFile = file
-                self.data.musicHash = hashFile(file)
                 self.musicPickPath.setText(file)
                 if not self.musicNameEdit.text():
                     self.musicNameEdit.setText(os.path.basename(os.path.splitext(file)[0]))
 
     def removeFastMusic(self):
         self.data.musicFileFast = ''
-        self.data.fastMusicHash = ''
         self.data.musicNameFast = ''
         self.data.musicAuthorFast = ''
         self.musicPickPathFast.setText('')
@@ -266,16 +262,14 @@ class TrackList(QtWidgets.QWidget):
 
                 # Check that the file wasn't already added to the list
                 data = None
-                trackHash = hashFile(file)
                 for i in range(self.list.count()):
-                    if self.list.item(i).data(0x100).trackHash == trackHash:
+                    if self.list.item(i).data(0x100).trackFile == file:
                         data = self.list.item(i).data(0x100)
                         break
 
                 # If so, add it
                 if not data:
                     data = Track(file)
-                    data.trackHash = trackHash
                     self.addTrack(data)
 
                 # Else update the track path with the new one
