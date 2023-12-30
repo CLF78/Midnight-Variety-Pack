@@ -8,7 +8,7 @@ import os.path
 from qtpy import QtWidgets, QtGui
 from qtpy.QtCore import Qt
 
-from common import Track, Tracklist, RandomTrack, Cup, Language, hashFile
+from common import Track, Tracklist, RandomTrack, Cup, Language
 from randtracks import RandomTrackEditor
 from tracks import TrackEditor
 from widgets import getMainWindow, ModdedTreeWidget
@@ -65,7 +65,6 @@ class CupEditor(QtWidgets.QDialog):
             self.cupPic.setPixmap(img)
             self.layout().insertWidget(0, self.cupPic)
             self.data.iconFile = file
-            self.data.iconHash = hashFile(file)
             self.cupPath.setText(file)
 
     def updateCupNames(self):

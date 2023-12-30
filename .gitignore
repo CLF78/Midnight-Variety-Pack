@@ -1,5 +1,7 @@
-# CodeWarrior compiler
-cw
+# CodeWarrior files
+*.dll
+*.dat
+*.exe
 
 # Kamek build files/directories
 *.o
@@ -12,8 +14,8 @@ cw
 # Build artifacts
 build/
 out/
-game/cupsystem/CupData.cpp
-game/cupsystem/CupCounts.h
+payload/midnight/cup/CupData.cpp
+payload/midnight/cup/CupCounts.h
 *.ninja
 
 # Compiled Python scripts

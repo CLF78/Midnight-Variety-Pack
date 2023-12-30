@@ -7,6 +7,7 @@ import argparse
 import json5
 import os
 import subprocess
+from datetime import datetime
 from shutil import which
 
 from common import Language, Tracklist, Track, RandomTrack
@@ -122,7 +123,7 @@ class IconManager():
             linkPath(self.savedIcons[iconPath], destPath)
 
 
-def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFolder: str, codeFolder: str):
+def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFolder: str, codeFolder: str, logFile: str):
 
     # Call the JSON importer
     tracks, randTracks, cupLists = importData(jsonFile)
@@ -178,7 +179,7 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     warningStringWrap = '/' * (len(warningString) - 2)
 
     # Write the required include
-    cupDataFile.write('#include "cupsystem/CupData.h"\n\n')
+    cupDataFile.write('#include <midnight/cup/CupData.hpp>\n\n')
 
     # Write the warning string
     cupDataFile.write(warningStringWrap)
@@ -186,7 +187,7 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     cupDataFile.write(warningStringWrap)
 
     # Write the track data
-    cupDataFile.write('\n\nconst CupFile::Track CupFile::tracks[] = {\n')
+    cupDataFile.write('\n\nconst CupData::Track CupData::tracks[] = {\n')
     for track in tracks:
         songData = brstmMng.savedSongs[track.musicFile]
         newline = '    {%d, %d, %d, %d, %d, %d, %d, %d, %d},\n' % (
@@ -212,7 +213,7 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
         cupDataFile.write(newline2)
 
     # Write the random tracks themselves
-    cupDataFile.write('const CupFile::RandomTrack CupFile::randomTracks[] = {\n')
+    cupDataFile.write('const CupData::RandomTrack CupData::randomTracks[] = {\n')
     for i, randTrack in enumerate(randTracks, 1):
         newline = '    {ARRAY_SIZE(rnd_%d_trx), %d, rnd_%d_trx, rnd_%d_chn},\n' % (
                 i, bmgMng.usedIds[randTrack.names[0]], i, i)
@@ -221,21 +222,21 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
 
     # Write the cup lists
     for cupList, cupDir in zip(cupLists, Tracklist.getAllPretty()):
-        cupDataFile.write('const CupFile::Cup cups%s[] = {\n' % cupDir)
+        cupDataFile.write('const CupData::Cup cups%s[] = {\n' % cupDir)
         for cup in cupList:
             trackIndexes = []
             for track in cup.tracks:
                 if isinstance(track, Track):
                     trackIndexes.append(str(tracks.index(track)))
                 elif isinstance(track, RandomTrack):
-                    trackIndexes.append(f'IS_RANDOM | {randTracks.index(track)}')
+                    trackIndexes.append(f'CupData::IS_RANDOM | {randTracks.index(track)}')
             cupDataFile.write('    {%d, {%s}},\n' % (
                             bmgMng.usedIds[cup.names[0]],
                             ', '.join(trackIndexes)))
         cupDataFile.write('};\n\n')
 
     # Write the cup holder
-    cupDataFile.write('const CupFile::CupHolder CupFile::cupHolder[] = {\n')
+    cupDataFile.write('const CupData::CupList CupData::cupLists[] = {\n')
     for cupDir in Tracklist:
         newline = '    {%d, ARRAY_SIZE(cups%s), cups%s, CUP_ICON_DIR_%s "/%%d.tpl"},\n' % (
                     bmgMng.usedIds[cupDir.value], cupDir.value, cupDir.value, cupDir.name)
@@ -257,6 +258,22 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     cupDataFile.close()
     cupCountFile.close()
 
+    # Write the log file
+    with open(logFile, 'w', encoding='utf-8') as f:
+
+        # Write the intro line
+        f.write(f'{os.path.join(codeFolder, "CupData.cpp")}: ')
+
+        # Get all the paths from each manager and write them down
+        lines = [key for d in (szsMng.savedTracks, brstmMng.savedSongs, cupIconMng.savedIcons) for key in d.keys()]
+        f.write(' \\\n\t'.join(lines))
+        f.write(' ')
+
+    # Write the cup icon timestamp file
+    timestampFile = os.path.join(cupFolder, '.extracted')
+    with open(timestampFile, 'w', encoding='utf-8') as f:
+        f.write(str(datetime.now()))
+
 
 if __name__ == '__main__':
 
@@ -272,6 +289,7 @@ if __name__ == '__main__':
     parser.add_argument('brstmDir', help='The directory the music files will be exported to')
     parser.add_argument('iconDir', help='The directory the cup icon files will be exported to')
     parser.add_argument('codeDir', help='The directory the generated code will be exported to')
+    parser.add_argument('log_file', help='The file to export the log to')
     args = parser.parse_args()
 
     # Verify the cup file exists
@@ -285,6 +303,7 @@ if __name__ == '__main__':
     brstmDir = enforceAbsPath(args.brstmDir)
     iconDir = enforceAbsPath(args.iconDir)
     codeDir = enforceAbsPath(args.codeDir)
+    logFile = enforceAbsPath(args.log_file)
 
     # Run main
-    main(cupFile, bmgDir, szsDir, brstmDir, iconDir, codeDir)
+    main(cupFile, bmgDir, szsDir, brstmDir, iconDir, codeDir, logFile)

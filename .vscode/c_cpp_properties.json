@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "MarioKartMidnight",
+            "includePath": [
+                "${workspaceFolder}/payload/**",
+                "${workspaceFolder}/loader"
+            ],
+            "defines": [
+                "__CWCC__",
+                "CODE_REGION_P"
+            ],
+            "forcedInclude": [
+                "${workspaceFolder}/payload/common/Intellisense.h"
+            ],
+            "cStandard": "c99",
+            "cppStandard": "c++11"
+        }
+    ],
+    "version": 4
+}

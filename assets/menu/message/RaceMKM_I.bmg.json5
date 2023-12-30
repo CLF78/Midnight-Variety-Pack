@@ -1,0 +1,35 @@
+{
+    "1409": {
+        "string": "Corsa sfida a squadre - {arg message|0}{arg string|0}{arg message|1} - {arg integer|0 0}/{arg integer|1 0}",
+    },
+    "1410": {
+        "string": "{arg message|0} - 1ª corsa",
+    },
+    "1411": {
+        "string": "{arg message|0} - 2ª corsa",
+    },
+    "1412": {
+        "string": "{arg message|0} - 3ª corsa",
+    },
+    "1413": {
+        "string": "{arg message|0} - 4ª corsa",
+    },
+    "1414": {
+        "string": "Corsa sfida - {arg message|0}{arg string|0}{arg message|1} - {arg integer|0 0}/{arg integer|1 0}",
+    },
+    "1421": {
+        "string": "{arg message|0}",
+    },
+    "1422": {
+        "string": "Corsa sfida - {arg message|0}{arg string|0}{arg message|1}",
+    },
+    "1427": {
+        "string": "{1 char|}",
+    },
+    "1600": {
+        "string": "200cc",
+    },
+    "1601": {
+        "string": "500cc",
+    },
+}

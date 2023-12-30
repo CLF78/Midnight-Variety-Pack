@@ -111,7 +111,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Get file to save to
         mw = self.centralWidget()
         if file := mw.currentFile if mw.currentFile else \
-            QtWidgets.QFileDialog.getSaveFileName(self, 'Save Cup File To', 'cups.json5',
+            QtWidgets.QFileDialog.getSaveFileName(self, 'Save Cup File To', 'data.json5',
                                                 'Cup File Data (*.json5);;')[0]:
 
             # Initialize vars

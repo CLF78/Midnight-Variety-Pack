@@ -1,0 +1,35 @@
+{
+    "1409": {
+        "string": "{arg message|0}{arg string|0}{arg message|1}　VS　チーム戦　{arg integer|0 0}/{arg integer|1 0}",
+    },
+    "1410": {
+        "string": "{arg message|0}　1st レース",
+    },
+    "1411": {
+        "string": "{arg message|0}　2nd レース",
+    },
+    "1412": {
+        "string": "{arg message|0}　3rd レース",
+    },
+    "1413": {
+        "string": "{arg message|0}　ファイナルレース",
+    },
+    "1414": {
+        "string": "{arg message|0}{arg string|0}{arg message|1}　VS　{arg integer|0 0}/{arg integer|1 0}",
+    },
+    "1421": {
+        "string": "{arg message|0}",
+    },
+    "1422": {
+        "string": "{arg message|0}{arg string|0}{arg message|1} VS",
+    },
+    "1427": {
+        "string": "{1 char|}",
+    },
+    "1600": {
+        "string": "200cc",
+    },
+    "1601": {
+        "string": "500cc",
+    },
+}
