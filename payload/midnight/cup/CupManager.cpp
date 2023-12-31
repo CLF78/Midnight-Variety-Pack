@@ -52,6 +52,10 @@ u32 CupManager::getCupPositionFromButton(u32 button) {
 
 u32 CupManager::getCupPositionFromIdx(u32 idx, u32 page, bool isBattle) {
 
+    // If arrows are disabled, return the index as is
+    if (!GetCupArrowsEnabled(isBattle))
+        return idx;
+
     // Get the first cup displayed in the page
     u32 minCupIdx = page * 2;
 
@@ -93,6 +97,10 @@ u32 CupManager::getCupIdxFromButton(u32 button, u32 page, bool isBattle) {
 }
 
 u32 CupManager::getCupIdxFromPosition(u32 pos, u32 page, bool isBattle) {
+
+    // If arrows are disabled, return the position as is
+    if (!GetCupArrowsEnabled(isBattle))
+        return pos;
 
     // Get the first cup displayed in the page
     u32 minCupIdx = page * 2;

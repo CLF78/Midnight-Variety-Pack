@@ -17,7 +17,8 @@ kmCallDefCpp(0x80623E84, u32) {
 kmBranchDefCpp(0x80629854, NULL, BattleCupSelectPage*, BattleCupSelectPage* self) {
 
     // Update the children count
-    self->layoutCount++;
+    if (CupManager::GetCupArrowsEnabled(true))
+        self->layoutCount++;
 
     // Construct the extra cup buttons
     for (int i = 0; i < ARRAY_SIZE(self->extension.cupButtons); i++)
