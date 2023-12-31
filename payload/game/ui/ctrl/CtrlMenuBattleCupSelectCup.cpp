@@ -38,7 +38,7 @@ kmCallDefCpp(0x80839030, void, CtrlMenuBattleCupSelectCup* self, u32 playerFlags
     // Load the main controller
     u8 playerCount = UIUtils::getPlayerCount();
     const char* mainCtr = (playerCount <= 2) ? "CupSelectCupNULL" : "CupSelectCupNULL_4";
-    loader.load("control", "BattleCupSelectNULL", mainCtr, nullptr);
+    loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
     // Initialize children
     self->initChildren(8);

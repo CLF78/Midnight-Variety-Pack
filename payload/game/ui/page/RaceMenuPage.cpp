@@ -17,7 +17,7 @@ kmCallDefCpp(0x8085AE80, u32, int raceNum) {
 kmCallDefCpp(0x8085AF30, u32, int raceNum) {
 
     // Account for tiebreakers
-    raceNum = raceNum % (CupManager::GetCupCount(true) * 5);
+    raceNum = raceNum % (CupManager::GetCupCount(true) * 4);
 
     // Regular code
     u16 track = SectionManager::instance->globalContext->arenaOrder[raceNum];

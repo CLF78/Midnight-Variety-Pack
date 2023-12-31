@@ -67,11 +67,11 @@ kmCallDefCpp(0x8083906C, SheetSelectControl*, BattleCupSelectPage* page, int chi
     page->insertChild(childIdx, arrows, 0);
 
     // Determine the variant to use depending on the player count
-    const char* rightVar = "ButtonArrowRightBT";
-    const char* leftVar = "ButtonArrowLeftBT";
+    const char* rightVar = "ButtonArrowRight";
+    const char* leftVar = "ButtonArrowLeft";
     if (UIUtils::getPlayerCount() > 2) {
-        rightVar = "ButtonArrowRightBT2";
-        leftVar = "ButtonArrowLeftBT2";
+        rightVar = "ButtonArrowRight2";
+        leftVar = "ButtonArrowLeft2";
     }
 
     // Load BRCTR

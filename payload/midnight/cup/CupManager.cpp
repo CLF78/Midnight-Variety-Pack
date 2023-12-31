@@ -75,10 +75,9 @@ u32 CupManager::getCupIdxFromTrack(s32 track, bool isBattle) {
         return 0;
 
     // Find the first instance of the track
-    int maxJ = isBattle ? 5 : 4;
     const CupData::Cup* cup = GetCupList(isBattle);
     for (int i = 0; i < GetCupCount(isBattle); i++) {
-        for (int j = 0; j < maxJ; j++) {
+        for (int j = 0; j < 4; j++) {
             if (cup[i].entryId[j] == track)
                 return i;
         }
@@ -209,8 +208,7 @@ u32 CupManager::generateCourseOrder(u32 cupIdx, u32 track, bool isBattle) {
     GlobalContext* context = SectionManager::instance->globalContext;
     const CupData::Cup* cups = GetCupList(isBattle);
     const u32 cupCount = GetCupCount(isBattle);
-    const u32 tracksPerCup = isBattle ? 5 : 4;
-    const u32 raceCount = cupCount * tracksPerCup;
+    const u32 raceCount = cupCount * 4;
     u16* orderArray = isBattle ? context->arenaOrder : context->trackOrder;
 
     for (int i = 0; i < raceCount; i++) {
@@ -220,7 +218,7 @@ u32 CupManager::generateCourseOrder(u32 cupIdx, u32 track, bool isBattle) {
 
         // Update the track (and the cup if necessary)
         track++;
-        if (track == tracksPerCup) {
+        if (track == 4) {
             track = 0;
 
             cupIdx++;

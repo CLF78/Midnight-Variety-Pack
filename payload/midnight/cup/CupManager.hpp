@@ -49,7 +49,7 @@ public:
     static u16 trackOrder[VS_CUP_COUNT * 4];
 
     // The array used for arena ordering
-    static u16 arenaOrder[BATTLE_CUP_COUNT * 5];
+    static u16 arenaOrder[BATTLE_CUP_COUNT * 4];
 
     /////////////////
     // General API //

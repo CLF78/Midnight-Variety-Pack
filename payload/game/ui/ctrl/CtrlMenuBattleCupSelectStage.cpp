@@ -1,6 +1,8 @@
 #include <common/Common.hpp>
+#include <game/ui/ControlLoader.hpp>
 #include <game/ui/page/BattleCupSelectPage.hpp>
 #include <midnight/cup/CupManager.hpp>
+#include <platform/stdio.h>
 
 ///////////////////////////////////
 // Patches for Custom Cup System //
@@ -15,7 +17,7 @@ kmHookFn void SetArenaNames(CtrlMenuBattleCupSelectStage* self, u32 cupButtonId)
     u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage, true);
 
     // Update each track name
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
 
         // Get button
         LayoutUIControl* courseName = &self->courseNames[i];
@@ -51,3 +53,37 @@ kmPointerDefCpp(0x808D2EA0, void, CtrlMenuBattleCupSelectStage* self) {
     // Update Z-value
     self->zIndex = 10.0f;
 }
+
+// CtrlMenuBattleCupSelectStage::load() override
+// Replace the BRCTR and update the child count
+kmCallDefCpp(0x80839060, void, CtrlMenuBattleCupSelectStage* self) {
+
+    // Load the main controller
+    ControlLoader loader(self);
+    u8 playerCount = UIUtils::getPlayerCount();
+    const char* mainCtr = (playerCount <= 2) ? "CupSelectCourseNULL" : "CupSelectCourseNULL_4";
+    loader.load("control", "CupSelectNULL", mainCtr, nullptr);
+
+    // Initialize children
+    self->initChildren(4);
+    for (int i = 0; i < 4; i++) {
+
+        // Get button variant
+        char buffer[20];
+        snprintf(buffer, sizeof(buffer), "Course%d", i);
+
+        // Insert the button
+        LayoutUIControl* button = &self->courseNames[i];
+        self->insertChild(i, button);
+
+        // Initialize it
+        ControlLoader buttonLoader(button);
+        buttonLoader.load("control", "BattleCupSelectStage", buffer,
+                          CtrlMenuBattleCupSelectStage::animNames);
+    }
+}
+
+// Update button count in onUpdate
+kmWrite8(0x807E1177, 4);
+kmWrite8(0x807E1223, 4);
+kmWrite8(0x807E1143, 4);

@@ -132,8 +132,6 @@ class Tracklist(Enum):
     def getAllPretty() -> list[str]:
         return [i.value for i in Tracklist]
 
-    def getTrackCount(self) -> int:
-        return 5 if self == Tracklist.BT else 4
 
 
 class Track:
@@ -336,7 +334,7 @@ class Cup:
         if not checkPath(self.iconFile):
             errors.add(f'Invalid characters in filename {self.iconFile}!')
 
-        if len(self.tracks) != trlist.getTrackCount():
+        if len(self.tracks) != 4:
             errors.add(f'Invalid track count for {cupName}!')
 
         for track in self.tracks:

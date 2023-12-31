@@ -11,6 +11,9 @@ public:
     virtual const TypeInfo* getTypeInfo() const;
     virtual const char* getTypeName() const;
 
-    LayoutUIControl courseNames[5];
+    LayoutUIControl courseNames[4];
+    LayoutUIControl unused;
+
+    static const char* animNames[16];
 };
 size_assert(CtrlMenuBattleCupSelectStage, 0x8B8);

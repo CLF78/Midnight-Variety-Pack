@@ -11,10 +11,13 @@ public:
     virtual const TypeInfo* getTypeInfo() const;
     virtual const char* getTypeName() const;
 
-    CtrlMenuMovieButton courseButtons[5];
+    CtrlMenuMovieButton courseButtons[4];
+    CtrlMenuMovieButton unusedButton;
     LayoutUIControl _D90;
-    InputHandler0<CtrlMenuBattleStageSelectStage, void> onClickHandler;
-    InputHandler0<CtrlMenuBattleStageSelectStage, void> onSelectHandler;
+    InputHandler0<PushButton, void> onClickHandler;
+    InputHandler0<PushButton, void> onSelectHandler;
+
+    static const char* buttonAnims[6];
 };
 size_assert(CtrlMenuBattleStageSelectStage, 0xF2C);
 

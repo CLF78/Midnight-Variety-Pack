@@ -22,7 +22,7 @@ void BattleCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 l
     }
 
     // Remove the text in the course selection
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         self->stageHolder.courseNames[i].resetText();
     }
 }
@@ -47,7 +47,7 @@ void BattleCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 
     }
 
     // Remove the text in the course selection
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         self->stageHolder.courseNames[i].resetText();
     }
 }

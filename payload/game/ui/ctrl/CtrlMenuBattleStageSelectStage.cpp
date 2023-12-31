@@ -2,8 +2,10 @@
 #include <game/ui/ctrl/CtrlMenuBattleStageSelectStage.hpp>
 #include <game/ui/page/BattleStageSelectPage.hpp>
 #include <game/ui/page/BattleCupSelectPage.hpp>
+#include <game/ui/ControlLoader.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <midnight/cup/CupManager.hpp>
+#include <platform/stdio.h>
 
 ///////////////////////////////////
 // Patches for Custom Cup System //
@@ -19,7 +21,7 @@ kmPointerDefCpp(0x808D2F18, void, CtrlMenuBattleStageSelectStage* self) {
     u32 lastStage = SectionManager::instance->globalContext->lastStage;
     int selected = -1;
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
 
         // Get button
         PushButton* trackButton = &self->courseButtons[i];
@@ -45,3 +47,42 @@ kmPointerDefCpp(0x808D2F18, void, CtrlMenuBattleStageSelectStage* self) {
     if (selected == -1)
         coursePage->setSelection((PushButton*)&self->courseButtons[0]);
 }
+
+// CtrlMenuBattleStageSelectStage::load() override
+// Replace the BRCTR and update the child count
+kmCallDefCpp(0x8083CD30, void, CtrlMenuBattleStageSelectStage* self, u32 playerFlags, bool unk) {
+
+    // Initialize main loader
+    ControlLoader loader(self);
+
+    // Load the main controller
+    u8 playerCount = UIUtils::getPlayerCount();
+    const char* mainCtr = (playerCount <= 2) ? "CupSelectCourseNULL" : "CupSelectCourseNULL_4";
+    loader.load("control", "CupSelectNULL", mainCtr, nullptr);
+
+    // Initialize children
+    self->initChildren(4);
+    for (int i = 0; i < 4; i++) {
+
+        // Get button and its variant
+        CtrlMenuMovieButton* button = &self->courseButtons[i];
+        char buffer[20];
+        snprintf(buffer, sizeof(buffer), "Button%d", i);
+
+        // Insert it
+        self->insertChild(i, button);
+
+        // Initialize it
+        button->loadWithAnims(CtrlMenuBattleStageSelectStage::buttonAnims, "button",
+                              "BattleStageSelectStage", buffer, playerFlags, unk);
+        button->setOnClickHandler(&self->onClickHandler, 0);
+        button->setOnSelectHandler(&self->onSelectHandler);
+    }
+
+    // Set first button as default selection
+    self->courseButtons[0].selectDefault(0);
+}
+
+// CtrlMenuBattleStageSelectStage::onSelect() override
+// Do nothing
+kmPointerDefCpp(0x808BC440, void, CtrlMenuBattleStageSelectStage* self, PushButton* button, u32 unk) {}

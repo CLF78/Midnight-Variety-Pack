@@ -95,10 +95,8 @@ class CupEditor(QtWidgets.QDialog):
 
 
 class CupList(QtWidgets.QWidget):
-    def __init__(self, parent, trackCount):
+    def __init__(self, parent):
         super().__init__(parent)
-
-        self.trackCount = trackCount
 
         self.list = ModdedTreeWidget(self)
         self.list.itemDoubleClicked.connect(self.editItem)
@@ -173,13 +171,13 @@ class CupList(QtWidgets.QWidget):
         trackCount = len(tracks)
 
         # If there are less cups than necessary, add new cups
-        requiredCups = ((trackCount + (self.trackCount - 1)) // self.trackCount) - cupCount
+        requiredCups = ((trackCount + 3) // 4) - cupCount
         for _ in range(requiredCups):
             self.addItem(self.list, Cup())
 
         # Fill the cups and expand them
         for i, j in enumerate(tracks):
-            cup = self.list.topLevelItem(i // self.trackCount)
+            cup = self.list.topLevelItem(i // 4)
             cup.setExpanded(True)
             cup.addChild(j)
 
@@ -192,7 +190,7 @@ class CupListHolder(QtWidgets.QWidget):
         self.tabs = QtWidgets.QTabWidget(self)
 
         for i in Tracklist:
-            tab = CupList(self.tabs, Tracklist.getTrackCount(i))
+            tab = CupList(self.tabs)
             self.tabs.addTab(tab, i.value)
 
         lyt = QtWidgets.QVBoxLayout(self)

@@ -25,7 +25,7 @@ namespace CupData {
     // The texture id is inferred from the entry index
     struct Cup {
         u16 cupName; // The BMG id of the cup name
-        u16 entryId[5]; // The Track/RandomTrack entry index, depending on the IS_RANDOM flag
+        u16 entryId[4]; // The Track/RandomTrack entry index, depending on the IS_RANDOM flag
     };
 
     // Structure for cup lists
