@@ -1,0 +1,274 @@
+# Legend
+- ✅: Reimplemented
+- ⚠️: Reimplementation in progress
+- ⏭: Reimplementation not necessary
+- ❌: Not reimplemented yet
+
+# Wiimmfi Payload Hooks
+*Note: "bunch of antifreeze patches" is Leseratte's generic way to describe security fixes*
+- ❌ 800095c4 (Frameskip code)
+- ❌ 800095e4 (Frameskip code)
+- ❌ 800095f4 (Frameskip code)
+- ✅ 800ce220 (Friend status data buffer overflow fix)
+- ❌ 800ce7a4 (Improved NAT type detection)
+- ❌ 800cecb0 (Auto-reconnect: Fix issues with friend status)
+- ❌ 800cecbc (Auto-reconnect DWC stub implementation)
+- ❌ 800d01e4 (Auto-reconnect: Fix error 61070)
+- ✅ 800d0598 (Error 60000 skip)
+- ✅ 800d059c (Error 60000 skip)
+- ✅ 800d05a0 (Error 60000 skip)
+- ❌ 800d086c (Improved NAT type detection)
+- ❌ 800d0dd4 (Ultra-fast NATNEG)
+- ❌ 800d0de8 (Ultra-fast NATNEG)
+- ❌ 800d13f4 (Auto-reconnect DWC stub implementation - allow p2p while offline)
+- ❌ 800d1ddc (Auto-reconnect - don't close p2p conn when disconnecting)
+- ❌ 800d1f04 (Auto-reconnect - don't close p2p conn when disconnecting)
+- ❌ 800d1fdc (Auto-reconnect - don't close p2p conn when disconnecting)
+- ❌ 800d2058 (Auto-reconnect - don't close p2p conn when disconnecting)
+- ❌ 800d26dc (Auto-reconnect)
+- ❌ 800d2884 (NATNEG: Allow using custom port)
+- ❌ 800d28cc (Ultra-fast NATNEG)
+- ❌ 800d3050 (Auto-reconnect)
+- ❌ 800d3078 (Auto-reconnect)
+- ❌ 800d31a0 (Auto-reconnect)
+- ❌ 800d31bc (Auto-reconnect)
+- ❌ 800d31c4 (Ultra-fast NATNEG)
+- ❌ 800d3624 (Auto-reconnect)
+- ❌ 800d3c38 (Auto-reconnect)
+- ❌ 800d3ea0 (Auto-reconnect)
+- ❌ 800d3f1c ("Green triangle" code)
+- ❌ 800d8354 (NATNEG improvements)
+- ❌ 800d94f0 (Ultra-fast NATNEG)
+- ❌ 800d9754 (Ultra-fast NATNEG)
+- ❌ 800da7d0 (Ultra-fast NATNEG)
+- ❌ 800da7d4 (Ultra-fast NATNEG)
+- ❌ 800da7d8 (Ultra-fast NATNEG)
+- ❌ 800dbe30 (Auto-reconnect - handle p2p STATUS msgs while offline)
+- ❌ 800dc21c (Forgot what that's for, looks like Ultra-fast NATNEG)
+- ❌ 800dc49c (Auto-reconnect - stop ppl from joining during a reconnect)
+- ❌ 800dea18 (Auto-reconnect: Fix issues with friend status)
+- ❌ 800e09a8 ("Green triangle" code)
+- ❌ 800e1a58 (Ultra-fast NATNEG)
+- ❌ 800e1ca8 (Ultra-fast NATNEG)
+- ❌ 800e5680 (Auto-reconnect)
+- ❌ 800e58b8 and following (Bunch of antifreeze patches)
+- ❌ 800e5980 (Ultra-fast NATNEG)
+- ❌ 800e5a2c and following (Bunch of antifreeze patches)
+- ❌ 800e5b14 (Ultra-fast NATNEG)
+- ❌ 800e6778 (Ultra-fast NATNEG)
+- ❌ 800e7800 (Fix suspend bug)
+- ❌ 800ed4a0 (Auto-reconnect - stub some errors)
+- ❌ 800ed558 (Auto-reconnect - stub some errors)
+- ⏭ 800ed784 (Wiimmfi authentication) - not needed if we don't use the payload
+- ⏭ 800ed78c (Wiimmfi authentication) - not needed if we don't use the payload
+- ✅ 800edee8 (Wiimmfi authentication)
+- ❌ 800ee098 (Workaround for Dolphin bugs)
+- ❌ 800ee364 (Custom Wiimmfi error messages)
+- ❌ 800ee36c (Custom Wiimmfi error messages)
+- ❌ 800ee74c (Matchmaking anti-abuse)
+- ❌ 800ee9f8 (Wiimmfi status reports)
+- ❌ 800fcedc (Wiimmfi status reports)
+- ❌ 801007d8 (Wiimmfi status reports)
+- ❌ 8010e094 (NATNEG: Allow using custom port)
+- ❌ 80111534 (Matchmaking anti-abuse)
+- ❌ 8011ab28 (Improved NAT type detection)
+- ❌ 8011ab30 (Improved NAT type detection)
+- ❌ 8011b478 ("Green triangles" code)
+- ❌ 8011b4b0 ("Green triangles" code)
+- ⏭ 801938f8 (block IOS calls) - pointless security measure
+- ⏭ 80193a18 (block IOS calls) - pointless security measure
+- ⏭ 801d4f10 (set custom CA for payload download) - not needed if we don't use the payload
+- ⏭ 801d4f2c (set custom CA for payload download) - not needed if we don't use the payload
+- ❌ 8023b0e0 (Wiimmfi status reports)
+- ❌ 8027a688 (Auto-reconnect - login handler)
+- ❌ 80514d40 (Bunch of antifreeze patches)
+- ❌ 80514d58 (Bunch of antifreeze patches)
+- ❌ 80518afc (Bunch of antifreeze patches)
+- ❌ 80518b20 (Bunch of antifreeze patches)
+- ❌ 80519560 (Wiimmfi status reports)
+- ❌ 8051b69c (Frameskip code)
+- ❌ 80533660 (Wiimmfi status reports - detect race end)
+- ❌ 805348cc (Wiimmfi status reports - grab finish times)
+- ❌ 8053511c (Fix ultra shortcut glitch)
+- ❌ 80535c78 (Workaround for Dolphin bugs)
+- ❌ 8053f3f4 (Wiimmfi status reports - detect race end)
+- ❌ 8054DF88 (Frameskip code)
+- ❌ 805543a4 (Wiimmfi status reports)
+- ❌ 80562AD0 (Frameskip code)
+- ❌ 805845d8 (Bunch of antifreeze patches)
+- ❌ 80589acc (Bean's halfpipe glitch bugfix)
+- ❌ 80591b70 (Wiimmfi status reports)
+- ❌ 805cddc8 (Custom Wiimmfi error messages)
+- ❌ 805ce55c (Frameskip code)
+- ❌ 805d2ef8 (Bunch of antifreeze patches)
+- ❌ 805d2f00 (Bunch of antifreeze patches)
+- ❌ 805d8cf4 (Auto-reconnect: SELECT screen text update)
+- ❌ 805d9044 (Auto-reconnect: SELECT screen text update)
+- ❌ 805dce34 (Wiimmfi status reports - detect friend room start)
+- ❌ 80600d10 (supporting patch for the DNS exploit)
+- ❌ 806437cc (Auto-reconnect: SELECT screen text update)
+- ❌ 80643cb8 (Auto-reconnect: SELECT screen text update)
+- ❌ 80643ccc (Auto-reconnect: SELECT screen text update)
+- ❌ 80644404 (Auto-reconnect: SELECT screen text update)
+- ❌ 8064aaac (Auto-reconnect: SELECT screen text update)
+- ❌ 8064ecb4 (Auto-reconnect - handle exiting race while offline)
+- ❌ 8064f074 (Auto-reconnect - handle exiting race while offline)
+- ❌ 8064f60c (Auto-reconnect - handle exiting race while offline)
+- ❌ 8064f610 (Auto-reconnect - handle exiting race while offline)
+- ❌ 8064f618 (Auto-reconnect - handle exiting race while offline)
+- ❌ 8064f61c (Auto-reconnect - handle exiting race while offline)
+- ❌ 8064f620 (Auto-reconnect - handle exiting race while offline)
+- ❌ 8064f644 (Auto-reconnect - handle exiting race while offline)
+- ❌ 80654400 (Frameskip code)
+- ❌ 80657648 (Auto-reconnect)
+- ❌ 8065764c (Auto-reconnect)
+- ❌ 806579b0 (Wiimmfi tick for stuff that happens each frame)
+- ❌ 80657a6c (Auto-reconnect: Fix main thread)
+- ❌ 80658610 (Bunch of antifreeze patches)
+- ❌ 80658714 (Auto-reconnect)
+- ❌ 80658f7c (Ultra-fast NATNEG)
+- ❌ 8065a0ec (Auto-reconnect DWC stub implementation)
+- ❌ 8065a970 (Auto-reconnect)
+- ❌ 8065df44 (Bunch of antifreeze patches)
+- ❌ 8065ff5c (Fix suspend bug)
+- ❌ 80660330 (Fix suspend bug)
+- ❌ 80760a88 (Bunch of antifreeze patches)
+- ❌ 8079bf88 (Bunch of antifreeze patches)
+- ❌ 807a1914 (Bunch of antifreeze patches)
+- ❌ 807bc940 (Wiimmfi status reports)
+- ❌ 808d4100 (Frameskip code)
+- ⏭ 808d410c (Frameskip code) - pointless hook, does nothing
+
+## Inserted Instructions (OUTDATED)
+- ✅ 38c00010 at 800ce220
+- ❌ 488da475 at 800cecb0
+- ❌ 488da3f9 at 800cecbc
+- ❌ 488d8f28 at 800d01e4
+- ✅ 4801d0d5 at 800d0598
+- ✅ 488d8515 at 800d059c
+- ✅ 48000070 at 800d05a0
+- ❌ 488d4dc1 at 800d086c
+- ❌ 3c80809a at 800d0dd4
+- ❌ 60845d94 at 800d0de8
+- ❌ 488d630c at 800d13f4
+- ❌ 488d7255 at 800d1ddc
+- ❌ 488d7185 at 800d1f04
+- ❌ 488d70ad at 800d1fdc
+- ❌ 488d6fd9 at 800d2058
+- ❌ 488d4abc at 800d26dc
+- ❌ 488d24bd at 800d2884
+- ❌ 488d2e1d at 800d28cc
+- ❌ 488d6039 at 800d3050
+- ❌ 488d6011 at 800d3078
+- ❌ 488d5ebd at 800d31a0
+- ❌ 488d5ecd at 800d31bc
+- ❌ 488d5ddc at 800d31c4
+- ❌ 488d4e15 at 800d3624
+- ❌ 488d53f9 at 800d3c38
+- ❌ 488d51e9 at 800d3ea0
+- ❌ 488cf608 at 800d3f1c
+- ❌ 488d0904 at 800d8354
+- ❌ 488ccdc5 at 800d94f0
+- ❌ 488cf865 at 800d9754
+- ❌ 7fc3f378 at 800da7d0
+- ❌ 488cb155 at 800da7d4
+- ❌ 7c7d1b79 at 800da7d8
+- ❌ 488cd28d at 800dbe30
+- ❌ 488ccdd0 at 800dc21c
+- ❌ 488cad89 at 800dc49c
+- ❌ 38600003 at 800dea18
+- ❌ 488c2b7c at 800e09a8
+- ❌ 38c01b58 at 800e1a58
+- ❌ 488c3a68 at 800e1ca8
+- ❌ 488c2e29 at 800e5680
+- ❌ 88a10011 at 800e58b8
+- ❌ 28050080 at 800e58bc
+- ❌ 41810064 at 800e58c8
+- ❌ 60000000 at 800e58cc
+- ❌ 60000000 at 800e58d0
+- ❌ 3ca05a00 at 800e58d8
+- ❌ 7c053000 at 800e58ec
+- ❌ 488c0935 at 800e5980
+- ❌ 38e00004 at 800e5a2c
+- ❌ 7d033c2c at 800e5a3c
+- ❌ 9101000c at 800e5a40
+- ❌ 89010011 at 800e5a50
+- ❌ 28080080 at 800e5a54
+- ❌ 60000000 at 800e5a64
+- ❌ 60000000 at 800e5a74
+- ❌ 41810014 at 800e5a80
+- ❌ 488c07a1 at 800e5b14
+- ❌ 488c28a4 at 800e6778
+- ❌ 488c1414 at 800e7800
+- ❌ 488bb2b5 at 800ed4a0
+- ❌ 488bb1fd at 800ed558
+- ⏭ 488b3eb5 at 800ed784
+- ⏭ 488b3e15 at 800ed78c
+- ✅ 488b2891 at 800edee8
+- ❌ 488b262d at 800ee098
+- ❌ 3c80809b at 800ee364
+- ❌ 90a4b434 at 800ee36c
+- ❌ 488ba3c0 at 800ee9f8
+- ❌ 488ac084 at 800fcedc
+- ❌ 488a0768 at 801007d8
+- ❌ 4889ae6d at 8010e094
+- ❌ 4888aa05 at 8011ab28
+- ❌ 4888a9f5 at 8011ab30
+- ❌ 38830050 at 8011b478
+- ❌ 60000000 at 8011b4b0
+- ⏭ 4880dd9c at 801937e0
+- ⏭ 4880dc58 at 801938f8
+- ⏭ 487cc6cd at 801d4f10
+- ⏭ 487cc791 at 801d4f2c
+- ❌ 48769d48 at 8023b0e0
+- ❌ 809a90ec at 8027a670
+- ❌ 40800020 at 80514d58
+- ❌ 4848c5f8 at 80514d7c
+- ❌ 40800020 at 80518afc
+- ❌ 48488860 at 80518b20
+- ❌ 48488c31 at 80519560
+- ❌ 48475729 at 80533660
+- ❌ 48474468 at 805348cc
+- ❌ 484739f9 at 8053511c
+- ❌ 48473084 at 80535c78
+- ❌ 48469b95 at 8053f3f4
+- ❌ 4844e2d1 at 805543a4
+- ❌ 4841cd61 at 805845d8
+- ❌ 4841b045 at 80589acc
+- ❌ 48410e24 at 80591b70
+- ❌ 483dad19 at 805cddc8
+- ❌ 4bffffc4 at 805d2ef8
+- ❌ 4bffffbc at 805d2f00
+- ❌ 483ce5e5 at 805d8cf4
+- ❌ 483ce2bd at 805d9044
+- ❌ 483c6359 at 805dce34
+- ❌ 483a7d78 at 80600d10
+- ❌ 48363ab5 at 806437cc
+- ❌ 483635c9 at 80643cb8
+- ❌ 483635b5 at 80643ccc
+- ❌ 48362e7d at 80644404
+- ❌ 4835c7d5 at 8064aaac
+- ❌ 4e800020 at 8064ecb4
+- ❌ 483584fd at 8064f074
+- ❌ 48357ba9 at 8064f60c
+- ❌ 2c030001 at 8064f610
+- ❌ 60000000 at 8064f618
+- ❌ 60000000 at 8064f61c
+- ❌ 7fe3fb78 at 8064f620
+- ❌ 48357fd1 at 8064f644
+- ❌ 4834fea1 at 80657648
+- ❌ 60000000 at 8065764c
+- ❌ 4834a51d at 806579b0
+- ❌ 4834f79c at 80657a6c
+- ❌ 48349264 at 80658610
+- ❌ 4834ec14 at 80658714
+- ❌ 4834cd64 at 80658f7c
+- ❌ 4834d439 at 8065a0ec
+- ❌ 4834d75c at 8065a970
+- ❌ 48343231 at 8065df44
+- ❌ 48341b80 at 8065ff5c
+- ❌ 483419d5 at 80660330
+- ❌ 4824816d at 80760a88
+- ❌ 48204fe1 at 8079bf88
+- ❌ 48207251 at 807a1914
+- ❌ 481ec360 at 807bc940
