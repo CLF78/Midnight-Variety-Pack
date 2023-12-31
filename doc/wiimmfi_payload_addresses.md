@@ -134,7 +134,7 @@
 - ❌ 80660330 (Fix suspend bug)
 - ❌ 80760a88 (Bunch of antifreeze patches)
 - ❌ 8079bf88 (Bunch of antifreeze patches)
-- ❌ 807a1914 (Bunch of antifreeze patches)
+- ✅ 807a1914 (Stationary item collision momentum fix)
 - ❌ 807bc940 (Wiimmfi status reports)
 - ❌ 808d4100 (Frameskip code)
 - ⏭ 808d410c (Frameskip code) - pointless hook, does nothing
@@ -270,5 +270,5 @@
 - ❌ 483419d5 at 80660330
 - ❌ 4824816d at 80760a88
 - ❌ 48204fe1 at 8079bf88
-- ❌ 48207251 at 807a1914
+- ✅ 48207251 at 807a1914
 - ❌ 481ec360 at 807bc940
