@@ -1,0 +1,142 @@
+#include <common/Common.hpp>
+#include <dwc/dwc_base64.h>
+#include <platform/stdio.h>
+#include <platform/stdlib.h>
+#include <platform/string.h>
+#include <revolution/base/PPCArch.h>
+#include <revolution/es.h>
+#include <revolution/ios.h>
+#include <revolutionex/nhttp/NHTTP.h>
+#include <midnight/DolphinDevice.hpp>
+#include <wiimmfi/Auth.hpp>
+#include <wiimmfi/Port.hpp>
+#include <wiimmfi/Status.hpp>
+
+namespace Wiimmfi {
+namespace Auth {
+
+char sConsoleCert[];
+
+void AppendAuthParameters(NHTTPReq* req) {
+
+    // Send payload version
+    NHTTPAddPostDataAscii(req, "_payload_ver", PAYLOAD_VERSION);
+
+    // Get the console's certificate (the real authentication method)
+    // Only do this operation once
+    static bool sAuthdataParsed = false;
+
+    if (!sAuthdataParsed) {
+        ALIGN(32) char certBuf[0x180]; // IOS requires the output and the vector to be aligned by 32
+        ALIGN(32) IOSIoVector vec = {certBuf, sizeof(certBuf)};
+        s32 result = IOS_Ioctlv(__esFd, 0x1E, 0, 1, &vec);
+
+        // If IOS call fails, bail
+        if (result != IPC_OK)
+            return;
+
+        // Encode it
+        DWC_Base64Encode(certBuf, sizeof(certBuf), sConsoleCert, sizeof(sConsoleCert)-1);
+        sConsoleCert[sizeof(sConsoleCert)-1] = '\0';
+
+        // Mark data as obtained successfully
+        sAuthdataParsed = true;
+    }
+
+    // Send the certificate
+    NHTTPAddPostDataAscii(req, "_val1", sConsoleCert);
+
+    // Send patcher string
+    NHTTPAddPostDataAscii(req, "_patcher", PATCHER_TYPE);
+
+    // Send the IOS Version (but not the actual one)
+    NHTTPAddPostDataAscii(req, "_game_ios", IOS_VERSION);
+
+    // Send the console type (but not the actual one)
+    // Wiimmfi here does a couple of things:
+    // - Read 2 bytes at 0xCD8005A0
+    // * On Wii, this is a mirror of 0xCD8001A0, a random clock register (PLLSYS) whose value will be 0xFFFF
+    // * On other platforms, this is a register named LT_CHIPREVID, and the value will be 0xCAFE
+    // - Try to open /title/00000001/00000002/data/macaddr.bin
+    // * If the file exists, the console is a Wii Mini, so set the console type to 0x0C01
+    // - Get the count of titles with id 0000000100000200
+    // * The title is BC-NAND, which is vWii only, so if present set the console type to 0xCAFE
+    // We will pretend to be a regular Wii console on the PAL game
+    NHTTPAddPostDataAscii(req, "_console", CONSOLE_TYPE);
+
+    // Send the device ID XOR'd with Dolphin's default value
+    char deviceIdBuffer[28];
+    sprintf(deviceIdBuffer, "%08x-%08x-%08x", PPCGetECID_U() ^ DEFAULT_ECID_U,
+                                              PPCGetECID_M() ^ DEFAULT_ECID_M,
+                                              PPCGetECID_L() ^ DEFAULT_ECID_L);
+    NHTTPAddPostDataAscii(req, "_deviceID", deviceIdBuffer);
+
+    // Check if the user is on Dolphin by opening its device, and if so send the Dolphin version
+    if (DolphinDevice::Open()) {
+        const char* version = DolphinDevice::GetVersion();
+        if (version)
+            NHTTPAddPostDataAscii(req, "_dolphin_ver", version);
+    }
+
+    // TODO UPNP Port/Settings, Reconnect data
+}
+
+void ParseAuthResponse(const char* response) {
+
+    // Response type: p2pport
+    // Store the UPNP port to be used
+    if (strncmp(response, RESPONSE_P2P, sizeof(RESPONSE_P2P)-1) == 0) {
+        response += sizeof(RESPONSE_P2P)-1;
+        Wiimmfi::Port::port = atoi(response);
+    }
+
+    // Response type: msg
+    // Decode it and store it for display later
+    else if (strncmp(response, RESPONSE_MSG, sizeof(RESPONSE_MSG)-1) == 0) {
+        response += sizeof(RESPONSE_MSG)-1;
+
+        // TODO finish this
+        // 1) Get encoded len
+        // 2) Compute decoded len
+        // 3) Cap it to 790 and add 4
+        // 4) Decode it with base64
+        // 5) See rest of code for other steps
+    }
+
+    // Response type: xy
+    // Decode it and scramble it (wtf?)
+    // The unscrambled value will be signed and sent back later, presumably as a challenge
+    // The scrambled value will be used for sending status reports, i think
+    else if (strncmp(response, RESPONSE_XY, sizeof(RESPONSE_XY)-1) == 0) {
+        response += sizeof(RESPONSE_XY)-1;
+
+        // Decode the rest of the data
+        DWC_Base64Decode(response, DWC_GetEncodedSize(sizeof(Status::token)),
+                         Status::token, sizeof(Status::token));
+
+        // Encode the token
+        // Start by filling the array with garbage data
+        const int OFFSET = 0x20;
+        for (int i = 0; i < sizeof(Status::scrambledToken); i++) {
+            Status::scrambledToken[i] = i + OFFSET;
+        }
+
+        // Check if the token was decoded correctly from the response
+        if (Status::token[0]) {
+
+            // Use the key for scrambling the token
+            const char key[sizeof(Status::token)+1] = "0123456789,abcdefghijklmnopqrstuvwxyz|=+-_";
+
+            // Use the key character as an offset into the scrambled token
+            // No idea what the fuck this is supposed to do
+            for (int i = 0; i < sizeof(Status::token); i++) {
+                char c = Status::token[i];
+                char pos = key[i];
+                Status::scrambledToken[pos - OFFSET] = c;
+            }
+        }
+    }
+}
+
+} // namespace Auth
+} // namespace Wiimmfi

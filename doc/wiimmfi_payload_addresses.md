@@ -59,14 +59,14 @@
 - ❌ 800e7800 (Fix suspend bug)
 - ❌ 800ed4a0 (Auto-reconnect - stub some errors)
 - ❌ 800ed558 (Auto-reconnect - stub some errors)
-- ⏭ 800ed784 (Wiimmfi authentication) - not needed if we don't use the payload
-- ⏭ 800ed78c (Wiimmfi authentication) - not needed if we don't use the payload
-- ✅ 800edee8 (Wiimmfi authentication)
+- ⏭ 800ed784 (Authentication) - not needed if we don't use the payload
+- ⏭ 800ed78c (Authentication) - not needed if we don't use the payload
+- ⚠️ 800edee8 (Authentication)
 - ❌ 800ee098 (Workaround for Dolphin bugs)
 - ❌ 800ee364 (Custom Wiimmfi error messages)
 - ❌ 800ee36c (Custom Wiimmfi error messages)
 - ❌ 800ee74c (Matchmaking anti-abuse)
-- ❌ 800ee9f8 (Wiimmfi status reports)
+- ⚠️ 800ee9f8 (Parse authentication response)
 - ❌ 800fcedc (Wiimmfi status reports)
 - ❌ 801007d8 (Wiimmfi status reports)
 - ❌ 8010e094 (NATNEG: Allow using custom port)
@@ -204,11 +204,11 @@
 - ❌ 488bb1fd at 800ed558
 - ⏭ 488b3eb5 at 800ed784
 - ⏭ 488b3e15 at 800ed78c
-- ✅ 488b2891 at 800edee8
+- ⚠️ 488b2891 at 800edee8
 - ❌ 488b262d at 800ee098
 - ❌ 3c80809b at 800ee364
 - ❌ 90a4b434 at 800ee36c
-- ❌ 488ba3c0 at 800ee9f8
+- ⚠️ 488ba3c0 at 800ee9f8
 - ❌ 488ac084 at 800fcedc
 - ❌ 488a0768 at 801007d8
 - ❌ 4889ae6d at 8010e094

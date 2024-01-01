@@ -1,0 +1,50 @@
+#include <common/Common.hpp>
+
+// TODO Depending on how the reveal goes, we might change this to provide real details
+namespace Wiimmfi {
+namespace Auth {
+
+    ///////////////
+    // Constants //
+    ///////////////
+
+    // The payload version we pretend to be on
+    // This is the latest version
+    const char PAYLOAD_VERSION[] = "96";
+
+    // The patcher we pretend to be using
+    // This is the pre-encoded version of "LE-CODE GCT v1" (plus asterisks)
+    const char PATCHER_TYPE[] = "TEUtQ09ERSBHQ1QgdjEgACoqKioqKioqKioqKioqKioqKioqKioqKioq";
+
+    // The IOS version we pretend to be using, as Wiimmfi doesn't need this information
+    // This is the pre-encoded Dolphin default for the PAL game
+    const char IOS_VERSION[] = "MzY*";
+
+    // The console type and region we pretend to be on, as Wiimmfi doesn't need this information
+    // This is the pre-computed string for regular Wii on the PAL version
+    const char CONSOLE_TYPE[] = "ffff-P";
+
+    // The heading of each response type
+    const char RESPONSE_P2P[] = "p2pport=";
+    const char RESPONSE_MSG[] = "msg=";
+    const char RESPONSE_XY[] = "xy=";
+
+    ///////////////
+    // Functions //
+    ///////////////
+
+    // Append the aforementioned parameters to the login request, along with some others
+    void AppendAuthParameters(NHTTPReq* req);
+
+    // Parses the login response
+    void ParseAuthResponse(const char* response);
+
+    ///////////////
+    // Variables //
+    ///////////////
+
+    // The base64-encoded console certificate
+    extern char sConsoleCert[513];
+
+} // namespace Auth
+} // namespace Wiimmfi
