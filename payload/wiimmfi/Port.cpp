@@ -2,3 +2,4 @@
 #include <wiimmfi/Port.hpp>
 
 u16 Wiimmfi::Port::port;
+u16 Wiimmfi::Port::userPort;

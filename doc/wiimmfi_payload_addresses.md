@@ -5,7 +5,7 @@
 - ❌: Not reimplemented yet
 
 # Wiimmfi Payload Hooks
-*Note: "bunch of antifreeze patches" is Leseratte's generic way to describe security fixes*
+*Note: "bunch of antifreeze patches" is Leseratte's generic way to describe security fixes.*
 - ❌ 800095c4 (Frameskip code)
 - ❌ 800095e4 (Frameskip code)
 - ❌ 800095f4 (Frameskip code)
@@ -68,7 +68,7 @@
 - ❌ 800ee74c (Matchmaking anti-abuse)
 - ⚠️ 800ee9f8 (Parse authentication response)
 - ❌ 800fcedc (Wiimmfi status reports)
-- ❌ 801007d8 (Wiimmfi status reports)
+- ✅ 801007d8 (Report signature and certificate)
 - ❌ 8010e094 (NATNEG: Allow using custom port)
 - ❌ 80111534 (Matchmaking anti-abuse)
 - ❌ 8011ab28 (Improved NAT type detection)
@@ -210,7 +210,7 @@
 - ❌ 90a4b434 at 800ee36c
 - ⚠️ 488ba3c0 at 800ee9f8
 - ❌ 488ac084 at 800fcedc
-- ❌ 488a0768 at 801007d8
+- ✅ 488a0768 at 801007d8
 - ❌ 4889ae6d at 8010e094
 - ❌ 4888aa05 at 8011ab28
 - ❌ 4888a9f5 at 8011ab30

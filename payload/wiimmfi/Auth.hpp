@@ -1,6 +1,7 @@
 #include <common/Common.hpp>
+#include <revolutionex/nhttp/NHTTPInternal.h>
 
-// TODO Depending on how the reveal goes, we might change this to provide real details
+// TODO Depending on how the reveal goes, change this to provide real information
 namespace Wiimmfi {
 namespace Auth {
 
@@ -43,7 +44,7 @@ namespace Auth {
     // Variables //
     ///////////////
 
-    // The base64-encoded console certificate
+    // The base64-encoded console certificate (pre-computed length)
     extern char sConsoleCert[513];
 
 } // namespace Auth

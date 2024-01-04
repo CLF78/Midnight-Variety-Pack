@@ -32,7 +32,7 @@ typedef struct {
     u64 startTick;
     u32 connectFlag;
     u64 connectTick;
-    DWCAccLoginId tempLoginId;
+    DWCLoginId tempLoginId;
     char authToken[256];
     char partnerChallenge[256];
     char username[21];

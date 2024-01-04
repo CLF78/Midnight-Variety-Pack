@@ -1,0 +1,37 @@
+#include <common/Common.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef enum {
+    GT2_CLOSE_LOCAL,
+    GT2_CLOSE_REMOTE,
+    GT2_CLOSE_COMM_ERR,
+    GT2_CLOSE_SOCKET_ERR,
+    GT2_CLOSE_OUT_OF_MEMORY,
+} GT2CloseReason;
+
+typedef enum {
+    GT2_PROTOCOL_UDP,
+    GT2_PROTOCOL_VDP = 2,
+    GT2_PROTOCOL_ADHOC,
+} GT2Protocol;
+
+typedef enum {
+    GT2_RESULT_SUCCESS,
+    GT2_RESULT_OUT_OF_MEMORY,
+    GT2_RESULT_REJECTED,
+    GT2_RESULT_NETWORK_ERROR,
+    GT2_RESULT_ADDRESS_ERROR,
+    GT2_RESULT_DUPLICATE_ADDR,
+    GT2_RESULT_TIMED_OUT,
+    GT2_RESULT_NEGOTIATION_ERROR,
+    GT2_RESULT_INVALID_CONN,
+    GT2_RESULT_INVALID_MSG,
+    GT2_RESULT_SEND_FAILED,
+} GT2Result;
+
+#ifdef __cplusplus
+}
+#endif

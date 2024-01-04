@@ -12,7 +12,9 @@
 kmCallDefCpp(0x800EDEE8, void, NHTTPReq* req, const char* key, const char* val) {
 
     // Original call
+    IGNORE_ERR(167)
     NHTTPAddPostDataAscii(req, key, val);
+    UNIGNORE_ERR(167)
 
     // Send Wiimmfi data
     Wiimmfi::Auth::AppendAuthParameters(req);

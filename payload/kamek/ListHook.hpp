@@ -39,3 +39,4 @@ public:
 
 kmDefineListHook(RaceStartHook);
 kmDefineListHook(BootHook);
+kmDefineListHook(NetShutdownHook);

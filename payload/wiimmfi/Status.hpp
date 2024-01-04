@@ -3,13 +3,14 @@
 namespace Wiimmfi {
 namespace Status {
 
-    ///////////////
-    // Variables //
-    ///////////////
+    // Decode the token received from the server and scrambles it
+    void DecodeToken(const char* encodedToken);
 
-    // The token used for Wiimmfi messaging, in both regular and scrambled form
-    extern char token[42];
-    extern char scrambledToken[96];
+    // Sends a status message to the server
+    void SendMessage(const char* key, const char* value, int statusCode = -1);
+
+    // The token received on login
+    extern char* token;
 
 } // namespace Port
 } // namespace Wiimmfi

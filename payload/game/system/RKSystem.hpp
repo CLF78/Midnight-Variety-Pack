@@ -49,5 +49,9 @@ public:
     u8 _6B;
     u8 _6C;
     u32 _70;
+
+    static RKSystem instance;
 };
 size_assert(RKSystem, 0x74);
+
+#define KAMEK_HEAP RKSystem::instance.EGGSystem

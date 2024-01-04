@@ -10,3 +10,4 @@ void kmListHook::execute() {
 
 kmCreateListHook(RaceStartHook, 0x80554728);
 kmCreateListHook(BootHook, 0x800074A0);
+kmCreateListHook(NetShutdownHook, 0x80657A6C);

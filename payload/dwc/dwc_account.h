@@ -5,14 +5,37 @@ extern "C" {
 #endif
 
 typedef struct {
-    u32 userId[2]; // actually u64, but CW is stupid and adds padding when there isn't any
+    u32 flags;
+    u32 reserved[2];
+} DWCAccFlag;
+
+typedef struct {
+    u32 userId[2];
     u32 playerId;
-} DWCAccLoginId;
+} DWCLoginId;
+
+typedef struct {
+    u32 id_data;
+    u32 friendkey[2];
+} DWCFriendKey;
+
+typedef struct {
+    u32 id_data;
+    int id;
+    u32 reserved;
+} DWCGsProfileId;
+
+typedef union {
+    DWCAccFlag flags;
+    DWCLoginId login_id;
+    DWCFriendKey friend_key;
+    DWCGsProfileId gs_profile_id;
+} DWCFriendData;
 
 typedef struct {
     int size;
-    DWCAccLoginId pseudo;
-    DWCAccLoginId authentic;
+    DWCLoginId pseudo;
+    DWCLoginId authentic;
     int gs_profile_id;
     int flag;
     u32 gamecode;

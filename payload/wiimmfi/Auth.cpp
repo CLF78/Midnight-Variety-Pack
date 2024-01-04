@@ -4,8 +4,8 @@
 #include <platform/stdlib.h>
 #include <platform/string.h>
 #include <revolution/base/PPCArch.h>
-#include <revolution/es.h>
-#include <revolution/ios.h>
+#include <revolution/es/es.h>
+#include <revolution/os/OS.h>
 #include <revolutionex/nhttp/NHTTP.h>
 #include <midnight/DolphinDevice.hpp>
 #include <wiimmfi/Auth.hpp>
@@ -20,27 +20,27 @@ char sConsoleCert[];
 void AppendAuthParameters(NHTTPReq* req) {
 
     // Send payload version
+    IGNORE_ERR(167)
     NHTTPAddPostDataAscii(req, "_payload_ver", PAYLOAD_VERSION);
 
     // Get the console's certificate (the real authentication method)
     // Only do this operation once
-    static bool sAuthdataParsed = false;
+    static bool sCertObtained = false;
 
-    if (!sAuthdataParsed) {
+    if (!sCertObtained) {
         ALIGN(32) char certBuf[0x180]; // IOS requires the output and the vector to be aligned by 32
-        ALIGN(32) IOSIoVector vec = {certBuf, sizeof(certBuf)};
-        s32 result = IOS_Ioctlv(__esFd, 0x1E, 0, 1, &vec);
+        s32 result = ES_GetDeviceCert((u8*)certBuf);
 
         // If IOS call fails, bail
-        if (result != IPC_OK)
+        if (result != ES_ERR_OK)
             return;
 
         // Encode it
-        DWC_Base64Encode(certBuf, sizeof(certBuf), sConsoleCert, sizeof(sConsoleCert)-1);
-        sConsoleCert[sizeof(sConsoleCert)-1] = '\0';
+        int len = DWC_Base64Encode(certBuf, sizeof(certBuf), sConsoleCert, sizeof(sConsoleCert)-1);
+        sConsoleCert[len] = '\0';
 
         // Mark data as obtained successfully
-        sAuthdataParsed = true;
+        sCertObtained = true;
     }
 
     // Send the certificate
@@ -79,6 +79,7 @@ void AppendAuthParameters(NHTTPReq* req) {
     }
 
     // TODO UPNP Port/Settings, Reconnect data
+    UNIGNORE_ERR(167)
 }
 
 void ParseAuthResponse(const char* response) {
@@ -104,37 +105,10 @@ void ParseAuthResponse(const char* response) {
     }
 
     // Response type: xy
-    // Decode it and scramble it (wtf?)
-    // The unscrambled value will be signed and sent back later, presumably as a challenge
-    // The scrambled value will be used for sending status reports, i think
+    // Decode the token and scramble it
     else if (strncmp(response, RESPONSE_XY, sizeof(RESPONSE_XY)-1) == 0) {
         response += sizeof(RESPONSE_XY)-1;
-
-        // Decode the rest of the data
-        DWC_Base64Decode(response, DWC_GetEncodedSize(sizeof(Status::token)),
-                         Status::token, sizeof(Status::token));
-
-        // Encode the token
-        // Start by filling the array with garbage data
-        const int OFFSET = 0x20;
-        for (int i = 0; i < sizeof(Status::scrambledToken); i++) {
-            Status::scrambledToken[i] = i + OFFSET;
-        }
-
-        // Check if the token was decoded correctly from the response
-        if (Status::token[0]) {
-
-            // Use the key for scrambling the token
-            const char key[sizeof(Status::token)+1] = "0123456789,abcdefghijklmnopqrstuvwxyz|=+-_";
-
-            // Use the key character as an offset into the scrambled token
-            // No idea what the fuck this is supposed to do
-            for (int i = 0; i < sizeof(Status::token); i++) {
-                char c = Status::token[i];
-                char pos = key[i];
-                Status::scrambledToken[pos - OFFSET] = c;
-            }
-        }
+        Status::DecodeToken(response);
     }
 }
 
