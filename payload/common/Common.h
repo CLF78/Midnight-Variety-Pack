@@ -44,9 +44,12 @@ typedef void (*Func)();
 // Macros
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define ALIGN(a) __attribute__ ((aligned(a)))
+#define BOOL s32
 #define MIN(a, b) (((b) < (a)) ? (b) : (a))
 #define MAX(a, b) (((a) < (b)) ? (b) : (a))
 #define STRINGIFY(x) #x
+#define FALSE 0
+#define TRUE 1
 
 #ifdef __INTELLISENSE__
     #define AT_ADDR(addr)
@@ -56,13 +59,6 @@ typedef void (*Func)();
     #define AT_ADDR(addr) : (addr);
     #define IGNORE_ERR(err)
     #define UNIGNORE_ERR(err)
-#endif
-
-// C-specific stuff
-#ifndef __cplusplus
-#define bool s32
-#define false 0
-#define true 1
 #endif
 
 // Include other base headers

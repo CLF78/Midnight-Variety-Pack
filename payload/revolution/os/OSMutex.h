@@ -14,7 +14,7 @@ struct OSMutex {
 
 void OSLockMutex(OSMutex* mutex);
 void OSUnlockMutex(OSMutex* mutex);
-bool OSTryLockMutex(OSMutex* mutex);
+BOOL OSTryLockMutex(OSMutex* mutex);
 
 #ifdef __cplusplus
 }

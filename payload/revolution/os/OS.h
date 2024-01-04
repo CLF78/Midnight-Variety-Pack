@@ -10,9 +10,9 @@ extern "C" {
 #define OSRoundDown32B(x) (((u32)(x)) & ~(32 - 1))
 
 // Interrupt API
-bool OSDisableInterrupts();
-bool OSEnableInterrupts();
-bool OSRestoreInterrupts(bool interrupts);
+BOOL OSDisableInterrupts();
+BOOL OSEnableInterrupts();
+BOOL OSRestoreInterrupts(BOOL interrupts);
 
 // Report API
 void OSReport(char* format, ...);

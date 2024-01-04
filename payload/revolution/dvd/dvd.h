@@ -59,15 +59,15 @@ typedef struct {
 
 s32 DVDConvertPathToEntrynum(const char* path);
 
-bool DVDFastOpen(s32 entrynum, DVDFileInfo* fileInfo);
-bool DVDOpen(const char* fileName, DVDFileInfo* fileInfo);
+BOOL DVDFastOpen(s32 entrynum, DVDFileInfo* fileInfo);
+BOOL DVDOpen(const char* fileName, DVDFileInfo* fileInfo);
 
 s32 DVDReadPrio(DVDFileInfo* fileInfo, void* addr, s32 length, s32 offset, s32 prio);
 
-bool DVDClose(DVDFileInfo* fileInfo);
+BOOL DVDClose(DVDFileInfo* fileInfo);
 
-bool DVDOpenDir(const char* dirName, DVDDir* dir); // Reimplemented function
-bool DVDReadDir(DVDDir* dir, DVDDirEntry* dirent); // Reimplemented function
+BOOL DVDOpenDir(const char* dirName, DVDDir* dir); // Reimplemented function
+BOOL DVDReadDir(DVDDir* dir, DVDDirEntry* dirent); // Reimplemented function
 
 #ifdef __cplusplus
 }

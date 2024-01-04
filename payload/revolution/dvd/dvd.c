@@ -2,7 +2,7 @@
 #include <revolution/dvd/dvd.h>
 
 typedef struct {
-    bool isDir : 8;
+    BOOL isDir : 8;
     u32 stringOffs : 24;
 
     union {
@@ -20,7 +20,7 @@ typedef struct {
 extern FSTEntry* FstStart;
 extern char* FstStringStart;
 
-bool DVDIsDir(s32 entrynum) {
+BOOL DVDIsDir(s32 entrynum) {
     return FstStart[entrynum].isDir;
 }
 
@@ -32,31 +32,31 @@ u32 DVDNextDir(s32 entrynum) {
     return FstStart[entrynum].nextEntry;
 }
 
-bool DVDOpenDir(const char* dirName, DVDDir* dir) {
+BOOL DVDOpenDir(const char* dirName, DVDDir* dir) {
 
     s32 entry = DVDConvertPathToEntrynum(dirName);
     if (entry < 0)
-        return false;
+        return FALSE;
 
     if (!DVDIsDir(entry))
-        return false;
+        return FALSE;
 
     dir->entryNum = entry;
     dir->location = entry + 1;
     dir->next = DVDNextDir(entry);
-    return true;
+    return TRUE;
 }
 
-bool DVDReadDir(DVDDir* dir, DVDDirEntry* dirent) {
+BOOL DVDReadDir(DVDDir* dir, DVDDirEntry* dirent) {
 
     u32 loc = dir->location;
     if (loc <= dir->entryNum || dir->next <= loc)
-        return false;
+        return FALSE;
 
     dirent->entryNum = loc;
     dirent->isDir = DVDIsDir(loc);
     dirent->name = FstStringStart + DVDGetStringOffs(loc);
 
     dir->location = DVDIsDir(loc) ? DVDNextDir(loc) : (loc+1);
-    return true;
+    return TRUE;
 }
