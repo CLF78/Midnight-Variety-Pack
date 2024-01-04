@@ -2,7 +2,7 @@
 #include <game/ui/ControlInputManager.hpp>
 #include <game/ui/InputHandler.hpp>
 #include <game/ui/LayoutUIControl.hpp>
-#include <platform/new.h>
+#include <platform/new.hpp>
 
 class PushButton : public LayoutUIControl {
 public:

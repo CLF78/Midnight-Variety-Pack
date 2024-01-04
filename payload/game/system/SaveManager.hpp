@@ -1,6 +1,6 @@
 #include <common/Common.hpp>
 #include <egg/core/eggDisposer.hpp>
-#include <platform/new.h>
+#include <platform/new.hpp>
 #include <game/system/Mii.hpp>
 #include <game/system/Timer.hpp>
 #include <midnight/save/SaveExpansion.hpp>
