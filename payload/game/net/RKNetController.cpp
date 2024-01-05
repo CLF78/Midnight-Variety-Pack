@@ -1,7 +1,11 @@
 #include <common/Common.hpp>
 #include <wiimmfi/Status.hpp>
 
-// Hook network shutdown to do some cleanup
+/////////////////////
+// Wiimmfi Patches //
+/////////////////////
+
+// Hook network shutdown to do some cleanup (not ported)
 kmListHookDefCpp(NetShutdownHook) {
 
     // Delete the Wiimmfi messaging token

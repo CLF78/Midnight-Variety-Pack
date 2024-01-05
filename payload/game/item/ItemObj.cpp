@@ -1,5 +1,9 @@
 #include <common/Common.hpp>
 
+////////////////////
+// Game Bug Fixes //
+////////////////////
+
 // Ensure stationary items hitting each other have zero momentum (ported from Wiimmfi payload)
 kmCallDefAsm(0x807A1914) {
     nofralloc
