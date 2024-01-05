@@ -263,7 +263,7 @@ class TrackList(QtWidgets.QWidget):
                 # Check that the file wasn't already added to the list
                 data = None
                 for i in range(self.list.count()):
-                    if self.list.item(i).data(0x100).trackFile == file:
+                    if self.list.item(i).data(0x100).path == file:
                         data = self.list.item(i).data(0x100)
                         break
 
