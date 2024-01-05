@@ -46,7 +46,7 @@
 - ❌ 800dbe30 (Auto-reconnect - handle p2p STATUS msgs while offline)
 - ❌ 800dc21c (Forgot what that's for, looks like Ultra-fast NATNEG)
 - ❌ 800dc49c (Auto-reconnect - stop ppl from joining during a reconnect)
-- ❌ 800dea18 (Auto-reconnect: Fix issues with friend status)
+- ❌ 800dea18 (Auto-reconnect - Fix issues with friend status)
 - ❌ 800e09a8 ("Green triangle" code)
 - ❌ 800e1a58 (Ultra-fast NATNEG)
 - ❌ 800e1ca8 (Ultra-fast NATNEG)
@@ -59,8 +59,8 @@
 - ❌ 800e7800 (Fix suspend bug)
 - ❌ 800ed4a0 (Auto-reconnect - stub some errors)
 - ❌ 800ed558 (Auto-reconnect - stub some errors)
-- ⏭ 800ed784 (Authentication) - not needed if we don't use the payload
-- ⏭ 800ed78c (Authentication) - not needed if we don't use the payload
+- ⏭ 800ed784 (Authentication - not needed if we don't use the payload)
+- ⏭ 800ed78c (Authentication - not needed if we don't use the payload)
 - ⚠️ 800edee8 (Authentication)
 - ❌ 800ee098 (Workaround for Dolphin bugs)
 - ❌ 800ee364 (Custom Wiimmfi error messages)
@@ -75,10 +75,10 @@
 - ❌ 8011ab30 (Improved NAT type detection)
 - ❌ 8011b478 ("Green triangles" code)
 - ❌ 8011b4b0 ("Green triangles" code)
-- ⏭ 801938f8 (block IOS calls) - pointless security measure
-- ⏭ 80193a18 (block IOS calls) - pointless security measure
-- ⏭ 801d4f10 (set custom CA for payload download) - not needed if we don't use the payload
-- ⏭ 801d4f2c (set custom CA for payload download) - not needed if we don't use the payload
+- ⏭ 801938f8 (Block IOS calls) - pointless security measure
+- ⏭ 80193a18 (Block IOS calls) - pointless security measure
+- ⏭ 801d4f10 (Set custom CA for payload download) - not needed if we don't use the payload
+- ⏭ 801d4f2c (Set custom CA for payload download) - not needed if we don't use the payload
 - ❌ 8023b0e0 (Wiimmfi status reports)
 - ❌ 8027a688 (Auto-reconnect - login handler)
 - ❌ 80514d40 (Bunch of antifreeze patches)
@@ -104,7 +104,7 @@
 - ❌ 805d2f00 (Bunch of antifreeze patches)
 - ❌ 805d8cf4 (Auto-reconnect: SELECT screen text update)
 - ❌ 805d9044 (Auto-reconnect: SELECT screen text update)
-- ❌ 805dce34 (Wiimmfi status reports - detect friend room start)
+- ✅ 805dce34 (Detect friend room start)
 - ❌ 80600d10 (supporting patch for the DNS exploit)
 - ❌ 806437cc (Auto-reconnect: SELECT screen text update)
 - ❌ 80643cb8 (Auto-reconnect: SELECT screen text update)
@@ -137,7 +137,7 @@
 - ✅ 807a1914 (Stationary item collision momentum fix)
 - ❌ 807bc940 (Wiimmfi status reports)
 - ❌ 808d4100 (Frameskip code)
-- ⏭ 808d410c (Frameskip code) - pointless hook, does nothing
+- ⏭ 808d410c (Frameskip code - pointless hook, does nothing)
 
 ## Inserted Instructions (OUTDATED)
 - ✅ 38c00010 at 800ce220
@@ -241,7 +241,7 @@
 - ❌ 4bffffbc at 805d2f00
 - ❌ 483ce5e5 at 805d8cf4
 - ❌ 483ce2bd at 805d9044
-- ❌ 483c6359 at 805dce34
+- ✅ 483c6359 at 805dce34
 - ❌ 483a7d78 at 80600d10
 - ❌ 48363ab5 at 806437cc
 - ❌ 483635c9 at 80643cb8

@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <dwc/dwc_base64.h>
+#include <game/net/packet/RKNetRoomPacket.hpp>
 #include <platform/string.h>
 #include <revolution/es/es.h>
 #include <wiimmfi/Auth.hpp>
@@ -7,6 +8,11 @@
 
 namespace Wiimmfi {
 namespace Reporting {
+
+void ReportFriendRoomStart(RKNetROOMPacket* packet) {
+    if (packet->msgType == RKNetROOMPacket::MSG_ROOM_START)
+        Status::SendMessage("friend_event_start", "3", packet->param1);
+}
 
 void ReportSignatureAndCert() {
 
@@ -16,6 +22,7 @@ void ReportSignatureAndCert() {
     int tokenLength = Status::token ? strlen(Status::token) : 0;
 
     // Get the certificate
+    // Removed useless memset call here
     s32 ret = ES_Sign((u8*)Status::token, tokenLength, (u8*)signature, (u8*)cert);
     if (ret == ES_ERR_OK) {
 

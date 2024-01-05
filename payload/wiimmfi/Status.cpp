@@ -63,7 +63,7 @@ void ScrambleMessage(char* msg, int msgLen) {
     }
 }
 
-void SendMessage(const char* key, const char* value, int statusCode) {
+void SendMessage(const char* key, const char* value, int integerValue) {
 
     // Disable interrupts
     nw4r::ut::AutoInterruptLock lock;
@@ -82,7 +82,7 @@ void SendMessage(const char* key, const char* value, int statusCode) {
     // Print the message to the buffer
     char buffer[599];
     int len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\",
-                       key, statusCode, value);
+                       key, integerValue, value);
 
     // If the printed string did not fit in the buffer, bail
     if (len > sizeof(buffer))
