@@ -5,6 +5,9 @@
 namespace Wiimmfi {
 namespace Reporting {
 
+    // Reports the race finish time of the given local player
+    void ReportFinishTime(u8 playerIdx);
+
     // Reports a room start
     void ReportFriendRoomStart(RKNetROOMPacket* packet);
 

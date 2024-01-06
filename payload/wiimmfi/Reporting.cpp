@@ -1,6 +1,11 @@
 #include <common/Common.hpp>
 #include <dwc/dwc_base64.h>
 #include <game/net/packet/RKNetRoomPacket.hpp>
+#include <game/race/RaceGlobals.hpp>
+#include <game/system/RaceConfig.hpp>
+#include <game/system/RaceManager.hpp>
+#include <nw4r/ut/Lock.hpp>
+#include <platform/stdio.h>
 #include <platform/string.h>
 #include <revolution/es/es.h>
 #include <wiimmfi/Auth.hpp>
@@ -8,6 +13,41 @@
 
 namespace Wiimmfi {
 namespace Reporting {
+
+void ReportFinishTime(u8 playerIdx) {
+
+    // Check if the race is online
+    if (!RaceGlobals::isOnlineRace)
+        return;
+
+    // Check if the player is a local player
+    bool isLocal = false;
+    for (int i = 0; i < RaceConfig::instance->raceScenario.localPlayerCount; i++) {
+        if (RaceConfig::instance->raceScenario.settings.hudPlayerIds[i] == playerIdx) {
+            isLocal = true;
+            break;
+        }
+    }
+
+    if (!isLocal)
+        return;
+
+    // Get the finish time
+    char buffer[32];
+    u32 timer;
+    u32 finishTime = RaceManager::instance->players[playerIdx]->finishTime->getTimeMs();
+    snprintf(buffer, sizeof(buffer), "slot=%d|time=%d", playerIdx, finishTime);
+
+    // Get the RaceManager timer
+    // Use interrupts to get a more accurate value (??)
+    {
+        nw4r::ut::AutoInterruptLock lock;
+        timer = RaceManager::instance->frameCounter;
+    }
+
+    // Send message
+    Status::SendMessage("finish", buffer, timer);
+}
 
 void ReportFriendRoomStart(RKNetROOMPacket* packet) {
     if (packet->msgType == RKNetROOMPacket::MSG_ROOM_START)

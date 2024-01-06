@@ -88,13 +88,13 @@
 - ❌ 80519560 (Wiimmfi status reports)
 - ❌ 8051b69c (Frameskip code)
 - ❌ 80533660 (Wiimmfi status reports - detect race end)
-- ❌ 805348cc (Wiimmfi status reports - grab finish times)
+- ✅ 805348cc (Report finish times)
 - ❌ 8053511c (Fix ultra shortcut glitch)
 - ❌ 80535c78 (Workaround for Dolphin bugs)
 - ❌ 8053f3f4 (Wiimmfi status reports - detect race end)
-- ❌ 8054DF88 (Frameskip code)
+- ❌ 8054df88 (Frameskip code)
 - ❌ 805543a4 (Wiimmfi status reports)
-- ❌ 80562AD0 (Frameskip code)
+- ❌ 80562ad0 (Frameskip code)
 - ❌ 805845d8 (Bunch of antifreeze patches)
 - ❌ 80589acc (Bean's halfpipe glitch bugfix)
 - ❌ 80591b70 (Wiimmfi status reports)
@@ -104,7 +104,7 @@
 - ❌ 805d2f00 (Bunch of antifreeze patches)
 - ❌ 805d8cf4 (Auto-reconnect: SELECT screen text update)
 - ❌ 805d9044 (Auto-reconnect: SELECT screen text update)
-- ✅ 805dce34 (Detect friend room start)
+- ✅ 805dce34 (Report friend room start)
 - ❌ 80600d10 (supporting patch for the DNS exploit)
 - ❌ 806437cc (Auto-reconnect: SELECT screen text update)
 - ❌ 80643cb8 (Auto-reconnect: SELECT screen text update)
@@ -135,7 +135,7 @@
 - ❌ 80760a88 (Bunch of antifreeze patches)
 - ❌ 8079bf88 (Bunch of antifreeze patches)
 - ✅ 807a1914 (Stationary item collision momentum fix)
-- ❌ 807bc940 (Wiimmfi status reports)
+- ⏭ 807bc940 (Unused item cheat detection - skipping)
 - ❌ 808d4100 (Frameskip code)
 - ⏭ 808d410c (Frameskip code - pointless hook, does nothing)
 
@@ -228,7 +228,7 @@
 - ❌ 48488860 at 80518b20
 - ❌ 48488c31 at 80519560
 - ❌ 48475729 at 80533660
-- ❌ 48474468 at 805348cc
+- ✅ 48474468 at 805348cc
 - ❌ 484739f9 at 8053511c
 - ❌ 48473084 at 80535c78
 - ❌ 48469b95 at 8053f3f4
@@ -271,4 +271,4 @@
 - ❌ 4824816d at 80760a88
 - ❌ 48204fe1 at 8079bf88
 - ✅ 48207251 at 807a1914
-- ❌ 481ec360 at 807bc940
+- ⏭ 481ec360 at 807bc940
