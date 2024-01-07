@@ -39,7 +39,7 @@ void DvdArchive::decompress(const char* path, EGG::Heap* heap) {
 
     // If the hash hasn't already been computed for this track, do so
     u32* hash = CupData::tracks[CupManager::currentSzs].sha1Hash;
-    if (!(hash[0] && hash[1] && hash[2] && hash[3] && hash[4]))
+    if (!(hash[0] || hash[1] || hash[2] || hash[3] || hash[4]))
         NETCalcSHA1(hash, buffer, decompressedSize);
 
     // Check if we're online, if not bail
