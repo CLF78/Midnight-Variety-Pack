@@ -15,6 +15,7 @@ public:
 
     virtual ~DvdArchive();
 
+    void decompress(const char* path, EGG::Heap* heap); // reimplemented
     void* getFile(const char* path, u32* size);
 
     void* archive; // actually EGG::Archive

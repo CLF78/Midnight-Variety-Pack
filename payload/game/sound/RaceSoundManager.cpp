@@ -9,7 +9,8 @@
 
 // Store the selected track's music slot
 kmHookFn void StoreMusicSlot(RaceSoundManager* manager, u32 originalSlot) {
-    u32 slot = (originalSlot > 0x36) ? CupData::tracks[CupManager::currentSzs].musicSlot : originalSlot;
+    u32 slot = CupManager::IsSystemCourse(originalSlot) ? originalSlot
+                                                        : CupData::tracks[CupManager::currentSzs].musicSlot;
     manager->courseId = slot;
 }
 

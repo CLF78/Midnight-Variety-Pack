@@ -179,7 +179,7 @@ void CupManager::getTrackFilename(u8 slot, bool isMP) {
     const char* fmtString;
 
     // To avoid breaking the award scene and other things, do not replace demo tracks
-    if (slot > 0x36) {
+    if (IsSystemCourse(slot)) {
         fmtString = isMP ? "Race/Course/%s_d" : "Race/Course/%s";
         snprintf(currentSzsPath, sizeof(currentSzsPath), fmtString, ResourceManager::courseNames[slot]);
     } else {

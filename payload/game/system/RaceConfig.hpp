@@ -139,6 +139,18 @@ public:
             }
         }
 
+        bool isOnline() const {
+            switch (gameMode) {
+                case GAMEMODE_PRIVATE_VS:
+                case GAMEMODE_PUBLIC_VS:
+                case GAMEMODE_PUBLIC_BT:
+                case GAMEMODE_PRIVATE_BT:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         u32 courseId;
         u32 engineClass;
         u32 gameMode;

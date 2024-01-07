@@ -96,6 +96,11 @@ public:
         return GetCupCount(isBattle) > 8;
     }
 
+    // Checks if the course is a demo/award track
+    static bool IsSystemCourse(u32 slot) {
+        return slot > 0x36;
+    }
+
     // Sets the current course and its slot id
     static void SetCourse(RaceConfig::Scenario* scenario, u32 actualTrackIdx) {
         currentSzs = actualTrackIdx;

@@ -84,5 +84,17 @@ void ReportSignatureAndCert() {
     }
 }
 
+void ReportTrackHash(u32* hash) {
+
+    // Convert the hash to a string
+    // Using sprintf since the output is fixed size and the buffer is big enough
+    char buffer[48];
+    sprintf(buffer, "%08x%08x%08x%08x%08x", hash[0], hash[1], hash[2], hash[3], hash[4]);
+
+    // Send the hash over with the course id
+    // TODO figure out what to do if we remove course slot, probably gotta talk it out with Wiimmfi devs
+    Status::SendMessage("track_sha1", buffer, RaceConfig::instance->raceScenario.settings.courseId);
+}
+
 } // namespace Reporting
 } // namespace Wiimmfi

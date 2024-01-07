@@ -11,7 +11,10 @@ namespace Reporting {
     // Reports a room start
     void ReportFriendRoomStart(RKNetROOMPacket* packet);
 
-    // Sends the signature and the certificate to the server
+    // Reports the given track SHA1 hash
+    void ReportTrackHash(u32* hash);
+
+    // Reports the console signature and certificate
     void ReportSignatureAndCert();
 
 } // namespace Reporting

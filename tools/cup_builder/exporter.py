@@ -187,7 +187,7 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     cupDataFile.write(warningStringWrap)
 
     # Write the track data
-    cupDataFile.write('\n\nconst CupData::Track CupData::tracks[] = {\n')
+    cupDataFile.write('\n\nCupData::Track CupData::tracks[] = {\n')
     for track in tracks:
         songData = brstmMng.savedSongs[track.musicFile]
         newline = '    {%d, %d, %d, %d, %d, %d, %d, %d, %d},\n' % (
