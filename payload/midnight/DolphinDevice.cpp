@@ -5,6 +5,7 @@ namespace DolphinDevice {
 
 s32 sDevDolphin = -1;
 ALIGN(32) char sVersionBuffer[64]; // Must be aligned by 32 and multiple of 32 bytes 
+ALIGN(32) char sProdCodeBuffer[6]; // Must be aligned by 32
 
 bool IsOpen() {
     return sDevDolphin >= 0;
@@ -48,6 +49,33 @@ const char* GetVersion() {
     // Return the buffer
     sVersionObtained = true;
     return sVersionBuffer;
+}
+
+const char* GetRealProductCode() {
+
+    // If the code was already obtained, return it directly
+    static bool sProdCodeObtained = false;
+    if (sProdCodeObtained)
+        return sProdCodeBuffer;
+
+    // Check if device is open
+    if (!IsOpen())
+        return nullptr;
+
+    // Do IOS call
+    ALIGN(32) IOSIoVector vec = {sProdCodeBuffer, sizeof(sProdCodeBuffer)};
+    s32 result = IOS_Ioctlv(sDevDolphin, GET_REAL_PRODUCT_CODE, 0, 1, &vec);
+
+    // Bail on failure
+    if (result != IPC_OK)
+        return nullptr;
+
+    // Ensure the string is null-terminated
+    sProdCodeBuffer[sizeof(sProdCodeBuffer)-1] = '\0';
+
+    // Return the buffer
+    sProdCodeObtained = true;
+    return sProdCodeBuffer;
 }
 
 } // namespace DolphinDevice

@@ -53,9 +53,9 @@ struct OSThread {
     void* specificData[2];
 };
 
-OSThread* OSGetCurrentThread(void);
+OSThread* OSGetCurrentThread();
 
-s32 OSDisableScheduler(void);
+s32 OSDisableScheduler();
 
 #ifdef __cplusplus
 }

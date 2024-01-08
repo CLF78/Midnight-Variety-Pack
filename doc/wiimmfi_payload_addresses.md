@@ -62,7 +62,7 @@
 - ⏭ 800ed784 (Authentication - not needed if we don't use the payload)
 - ⏭ 800ed78c (Authentication - not needed if we don't use the payload)
 - ⚠️ 800edee8 (Authentication)
-- ❌ 800ee098 (Workaround for Dolphin bugs)
+- ✅ 800ee098 (Report product code properly on Dolphin)
 - ❌ 800ee364 (Custom Wiimmfi error messages)
 - ❌ 800ee36c (Custom Wiimmfi error messages)
 - ❌ 800ee74c (Matchmaking anti-abuse)
@@ -85,7 +85,7 @@
 - ❌ 80514d58 (Bunch of antifreeze patches)
 - ❌ 80518afc (Bunch of antifreeze patches)
 - ❌ 80518b20 (Bunch of antifreeze patches)
-- ❌ 80519560 (Wiimmfi status reports)
+- ✅ 80519560 (Report track hash)
 - ❌ 8051b69c (Frameskip code)
 - ❌ 80533660 (Wiimmfi status reports - detect race end)
 - ✅ 805348cc (Report finish times)
@@ -205,7 +205,7 @@
 - ⏭ 488b3eb5 at 800ed784
 - ⏭ 488b3e15 at 800ed78c
 - ⚠️ 488b2891 at 800edee8
-- ❌ 488b262d at 800ee098
+- ✅ 488b262d at 800ee098
 - ❌ 3c80809b at 800ee364
 - ❌ 90a4b434 at 800ee36c
 - ⚠️ 488ba3c0 at 800ee9f8
@@ -226,7 +226,7 @@
 - ❌ 4848c5f8 at 80514d7c
 - ❌ 40800020 at 80518afc
 - ❌ 48488860 at 80518b20
-- ❌ 48488c31 at 80519560
+- ✅ 48488c31 at 80519560
 - ❌ 48475729 at 80533660
 - ✅ 48474468 at 805348cc
 - ❌ 484739f9 at 8053511c

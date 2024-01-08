@@ -52,7 +52,7 @@
     float __fmsubs(float, float, float);
     float __fnmadds(float, float, float);
     float __fnmsubs(float, float, float);
-    double __mffs(void);
+    double __mffs();
 
     void* __alloca(unsigned long);
     char* __strcpy(char*, const char*);

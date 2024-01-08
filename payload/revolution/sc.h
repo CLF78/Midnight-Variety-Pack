@@ -17,7 +17,8 @@ enum {
     SC_LANG_KOREAN
 };
 
-u8 SCGetLanguage(void);
+u8 SCGetLanguage();
+char *SCGetProductCode();
 
 #ifdef __cplusplus
 }

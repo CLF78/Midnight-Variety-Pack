@@ -29,5 +29,6 @@ bool IsOpen();
 void Close();
 
 const char* GetVersion();
+const char* GetRealProductCode();
 
 } // namespace DolphinDevice
