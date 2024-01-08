@@ -97,7 +97,7 @@
 - ❌ 80562ad0 (Frameskip code)
 - ❌ 805845d8 (Bunch of antifreeze patches)
 - ❌ 80589acc (Bean's halfpipe glitch bugfix)
-- ❌ 80591b70 (Wiimmfi status reports)
+- ✅ 80591b70 (Report Common.szs subfile hashes)
 - ❌ 805cddc8 (Custom Wiimmfi error messages)
 - ❌ 805ce55c (Frameskip code)
 - ❌ 805d2ef8 (Bunch of antifreeze patches)
@@ -235,7 +235,7 @@
 - ❌ 4844e2d1 at 805543a4
 - ❌ 4841cd61 at 805845d8
 - ❌ 4841b045 at 80589acc
-- ❌ 48410e24 at 80591b70
+- ✅ 48410e24 at 80591b70
 - ❌ 483dad19 at 805cddc8
 - ❌ 4bffffc4 at 805d2ef8
 - ❌ 4bffffbc at 805d2f00

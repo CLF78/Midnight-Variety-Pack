@@ -2,17 +2,71 @@
 #include <dwc/dwc_base64.h>
 #include <game/net/packet/RKNetRoomPacket.hpp>
 #include <game/race/RaceGlobals.hpp>
+#include <game/system/MultiDvdArchive.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <game/system/RaceManager.hpp>
+#include <game/system/ResourceManager.hpp>
 #include <nw4r/ut/Lock.hpp>
 #include <platform/stdio.h>
 #include <platform/string.h>
 #include <revolution/es/es.h>
+#include <revolutionex/net/NETDigest.h>
 #include <wiimmfi/Auth.hpp>
 #include <wiimmfi/Status.hpp>
 
 namespace Wiimmfi {
 namespace Reporting {
+
+void* GetSubfileHash(const char* path, int src, char* hash) {
+
+    // Get the file and its size
+    size_t fileSize;
+    void* file = ResourceManager::instance->getFile(src, path, &fileSize);
+
+    // If it doesn't exist, set the hash to zero
+    if (!file) {
+        hash[0] = '0';
+        hash[1] = '\0';
+
+    // Else hash it and print it in the buffer
+    } else {
+        u32 digest[5];
+        NETCalcSHA1(digest, file, fileSize);
+        sprintf(hash, "%08x%08x%08x%08x%08x", digest[0], digest[1], digest[2], digest[3], digest[4]);
+    }
+
+    // Return the file pointer anyway
+    return file;
+}
+
+void ReportCommonSubfiles() {
+
+    // Initialize buffer for each message
+    char buffers[4][40];
+    char statusMsgBuffer[200];
+
+    // Send KartParam, DriverParam and ItemSlot hashes
+    GetSubfileHash("kartParam.bin", MultiDvdArchive::COMMON, buffers[0]);
+    GetSubfileHash("driverParam.bin", MultiDvdArchive::COMMON, buffers[1]);
+    GetSubfileHash("ItemSlot.bin", MultiDvdArchive::COMMON, buffers[2]);
+    sprintf(statusMsgBuffer, "kart=%s|driver=%s|item=%s", buffers[0], buffers[1], buffers[2]);
+    Status::SendMessage("common_subfile_sha1", statusMsgBuffer);
+
+    // Send GeoHit hashes
+    GetSubfileHash("GeoHitTableItem.bin", MultiDvdArchive::COMMON, buffers[0]);
+    GetSubfileHash("GeoHitTableItemObj.bin", MultiDvdArchive::COMMON, buffers[1]);
+    GetSubfileHash("GeoHitTableKart.bin", MultiDvdArchive::COMMON, buffers[2]);
+    GetSubfileHash("GeoHitTableKartObj.bin", MultiDvdArchive::COMMON, buffers[3]);
+    sprintf(statusMsgBuffer, "ghti=%s|ghtio=%s|ghtk=%s|ghtko=%s", buffers[0], buffers[1],
+            buffers[2], buffers[3]);
+    Status::SendMessage("common_subfile_sha1", statusMsgBuffer);
+
+    // Send minigame.kmg and ObjFlow hashes
+    GetSubfileHash("minigame.kmg", MultiDvdArchive::COMMON, buffers[0]);
+    GetSubfileHash("ObjFlow.bin", MultiDvdArchive::COMMON, buffers[1]);
+    sprintf(statusMsgBuffer, "minigame=%s|objflow=%s", buffers[0], buffers[1]);
+    Status::SendMessage("common_subfile_sha1", statusMsgBuffer);
+}
 
 void ReportFinishTime(u8 playerIdx) {
 

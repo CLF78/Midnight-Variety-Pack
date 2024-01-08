@@ -42,7 +42,7 @@ public:
 
     virtual ~ResourceManager();
 
-    void* getFile(int source, char* filename, size_t* size);
+    void* getFile(int source, const char* path, size_t* size);
     void process();
     static void doLoadTask(int jobContext);
 
