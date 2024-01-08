@@ -41,6 +41,10 @@ void* GetSubfileHash(const char* path, int src, char* hash) {
 
 void ReportCommonSubfiles() {
 
+    // If we're not online, bail
+    if (!RaceGlobals::isOnlineRace)
+        return;
+
     // Initialize buffer for each message
     char buffers[4][40];
     char statusMsgBuffer[200];
