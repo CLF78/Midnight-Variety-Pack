@@ -104,6 +104,7 @@ stpMatchCnt=0x8038630C
 FstStringStart=0x8038663C
 FstStart=0x80386640
 sConsoleHandle__Q23EGG9Exception=0x80386E3C
+init__9CourseMapFv=0x805127EC
 getFile__10DvdArchiveFPCcPUi=0x80519420
 create__15MultiDvdArchiveFi=0x8052A098
 isLoaded__15MultiDvdArchiveFv=0x8052A800

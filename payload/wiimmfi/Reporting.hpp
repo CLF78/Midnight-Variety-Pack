@@ -8,6 +8,9 @@ namespace Reporting {
     // Reports various Common.szs subfiles that can be modified for cheating
     void ReportCommonSubfiles();
 
+    // Reports various course subfiles for possible track identification/cheat detection
+    void ReportCourseSubfiles();
+
     // Reports the race finish time of the given local player
     void ReportFinishTime(u8 playerIdx);
 

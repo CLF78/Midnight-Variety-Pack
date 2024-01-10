@@ -1,6 +1,7 @@
 #include <common/Common.hpp>
 #include <game/system/CourseMap.hpp>
 #include <game/system/RaceConfig.hpp>
+#include <wiimmfi/Reporting.hpp>
 
 //////////////////////////////
 // Patches for Lap Modifier //
@@ -18,3 +19,13 @@ kmBranchDefCpp(0x80512E80, NULL, MapdataStageAccessor*, MapdataStageAccessor* se
     return self;
 }
 
+///////////////////////////////////
+// Patches for Wiimmfi Telemetry //
+///////////////////////////////////
+
+kmCallDefCpp(0x805543A4, void, CourseMap* self) {
+
+    // Send data and call original function
+    Wiimmfi::Reporting::ReportCourseSubfiles();
+    self->init();
+}

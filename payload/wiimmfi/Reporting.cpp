@@ -2,6 +2,7 @@
 #include <dwc/dwc_base64.h>
 #include <game/net/packet/RKNetRoomPacket.hpp>
 #include <game/race/RaceGlobals.hpp>
+#include <game/system/CourseMap.hpp>
 #include <game/system/MultiDvdArchive.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <game/system/RaceManager.hpp>
@@ -46,7 +47,7 @@ void ReportCommonSubfiles() {
         return;
 
     // Initialize buffer for each message
-    char buffers[4][40];
+    char buffers[4][48];
     char statusMsgBuffer[200];
 
     // Send KartParam, DriverParam and ItemSlot hashes
@@ -70,6 +71,93 @@ void ReportCommonSubfiles() {
     GetSubfileHash("ObjFlow.bin", MultiDvdArchive::COMMON, buffers[1]);
     sprintf(statusMsgBuffer, "minigame=%s|objflow=%s", buffers[0], buffers[1]);
     Status::SendMessage("common_subfile_sha1", statusMsgBuffer);
+}
+
+void ReportCourseSubfiles() {
+
+    // If we're not online, bail
+    if (!RaceConfig::instance->raceScenario.settings.isOnline())
+        return;
+
+    // Setup hash buffers
+    char buffers[3][48];
+    char statusMsgBuffer[160];
+
+    // Get the KMP and hash it
+    MapdataFileAccessor::SData* kmp = (MapdataFileAccessor::SData*)GetSubfileHash("course.kmp",
+                                                                                  MultiDvdArchive::COURSE,
+                                                                                  buffers[0]);
+
+    // If KMP is invalid bail, the game will crash later anyway
+    if (!kmp || kmp->numSections == 0)
+        return;
+
+    // Copy the cleaned kmp hash over as a failsafe for missing STGI
+    *buffers[1] = *buffers[0];
+
+    // Locate STGI section to overwrite lap/speed modifier
+    for (int i = 0; i < kmp->numSections; i++) {
+
+        // Get KMP section
+        KmpSectionHeader* header = (KmpSectionHeader*)((u8*)kmp + kmp->headerSize + kmp->offsets[i]);
+
+        // Check for magic
+        if (header->sectionMagic != 'STGI')
+            continue;
+
+        // Get section data and check for lap/speed modifications
+        // If the data is unchanged, do not hash the KMP again
+        MapdataStage::SData* section = (MapdataStage::SData*)(header++);
+        if (section->mLapCount == 3 && section->mSpeedMod == 0)
+            break;
+
+        // Else reset the fields to the default values and hash the file again
+        u8 lapCount = section->mLapCount;
+        u16 speedMod = section->mSpeedMod;
+        section->mLapCount = 3;
+        section->mSpeedMod = 0;
+        GetSubfileHash("course.kmp", MultiDvdArchive::COURSE, buffers[1]);
+
+        // Set values back and exit the loop
+        section->mLapCount = lapCount;
+        section->mSpeedMod = speedMod;
+        break;
+    }
+
+    // Get KCL hash and send message
+    GetSubfileHash("course.kcl", MultiDvdArchive::COURSE, buffers[2]);
+    sprintf(statusMsgBuffer, "kmp=%s|clean-kmp=%s|kcl=%s", buffers[0], buffers[1], buffers[2]);
+    Status::SendMessage("track_subfile_sha1", statusMsgBuffer);
+
+    // Send LEX file hash, if the file exists
+    void* lexFile = GetSubfileHash("course.lex", MultiDvdArchive::COURSE, buffers[0]);
+    if (lexFile) {
+        sprintf(statusMsgBuffer, "lex=%s", buffers[0]);
+        Status::SendMessage("track_subfile_sha1", statusMsgBuffer);
+    }
+
+    // Send ItemSlotTable.slt hash, if the file exists
+    void* itemSlotFile = GetSubfileHash("ItemSlotTable/ItemSlotTable.slt", MultiDvdArchive::COURSE, buffers[0]);
+    if (itemSlotFile) {
+        sprintf(statusMsgBuffer, "islot=%s", buffers[0]);
+        Status::SendMessage("track_subfile_sha1", statusMsgBuffer);
+    }
+
+    // Get course_model hash (or the _d version if it's not available)
+    void* courseModelFile = GetSubfileHash("course_model.brres", MultiDvdArchive::COURSE, buffers[0]);
+    if (!courseModelFile)
+        GetSubfileHash("course_d_model.brres", MultiDvdArchive::COURSE, buffers[0]);
+
+    // Get vrcorn hash (or the _d version if it's not available)
+    void* vrcornFile = GetSubfileHash("vrcorn_model.brres", MultiDvdArchive::COURSE, buffers[1]);
+    if (!vrcornFile)
+        GetSubfileHash("vrcorn_d_model.brres", MultiDvdArchive::COURSE, buffers[1]);
+
+    // Get the minimap model and send message
+    GetSubfileHash("map_model.brres", MultiDvdArchive::COURSE, buffers[2]);
+    sprintf(statusMsgBuffer, "course%d=%s|vrcorn%d=%s|map=%s", courseModelFile == nullptr,
+            buffers[0], vrcornFile == nullptr, buffers[1], buffers[2]);
+    Status::SendMessage("track_subfile_sha1", statusMsgBuffer);
 }
 
 void ReportFinishTime(u8 playerIdx) {

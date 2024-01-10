@@ -93,7 +93,7 @@
 - ❌ 80535c78 (Workaround for Dolphin bugs)
 - ❌ 8053f3f4 (Wiimmfi status reports - detect race end)
 - ❌ 8054df88 (Frameskip code)
-- ❌ 805543a4 (Wiimmfi status reports)
+- ✅ 805543a4 (Report track subfile hashes)
 - ❌ 80562ad0 (Frameskip code)
 - ❌ 805845d8 (Bunch of antifreeze patches)
 - ❌ 80589acc (Bean's halfpipe glitch bugfix)
@@ -232,7 +232,7 @@
 - ❌ 484739f9 at 8053511c
 - ❌ 48473084 at 80535c78
 - ❌ 48469b95 at 8053f3f4
-- ❌ 4844e2d1 at 805543a4
+- ✅ 4844e2d1 at 805543a4
 - ❌ 4841cd61 at 805845d8
 - ❌ 4841b045 at 80589acc
 - ✅ 48410e24 at 80591b70

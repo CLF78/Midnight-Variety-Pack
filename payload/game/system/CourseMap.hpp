@@ -246,6 +246,8 @@ public:
         bool mFlareToggle;
         u32 mFlareColor;
         u8 mFlareAlpha;
+        u8 _9;
+        u16 mSpeedMod; // custom
     };
 
     SData* mpData;
@@ -385,6 +387,7 @@ public:
 class CourseMap {
 public:
     virtual ~CourseMap();
+    void init();
 
     MapdataFileAccessor* mpCourse;
 
@@ -404,9 +407,9 @@ public:
     MapdataStageAccessor* mpStageInfo;
     MapdataMissionPointAccessor* mpMissionPoint;
 
-    void* mpGoalCamera;
-    void* mpType9Camera;
-    void* mpOpeningPanCamera;
+    MapdataCamera* mpGoalCamera;
+    MapdataCamera* mpMissionGoalCamera;
+    MapdataCamera* mpOpeningCamera;
     u32 _50;
 
     static CourseMap* spInstance;
