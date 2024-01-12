@@ -5,6 +5,11 @@ extern "C" {
 #endif
 
 typedef struct {
+    u8 playersAtConsole;
+    u8 _1[3]; // unused
+} DWCConnectionUserData;
+
+typedef struct {
     int profileId;
     u32 publicip;
     u32 localIp;
@@ -19,7 +24,7 @@ typedef struct {
     // 4 bytes padding
 
     s64 nextMeshMakeTryTick;
-    u8 connectionUserData[4];
+    DWCConnectionUserData connectionUserData;
     u32 pad;
 } DWCNodeInfo;
 

@@ -5,7 +5,7 @@
 // Wiimmfi Patches //
 /////////////////////
 
-// Hook network shutdown to do some cleanup (not ported)
+// Hook network shutdown to do some cleanup (new code, not ported)
 kmListHookDefCpp(NetShutdownHook) {
 
     // Delete the Wiimmfi messaging token
