@@ -23,10 +23,8 @@ void Update() {
     if (kickTimer++ < KICK_THRESHOLD_TIME)
         return;
 
-    // Get the current sub
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
-
     // Get the full aid map and the corresponding bit mask
+    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
     u32 aidMap = sub->availableAids | (1 << sub->myAid);
 
     // Get the list of aids that have not completed the loading procedure

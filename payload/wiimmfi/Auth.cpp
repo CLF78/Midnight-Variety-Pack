@@ -28,7 +28,7 @@ void AppendAuthParameters(NHTTPReq* req) {
     static bool sCertObtained = false;
 
     if (!sCertObtained) {
-        ALIGN(32) char certBuf[0x180]; // IOS requires the output and the vector to be aligned by 32
+        ALIGN(32) char certBuf[0x180]; // IOS requires the output to be aligned by 32
         s32 result = ES_GetDeviceCert((u8*)certBuf);
 
         // If IOS call fails, bail
