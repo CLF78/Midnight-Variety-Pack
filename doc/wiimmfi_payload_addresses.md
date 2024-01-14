@@ -100,8 +100,8 @@
 - ✅ 80591b70 (Report Common.szs subfile hashes)
 - ❌ 805cddc8 (Custom Wiimmfi error messages)
 - ❌ 805ce55c (Frameskip code)
-- ❌ 805d2ef8 (Bunch of antifreeze patches)
-- ❌ 805d2f00 (Bunch of antifreeze patches)
+- ✅ 805d2ef8 (Invalid FC antifreeze)
+- ✅ 805d2f00 (Invalid FC antifreeze)
 - ❌ 805d8cf4 (Auto-reconnect: SELECT screen text update)
 - ❌ 805d9044 (Auto-reconnect: SELECT screen text update)
 - ✅ 805dce34 (Report friend room start)
@@ -130,8 +130,8 @@
 - ❌ 8065a0ec (Auto-reconnect DWC stub implementation)
 - ❌ 8065a970 (Auto-reconnect)
 - ❌ 8065df44 (Bunch of antifreeze patches)
-- ❌ 8065ff5c (Fix suspend bug)
-- ❌ 80660330 (Fix suspend bug)
+- ✅ 8065ff5c (Reset room stall timer)
+- ✅ 80660330 (Anti room stall logic)
 - ❌ 80760a88 (Bunch of antifreeze patches)
 - ❌ 8079bf88 (Bunch of antifreeze patches)
 - ✅ 807a1914 (Stationary item collision momentum fix)
@@ -237,8 +237,8 @@
 - ❌ 4841b045 at 80589acc
 - ✅ 48410e24 at 80591b70
 - ❌ 483dad19 at 805cddc8
-- ❌ 4bffffc4 at 805d2ef8
-- ❌ 4bffffbc at 805d2f00
+- ✅ 4bffffc4 at 805d2ef8
+- ✅ 4bffffbc at 805d2f00
 - ❌ 483ce5e5 at 805d8cf4
 - ❌ 483ce2bd at 805d9044
 - ✅ 483c6359 at 805dce34
@@ -266,8 +266,8 @@
 - ❌ 4834d439 at 8065a0ec
 - ❌ 4834d75c at 8065a970
 - ❌ 48343231 at 8065df44
-- ❌ 48341b80 at 8065ff5c
-- ❌ 483419d5 at 80660330
+- ✅ 48341b80 at 8065ff5c
+- ✅ 483419d5 at 80660330
 - ❌ 4824816d at 80760a88
 - ❌ 48204fe1 at 8079bf88
 - ✅ 48207251 at 807a1914
