@@ -5,7 +5,7 @@
 enum KamekCommandType {
     kctNone,
     kctWrite,
-    kctConditionalWrite, // unused
+    kctWriteArea, // replaces kctConditionalWrite
     kctInjectBranch,
     kctInjectCall,
     kctPatchExit,
@@ -46,8 +46,7 @@ enum KamekCommandType {
 #define kmWrite32(addr, value) kmHook3(kctWrite, 2, (addr), (value))
 #define kmWrite16(addr, value) kmHook3(kctWrite, 3, (addr), (value))
 #define kmWrite8(addr, value) kmHook3(kctWrite, 4, (addr), (value))
-#define kmWriteArea(addr, value) \
-	static void* kmIdentifier(Area, __COUNTER__) = __memcpy((void*)(addr), (void*)(value), sizeof((value)))
+#define kmWriteArea(addr, value) kmHook4(kctWriteArea, 1, (addr), (value), sizeof((value)))
 
 // kmPatchExitPoint
 // Force the end of a Kamek function to always jump to a specific address

@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <Loader.hpp>
+#include <revolution/os/OSCache.h>
 
 namespace Patcher {
 
@@ -12,16 +13,21 @@ enum PatchCommand {
     Write32 = 32,
     Write16 = 33,
     Write8 = 34,
+    WriteArea = 35,
     Branch = 64,
     BranchLink = 65,
 };
 
 void ApplyPatches(const Loader::Functions* funcs, const u32* input, const u32* inputEnd, const u32 text);
 
-inline void CacheInvalidateAddress(const void* address) {
-    __dcbst(address, 0);
-    __sync();
-    __icbi(address);
+inline void CacheInvalidateAddress(const void* address, u32 size) {
+    if (size == 0) {
+        __dcbst(address, 0);
+        __sync();
+        __icbi(address);
+    } else {
+        __flush_cache((void*)address, size);
+    }
 }
 
 inline u32 ResolveAddress(u32 text, u32 address) {
