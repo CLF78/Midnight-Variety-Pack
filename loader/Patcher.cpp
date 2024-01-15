@@ -23,6 +23,7 @@ void ApplyPatches(const Loader::Functions* funcs, const u32* input, const u32* i
 
         // Apply patch
         u32 target, value, delta;
+        u32 size = 0;
         switch (cmd) {
 
             case Addr32:
@@ -71,8 +72,8 @@ void ApplyPatches(const Loader::Functions* funcs, const u32* input, const u32* i
 
             case WriteArea:
                 target = ResolveAddress(text, *input++);
-                value = *input++;
-                memcpy((void*)address, (void*)target, value);
+                size = *input++;
+                memcpy((void*)address, (void*)target, size);
                 break;
 
             case Branch:
@@ -91,7 +92,8 @@ void ApplyPatches(const Loader::Functions* funcs, const u32* input, const u32* i
                 funcs->OSReport("Unknown patch type: %d\n", cmd);
         }
 
-        CacheInvalidateAddress((const void*)address, (cmd == WriteArea) ? value : 0);
+        // Invalidate cache
+        CacheInvalidateAddress((const void*)address, (cmd == WriteArea) ? size : 0);
    }
 }
 
