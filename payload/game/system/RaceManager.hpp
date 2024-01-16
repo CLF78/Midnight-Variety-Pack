@@ -1,6 +1,9 @@
 #include <common/Common.hpp>
 #include <game/system/Timer.hpp>
+#include <game/system/TimerManager.hpp>
 #include <game/util/Random.hpp>
+
+class RaceMode;
 
 class RaceManager {
 public:
@@ -24,7 +27,9 @@ public:
     Random* dynamicRandom;
     Random* staticRandom;
     Player** players;
-    u8 unk[0x20 - 0x10];
+    RaceMode* gameModeData;
+    TimerManager* timerManager;
+    u8 unk[0x20 - 0x18];
 
     u32 frameCounter;
     u8 unk2[0x4C - 0x24];

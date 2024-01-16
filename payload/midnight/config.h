@@ -114,3 +114,13 @@
 #define CC_150_SPEED_MODIFIER 1.0f
 #define CC_200_SPEED_MODIFIER 1.5f
 #define CC_500_SPEED_MODIFIER 2.0f
+
+///////////////////////
+// Online Time Limit //
+///////////////////////
+
+// Allows to modify the default time limit
+// Credits: Chadderz (original code), CLF78 (porting + new code)
+
+// The default time limit
+#define DEFAULT_ONLINE_TIME_LIMIT 5 * 60 * 1000

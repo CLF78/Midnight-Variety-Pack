@@ -4,6 +4,10 @@
 namespace Wiimmfi {
 namespace Kick {
 
+    ///////////////
+    // Constants //
+    ///////////////
+
     enum Type {
         EVERYONE = 1,
         SELF,
@@ -13,6 +17,10 @@ namespace Kick {
 
     const char KICK_MSG[] = "\\wiimmfi\\kick";
     const char KICK_MSG_PARAM_PID[] = "\\kickpid\\";
+
+    ///////////////
+    // Functions //
+    ///////////////
 
     // Schedules a kick for the given AID
     void ScheduleForAID(int aid);
@@ -25,6 +33,13 @@ namespace Kick {
 
     // Parses a kick message received from the server
     int ParseKickMessage(GPConnection conn, char* data);
+
+    ///////////////
+    // Variables //
+    ///////////////
+
+    // If the race should be stopped immediately (used by kick type END_RACE)
+    extern bool mustEndRace;
 
 } // namespace Kick
 } // namespace Wiimmfi

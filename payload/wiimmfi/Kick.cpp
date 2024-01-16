@@ -8,7 +8,8 @@
 namespace Wiimmfi {
 namespace Kick {
 
-u32 aidsToBeKicked;
+u32 aidsToBeKicked = 0;
+bool mustEndRace = false;
 
 void ScheduleForAID(int aid) {
     aidsToBeKicked |= (1 << aid);
@@ -71,8 +72,9 @@ int ParseKickMessage(GPConnection conn, char* data) {
             return 1;
             UNIGNORE_ERR(167)
 
-        // TODO force end the race
+        // Force end the race
         case END_RACE:
+            mustEndRace = true;
             break;
 
         // Get the kickpid parameter, if not found bail

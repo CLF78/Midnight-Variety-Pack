@@ -79,7 +79,7 @@
 - ⏭ 80193a18 (Block IOS calls) - pointless security measure
 - ⏭ 801d4f10 (Set custom CA for payload download) - not needed if we don't use the payload
 - ⏭ 801d4f2c (Set custom CA for payload download) - not needed if we don't use the payload
-- ❌ 8023b0e0 (Wiimmfi status reports)
+- ⏭ 8023b0e0 (Reset forceful race end flag) - useless if implemented properly
 - ❌ 8027a688 (Auto-reconnect - login handler)
 - ❌ 80514d40 (Bunch of antifreeze patches)
 - ❌ 80514d58 (Bunch of antifreeze patches)
@@ -91,7 +91,7 @@
 - ✅ 805348cc (Report finish times)
 - ❌ 8053511c (Fix ultra shortcut glitch)
 - ❌ 80535c78 (Workaround for Dolphin bugs)
-- ❌ 8053f3f4 (Wiimmfi status reports - detect race end)
+- ✅ 8053f3f4 (Force race end on kick type 2)
 - ❌ 8054df88 (Frameskip code)
 - ✅ 805543a4 (Report track subfile hashes)
 - ❌ 80562ad0 (Frameskip code)
@@ -220,7 +220,7 @@
 - ⏭ 4880dc58 at 801938f8
 - ⏭ 487cc6cd at 801d4f10
 - ⏭ 487cc791 at 801d4f2c
-- ❌ 48769d48 at 8023b0e0
+- ⏭ 48769d48 at 8023b0e0
 - ❌ 809a90ec at 8027a670
 - ❌ 40800020 at 80514d58
 - ❌ 4848c5f8 at 80514d7c
@@ -231,7 +231,7 @@
 - ✅ 48474468 at 805348cc
 - ❌ 484739f9 at 8053511c
 - ❌ 48473084 at 80535c78
-- ❌ 48469b95 at 8053f3f4
+- ✅ 48469b95 at 8053f3f4
 - ✅ 4844e2d1 at 805543a4
 - ❌ 4841cd61 at 805845d8
 - ❌ 4841b045 at 80589acc
