@@ -30,7 +30,7 @@ void DvdArchive::decompress(const char* path, EGG::Heap* heap) {
     state = DvdArchive::DECOMPRESSED;
 
     // Check if it's a track file, if not bail
-    if (strncmp(path, "Race/Course/", sizeof("Race/Course/")-1) != 0)
+    if (!strstartw(path, "Race/Course/"))
         return;
 
     // Check if it's a custom track, if not bail
