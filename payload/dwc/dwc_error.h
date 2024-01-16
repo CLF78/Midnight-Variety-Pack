@@ -1,4 +1,5 @@
 #include <common/Common.h>
+#include <gs/gp/gp.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,6 +30,8 @@ typedef enum {
     DWC_ERROR_NETWORK_LIGHT,
     DWC_ERROR_NUM,
 } DWCError;
+
+GPResult DWCi_HandleGPError(GPResult error);
 
 #ifdef __cplusplus
 }

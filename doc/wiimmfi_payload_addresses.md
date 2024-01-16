@@ -67,7 +67,7 @@
 - ❌ 800ee36c (Custom Wiimmfi error messages)
 - ❌ 800ee74c (Matchmaking anti-abuse)
 - ⚠️ 800ee9f8 (Parse authentication response)
-- ❌ 800fcedc (Wiimmfi status reports)
+- ⚠️ 800fcedc (Handle kick messages)
 - ✅ 801007d8 (Report signature and certificate)
 - ❌ 8010e094 (NATNEG: Allow using custom port)
 - ❌ 80111534 (Matchmaking anti-abuse)
@@ -209,7 +209,7 @@
 - ❌ 3c80809b at 800ee364
 - ❌ 90a4b434 at 800ee36c
 - ⚠️ 488ba3c0 at 800ee9f8
-- ❌ 488ac084 at 800fcedc
+- ⚠️ 488ac084 at 800fcedc
 - ✅ 488a0768 at 801007d8
 - ❌ 4889ae6d at 8010e094
 - ❌ 4888aa05 at 8011ab28

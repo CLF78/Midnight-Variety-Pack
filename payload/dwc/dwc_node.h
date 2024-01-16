@@ -34,6 +34,8 @@ typedef struct {
     DWCNodeInfo nodeInfos[32];
 } DWCNodeInfoList;
 
+DWCNodeInfo* DWCi_NodeInfoList_GetNodeInfoForProfileId(int pid);
+
 #ifdef __cplusplus
 }
 #endif
