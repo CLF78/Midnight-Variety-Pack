@@ -12,6 +12,8 @@ int strncmp(const char* str1, const char* str2, size_t num);
 char* strncpy(char* destination, const char* source, size_t num);
 char* strstr(char* str1, const char* str2);
 size_t strlen(const char* str);
+u32 strtoul(const char* str, char** endptr, int base);
+#define strshift(str, str2) (str) += sizeof((str2)) - 1
 
 #ifdef __cplusplus
 }

@@ -87,14 +87,14 @@ void ParseAuthResponse(const char* response) {
     // Response type: p2pport
     // Store the UPNP port to be used
     if (strncmp(response, RESPONSE_P2P, sizeof(RESPONSE_P2P)-1) == 0) {
-        response += sizeof(RESPONSE_P2P)-1;
+        strshift(response, RESPONSE_P2P);
         Wiimmfi::Port::port = atoi(response);
     }
 
     // Response type: msg
     // Decode it and store it for display later
     else if (strncmp(response, RESPONSE_MSG, sizeof(RESPONSE_MSG)-1) == 0) {
-        response += sizeof(RESPONSE_MSG)-1;
+        strshift(response, RESPONSE_MSG);
 
         // TODO finish this
         // 1) Get encoded len
@@ -107,7 +107,7 @@ void ParseAuthResponse(const char* response) {
     // Response type: xy
     // Decode the token and scramble it
     else if (strncmp(response, RESPONSE_XY, sizeof(RESPONSE_XY)-1) == 0) {
-        response += sizeof(RESPONSE_XY)-1;
+        strshift(response, RESPONSE_XY);
         Status::DecodeToken(response);
     }
 }
