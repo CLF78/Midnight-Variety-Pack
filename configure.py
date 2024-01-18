@@ -298,10 +298,6 @@ writer.variable('port_file', PORT_FILE)
 writer.variable('symbol_file', SYMBOL_FILE)
 writer.newline()
 
-# Fix a parallel execution issue on Windows by creating a dedicated pool for Kamek linking
-if sys.platform == 'win32':
-    writer.pool('kamek_pool')
-
 ###############
 # Write Rules #
 ###############
@@ -319,13 +315,11 @@ writer.rule('cw',
 
 writer.rule('kmdynamic',
             command='$kamek $in -dynamic -versions=$port_file -externals=$symbol_file -output-kamek=$out -select-version=$selectversion',
-            description='Link Code ($selectversion)',
-            pool='kamek_pool' if sys.platform == 'win32' else '')
+            description='Link Code ($selectversion)')
 
 writer.rule('kmstatic',
             command='$kamek $in -static=$loadaddr -externals=$symbol_file -output-code=$out_bin -output-riiv=$out_riiv',
-            description='Link Loader',
-            pool='kamek_pool' if sys.platform == 'win32' else '')
+            description='Link Loader')
 
 writer.rule('bmg_merge',
             command=f'{sys.executable} {BMG_MERGE} $in -o $out',

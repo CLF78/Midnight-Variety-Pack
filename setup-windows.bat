@@ -129,7 +129,7 @@ IF %ErrorLevel% EQU 0 (
 :: Download Kamek
 ECHO Kamek not installed! Proceeding with installation...
 MD ..\tools\kamek
-CALL :DownloadFile "kamek.zip" "https://github.com/LamiLemmy/Kamek/releases/latest/download/win-x64.zip" "Kamek archive"
+CALL :DownloadFile "kamek.zip" "https://github.com/Treeki/Kamek/releases/latest/download/kamek_2024-01-17_win-x64.zip " "Kamek archive"
 
 :: Install Kamek
 ECHO Installing Kamek...
