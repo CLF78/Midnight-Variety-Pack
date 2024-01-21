@@ -7,6 +7,13 @@
 // Patches for Time Limit Modifier plus Wiimmfi //
 //////////////////////////////////////////////////
 
+// Reset the end race bool
+kmListHookDefCpp(RaceStartHook) {
+    Wiimmfi::Kick::mustEndRace = false;
+}
+
+// Add extra conditions to end the race
+// TODO custom message for Wiimmfi-mandated race end?
 kmBranchDefCpp(0x8053F39C, 0x8053F444, void, RaceModeOnlineVs* self) {
 
     // Original function call
@@ -19,8 +26,6 @@ kmBranchDefCpp(0x8053F39C, 0x8053F444, void, RaceModeOnlineVs* self) {
         return;
 
     // Run the modified check
-    if (self->manager->timerManager->timers[0].getTimeMs() > DEFAULT_ONLINE_TIME_LIMIT || Wiimmfi::Kick::mustEndRace) {
-        Wiimmfi::Kick::mustEndRace = false;
+    if (self->manager->timerManager->timers[0].getTimeMs() > DEFAULT_ONLINE_TIME_LIMIT || Wiimmfi::Kick::mustEndRace)
         self->endLocalRaceWithReason(4);
-    }
 }
