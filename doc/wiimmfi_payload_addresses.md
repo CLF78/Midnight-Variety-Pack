@@ -81,10 +81,10 @@
 - ⏭ 801d4f2c (Set custom CA for payload download) - not needed if we don't use the payload
 - ⏭ 8023b0e0 (Reset forceful race end flag) - useless if implemented properly
 - ❌ 8027a688 (Auto-reconnect - login handler)
-- ❌ 80514d40 (Bunch of antifreeze patches)
-- ❌ 80514d58 (Bunch of antifreeze patches)
-- ❌ 80518afc (Bunch of antifreeze patches)
-- ❌ 80518b20 (Bunch of antifreeze patches)
+- ✅ 80514d40 (Invalid ITPT antifreeze)
+- ✅ 80514d58 (Invalid ITPT antifreeze)
+- ✅ 80518afc (Invalid CNPT antifreeze)
+- ✅ 80518b20 (Invalid CNPT antifreeze)
 - ✅ 80519560 (Report track hash)
 - ❌ 8051b69c (Frameskip code)
 - ❌ 80533660 (Wiimmfi status reports - detect race end)
@@ -222,10 +222,10 @@
 - ⏭ 487cc791 at 801d4f2c
 - ⏭ 48769d48 at 8023b0e0
 - ❌ 809a90ec at 8027a670
-- ❌ 40800020 at 80514d58
-- ❌ 4848c5f8 at 80514d7c
-- ❌ 40800020 at 80518afc
-- ❌ 48488860 at 80518b20
+- ✅ 40800020 at 80514d58
+- ✅ 4848c5f8 at 80514d7c
+- ✅ 40800020 at 80518afc
+- ✅ 48488860 at 80518b20
 - ✅ 48488c31 at 80519560
 - ❌ 48475729 at 80533660
 - ✅ 48474468 at 805348cc
