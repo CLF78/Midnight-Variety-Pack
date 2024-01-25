@@ -12,13 +12,16 @@ public:
     public:
         virtual ~Player();
 
-        u8 unk[0x26 - 0x04];
+        u8 unk[0x0A - 0x04];
+        u16 checkpointId;
+
+        u8 unk2[0x26 - 0x0C];
         u8 maxLap;
 
-        u8 unk2[0x40 - 0x27];
+        u8 unk3[0x40 - 0x27];
         Timer* finishTime;
 
-        u8 unk3[0x54 - 0x44];
+        u8 unk4[0x54 - 0x44];
     };
     size_assert(Player, 0x54);
 

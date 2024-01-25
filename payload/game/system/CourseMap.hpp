@@ -269,6 +269,20 @@ public:
 class MapdataAreaBase {
 public:
 
+    enum Type {
+        CAMERA_LINK,
+        ENV_EFFECT,
+        FOG_SWAP,
+        MOVING_ROAD,
+        RECALC_DEST,
+        MINIMAP_CONTROL,
+        BLOOM_SWAP,
+        FLYING_BOOS,
+        OBJECT_GROUP,
+        OBJECT_GROUP_UNLOAD,
+        FALL_BOUNDARY,
+    };
+
     struct SData {
         u8 shape;
         u8 type;
@@ -389,6 +403,8 @@ public:
     virtual ~CourseMap();
     void init();
 
+    s16 getClosestAreaByType(VEC3* pos, s16 prevAreaId, s16 type); // prevAreaId = previous area this function returned
+
     MapdataFileAccessor* mpCourse;
 
     MapdataStartPointAccessor* mpStartPoint;
@@ -412,5 +428,5 @@ public:
     MapdataCamera* mpOpeningCamera;
     u32 _50;
 
-    static CourseMap* spInstance;
+    static CourseMap* instance;
 };

@@ -1,4 +1,5 @@
 #include <common/Common.hpp>
+#include <nw4r/math/types.hpp>
 #include <nw4r/ut/utList.hpp>
 #include <game/kart/KartPointers.hpp>
 
@@ -9,5 +10,9 @@ public:
 
     u8 getPlayerIdx();
     VehiclePhysics* getVehiclePhysics();
-    void FUN_80591050(int, int, int);
+    VEC3* getPlayerPosition();
+
+    void setOobCamera();
+
+    void FUN_80591050(int, bool, bool);
 };
