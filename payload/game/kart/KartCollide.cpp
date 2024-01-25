@@ -14,7 +14,7 @@ kmBranchDefCpp(0x80571858, 0x805718B4, void, KartObjectProxy* kobj) {
     KartCollide* coll = kobj->pointers->kartCollide;
 
     // Get the closest respawn area
-    s16 areaId = CourseMap::instance->getClosestAreaByType(kobj->getPlayerPosition(),
+    s16 areaId = CourseMap::instance->getClosestAreaIdByType(kobj->getPlayerPosition(),
                                                            coll->respawnArea,
                                                            MapdataAreaBase::FALL_BOUNDARY);
 

@@ -403,7 +403,7 @@ public:
     virtual ~CourseMap();
     void init();
 
-    s16 getClosestAreaByType(VEC3* pos, s16 prevAreaId, s16 type); // prevAreaId = previous area this function returned
+    s16 getClosestAreaIdByType(VEC3* pos, s16 prevAreaId, s16 type); // prevAreaId = previous area this function returned
 
     MapdataFileAccessor* mpCourse;
 
