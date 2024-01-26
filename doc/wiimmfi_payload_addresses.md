@@ -89,7 +89,7 @@
 - ❌ 8051b69c (Frameskip code)
 - ❌ 80533660 (Wiimmfi status reports - detect race end)
 - ✅ 805348cc (Report finish times)
-- ❌ 8053511c (Fix ultra shortcut glitch)
+- ✅ 8053511c (Fix ultra shortcut glitch)
 - ❌ 80535c78 (Workaround for Dolphin bugs)
 - ✅ 8053f3f4 (Force race end on kick type 2)
 - ❌ 8054df88 (Frameskip code)
@@ -124,7 +124,7 @@
 - ❌ 8065764c (Auto-reconnect)
 - ❌ 806579b0 (Wiimmfi tick for stuff that happens each frame)
 - ❌ 80657a6c (Auto-reconnect: Fix main thread)
-- ❌ 80658610 (Bunch of antifreeze patches)
+- ❌ 80658610 (RCE fix)
 - ❌ 80658714 (Auto-reconnect)
 - ❌ 80658f7c (Ultra-fast NATNEG)
 - ❌ 8065a0ec (Auto-reconnect DWC stub implementation)
@@ -229,7 +229,7 @@
 - ✅ 48488c31 at 80519560
 - ❌ 48475729 at 80533660
 - ✅ 48474468 at 805348cc
-- ❌ 484739f9 at 8053511c
+- ✅ 484739f9 at 8053511c
 - ❌ 48473084 at 80535c78
 - ✅ 48469b95 at 8053f3f4
 - ✅ 4844e2d1 at 805543a4
