@@ -56,6 +56,8 @@ public:
 
     virtual ~RKNetController();
 
+    void processRacePacket(u32 aid, void* data, u32 dataLength);
+
     RKNetMutex mutex;
     EGG::ExpHeap* heap;
     EGG::TaskThread* taskThread;

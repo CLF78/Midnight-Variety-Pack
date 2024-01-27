@@ -124,7 +124,7 @@
 - ❌ 8065764c (Auto-reconnect)
 - ❌ 806579b0 (Wiimmfi tick for stuff that happens each frame)
 - ❌ 80657a6c (Auto-reconnect: Fix main thread)
-- ❌ 80658610 (RCE fix)
+- ⚠️ 80658610 (RCE fix)
 - ❌ 80658714 (Auto-reconnect)
 - ❌ 80658f7c (Ultra-fast NATNEG)
 - ❌ 8065a0ec (Auto-reconnect DWC stub implementation)
@@ -260,7 +260,7 @@
 - ❌ 60000000 at 8065764c
 - ❌ 4834a51d at 806579b0
 - ❌ 4834f79c at 80657a6c
-- ❌ 48349264 at 80658610
+- ⚠️ 48349264 at 80658610
 - ❌ 4834ec14 at 80658714
 - ❌ 4834cd64 at 80658f7c
 - ❌ 4834d439 at 8065a0ec
