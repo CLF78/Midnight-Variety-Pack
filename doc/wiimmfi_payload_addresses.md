@@ -56,7 +56,7 @@
 - ❌ 800e5a2c and following (Bunch of antifreeze patches)
 - ❌ 800e5b14 (Ultra-fast NATNEG)
 - ❌ 800e6778 (Ultra-fast NATNEG)
-- ❌ 800e7800 (Fix suspend bug)
+- ✅ 800e7800 (Fix suspend bug)
 - ❌ 800ed4a0 (Auto-reconnect - stub some errors)
 - ❌ 800ed558 (Auto-reconnect - stub some errors)
 - ⏭ 800ed784 (Authentication - not needed if we don't use the payload)
@@ -199,7 +199,7 @@
 - ❌ 41810014 at 800e5a80
 - ❌ 488c07a1 at 800e5b14
 - ❌ 488c28a4 at 800e6778
-- ❌ 488c1414 at 800e7800
+- ✅ 488c1414 at 800e7800
 - ❌ 488bb2b5 at 800ed4a0
 - ❌ 488bb1fd at 800ed558
 - ⏭ 488b3eb5 at 800ed784
