@@ -2,6 +2,7 @@
 #include <game/ui/LayoutUIControl.hpp>
 #include <game/ui/MenuInputManager.hpp>
 #include <game/ui/Page.hpp>
+#include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
 #include <game/ui/ctrl/CountdownTimerControl.hpp>
 
@@ -47,6 +48,10 @@ public:
     void forceConnectionError() {
         if (playerRoomState == JOINED_AS_GUEST)
             playerRoomState = CONNECTION_ERROR;
+    }
+
+    static FriendRoomJoinPage* getPage() {
+        return (FriendRoomJoinPage*)SectionManager::instance->curSection->pages[Page::FRIEND_ROOM_JOIN];
     }
 
     MenuInputManager inputManager;

@@ -1,5 +1,8 @@
 #include <common/Common.hpp>
 #include <game/net/RKNetController.hpp>
+#include <game/ui/SectionManager.hpp>
+#include <game/ui/page/FriendRoomJoinPage.hpp>
+#include <nw4r/ut/Lock.hpp>
 #include <wiimmfi/Kick.hpp>
 #include <wiimmfi/Security.hpp>
 #include <wiimmfi/Status.hpp>
@@ -24,11 +27,14 @@ kmListHookDefCpp(NetShutdownHook) {
 kmBranchDefCpp(0x80658610, NULL, void, RKNetController* self, u32 aid, void* data, u32 dataLength) {
 
     // If the packet is valid, process it
-    if (Wiimmfi::Security::ValidatePacket(aid, (RKNetRACEPacketHeader*)data, dataLength))
+    if (Wiimmfi::Security::ValidateRACEPacket(aid, (RKNetRACEPacketHeader*)data, dataLength))
         self->processRacePacket(aid, data, dataLength);
 
-    // Else kick the aid who sent it
-    // TODO page thingy
-    else
+    // Else kick the aid who sent it and warn the user if possible
+    else {
+        nw4r::ut::AutoInterruptLock lock;
         Wiimmfi::Kick::ScheduleForAID(aid);
+        FriendRoomJoinPage* page = FriendRoomJoinPage::getPage();
+        if (page) page->forceConnectionError();
+    }
 }

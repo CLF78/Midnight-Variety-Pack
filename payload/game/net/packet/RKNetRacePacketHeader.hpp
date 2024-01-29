@@ -11,10 +11,11 @@ struct RKNetRACEPacketHeader {
         USER,
         ITEM,
         EVENT,
+        SECTION_COUNT,
     };
 
     u32 empty;
     u32 crc;
-    u8 sizes[8];
+    u8 sizes[SECTION_COUNT];
 };
 size_assert(RKNetRACEPacketHeader, 0x10);

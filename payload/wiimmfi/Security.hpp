@@ -4,9 +4,9 @@
 namespace Wiimmfi {
 namespace Security {
 
-    // Validates a match packet to prevent invalid data from being transmitted
+    // Validates a RACE packet to prevent invalid data from being transmitted
     // Returns true if valid
-    bool ValidatePacket(u32 aid, RKNetRACEPacketHeader* data, u32 dataLength);
+    bool ValidateRACEPacket(u32 aid, RKNetRACEPacketHeader* data, u32 dataLength);
 
 } // namespace Security
 } // namespace Wiimmfi

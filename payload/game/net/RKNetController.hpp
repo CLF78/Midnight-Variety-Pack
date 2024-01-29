@@ -6,6 +6,7 @@
 #include <game/net/RKNetMutex.hpp>
 #include <game/net/RKNetPacketHolder.hpp>
 #include <game/net/RKNetStatusData.hpp>
+#include <game/net/packet/RKNetRacePacketHeader.hpp>
 
 class RKNetController {
 public:
@@ -103,7 +104,7 @@ public:
     int br;
 
     int lastSendBufferUsed[12]; // 1 per aid
-    int lastRecvBufferUsed[12][8]; // 1 per packet section per aid
+    int lastRecvBufferUsed[12][RKNetRACEPacketHeader::SECTION_COUNT]; // 1 per packet section per aid
     int currentSub;
     u8 aidPidMap[12]; // Index is player id, value is aid
     u32 disconnectedAids; // Bitfield
@@ -119,5 +120,6 @@ public:
     // 4 bytes padding
 
     static RKNetController* instance;
+    static u32 packetBufferSizes[RKNetRACEPacketHeader::SECTION_COUNT];
 };
 size_assert(RKNetController, 0x29C8);
