@@ -19,7 +19,7 @@ kmCallDefCpp(0x80623D94, u32) {
 kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
 
     // Update the children count
-    if (CupManager::GetCupArrowsEnabled(false))
+    if (CupManager::GetCupArrowsEnabled())
         self->layoutCount++;
 
     // Construct extra buttons

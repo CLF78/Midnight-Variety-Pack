@@ -48,23 +48,30 @@ bool ValidateRACEPacket(u32 aid, RKNetRACEPacketHeader* data, u32 dataLength) {
     if (dataLength < sizeof(RKNetRACEPacketHeader))
         return false;
 
+    // Verify each section size is valid
+    // Do this separately as the sizes may be valid but may not add up
     u32 expectedPacketSize = 0;
     for (int i = 0; i < RKNetRACEPacketHeader::SECTION_COUNT; i++) {
-        u8 sectionSize = data->sizes[i];
-
-        // Verify the section size is valid
-        if (!IsPacketSectionSizeValid(i, sectionSize))
+        expectedPacketSize += data->sizes[i];
+        if (!IsPacketSectionSizeValid(i, data->sizes[i]))
             return false;
-
-        // Verify the section data is valid
-        if (!IsPacketSectionDataValid(i, (u8*)data + expectedPacketSize))
-            return false;
-
-        expectedPacketSize += sectionSize;
     }
 
     // Ensure the declared sizes match the cumulative size
-    return dataLength >= expectedPacketSize;
+    if (dataLength < expectedPacketSize)
+        return false;
+
+    // Verify each section's data is valid
+    u8* packetData = (u8*)data;
+    for (int i = 0; i < RKNetRACEPacketHeader::SECTION_COUNT; i++) {
+        if (!IsPacketSectionDataValid(i, packetData))
+            return false;
+
+        packetData += data->sizes[i];
+    }
+
+    // All checks passed, we're ready to go!
+    return true;
 }
 
 } // namespace Security
