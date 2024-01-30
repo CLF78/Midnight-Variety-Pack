@@ -42,3 +42,10 @@ kmBranchDefCpp(0x80571858, 0x805718B4, void, KartObjectProxy* kobj) {
     kobj->setOobCamera();
     coll->activateOob(false, nullptr, false, false);
 }
+
+////////////////////
+// Game Bug Fixes //
+////////////////////
+
+// Do not replace bomb damage with spinouts
+kmWrite16(0x80572690, 0x4800);
