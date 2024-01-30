@@ -96,7 +96,7 @@
 - ✅ 805543a4 (Report track subfile hashes)
 - ❌ 80562ad0 (Frameskip code)
 - ⏭ 805845d8 (ITPT antifreeze support patch) - seems to be useless, at least offline
-- ❌ 80589acc (Bean's halfpipe glitch bugfix)
+- ✅ 80589acc (Bean's halfpipe glitch bugfix)
 - ✅ 80591b70 (Report Common.szs subfile hashes)
 - ❌ 805cddc8 (Custom Wiimmfi error messages)
 - ❌ 805ce55c (Frameskip code)
@@ -129,7 +129,7 @@
 - ❌ 80658f7c (Ultra-fast NATNEG)
 - ❌ 8065a0ec (Auto-reconnect DWC stub implementation)
 - ❌ 8065a970 (Auto-reconnect)
-- ❌ 8065df44 (Bunch of antifreeze patches)
+- ⏭ 8065df44 (Invalid ITEM packet check) - will be implemented separately
 - ✅ 8065ff5c (Reset room stall timer)
 - ✅ 80660330 (Anti room stall logic)
 - ❌ 80760a88 (Bunch of antifreeze patches)
@@ -234,7 +234,7 @@
 - ✅ 48469b95 at 8053f3f4
 - ✅ 4844e2d1 at 805543a4
 - ⏭ 4841cd61 at 805845d8
-- ❌ 4841b045 at 80589acc
+- ✅ 4841b045 at 80589acc
 - ✅ 48410e24 at 80591b70
 - ❌ 483dad19 at 805cddc8
 - ✅ 4bffffc4 at 805d2ef8
@@ -265,7 +265,7 @@
 - ❌ 4834cd64 at 80658f7c
 - ❌ 4834d439 at 8065a0ec
 - ❌ 4834d75c at 8065a970
-- ❌ 48343231 at 8065df44
+- ⏭ 48343231 at 8065df44
 - ✅ 48341b80 at 8065ff5c
 - ✅ 483419d5 at 80660330
 - ❌ 4824816d at 80760a88
