@@ -2,6 +2,7 @@
 #include <egg/core/eggDisposer.hpp>
 #include <platform/new.hpp>
 #include <game/system/Mii.hpp>
+#include <game/system/RawSave.hpp>
 #include <game/system/Timer.hpp>
 #include <midnight/save/SaveExpansion.hpp>
 
@@ -129,7 +130,7 @@ public:
     EGG::Disposer inherit;
     virtual ~SaveManager();
 
-    void* rawSave;
+    RawSave* rawSave;
     void* rawGhostFile;
     void* taskThread;
 
@@ -147,7 +148,7 @@ public:
     License licenses[4];
 
     bool initialized;
-    void* rawSaveCopy;
+    RawSave* rawSaveCopy;
 
     bool busy;
     bool valid;

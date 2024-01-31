@@ -105,7 +105,7 @@
 - ❌ 805d8cf4 (Auto-reconnect: SELECT screen text update)
 - ❌ 805d9044 (Auto-reconnect: SELECT screen text update)
 - ✅ 805dce34 (Report friend room start)
-- ❌ 80600d10 (supporting patch for the DNS exploit)
+- ✅ 80600d10 (Supporting patch for the DNS exploit)
 - ❌ 806437cc (Auto-reconnect: SELECT screen text update)
 - ❌ 80643cb8 (Auto-reconnect: SELECT screen text update)
 - ❌ 80643ccc (Auto-reconnect: SELECT screen text update)
@@ -242,7 +242,7 @@
 - ❌ 483ce5e5 at 805d8cf4
 - ❌ 483ce2bd at 805d9044
 - ✅ 483c6359 at 805dce34
-- ❌ 483a7d78 at 80600d10
+- ✅ 483a7d78 at 80600d10
 - ❌ 48363ab5 at 806437cc
 - ❌ 483635c9 at 80643cb8
 - ❌ 483635b5 at 80643ccc
