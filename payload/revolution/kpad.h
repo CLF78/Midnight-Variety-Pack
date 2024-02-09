@@ -6,14 +6,14 @@
 extern "C" {
 #endif
 
-enum {
-    KPAD_READ_ERR_NONE = 0,
-    KPAD_READ_ERR_NO_DATA = -1,
+typedef enum {
+    KPAD_READ_ERR_NONE          = 0,
+    KPAD_READ_ERR_NO_DATA       = -1,
     KPAD_READ_ERR_NO_CONTROLLER = -2,
-    KPAD_READ_ERR_SETUP = -3,
-    KPAD_READ_ERR_LOCKED = -4,
-    KPAD_READ_ERR_INIT = -5,
-};
+    KPAD_READ_ERR_SETUP         = -3,
+    KPAD_READ_ERR_LOCKED        = -4,
+    KPAD_READ_ERR_INIT          = -5,
+} KPADError;
 
 typedef union {
     struct {

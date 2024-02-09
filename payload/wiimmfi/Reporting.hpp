@@ -18,7 +18,7 @@ namespace Reporting {
     void ReportFriendRoomStart(RKNetROOMPacket* packet);
 
     // Reports the given track SHA1 hash
-    void ReportTrackHash(u32* hash);
+    void ReportTrackHash(u32* hash, u8 courseId);
 
     // Reports the console signature and certificate
     void ReportSignatureAndCert();

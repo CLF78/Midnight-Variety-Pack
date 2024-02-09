@@ -22,18 +22,18 @@ public:
             TYPE_UNUSED,
             TYPE_GHOST,
             TYPE_ONLINE,
-            TYPE_NONE
+            TYPE_NONE,
         };
 
         enum Team {
             TEAM_RED,
             TEAM_BLUE,
-            TEAM_NONE
+            TEAM_NONE,
         };
 
         virtual ~Player();
 
-        int computeGPRank(); // replaced
+        int computeGPRank();
 
         u8 _4;
         s8 localPlayerNum;
@@ -105,27 +105,27 @@ public:
 
         enum BattleType {
             BATTLE_BALLOON,
-            BATTLE_COIN
+            BATTLE_COIN,
         };
 
         enum CPUMode {
             CPU_EASY,
             CPU_NORMAL,
             CPU_HARD,
-            CPU_NONE
+            CPU_NONE,
         };
 
         enum ModeFlags {
-            FLAG_MIRROR = 1,
-            FLAG_TEAMS = 2,
-            FLAG_COMPETITION = 4,
+            FLAG_MIRROR      = BIT_FLAG(0),
+            FLAG_TEAMS       = BIT_FLAG(1),
+            FLAG_COMPETITION = BIT_FLAG(2),
         };
 
         enum ItemMode {
             ITEMS_BALANCED,
             ITEMS_FRANTIC,
             ITEMS_STRATEGIC,
-            ITEMS_NONE
+            ITEMS_NONE,
         };
 
         bool isBattle() const {

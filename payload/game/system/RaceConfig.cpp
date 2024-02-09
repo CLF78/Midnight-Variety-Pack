@@ -3,10 +3,11 @@
 #include <game/system/ResourceManager.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
+// RaceConfig::Scenario::copyPrevPositions() patch
 // Set the current track for GP mode
 kmBranchDefCpp(0x8052F208, 0x8052F228, RaceConfig::Scenario*, RaceConfig::Scenario* self, u32 raceNumber) {
 
@@ -21,21 +22,22 @@ kmBranchDefCpp(0x8052F208, 0x8052F228, RaceConfig::Scenario*, RaceConfig::Scenar
     return self;
 }
 
+// RaceConfig::loadNextCourse() override
 // Do not load the next track in the course cache
 kmWrite32(0x80531F80, 0x4E800020);
 
+/////////////////////
+// Custom GP Ranks //
+/////////////////////
+
+// RaceConfig::Player::computeGpRank() override
 // Compute GP rank based on score only
-int RaceConfig::Player::computeGPRank() {
-    const u8 scores[3] = {GP_SCORE_3_STARS, GP_SCORE_2_STARS, GP_SCORE_1_STAR};
+kmBranchDefCpp(0x8052DAF0, NULL, int, RaceConfig::Player* self) {
+    static const u8 scores[3] = {GP_SCORE_3_STARS, GP_SCORE_2_STARS, GP_SCORE_1_STAR};
     for (int i = 0; i < ARRAY_SIZE(scores); i++) {
-        if (gpScore >= scores[i])
+        if (self->gpScore >= scores[i])
             return i;
     }
 
     return 3;
-}
-
-// Replace the original function
-kmBranchDefCpp(0x8052DAF0, NULL, int, RaceConfig::Player* self) {
-    return self->computeGPRank();
 }

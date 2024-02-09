@@ -1,9 +1,9 @@
 #include <common/Common.hpp>
 #include <game/system/SaveManager.hpp>
 
-/////////////////////
-// Wiimmfi Patches //
-/////////////////////
+//////////////////////////
+// Wiimmfi Data Sharing //
+//////////////////////////
 
 // When revoking consent to data sharing, toggle the Wiimmfi-specific data sharing bit so the DNS method
 // can ask the player to consent to data sharing again

@@ -131,11 +131,11 @@ public:
         RACE_FROOM_VS_1P,
         RACE_FROOM_TEAM_VS_1P,
         RACE_FROOM_BALLOON_BATTLE_1P,
-        RACE_FROOM_COIN_BATLLE_1P,
+        RACE_FROOM_COIN_BATTLE_1P,
         RACE_FROOM_VS_2P,
         RACE_FROOM_TEAM_VS_2P,
         RACE_FROOM_BALLOON_BATTLE_2P,
-        RACE_FROOM_COIN_BATLLE_2P,
+        RACE_FROOM_COIN_BATTLE_2P,
         DC_WITH_ERROR_CODE,
         DC_WITHOUT_ERROR_CODE,
         CHANNEL_FROM_MAIN_MENU,
@@ -200,7 +200,7 @@ public:
         UNK_B1,
         UNK_B2,
 
-        SECTION_COUNT
+        SECTION_COUNT,
     };
 
     void loadTHPManager();

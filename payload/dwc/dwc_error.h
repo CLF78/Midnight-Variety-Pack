@@ -28,7 +28,7 @@ typedef enum {
     DWC_ERROR_DB_ANY,
     DWC_ERROR_SC_CONNECT_BLOCK,
     DWC_ERROR_NETWORK_LIGHT,
-    DWC_ERROR_NUM,
+    DWC_ERROR_COUNT,
 } DWCError;
 
 GPResult DWCi_HandleGPError(GPResult error);

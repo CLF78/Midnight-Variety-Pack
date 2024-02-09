@@ -6,11 +6,11 @@ namespace db {
 struct ConsoleHead {
 
     enum Attributes {
-        CONSOLE_ATTR_NO_TURNOVER_LINE = 0x1, // Do not wrap overflowing lines
-        CONSOLE_ATTR_STOP_ON_BUFFER_FULL = 0x2, // Stop updating when buffer is full
-        CONSOLE_ATTR_TAB_SIZE_2 = 0x0,
-        CONSOLE_ATTR_TAB_SIZE_4 = 0x4,
-        CONSOLE_ATTR_TAB_SIZE_8 = 0x8,
+        CONSOLE_ATTR_TAB_SIZE_2          = BIT_FLAG(-1),
+        CONSOLE_ATTR_NO_TURNOVER_LINE    = BIT_FLAG(0), // Do not wrap overflowing lines
+        CONSOLE_ATTR_STOP_ON_BUFFER_FULL = BIT_FLAG(1), // Stop updating when buffer is full
+        CONSOLE_ATTR_TAB_SIZE_4          = BIT_FLAG(2),
+        CONSOLE_ATTR_TAB_SIZE_8          = BIT_FLAG(3),
     };
 
     u8* textBuffer;

@@ -7,13 +7,7 @@
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
 
-// Expansion structures for the custom cup system
-class RaceCupSelectArrow : public SheetSelectButton {
-public:
-    void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId);
-    void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId);
-};
-
+// Expansion structure for the custom cup system
 class RaceCupSelectPageEx {
 public:
     SheetSelectControl arrows;

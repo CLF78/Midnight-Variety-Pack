@@ -5,11 +5,12 @@
 #include <game/ui/SectionManager.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
 // Trigger the credits if all GPs have been completed
+// TODO figure out which TU this code belongs to and move it there
 kmCallDefCpp(0x805BC788, int, u32 cupId, u32 engineClass, bool isMirror, u32 rank) {
 
     // Copied check from the original function
@@ -32,12 +33,13 @@ kmCallDefCpp(0x805BC788, int, u32 cupId, u32 engineClass, bool isMirror, u32 ran
     return AwardPage::CREDITS_FULL;
 }
 
+// AwardPage::initCup() patch
 // Use the VS trophy for the GP award scene
 kmWrite8(0x805BCF87, 0x90);
 
 // AwardPage::initRank() override
 // Save the GP rank to the save expansion
-kmCallDefCpp(0x805BC604, void) {
+kmBranchDefCpp(0x805BD050, NULL, void) {
 
     // Check if we're in GP mode
     if (SectionManager::instance->curSection->sectionID != Section::AWARD_GP)
@@ -69,13 +71,13 @@ kmCallDefCpp(0x805BC604, void) {
     SectionManager::instance->saveGhostManager->markLicensesDirty();
 }
 
-////////////////////////////////////////////////////////////////
-// Patches for Custom Cup System + Engine Class Modifications //
-////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////
+// Custom Cup System / Custom Engine Classes //
+///////////////////////////////////////////////
 
 // AwardPage::initType() override
-// Set the proper text messages for each mode
-kmCallDefCpp(0x805BC588, void, AwardPage* self) {
+// Set the proper icons and text messages for each mode
+kmBranchDefCpp(0x805BC9DC, NULL, void, AwardPage* self) {
 
     // Initialize values
     u32 msgId = 0;
@@ -105,11 +107,10 @@ kmCallDefCpp(0x805BC588, void, AwardPage* self) {
     } else if (curSection == Section::AWARD_GP || curSection == Section::AWARD_VS_36 || curSection == Section::AWARD_VS_37) {
 
         // Get the cup icon (or the flag icon if not in GP mode)
-        if (curSection == Section::AWARD_GP) {
+        if (curSection == Section::AWARD_GP)
             iconPane = CupManager::replaceCupIcon(&self->cupDisplay, settings->cupId);
-        } else {
+        else
             iconPane = "icon_11_flag";
-        }
 
         // Get the message depending on the mode
         msgId = (curSection == Section::AWARD_GP) ? 1421 : 1422;

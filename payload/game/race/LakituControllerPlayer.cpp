@@ -2,9 +2,9 @@
 #include <game/race/LakituControllerPlayer.hpp>
 #include <game/system/RaceManager.hpp>
 
-//////////////////////////////
-// Patches for Lap Modifier //
-//////////////////////////////
+//////////////////
+// Lap Modifier //
+//////////////////
 
 // Set the correct animation frame for the current lap
 kmHookFn void SetLapBoardFrame(LakituControllerPlayer* self) {

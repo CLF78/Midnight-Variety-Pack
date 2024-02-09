@@ -8,7 +8,7 @@
             ],
             "defines": [
                 "__CWCC__",
-                "CODE_REGION_P"
+                "CODE_REGION=0"
             ],
             "forcedInclude": [
                 "${workspaceFolder}/payload/common/Intellisense.h"

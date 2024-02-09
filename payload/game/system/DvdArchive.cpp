@@ -8,26 +8,28 @@
 #include <revolutionex/net/NETDigest.h>
 #include <wiimmfi/Reporting.hpp>
 
-/////////////////////////////////////////////////////////
-// Patches for Custom Cup System and Wiimmfi Telemetry //
-/////////////////////////////////////////////////////////
+///////////////////////////////////////////
+// Custom Cup System / Wiimmfi Telemetry //
+///////////////////////////////////////////
 
-// Hash track files, store the hash and report it to Wiimmfi if necessary
-void DvdArchive::decompress(const char* path, EGG::Heap* heap) {
+// DvdArchive::decompress() override
+// Hash track file, store the hash and report it to Wiimmfi if necessary
+// Credits: Wiimmfi
+kmBranchDefCpp(0x80519508, NULL, void, DvdArchive* self, const char* path, EGG::Heap* heap) {
 
     // Get decompressed size
-    u32 decompressedSize = EGG::Decomp::getExpandSize(fileBuffer);
+    u32 decompressedSize = EGG::Decomp::getExpandSize(self->fileBuffer);
 
     // Allocate the buffer and decode the file in it
     void* buffer = heap->alloc(decompressedSize, 0x20);
-    EGG::Decomp::decodeSZS(fileBuffer, buffer);
+    EGG::Decomp::decodeSZS(self->fileBuffer, buffer);
 
     // Store info and invalidate cache
-    archiveSize = decompressedSize;
-    archiveBuffer = buffer;
-    archiveHeap = heap;
+    self->archiveSize = decompressedSize;
+    self->archiveBuffer = buffer;
+    self->archiveHeap = heap;
     DCStoreRange(buffer, decompressedSize);
-    state = DvdArchive::DECOMPRESSED;
+    self->state = DvdArchive::DECOMPRESSED;
 
     // Check if it's a track file, if not bail
     if (!strstartw(path, "Race/Course/"))
@@ -48,10 +50,6 @@ void DvdArchive::decompress(const char* path, EGG::Heap* heap) {
         return;
 
     // We're online, send the track hash to the server
-    Wiimmfi::Reporting::ReportTrackHash(hash);
-}
-
-// Replace the game function
-kmBranchDefCpp(0x80519508, NULL, void, DvdArchive* self, const char* path, EGG::Heap* heap) {
-    self->decompress(path, heap);
+    // TODO figure out what to do if we remove course slots, probably gotta talk it out with Wiimmfi devs
+    Wiimmfi::Reporting::ReportTrackHash(hash, RaceConfig::instance->raceScenario.settings.courseId);
 }

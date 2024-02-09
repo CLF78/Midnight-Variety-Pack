@@ -13,7 +13,7 @@ typedef enum {
     DWC_LOGIN_STATE_GPGETINFO,
     DWC_LOGIN_STATE_GPSETINFO,
     DWC_LOGIN_STATE_CONNECTED,
-    DWC_LOGIN_STATE_NUM,
+    DWC_LOGIN_STATE_COUNT,
 } DWCLoginState;
 
 typedef void (*DWCLoginCallback)(DWCError error, int profileID, void* param);

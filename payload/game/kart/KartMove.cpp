@@ -3,10 +3,11 @@
 #include <game/kart/KartState.hpp>
 #include <game/kart/VehiclePhysics.hpp>
 
-///////////////////////////////////////
-// Patches for Custom Engine Classes //
-///////////////////////////////////////
+///////////////////////////
+// Custom Engine Classes //
+///////////////////////////
 
+// TODO make this array a define
 const float KartMove::speedModifiers[] = {
     CC_50_SPEED_MODIFIER,
     CC_100_SPEED_MODIFIER,
@@ -16,6 +17,7 @@ const float KartMove::speedModifiers[] = {
     CC_BATTLE_SPEED_MODIFIER,
 };
 
+// KartMove::KartMove() patch
 // Apply the speed multiplier
 kmBranchDefCpp(0x80578118, NULL, KartMove*, KartMove* self) {
     self->speedMultiplier = KartMove::speedModifiers[RaceConfig::instance->raceScenario.settings.engineClass];
@@ -39,6 +41,7 @@ kmListHookDefCpp(RaceStartHook) {
     }
 }
 
+// KartMove::calcCannon() patch
 // Reduce cannon exit speed
 kmBranchDefCpp(0x80584F6C, 0x80584FF8, void, KartMove* self, KartState* state) {
 
@@ -58,13 +61,6 @@ kmBranchDefCpp(0x80584F6C, 0x80584FF8, void, KartMove* self, KartState* state) {
     physics->internalVelocity.y = self->_1F4.y * self->speed;
     physics->internalVelocity.z = self->_1F4.z * self->speed;
 
-    // More original code
+    // More replicated code
     self->FUN_80591050(0, 0, 1);
 }
-
-///////////////////////////////////
-// Patches for Mega Thundercloud //
-///////////////////////////////////
-
-// Apply Mega Mushroom effect instead of the Lightning one
-kmCall(0x80798834, 0x80580B14);

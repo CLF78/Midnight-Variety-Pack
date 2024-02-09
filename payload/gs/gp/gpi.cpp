@@ -4,11 +4,13 @@
 #include <platform/string.h>
 #include <wiimmfi/Kick.hpp>
 
-//////////////////////////////////////
-// Patches for Wiimmfi Kick Support //
-//////////////////////////////////////
+//////////////////////////
+// Wiimmfi Kick Support //
+//////////////////////////
 
+// gpiProcessConnectionManager() patch
 // Parse Wiimmfi kick messages
+// Credits: Wiimmfi
 kmCallDefCpp(0x800FCEE8, int, GPConnection conn, char* data) {
 
     // Reproduce skipped code

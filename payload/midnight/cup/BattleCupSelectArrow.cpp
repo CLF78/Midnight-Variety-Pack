@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <game/ui/page/BattleCupSelectPage.hpp>
+#include <midnight/cup/BattleCupSelectArrow.hpp>
 #include <midnight/cup/CupManager.hpp>
 
 // This function runs whenever the left arrow is selected or pressed

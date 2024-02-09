@@ -28,7 +28,7 @@ public:
         XY_WRAP,
         Y_WRAP,
         NO_WRAP,
-        LINEAR
+        LINEAR,
     };
 
     virtual TypeInfo* getTypeInfo() const;

@@ -89,7 +89,7 @@ void SendMessage(const char* key, const char* value, int integerValue) {
         return;
 
     // Another weird check here:
-    // if (buffer + 4 > buffer + len - 7) quit (doing (len < 3) was obviously too difficult)
+    // if (buffer + 4 > buffer + len - 7) quit (doing (len < 11) was obviously too difficult)
     // Either way this will never be true because the format string is longer, so i'm leaving it out
 
     // Scramble the message and send it

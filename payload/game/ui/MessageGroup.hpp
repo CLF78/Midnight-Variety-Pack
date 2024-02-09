@@ -18,10 +18,10 @@ public:
     };
 
     enum BlockKind {
-        BLOCK_KIND_INF = 0x494e4631,
-        BLOCK_KIND_DAT = 0x44415431,
-        BLOCK_KIND_STR = 0x53545231,
-        BLOCK_KIND_MID = 0x4d494431
+        BLOCK_KIND_INF = 'INF1',
+        BLOCK_KIND_DAT = 'DAT1',
+        BLOCK_KIND_STR = 'STR1',
+        BLOCK_KIND_MID = 'MID1',
     };
 
     struct Entry {

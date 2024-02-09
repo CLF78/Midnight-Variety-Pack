@@ -2,23 +2,25 @@
 #include <game/ui/page/BattleCupSelectPage.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIUtils.hpp>
+#include <midnight/cup/BattleCupSelectArrow.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
+// Section::createPage() patch (here for convenience)
 // Update memory size of page
 kmCallDefCpp(0x80623E84, u32) {
     return sizeof(BattleCupSelectPage);
 }
 
+// BattleCupSelectPage::BattleCupSelectPage() patch
 // Construct the expansion data
 kmBranchDefCpp(0x80629854, NULL, BattleCupSelectPage*, BattleCupSelectPage* self) {
 
     // Update the children count
-    if (CupManager::GetCupArrowsEnabled(true))
-        self->layoutCount++;
+    self->layoutCount++;
 
     // Construct the extra cup buttons
     for (int i = 0; i < ARRAY_SIZE(self->extension.cupButtons); i++)
@@ -46,17 +48,7 @@ kmBranchDefCpp(0x80629854, NULL, BattleCupSelectPage*, BattleCupSelectPage* self
     return self;
 }
 
-// Destroy the expansion data
-kmCallDefCpp(0x80839FEC, void, BattleCupSelectPage* self) {
-
-    // Delete the cup buttons
-    for (int i = 0; i < ARRAY_SIZE(self->extension.cupButtons); i++)
-        self->extension.cupButtons[i].~PushButton();
-
-    // Delete the arrows
-    self->extension.arrows.~SheetSelectControl();
-}
-
+// BattleCupSelectPage::loadLayout() patch
 // Load the arrows
 kmCallDefCpp(0x8083906C, SheetSelectControl*, BattleCupSelectPage* page, int childIdx) {
 
@@ -80,7 +72,9 @@ kmCallDefCpp(0x8083906C, SheetSelectControl*, BattleCupSelectPage* page, int chi
     return arrows;
 }
 
-// Set the starting cup button, skip the boundary check and adjust selection wrapping
+// BattleCupSelectPage::onActivate() patch
+// Set the starting cup button, skip the boundary check, adjust selection wrapping and disable the
+// arrows if not required
 kmBranchDefCpp(0x808390A4, 0x808390D8, void, BattleCupSelectPage* self) {
 
     // Set the starting button
@@ -97,13 +91,12 @@ kmBranchDefCpp(0x808390A4, 0x808390D8, void, BattleCupSelectPage* self) {
     self->multiControlInputManager.setDistanceFunc(wrapType);
 
     // Disable the arrows if not required
-    self->extension.arrows.leftButton.enabled = arrowsEnabled;
-    self->extension.arrows.rightButton.enabled = arrowsEnabled;
+    self->extension.arrows.configure(arrowsEnabled, arrowsEnabled);
 }
 
 // BattleCupSelectPage::setCourse() override
 // Set the selected stage when a cup is clicked
-kmCallDefCpp(0x807E0DA0, void, BattleCupSelectPage* self, CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button) {
+kmBranchDefCpp(0x8083955C, NULL, void, BattleCupSelectPage* self, CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button) {
 
     // Check for defocusing state
     if (self->pageState == Page::STATE_DEFOCUSING) {
@@ -135,4 +128,16 @@ kmCallDefCpp(0x807E0DA0, void, BattleCupSelectPage* self, CtrlMenuBattleCupSelec
         // Go to the course select page
         self->startReplace(Page::COURSE_SELECT_BT, button);
     }
+}
+
+// BattleCupSelectPage::~BattleCupSelectPage() patch
+// Destroy the expansion data
+kmCallDefCpp(0x80839FEC, void, BattleCupSelectPage* self) {
+
+    // Delete the cup buttons
+    for (int i = 0; i < ARRAY_SIZE(self->extension.cupButtons); i++)
+        self->extension.cupButtons[i].~PushButton();
+
+    // Delete the arrows
+    self->extension.arrows.~SheetSelectControl();
 }

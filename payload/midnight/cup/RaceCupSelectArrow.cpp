@@ -1,6 +1,7 @@
 #include <common/Common.hpp>
 #include <game/ui/page/RaceCupSelectPage.hpp>
 #include <midnight/cup/CupManager.hpp>
+#include <midnight/cup/RaceCupSelectArrow.hpp>
 
 // This function runs whenever the left arrow is selected or pressed
 void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {

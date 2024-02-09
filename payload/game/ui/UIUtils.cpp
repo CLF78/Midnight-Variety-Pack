@@ -24,7 +24,7 @@ RaceConfig::Scenario* getScenario() {
         // The race scenario is used in much of the game
         case Section::DEMO_GP ... Section::GHOST_REPLAY_FROM_TT:
         case Section::MENU_DEMO_GAMEPLAY:
-        case Section::RACE_WIFI_VS_1P ... Section::RACE_FROOM_COIN_BATLLE_2P:
+        case Section::RACE_WIFI_VS_1P ... Section::RACE_FROOM_COIN_BATTLE_2P:
             return &instance->raceScenario;
 
         // Fall back to the menu scenario otherwise

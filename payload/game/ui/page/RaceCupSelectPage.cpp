@@ -5,22 +5,24 @@
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <midnight/cup/CupManager.hpp>
+#include <midnight/cup/RaceCupSelectArrow.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
+// Section::createPage() patch (here for convenience)
 // Update memory size of page
 kmCallDefCpp(0x80623D94, u32) {
     return sizeof(RaceCupSelectPage);
 }
 
+// RaceCupSelectPage::RaceCupSelectPage() patch
 // Construct the expansion data
 kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
 
     // Update the children count
-    if (CupManager::GetCupArrowsEnabled())
-        self->layoutCount++;
+    self->layoutCount++;
 
     // Construct extra buttons
     SheetSelectControl::construct(&self->extension.arrows);
@@ -44,13 +46,7 @@ kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
     return self;
 }
 
-// Destroy the expansion data
-kmCallDefCpp(0x8084226C, void, RaceCupSelectPage* self) {
-
-    // Only delete the arrows, since the other fields do not have/need a destructor
-    self->extension.arrows.~SheetSelectControl();
-}
-
+// RaceCupSelectPage::loadLayout() patch
 // Load the arrows
 kmBranchDefCpp(0x80841090, 0x808410F8, SheetSelectControl*, RaceCupSelectPage* page, int childIdx) {
 
@@ -75,9 +71,45 @@ kmBranchDefCpp(0x80841090, 0x808410F8, SheetSelectControl*, RaceCupSelectPage* p
     return arrows;
 }
 
+// RaceCupSelectPage::updateTextMessages() override
+// Display the GP rank from the expanded save
+// Original function address: 80841614
+void RaceCupSelectPage::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u32 unk) {
+
+    // Update course names
+    u32 cupButtonId = cupHolder->currentSelected;
+    this->courseHolder.setCourseNames(cupButtonId);
+
+    // If game mode is Grand Prix, update the message at the bottom with the cup rank
+    if (RaceConfig::instance->menuScenario.settings.gameMode == RaceConfig::Settings::GAMEMODE_GP) {
+
+        // Initialize info
+        MessageInfo msgInfo;
+
+        // Get current license, bail if invalid
+        SaveManager* save = SaveManager::instance;
+        if (save->currentLicenseId == -1)
+            return;
+
+        // Get the cup entry
+        SaveExpansion* licenseEx = &save->expansion.licensesEx[save->currentLicenseId];
+        u32 cupId = CupManager::getCupIdxFromButton(cupButtonId, this->extension.curPage);
+        SaveExpansion::Cup* cup = &licenseEx->gpRanks[cupId];
+
+        // Get the message ID
+        if (cup->completed)
+            msgInfo.messageIds[0] = 3373 + cup->rank;
+        else
+            msgInfo.messageIds[0] = 3382;
+
+        // Set it
+        this->instructionText->setText(3360, &msgInfo);
+    }
+}
+
 // RaceCupSelectPage::setCourse() override
 // Set the selected track when a cup is clicked
-kmCallDefCpp(0x807E5DA8, void, RaceCupSelectPage* self, CtrlMenuCupSelectCup* cupHolder, PushButton* button) {
+kmBranchDefCpp(0x80841744, NULL, void, RaceCupSelectPage* self, CtrlMenuCupSelectCup* cupHolder, PushButton* button) {
 
     // Check for defocusing state
     if (self->pageState == Page::STATE_DEFOCUSING) {
@@ -119,50 +151,24 @@ kmCallDefCpp(0x807E5DA8, void, RaceCupSelectPage* self, CtrlMenuCupSelectCup* cu
     }
 }
 
-// RaceCupSelectPage::updateTextMessages() override
-// Display the GP rank from the expanded save
-void RaceCupSelectPage::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u32 unk) {
+// RaceCupSelectPage::onRefocus() patch
+// Disable background movies
+kmBranch(0x80841F74, 0x80841FD4);
 
-    // Update course names
-    u32 cupButtonId = cupHolder->currentSelected;
-    this->courseHolder.setCourseNames(cupButtonId);
+// RaceCupSelectPage::~RaceCupSelectPage() patch
+// Destroy the expansion data
+kmCallDefCpp(0x8084226C, void, RaceCupSelectPage* self) {
 
-    // If game mode is Grand Prix, update the message at the bottom with the cup rank
-    if (RaceConfig::instance->menuScenario.settings.gameMode == RaceConfig::Settings::GAMEMODE_GP) {
-
-        // Initialize info
-        MessageInfo msgInfo;
-
-        // Get current license, bail if invalid
-        SaveManager* save = SaveManager::instance;
-        if (save->currentLicenseId == -1)
-            return;
-
-        // Get the cup entry
-        SaveExpansion* licenseEx = &save->expansion.licensesEx[save->currentLicenseId];
-        u32 cupId = CupManager::getCupIdxFromButton(cupButtonId, this->extension.curPage);
-        SaveExpansion::Cup* cup = &licenseEx->gpRanks[cupId];
-
-        // Get the message ID
-        if (cup->completed)
-            msgInfo.messageIds[0] = 3373 + cup->rank;
-        else
-            msgInfo.messageIds[0] = 3382;
-
-        // Set it
-        this->instructionText->setText(3360, &msgInfo);
-    }
+    // Only delete the arrows, since the other fields do not have/need a destructor
+    self->extension.arrows.~SheetSelectControl();
 }
 
-// Disable background movies
-kmWrite16(0x80841F94, 0x4800);
-
-///////////////////////////////////////////////////////////
-// Patches for Custom Cup System + Custom Engine Classes //
-///////////////////////////////////////////////////////////
+///////////////////////////////////////////////
+// Custom Cup System / Custom Engine Classes //
+///////////////////////////////////////////////
 
 // RaceCupSelectPage::onActivate() override
-// Sets a lot of stuff
+// A lot of stuff (see code comments)
 kmPointerDefCpp(0x808D9518, void, RaceCupSelectPage* self) {
 
     // Set top message
@@ -187,8 +193,7 @@ kmPointerDefCpp(0x808D9518, void, RaceCupSelectPage* self) {
     self->multiControlInputManager.setDistanceFunc(wrapType);
 
     // Disable the arrows if not required
-    self->extension.arrows.leftButton.enabled = arrowsEnabled;
-    self->extension.arrows.rightButton.enabled = arrowsEnabled;
+    self->extension.arrows.configure(arrowsEnabled, arrowsEnabled);
 
     // Initialize cup holder
     self->cupHolder.init();

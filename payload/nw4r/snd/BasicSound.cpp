@@ -6,11 +6,13 @@ namespace nw4r {
 namespace snd {
 namespace detail {
 
-//////////////////////////////////////
-// Patches for SFX Expansion System //
-//////////////////////////////////////
+///////////////////////
+// Custom SFX System //
+///////////////////////
 
-// Trim the SASR bit when setting the BasicSound id
+// nw4r::snd::BasicSound::SetId() override
+// Trim the SASR bit before calling the function
+// Credits: stebler
 kmHookFn void SetIDOverride(BasicSound* self, ulong soundId) {
     self->SetId(soundId & ~SASR_BIT);
 }
@@ -20,7 +22,9 @@ kmCall(0x800A1BC4, SetIDOverride);
 kmCall(0x800A1D6C, SetIDOverride);
 kmCall(0x800A1F14, SetIDOverride);
 
-// Trim the SASR bit when getting the ambient priority
+// nw4r::snd::BasicSound::GetAmbientPriority() override
+// Trim the SASR bit before calling the function
+// Credits: stebler
 kmCallDefCpp(0x800A1954, s32, BasicSound::AmbientInfo* info, ulong soundId) {
     return BasicSound::GetAmbientPriority(info, soundId & ~SASR_BIT);
 }

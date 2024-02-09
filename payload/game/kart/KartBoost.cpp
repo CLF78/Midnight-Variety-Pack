@@ -3,11 +3,11 @@
 #include <game/kart/KartMove.hpp>
 #include <game/system/RaceConfig.hpp>
 
-///////////////////////////////////////
-// Patches for Custom Engine Classes //
-///////////////////////////////////////
+///////////////////////////
+// Custom Engine Classes //
+///////////////////////////
 
-// Multiply MT boost acceleration on CCs higher than 150cc
+// Multiply boost acceleration on CCs higher than 150cc
 kmListHookDefCpp(RaceStartHook) {
 
     KartBoost::boostAccelerations[KartBoost::MT_OR_START] = 3.0f;

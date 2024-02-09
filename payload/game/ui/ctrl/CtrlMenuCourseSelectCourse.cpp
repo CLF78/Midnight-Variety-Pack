@@ -5,11 +5,11 @@
 #include <game/ui/SectionManager.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
-// CtrlMenuCourseSelectCourse::onInit() override
+// CtrlMenuCourseSelectCourse::initSelf() override
 // Update track names
 kmPointerDefCpp(0x808D30D8, void, CtrlMenuCourseSelectCourse* self) {
 
@@ -44,5 +44,5 @@ kmPointerDefCpp(0x808D30D8, void, CtrlMenuCourseSelectCourse* self) {
 }
 
 // CtrlMenuCourseSelectCourse::onSelect() override
-// Disable printing time trial times and remove unnecessary crud
+// Disable printing time trial times and updating button movies
 kmPointerDefCpp(0x808BC170, void, CtrlMenuCourseSelectCourse* self, PushButton* button) {}

@@ -219,7 +219,7 @@ public:
         RECORDS_FRIENDS,
         RECORDS_WIFI,
         RECORDS_OTHER,
-        PAGE_COUNT
+        PAGE_COUNT,
     };
 
     enum PageState {
@@ -228,7 +228,7 @@ public:
         STATE_ACTIVATING,
         STATE_FOCUSED,
         STATE_DEFOCUSING,
-        STATE_UNLOADING
+        STATE_UNLOADING,
     };
 
     enum ReplaceAnim {

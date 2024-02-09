@@ -5,11 +5,13 @@ namespace nw4r {
 namespace snd {
 namespace detail {
 
-//////////////////////////////////////
-// Patches for SFX Expansion System //
-//////////////////////////////////////
+//////////////////////
+// BRSTM Cutoff Fix //
+//////////////////////
 
-// Prevent muting on missing extra music channel
+// nw4r::snd::detail::StrmFileReader::ReadStrmTrackInfo() override
+// Prevent muting on missing extra music channel(s)
+// Credits: stebler
 kmCallDefCpp(0x800A54F4, bool, StrmFileReader* self, StrmFileReader::StrmTrackInfo* info, int trackIndex) {
 
     if (self->ReadStrmTrackInfo(info, trackIndex))

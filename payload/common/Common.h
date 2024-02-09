@@ -9,7 +9,7 @@
 #error "Kamek requires the CodeWarrior compiler!"
 #endif
 
-#if (!(defined(CODE_REGION_P) || defined(CODE_REGION_E) || defined(CODE_REGION_J) || defined(CODE_REGION_K) || defined(CODE_REGION_ALL)))
+#ifndef CODE_REGION
 #error "Missing region specifier!"
 #endif
 
@@ -44,6 +44,7 @@ typedef void (*Func)();
 // Macros
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define ALIGN(a) __attribute__ ((aligned(a)))
+#define BIT_FLAG(bit) ((bit) < 0 ? 0 : 1 << (bit))
 #define BOOL s32
 #define MIN(a, b) (((b) < (a)) ? (b) : (a))
 #define MAX(a, b) (((a) < (b)) ? (b) : (a))

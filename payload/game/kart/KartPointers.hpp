@@ -13,7 +13,7 @@ class KartAction;
 class KartCollide;
 class KartEnemy;
 class RacedataFactory;
-class RacedataHandler;
+class KartNetReceiver;
 class BoxColUnit;
 class KartBlink;
 class KartKiller;
@@ -38,7 +38,7 @@ public:
     void* _34;
     KartEnemy* kartEnemy;
     RacedataFactory* racedataFactory;
-    RacedataHandler* racedataHandler;
+    KartNetReceiver* kartNetReceiver;
     void* _44;
     void* _48;
     BoxColUnit* entity;

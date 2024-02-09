@@ -1,6 +1,6 @@
 #include <common/Common.hpp>
 
-class AnmHolder{
+class AnmHolder {
 public:
     virtual float GetFrameCount();
     virtual float GetFrame() const;

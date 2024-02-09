@@ -5,10 +5,11 @@
 #include <game/util/Random.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
+// TitlePage::loadDemo() patch
 // Load a random track for the Demo
 kmBranchDefCpp(0x8063B1FC, 0x8063B338, void, Random* randomizer) {
 
@@ -26,6 +27,7 @@ kmBranchDefCpp(0x8063B1FC, 0x8063B338, void, Random* randomizer) {
     SectionManager::instance->globalContext->demoTrack = trackIdx;
 }
 
+// TitlePage::loadDemo() patch
 // Load a random arena for the Demo
 kmBranchDefCpp(0x8063B2F4, 0x8063B338, void, Random* randomizer) {
 

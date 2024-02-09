@@ -15,7 +15,7 @@ public:
     virtual const TypeInfo* getTypeInfo() const;
     virtual const char* getTypeName() const;
 
-    ControlInputManager m_inputManager;
+    ControlInputManager inputManager;
     InputHandler0<SheetSelectButton, void> onScrollHandler;
     InputHandler0<SheetSelectButton, void> onDeselectHandler;
     InputHandler0<SheetSelectButton, void> onSelectHandler;
@@ -46,6 +46,8 @@ public:
     void load(const char* dir, const char* rightFile, const char* rightVariant,
             const char* leftFile, const char* leftVariant, u32 playerFlags, bool r10,
             bool pointerOnly);
+
+    void configure(bool leftEnabled, bool rightEnabled);
 
     InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32>* rightHandler;
     InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32>* leftHandler;

@@ -11,11 +11,13 @@ ulong SoundArchive::GetSoundCount() const {
     return fileReader->GetSoundCount();
 }
 
-//////////////////////////////////////
-// Patches for SFX Expansion System //
-//////////////////////////////////////
+///////////////////////
+// Custom SFX System //
+///////////////////////
 
-// Override sound type for replaced sfx
+// nw4r::snd::SoundArchive::GetSoundType() override
+// Force sound type for replaced sfx
+// Credits: stebler
 kmBranchDefCpp(0x8009DF30, NULL, SoundArchive::SoundType, SoundArchive* self, ulong soundId) {
     if (soundId & SASR_BIT)
         return SoundArchive::SOUND_TYPE_STRM;
@@ -23,7 +25,9 @@ kmBranchDefCpp(0x8009DF30, NULL, SoundArchive::SoundType, SoundArchive* self, ul
     return self->fileReader->GetSoundType(soundId);
 }
 
+// nw4r::snd::SoundArchive::ReadSoundInfo() override
 // Ensure the original sfx sound info is read
+// Credits: stebler
 kmBranchDefCpp(0x8009DF40, NULL, bool, SoundArchive* self, ulong soundId, SoundArchive::SoundInfo* soundInfo) {
 
     if (!self->fileReader->ReadSoundInfo(soundId & ~SASR_BIT, soundInfo))
@@ -35,7 +39,9 @@ kmBranchDefCpp(0x8009DF40, NULL, bool, SoundArchive* self, ulong soundId, SoundA
     return true;
 }
 
+// nw4r::snd::SoundArchive::detail_ReadStrmSoundInfo() override
 // Ensure the StrmSoundInfo structure is filled properly
+// Credits: stebler
 kmBranchDefCpp(0x8009DF60, NULL, bool, SoundArchive* self,
                                        ulong soundId,
                                        SoundArchive::StrmSoundInfo* strmSoundInfo) {
@@ -56,7 +62,9 @@ kmBranchDefCpp(0x8009DF60, NULL, bool, SoundArchive* self,
     }
 }
 
+// nw4r::snd::SoundArchive::detail_OpenFileStream() override
 // Replace the file stream when opening an sfx
+// Credits: stebler
 kmHookFn ut::FileStream* OpenFileStreamOverride(SoundArchive* self,
                                                          u32 fileId,
                                                          void* buffer,

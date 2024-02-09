@@ -6,11 +6,13 @@
 #include <midnight/cup/CupManager.hpp>
 #include <midnight/SoundExpansion.hpp>
 
-//////////////////////////////////////////
-// Patches for Automatic BRSAR Patching //
-//////////////////////////////////////////
+//////////////////////////////
+// Automatic BRSAR Patching //
+//////////////////////////////
 
+// nw4r::snd::DvdSoundArchive::OpenExtStream() patch
 // Prevent BRSTMs from cutting off when looping
+// Credits: Elias
 kmCallDefAsm(0x800912D4) {
     nofralloc
 
@@ -19,10 +21,11 @@ kmCallDefAsm(0x800912D4) {
     blr
 }
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
+// nw4r::snd::DvdSoundArchive::OpenExtStream() patch
 // Replace the BRSTM to be played with the track's custom music
 kmCallDefCpp(0x8009130C, int, const char* path) {
 

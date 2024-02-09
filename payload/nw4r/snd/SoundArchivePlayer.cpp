@@ -11,31 +11,29 @@
 namespace nw4r {
 namespace snd {
 
-//////////////////////////////////////
-// Patches for SFX Expansion System //
-//////////////////////////////////////
+///////////////////////
+// Custom SFX System //
+///////////////////////
 
 // Custom function to obtain the custom sound streams array
+// Credits: stebler
 ut::FileStream** SoundArchivePlayer::soundStreams() {
     u8* end = (u8*)(setupBufferAddress) + setupBufferSize;
     return (ut::FileStream**)(end) - soundArchive->GetSoundCount();
 }
 
+// nw4r::snd::SoundArchivePlayer::GetRequiredMemSize() override
 // Allocate additional memory to store the custom sound streams array
-kmHookFn ulong GetRequiredMemSizeOverride(SoundArchivePlayer* player,
-                                                   const SoundArchive* archive) {
+// Credits: stebler
+kmCallDefCpp(0x802107EC, ulong, SoundArchivePlayer* player, const SoundArchive* archive) {
     ulong size = player->GetRequiredMemSize(archive);
     size += archive->GetSoundCount() * sizeof(ut::FileStream*);
     return size;
 }
 
-// Glue code
-kmCall(0x802107EC, GetRequiredMemSizeOverride);
-kmCall(0x8021095C, GetRequiredMemSizeOverride);
-kmCall(0x80210B04, GetRequiredMemSizeOverride);
-kmCall(0x80210C38, GetRequiredMemSizeOverride);
-
+// nw4r::snd::SoundArchivePlayer::SetupMram() override
 // Clear the custom sound streams array on allocation
+// Credits: stebler
 kmCallDefCpp(0x800A0960, bool, SoundArchivePlayer* self,
                                const SoundArchive* archive,
                                void* buffer,
@@ -48,7 +46,9 @@ kmCallDefCpp(0x800A0960, bool, SoundArchivePlayer* self,
     return true;
 }
 
+// nw4r::snd::SoundArchivePlayer::detail_SetupSoundImpl() override
 // Enable the SASR bit when an external replacement is found
+// Credits: stebler
 kmHookFn SoundStartable::StartResult detail_SetupSoundImplOverride(
                                      SoundArchivePlayer* self,
                                      SoundHandle* handle,
@@ -65,11 +65,12 @@ kmHookFn SoundStartable::StartResult detail_SetupSoundImplOverride(
 }
 
 // Glue code
-kmBranch(0x8009DD68, detail_SetupSoundImplOverride);
 kmBranch(0x8009DD88, detail_SetupSoundImplOverride);
 kmBranch(0x800A1810, detail_SetupSoundImplOverride);
 
+// nw4r::snd::SoundArchivePlayer::PrepareStrmImpl() override
 // Replace the file id to pass the stream pointer over
+// Credits: stebler
 kmCallDefCpp(0x800A20C4, SoundStartable::StartResult,
                          SoundArchivePlayer* self,
                          detail::BasicSound* sound,
@@ -88,7 +89,9 @@ kmCallDefCpp(0x800A20C4, SoundStartable::StartResult,
     return self->PrepareStrmImpl(sound, commonInfo, info, startOffsetType, startOffset);
 }
 
+// nw4r::snd::SoundArchivePlayer::LoadGroup() override
 // Scan for external SFX replacements
+// Credits: stebler
 kmHookFn bool LoadGroupOverride(SoundArchivePlayer* self,
                                         ulong groupId,
                                         SoundMemoryAllocatable* allocator,
@@ -119,7 +122,7 @@ kmHookFn bool LoadGroupOverride(SoundArchivePlayer* self,
                 continue;
 
             // If the file does not end in BRSTM, bail
-            if (strcmp(cs, ".brstm"))
+            if (strcmp(cs, BRSTM_SUFFIX))
                 continue;
 
             // Ignore BRSTM sound type
@@ -179,8 +182,10 @@ kmCall(0x800A2A70, LoadGroupOverride);
 kmCall(0x80210E04, LoadGroupOverride);
 kmCall(0x80210ED0, LoadGroupOverride);
 
+// nw4r::snd::SoundArchivePlayer::InvalidateData() override
 // Delete the custom sound streams when the data is invalidated
-kmHookFn void InvalidateDataOverride(SoundArchivePlayer* self, const void* start, const void* end) {
+// Credits: stebler
+kmPointerDefCpp(0x802A292C, void, SoundArchivePlayer* self, const void* start, const void* end) {
     self->InvalidateData(start, end);
 
     DvdSoundArchive::DvdFileStream** streams = (DvdSoundArchive::DvdFileStream**)self->soundStreams();
@@ -191,10 +196,6 @@ kmHookFn void InvalidateDataOverride(SoundArchivePlayer* self, const void* start
         }
     }
 }
-
-// Glue code
-kmWritePointer(0x802749EC, InvalidateDataOverride);
-kmWritePointer(0x802A292C, InvalidateDataOverride);
 
 } // namespace snd
 } // namespace nw4r

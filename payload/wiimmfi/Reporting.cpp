@@ -1,7 +1,6 @@
 #include <common/Common.hpp>
 #include <dwc/dwc_base64.h>
 #include <game/net/packet/RKNetRoomPacket.hpp>
-#include <game/race/RaceGlobals.hpp>
 #include <game/system/CourseMap.hpp>
 #include <game/system/MultiDvdArchive.hpp>
 #include <game/system/RaceConfig.hpp>
@@ -42,10 +41,6 @@ void* GetSubfileHash(const char* path, int src, char* hash) {
 
 void ReportCommonSubfiles() {
 
-    // If we're not online, bail
-    if (!RaceGlobals::isOnlineRace)
-        return;
-
     // Initialize buffer for each message
     char buffers[4][48];
     char statusMsgBuffer[200];
@@ -74,10 +69,6 @@ void ReportCommonSubfiles() {
 }
 
 void ReportCourseSubfiles() {
-
-    // If we're not online, bail
-    if (!RaceConfig::instance->raceScenario.settings.isOnline())
-        return;
 
     // Setup hash buffers
     char buffers[3][48];
@@ -162,10 +153,6 @@ void ReportCourseSubfiles() {
 
 void ReportFinishTime(u8 playerIdx) {
 
-    // Check if the race is online
-    if (!RaceGlobals::isOnlineRace)
-        return;
-
     // Check if the player is a local player
     bool isLocal = false;
     for (int i = 0; i < RaceConfig::instance->raceScenario.localPlayerCount; i++) {
@@ -230,7 +217,7 @@ void ReportSignatureAndCert() {
     }
 }
 
-void ReportTrackHash(u32* hash) {
+void ReportTrackHash(u32* hash, u8 courseId) {
 
     // Convert the hash to a string
     // Using sprintf since the output is fixed size and the buffer is big enough
@@ -238,8 +225,7 @@ void ReportTrackHash(u32* hash) {
     sprintf(buffer, "%08x%08x%08x%08x%08x", hash[0], hash[1], hash[2], hash[3], hash[4]);
 
     // Send the hash over with the course id
-    // TODO figure out what to do if we remove course slots, probably gotta talk it out with Wiimmfi devs
-    Status::SendMessage("track_sha1", buffer, RaceConfig::instance->raceScenario.settings.courseId);
+    Status::SendMessage("track_sha1", buffer, courseId);
 }
 
 } // namespace Reporting

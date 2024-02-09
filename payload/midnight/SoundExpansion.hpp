@@ -1,4 +1,4 @@
-// Internal defines for SFX expansion system
+// Internal defines for custom SFX system
 
 // Replaced SFX mask
 #define SASR_BIT (1 << 31)

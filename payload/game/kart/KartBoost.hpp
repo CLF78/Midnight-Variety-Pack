@@ -4,19 +4,18 @@ class KartBoost {
 public:
 
     enum BoostTypes {
-        NONE = 0,
-        MT_OR_START = 1 << 0,
-        STAR = 1 << 1, // unused
-        MUSHROOM_OR_BOOST_PANEL = 1 << 2,
-        BULLET = 1 << 3, // unused
-        TRICK_OR_ZIPPER = 1 << 4,
-        MEGA = 1 << 5, // unused
-        BOOST_TYPE_COUNT = 6,
+        MT_OR_START,
+        STAR, // unused
+        MUSHROOM_OR_BOOST_PANEL,
+        BULLET_BILL, // unused
+        TRICK_OR_ZIPPER,
+        MEGA_MUSHROOM, // unused
+        BOOST_TYPE_COUNT,
     };
 
     virtual ~KartBoost();
 
-    s16 timers[6];
+    s16 timers[BOOST_TYPE_COUNT];
     u16 boostTypes;
     // 2 bytes padding
 
@@ -32,4 +31,4 @@ public:
     static float boostSpeedLimits[BOOST_TYPE_COUNT];
 };
 
-static_assert(sizeof(KartBoost) == 0x24);
+size_assert(KartBoost, 0x24);

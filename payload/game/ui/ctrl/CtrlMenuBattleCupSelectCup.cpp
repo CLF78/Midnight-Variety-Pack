@@ -5,9 +5,9 @@
 #include <midnight/cup/CupManager.hpp>
 #include <platform/stdio.h>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
 // CtrlMenuBattleCupSelectCup::initSelf() override
 // Remove the loop, the cup boundary check and more unnecessary crud
@@ -26,7 +26,7 @@ kmPointerDefCpp(0x808D2EDC, void, CtrlMenuBattleCupSelectCup* self) {
 
 // CtrlMenuBattleCupSelectCup::load() override
 // Replace the BRCTR, update the button loop size, set cup names and icons and remove the background movies
-kmCallDefCpp(0x80839030, void, CtrlMenuBattleCupSelectCup* self, u32 playerFlags, bool unk) {
+kmBranchDefCpp(0x807E0958, NULL, void, CtrlMenuBattleCupSelectCup* self, u32 playerFlags, bool unk) {
 
     // Initialize loader and get page
     ControlLoader loader(self);
@@ -71,5 +71,10 @@ kmCallDefCpp(0x80839030, void, CtrlMenuBattleCupSelectCup* self, u32 playerFlags
     page->setSelection(page->getCupButton(0));
 }
 
-// Prevent uninitialized movie layout from crashing the game
-kmWrite32(0x807E0D3C, 0x60000000);
+// CtrlMenuBattleCupSelectCup::onCupSelect() override
+// Update course names and remove button movies
+kmPointerDefCpp(0x808BC3D4, void, CtrlMenuBattleCupSelectCup* self, PushButton* btn, int unk) {
+    self->currentSelected = btn->buttonId;
+    BattleCupSelectPage* page = BattleCupSelectPage::getPage();
+    page->setCourseNames(self, btn, unk);
+}

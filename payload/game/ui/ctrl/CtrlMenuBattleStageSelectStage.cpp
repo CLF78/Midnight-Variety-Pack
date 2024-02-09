@@ -7,11 +7,11 @@
 #include <midnight/cup/CupManager.hpp>
 #include <platform/stdio.h>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
-// CtrlMenuBattleStageSelectStage::onInit() override
+// CtrlMenuBattleStageSelectStage::initSelf() override
 // Update arena names
 kmPointerDefCpp(0x808D2F18, void, CtrlMenuBattleStageSelectStage* self) {
 
@@ -50,7 +50,7 @@ kmPointerDefCpp(0x808D2F18, void, CtrlMenuBattleStageSelectStage* self) {
 
 // CtrlMenuBattleStageSelectStage::load() override
 // Replace the BRCTR and update the child count
-kmCallDefCpp(0x8083CD30, void, CtrlMenuBattleStageSelectStage* self, u32 playerFlags, bool unk) {
+kmBranchDefCpp(0x807E1D80, NULL, void, CtrlMenuBattleStageSelectStage* self, u32 playerFlags, bool unk) {
 
     // Initialize main loader
     ControlLoader loader(self);
@@ -84,5 +84,5 @@ kmCallDefCpp(0x8083CD30, void, CtrlMenuBattleStageSelectStage* self, u32 playerF
 }
 
 // CtrlMenuBattleStageSelectStage::onSelect() override
-// Do nothing
+// Disable button movies
 kmPointerDefCpp(0x808BC440, void, CtrlMenuBattleStageSelectStage* self, PushButton* button, u32 unk) {}

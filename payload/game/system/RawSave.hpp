@@ -10,16 +10,16 @@ struct RawSave {
     struct GlobalData {
 
         enum Settings {
-            CONTROLLER_RUMBLE = 0x1,
-            FLAG_REGION_DISPLAY = 0x2,
-            UNK_4 = 0x4,
-            MESSAGE_SERVICE = 0x8,
-            DATA_SHARING = 0x10,
-            MII_DISPLAY = 0x20,
-            DEFAULT_VALUE = MII_DISPLAY | UNK_4 | FLAG_REGION_DISPLAY | CONTROLLER_RUMBLE,
+            CONTROLLER_RUMBLE    = BIT_FLAG(0),
+            FLAG_REGION_DISPLAY  = BIT_FLAG(1),
+            UNK_4                = BIT_FLAG(2),
+            MESSAGE_SERVICE      = BIT_FLAG(3),
+            DATA_SHARING         = BIT_FLAG(4),
+            MII_DISPLAY          = BIT_FLAG(5),
+            DEFAULT_VALUE        = MII_DISPLAY | UNK_4 | FLAG_REGION_DISPLAY | CONTROLLER_RUMBLE,
 
-            // custom fields onwards
-            WIIMMFI_DATA_SHARING = 0x80,
+            // Custom fields below
+            WIIMMFI_DATA_SHARING = BIT_FLAG(7),
         };
 
         u32 magic;

@@ -7,13 +7,13 @@
 #include <midnight/cup/CupManager.hpp>
 #include <platform/stdio.h>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
 // CtrlMenuBattleStageSelectCup::load() override
 // Replace the BRCTR, update the loop size and set cup names and icons
-kmCallDefCpp(0x8083CCF8, void, CtrlMenuBattleStageSelectCup* self) {
+kmBranchDefCpp(0x807E12B8, NULL, void, CtrlMenuBattleStageSelectCup* self) {
 
     // Initialize main loader and get pages
     ControlLoader loader(self);
@@ -54,7 +54,7 @@ kmCallDefCpp(0x8083CCF8, void, CtrlMenuBattleStageSelectCup* self) {
     }
 }
 
-// CtrlMenuBattleStageSelectCup::onInit() override
+// CtrlMenuBattleStageSelectCup::initSelf() override
 // Update the loop size and set cup names and icons
 kmPointerDefCpp(0x808D2FD0, void, CtrlMenuBattleCupSelectStage* self) {
 

@@ -1,7 +1,7 @@
 #include <common/Common.hpp>
 #include <revolution/base/PPCReg.h>
 #include <revolution/os/OSLoMem.h>
-#include <game/system/Region.hpp>
+#include <midnight/Region.hpp>
 #include <Loader.hpp>
 
 const Loader::Functions functions[] = {

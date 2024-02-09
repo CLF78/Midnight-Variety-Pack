@@ -309,9 +309,9 @@ writer.rule('cup_builder',
             deps='gcc')
 
 writer.rule('cw',
-            command='$cc $cflags -c -DCODE_REGION_$region -o $out_conv -MDfile $out.d $in_conv',
+            command='$cc $cflags -c -DCODE_REGION=$region -o $out_conv -MDfile $out.d $in_conv',
             depfile='$out.d',
-            description='Compile $in_short ($region)')
+            description='Compile $in_short ($region_id)')
 
 writer.rule('kmdynamic',
             command='$kamek $in -dynamic -versions=$port_file -externals=$symbol_file -output-kamek=$out -select-version=$selectversion',
@@ -393,7 +393,7 @@ for file in sorted(inputs):
         configData = set()
 
     # Parse each region
-    for region in REGIONS:
+    for i, region in enumerate(REGIONS):
 
         # Get the destination path
         output = change_root(file, CODE_DIR, CODE_BUILD_DIR)
@@ -412,7 +412,8 @@ for file in sorted(inputs):
                          out_conv=escape_win_path(unix_to_windows(output)),
                          in_conv=escape_win_path(unix_to_windows(file)),
                          in_short=file.name,
-                         region=region if region in configData else 'ALL')
+                         region=i if region in configData else -1,
+                         region_id=region if region in configData else 'ALL')
             outputs.add(output)
 
 # Initialize containers for loader code output
@@ -434,7 +435,8 @@ for file in sorted(loaderInputs):
                  out_conv=escape_win_path(unix_to_windows(output)),
                  in_conv=escape_win_path(unix_to_windows(file)),
                  in_short=file.stem,
-                 region='ALL')
+                 region=-1,
+                 region_id='ALL')
 
 # Write the Kamek linking rules
 # Code commands

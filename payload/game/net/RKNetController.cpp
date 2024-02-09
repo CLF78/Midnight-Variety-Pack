@@ -8,10 +8,10 @@
 #include <wiimmfi/Status.hpp>
 
 /////////////////////
-// Wiimmfi Patches //
+// Network Cleanup //
 /////////////////////
 
-// Hook network shutdown to do some cleanup (new code, not ported)
+// Hook network shutdown to do some cleanup
 kmListHookDefCpp(NetShutdownHook) {
 
     // Delete the Wiimmfi messaging token
@@ -19,11 +19,13 @@ kmListHookDefCpp(NetShutdownHook) {
         delete Wiimmfi::Status::token;
 }
 
-////////////////////////////
-// Wiimmfi Security Fixes //
-////////////////////////////
+/////////////
+// RCE Fix //
+/////////////
 
-// Fix the RCE bug
+// RKNet_UserRecvCallback() patch
+// Validate incoming player data to prevent remote code execution exploits
+// Credits: WiiLink24, Wiimmfi
 kmBranchDefCpp(0x80658610, NULL, void, RKNetController* self, u32 aid, void* data, u32 dataLength) {
 
     // If the packet is valid, process it

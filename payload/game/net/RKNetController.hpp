@@ -40,10 +40,11 @@ public:
     };
 
     enum SearchType {
-        VS_WW = 1,
-        VS_REGIONAL,
-        BT_WW,
-        BT_REGIONAL,
+        SEARCH_NONE,
+        SEARCH_VS_WW,
+        SEARCH_VS_REG,
+        SEARCH_BT_WW,
+        SEARCH_BT_REG,
     };
 
     Sub* getCurrentSub() {

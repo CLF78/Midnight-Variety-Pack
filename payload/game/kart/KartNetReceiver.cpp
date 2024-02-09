@@ -1,13 +1,15 @@
 #include <common/Common.hpp>
 #include <game/kart/KartState.hpp>
-#include <game/kart/RacedataHandler.hpp>
+#include <game/kart/KartNetReceiver.hpp>
 
-////////////////////
-// Game Bug Fixes //
-////////////////////
+///////////////////////////////
+// Online Halfpipe Trick Fix //
+///////////////////////////////
 
+// KartNetReceiver::calc() patch
 // Introduce a timer to prevent other online players from getting stuck in the halfpipe state
-kmCallDefCpp(0x80589ACC, u8, RacedataHandler* self) {
+// Credits: MrBean35000vr
+kmCallDefCpp(0x80589ACC, u8, KartNetReceiver* self) {
 
     // If the halfpipe bit is set, update the timer
     KartState* state = self->pointers->kartState;

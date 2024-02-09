@@ -1,96 +1,69 @@
 #include <common/Common.hpp>
+#include <midnight/Region.hpp>
 #include <revolution/sc.h>
 #include <platform/stdio.h>
 #include <game/system/MultiDvdArchive.hpp>
 
-//////////////////////////////////////
-// Patches for Multi Archive System //
-//////////////////////////////////////
+//////////////////////////
+// Multi Archive System //
+//////////////////////////
 
-// Gets the language code for file loading
+// Get the language code for file loading
 // This is compile region-dependent
 const char* getLanguageCode() {
 
-    // PAL
-    #ifdef CODE_REGION_P
+    // Get language code
     u8 lang = SCGetLanguage();
-    switch(lang) {
-        case SC_LANG_GERMAN:
-            return "G";
-        case SC_LANG_FRENCH:
-            return "F";
-        case SC_LANG_SPANISH:
-            return "S";
-        case SC_LANG_ITALIAN:
-            return "I";
-        default:
-            return "E";
+
+    // PAL
+    if (CODE_REGION == Region::REGION_P) {
+        switch(lang) {
+            case SC_LANG_GERMAN:
+                return "G";
+            case SC_LANG_FRENCH:
+                return "F";
+            case SC_LANG_SPANISH:
+                return "S";
+            case SC_LANG_ITALIAN:
+                return "I";
+            default:
+                return "E";
+        }
     }
 
     // NTSC-U
-    #elif defined(CODE_REGION_E)
-
-    u8 lang = SCGetLanguage();
-    switch(lang) {
-        case SC_LANG_FRENCH:
-            return "Q";
-        case SC_LANG_SPANISH:
-            return "M";
-        default:
-            return "U";
+    else if (CODE_REGION == Region::REGION_E) {
+        switch(lang) {
+            case SC_LANG_FRENCH:
+                return "Q";
+            case SC_LANG_SPANISH:
+                return "M";
+            default:
+                return "U";
+        }
     }
 
     // NTSC-J
-    #elif defined(CODE_REGION_J)
-    return "J";
+    else if (CODE_REGION == Region::REGION_J)
+        return "J";
 
     // NTSC-K
-    #else
-    return "K";
-    #endif
+    else if (CODE_REGION == Region::REGION_K)
+        return "K";
+
+    // Should never occur
+    return "";
 }
 
-// Update archive count for Common files
-kmWrite8(0x8052A10B, 6);
-
-// RaceDvdArchive::init() override
-// Add archives for Common files
-kmBranchDefCpp(0x8052A3C0, NULL, void, MultiDvdArchive* self) {
-
-    // This is used for Common.szs only
-    // Priority order (X is the languageCode):
-    // 1) Common_X(MULTI_ARCHIVE_USER_SUFFIX).szs
-    // 2) Common(MULTI_ARCHIVE_USER_SUFFIX).szs
-    // 3) Common(MULTI_ARCHIVE_DISTRO_SUFFIX)_X.szs
-    // 4) Common(MULTI_ARCHIVE_DISTRO_SUFFIX).szs
-    // 5) Common_X.szs
-    // 6) Common.szs
-    const char* languageCode = getLanguageCode();
-
-    snprintf(self->suffixes[0], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
-    snprintf(self->suffixes[1], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
-    snprintf(self->suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
-    snprintf(self->suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
-
-    // This is required because NTSC-K uses Common_J.szs for some reason
-    #ifdef CODE_REGION_K
-    snprintf(self->suffixes[4], 0x80, "_J.szs");
-    #else
-    snprintf(self->suffixes[4], 0x80, "_%s.szs", languageCode);
-    #endif
-
-    snprintf(self->suffixes[5], 0x80, ".szs");
-
-    for (int i = 0; i < self->archiveCount; i++) {
-        self->kinds[i] = MultiDvdArchive::SUFFIX_ONLY;
-    }
-}
-
-// Update archive count for UI files
-kmWrite8(0x8052A18B, 6);
+// MultiDvdArchive::create() patches
+// Update archive counts
+// Credits: stebler, Vabold
+kmWrite8(0x8052A10B, 6); // Common files
+kmWrite8(0x8052A18B, 6); // UI files
 
 // MenuDvdArchive::init() override
 // Add archives for UI files
+// Credits: stebler, Vabold
 kmBranchDefCpp(0x8052A2FC, NULL, void, MultiDvdArchive* self) {
 
     // This is used for UI files: Award.szs, Channel.szs, Event.szs, Globe.szs,
@@ -111,11 +84,43 @@ kmBranchDefCpp(0x8052A2FC, NULL, void, MultiDvdArchive* self) {
     snprintf(self->suffixes[4], 0x80, "_%s.szs", languageCode);
 
     // This is required because NTSC-K uses Race_R.szs instead of Race.szs for some reason
-    #ifdef CODE_REGION_K
-    snprintf(self->suffixes[5], 0x80, "_R.szs");
-    #else
+    if (CODE_REGION == Region::REGION_K)
+        snprintf(self->suffixes[5], 0x80, "_R.szs");
+    else
+        snprintf(self->suffixes[5], 0x80, ".szs");
+
+    for (int i = 0; i < self->archiveCount; i++) {
+        self->kinds[i] = MultiDvdArchive::SUFFIX_ONLY;
+    }
+}
+
+// RaceDvdArchive::init() override
+// Add archives for Common files
+// Credits: stebler, Vabold
+kmBranchDefCpp(0x8052A3C0, NULL, void, MultiDvdArchive* self) {
+
+    // This is used for Common.szs only
+    // Priority order (X is the languageCode):
+    // 1) Common_X(MULTI_ARCHIVE_USER_SUFFIX).szs
+    // 2) Common(MULTI_ARCHIVE_USER_SUFFIX).szs
+    // 3) Common(MULTI_ARCHIVE_DISTRO_SUFFIX)_X.szs
+    // 4) Common(MULTI_ARCHIVE_DISTRO_SUFFIX).szs
+    // 5) Common_X.szs
+    // 6) Common.szs
+    const char* languageCode = getLanguageCode();
+
+    snprintf(self->suffixes[0], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
+    snprintf(self->suffixes[1], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
+    snprintf(self->suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
+    snprintf(self->suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
+
+    // This is required because NTSC-K uses Common_J.szs for some reason
+    if (CODE_REGION == Region::REGION_K)
+        snprintf(self->suffixes[4], 0x80, "_J.szs");
+    else
+        snprintf(self->suffixes[4], 0x80, "_%s.szs", languageCode);
+
     snprintf(self->suffixes[5], 0x80, ".szs");
-    #endif
 
     for (int i = 0; i < self->archiveCount; i++) {
         self->kinds[i] = MultiDvdArchive::SUFFIX_ONLY;

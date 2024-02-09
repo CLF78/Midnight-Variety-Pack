@@ -1,11 +1,12 @@
 #include <common/Common.hpp>
 
-///////////////////////////////////
-// Patches for Unlock Everything //
-///////////////////////////////////
+///////////////////////
+// Unlock Everything //
+///////////////////////
 
 // UnlockFlags::get() override
-// Unlock everything without save (original code by _tZ)
+// Unlock everything without checking the savegame
+// Credits: _tZ
 kmBranchDefCpp(0x8054994C, NULL, bool) {
     return true;
 }

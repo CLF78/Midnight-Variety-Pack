@@ -7,7 +7,7 @@ namespace ut {
 enum SeekOrigin {
     FILE_STREAM_SEEK_BEGIN,
     FILE_STREAM_SEEK_CURRENT,
-    FILE_STREAM_SEEK_END
+    FILE_STREAM_SEEK_END,
 };
 
 class FileStream : public IOStream {

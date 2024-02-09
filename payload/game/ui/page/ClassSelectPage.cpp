@@ -4,9 +4,9 @@
 #include <game/ui/SectionManager.hpp>
 #include <game/system/RaceConfig.hpp>
 
-///////////////////////////////////////
-// Patches for Custom Engine Classes //
-///////////////////////////////////////
+///////////////////////////
+// Custom Engine Classes //
+///////////////////////////
 
 static const char* btnVariants[] = {
     "Button50cc",
@@ -20,12 +20,17 @@ static const char* btnMats[] = {
     "kinoko_3",
 };
 
+// ClassSelectPage::ClassSelectPage() patch
 // Fix the back button when exiting TT mode after changing course/character
 kmBranchDefCpp(0x80626C0C, NULL, ClassSelectPage*, ClassSelectPage* self) {
     self->prevPageId = Page::SINGLE_PLAYER_MENU;
     self->buttonCount = 3;
     return self;
 }
+
+// ClassSelectPage::onStartPress() override
+// Disable the "change vehicles" behaviour
+kmWrite32(0x8083FBC8, 0x4E800020);
 
 // ClassSelectPage::onInit() override
 // Remove the mirror button and select the correct button when exiting TT mode
@@ -38,7 +43,7 @@ kmPointerDefCpp(0x808D93C0, void, ClassSelectPage* self) {
     self->switchModeOff = true;
     self->multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
 
-    // If we are not returning from TT mode, return early
+    // If we are not returning from TT mode, we don't need to set the button
     u32 section = SectionManager::instance->curSection->sectionID;
     if (section != Section::MENUSINGLE_FROM_TT_CHANGE_CHAR && section != Section::MENUSINGLE_FROM_TT_CHANGE_COURSE)
         return;
@@ -101,6 +106,3 @@ kmPointerDefCpp(0x808D941C, PushButton*, ClassSelectPage* self, int buttonIdx) {
 kmWrite32(0x808AD168, RaceConfig::Settings::CC_150);
 kmWrite32(0x808AD16C, RaceConfig::Settings::CC_200);
 kmWrite32(0x808AD170, RaceConfig::Settings::CC_500);
-
-// Disable the "change vehicles" behaviour
-kmWrite32(0x8083FBC8, 0x4E800020);

@@ -1,8 +1,15 @@
 #include <common/Common.h>
 #include <dwc/dwc_match.h>
 
-// Natneg Suspend Fix
-// Ported from WiiLink24's WFC Patcher, original code by MrBean35000vr
+////////////////////////
+// NATNEG Suspend Fix //
+////////////////////////
+
+// DWCi_RequestSuspendMatchAsync() patch
+// Attempt to fix the "suspend bug", where DWC stalls suspending the match due
+// to ongoing NATNEG between clients. This patch will ignore NATNEG and suspend
+// anyway if not the host.
+// Credits: WiiLink24, MrBean35000vr
 kmCallDefAsm(0x800E77F4) {
     nofralloc
 

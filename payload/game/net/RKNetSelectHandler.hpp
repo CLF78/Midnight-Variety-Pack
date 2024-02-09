@@ -4,7 +4,8 @@
 class RKNetSELECTHandler {
 public:
     enum Mode {
-        MODE_PUBLIC_VS = 1,
+        MODE_NONE,
+        MODE_PUBLIC_VS,
         MODE_PUBLIC_BATTLE,
         MODE_PRIVATE_VS,
         MODE_PRIVATE_BATTLE,

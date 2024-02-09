@@ -2,10 +2,11 @@
 #include <game/ui/GlobalContext.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
+// DriftSelectPage::onButtonSelect() patch
 // Generate random order and store first track
 kmCallDefCpp(0x8084E5C4, void, GlobalContext* self) {
 
@@ -17,6 +18,7 @@ kmCallDefCpp(0x8084E5C4, void, GlobalContext* self) {
     CupManager::SetCourse(&RaceConfig::instance->menuScenario, firstTrack);
 }
 
+// DriftSelectPage::onButtonSelect() patch
 // Generate random order and store first arena
 kmCallDefCpp(0x8084E58C, void, GlobalContext* self) {
 
@@ -28,6 +30,7 @@ kmCallDefCpp(0x8084E58C, void, GlobalContext* self) {
     CupManager::SetCourse(&RaceConfig::instance->menuScenario, firstTrack);
 }
 
+// DriftSelectPage::onButtonSelect() patches
 // Remove original stores
 kmWrite32(0x8084E5E4, 0x60000000);
 kmWrite32(0x8084E5AC, 0x60000000);

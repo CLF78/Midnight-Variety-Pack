@@ -1,42 +1,36 @@
 #include <common/Common.hpp>
 #include <game/kart/KartObjectManager.hpp>
+#include <game/race/RaceGlobals.hpp>
 #include <game/system/CourseMap.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <wiimmfi/Reporting.hpp>
 
-//////////////////////////////
-// Patches for Lap Modifier //
-//////////////////////////////
+//////////////////
+// Lap Modifier //
+//////////////////
 
+// Various RaceManager patches
 // Allow custom lap count outside of competitions
 kmWrite32(0x805328B0, 0x60000000);
 kmWrite32(0x805336B8, 0x60000000);
 kmWrite32(0x80534350, 0x60000000);
 kmWrite32(0x80534BBC, 0x60000000);
 
-///////////////////////
-// Wiimmfi Telemetry //
-///////////////////////
-
-// Report finish times
-kmCallDefCpp(0x8053490C, void, u8 playerIdx) {
-
-    Wiimmfi::Reporting::ReportFinishTime(playerIdx);
-    KartObjectManager::endRace(playerIdx);
-}
-
-////////////////////
-// Game Bug Fixes //
-////////////////////
+////////////////////////
+// Ultra Shortcut Fix //
+////////////////////////
 
 // Split enabled check for easier upgradeability
-// Only turn this on in Worldwide races for now
-// TODO allow disabling this with a friend room setting
 bool IsUltraUncutEnabled() {
+
+    // Only turn this on in Worldwide races for now
+    // TODO allow disabling this with a friend room setting
     return RaceConfig::instance->raceScenario.settings.gameMode == RaceConfig::Settings::GAMEMODE_PUBLIC_VS;
 }
 
+// RaceManager::Player::updateCheckpoint() patch
 // Disable ultra shortcuts in online worldwide races
+// Credits: Chadderz, MrBean35000vr
 kmHookFn bool UltraUncut(float requiredCompletion, MapdataCheckPoint* currCkpt, MapdataCheckPoint* nextCkpt) {
 
 	// Check if it's a start line check point
@@ -74,7 +68,7 @@ kmCallDefAsm(0x805350DC) {
 
     // Determine the exit address based on the bool return value
     // Return 0 to run regular check -> returns to 80535154
-    // Return 1 to skip stuff -> returns to 805351dc
+    // Return 1 to skip the next checks -> returns to 805351DC
     mulli r3, r3, 0x88
     addi r3, r3, 0x74
     lwz r4, 0x14(r1)
@@ -84,4 +78,21 @@ kmCallDefAsm(0x805350DC) {
     mtlr r3
     addi r1, r1, 0x10
     blr
+}
+
+///////////////////////
+// Wiimmfi Telemetry //
+///////////////////////
+
+// RaceManager::Player::endRace() patch
+// Report finish times
+// Credits: Wiimmfi
+kmCallDefCpp(0x8053490C, void, u8 playerIdx) {
+
+    // Check if the race is online and if so send the data
+    if (RaceGlobals::isOnlineRace)
+        Wiimmfi::Reporting::ReportFinishTime(playerIdx);
+
+    // Original call
+    KartObjectManager::endRace(playerIdx);
 }

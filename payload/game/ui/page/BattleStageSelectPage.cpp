@@ -7,15 +7,17 @@
 #include <game/ui/UIUtils.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
+// Section::createPage() patch (here for convenience)
 // Update memory size of page
 kmCallDefCpp(0x80623E9C, u32) {
     return sizeof(BattleStageSelectPage);
 }
 
+// BattleStageSelectPage::BattleStageSelectPage() patch
 // Construct the expansion data
 kmBranchDefCpp(0x80629CE4, NULL, BattleStageSelectPage*, BattleStageSelectPage* self) {
 
@@ -26,6 +28,11 @@ kmBranchDefCpp(0x80629CE4, NULL, BattleStageSelectPage*, BattleStageSelectPage* 
     return self;
 }
 
+// BattleStageSelectPage::onActivate() patch
+// Turn off background movies
+kmWrite32(0x8083CD94, 0x60000000);
+
+// BattleStageSelectPage::~BattleStageSelectPage() patch
 // Destroy the expansion data
 kmCallDefCpp(0x8083D360, void, BattleStageSelectPage* self) {
 
@@ -36,7 +43,7 @@ kmCallDefCpp(0x8083D360, void, BattleStageSelectPage* self) {
 
 // BattleStageSelectPage::setCourse() override
 // Properly store/vote the selected arena
-kmCallDefCpp(0x807E22EC, void, BattleStageSelectPage* self, CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button) {
+kmBranchDefCpp(0x8083CFE8, NULL, void, BattleStageSelectPage* self, CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button) {
 
     // Check if the page is being defocused
     if (self->pageState != Page::STATE_DEFOCUSING)
@@ -75,27 +82,8 @@ kmCallDefCpp(0x807E22EC, void, BattleStageSelectPage* self, CtrlMenuBattleStageS
     self->stageSelected = true;
 }
 
-// BattleStageSelectPage::onBackPress() override
-// Apply properties to every cup when pressing the back button
-kmPointerDefCpp(0x808BC41C, void, BattleStageSelectPage* self) {
-
-    // Skip if not defocusing
-    if (self->pageState != Page::STATE_DEFOCUSING)
-        return;
-
-    // Apply properties
-    for (int i = 0; i < 8; i++) {
-        CtrlMenuBattleStageSelectCupSub* cupButton = self->getCupButton(i);
-        cupButton->alpha = 300.0f;
-        cupButton->fadeDirection = 1;
-    }
-
-    // Skipped call
-    self->playSound(SE_UI_PAGE_PREV, -1);
-}
-
 // BattleStageSelectPage::onBtnClick() override
-// Apply properties to every cup when pressing the back button on screen
+// Apply properties to the extra cups when pressing the on-screen back button
 kmPointerDefCpp(0x808BC3F8, void, BattleStageSelectPage* self, PushButton* button) {
 
     // Skip if not defocusing
@@ -117,5 +105,21 @@ kmPointerDefCpp(0x808BC3F8, void, BattleStageSelectPage* self, PushButton* butto
     self->playSound(SE_UI_PAGE_PREV, -1);
 }
 
-// Turn off background movies
-kmWrite32(0x8083CD94, 0x60000000);
+// BattleStageSelectPage::onBackPress() override
+// Apply properties to the extra cups when pressing the back button
+kmPointerDefCpp(0x808BC41C, void, BattleStageSelectPage* self) {
+
+    // Skip if not defocusing
+    if (self->pageState != Page::STATE_DEFOCUSING)
+        return;
+
+    // Apply properties
+    for (int i = 0; i < 8; i++) {
+        CtrlMenuBattleStageSelectCupSub* cupButton = self->getCupButton(i);
+        cupButton->alpha = 300.0f;
+        cupButton->fadeDirection = 1;
+    }
+
+    // Play back button sound
+    self->playSound(SE_UI_PAGE_PREV, -1);
+}

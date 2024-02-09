@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-enum {
+typedef enum {
     SC_LANG_JAPANESE,
     SC_LANG_ENGLISH,
     SC_LANG_GERMAN,
@@ -14,8 +14,8 @@ enum {
     SC_LANG_DUTCH,
     SC_LANG_SIMP_CHINESE,
     SC_LANG_TRAD_CHINESE,
-    SC_LANG_KOREAN
-};
+    SC_LANG_KOREAN,
+} SCLanguage;
 
 u8 SCGetLanguage();
 char *SCGetProductCode();

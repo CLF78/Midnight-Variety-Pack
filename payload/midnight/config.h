@@ -27,7 +27,7 @@
 
 // Allows the game to look for resources in additional files, allowing
 // for the introduction of asset changes without modifying the original files.
-// Credits: stebler, Vabold (original code), CLF78 (porting)
+// Credits: stebler, Vabold (original code), CLF78 (various updates)
 
 // File suffix for distro-provided assets.
 #define MULTI_ARCHIVE_DISTRO_SUFFIX "MKM"
@@ -66,7 +66,7 @@
 
 // Displays debug information when the game crashes.
 // Note: The printed text is wrapped automatically, so adding newlines is not required.
-// Credits: CLF78 (original code), Star (return to menu functionality)
+// Credits: Star, Vabold (original code), CLF78 (various updates)
 
 // The distribution's name.
 #define EXCEPTION_HANDLER_DISTRO_NAME "Mario Kart Midnight 2"
@@ -79,7 +79,7 @@
 ////////////////////////////
 
 // Allows to replace SFX with external BRSTMS.
-// Credits: stebler (original code), CLF78 (porting)
+// Credits: stebler (original code), CLF78 (various updates)
 
 // The directory where custom SFX is stored
 #define SASR_SFX_DIR "/sound/sfx"
@@ -100,12 +100,12 @@
 // The savegame version number
 #define SAVEEX_VERSION_NUMBER 1
 
-////////////////////////////////
-// Class Engine Modifications //
-////////////////////////////////
+///////////////////////////
+// Custom Engine Classes //
+///////////////////////////
 
 // Allows to modify and add class engines
-// Credits: MrBean35000vr, stebler, _tZ (original code), CLF78 (porting + new code)
+// Credits: MrBean35000vr, stebler, _tZ (original code), CLF78 (various updates)
 
 // The battle speed modifiers
 #define CC_BATTLE_SPEED_MODIFIER 0.7f
@@ -115,12 +115,12 @@
 #define CC_200_SPEED_MODIFIER 1.5f
 #define CC_500_SPEED_MODIFIER 2.0f
 
-///////////////////////
-// Online Time Limit //
-///////////////////////
+/////////////////////////
+// Time Limit Modifier //
+/////////////////////////
 
 // Allows to modify the default time limit
-// Credits: Chadderz (original code), CLF78 (porting + new code)
+// Credits: Chadderz (original code), CLF78 (various updates)
 
 // The default time limit
 #define DEFAULT_ONLINE_TIME_LIMIT 5 * 60 * 1000

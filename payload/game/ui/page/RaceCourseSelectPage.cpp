@@ -7,13 +7,13 @@
 #include <game/system/RaceConfig.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
 // RaceCourseSelectPage::setCourse() override
 // Set selected track
-kmCallDefCpp(0x807E546C, void, RaceCourseSelectPage* self, CtrlMenuCourseSelectCourse* courseHolder, PushButton* button) {
+kmBranchDefCpp(0x80840830, NULL, void, RaceCourseSelectPage* self, CtrlMenuCourseSelectCourse* courseHolder, PushButton* button) {
 
     // Do not do anything if we're not defocusing the page
     if (self->pageState != Page::STATE_DEFOCUSING)
@@ -57,15 +57,15 @@ kmCallDefCpp(0x807E546C, void, RaceCourseSelectPage* self, CtrlMenuCourseSelectC
     self->courseSelected = true;
 }
 
-///////////////////////////////////////
-// Patches for Custom Engine Classes //
-///////////////////////////////////////
+///////////////////////////
+// Custom Engine Classes //
+///////////////////////////
 
 // RaceCourseSelectPage::onActivate() override
 // Update instruction text with new CCs and Mirror option
 kmPointerDefCpp(0x808D9480, void, RaceCourseSelectPage* self) {
 
-    self->multiControlInputManager.setDistanceFunc(1);
+    self->multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
     self->callOnActivate();
 
     // Set the instruction text based on the game mode

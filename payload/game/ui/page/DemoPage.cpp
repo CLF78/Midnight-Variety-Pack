@@ -8,9 +8,9 @@
 #include <platform/stdio.h>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
 // DemoPage::onInit() override
 // Apply custom cup icons and cup/track names

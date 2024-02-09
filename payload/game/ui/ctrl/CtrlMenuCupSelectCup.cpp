@@ -2,11 +2,11 @@
 #include <game/ui/page/RaceCupSelectPage.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
-// CtrlMenuCupSelectCup::onInit() override
+// CtrlMenuCupSelectCup::initSelf() override
 // Update cup names and icons
 kmPointerDefCpp(0x808D324C, void, CtrlMenuCupSelectCup* self) {
 

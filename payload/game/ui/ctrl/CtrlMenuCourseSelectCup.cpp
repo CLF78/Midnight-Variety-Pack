@@ -4,11 +4,11 @@
 #include <game/ui/ctrl/CtrlMenuCourseSelectCup.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
-// CtrlMenuCourseSelectCup::onInit() override
+// CtrlMenuCourseSelectCup::initSelf() override
 // Update cup names and icons
 kmPointerDefCpp(0x808D3190, void, CtrlMenuCourseSelectCup* self) {
 

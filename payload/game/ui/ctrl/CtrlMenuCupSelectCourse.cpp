@@ -2,12 +2,13 @@
 #include <game/ui/page/RaceCupSelectPage.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
 // CtrlMenuCupSelectCourse::setCourseNames() override
 // Update track names on cup switch/initialization
+// Original function address: 807E5FF0
 void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
 
     // Get cup index from page
@@ -35,7 +36,7 @@ void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
     }
 }
 
-// CtrlMenuCupSelectCourse::onInit() override
+// CtrlMenuCupSelectCourse::initSelf() override
 // Glue code for startup
 kmPointerDefCpp(0x808D3210, void, CtrlMenuCupSelectCourse* self) {
 

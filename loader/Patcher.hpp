@@ -5,16 +5,16 @@
 namespace Patcher {
 
 enum PatchCommand {
-    Addr32 = 1,
-    Addr16Lo = 4,
-    Addr16Hi = 5,
-    Addr16Ha = 6,
-    Rel24 = 10,
-    Write32 = 32,
-    Write16 = 33,
-    Write8 = 34,
-    WriteArea = 35,
-    Branch = 64,
+    Addr32     = 1,
+    Addr16Lo   = 4,
+    Addr16Hi   = 5,
+    Addr16Ha   = 6,
+    Rel24      = 10,
+    Write32    = 32,
+    Write16    = 33,
+    Write8     = 34,
+    WriteArea  = 35,
+    Branch     = 64,
     BranchLink = 65,
 };
 

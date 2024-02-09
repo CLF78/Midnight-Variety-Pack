@@ -3,17 +3,18 @@
 #include <game/system/RaceModeOnlineVs.hpp>
 #include <wiimmfi/Kick.hpp>
 
-//////////////////////////////////////////////////
-// Patches for Time Limit Modifier plus Wiimmfi //
-//////////////////////////////////////////////////
+///////////////////////////////////////////
+// Time Limit Modifier / Wiimmfi Kicking //
+///////////////////////////////////////////
 
 // Reset the end race bool
 kmListHookDefCpp(RaceStartHook) {
     Wiimmfi::Kick::mustEndRace = false;
 }
 
+// RaceModeOnlineVs::calc() patch
 // Add extra conditions to end the race
-// TODO custom message for Wiimmfi-mandated race end?
+// Credits: Chadderz, Wiimmfi
 kmBranchDefCpp(0x8053F39C, 0x8053F444, void, RaceModeOnlineVs* self) {
 
     // Original function call
@@ -26,6 +27,7 @@ kmBranchDefCpp(0x8053F39C, 0x8053F444, void, RaceModeOnlineVs* self) {
         return;
 
     // Run the modified check
+    // TODO custom reason for Wiimmfi-mandated race end?
     if (self->manager->timerManager->timers[0].getTimeMs() > DEFAULT_ONLINE_TIME_LIMIT || Wiimmfi::Kick::mustEndRace)
         self->endLocalRaceWithReason(4);
 }

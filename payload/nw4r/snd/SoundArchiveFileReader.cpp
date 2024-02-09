@@ -12,10 +12,11 @@ ulong nw4r::snd::detail::SoundArchiveFileReader::GetSoundCount() const {
     return table->count;
 }
 
-//////////////////////////////////////
-// Patches for SFX Expansion System //
-//////////////////////////////////////
+///////////////////////
+// Custom SFX System //
+///////////////////////
 
+// nw4r::snd::SoundArchiveFileReader::ReadSoundArchivePlayerInfo() patches
 // Increase the amount of playable BRSTMs at once to 64
 kmWrite32(0x8009F184, 0x38000040);
 kmWrite32(0x8009F18C, 0x38000040);

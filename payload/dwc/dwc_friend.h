@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-typedef enum DWCFriendStatus {
+typedef enum {
     DWC_STATUS_OFFLINE,
     DWC_STATUS_ONLINE,
     DWC_STATUS_PLAYING,

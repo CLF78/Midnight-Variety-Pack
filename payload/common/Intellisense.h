@@ -8,9 +8,10 @@
     #define blr );
 
     // Remove useless warnings
-    #pragma diag_suppress 69 // integer conversion resulted in truncation
+    #pragma diag_suppress 69  // integer conversion resulted in truncation
     #pragma diag_suppress 194 // expected string error caused by the asm block fix above
     #pragma diag_suppress 311 // some return type overloading bullshit
+    #pragma diag_suppress 338 // more than one instance of function has C linkage
 
     // Provide signatures for intrinsic functions
     void __eieio();

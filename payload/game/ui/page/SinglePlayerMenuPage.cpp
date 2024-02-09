@@ -5,9 +5,9 @@
 #include <game/ui/page/SinglePlayerMenuPage.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////////////////////////////////////////
-// Patches for Custom Cup System + Custom Engine Classes //
-///////////////////////////////////////////////////////////
+///////////////////////////////////////////////
+// Custom Cup System / Custom Engine Classes //
+///////////////////////////////////////////////
 
 // Game mode for each menu button
 const u32 gameModes[SinglePlayerMenuPage::BUTTON_COUNT] = {
@@ -88,7 +88,7 @@ kmPointerDefCpp(0x808BBED0, void, SinglePlayerMenuPage* self, PushButton* button
         // Force 50cc and battle tracklist in Battle mode
         case SinglePlayerMenuPage::BT_BUTTON:
             scenario->settings.engineClass = RaceConfig::Settings::CC_50;
-            CupManager::currentCupList = CupManager::TRACKS_BATTLE;
+            CupManager::currentBattleCupList = CupManager::TRACKS_BATTLE;
 
         // Do nothing for Mission mode
         default:

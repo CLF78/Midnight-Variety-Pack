@@ -1,26 +1,14 @@
 #include <common/Common.hpp>
 #include <nw4r/db/exception.hpp>
+#include <midnight/Region.hpp>
 #include <revolution/base/PPCArch.h>
 #include <revolution/os/OSContext.h>
 #include <revolution/os/OSError.h>
 #include <revolution/os/OSLoMem.h>
 
-///////////////////////////////////
-// Patches for Exception Handler //
-///////////////////////////////////
-
-// Get region code based on payload region
-#ifdef CODE_REGION_P
-#define REGION_STRING "PAL"
-#elif defined(CODE_REGION_E)
-#define REGION_STRING "USA"
-#elif defined(CODE_REGION_J)
-#define REGION_STRING "JAP"
-#elif defined(CODE_REGION_K)
-#define REGION_STRING "KOR"
-#else
-#define REGION_STRING "UNK"
-#endif
+///////////////////////
+// Exception Handler //
+///////////////////////
 
 namespace nw4r {
 namespace db {
@@ -189,12 +177,13 @@ void ShowStackTrace_(u32* sp) {
     }
 }
 
-// Replace the PrintContext_ function and its callers to make the exception handler more user friendly
+// nw4r::db::PrintContext_() override
+// Make the exception handler more user friendly
 kmCallDefCpp(0x80023484, void, OSError error, const OSContext* context, u32 dsisr, u32 dar) {
 
     // Print heading
     Exception_Printf_("--------------------------------\n");
-    Exception_Printf_(EXCEPTION_HANDLER_DISTRO_NAME " Exception Handler (" REGION_STRING ")\n");
+    Exception_Printf_(EXCEPTION_HANDLER_DISTRO_NAME " Exception Handler (%s)\n", Region::GetIdentifier());
     Exception_Printf_("Please take a picture of the information below and send it to " EXCEPTION_HANDLER_SUPPORT_ADDRESS ".");
     Exception_Printf_(" Use the D-Pad/Circle Pad to scroll through the data or press HOME/START to return to the System Menu.\n");
 

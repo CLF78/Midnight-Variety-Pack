@@ -8,9 +8,9 @@
 #include <revolution/os/OSThread.h>
 #include <revolution/pad.h>
 
-///////////////////////////////////
-// Patches for Exception Handler //
-///////////////////////////////////
+///////////////////////
+// Exception Handler //
+///////////////////////
 
 namespace EGG {
 
@@ -25,6 +25,7 @@ kmListHookDefCpp(BootHook) {
 }
 
 // Threshold functions for circle pads
+// Credits: Vabold
 bool CheckGCStickThreshold(s8 stick) {
     return (stick >= 27 || stick <= -26);
 }
@@ -42,6 +43,7 @@ bool CheckCLStickThreshold(s16 stick) {
 // - Limit vertical scrolling to filled lines
 // - Support controllers other than Wiimote
 // - Allow returning to the Wii Menu on HOME/START button press
+// Credits: Star, Vabold
 kmBranchDefCpp(0x80226464, NULL, bool, nw4r::db::ConsoleHead* console, void* arg) {
 
     // Mute game audio
@@ -88,7 +90,6 @@ kmBranchDefCpp(0x80226464, NULL, bool, nw4r::db::ConsoleHead* console, void* arg
             KPADGetUnifiedWpadStatus(WPAD_CONTROLLER_1, &unifiedStatus, 1);
 
         // Return to the menu on HOME/START press
-        // For Dolphin Emulator, shut down the game instead
         if (OSGetCurrentThread()) {
             if (wiimoteStatus.buttonsHeld & WPAD_BUTTON_HOME ||
                 gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_START ||

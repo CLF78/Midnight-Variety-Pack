@@ -3,11 +3,13 @@
 #include <game/system/CourseMap.hpp>
 #include <game/system/RaceManager.hpp>
 
-///////////////////////////
-// Custom Track Features //
-///////////////////////////
+///////////////////////////////
+// Conditional Out Of Bounds //
+///////////////////////////////
 
-// Reimplement riidefi's Conditional Out Of Bounds feature
+// KartCollide::calcOob() patch
+// Allow disabling respawn areas when the player meets certain checkpoint criteria
+// Credits: riidefi
 kmBranchDefCpp(0x80571858, 0x805718B4, void, KartObjectProxy* kobj) {
 
     // Get collision from the pointers (this lets us avoid glue code)
@@ -15,8 +17,8 @@ kmBranchDefCpp(0x80571858, 0x805718B4, void, KartObjectProxy* kobj) {
 
     // Get the closest respawn area
     s16 areaId = CourseMap::instance->getClosestAreaIdByType(kobj->getPlayerPosition(),
-                                                           coll->respawnArea,
-                                                           MapdataAreaBase::FALL_BOUNDARY);
+                                                             coll->respawnArea,
+                                                             MapdataAreaBase::FALL_BOUNDARY);
 
     // If none were found, bail
     if (areaId == -1)
@@ -34,7 +36,7 @@ kmBranchDefCpp(0x80571858, 0x805718B4, void, KartObjectProxy* kobj) {
         return;
 
     // Blacklist mode: trigger a fall boundary if we are not in p2 <= ckpt < p1
-    if (p1 > p2 && (ckpt >= p2 && ckpt < p1))
+    if (p1 > p2 && (ckpt < p1 && ckpt >= p2))
         return;
 
     // Activate out of bounds
@@ -43,9 +45,11 @@ kmBranchDefCpp(0x80571858, 0x805718B4, void, KartObjectProxy* kobj) {
     coll->activateOob(false, nullptr, false, false);
 }
 
-////////////////////
-// Game Bug Fixes //
-////////////////////
+/////////////////////////////////
+// Online Explosion Damage Fix //
+/////////////////////////////////
 
+// KartActionRealLocal::calcItemCollision() patch
 // Do not replace bomb damage with spinouts
+// Credits: MrBean35000vr
 kmWrite16(0x80572690, 0x4800);

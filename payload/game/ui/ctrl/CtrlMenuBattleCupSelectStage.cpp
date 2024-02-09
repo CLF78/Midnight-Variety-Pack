@@ -4,9 +4,9 @@
 #include <midnight/cup/CupManager.hpp>
 #include <platform/stdio.h>
 
-///////////////////////////////////
-// Patches for Custom Cup System //
-///////////////////////////////////
+///////////////////////
+// Custom Cup System //
+///////////////////////
 
 // CtrlMenuBattleCupSelectStage::setCourseNames() override
 // Update arena names on cup switch/initialization
@@ -38,9 +38,9 @@ kmHookFn void SetArenaNames(CtrlMenuBattleCupSelectStage* self, u32 cupButtonId)
 }
 
 // Glue code for cup change
-kmBranch(0x80839558, SetArenaNames);
+kmBranch(0x807E0EE4, SetArenaNames);
 
-// CtrlMenuBattleCupSelectStage::onInit() override
+// CtrlMenuBattleCupSelectStage::initSelf() override
 // Glue code for initialization
 kmPointerDefCpp(0x808D2EA0, void, CtrlMenuBattleCupSelectStage* self) {
 
@@ -56,7 +56,7 @@ kmPointerDefCpp(0x808D2EA0, void, CtrlMenuBattleCupSelectStage* self) {
 
 // CtrlMenuBattleCupSelectStage::load() override
 // Replace the BRCTR and update the child count
-kmCallDefCpp(0x80839060, void, CtrlMenuBattleCupSelectStage* self) {
+kmBranchDefCpp(0x807E0DC0, NULL, void, CtrlMenuBattleCupSelectStage* self) {
 
     // Load the main controller
     ControlLoader loader(self);
@@ -83,7 +83,8 @@ kmCallDefCpp(0x80839060, void, CtrlMenuBattleCupSelectStage* self) {
     }
 }
 
-// Update button count in onUpdate
+// CtrlMenuBattleCupSelectStage::calcSelf() patches
+// Update button loop sizes
 kmWrite8(0x807E1177, 4);
 kmWrite8(0x807E1223, 4);
 kmWrite8(0x807E1143, 4);

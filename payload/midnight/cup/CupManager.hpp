@@ -114,7 +114,8 @@ public:
     // Converts the track+page to the cup button
     static u32 getCupButtonFromTrack(s32 track, u32 curPage, bool isBattle = false);
 
-    // Converts the cup position to the cup button - algorithm by Ismy
+    // Converts the cup position to the cup button
+    // Credits: Ismy
     static u32 getCupButtonFromPosition(u32 pos);
 
     // Converts the cup index+page to the cup button
@@ -127,7 +128,8 @@ public:
     // Converts the track+page to the cup position
     static u32 getCupPositionFromTrack(s32 track, u32 curPage, bool isBattle = false);
 
-    // Converts the cup button to the cup position - algorithm by Ismy
+    // Converts the cup button to the cup position
+    // Credits: Ismy
     static u32 getCupPositionFromButton(u32 button);
 
     // Converts the cup index+page to the cup position

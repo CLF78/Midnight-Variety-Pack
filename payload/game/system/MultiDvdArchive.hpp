@@ -12,13 +12,13 @@ public:
         MIIBODY,
         DRIVER,
         DEMO,
-        BACKMODEL
+        BACKMODEL,
     };
 
     enum KindFlag {
-        SUFFIX_ONLY = 0x0,
-        FULL_NAME = 0x1,
-        CACHED = 0x4
+        SUFFIX_ONLY = BIT_FLAG(-1),
+        FULL_NAME   = BIT_FLAG(0),
+        CACHED      = BIT_FLAG(2),
     };
 
     virtual ~MultiDvdArchive();

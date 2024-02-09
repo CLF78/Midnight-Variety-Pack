@@ -10,7 +10,7 @@ public:
     enum CreditsType {
         CREDITS_NONE,
         CREDITS_NORMAL,
-        CREDITS_FULL
+        CREDITS_FULL,
     };
 
     InputHandler0<AwardPage, void> onFront;

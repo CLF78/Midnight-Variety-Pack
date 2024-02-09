@@ -9,7 +9,8 @@ namespace Kick {
     ///////////////
 
     enum Type {
-        EVERYONE = 1,
+        NONE,
+        EVERYONE,
         SELF,
         END_RACE,
         SPECIFIC_PLAYER,

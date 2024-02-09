@@ -8,7 +8,7 @@ enum ElementPosition {
     POS_LAYOUT,         // Set by the layout artist in a .brctr file
     POS_INHERITED,      // Propagated down from the root
     POS_FINAL,          // Final position displayed on screen
-    POS_COUNT
+    POS_COUNT,
 };
 
 struct Element {
@@ -21,7 +21,7 @@ class UIControl {
 public:
     enum PageEventTrigger {
         EVENT_PAGE_OPEN,
-        EVENT_PAGE_CLOSE
+        EVENT_PAGE_CLOSE,
     };
 
     virtual ~UIControl();

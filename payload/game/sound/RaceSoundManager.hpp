@@ -10,13 +10,15 @@ class KartSound;
 class RaceSoundManager : public EGG::Disposer {
 public:
 
-    enum RaceState {
-        INTRO = 2,
-        BEFORE_COUNTDOWN,
-        NORMAL,
-        ENTERING_FINAL_LAP,
-        FINAL_LAP,
-        FINISHED
+    enum SoundType {
+        AWARD_CREDITS_BGM,
+        GHOST_REPLAY_BGM,
+        COURSE_INTRO_BGM,
+        COUNTDOWN_JINGLE,
+        COURSE_BGM,
+        FINAL_LAP_JINGLE,
+        COURSE_BGM_FAST,
+        RESULTS_BGM,
     };
 
     u32 courseId;
@@ -32,7 +34,7 @@ public:
     u8 lap;
     u8 position;
     u8 playerIdFirstLocalPlayer;
-    u32 raceState;
+    u32 currSoundType;
     u32 gameMode;
     u32 gameType;
     u8 localPlayerCount;
