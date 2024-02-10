@@ -28,7 +28,7 @@ void AppendAuthParameters(NHTTPReq* req) {
     static bool sCertObtained = false;
 
     if (!sCertObtained) {
-        ALIGN(32) char certBuf[0x180]; // IOS requires the output to be aligned by 32
+        ALIGN(32) char certBuf[IOSECCCertSize]; // IOS requires the output to be aligned by 32
         s32 result = ES_GetDeviceCert((u8*)certBuf);
 
         // If IOS call fails, bail
@@ -36,7 +36,7 @@ void AppendAuthParameters(NHTTPReq* req) {
             return;
 
         // Encode it
-        int len = DWC_Base64Encode(certBuf, sizeof(certBuf), sConsoleCert, sizeof(sConsoleCert)-1);
+        int len = DWC_Base64Encode(certBuf, sizeof(certBuf), sConsoleCert, sizeof(sConsoleCert));
         sConsoleCert[len] = '\0';
 
         // Mark data as obtained successfully
@@ -78,7 +78,25 @@ void AppendAuthParameters(NHTTPReq* req) {
             NHTTPAddPostDataAscii(req, "_dolphin_ver", version);
     }
 
-    // TODO UPNP Port/Settings, Reconnect data
+    // If the user has set an UPNP port, send it over
+    if (Wiimmfi::Port::userPort) {
+
+        // Convert to string
+        char portBuffer[6];
+        snprintf(portBuffer, sizeof(portBuffer), "%d", Wiimmfi::Port::userPort);
+
+        // Encode to Base64
+        char b64UserPort[DWC_Base64GetEncodedSize(sizeof(portBuffer))+1]; // pre-computed length
+        int len = DWC_Base64Encode(portBuffer, sizeof(portBuffer), b64UserPort, sizeof(b64UserPort));
+        b64UserPort[len] = '\0';
+
+        // Send it
+        NHTTPAddPostDataAscii(req, "_upnpport", b64UserPort);
+    }
+
+    // TODO:
+    // - UPNP Settings (most likely unneeded)
+    // - Reconnect data
     UNIGNORE_ERR(167)
 }
 

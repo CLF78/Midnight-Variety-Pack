@@ -1,4 +1,6 @@
 #include <common/Common.hpp>
+#include <dwc/dwc_base64.h>
+#include <revolution/ios.h>
 #include <revolutionex/nhttp/NHTTPInternal.h>
 
 // TODO Depending on how the reveal goes, change this to provide real information
@@ -44,8 +46,8 @@ namespace Auth {
     // Variables //
     ///////////////
 
-    // The base64-encoded console certificate (pre-computed length)
-    extern char sConsoleCert[513];
+    // The base64-encoded console certificate
+    extern char sConsoleCert[DWC_Base64GetEncodedSize(IOSECCCertSize)+1];
 
 } // namespace Auth
 } // namespace Wiimmfi

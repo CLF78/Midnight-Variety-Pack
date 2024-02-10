@@ -45,7 +45,7 @@ kmCallDefCpp(0x8009130C, int, const char* path) {
         u16 musicFile = CupData::tracks[CupManager::currentSzs].musicFileId;
 
         // Initialize buffer
-        char buffer[64];
+        char buffer[32];
 
         // Get the final character to see if it's the final lap music
         char end = path[pathLen-sizeof(BRSTM_SUFFIX)];

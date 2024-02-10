@@ -4,6 +4,9 @@
 extern "C" {
 #endif
 
+#define IOSECCCertSize 384
+#define IOSECCSigSize 60
+
 typedef enum {
     IPC_OK         = 0,
     IPC_EACCES     = -1,

@@ -8,6 +8,7 @@ namespace Kick {
     // Constants //
     ///////////////
 
+    // The possible kick types
     enum Type {
         NONE,
         EVERYONE,
@@ -16,6 +17,7 @@ namespace Kick {
         SPECIFIC_PLAYER,
     };
 
+    // The server message for kicking and pid to kick
     const char KICK_MSG[] = "\\wiimmfi\\kick";
     const char KICK_MSG_PARAM_PID[] = "\\kickpid\\";
 

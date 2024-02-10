@@ -48,7 +48,8 @@ const Loader::Functions functions[] = {
 
 char path[] = KAMEK_FILE_PATH "X.bin";
 
-// Loader insertion hook
+// StrapScene::linkModule() patch
+// Load the custom code from disc
 kmBranchDefCpp(0x800074D4, NULL, void) {
 
     // Detect region, stall game on failure
@@ -64,13 +65,14 @@ kmBranchDefCpp(0x800074D4, NULL, void) {
     Loader::LoadFromDisc(funcs, path);
 }
 
-// Reset the DSP so the SDK can properly initialize it
+// __start() patch
+// Reset the DSP so the SDK can properly initialize it (replaces __init_data)
 kmCallDefCpp(0x800060BC, void) {
     __AIRegs[0] = 0;
 }
 
-// Initial hook for patches that need to be applied at game boot
-// Replaces the __get_debug_bba call
+// __start() patch
+// Initial hook for patches that need to be applied at game boot (replaces __get_debug_bba)
 kmCallDefCpp(0x800061EC, u32) {
 
     // Disable the codehandler by BLRing the first instruction

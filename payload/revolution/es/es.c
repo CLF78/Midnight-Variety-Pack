@@ -12,7 +12,7 @@ s32 ES_GetDeviceCert(u8* outBuf) {
 	if ((u32)outBuf & 0x1F)
         return ES_ERR_INVALID;
 
-    ALIGN(32) IOSIoVector vec = {outBuf, 0x180};
+    ALIGN(32) IOSIoVector vec = {outBuf, IOSECCCertSize};
     IOS_Ioctlv(__esFd, ES_CMD_GET_DEVICE_CERT, 0, 1, &vec);
     return ES_ERR_OK;
 }
@@ -28,7 +28,7 @@ s32 ES_Sign(u8* source, u32 size, u8* sig, u8* cert) {
         return ES_ERR_INVALID;
 
     ALIGN(32) IOSIoVector vec[3] = {
-        {source, size}, {sig, 0x3C}, {cert, 0x180}
+        {source, size}, {sig, IOSECCSigSize}, {cert, IOSECCCertSize}
     };
 
  	IOS_Ioctlv(__esFd, ES_CMD_SIGN, 1, 2, vec);

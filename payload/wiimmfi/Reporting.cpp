@@ -12,6 +12,7 @@
 #include <revolution/es/es.h>
 #include <revolutionex/net/NETDigest.h>
 #include <wiimmfi/Auth.hpp>
+#include <wiimmfi/Reporting.hpp>
 #include <wiimmfi/Status.hpp>
 
 namespace Wiimmfi {
@@ -32,7 +33,7 @@ void* GetSubfileHash(const char* path, int src, char* hash) {
     } else {
         u32 digest[5];
         NETCalcSHA1(digest, file, fileSize);
-        sprintf(hash, "%08x%08x%08x%08x%08x", digest[0], digest[1], digest[2], digest[3], digest[4]);
+        sprintf(hash, HASH_STRING_FMT, digest[0], digest[1], digest[2], digest[3], digest[4]);
     }
 
     // Return the file pointer anyway
@@ -42,7 +43,7 @@ void* GetSubfileHash(const char* path, int src, char* hash) {
 void ReportCommonSubfiles() {
 
     // Initialize buffer for each message
-    char buffers[4][48];
+    char buffers[4][HASH_STRING_SIZE];
     char statusMsgBuffer[200];
 
     // Send KartParam, DriverParam and ItemSlot hashes
@@ -71,7 +72,7 @@ void ReportCommonSubfiles() {
 void ReportCourseSubfiles() {
 
     // Setup hash buffers
-    char buffers[3][48];
+    char buffers[3][HASH_STRING_SIZE];
     char statusMsgBuffer[160];
 
     // Get the KMP and hash it
@@ -189,9 +190,9 @@ void ReportFriendRoomStart(RKNetROOMPacket* packet) {
 
 void ReportSignatureAndCert() {
 
-    ALIGN(32) char signature[60]; // system-defined
-    ALIGN(32) char b64Signature[80]; // pre-computed length
-    ALIGN(32) char cert[0x180]; // system-defined
+    ALIGN(32) char cert[IOSECCCertSize];
+    ALIGN(32) char signature[IOSECCSigSize];
+    ALIGN(32) char b64Signature[DWC_Base64GetEncodedSize(sizeof(signature))+1];
     int tokenLength = Status::token ? strlen(Status::token) : 0;
 
     // Get the certificate
@@ -205,7 +206,7 @@ void ReportSignatureAndCert() {
         Status::SendMessage("xy_sg", b64Signature, ret);
 
         // Encode and send the certificate
-        len = DWC_Base64Encode(cert, sizeof(cert), Auth::sConsoleCert, sizeof(Auth::sConsoleCert)-1);
+        len = DWC_Base64Encode(cert, sizeof(cert), Auth::sConsoleCert, sizeof(Auth::sConsoleCert));
         Auth::sConsoleCert[len] = '\0';
         Status::SendMessage("xy_ct", Auth::sConsoleCert, ret);
 
@@ -221,8 +222,8 @@ void ReportTrackHash(u32* hash, u8 courseId) {
 
     // Convert the hash to a string
     // Using sprintf since the output is fixed size and the buffer is big enough
-    char buffer[48];
-    sprintf(buffer, "%08x%08x%08x%08x%08x", hash[0], hash[1], hash[2], hash[3], hash[4]);
+    char buffer[HASH_STRING_SIZE];
+    sprintf(buffer, HASH_STRING_FMT, hash[0], hash[1], hash[2], hash[3], hash[4]);
 
     // Send the hash over with the course id
     Status::SendMessage("track_sha1", buffer, courseId);

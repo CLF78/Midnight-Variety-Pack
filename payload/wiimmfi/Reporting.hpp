@@ -5,6 +5,18 @@
 namespace Wiimmfi {
 namespace Reporting {
 
+    ///////////////
+    // Constants //
+    ///////////////
+
+    // Constants for formatting SHA1 hashes
+    const int HASH_STRING_SIZE = sizeof("1234567812345678123456781234567812345678");
+    const char HASH_STRING_FMT[] = "%08x%08x%08x%08x%08x";
+
+    ///////////////
+    // Functions //
+    ///////////////
+
     // Reports various Common.szs subfiles that can be modified for cheating
     void ReportCommonSubfiles();
 
