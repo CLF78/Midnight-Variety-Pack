@@ -1,42 +1,9 @@
 {
-    "2013": {
-        string: "Wiimmfi",
-    },
-    "2024": {
-        string: "¡Juega en Wiimmfi!",
-    },
-    "2025": {
-        string: "¡Juega con un amigo en Wiimmfi!",
-    },
-    "2033": {
-        string: "Wiimmfi (1J)",
-    },
-    "2034": {
-        string: "Wiimmfi (2J)",
-    },
     "2052": {
         string: "A fatal network error has occurred\nand the game cannot continue.\nPlease report the code below\nto the distribution creator.\n\n{color|yor 6}Error Code: {arg integer|0 5}",
     },
-    "2072": {
-        string: "Te has desconectado de\nWiimmfi. Vas a volver\nal menú principal.",
-    },
-    "2113": {
-        string: "{current player|} y {arg player|0}\nse conectarán juntos\na Wiimmfi.",
-    },
-    "4008": {
-        string: "Tu lista de amigos está vacía.\nAñade a tus amigos para poder\njugar juntos en Wiimmfi.",
-    },
-    "4010": {
-        string: "Accediendo a Wiimmfi...",
-    },
-    "4011": {
-        string: "¿Quieres desconectarte\nde Wiimmfi?",
-    },
-    "4016": {
-        string: "No puedes acceder a Wiimmfi\ncon este nombre de Mii.\nCámbialo y vuelve a\nintentarlo.",
-    },
     "4600": {
-        string: "Ocurrió un error de comunicación.\nVas a volver al menú principal.\n\n{color|yor 6}Código de error: {arg integer|0 5}",
+        string: "통신 에러가 발생했습니다.\n메인 메뉴로 돌아갑니다.\n\n{color|yor 6}에러 코드：{arg integer|0 5}",
     },
     "4601": {
         string: "Unable to connect to the Internet.\nCheck the Internet settings of\nthe Wii console.\n\n{color|yor 6}Error Code: {arg integer|0 5}",
@@ -57,10 +24,10 @@
         string: "Console activation pending.\nPlease wait {arg integer|1 0} days.\n\n{color|yor 6}Error Code: {arg integer|0 5}",
     },
     "4607": {
-        string: "No hay suficiente espacio libre en\nla memoria de la consola Wii.\n\n{color|yor 6}Código de error: {arg integer|0 5}",
+        string: "Wii 본체 저장 메모리의\n빈 용량이 부족합니다.\n\n{color|yor 6}에러 코드：{arg integer|0 5}",
     },
     "4608": {
-        string: "La memoria de la consola\nWii está dañada. Consulta el\nmanual de operaciones de la\nconsola Wii para obtener\nmás información.\n\n{color|yor 6}Código de error: {arg integer|0 5}",
+        string: "Wii 본체 저장 메모리가 손상되어\n있습니다. 자세한 내용은 Wii\n본체의 사용설명서를 읽어 주십시오.\n\n{color|yor 6}에러 코드：{arg integer|0 5}",
     },
     "4609": {
         string: "Console activation pending.\nPlease wait 1 day.\n\n{color|yor 6}Error Code: {arg integer|0 5}",
@@ -157,56 +124,5 @@
     },
     "4640": {
         string: "Unable to connect to other players\ndue to a low quality connection.\n\n{color|yor 6}Error Code: {arg integer|0 5}",
-    },
-    "5300": {
-        string: "¡Estoy en Wiimmfi!",
-    },
-    "5301": {
-        string: "No estoy en Wiimmfi.",
-    },
-    "6120": {
-        string: "Vas a conectarte a Wiimmfi.\n¿Estás de acuerdo?",
-    },
-    "6122": {
-        string: "Vas a conectarte a Wiimmfi.\n¿Estás de acuerdo?",
-    },
-    "6716": {
-        string: "Todavía no tienes una clave\nde amigo.\n\nTu clave de amigo es un número\nde 12 cifras que te permite conectar\na Wiimmfi.\n\nConsulta el folleto de instrucciones\nde Mario Kart Wii para obtener más\ninformación.",
-    },
-    "7001": {
-        string: "Wiimmfi",
-    },
-    "7251": {
-        string: "Mario Kart Wii puede mostrar la bandera de tu \npaís y tu región en los siguientes lugares:\n\n・En Wiimmfi indicando tu ubicación.\n・En los datos de tu fantasma. \n\nSi decides mostrar estos datos, \ntus oponentes podrán verlos en Wiimmfi.",
-    },
-    "7255": {
-        string: "Has decidido mostrar la bandera de tu\npaís y tu región en Wiimmfi.",
-    },
-    "7256": {
-        string: "Has decidido no mostrar la bandera de tu\npaís ni tu región en Wiimmfi.",
-    },
-    "7401": {
-        string: "Cuando juegas a Mario Kart Wii a través de Wiimmfi, \nla siguiente información se envía automáticamente a Wiimmfi:\n・Tu Mii y tu apodo.\n・Tus resultados y tus fantasmas.\nEstos datos se podrán compartir\ncon otros jugadores de Mario Kart Wii.",
-    },
-    "7402": {
-        string: "¿Permite que se envíen datos a Wiimmfi?",
-    },
-    "7405": {
-        string: "Has establecido que se permita el intercambio \nde datos de Mario Kart Wii.",
-    },
-    "7406": {
-        string: "No podrás jugar a Mario Kart Wii a través de Wiimmfi,\n¿es eso correcto?",
-    },
-    "7407": {
-        string: "Has establecido que no se permita el intercambio \nde datos de Mario Kart Wii.",
-    },
-   "7501": {
-        string: "Los Miis de otros jugadores pueden\naparecer durante las carreras o las\nbatallas, en las clasificaciones o en\notros lugares de Wiimmfi.\n\nPuedes elegir si quieres mostrar estos\nMiis o si prefieres sustituirlos por\naquellos Miis creados por Nintendo.",
-    },
-    "8203": {
-        string: "Resultados Wiimmfi",
-    },
-    "8220": {
-        string: "Wiimmfi - Amigos",
     },
 }

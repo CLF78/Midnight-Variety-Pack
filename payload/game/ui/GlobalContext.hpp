@@ -1,4 +1,5 @@
 #include <common/Common.hpp>
+#include <game/net/WifiDisconnectInfo.hpp>
 
 class GlobalContext {
 public:
@@ -45,6 +46,9 @@ public:
     int demoTrack;
     int demoArena;
 
-    u8 unk3[0x510-0x4E8];
+    u8 unk3[0x500-0x4E8];
+
+    WifiDisconnectInfo disconnectInfo;
+    u8 unk4[0x510-0x508];
 };
 size_assert(GlobalContext, 0x510);

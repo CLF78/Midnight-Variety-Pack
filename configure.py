@@ -81,8 +81,8 @@ BMG_DIR = Path(UI_ASSETS_DIR, 'message')
 BMG_BUILD_DIR = Path(BUILD_DIR, 'messages')
 BMG_MERGED_BUILD_DIR = Path(BMG_BUILD_DIR, 'merged')
 BMG_DESTINATIONS = {
-    'Common': ['Award', 'Globe', 'MenuMulti', 'MenuOther', 'MenuSingle', 'Race'],
-    'Menu': ['Award', 'Globe', 'MenuMulti', 'MenuOther', 'MenuSingle', 'Race'],
+    'Common': ['Award', 'Channel', 'Globe', 'MenuMulti', 'MenuOther', 'MenuSingle', 'Race', 'Title'],
+    'Menu': ['Award', 'Channel', 'Globe', 'MenuMulti', 'MenuOther', 'MenuSingle', 'Race', 'Title'],
     'Race': ['Award', 'Race']
 }
 

@@ -30,7 +30,7 @@ public:
     virtual void vf_34();
 
     u32 playerFlags;
-    u32 _8;
+    u32 playerEnabledFlags; // (1 << player) to enable inputs for player X
     bool inaccessible;
     bool isMultiPlayer;
     u8 _E;

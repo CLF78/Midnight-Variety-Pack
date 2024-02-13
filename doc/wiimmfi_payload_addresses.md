@@ -63,8 +63,8 @@
 - ⏭ 800ed78c (Authentication - not needed if we don't use the payload)
 - ⚠️ 800edee8 (Authentication)
 - ✅ 800ee098 (Report product code properly on Dolphin)
-- ❌ 800ee364 (Custom Wiimmfi error messages)
-- ❌ 800ee36c (Custom Wiimmfi error messages)
+- ⏭ 800ee364 (Custom Wiimmfi error messages) - not needed because of the offline messages
+- ⏭ 800ee36c (Custom Wiimmfi error messages) - not needed because of the offline messages
 - ❌ 800ee74c (Matchmaking anti-abuse)
 - ⚠️ 800ee9f8 (Parse authentication response)
 - ⚠️ 800fcedc (Handle kick messages)
@@ -73,8 +73,8 @@
 - ❌ 80111534 (Matchmaking anti-abuse)
 - ❌ 8011ab28 (Improved NAT type detection)
 - ❌ 8011ab30 (Improved NAT type detection)
-- ❌ 8011b478 ("Green triangles" code)
-- ❌ 8011b4b0 ("Green triangles" code)
+- ❌ 8011b478 ("Green triangles" code) - Sets negotiator retry time to 80 instead of 700
+- ❌ 8011b4b0 ("Green triangles" code) - Skips retry time check
 - ⏭ 801938f8 (Block IOS calls) - pointless security measure
 - ⏭ 80193a18 (Block IOS calls) - pointless security measure
 - ⏭ 801d4f10 (Set custom CA for payload download) - not needed if we don't use the payload

@@ -6,6 +6,7 @@
 #include <game/net/RKNetMutex.hpp>
 #include <game/net/RKNetPacketHolder.hpp>
 #include <game/net/RKNetStatusData.hpp>
+#include <game/net/WifiDisconnectInfo.hpp>
 #include <game/net/packet/RKNetRacePacketHeader.hpp>
 
 class RKNetController {
@@ -59,14 +60,14 @@ public:
     virtual ~RKNetController();
 
     void processRacePacket(u32 aid, void* data, u32 dataLength);
+    WifiDisconnectInfo getWifiDisconnectInfo();
 
     RKNetMutex mutex;
     EGG::ExpHeap* heap;
     EGG::TaskThread* taskThread;
 
     ConnectionState connState;
-    int _2C; // Error code type i think
-    int _30; // Error code i think
+    WifiDisconnectInfo disconnectInfo;
     // 4 bytes padding
 
     Sub subs[2];

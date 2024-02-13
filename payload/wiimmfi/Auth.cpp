@@ -86,7 +86,7 @@ void AppendAuthParameters(NHTTPReq* req) {
         snprintf(portBuffer, sizeof(portBuffer), "%d", Wiimmfi::Port::userPort);
 
         // Encode to Base64
-        char b64UserPort[DWC_Base64GetEncodedSize(sizeof(portBuffer))+1]; // pre-computed length
+        char b64UserPort[DWC_Base64GetEncodedSize(sizeof(portBuffer))+1];
         int len = DWC_Base64Encode(portBuffer, sizeof(portBuffer), b64UserPort, sizeof(b64UserPort));
         b64UserPort[len] = '\0';
 

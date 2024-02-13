@@ -204,6 +204,7 @@ public:
     };
 
     void loadTHPManager();
+    void shutdownNet();
 
     static u32 getSoundID(u32 sectionId);
 
