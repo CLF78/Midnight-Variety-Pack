@@ -52,16 +52,16 @@ int ParseKickMessage(GPConnection conn, char* data) {
         return 0;
 
     // Obtain the kick type
-    // TODO get kick message and store it (is this feature even used?)
+    // TODO get kick message and store it (unused feature at the moment)
     strshift(kickCmd, KICK_MSG);
     u32 kickType = strtoul(kickCmd, nullptr, 10);
 
     // Act based on the kick type
     switch (kickType) {
 
-        // Use CloseConnectionHard to kick everyone
+        // Use CloseConnectionHard to kick everyone (HOST ONLY)
         case EVERYONE:
-            if (stpMatchCnt && stpMatchCnt->nodeInfoList.nodeCount > 1)
+            if (stpMatchCnt && stpMatchCnt->nodeInfoList.nodeCount > 1 && DWC_IsServerMyself())
                 ScheduleForEveryone();
             break;
 
@@ -77,8 +77,12 @@ int ParseKickMessage(GPConnection conn, char* data) {
             mustEndRace = true;
             break;
 
-        // Get the kickpid parameter, if not found bail
+        // Kick a specific player (HOST ONLY)
         case SPECIFIC_PLAYER:
+            if (!DWC_IsServerMyself())
+                break;
+
+            // Get the kickpid parameter, if not found bail
             char* pidKickParam = strstr(kickCmd, KICK_MSG_PARAM_PID);
             if (!pidKickParam)
                 break;

@@ -20,6 +20,8 @@ inline void NETWriteSwappedBytes32(u32* dst, u32 val) {
     __stwbrx(val, dst, 0);
 }
 
+u32 NETCalcCRC32(const void* data, u32 dataSize);
+
 typedef struct {
     u32 h[5]; // H0, H1, H2, H3, H4
     u8 block[64]; // current message block

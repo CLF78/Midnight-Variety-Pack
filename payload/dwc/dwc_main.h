@@ -4,6 +4,7 @@
 extern "C" {
 #endif
 
+BOOL DWC_IsServerMyself();
 int DWC_CloseAllConnectionsHard();
 int DWC_CloseConnectionHard(u8 aid);
 

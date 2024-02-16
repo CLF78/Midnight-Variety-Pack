@@ -47,6 +47,7 @@ void AppendAuthParameters(NHTTPReq* req) {
     NHTTPAddPostDataAscii(req, "_val1", sConsoleCert);
 
     // Send patcher string
+    // Do not send the patcher version as that is only used for WSZST-based patching
     NHTTPAddPostDataAscii(req, "_patcher", PATCHER_TYPE);
 
     // Send the IOS Version (but not the actual one)

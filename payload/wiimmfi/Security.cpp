@@ -44,10 +44,6 @@ bool IsPacketSectionDataValid(int section, u8* sectionData) {
 // Code ported from WiiLink24's WFC patcher
 bool ValidateRACEPacket(u32 aid, RKNetRACEPacketHeader* data, u32 dataLength) {
 
-    // Bail if the packet doesn't even include a full header
-    if (dataLength < sizeof(RKNetRACEPacketHeader))
-        return false;
-
     // Verify each section size is valid
     // Do this separately as the sizes may be valid but may not add up
     u32 expectedPacketSize = 0;

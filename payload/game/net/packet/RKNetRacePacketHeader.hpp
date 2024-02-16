@@ -15,7 +15,7 @@ struct RKNetRACEPacketHeader {
     };
 
     u32 empty;
-    u32 crc;
+    u32 checksum;
     u8 sizes[SECTION_COUNT];
 };
 size_assert(RKNetRACEPacketHeader, 0x10);
