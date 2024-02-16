@@ -119,7 +119,7 @@
 - ❌ 8064f61c (Auto-reconnect - handle exiting race while offline)
 - ❌ 8064f620 (Auto-reconnect - handle exiting race while offline)
 - ❌ 8064f644 (Auto-reconnect - handle exiting race while offline)
-- ❌ 80654400 (Frameskip code)
+- ✅ 80654400 (Skip processing lag frames)
 - ❌ 80657648 (Auto-reconnect)
 - ❌ 8065764c (Auto-reconnect)
 - ❌ 806579b0 (Wiimmfi tick for stuff that happens each frame)
@@ -206,8 +206,8 @@
 - ⏭ 488b3e15 at 800ed78c
 - ⚠️ 488b2891 at 800edee8
 - ✅ 488b262d at 800ee098
-- ❌ 3c80809b at 800ee364
-- ❌ 90a4b434 at 800ee36c
+- ⏭ 3c80809b at 800ee364
+- ⏭ 90a4b434 at 800ee36c
 - ⚠️ 488ba3c0 at 800ee9f8
 - ⚠️ 488ac084 at 800fcedc
 - ✅ 488a0768 at 801007d8
@@ -256,6 +256,7 @@
 - ❌ 60000000 at 8064f61c
 - ❌ 7fe3fb78 at 8064f620
 - ❌ 48357fd1 at 8064f644
+- ✅ 60000000 at 80654400
 - ❌ 4834fea1 at 80657648
 - ❌ 60000000 at 8065764c
 - ❌ 4834a51d at 806579b0
