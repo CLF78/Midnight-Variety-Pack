@@ -7,10 +7,10 @@
 namespace Wiimmfi {
 namespace RoomStall {
 
-u16 kickTimer;
+u16 sKickTimer;
 
 void Reset() {
-    kickTimer = 0;
+    sKickTimer = 0;
 }
 
 void Update() {
@@ -20,7 +20,7 @@ void Update() {
         return;
 
     // Update the timer and check that it hasn't reached the threshold
-    if (kickTimer++ < KICK_THRESHOLD_TIME)
+    if (sKickTimer++ < KICK_THRESHOLD_TIME)
         return;
 
     // Get the full aid map and the corresponding bit mask

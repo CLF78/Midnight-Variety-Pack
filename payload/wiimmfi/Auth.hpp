@@ -28,9 +28,9 @@ namespace Auth {
     const char CONSOLE_TYPE[] = "ffff-P";
 
     // The heading of each response type
-    const char RESPONSE_P2P[] = "p2pport=";
-    const char RESPONSE_MSG[] = "msg=";
-    const char RESPONSE_XY[] = "xy=";
+    const char RESPONSE_P2PPORT[] = "p2pport=";
+    const char RESPONSE_CONSOLE_ASSIGN[] = "msg=";
+    const char RESPONSE_TOKEN[] = "xy=";
 
     ///////////////
     // Functions //
@@ -48,6 +48,10 @@ namespace Auth {
 
     // The base64-encoded console certificate
     extern char sConsoleCert[DWC_Base64GetEncodedSize(IOSECCCertSize)+1];
+
+    // The console assignment message
+    // We cannot use an offline message since we need a component of the received one for assingment to work
+    extern wchar_t* sConsoleAssignMessage;
 
 } // namespace Auth
 } // namespace Wiimmfi

@@ -16,6 +16,8 @@ namespace Wiimmfi {
 namespace Auth {
 
 char sConsoleCert[];
+char sConsoleAssignMessageBuffer[796];
+wchar_t* sConsoleAssignMessage;
 
 void AppendAuthParameters(NHTTPReq* req) {
 
@@ -80,11 +82,11 @@ void AppendAuthParameters(NHTTPReq* req) {
     }
 
     // If the user has set an UPNP port, send it over
-    if (Wiimmfi::Port::userPort) {
+    if (Wiimmfi::Port::sUserPort) {
 
         // Convert to string
         char portBuffer[6];
-        snprintf(portBuffer, sizeof(portBuffer), "%d", Wiimmfi::Port::userPort);
+        snprintf(portBuffer, sizeof(portBuffer), "%d", Wiimmfi::Port::sUserPort);
 
         // Encode to Base64
         char b64UserPort[DWC_Base64GetEncodedSize(sizeof(portBuffer))+1];
@@ -103,30 +105,38 @@ void AppendAuthParameters(NHTTPReq* req) {
 
 void ParseAuthResponse(const char* response) {
 
-    // Response type: p2pport
+    // Response type: P2P port
     // Store the UPNP port to be used
-    if (strstartw(response, RESPONSE_P2P)) {
-        strshift(response, RESPONSE_P2P);
-        Wiimmfi::Port::port = atoi(response);
+    if (strstartw(response, RESPONSE_P2PPORT)) {
+        strshift(response, RESPONSE_P2PPORT);
+        Wiimmfi::Port::sPort = atoi(response);
     }
 
-    // Response type: msg
-    // Decode it and store it for display later
-    else if (strstartw(response, RESPONSE_MSG)) {
-        strshift(response, RESPONSE_MSG);
+    // Response type: console assignment message
+    // Decode the message and store it for display later
+    else if (strstartw(response, RESPONSE_CONSOLE_ASSIGN)) {
+        strshift(response, RESPONSE_CONSOLE_ASSIGN);
 
-        // TODO finish this
-        // 1) Get encoded len
-        // 2) Compute decoded len
-        // 3) Cap it to 790 and add 4
-        // 4) Decode it with base64
-        // 5) See rest of code for other steps
+        // Get encoded and decoded message length
+        // If it doesn't fit the buffer, bail
+        int encodedLen = strlen(response);
+        int decodedLen = DWC_Base64Decode(response, encodedLen, nullptr, 0);
+        if (decodedLen > sizeof(sConsoleAssignMessageBuffer)-2)
+            return;
+
+        // Decode the message and set the pointer to indicate a successful decode
+        // The message is already in UTF-16 format, so we do not need to encode it
+        decodedLen = DWC_Base64Decode(response, encodedLen, sConsoleAssignMessageBuffer,
+                                      sizeof(sConsoleAssignMessageBuffer)-2);
+        sConsoleAssignMessageBuffer[decodedLen] = '\0';
+        sConsoleAssignMessageBuffer[decodedLen+1] = '\0';
+        sConsoleAssignMessage = (wchar_t*)sConsoleAssignMessageBuffer;
     }
 
-    // Response type: xy
+    // Response type: token
     // Decode the token and scramble it
-    else if (strstartw(response, RESPONSE_XY)) {
-        strshift(response, RESPONSE_XY);
+    else if (strstartw(response, RESPONSE_TOKEN)) {
+        strshift(response, RESPONSE_TOKEN);
         Status::DecodeToken(response);
     }
 }

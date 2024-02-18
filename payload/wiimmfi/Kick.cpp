@@ -8,40 +8,40 @@
 namespace Wiimmfi {
 namespace Kick {
 
-u32 aidsToBeKicked = 0;
-bool mustEndRace = false;
+u32 sAidsToBeKicked = 0;
+bool sMustEndRace = false;
 
 void ScheduleForAID(int aid) {
-    aidsToBeKicked |= (1 << aid);
+    sAidsToBeKicked |= (1 << aid);
 }
 
 void ScheduleForEveryone() {
-    aidsToBeKicked = 0xFFFFFFFF;
+    sAidsToBeKicked = 0xFFFFFFFF;
 }
 
 void CalcKick() {
 
     // If the aid bitfield is empty, bail
-    if (!aidsToBeKicked)
+    if (!sAidsToBeKicked)
         return;
 
     // Lock interrupts
     nw4r::ut::AutoInterruptLock lock;
 
     // If the bitfield is full, close all connections immediately
-    if (aidsToBeKicked == 0xFFFFFFFF)
+    if (sAidsToBeKicked == 0xFFFFFFFF)
         DWC_CloseAllConnectionsHard();
 
     // Otherwise kick each aid separately
     else {
         for (int i = 0; i < 12; i++) {
-            if (aidsToBeKicked >> i & 1)
+            if (sAidsToBeKicked >> i & 1)
                 DWC_CloseConnectionHard(i);
         }
     }
 
     // Reset the bitfield
-    aidsToBeKicked = 0;
+    sAidsToBeKicked = 0;
 }
 
 int ParseKickMessage(GPConnection conn, char* data) {
@@ -74,7 +74,7 @@ int ParseKickMessage(GPConnection conn, char* data) {
 
         // Force end the race
         case END_RACE:
-            mustEndRace = true;
+            sMustEndRace = true;
             break;
 
         // Kick a specific player (HOST ONLY)

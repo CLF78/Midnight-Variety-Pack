@@ -11,8 +11,8 @@
 kmCallDefCpp(0x800D2884, char*, u32 ip, u16 port, char* string) {
 
     // Override port if set
-    if (Wiimmfi::Port::port)
-        port = Wiimmfi::Port::port;
+    if (Wiimmfi::Port::sPort)
+        port = Wiimmfi::Port::sPort;
 
     // Original call
     return gt2AddressToString(ip, port, string);

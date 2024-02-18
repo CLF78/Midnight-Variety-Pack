@@ -12,9 +12,8 @@
 namespace Wiimmfi {
 namespace Status {
 
-char* token;
-
-char scrambledToken[96];
+char* sToken;
+char sScrambledToken[96];
 const int OFFSET = 0x20;
 
 void DecodeToken(const char* encodedToken) {
@@ -23,17 +22,17 @@ void DecodeToken(const char* encodedToken) {
     IGNORE_ERR(384)
     int encodedLen = strlen(encodedToken);
     int decodedLen = DWC_Base64Decode(encodedToken, encodedLen, nullptr, 0);
-    token = new (KAMEK_HEAP, 4) char[decodedLen+1];
+    sToken = new (KAMEK_HEAP, 4) char[decodedLen+1];
     UNIGNORE_ERR(384)
 
     // Decode the token
-    decodedLen = DWC_Base64Decode(encodedToken, encodedLen, token, decodedLen);
-    token[decodedLen] = '\0';
+    decodedLen = DWC_Base64Decode(encodedToken, encodedLen, sToken, decodedLen);
+    sToken[decodedLen] = '\0';
 
     // Scramble the token
     // Start by filling the array with garbage data
-    for (int i = 0; i < sizeof(scrambledToken); i++) {
-        scrambledToken[i] = i + OFFSET;
+    for (int i = 0; i < sizeof(sScrambledToken); i++) {
+        sScrambledToken[i] = i + OFFSET;
     }
 
     // Check if the token was decoded correctly
@@ -42,9 +41,9 @@ void DecodeToken(const char* encodedToken) {
         // Run a substitution cipher on the token
         const char key[] = "0123456789,abcdefghijklmnopqrstuvwxyz|=+-_";
         for (int i = 0; i < decodedLen + 1 && i < sizeof(key); i++) {
-            char c = token[i];
+            char c = sToken[i];
             char pos = key[i];
-            scrambledToken[pos - OFFSET] = c;
+            sScrambledToken[pos - OFFSET] = c;
         }
     }
 }
@@ -52,14 +51,14 @@ void DecodeToken(const char* encodedToken) {
 void ScrambleMessage(char* msg, int msgLen) {
 
     // Check that the token was obtained, if not bail
-    if (!token)
+    if (!sToken)
         return;
 
     // Scramble the message otherwise
     for (int i = 0; i < msgLen; i++) {
         u8 c = msg[i] - OFFSET;
-        if (c < sizeof(scrambledToken)-1)
-            msg[i] = scrambledToken[c];
+        if (c < sizeof(sScrambledToken)-1)
+            msg[i] = sScrambledToken[c];
     }
 }
 

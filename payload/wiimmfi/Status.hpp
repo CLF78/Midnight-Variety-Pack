@@ -10,7 +10,7 @@ namespace Status {
     void SendMessage(const char* key, const char* value, int integerValue = -1);
 
     // The token received on login
-    extern char* token;
+    extern char* sToken;
 
 } // namespace Port
 } // namespace Wiimmfi

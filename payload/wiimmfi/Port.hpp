@@ -4,11 +4,11 @@ namespace Wiimmfi {
 namespace Port {
 
     // The P2P port received from Wiimmfi in the authentication stage
-    extern u16 port;
+    extern u16 sPort;
 
     // The P2P port the user wishes to use
     // TODO allow players to change this
-    extern u16 userPort;
+    extern u16 sUserPort;
 
 } // namespace Port
 } // namespace Wiimmfi

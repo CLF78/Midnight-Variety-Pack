@@ -20,12 +20,5 @@ namespace RoomStall {
     // Updates the room stall timer and kicks players if necessary
     void Update();
 
-    ///////////////
-    // Variables //
-    ///////////////
-
-    // The kick timer
-    extern u16 kickTimer;
-
 } // namespace RoomStall
 } // namespace Wiimmfi

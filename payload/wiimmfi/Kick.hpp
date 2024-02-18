@@ -42,7 +42,7 @@ namespace Kick {
     ///////////////
 
     // If the race should be stopped immediately (used by kick type END_RACE)
-    extern bool mustEndRace;
+    extern bool sMustEndRace;
 
 } // namespace Kick
 } // namespace Wiimmfi

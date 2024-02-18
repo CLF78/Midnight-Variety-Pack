@@ -193,11 +193,11 @@ void ReportSignatureAndCert() {
     ALIGN(32) char cert[IOSECCCertSize];
     ALIGN(32) char signature[IOSECCSigSize];
     ALIGN(32) char b64Signature[DWC_Base64GetEncodedSize(sizeof(signature))+1];
-    int tokenLength = Status::token ? strlen(Status::token) : 0;
+    int tokenLength = Status::sToken ? strlen(Status::sToken) : 0;
 
     // Get the certificate
     // Removed useless memset call here
-    s32 ret = ES_Sign((u8*)Status::token, tokenLength, (u8*)signature, (u8*)cert);
+    s32 ret = ES_Sign((u8*)Status::sToken, tokenLength, (u8*)signature, (u8*)cert);
     if (ret == ES_ERR_OK) {
 
         // Encode and send the signature

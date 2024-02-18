@@ -16,8 +16,8 @@
 kmListHookDefCpp(NetShutdownHook) {
 
     // Delete the Wiimmfi messaging token
-    if (Wiimmfi::Status::token)
-        delete Wiimmfi::Status::token;
+    if (Wiimmfi::Status::sToken)
+        delete Wiimmfi::Status::sToken;
 }
 
 /////////////
