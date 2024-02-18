@@ -20,7 +20,6 @@ typedef enum {
     DWC_MATCH_STATE_CL_WAITING,
     DWC_MATCH_STATE_CL_SEARCH_HOST,
     DWC_MATCH_STATE_CL_WAIT_RESV,
-    DWC_MATCH_STATE_CL_SEARCH_EVAL_HOST,
     DWC_MATCH_STATE_CL_NN,
     DWC_MATCH_STATE_CL_GT2,
     DWC_MATCH_STATE_CL_CANCEL_SYN,
@@ -32,14 +31,12 @@ typedef enum {
     DWC_MATCH_STATE_SV_WAITING,
     DWC_MATCH_STATE_SV_OWN_NN,
     DWC_MATCH_STATE_SV_OWN_GT2,
-    DWC_MATCH_STATE_SV_WAIT_CL_LINK,
     DWC_MATCH_STATE_SV_CANCEL_SYN,
     DWC_MATCH_STATE_SV_CANCEL_SYN_WAIT,
     DWC_MATCH_STATE_SV_SYN,
     DWC_MATCH_STATE_SV_SYN_WAIT,
     DWC_MATCH_STATE_WAIT_CLOSE,
     DWC_MATCH_STATE_SEARCH_OWN,
-    DWC_MATCH_STATE_SV_SYN_CLOSE_WAIT,
     DWC_MATCH_STATE_COUNT,
 } DWCMatchState;
 
@@ -64,7 +61,7 @@ typedef struct {
 
 typedef struct {
     GPConnection gpConnection;
-    GT2Socket gt2Socket;
+    GT2Socket* gt2Socket;
     GT2Callbacks* gt2Callbacks;
     u8 gt2ConnectCount;
     u8 connectedOnceBefore;

@@ -1,6 +1,23 @@
 #include <common/Common.hpp>
+#include <dwc/dwc_main.h>
 #include <gs/gt2/gt2Utility.h>
+#include <wiimmfi/Natneg.hpp>
 #include <wiimmfi/Port.hpp>
+
+/////////////////
+// Fast NATNEG //
+/////////////////
+
+// DWCi_MatchedCallback() patch
+// Update NATNEG
+kmCallDefCpp(0x800D3188, void, DWCError error, int cancel, int self, int isServer, int index, void* param) {
+
+    // Original call
+    stpDwcCnt->userMatchedCallback(error, cancel, self, isServer, index, param);
+
+    // Update NATNEG with the self value
+    Wiimmfi::Natneg::Calc(self);
+}
 
 //////////////////////////
 // Wiimmfi Port Binding //

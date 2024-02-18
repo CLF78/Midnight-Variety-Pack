@@ -1,6 +1,7 @@
 #include <common/Common.h>
 #include <gs/darray.h>
 #include <gs/hashtable.h>
+#include <gs/gt2/gt2Buffer.h>
 #include <gs/gt2/gt2Callback.h>
 
 #ifdef __cplusplus
@@ -33,6 +34,42 @@ struct GTI2Socket {
     int protocolOffset;
     int broadcastEnabled;
 };
+
+struct GTI2Connection {
+    u32 ip;
+    u16 port;
+    u8 aid; // custom field
+    // 1 byte padding
+
+    GTI2Socket* socket;
+    GT2SocketState state;
+    int initiated;
+    int freeAtAcceptReject;
+    GT2Result result;
+    u32 startTime;
+    u32 timeout;
+    int callbackLevel;
+    GT2Callbacks callbacks;
+    char * initialMessage;
+    int initialMessageLen;
+    struct DWCConnectionInfo * data;
+    GTI2Buffer incomingBuffer;
+    GTI2Buffer outgoingBuffer;
+    DArray incomingBufferMessages;
+    DArray outgoingBufferMessages;
+    u16 serialNumber;
+    u16 expectedSerialNumber;
+    char response[32];
+    u32 lastSend;
+    u32 challengeTime;
+    int pendingAck;
+    u32 pendingAckTime;
+    DArray sendFilters;
+    DArray receiveFilters;
+};
+
+GT2Result gt2Connect(GT2Socket socket, GT2Connection* connection, const char* remoteAddress,
+                     const char* msg, int msgLen, int timeout, GT2Callbacks* callbacks, int blocking);
 
 #ifdef __cplusplus
 }

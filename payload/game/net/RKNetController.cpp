@@ -5,8 +5,26 @@
 #include <nw4r/ut/Lock.hpp>
 #include <revolutionex/net/NETDigest.h>
 #include <wiimmfi/Kick.hpp>
+#include <wiimmfi/Natneg.hpp>
 #include <wiimmfi/Security.hpp>
 #include <wiimmfi/Status.hpp>
+
+/////////////////
+// Fast NATNEG //
+/////////////////
+
+// RKNetController::mainNetworkLoop() patch
+// Update NATNEG
+// TODO can we move this to main wiimmfi loop?
+kmCallDefCpp(0x80657990, void, RKNetController* self) {
+
+    // Original call
+    self->updateSubsAndVr();
+
+    // Update Wiimmfi NATNEG
+    // Since we're in a matching state, force the value to 0
+    Wiimmfi::Natneg::Calc(0);
+}
 
 /////////////////////
 // Network Cleanup //

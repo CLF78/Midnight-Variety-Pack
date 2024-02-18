@@ -60,6 +60,7 @@ public:
     virtual ~RKNetController();
 
     void processRacePacket(u32 aid, void* data, u32 dataLength);
+    void updateSubsAndVr();
     WifiDisconnectInfo getWifiDisconnectInfo();
 
     RKNetMutex mutex;

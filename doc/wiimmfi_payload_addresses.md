@@ -32,7 +32,7 @@
 - ❌ 800d3078 (Auto-reconnect)
 - ❌ 800d31a0 (Auto-reconnect)
 - ❌ 800d31bc (Auto-reconnect)
-- ❌ 800d31c4 (Ultra-fast NATNEG)
+- ✅ 800d31c4 (Update fast NATNEG)
 - ❌ 800d3624 (Auto-reconnect)
 - ❌ 800d3c38 (Auto-reconnect)
 - ❌ 800d3ea0 (Auto-reconnect)
@@ -126,7 +126,7 @@
 - ❌ 80657a6c (Auto-reconnect: Fix main thread)
 - ⚠️ 80658610 (RCE fix)
 - ❌ 80658714 (Auto-reconnect)
-- ❌ 80658f7c (Ultra-fast NATNEG)
+- ✅ 80658f7c (Update fast NATNEG)
 - ❌ 8065a0ec (Auto-reconnect DWC stub implementation)
 - ❌ 8065a970 (Auto-reconnect)
 - ⏭ 8065df44 (Invalid ITEM packet check) - will be implemented separately
@@ -162,7 +162,7 @@
 - ❌ 488d6011 at 800d3078
 - ❌ 488d5ebd at 800d31a0
 - ❌ 488d5ecd at 800d31bc
-- ❌ 488d5ddc at 800d31c4
+- ✅ 488d5ddc at 800d31c4
 - ❌ 488d4e15 at 800d3624
 - ❌ 488d53f9 at 800d3c38
 - ❌ 488d51e9 at 800d3ea0
@@ -263,7 +263,7 @@
 - ❌ 4834f79c at 80657a6c
 - ⚠️ 48349264 at 80658610
 - ❌ 4834ec14 at 80658714
-- ❌ 4834cd64 at 80658f7c
+- ✅ 4834cd64 at 80658f7c
 - ❌ 4834d439 at 8065a0ec
 - ❌ 4834d75c at 8065a970
 - ⏭ 48343231 at 8065df44

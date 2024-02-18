@@ -121,13 +121,13 @@ void ParseAuthResponse(const char* response) {
         // If it doesn't fit the buffer, bail
         int encodedLen = strlen(response);
         int decodedLen = DWC_Base64Decode(response, encodedLen, nullptr, 0);
-        if (decodedLen > sizeof(sConsoleAssignMessageBuffer)-2)
+        if (decodedLen > sizeof(sConsoleAssignMessageBuffer) - sizeof(wchar_t))
             return;
 
         // Decode the message and set the pointer to indicate a successful decode
         // The message is already in UTF-16 format, so we do not need to encode it
         decodedLen = DWC_Base64Decode(response, encodedLen, sConsoleAssignMessageBuffer,
-                                      sizeof(sConsoleAssignMessageBuffer)-2);
+                                      sizeof(sConsoleAssignMessageBuffer) - sizeof(wchar_t));
         sConsoleAssignMessageBuffer[decodedLen] = '\0';
         sConsoleAssignMessageBuffer[decodedLen+1] = '\0';
         sConsoleAssignMessage = (wchar_t*)sConsoleAssignMessageBuffer;
