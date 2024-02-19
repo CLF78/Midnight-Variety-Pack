@@ -8,6 +8,7 @@
 
 // gti2CreateSocket() patch
 // Try to bind on the custom port, retry on a different port on failure
+// Credits: Wiimmfi
 kmCallDefCpp(0x8010E090, int, int sock, SOSockAddrIn* addr, int len) {
 
     // Original call

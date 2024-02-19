@@ -15,6 +15,7 @@
 
 // RKNetController::mainNetworkLoop() patch
 // Update NATNEG
+// Credits: Wiimmfi
 // TODO can we move this to main wiimmfi loop?
 kmCallDefCpp(0x80657990, void, RKNetController* self) {
 

@@ -10,6 +10,7 @@
 
 // WifiMenuPage::beforeCalc() override
 // Display the Wiimmfi console assignment message if available
+// Credits: Wiimmfi
 kmPointerDefCpp(0x808BFF8C, void, Page* self) {
 
     // Check if a message is available, if not bail

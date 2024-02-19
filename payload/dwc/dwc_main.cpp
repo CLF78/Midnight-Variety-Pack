@@ -10,6 +10,7 @@
 
 // DWCi_MatchedCallback() patch
 // Update NATNEG
+// Credits: Wiimmfi
 kmCallDefCpp(0x800D3188, void, DWCError error, int cancel, int self, int isServer, int index, void* param) {
 
     // Original call
@@ -25,6 +26,7 @@ kmCallDefCpp(0x800D3188, void, DWCError error, int cancel, int self, int isServe
 
 // DWCi_GT2Startup() patch
 // Use the server-provided port for GT2Sockets
+// Credits: Wiimmfi
 kmCallDefCpp(0x800D2884, char*, u32 ip, u16 port, char* string) {
 
     // Override port if set
