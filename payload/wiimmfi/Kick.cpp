@@ -67,10 +67,8 @@ int ParseKickMessage(GPConnection conn, char* data) {
 
         // Pretend to cause a network error and kick ourselves
         case SELF:
-            IGNORE_ERR(167)
             DWCi_HandleGPError(GP_ERROR_NETWORK);
             return 1;
-            UNIGNORE_ERR(167)
 
         // Force end the race
         case END_RACE:

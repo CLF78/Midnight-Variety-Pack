@@ -55,14 +55,6 @@ public:
     // General API //
     /////////////////
 
-    // Checks if we're currently in battle mode, for mode-independent code
-    static bool IsBattle() {
-        IGNORE_ERR(144)
-        RaceConfig::Scenario* scenario = UIUtils::getScenario();
-        return scenario->settings.isBattle();
-        UNIGNORE_ERR(144)
-    }
-
     // Gets a specific cup list
     static const CupData::CupList* GetCupListData(u32 idx) {
         return &CupData::cupLists[idx];

@@ -31,7 +31,7 @@ typedef enum {
     DWC_ERROR_COUNT,
 } DWCError;
 
-GPResult DWCi_HandleGPError(GPResult error);
+int DWCi_HandleGPError(int error);
 
 #ifdef __cplusplus
 }

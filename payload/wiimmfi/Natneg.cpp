@@ -11,13 +11,13 @@
 
 namespace Wiimmfi {
 namespace Natneg {
+IGNORE_ERR(144)
 
 u16 sTimers[12]; // one timer per aid
 
 void ConnectToNode(int nodeIdx) {
 
     // Get the corresponding node info
-    IGNORE_ERR(144)
     DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[nodeIdx];
     u8 aid = node->aid;
     int pid = node->profileId;
@@ -51,7 +51,7 @@ void ConnectToNode(int nodeIdx) {
     if (ret == GT2_RESULT_SUCCESS)
         conn->aid = aid + 1;
 
-    UNIGNORE_ERR(144)
+
     UNIGNORE_ERR(304)
 }
 
@@ -100,8 +100,7 @@ void Calc(bool connectedToHost) {
             continue;
 
         // If we are not in the following forbidden states, try to connect
-        IGNORE_ERR(144)
-        DWCMatchState matchState = stpMatchCnt->state;
+        u32 matchState = stpMatchCnt->state;
         if (matchState != DWC_MATCH_STATE_CL_WAIT_RESV &&
             matchState != DWC_MATCH_STATE_CL_NN &&
             matchState != DWC_MATCH_STATE_CL_GT2 &&
@@ -111,7 +110,6 @@ void Calc(bool connectedToHost) {
 
         // Reset the timer
         sTimers[aid] = 300;
-        UNIGNORE_ERR(144)
     }
 }
 
@@ -139,10 +137,8 @@ void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPor
 
     // Get node info for client A and client B
     // Check for null and eventually bail
-    IGNORE_ERR(144)
     DWCNodeInfo* clientAInfo = DWCi_NodeInfoList_GetNodeInfoForProfileId(clientAPid);
     DWCNodeInfo* clientBInfo = DWCi_NodeInfoList_GetNodeInfoForAid(clientBAid);
-    UNIGNORE_ERR(144)
     if (!clientAInfo || !clientBInfo)
         return;
 
@@ -192,9 +188,7 @@ void SendConnFailMtxCommand(u32 aidsConnectedToHost, u32 aidsConnectedToMe) {
     if (hostAid != 0xFF)
         return;
 
-    IGNORE_ERR(144)
     DWCNodeInfo* hostNodeInfo = DWCi_NodeInfoList_GetNodeInfoForAid(hostAid);
-    UNIGNORE_ERR(144)
     if (!hostNodeInfo || hostNodeInfo->profileId == 0)
         return;
 
@@ -203,5 +197,6 @@ void SendConnFailMtxCommand(u32 aidsConnectedToHost, u32 aidsConnectedToMe) {
                           hostNodeInfo->publicport, &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
 }
 
+UNIGNORE_ERR(144)
 } // namespace Natneg
 } // namespace Wiimmfi

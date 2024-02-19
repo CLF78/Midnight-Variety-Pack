@@ -118,8 +118,6 @@ kmPointerDefCpp(0x808DA590, void, DemoPage* self) {
             self->topText.setText(1416, nullptr);
         }
 
-        IGNORE_ERR(167)
-
         // Create red bubbles
         for (int i = 0; i < globalCtx->raceCount; i++) {
             CtrlRaceBattleSetPoint* redBubble = new CtrlRaceBattleSetPoint();
@@ -133,8 +131,6 @@ kmPointerDefCpp(0x808DA590, void, DemoPage* self) {
             self->insertChild(childIdx++, blueBubble, 0);
             blueBubble->load(true, i);
         }
-
-        UNIGNORE_ERR(167)
     
     // On other modes, hide the top text altogether
     } else {
