@@ -7,6 +7,7 @@
 #include <platform/string.h>
 #include <revolution/os/OS.h>
 #include <revolutionex/net/NETDigest.h>
+#include <wiimmfi/ConnectionMatrix.hpp>
 #include <wiimmfi/Natneg.hpp>
 
 namespace Wiimmfi {
@@ -121,7 +122,7 @@ void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPor
         return;
 
     // Ensure the data size is correct
-    if (DWC_MATCH_CMD_GET_ACTUAL_SIZE(dataLen) != sizeof(DWCMatchCommandConnFailMtx))
+    if (DWC_MATCH_CMD_GET_ACTUAL_SIZE(dataLen) != sizeof(*data))
         return;
 
     // Find the highest "client B" with a connection failure
@@ -150,7 +151,7 @@ void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPor
     NETWriteSwappedBytes32(&cmd.pid, stpMatchCnt->tempNewNodeInfo.profileId);
     NETWriteSwappedBytes32(&cmd.aid, stpMatchCnt->tempNewNodeInfo.aid);
     DWCi_SendMatchCommand(DWC_MATCH_CMD_NEW_PID_AID, clientAPid, clientAIP, clientAPort,
-                          &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(DWCMatchCommandNewPidAid)));
+                          &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
 
     // Send a SYN packet to client A
     DWCi_SendMatchSynPacket(clientAInfo->aid,1);
@@ -159,15 +160,33 @@ void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPor
     memset(&stpMatchCnt->tempNewNodeInfo, 0, sizeof(DWCNodeInfo));
 }
 
+void ProcessRecvConnMtxCommand(int srcPid, DWCMatchCommandConnMtx* data, int dataLen) {
+
+    // Ensure the data size is correct
+    if (DWC_MATCH_CMD_GET_ACTUAL_SIZE(dataLen) != sizeof(*data))
+        return;
+
+    // If the profile id of the source client isn't found, reset the outdated matrices
+    DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForProfileId(srcPid);
+    if (node) Wiimmfi::ConnectionMatrix::sRecvConnMtx[node->aid] = data->connMtx;
+    else Wiimmfi::ConnectionMatrix::ResetRecv();
+}
+
 int ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen) {
 
     // Dispatch call to different functions depending on the command
     // Use the original function as a fallback
     switch(cmd) {
+
         case DWC_MATCH_CMD_CONN_FAIL_MTX:
             ProcessRecvConnFailMtxCommand(profileId, publicIp, publicPort,
                                           (DWCMatchCommandConnFailMtx*)cmdData, dataLen);
             return 0;
+
+        case DWC_MATCH_CMD_CONN_MTX:
+            ProcessRecvConnMtxCommand(profileId, (DWCMatchCommandConnMtx*)cmdData, dataLen);
+            return 0;
+
         default:
             return DWCi_ProcessRecvMatchCommand(cmd, profileId, publicIp, publicPort, cmdData, dataLen);
     }
@@ -195,6 +214,30 @@ void SendConnFailMtxCommand(u32 aidsConnectedToHost, u32 aidsConnectedToMe) {
     // Send the command
     DWCi_SendMatchCommand(DWC_MATCH_CMD_CONN_FAIL_MTX, hostNodeInfo->profileId, hostNodeInfo->publicip,
                           hostNodeInfo->publicport, &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
+}
+
+void SendConnMtxCommand(u32 aidsConnectedToMe) {
+
+    // Failsafe
+    if (stpMatchCnt->nodeInfoList.nodeCount == 0)
+        return;
+
+    // Set up the command
+    DWCMatchCommandConnMtx cmd;
+    cmd.connMtx = aidsConnectedToMe;
+
+    // Send the command to every node
+    for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
+
+        // Get the node and check that it isn't me
+        DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];
+        if (node->profileId == stpMatchCnt->profileId)
+            continue;
+
+        // Send the command
+        DWCi_SendMatchCommand(DWC_MATCH_CMD_CONN_MTX, node->profileId, node->publicip, node->publicport,
+                              &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
+    }
 }
 
 UNIGNORE_ERR(144)

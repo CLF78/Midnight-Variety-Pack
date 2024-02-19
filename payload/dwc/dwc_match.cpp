@@ -1,6 +1,7 @@
 #include <common/Common.h>
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
+#include <wiimmfi/ConnectionMatrix.hpp>
 #include <wiimmfi/Natneg.hpp>
 
 /////////////////
@@ -47,6 +48,15 @@ kmCall(0x800E5980, Wiimmfi::Natneg::ProcessRecvMatchCommand);
 // Parse custom match commands coming from MASTER
 // Credits: Wiimmfi
 kmCall(0x800E5B14, Wiimmfi::Natneg::ProcessRecvMatchCommand);
+
+/////////////////////////////////////
+// Fast NATNEG / Wiimmfi Telemetry //
+/////////////////////////////////////
+
+// DWCi_PostProcessConnection() patch
+// Update the connection matrix when a new connection is made
+// Credits: Wiimmfi
+kmBranch(0x800E09A8, Wiimmfi::ConnectionMatrix::Update);
 
 ////////////////////////
 // NATNEG Suspend Fix //

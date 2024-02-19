@@ -36,7 +36,7 @@
 - ❌ 800d3624 (Auto-reconnect)
 - ❌ 800d3c38 (Auto-reconnect)
 - ❌ 800d3ea0 (Auto-reconnect)
-- ❌ 800d3f1c ("Green triangle" code)
+- ✅ 800d3f1c (Send connected aids to server and clients)
 - ❌ 800d8354 (NATNEG improvements)
 - ⚠️ 800d94f0 (Parse custom DWC match commands)
 - ❌ 800d9754 (Ultra-fast NATNEG)
@@ -47,7 +47,7 @@
 - ❌ 800dc21c (Forgot what that's for, looks like Ultra-fast NATNEG)
 - ❌ 800dc49c (Auto-reconnect - stop ppl from joining during a reconnect)
 - ❌ 800dea18 (Auto-reconnect - Fix issues with friend status)
-- ❌ 800e09a8 ("Green triangle" code)
+- ✅ 800e09a8 (Send connected aids to server and clients)
 - ❌ 800e1a58 (Ultra-fast NATNEG)
 - ❌ 800e1ca8 (Ultra-fast NATNEG)
 - ❌ 800e5680 (Auto-reconnect)
@@ -166,7 +166,7 @@
 - ❌ 488d4e15 at 800d3624
 - ❌ 488d53f9 at 800d3c38
 - ❌ 488d51e9 at 800d3ea0
-- ❌ 488cf608 at 800d3f1c
+- ✅ 488cf608 at 800d3f1c
 - ❌ 488d0904 at 800d8354
 - ⚠️ 488ccdc5 at 800d94f0
 - ❌ 488cf865 at 800d9754
@@ -177,7 +177,7 @@
 - ❌ 488ccdd0 at 800dc21c
 - ❌ 488cad89 at 800dc49c
 - ❌ 38600003 at 800dea18
-- ❌ 488c2b7c at 800e09a8
+- ✅ 488c2b7c at 800e09a8
 - ❌ 38c01b58 at 800e1a58
 - ❌ 488c3a68 at 800e1ca8
 - ❌ 488c2e29 at 800e5680

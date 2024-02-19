@@ -20,6 +20,9 @@ namespace Reporting {
     // Reports various Common.szs subfiles that can be modified for cheating
     void ReportCommonSubfiles();
 
+    // Reports the connection matrix
+    void ReportConnectionMatrix(u32 aidsConnectedToMe);
+
     // Reports various course subfiles for possible track identification/cheat detection
     void ReportCourseSubfiles();
 

@@ -1,6 +1,7 @@
 #include <common/Common.hpp>
 #include <dwc/dwc_main.h>
 #include <gs/gt2/gt2Utility.h>
+#include <wiimmfi/ConnectionMatrix.hpp>
 #include <wiimmfi/Natneg.hpp>
 #include <wiimmfi/Port.hpp>
 
@@ -19,6 +20,15 @@ kmCallDefCpp(0x800D3188, void, DWCError error, int cancel, int self, int isServe
     // Update NATNEG with the self value
     Wiimmfi::Natneg::Calc(self);
 }
+
+/////////////////////////////////////
+// Fast NATNEG / Wiimmfi Telemetry //
+/////////////////////////////////////
+
+// DWCi_GT2ClosedProcess() patch
+// Update the connection matrix when a connection is closed
+// Credits: Wiimmfi
+kmBranch(0x800D3F1C, Wiimmfi::ConnectionMatrix::Update);
 
 //////////////////////////
 // Wiimmfi Port Binding //

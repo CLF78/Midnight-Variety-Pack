@@ -40,6 +40,10 @@ void* GetSubfileHash(const char* path, int src, char* hash) {
     return file;
 }
 
+void ReportConnectionMatrix(u32 aidsConnectedToMe) {
+    Status::SendMessage("connected", "", aidsConnectedToMe);
+}
+
 void ReportCommonSubfiles() {
 
     // Initialize buffer for each message
