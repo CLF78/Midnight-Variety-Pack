@@ -10,6 +10,9 @@
 extern "C" {
 #endif
 
+#define DWC_MATCH_CMD_GET_ACTUAL_SIZE(size) ((size) * 4)
+#define DWC_MATCH_CMD_GET_SIZE(size) ((size) / 4)
+
 typedef void (*DWCMatchedCallback)(DWCError error, int cancel, int self, int isServer, int index, void* param);
 typedef void (*DWCNewClientCallback)(int friendIndex, void* param);
 typedef int (*DWCEvalCallback)(int serverBrowserCount, void* param);
@@ -39,6 +42,52 @@ typedef enum {
     DWC_MATCH_STATE_SEARCH_OWN,
     DWC_MATCH_STATE_COUNT,
 } DWCMatchState;
+
+typedef enum {
+    DWC_MATCH_CMD_RESV            = 0x1,
+    DWC_MATCH_CMD_RESV_OK         = 0x2,
+    DWC_MATCH_CMD_RESV_DENY       = 0x3,
+    DWC_MATCH_CMD_RESV_WAIT       = 0x4,
+    DWC_MATCH_CMD_RESV_CANCEL     = 0x5,
+    DWC_MATCH_CMD_TELL_ADDR       = 0x6,
+    DWC_MATCH_CMD_NEW_PID_AID     = 0x7,
+    DWC_MATCH_CMD_LINK_CLOSE_REQ  = 0x8,
+    DWC_MATCH_CMD_LINK_CLOSE_SUC  = 0x9,
+    DWC_MATCH_CMD_CLOSE_LINK      = 0xA,
+    DWC_MATCH_CMD_RESV_PRIOR      = 0xB,
+    DWC_MATCH_CMD_CANCEL          = 0xC,
+    DWC_MATCH_CMD_CANCEL_SYN      = 0xD,
+    DWC_MATCH_CMD_CANCEL_SYN_ACK  = 0xE,
+    DWC_MATCH_CMD_CANCEL_ACK      = 0xF,
+    DWC_MATCH_CMD_SC_CLOSE_CL     = 0x10,
+    DWC_MATCH_CMD_POLL_TIMEOUT    = 0x11,
+    DWC_MATCH_CMD_POLL_TO_ACK     = 0x12,
+    DWC_MATCH_CMD_SC_CONN_BLOCK   = 0x13,
+    DWC_MATCH_CMD_SVDOWN_QUERY    = 0x52,
+    DWC_MATCH_CMD_SVDOWN_ACK      = 0x53,
+    DWC_MATCH_CMD_SVDOWN_NAK      = 0x54,
+    DWC_MATCH_CMD_SVDOWN_KEEP     = 0x55,
+    DWC_MATCH_CMD_SB_RETRY_SEARCH = 0x72,
+    DWC_MATCH_CMD_SUSPEND_CTRL    = 0x82,
+    DWC_MATCH_CMD_USED_SLOTS      = 0x83,
+
+    // Custom commands from here onwards
+    DWC_MATCH_CMD_CTGP_RULE_D0    = 0xD0,
+    DWC_MATCH_CMD_CTGP_RULE_D1    = 0xD1,
+    DWC_MATCH_CMD_CTGP_RULE_D2    = 0xD2,
+    DWC_MATCH_CMD_CTGP_RULE_D3    = 0xD3,
+
+    DWC_MATCH_DNS_EXPLOIT_D4      = 0xD4,
+    DWC_MATCH_DNS_EXPLOIT_D5      = 0xD5,
+
+    DWC_MATCH_CMD_CONN_FAIL_MTX   = 0xDC,
+    DWC_MATCH_CMD_CONN_MTX        = 0xDD,
+} DWCMatchCommandType;
+
+typedef struct {
+    u32 pid; // endian-swapped
+    u32 aid; // endian-swapped
+} DWCMatchCommandNewPidAid;
 
 typedef struct {
     u8 command;
@@ -175,10 +224,15 @@ typedef struct {
     u8 connUserData[4];
     void* connectAttemptParam;
 
-    u32 _8B0;
+    u32 serverPollingUID;
     // 4 bytes padding
     s64 suspendWaitTime;
 } DWCMatchControl;
+
+int DWCi_ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen);
+int DWCi_SendMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen);
+
+void DWCi_SendMatchSynPacket(u8 aid, u16 type);
 
 extern DWCMatchControl* stpMatchCnt;
 

@@ -1,10 +1,12 @@
 #include <common/Common.hpp>
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
+#include <dwc/dwc_node.h>
 #include <gs/gt2/gt2Utility.h>
 #include <platform/stdio.h>
 #include <platform/string.h>
 #include <revolution/os/OS.h>
+#include <revolutionex/net/NETDigest.h>
 #include <wiimmfi/Natneg.hpp>
 
 namespace Wiimmfi {
@@ -111,6 +113,94 @@ void Calc(bool connectedToHost) {
         sTimers[aid] = 300;
         UNIGNORE_ERR(144)
     }
+}
+
+void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPort, DWCMatchCommandConnFailMtx* data, int dataLen) {
+
+    // Only process the command if we are waiting
+    // This should also act as a host check since this state cannot be in use by a client (i think)
+    if (stpMatchCnt->state != DWC_MATCH_STATE_SV_WAITING)
+        return;
+
+    // Ensure the data size is correct
+    if (DWC_MATCH_CMD_GET_ACTUAL_SIZE(dataLen) != sizeof(DWCMatchCommandConnFailMtx))
+        return;
+
+    // Find the highest "client B" with a connection failure
+    int clientBAid = -1;
+    for (int i = 0; i < 0xC; i++) {
+        if (data->connFailMtx >> i & 1)
+            clientBAid = i;
+    }
+
+    // If no "client B" was found, bail
+    if (clientBAid == -1)
+        return;
+
+    // Get node info for client A and client B
+    // Check for null and eventually bail
+    IGNORE_ERR(144)
+    DWCNodeInfo* clientAInfo = DWCi_NodeInfoList_GetNodeInfoForProfileId(clientAPid);
+    DWCNodeInfo* clientBInfo = DWCi_NodeInfoList_GetNodeInfoForAid(clientBAid);
+    UNIGNORE_ERR(144)
+    if (!clientAInfo || !clientBInfo)
+        return;
+
+    // Copy the node info to the temporary new node
+    memcpy(&stpMatchCnt->tempNewNodeInfo, clientBInfo, sizeof(DWCNodeInfo));
+
+    // Set up the command for client B and send it
+    DWCMatchCommandNewPidAid cmd;
+    NETWriteSwappedBytes32(&cmd.pid, stpMatchCnt->tempNewNodeInfo.profileId);
+    NETWriteSwappedBytes32(&cmd.aid, stpMatchCnt->tempNewNodeInfo.aid);
+    DWCi_SendMatchCommand(DWC_MATCH_CMD_NEW_PID_AID, clientAPid, clientAIP, clientAPort,
+                          &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(DWCMatchCommandNewPidAid)));
+
+    // Send a SYN packet to client A
+    DWCi_SendMatchSynPacket(clientAInfo->aid,1);
+
+    // Reset node info and return
+    memset(&stpMatchCnt->tempNewNodeInfo, 0, sizeof(DWCNodeInfo));
+}
+
+int ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen) {
+
+    // Dispatch call to different functions depending on the command
+    // Use the original function as a fallback
+    switch(cmd) {
+        case DWC_MATCH_CMD_CONN_FAIL_MTX:
+            ProcessRecvConnFailMtxCommand(profileId, publicIp, publicPort,
+                                          (DWCMatchCommandConnFailMtx*)cmdData, dataLen);
+            return 0;
+        default:
+            return DWCi_ProcessRecvMatchCommand(cmd, profileId, publicIp, publicPort, cmdData, dataLen);
+    }
+}
+
+void SendConnFailMtxCommand(u32 aidsConnectedToHost, u32 aidsConnectedToMe) {
+
+    // Get the AIDs who haven't connected to me
+    DWCMatchCommandConnFailMtx cmd;
+    cmd.connFailMtx = aidsConnectedToHost & ~aidsConnectedToMe;
+
+    // If all AIDs are connected or i am waiting, bail
+    if (!cmd.connFailMtx || stpMatchCnt->state == DWC_MATCH_STATE_CL_WAITING)
+        return;
+
+    // Get the host's node info, with all the necessary failsaves
+    u8 hostAid = DWC_GetServerAID();
+    if (hostAid != 0xFF)
+        return;
+
+    IGNORE_ERR(144)
+    DWCNodeInfo* hostNodeInfo = DWCi_NodeInfoList_GetNodeInfoForAid(hostAid);
+    UNIGNORE_ERR(144)
+    if (!hostNodeInfo || hostNodeInfo->profileId == 0)
+        return;
+
+    // Send the command
+    DWCi_SendMatchCommand(DWC_MATCH_CMD_CONN_FAIL_MTX, hostNodeInfo->profileId, hostNodeInfo->publicip,
+                          hostNodeInfo->publicport, &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
 }
 
 } // namespace Natneg

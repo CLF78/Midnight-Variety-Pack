@@ -38,11 +38,11 @@
 - ❌ 800d3ea0 (Auto-reconnect)
 - ❌ 800d3f1c ("Green triangle" code)
 - ❌ 800d8354 (NATNEG improvements)
-- ❌ 800d94f0 (Ultra-fast NATNEG)
+- ⚠️ 800d94f0 (Parse custom DWC match commands)
 - ❌ 800d9754 (Ultra-fast NATNEG)
-- ❌ 800da7d0 (Ultra-fast NATNEG)
-- ❌ 800da7d4 (Ultra-fast NATNEG)
-- ❌ 800da7d8 (Ultra-fast NATNEG)
+- ✅ 800da7d0 (Send failed connections to host)
+- ✅ 800da7d4 (Send failed connections to host)
+- ✅ 800da7d8 (Send failed connections to host)
 - ❌ 800dbe30 (Auto-reconnect - handle p2p STATUS msgs while offline)
 - ❌ 800dc21c (Forgot what that's for, looks like Ultra-fast NATNEG)
 - ❌ 800dc49c (Auto-reconnect - stop ppl from joining during a reconnect)
@@ -52,9 +52,9 @@
 - ❌ 800e1ca8 (Ultra-fast NATNEG)
 - ❌ 800e5680 (Auto-reconnect)
 - ❌ 800e58b8 and following (Bunch of antifreeze patches)
-- ❌ 800e5980 (Ultra-fast NATNEG)
+- ⚠️ 800e5980 (Parse custom DWC match commands)
 - ❌ 800e5a2c and following (Bunch of antifreeze patches)
-- ❌ 800e5b14 (Ultra-fast NATNEG)
+- ⚠️ 800e5b14 (Parse custom DWC match commands)
 - ❌ 800e6778 (Ultra-fast NATNEG)
 - ✅ 800e7800 (Fix suspend bug)
 - ❌ 800ed4a0 (Auto-reconnect - stub some errors)
@@ -168,11 +168,11 @@
 - ❌ 488d51e9 at 800d3ea0
 - ❌ 488cf608 at 800d3f1c
 - ❌ 488d0904 at 800d8354
-- ❌ 488ccdc5 at 800d94f0
+- ⚠️ 488ccdc5 at 800d94f0
 - ❌ 488cf865 at 800d9754
-- ❌ 7fc3f378 at 800da7d0
-- ❌ 488cb155 at 800da7d4
-- ❌ 7c7d1b79 at 800da7d8
+- ✅ 7fc3f378 at 800da7d0
+- ✅ 488cb155 at 800da7d4
+- ✅ 7c7d1b79 at 800da7d8
 - ❌ 488cd28d at 800dbe30
 - ❌ 488ccdd0 at 800dc21c
 - ❌ 488cad89 at 800dc49c
@@ -188,7 +188,7 @@
 - ❌ 60000000 at 800e58d0
 - ❌ 3ca05a00 at 800e58d8
 - ❌ 7c053000 at 800e58ec
-- ❌ 488c0935 at 800e5980
+- ⚠️ 488c0935 at 800e5980
 - ❌ 38e00004 at 800e5a2c
 - ❌ 7d033c2c at 800e5a3c
 - ❌ 9101000c at 800e5a40
@@ -197,7 +197,7 @@
 - ❌ 60000000 at 800e5a64
 - ❌ 60000000 at 800e5a74
 - ❌ 41810014 at 800e5a80
-- ❌ 488c07a1 at 800e5b14
+- ⚠️ 488c07a1 at 800e5b14
 - ❌ 488c28a4 at 800e6778
 - ✅ 488c1414 at 800e7800
 - ❌ 488bb2b5 at 800ed4a0
