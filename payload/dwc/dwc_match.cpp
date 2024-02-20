@@ -49,6 +49,31 @@ kmCall(0x800E5980, Wiimmfi::Natneg::ProcessRecvMatchCommand);
 // Credits: Wiimmfi
 kmCall(0x800E5B14, Wiimmfi::Natneg::ProcessRecvMatchCommand);
 
+// DWCi_NNCompletedCallback() patch
+// Do not count repeated NATNEG failures between the host and a client towards the Error 86420 counter
+// Credits: Wiimmfi
+kmHookFn bool PreventRepeatNATNEGFail() {
+    return Wiimmfi::Natneg::PreventRepeatNATNEGFail(stpMatchCnt->tempNewNodeInfo.profileId);
+}
+
+// Glue code
+kmBranchDefAsm(0x800E6778, 0x800E6780) {
+    nofralloc
+
+    // Call C++ code
+    bl PreventRepeatNATNEGFail
+
+    // Restore r7
+    IGNORE_ERR(7)
+    lis r7, stpMatchCnt@ha
+    lwz r7, stpMatchCnt@l(r7)
+    UNIGNORE_ERR(7)
+
+    // Check that the return value is 0 to use the following game code
+    cmpwi r3, 0
+    blr
+}
+
 /////////////////////////////////////
 // Fast NATNEG / Wiimmfi Telemetry //
 /////////////////////////////////////

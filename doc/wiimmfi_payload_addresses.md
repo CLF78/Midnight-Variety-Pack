@@ -55,7 +55,7 @@
 - ⚠️ 800e5980 (Parse custom DWC match commands)
 - ❌ 800e5a2c and following (Bunch of antifreeze patches)
 - ⚠️ 800e5b14 (Parse custom DWC match commands)
-- ❌ 800e6778 (Ultra-fast NATNEG)
+- ✅ 800e6778 (Prevent host disconnection from repeated NATNEG failures)
 - ✅ 800e7800 (Fix suspend bug)
 - ❌ 800ed4a0 (Auto-reconnect - stub some errors)
 - ❌ 800ed558 (Auto-reconnect - stub some errors)
@@ -198,7 +198,7 @@
 - ❌ 60000000 at 800e5a74
 - ❌ 41810014 at 800e5a80
 - ⚠️ 488c07a1 at 800e5b14
-- ❌ 488c28a4 at 800e6778
+- ✅ 488c28a4 at 800e6778
 - ✅ 488c1414 at 800e7800
 - ❌ 488bb2b5 at 800ed4a0
 - ❌ 488bb1fd at 800ed558

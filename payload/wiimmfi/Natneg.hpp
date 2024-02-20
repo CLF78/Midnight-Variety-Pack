@@ -29,6 +29,11 @@ namespace Natneg {
     // Updates the NATNEG timers for Fast NATNEG
     void Calc(bool connectedToHost);
 
+    // Checks NATNEG attempts to prevent the host from disconnecting due to repeated NATNEG failures
+    // with the same client
+    // Returns true if the attempt should count toward the Error 86420 threshold
+    bool PreventRepeatNATNEGFail(u32 failedPid);
+
     // Parse custom commands (overrides the DWC function)
     int ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen);
 

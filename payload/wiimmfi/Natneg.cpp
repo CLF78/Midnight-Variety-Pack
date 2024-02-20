@@ -95,7 +95,7 @@ void Calc(bool connectedToHost) {
         if (DWCi_GetGT2Connection(aid))
             continue;
 
-        // Check for host PID or my own PID
+        // Check for empty PID or my own PID
         u32 pid = stpMatchCnt->nodeInfoList.nodeInfos[i].profileId;
         if (pid == 0 || pid == stpMatchCnt->profileId)
             continue;
@@ -112,6 +112,31 @@ void Calc(bool connectedToHost) {
         // Reset the timer
         sTimers[aid] = 300;
     }
+}
+
+bool PreventRepeatNATNEGFail(u32 failedPid) {
+
+    // Define an array to store the PIDs who have already failed NATNEG
+    static u32 failedPids[10], failedPidsIdx;
+
+    // Only run the check for the host
+    if (!DWC_IsServerMyself())
+        return false;
+
+    // Check if the PID is valid, if not don't count the attempt
+    if (failedPid == 0)
+        return false;
+
+    // If the PID is already in the list, do not count the failed attempt
+    for (int i = 0; i < ARRAY_SIZE(failedPids); i++) {
+        if (failedPids[i] == failedPid)
+            return false;
+    }
+
+    // Store the PID in the list through a rolling counter and count the attempt
+    if (failedPidsIdx == ARRAY_SIZE(failedPids)) { failedPidsIdx = 0; }
+    failedPids[failedPidsIdx++] = failedPid;
+    return true;
 }
 
 void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPort, DWCMatchCommandConnFailMtx* data, int dataLen) {
