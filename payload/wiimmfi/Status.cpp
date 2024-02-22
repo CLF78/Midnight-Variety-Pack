@@ -76,7 +76,7 @@ void SendMessage(const char* key, const char* value, int integerValue) {
 
     // Here Wiimmfi does some weird check with the connection pointer:
     // if ((u8*)conn + 0x70000210 > 0x50000000) then quit
-    // Given that it always evaluates to false, i will leave it out unless issues arise
+    // Seems like this prevents using connections from MEM1, i will leave it out unless issues arise
 
     // Print the message to the buffer
     char buffer[599];

@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#include <common/Common.hpp>
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
 #include <wiimmfi/ConnectionMatrix.hpp>
