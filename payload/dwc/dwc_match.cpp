@@ -88,7 +88,7 @@ kmBranch(0x800E09A8, Wiimmfi::ConnectionMatrix::Update);
 ///////////////////////////////////////
 
 // DWCi_HandleGT2UnreliableMatchCommandMessage() patch
-// Ignore match commands bigger than 0x80 bytes to prevent a buffer overflow
+// Ignore match commands coming from another client bigger than 0x80 bytes
 // Credits: WiiLink24
 kmCallDefAsm(0x800E5924) {
     nofralloc
@@ -96,6 +96,28 @@ kmCallDefAsm(0x800E5924) {
     // Original check
     cmplw r31, r0
     bnelr
+
+    // Check that the command fits the buffer (ASM generated from Godbolt)
+    // C++ equivalent: bool r3 = (r5 + 0x14) > 0x80;
+    // The result is compared to zero to reuse the beq instruction after the hook address
+    subi r3, r5, (0x80 - 0x14 + 1)
+    nor r3, r3, r5
+    srwi. r3, r3, 31
+    blr
+}
+
+// DWCi_QR2ClientMsgCallback() patch
+// Ignore match commands coming from MASTER bigger than 0x80 bytes
+// Credits: WiiLink24
+kmCallDefAsm(0x800E5AAC) {
+    nofralloc
+
+    // Original check
+    cmplwi r0, 0x5A
+    bnelr
+
+    // Get the data size
+    lbz r5, 0x11(r1)
 
     // Check that the command fits the buffer (ASM generated from Godbolt)
     // C++ equivalent: bool r3 = (r5 + 0x14) > 0x80;

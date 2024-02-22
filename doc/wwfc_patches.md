@@ -23,7 +23,6 @@
 
 ## wwfcSecurity
 - ✅ Friend status stack buffer overflow fix
-- ✅ Match command stack buffer overflow fix
+- ✅ Match command stack buffer overflow fix (GT2 and MASTER)
 - ⚠️ RCE fix
 - ❔ DWCi_GetGPBuddyAdditionalMsg exploit fix (check if implemented in Wiimmfi)
-- ❔ QR2/MASTER server-sent match command exploit (check if implemented in Wiimmfi)
