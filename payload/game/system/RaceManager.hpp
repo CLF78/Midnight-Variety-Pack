@@ -8,6 +8,14 @@ class RaceMode;
 class RaceManager {
 public:
 
+    enum RaceStage {
+        STAGE_INTRO,
+        STAGE_COUNTDOWN,
+        STAGE_RACE,
+        STAGE_FINISH,
+        STAGE_FINISH_ALL,
+    };
+
     class Player {
     public:
         virtual ~Player();
@@ -35,7 +43,10 @@ public:
     u8 unk[0x20 - 0x18];
 
     u32 frameCounter;
-    u8 unk2[0x4C - 0x24];
+    u8 unk2[0x28 - 0x24];
+
+    u32 raceStage;
+    u8 unk3[0x4C - 0x2C];
 
     static RaceManager* instance;
 };

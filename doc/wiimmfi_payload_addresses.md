@@ -92,7 +92,7 @@
 - ⏭ 80193a18 (Block IOS calls) - pointless security measure
 - ⏭ 801d4f10 (Set custom CA for payload download) - not needed if we don't use the payload
 - ⏭ 801d4f2c (Set custom CA for payload download) - not needed if we don't use the payload
-- ⏭ 8023b0e0 (Reset forceful race end flag) - useless if implemented properly
+- ⏭ 8023b0e0 (Reset forceful race end flag) - implemented elsewhere
 - ❌ 8027a688 (Auto-reconnect - login handler)
 - ✅ 80514d40 (Invalid ITPT antifreeze)
 - ✅ 80514d58 (Invalid ITPT antifreeze)
@@ -100,7 +100,7 @@
 - ✅ 80518b20 (Invalid CNPT antifreeze)
 - ✅ 80519560 (Report track hash)
 - ❌ 8051b69c (Frameskip code)
-- ❌ 80533660 (Wiimmfi status reports - detect race end)
+- ⚠️ 80533660 (Detect race end and report non-existent battle results)
 - ✅ 805348cc (Report finish times)
 - ✅ 8053511c (Fix ultra shortcut glitch)
 - ❌ 80535c78 (Workaround for Dolphin bugs)
@@ -240,7 +240,7 @@
 - ✅ 40800020 at 80518afc
 - ✅ 48488860 at 80518b20
 - ✅ 48488c31 at 80519560
-- ❌ 48475729 at 80533660
+- ⚠️ 48475729 at 80533660
 - ✅ 48474468 at 805348cc
 - ✅ 484739f9 at 8053511c
 - ❌ 48473084 at 80535c78

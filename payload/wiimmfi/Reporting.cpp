@@ -192,6 +192,18 @@ void ReportFriendRoomStart(RKNetROOMPacket* packet) {
         Status::SendMessage("friend_event_start", "3", packet->param1);
 }
 
+void ReportRaceStage(u32 stage) {
+
+    // Check that the current stage isn't already the new one
+    static u32 currStage;
+    if (currStage == stage)
+        return;
+
+    // Update it and report it otherwise
+    currStage = stage;
+    Status::SendMessage("race_status", "", stage);
+}
+
 void ReportSignatureAndCert() {
 
     ALIGN(32) char cert[IOSECCCertSize];

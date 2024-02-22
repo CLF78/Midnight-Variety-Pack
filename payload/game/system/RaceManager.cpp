@@ -3,6 +3,7 @@
 #include <game/race/RaceGlobals.hpp>
 #include <game/system/CourseMap.hpp>
 #include <game/system/RaceConfig.hpp>
+#include <game/system/RaceManager.hpp>
 #include <wiimmfi/Reporting.hpp>
 
 //////////////////
@@ -83,6 +84,21 @@ kmCallDefAsm(0x805350DC) {
 ///////////////////////
 // Wiimmfi Telemetry //
 ///////////////////////
+
+// RaceManager::calc() patch
+// Report race finish
+// Credits: Wiimmfi
+kmBranchDefCpp(0x8053369C, NULL, void) {
+
+    // Check if the race is finished
+    u32 raceStage = RaceManager::instance->raceStage;
+    if (raceStage != RaceManager::STAGE_FINISH_ALL)
+        return;
+
+    // Report it
+    // TODO report battle results, delay bs
+    Wiimmfi::Reporting::ReportRaceStage(raceStage);
+}
 
 // RaceManager::Player::endRace() patch
 // Report finish times

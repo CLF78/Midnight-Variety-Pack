@@ -17,6 +17,9 @@ namespace Reporting {
     // Functions //
     ///////////////
 
+    // Reports the battle results - UNUSED
+    // void ReportBattleResults();
+
     // Reports various Common.szs subfiles that can be modified for cheating
     void ReportCommonSubfiles();
 
@@ -31,6 +34,9 @@ namespace Reporting {
 
     // Reports a room start
     void ReportFriendRoomStart(RKNetROOMPacket* packet);
+
+    // Reports the race stage
+    void ReportRaceStage(u32 stage);
 
     // Reports the given track SHA1 hash
     void ReportTrackHash(u32* hash, u8 courseId);
