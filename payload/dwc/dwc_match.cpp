@@ -83,6 +83,29 @@ kmBranchDefAsm(0x800E6778, 0x800E6780) {
 // Credits: Wiimmfi
 kmBranch(0x800E09A8, Wiimmfi::ConnectionMatrix::Update);
 
+///////////////////////////////////////
+// Match Command Buffer Overflow Fix //
+///////////////////////////////////////
+
+// DWCi_HandleGT2UnreliableMatchCommandMessage() patch
+// Ignore match commands bigger than 0x80 bytes to prevent a buffer overflow
+// Credits: WiiLink24
+kmCallDefAsm(0x800E5924) {
+    nofralloc
+
+    // Original check
+    cmplw r31, r0
+    bnelr
+
+    // Check that the command fits the buffer (ASM generated from Godbolt)
+    // C++ equivalent: bool r3 = (r5 + 0x14) > 0x80;
+    // The result is compared to zero to reuse the beq instruction after the hook address
+    subi r3, r5, (0x80 - 0x14 + 1)
+    nor r3, r3, r5
+    srwi. r3, r3, 31
+    blr
+}
+
 ////////////////////////
 // NATNEG Suspend Fix //
 ////////////////////////

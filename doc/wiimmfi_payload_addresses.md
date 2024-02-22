@@ -51,7 +51,13 @@
 - ❌ 800e1a58 (Ultra-fast NATNEG)
 - ❌ 800e1ca8 (Ultra-fast NATNEG)
 - ❌ 800e5680 (Auto-reconnect)
-- ❌ 800e58b8 and following (Bunch of antifreeze patches)
+- ✅ 800e58b8 (Match command buffer overflow fix)
+- ✅ 800e58bc (Match command buffer overflow fix)
+- ✅ 800e58c8 (Match command buffer overflow fix)
+- ✅ 800e58cc (Match command buffer overflow fix)
+- ✅ 800e58d0 (Match command buffer overflow fix)
+- ✅ 800e58d8 (Match command buffer overflow fix)
+- ✅ 800e58ec (Match command buffer overflow fix)
 - ⚠️ 800e5980 (Parse custom DWC match commands)
 - ❌ 800e5a2c and following (Bunch of antifreeze patches)
 - ⚠️ 800e5b14 (Parse custom DWC match commands)
@@ -181,13 +187,13 @@
 - ❌ 38c01b58 at 800e1a58
 - ❌ 488c3a68 at 800e1ca8
 - ❌ 488c2e29 at 800e5680
-- ❌ 88a10011 at 800e58b8
-- ❌ 28050080 at 800e58bc
-- ❌ 41810064 at 800e58c8
-- ❌ 60000000 at 800e58cc
-- ❌ 60000000 at 800e58d0
-- ❌ 3ca05a00 at 800e58d8
-- ❌ 7c053000 at 800e58ec
+- ✅ 88a10011 at 800e58b8
+- ✅ 28050080 at 800e58bc
+- ✅ 41810064 at 800e58c8
+- ✅ 60000000 at 800e58cc
+- ✅ 60000000 at 800e58d0
+- ✅ 3ca05a00 at 800e58d8
+- ✅ 7c053000 at 800e58ec
 - ⚠️ 488c0935 at 800e5980
 - ❌ 38e00004 at 800e5a2c
 - ❌ 7d033c2c at 800e5a3c
