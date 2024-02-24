@@ -37,6 +37,9 @@ namespace Natneg {
     // Parse custom commands (overrides the DWC function)
     int ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen);
 
+    // Attempt to recover from a SYN-ACK timeout (i think)
+    void RecoverSynAckTimeout();
+
     // Sends a DWC_CMD_CONN_FAIL_MTX command to the host
     // The data required for the command is in the arguments
     void SendConnFailMtxCommand(u32 aidsConnectedToHost, u32 aidsConnectedToMe);

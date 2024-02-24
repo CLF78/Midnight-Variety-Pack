@@ -179,7 +179,7 @@ void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPor
                           &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
 
     // Send a SYN packet to client A
-    DWCi_SendMatchSynPacket(clientAInfo->aid,1);
+    DWCi_SendMatchSynPacket(clientAInfo->aid, DWC_MATCH_SYN_CMD_SYN);
 
     // Reset node info and return
     memset(&stpMatchCnt->tempNewNodeInfo, 0, sizeof(DWCNodeInfo));
@@ -215,6 +215,62 @@ int ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort,
         default:
             return DWCi_ProcessRecvMatchCommand(cmd, profileId, publicIp, publicPort, cmdData, dataLen);
     }
+}
+
+void RecoverSynAckTimeout() {
+
+    // Use an internal timer to determine the frequency of the check
+    static u32 sSynAckTimer;
+
+    // If we're not the host or we're not in SYN state, bail
+    if (stpMatchCnt->state != DWC_MATCH_STATE_SV_SYN) {
+        sSynAckTimer = 0;
+        return;
+    }
+
+    // Update the timer and run the code every 150 frames
+    if (++sSynAckTimer % 150)
+        return;
+
+    // If no nodes are connected, bail
+    u32 nodeCount = stpMatchCnt->nodeInfoList.nodeCount;
+    if (nodeCount == 0)
+        return;
+
+    // Get the connected AIDs, insert the newly connected one
+    // Remove the AIDs who have completed SYN-ACK and my own
+    u32 noSynAckAids = DWC_GetAIDBitmap();
+    noSynAckAids |= (1 << stpMatchCnt->tempNewNodeInfo.aid);
+    noSynAckAids ^= stpMatchCnt->synAckBit;
+    noSynAckAids &= ~(1 << DWC_GetMyAID());
+
+    // Send a NEW_PID_AID command to every AID left in the map
+    if (sSynAckTimer == 150) {
+
+        // Prepare the data
+        DWCMatchCommandNewPidAid cmd;
+        NETWriteSwappedBytes32(&cmd.pid, stpMatchCnt->tempNewNodeInfo.profileId);
+        NETWriteSwappedBytes32(&cmd.aid, stpMatchCnt->tempNewNodeInfo.aid);
+
+        // Send it
+        for (int i = 0; i < nodeCount; i++) {
+            if (noSynAckAids >> i & 1) {
+                DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];
+                DWCi_SendMatchCommand(DWC_MATCH_CMD_NEW_PID_AID, node->profileId, node->publicip,
+                                      node->publicport, &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
+            }
+        }
+    }
+
+    // Send a SYN command as well, but save the last send time first (why??)
+    s64 lastSendTime = stpMatchCnt->lastSynSent;
+    for (int i = 0; i < nodeCount; i++) {
+        if (noSynAckAids >> i & 1)
+            DWCi_SendMatchSynPacket(i, DWC_MATCH_SYN_CMD_SYN);
+    }
+
+    // Restore the SYN send time
+    stpMatchCnt->lastSynSent = lastSendTime;
 }
 
 void SendConnFailMtxCommand(u32 aidsConnectedToHost, u32 aidsConnectedToMe) {

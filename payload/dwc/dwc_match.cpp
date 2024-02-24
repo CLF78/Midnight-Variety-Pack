@@ -39,6 +39,19 @@ kmBranchDefAsm(0x800DA7D0, 0x800DA7DC) {
     blr
 }
 
+// DWCi_ProcessMatchSynTimeout() patch
+// Change the SYN-ACK timeout to 7 seconds instead of 5 seconds per node
+// Credits: Wiimmfi
+kmWrite32(0x800E1A58, 0x38C00000 | 7000);
+
+// DWCi_ProcessMatchSynTimeout() patch
+// Try to recover from a SYN-ACK timeout (i think)
+// Credits: Wiimmfi
+kmBranchDefCpp(0x800E1CA8, NULL, bool, bool ret) {
+    Wiimmfi::Natneg::RecoverSynAckTimeout();
+    return ret;
+}
+
 // DWCi_HandleGT2UnreliableMatchCommandMessage() patch
 // Parse custom match commands coming from another client
 // Credits: Wiimmfi

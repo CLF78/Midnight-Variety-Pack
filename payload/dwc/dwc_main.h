@@ -19,6 +19,8 @@ int DWC_CloseAllConnectionsHard();
 int DWC_CloseConnectionHard(u8 aid);
 
 GT2Connection DWCi_GetGT2Connection(u8 aid);
+
+u8 DWC_GetMyAID();
 u8 DWC_GetServerAID();
 u32 DWC_GetAIDBitmap();
 

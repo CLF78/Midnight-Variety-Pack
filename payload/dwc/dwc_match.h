@@ -84,6 +84,10 @@ typedef enum {
     DWC_MATCH_CMD_CONN_MTX        = 0xDD,
 } DWCMatchCommandType;
 
+typedef enum {
+    DWC_MATCH_SYN_CMD_SYN = 0x1,
+} DWCSynMatchCommandType;
+
 typedef struct {
     u32 pid; // endian-swapped
     u32 aid; // endian-swapped

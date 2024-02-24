@@ -57,6 +57,7 @@ DWC_CloseAllConnectionsHard=0x800D1D90
 DWC_IsServerMyself=0x800D2760
 DWCi_HandleGPError=0x800D2CD4
 DWC_CloseConnectionHard=0x800D2000
+DWC_GetMyAID=0x800D2170
 DWC_GetAIDBitmap=0x800D24B4
 DWC_GetServerAID=0x800D26E8
 DWCi_GetGT2Connection=0x800D2900

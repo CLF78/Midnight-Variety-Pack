@@ -48,8 +48,8 @@
 - ❌ 800dc49c (Auto-reconnect - stop ppl from joining during a reconnect)
 - ❌ 800dea18 (Auto-reconnect - Fix issues with friend status)
 - ✅ 800e09a8 (Send connected aids to server and clients)
-- ❌ 800e1a58 (Ultra-fast NATNEG)
-- ❌ 800e1ca8 (Ultra-fast NATNEG)
+- ✅ 800e1a58 (Reduce SYN-ACK timeout time)
+- ✅ 800e1ca8 (Try to recover from SYN-ACK timeout)
 - ❌ 800e5680 (Auto-reconnect)
 - ✅ 800e58b8 (Match command buffer overflow fix)
 - ✅ 800e58bc (Match command buffer overflow fix)
@@ -191,8 +191,8 @@
 - ❌ 488cad89 at 800dc49c
 - ❌ 38600003 at 800dea18
 - ✅ 488c2b7c at 800e09a8
-- ❌ 38c01b58 at 800e1a58
-- ❌ 488c3a68 at 800e1ca8
+- ✅ 38c01b58 at 800e1a58
+- ✅ 488c3a68 at 800e1ca8
 - ❌ 488c2e29 at 800e5680
 - ✅ 88a10011 at 800e58b8
 - ✅ 28050080 at 800e58bc
