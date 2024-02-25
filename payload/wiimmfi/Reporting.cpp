@@ -177,7 +177,8 @@ void ReportFinishTime(u8 playerIdx) {
     snprintf(buffer, sizeof(buffer), "slot=%d|time=%d", playerIdx, finishTime);
 
     // Get the RaceManager timer
-    // Use interrupts to get a more accurate value (??)
+    // Use interrupts to get a more accurate value
+    // Q: Is this really necessary?
     {
         nw4r::ut::AutoInterruptLock lock;
         timer = RaceManager::instance->frameCounter;

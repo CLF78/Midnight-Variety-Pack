@@ -22,14 +22,16 @@ void ResetRecv() {
 
 void Update() {
 
-    // Lock interrupts (is this even needed?)
+    // Lock interrupts
+    // Q: Why is this needed?
     nw4r::ut::AutoInterruptLock lock;
 
-    // Failsafe (is this even needed?)
+    // Failsafe
     if (!stpMatchCnt)
         return;
 
     // Compute the connection matrix
+    // Q: Can DWC_GetDirectConnectedAIDBitmap() be used here?
     u32 aidsConnectedToMe = 0;
     for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
         u32 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;

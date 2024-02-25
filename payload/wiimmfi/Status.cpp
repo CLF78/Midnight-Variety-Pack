@@ -31,6 +31,7 @@ void DecodeToken(const char* encodedToken) {
 
     // Scramble the token
     // Start by filling the array with garbage data
+    // Q: Why is this scrambling even done when the token is available in plaintext at a fixed address?
     for (int i = 0; i < sizeof(sScrambledToken); i++) {
         sScrambledToken[i] = i + OFFSET;
     }
@@ -65,6 +66,7 @@ void ScrambleMessage(char* msg, int msgLen) {
 void SendMessage(const char* key, const char* value, int integerValue) {
 
     // Disable interrupts
+    // Q: Why is this necessary?
     nw4r::ut::AutoInterruptLock lock;
 
     // Check that the match control structure exists
@@ -77,6 +79,7 @@ void SendMessage(const char* key, const char* value, int integerValue) {
     // Here Wiimmfi does some weird check with the connection pointer:
     // if ((u8*)conn + 0x70000210 > 0x50000000) then quit
     // Seems like this prevents using connections from MEM1, i will leave it out unless issues arise
+    // Q: Why would this be necessary?
 
     // Print the message to the buffer
     char buffer[599];

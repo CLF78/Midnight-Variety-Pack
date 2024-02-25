@@ -1,6 +1,37 @@
 #include <common/Common.h>
 #include <dwc/dwc_login.h>
 
+// Ported from NitroDWC decompilation
+inline u32 DWCi_Acc_GetMaskBits(u32 data, u32 shift, u32 mask) {
+    return ((data >> shift) & mask);
+}
+
+// Ported from NitroDWC decompilation
+BOOL DWCi_Acc_SetMaskBits(u32* ptr, u32 data, u32 shift, u32 mask) {
+    if ((data & ~mask) != 0)
+        return FALSE;
+
+    *ptr = (*ptr & ~(mask << shift)) | (data << shift);
+    return TRUE;
+}
+
+// Ported from NitroDWC decompilation
+u32 DWCi_Acc_GetFlags(const DWCAccFlag* userdata) {
+    return DWCi_Acc_GetMaskBits(userdata->flags, DWC_ACC_FLAGS_SHIFT, DWC_ACC_FLAGS_MASK);
+}
+
+// Ported from NitroDWC decompilation
+void DWCi_Acc_SetFlags(DWCAccFlag* userdata, u32 flags) {
+    DWCi_Acc_SetMaskBits(&userdata->flags, flags, DWC_ACC_FLAGS_SHIFT, DWC_ACC_FLAGS_MASK);
+}
+
+// Ported from NitroDWC decompilation
+void DWCi_Acc_SetFlag_DataType(DWCAccFlag* userdata, int type) {
+    u32 flags = DWCi_Acc_GetFlags(userdata);
+    flags = (flags & ~DWC_FRIENDDATA_MASK) | type;
+    DWCi_Acc_SetFlags(userdata, flags);
+}
+
 /////////////////////
 // Error 60000 Fix //
 /////////////////////
@@ -9,11 +40,15 @@
 // Clear the Profile ID if error 60000 is encountered
 // Credits: Wiimmfi
 kmBranchDefCpp(0x800D05A8, 0x800D0610, void) {
-    u64 userId = DWCi_Auth_GetConsoleUserId();
+
+    // Set state to GPGETINFO (AKA lastname acquisition during GP login)
     stpLoginCnt->state = DWC_LOGIN_STATE_GPGETINFO;
-    stpLoginCnt->tempLoginId.userId[0] = (userId >> 32) | 0x800; // this OR might be to prevent Nice FCs, not sure tho
-    stpLoginCnt->tempLoginId.userId[1] = userId & 0xFFFFFFFF;
-    DWCUserData* userData = stpLoginCnt->userdata;
-    stpLoginCnt->tempLoginId.playerId = userData->pseudo.playerId;
-    userData->flag = 1;
+
+    // Set the user ID and the data type
+    DWCi_Acc_SetUserId(&stpLoginCnt->tempLoginId, DWCi_Auth_GetConsoleUserId());
+    DWCi_Acc_SetFlag_DataType((DWCAccFlag*)&stpLoginCnt->tempLoginId, DWC_FRIENDDATA_LOGIN_ID);
+
+    // Copy temp loginId from pseudo loginId and mark user data as dirty
+    stpLoginCnt->tempLoginId.playerId = stpLoginCnt->userdata->pseudo.playerId;
+    stpLoginCnt->userdata->flag = DWC_USER_DATA_FLAG_DIRTY;
 }

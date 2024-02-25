@@ -14,9 +14,9 @@
 - ❌ 800cecb0 (Auto-reconnect: Fix issues with friend status)
 - ❌ 800cecbc (Auto-reconnect DWC stub implementation)
 - ❌ 800d01e4 (Auto-reconnect: Fix error 61070)
-- ✅ 800d0598 (Error 60000 skip)
-- ✅ 800d059c (Error 60000 skip)
-- ✅ 800d05a0 (Error 60000 skip)
+- ✅ 800d0598 (Error 60000 fix)
+- ✅ 800d059c (Error 60000 fix)
+- ✅ 800d05a0 (Error 60000 fix)
 - ❌ 800d086c (Improved NAT type detection)
 - ❌ 800d0dd4 (Ultra-fast NATNEG)
 - ❌ 800d0de8 (Ultra-fast NATNEG)
@@ -26,7 +26,7 @@
 - ❌ 800d1fdc (Auto-reconnect - don't close p2p conn when disconnecting)
 - ❌ 800d2058 (Auto-reconnect - don't close p2p conn when disconnecting)
 - ❌ 800d26dc (Auto-reconnect)
-- ✅ 800d2884 (NATNEG: Use server-provided port)
+- ✅ 800d2884 (Use server-provided port for NATNEG)
 - ✅ 800d28cc (Replace DWCi_GT2ConnectAttemptCallback to accept incoming connections in more cases)
 - ❌ 800d3050 (Auto-reconnect)
 - ❌ 800d3078 (Auto-reconnect)
@@ -143,7 +143,7 @@
 - ❌ 8065a0ec (Auto-reconnect DWC stub implementation)
 - ❌ 8065a970 (Auto-reconnect)
 - ⏭ 8065df44 (Invalid ITEM packet check) - will be implemented separately
-- ✅ 8065ff5c (Reset room stall timer)
+- ⏭ 8065ff5c (Reset room stall timer) - implemented differently
 - ✅ 80660330 (Anti room stall logic)
 - ❌ 80760a88 (Bunch of antifreeze patches)
 - ❌ 8079bf88 (Bunch of antifreeze patches)
@@ -280,7 +280,7 @@
 - ❌ 4834d439 at 8065a0ec
 - ❌ 4834d75c at 8065a970
 - ⏭ 48343231 at 8065df44
-- ✅ 48341b80 at 8065ff5c
+- ⏭ 48341b80 at 8065ff5c
 - ✅ 483419d5 at 80660330
 - ❌ 4824816d at 80760a88
 - ❌ 48204fe1 at 8079bf88

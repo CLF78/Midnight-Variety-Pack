@@ -25,14 +25,6 @@ void ConnectToNode(int nodeIdx) {
     u8 aid = node->aid;
     int pid = node->profileId;
 
-    // Check for valid AID and PID
-    if (aid == 0xFF || pid == stpMatchCnt->profileId)
-        return;
-
-    // Check for existing connection
-    if (DWCi_GetGT2Connection(aid))
-        return;
-
     // Convert the IP and port to a string
     const char* ipAddr = gt2AddressToString(node->publicip, node->publicport, nullptr);
 
@@ -54,11 +46,10 @@ void ConnectToNode(int nodeIdx) {
     if (ret == GT2_RESULT_SUCCESS)
         conn->aid = aid + 1;
 
-
     UNIGNORE_ERR(304)
 }
 
-void Calc(bool connectedToHost) {
+void CalcTimers(bool connectedToHost) {
 
     // Get node count with failsafe
     u32 nodeCount = stpMatchCnt->nodeInfoList.nodeCount;
@@ -117,6 +108,8 @@ void Calc(bool connectedToHost) {
 }
 
 void StopMeshMaking() {
+
+    // Q: What does this do in practice?
     DWCi_StopMeshMaking();
     DWCi_SetMatchStatus(DWC_IsServerMyself() ? DWC_MATCH_STATE_SV_WAITING : DWC_MATCH_STATE_CL_WAITING);
 }
@@ -135,6 +128,7 @@ void StoreConnectionAndInfo(int connIdx, GT2Connection conn, DWCNodeInfo* node) 
     conn->data = connInfo;
 
     // Reset data receive time and update connection matrix
+    // Q: Why isn't PostProcessConnection called like in the original callbacks?
     DWCi_ResetLastSomeDataRecvTimeByAid(node->aid);
     ConnectionMatrix::Update();
 }
@@ -157,13 +151,15 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     if (!stpMatchCnt)
         return;
 
-    // If we are still in init state, reject the connection attempt
+    // If we are still in INIT state, reject the connection attempt
+    // Q: What is the difference between wait1 and wait2 in practice?
     if (stpMatchCnt->state == DWC_MATCH_STATE_INIT) {
         gt2Reject(conn, "wait1", -1);
         return;
     }
 
     // If the PID is not found, reject the connection attempt
+    // Q: The original callback does not run a check like this. Why is it necessary?
     DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForProfileId(pid);
     if (!node) {
         gt2Reject(conn, "wait2", -1);
@@ -175,6 +171,8 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
         return;
 
     // Act depending on the match state
+    // Q: What is the reasoning behind this switch case?
+    // Q: Why is the pid compared to the new node one?
     switch(stpMatchCnt->state) {
 
         // Waiting for reservation response
@@ -202,6 +200,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     }
 
     // If the server is full, bail
+    // Q: Why isn't the connection rejected in that case (like in the original callback)?
     int connIdx = DWCi_GT2GetConnectionListIdx();
     if (connIdx == -1)
         return;
@@ -224,6 +223,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
 bool PreventRepeatNATNEGFail(u32 failedPid) {
 
     // Define an array to store the PIDs who have already failed NATNEG
+    // Q: Can't we just check the nnRetryCount variable in the corresponding DWCNodeInfo?
     static u32 failedPids[10], failedPidsIdx;
 
     // Only run the check for the host
@@ -257,7 +257,8 @@ void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPor
     if (DWC_MATCH_CMD_GET_ACTUAL_SIZE(dataLen) != sizeof(*data))
         return;
 
-    // Find the highest "client B" with a connection failure
+    // Find a "client B" with a connection failure, as we can only send the commands once per function
+    // Q: Why can't we just find the lowest AID instead of running the entire loop everytime?
     int clientBAid = -1;
     for (int i = 0; i < 0xC; i++) {
         if (data->connFailMtx >> i & 1)
@@ -276,6 +277,7 @@ void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPor
         return;
 
     // Copy the node info to the temporary new node
+    // Q: Why is this necessary?
     memcpy(&stpMatchCnt->tempNewNodeInfo, clientBInfo, sizeof(DWCNodeInfo));
 
     // Set up the command for client B and send it
@@ -326,6 +328,7 @@ int ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort,
 
 void RecoverSynAckTimeout() {
 
+    // Q: What does this function achieve in practice?
     // Use an internal timer to determine the frequency of the check
     static u32 sSynAckTimer;
 
@@ -370,7 +373,8 @@ void RecoverSynAckTimeout() {
         }
     }
 
-    // Send a SYN command periodically, but save the last send time first (why??)
+    // Send a SYN command periodically, but save the last send time first
+    // Q: Why is the last send time saved and restored?
     s64 lastSendTime = stpMatchCnt->lastSynSent;
     for (int i = 0; i < nodeCount; i++) {
         if (noSynAckAids >> i & 1)

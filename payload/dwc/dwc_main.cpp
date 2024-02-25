@@ -18,7 +18,7 @@ kmCallDefCpp(0x800D28CC, void, GT2Socket sock, GT2ConnectAttemptCallback callbac
 }
 
 // DWCi_MatchedCallback() patch
-// Update NATNEG
+// Update NATNEG timers
 // Credits: Wiimmfi
 kmCallDefCpp(0x800D3188, void, DWCError error, int cancel, int self, int isServer, int index, void* param) {
 
@@ -26,7 +26,7 @@ kmCallDefCpp(0x800D3188, void, DWCError error, int cancel, int self, int isServe
     stpDwcCnt->userMatchedCallback(error, cancel, self, isServer, index, param);
 
     // Update NATNEG with the self value
-    Wiimmfi::Natneg::Calc(self);
+    Wiimmfi::Natneg::CalcTimers(self);
 }
 
 /////////////////////////////////////

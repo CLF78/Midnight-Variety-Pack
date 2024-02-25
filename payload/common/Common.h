@@ -15,6 +15,8 @@
 
 // Defines
 #define NULL 0
+#define FALSE 0
+#define TRUE 1
 
 // Base types
 typedef unsigned char u8;
@@ -49,8 +51,6 @@ typedef void (*Func)();
 #define MIN(a, b) (((b) < (a)) ? (b) : (a))
 #define MAX(a, b) (((a) < (b)) ? (b) : (a))
 #define STRINGIFY(x) #x
-#define FALSE 0
-#define TRUE 1
 
 #ifdef __INTELLISENSE__
     #define AT_ADDR(addr)

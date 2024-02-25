@@ -7,12 +7,6 @@
 namespace Wiimmfi {
 namespace RoomStall {
 
-u16 sKickTimer;
-
-void Reset() {
-    sKickTimer = 0;
-}
-
 void Update() {
 
     // Check if the player is the host, if not bail
@@ -20,8 +14,12 @@ void Update() {
         return;
 
     // Update the timer and check that it hasn't reached the threshold
+    static u16 sKickTimer = 0;
     if (sKickTimer++ < KICK_THRESHOLD_TIME)
         return;
+
+    // Reset the timer if the threshold is reached
+    sKickTimer = 0;
 
     // Get the full aid map and the corresponding bit mask
     RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
@@ -38,18 +36,11 @@ void Update() {
     // Remove unused bits
     incompleteAids &= aidMap;
 
-    // If the result is empty, do not kick anyone
-    if (incompleteAids == 0)
-        return;
-
     // Kick each user still lingering
     for (int i = 0; i < 12; i++) {
         if (incompleteAids >> i & 1)
             Kick::ScheduleForAID(i);
     }
-
-    // Reset the timer
-    Reset();
 }
 
 } // namespace RoomStall

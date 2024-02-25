@@ -49,7 +49,7 @@ void AppendAuthParameters(NHTTPReq* req) {
     NHTTPAddPostDataAscii(req, "_val1", sConsoleCert);
 
     // Send patcher string
-    // Do not send the patcher version as that is only used for WSZST-based patching
+    // Do not send the patcher version, as that is only used with WSZST-patched DOLs
     NHTTPAddPostDataAscii(req, "_patcher", PATCHER_TYPE);
 
     // Send the IOS Version (but not the actual one)
@@ -125,7 +125,7 @@ void ParseAuthResponse(const char* response) {
             return;
 
         // Decode the message and set the pointer to indicate a successful decode
-        // The message is already in UTF-16 format, so we do not need to encode it
+        // The message is already in UTF-16 format, so we do not need to convert it
         decodedLen = DWC_Base64Decode(response, encodedLen, sConsoleAssignMessageBuffer,
                                       sizeof(sConsoleAssignMessageBuffer) - sizeof(wchar_t));
         sConsoleAssignMessageBuffer[decodedLen] = '\0';

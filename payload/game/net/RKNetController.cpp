@@ -24,7 +24,7 @@ kmCallDefCpp(0x80657990, void, RKNetController* self) {
 
     // Update Wiimmfi NATNEG
     // Since we're in a matching state, force the value to 0
-    Wiimmfi::Natneg::Calc(0);
+    Wiimmfi::Natneg::CalcTimers(false);
 }
 
 /////////////////////

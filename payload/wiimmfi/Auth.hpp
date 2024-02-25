@@ -50,7 +50,7 @@ namespace Auth {
     extern char sConsoleCert[DWC_Base64GetEncodedSize(IOSECCCertSize)+1];
 
     // The console assignment message
-    // We cannot use an offline message since we need a component of the received one for assingment to work
+    // We cannot use an offline message since we need a component of the received one for assignment to work
     extern wchar_t* sConsoleAssignMessage;
 
 } // namespace Auth

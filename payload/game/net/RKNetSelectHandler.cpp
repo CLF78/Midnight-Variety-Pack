@@ -6,11 +6,6 @@
 // Online Room Stall Prevention //
 //////////////////////////////////
 
-// RKNetSELECTHandler::getStaticInstance() patch
-// Reset the timer on SELECT creation
-// Credits: Wiimmfi
-kmBranch(0x8065FF5C, Wiimmfi::RoomStall::Reset);
-
 // RKNetSELECTHandler::calc() patch
 // Update the timer every frame and kick if necessary
 // Credits: Wiimmfi
