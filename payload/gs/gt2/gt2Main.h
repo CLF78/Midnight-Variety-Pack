@@ -52,7 +52,7 @@ struct GTI2Connection {
     GT2Callbacks callbacks;
     char * initialMessage;
     int initialMessageLen;
-    struct DWCConnectionInfo * data;
+    void* data;
     GTI2Buffer incomingBuffer;
     GTI2Buffer outgoingBuffer;
     DArray incomingBufferMessages;
@@ -70,6 +70,10 @@ struct GTI2Connection {
 
 GT2Result gt2Connect(GT2Socket socket, GT2Connection* connection, const char* remoteAddress,
                      const char* msg, int msgLen, int timeout, GT2Callbacks* callbacks, int blocking);
+
+BOOL gt2Accept(GT2Connection connection, GT2Callbacks* callbacks);
+void gt2Listen(GT2Socket socket, GT2ConnectAttemptCallback callback);
+void gt2Reject(GT2Connection connection, const char* msg, int msgLen);
 
 #ifdef __cplusplus
 }

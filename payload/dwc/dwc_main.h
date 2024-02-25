@@ -14,11 +14,21 @@ typedef struct {
     DWCMatchControl matchControl;
 } DWCControl; // TODO finish header
 
+typedef struct {
+    u8 index;
+    u8 aid;
+    u16 pad;
+    u32 profileId;
+} DWCConnectionInfo;
+
 BOOL DWC_IsServerMyself();
 int DWC_CloseAllConnectionsHard();
 int DWC_CloseConnectionHard(u8 aid);
 
+int DWCi_GT2GetConnectionListIdx();
+GT2Connection* DWCi_GetGT2ConnectionByIdx(int idx);
 GT2Connection DWCi_GetGT2Connection(u8 aid);
+DWCConnectionInfo* DWCi_GetConnectionInfoByIdx(int idx);
 
 u8 DWC_GetMyAID();
 u8 DWC_GetServerAID();

@@ -1,4 +1,5 @@
 #include <common/Common.hpp>
+#include <gs/gt2/gt2Main.h>
 
 namespace Wiimmfi {
 namespace Natneg {
@@ -28,6 +29,10 @@ namespace Natneg {
 
     // Updates the NATNEG timers for Fast NATNEG
     void Calc(bool connectedToHost);
+
+    // Override of DWCi_GT2ConnectAttemptCallback to accept multiple incoming connections at once
+    void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 port, int latency,
+                                const char* msg, int msgLen);
 
     // Checks NATNEG attempts to prevent the host from disconnecting due to repeated NATNEG failures
     // with the same client

@@ -2,6 +2,8 @@
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
 #include <dwc/dwc_node.h>
+#include <dwc/dwc_transport.h>
+#include <gs/gt2/gt2Main.h>
 #include <gs/gt2/gt2Utility.h>
 #include <platform/stdio.h>
 #include <platform/string.h>
@@ -112,6 +114,111 @@ void Calc(bool connectedToHost) {
         // Reset the timer
         sTimers[aid] = 300;
     }
+}
+
+void StopMeshMaking() {
+    DWCi_StopMeshMaking();
+    DWCi_SetMatchStatus(DWC_IsServerMyself() ? DWC_MATCH_STATE_SV_WAITING : DWC_MATCH_STATE_CL_WAITING);
+}
+
+void StoreConnectionAndInfo(int connIdx, GT2Connection conn, DWCNodeInfo* node) {
+
+    // Get the connection pointer and store the new connection to it
+    GT2Connection* connPtr = DWCi_GetGT2ConnectionByIdx(connIdx);
+    *connPtr = conn;
+
+    // Get the connection info and update it
+    DWCConnectionInfo* connInfo = DWCi_GetConnectionInfoByIdx(connIdx);
+    connInfo->index = connIdx;
+    connInfo->aid = node->aid;
+    connInfo->profileId = node->profileId;
+    conn->data = connInfo;
+
+    // Reset data receive time and update connection matrix
+    DWCi_ResetLastSomeDataRecvTimeByAid(node->aid);
+    ConnectionMatrix::Update();
+}
+
+void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 port, int latency,
+                            const char* msg, int msgLen) {
+
+    // Obtain the PID from the message
+    IGNORE_ERR(304)
+    char* msgBuffer;
+    u32 pid = strtoul(msg, &msgBuffer, 10);
+
+    // If the message was not generated from our ConnectToNode function, fall back to original game behaviour
+    if (*msgBuffer != 'L') {
+        DWCi_GT2ConnectAttemptCallback(socket, conn, ip, port, latency, msg, msgLen);
+        return;
+    }
+
+    // If no match control structure is present, bail
+    if (!stpMatchCnt)
+        return;
+
+    // If we are still in init state, reject the connection attempt
+    if (stpMatchCnt->state == DWC_MATCH_STATE_INIT) {
+        gt2Reject(conn, "wait1", -1);
+        return;
+    }
+
+    // If the PID is not found, reject the connection attempt
+    DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForProfileId(pid);
+    if (!node) {
+        gt2Reject(conn, "wait2", -1);
+        return;
+    }
+
+    // If the connection already exists, bail
+    if (DWCi_GetGT2Connection(node->aid))
+        return;
+
+    // Act depending on the match state
+    switch(stpMatchCnt->state) {
+
+        // Waiting for reservation response
+        // Running NATNEG (both server and client)
+        // Establishing GT2 connection (server only)
+        case DWC_MATCH_STATE_CL_WAIT_RESV:
+        case DWC_MATCH_STATE_CL_NN:
+        case DWC_MATCH_STATE_SV_OWN_NN:
+        case DWC_MATCH_STATE_SV_OWN_GT2:
+            if (pid == stpMatchCnt->tempNewNodeInfo.profileId)
+                StopMeshMaking();
+            break;
+
+        // Establishing GT2 connection (client only)
+        case DWC_MATCH_STATE_CL_GT2:
+            if (pid == stpMatchCnt->tempNewNodeInfo.profileId) {
+                DWCi_GT2ConnectAttemptCallback(socket, conn, ip, port, latency, msg, msgLen);
+                return;
+            }
+            break;
+
+        // Do nothing in all other cases
+        default:
+            break;
+    }
+
+    // If the server is full, bail
+    int connIdx = DWCi_GT2GetConnectionListIdx();
+    if (connIdx == -1)
+        return;
+
+    // Store IP and port
+    node->gt2Ip = ip;
+    node->gt2Port = port;
+
+    // Accept the connection, if it fails bail
+    // The game normally refuses to do this if it's not in the DWC_MATCH_STATE_CL_NN or
+    // DWC_MATCH_STATE_CL_GT2 state
+    if (!gt2Accept(conn, stpMatchCnt->gt2Callbacks))
+        return;
+
+    // Store the connection and its info
+    StoreConnectionAndInfo(connIdx, conn, node);
+    UNIGNORE_ERR(304)
 }
 
 bool PreventRepeatNATNEGFail(u32 failedPid) {
@@ -245,6 +352,7 @@ void RecoverSynAckTimeout() {
     noSynAckAids &= ~(1 << DWC_GetMyAID());
 
     // Send a NEW_PID_AID command to every AID left in the map
+    // Only do so once
     if (sSynAckTimer == 150) {
 
         // Prepare the data
@@ -262,7 +370,7 @@ void RecoverSynAckTimeout() {
         }
     }
 
-    // Send a SYN command as well, but save the last send time first (why??)
+    // Send a SYN command periodically, but save the last send time first (why??)
     s64 lastSendTime = stpMatchCnt->lastSynSent;
     for (int i = 0; i < nodeCount; i++) {
         if (noSynAckAids >> i & 1)

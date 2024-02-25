@@ -233,10 +233,13 @@ typedef struct {
     s64 suspendWaitTime;
 } DWCMatchControl;
 
-int DWCi_ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen);
+void DWCi_GT2ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 port, int latency,
+                                    const char* msg, int msgLen);
+BOOL DWCi_ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen);
 int DWCi_SendMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen);
-
 void DWCi_SendMatchSynPacket(u8 aid, u16 type);
+void DWCi_SetMatchStatus(DWCMatchState status);
+BOOL DWCi_StopMeshMaking();
 
 extern DWCMatchControl* stpMatchCnt;
 

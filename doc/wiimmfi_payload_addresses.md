@@ -27,7 +27,7 @@
 - ❌ 800d2058 (Auto-reconnect - don't close p2p conn when disconnecting)
 - ❌ 800d26dc (Auto-reconnect)
 - ✅ 800d2884 (NATNEG: Use server-provided port)
-- ❌ 800d28cc (Ultra-fast NATNEG)
+- ✅ 800d28cc (Replace DWCi_GT2ConnectAttemptCallback to accept incoming connections in more cases)
 - ❌ 800d3050 (Auto-reconnect)
 - ❌ 800d3078 (Auto-reconnect)
 - ❌ 800d31a0 (Auto-reconnect)
@@ -170,7 +170,7 @@
 - ❌ 488d6fd9 at 800d2058
 - ❌ 488d4abc at 800d26dc
 - ❌ 488d24bd at 800d2884
-- ❌ 488d2e1d at 800d28cc
+- ✅ 488d2e1d at 800d28cc
 - ❌ 488d6039 at 800d3050
 - ❌ 488d6011 at 800d3078
 - ❌ 488d5ebd at 800d31a0

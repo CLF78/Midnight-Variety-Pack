@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <dwc/dwc_main.h>
+#include <gs/gt2/gt2Main.h>
 #include <gs/gt2/gt2Utility.h>
 #include <wiimmfi/ConnectionMatrix.hpp>
 #include <wiimmfi/Natneg.hpp>
@@ -8,6 +9,13 @@
 /////////////////
 // Fast NATNEG //
 /////////////////
+
+// DWCi_GT2Startup() patch
+// Replace ConnectAttemptCallback to accept incoming connections in more cases
+// Credits: Wiimmfi
+kmCallDefCpp(0x800D28CC, void, GT2Socket sock, GT2ConnectAttemptCallback callback) {
+    gt2Listen(sock, Wiimmfi::Natneg::ConnectAttemptCallback);
+}
 
 // DWCi_MatchedCallback() patch
 // Update NATNEG
