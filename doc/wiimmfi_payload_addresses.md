@@ -39,7 +39,7 @@
 - ✅ 800d3f1c (Send connected aids to server and clients)
 - ❌ 800d8354 (NATNEG improvements)
 - ⚠️ 800d94f0 (Parse custom DWC match commands)
-- ❌ 800d9754 (Ultra-fast NATNEG)
+- ✅ 800d9754 (Allow parsing SYN packets during SYN state)
 - ✅ 800da7d0 (Send failed connections to host)
 - ✅ 800da7d4 (Send failed connections to host)
 - ✅ 800da7d8 (Send failed connections to host)
@@ -82,7 +82,7 @@
 - ✅ 800ee9f8 (Parse authentication response)
 - ⚠️ 800fcedc (Handle kick messages)
 - ✅ 801007d8 (Report signature and certificate)
-- ✅ 8010e094 (NATNEG: Retry on port binding failure)
+- ✅ 8010e094 (Retry on port binding failure)
 - ❌ 80111534 (Matchmaking anti-abuse)
 - ❌ 8011ab28 (Improved NAT type detection)
 - ❌ 8011ab30 (Improved NAT type detection)
@@ -182,7 +182,7 @@
 - ✅ 488cf608 at 800d3f1c
 - ❌ 488d0904 at 800d8354
 - ⚠️ 488ccdc5 at 800d94f0
-- ❌ 488cf865 at 800d9754
+- ✅ 488cf865 at 800d9754
 - ✅ 7fc3f378 at 800da7d0
 - ✅ 488cb155 at 800da7d4
 - ✅ 7c7d1b79 at 800da7d8

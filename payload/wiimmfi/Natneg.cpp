@@ -224,6 +224,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
 void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, int msgLen) {
 
     // Check if the custom aid field was set, if not fall back to original game behaviour
+    IGNORE_ERR(304)
     if (conn->aid == 0) {
         DWCi_GT2ConnectedCallback(conn, result, msg, msgLen);
         return;
@@ -302,6 +303,7 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     node->gt2Ip = conn->ip;
     node->gt2Port = conn->port;
     StoreConnectionAndInfo(connIdx, conn, node);
+    UNIGNORE_ERR(304)
 }
 
 bool PreventRepeatNATNEGFail(u32 failedPid) {

@@ -13,6 +13,19 @@
 // Credits: Wiimmfi
 kmCall(0x800D94F0, Wiimmfi::Natneg::ProcessRecvMatchCommand);
 
+// DWCi_ProcessMatchSynPacket() patch
+// Parse SYN packets in more states than normally allowed
+// Credits: Wiimmfi
+kmCallDefAsm(0x800D9754) {
+    nofralloc
+
+    cmpwi r0, DWC_MATCH_STATE_CL_WAITING
+    beqlr
+
+    cmpwi r0, DWC_MATCH_STATE_CL_SYN
+    blr
+}
+
 // DWCi_ProcessMatchPollingPacket() patch
 // Send DWC_CMD_CONN_FAIL_MTX command to speed up NATNEG
 // Credits: Wiimmfi
