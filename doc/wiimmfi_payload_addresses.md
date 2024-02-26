@@ -37,7 +37,7 @@
 - ❌ 800d3c38 (Auto-reconnect)
 - ❌ 800d3ea0 (Auto-reconnect)
 - ✅ 800d3f1c (Send connected aids to server and clients)
-- ❌ 800d8354 (NATNEG improvements)
+- ✅ 800d8354 (Improve next NATNEG retry node choosing algorithm)
 - ⚠️ 800d94f0 (Parse custom DWC match commands)
 - ✅ 800d9754 (Allow parsing SYN packets during SYN state)
 - ✅ 800da7d0 (Send failed connections to host)
@@ -180,7 +180,7 @@
 - ❌ 488d53f9 at 800d3c38
 - ❌ 488d51e9 at 800d3ea0
 - ✅ 488cf608 at 800d3f1c
-- ❌ 488d0904 at 800d8354
+- ✅ 488d0904 at 800d8354
 - ⚠️ 488ccdc5 at 800d94f0
 - ✅ 488cf865 at 800d9754
 - ✅ 7fc3f378 at 800da7d0

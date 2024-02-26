@@ -306,6 +306,50 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     UNIGNORE_ERR(304)
 }
 
+DWCNodeInfo* GetNextMeshMakingNode() {
+
+    // Initialize variables
+    u64 minNextTryTime = (1 << 63) - 1;
+    int minNextTryTimeNode = -1;
+
+    // Get each node
+    for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
+        DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];
+
+        // Skip my own node
+        if (node->profileId == stpMatchCnt->profileId)
+            continue;
+
+        // Skip nodes we are already connected to
+        if (DWCi_GetGT2Connection(node->aid))
+            continue;
+
+        // If the retry time is empty, fill it
+        if (node->nextMeshMakeTryTick == 0)
+            node->nextMeshMakeTryTick = DWCi_GetNextMeshMakeTryTick();
+
+        // Check that the time is less than the current minimum time
+        // If so, select this node as the one to potentially do NATNEG with
+        if (node->nextMeshMakeTryTick < minNextTryTime) {
+            minNextTryTime = node->nextMeshMakeTryTick;
+            minNextTryTimeNode = i;
+        }
+    }
+
+    // Check if any node has been found
+    if (minNextTryTimeNode == -1)
+        return nullptr;
+
+    // Check if the minimum time has been reached
+    if (OSGetTime() <= minNextTryTime)
+        return nullptr;
+
+    // All checks passed, return the node we have found
+    IGNORE_ERR(120)
+    return &stpMatchCnt->nodeInfoList.nodeInfos[minNextTryTimeNode];
+    UNIGNORE_ERR(120)
+}
+
 bool PreventRepeatNATNEGFail(u32 failedPid) {
 
     // Define an array to store the PIDs who have already failed NATNEG

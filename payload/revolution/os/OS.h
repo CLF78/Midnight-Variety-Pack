@@ -32,6 +32,7 @@ void OSReport(char* format, ...);
 #define OSNanosecondsToTicks(nsec) (((nsec) * (OS_TIMER_CLOCK / 125000)) / 8000)
 
 u32 OSGetTick();
+s64 OSGetTime();
 
 inline void OSWait(u32 ticks) {
     u32 tick0 = OSGetTick();

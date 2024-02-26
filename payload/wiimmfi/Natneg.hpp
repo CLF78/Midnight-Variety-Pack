@@ -37,6 +37,10 @@ namespace Natneg {
     // Override of DWCi_GT2ConnectedCallback to accept multiple incoming connections at once
     void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, int msgLen);
 
+    // Improves the next NATNEG node choosing algorithm used by Nintendo by choosing the lowest
+    // retry time and ignoring the maximum retry count limit
+    DWCNodeInfo* GetNextMeshMakingNode();
+
     // Checks NATNEG attempts to prevent the host from disconnecting due to repeated NATNEG failures
     // with the same client
     // Returns true if the attempt should count toward the Error 86420 threshold

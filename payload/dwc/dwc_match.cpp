@@ -8,6 +8,27 @@
 // Fast NATNEG //
 /////////////////
 
+// DWCi_MatchProcess() patch
+// Replace Nintendo's algorithm to pick the next node to NATNEG with
+// Credits: Wiimmfi
+kmHookFn DWCNodeInfo* GetNextMeshMakingNode() {
+    return Wiimmfi::Natneg::GetNextMeshMakingNode();
+}
+
+// Glue code
+kmBranchDefAsm(0x800D80D0, 0x800D8360) {
+
+    // Call C++ code
+    bl GetNextMeshMakingNode
+
+    // Move result to r31 and check for null at the same time
+    mr. r31, r3
+    blr
+}
+
+// Replace the destination branch destination
+kmCondBranch(0x800D8360, 0x800D819C, KM_COND_NOT_EQ, 0);
+
 // DWCi_MatchGPRecvBuddyMsgCallback() patch
 // Parse custom match commands coming from GPCM
 // Credits: Wiimmfi

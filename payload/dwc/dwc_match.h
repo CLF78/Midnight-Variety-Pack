@@ -240,8 +240,9 @@ void DWCi_GT2ConnectedCallback(GT2Connection conn, GT2Result result, const char*
 BOOL DWCi_ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen);
 int DWCi_SendMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen);
 void DWCi_SendMatchSynPacket(u8 aid, u16 type);
-
 void DWCi_SetMatchStatus(DWCMatchState status);
+
+s64 DWCi_GetNextMeshMakeTryTick();
 BOOL DWCi_StopMeshMaking();
 
 extern DWCMatchControl* stpMatchCnt;

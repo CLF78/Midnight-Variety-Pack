@@ -58,6 +58,24 @@ enum KamekCommandType {
 #define kmBranch(addr, ptr) kmHook2(kctInjectBranch, (addr), (ptr))
 #define kmCall(addr, ptr) kmHook2(kctInjectCall, (addr), (ptr))
 
+// kmCondBranch
+// Set up a conditional branch from an address to another
+enum {
+    KM_COND_GREATER_OR_EQ,
+    KM_COND_LESS_OR_EQ,
+    KM_COND_NOT_EQ,
+    KM_COND_NO_SO,
+
+    KM_COND_REVERSE = 0x100,
+    KM_COND_LESS = KM_COND_REVERSE | KM_COND_GREATER_OR_EQ,
+    KM_COND_GREATER = KM_COND_REVERSE | KM_COND_LESS_OR_EQ,
+    KM_COND_EQ = KM_COND_REVERSE | KM_COND_NOT_EQ,
+    KM_COND_SO = KM_COND_REVERSE | KM_COND_NO_SO,
+};
+
+#define kmCondBranch(addr, ptr, cond, cr) \
+    kmWrite32(addr, 0x40800000 | ((cr & 7) << 18) | ((cond & 0x103) << 16) | ((ptr - addr) & 0xFFFC))
+
 // kmBranchDefCpp, kmBranchDefAsm
 // Set up a branch (b) from a specific instruction to a function defined
 // directly underneath. If exitPoint is not NULL, the function will
