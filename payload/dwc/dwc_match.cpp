@@ -17,6 +17,7 @@ kmHookFn DWCNodeInfo* GetNextMeshMakingNode() {
 
 // Glue code
 kmBranchDefAsm(0x800D80D0, 0x800D8360) {
+    nofralloc
 
     // Call C++ code
     bl GetNextMeshMakingNode
