@@ -10,6 +10,13 @@
 // Fast NATNEG //
 /////////////////
 
+// DWC_InitFriendsMatch() patch
+// Replace ConnectedCallback to accept incoming connections in more cases
+// Credits: Wiimmfi
+kmBranchDefCpp(0x800D0FE8, NULL, void) {
+    stpDwcCnt->callbacks.connectedCb = &Wiimmfi::Natneg::ConnectedCallback;
+}
+
 // DWCi_GT2Startup() patch
 // Replace ConnectAttemptCallback to accept incoming connections in more cases
 // Credits: Wiimmfi

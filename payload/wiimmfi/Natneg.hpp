@@ -34,6 +34,9 @@ namespace Natneg {
     void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 port, int latency,
                                 const char* msg, int msgLen);
 
+    // Override of DWCi_GT2ConnectedCallback to accept multiple incoming connections at once
+    void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, int msgLen);
+
     // Checks NATNEG attempts to prevent the host from disconnecting due to repeated NATNEG failures
     // with the same client
     // Returns true if the attempt should count toward the Error 86420 threshold

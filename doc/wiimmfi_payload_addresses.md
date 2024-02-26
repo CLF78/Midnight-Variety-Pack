@@ -18,8 +18,8 @@
 - ✅ 800d059c (Error 60000 fix)
 - ✅ 800d05a0 (Error 60000 fix)
 - ❌ 800d086c (Improved NAT type detection)
-- ❌ 800d0dd4 (Ultra-fast NATNEG)
-- ❌ 800d0de8 (Ultra-fast NATNEG)
+- ✅ 800d0dd4 (Replace DWCi_GT2ConnectedCallback to accept incoming connections in more cases)
+- ✅ 800d0de8 (Replace DWCi_GT2ConnectedCallback to accept incoming connections in more cases)
 - ❌ 800d13f4 (Auto-reconnect DWC stub implementation - allow p2p while offline)
 - ❌ 800d1ddc (Auto-reconnect - don't close p2p conn when disconnecting)
 - ❌ 800d1f04 (Auto-reconnect - don't close p2p conn when disconnecting)
@@ -161,8 +161,8 @@
 - ✅ 488d8515 at 800d059c
 - ✅ 48000070 at 800d05a0
 - ❌ 488d4dc1 at 800d086c
-- ❌ 3c80809a at 800d0dd4
-- ❌ 60845d94 at 800d0de8
+- ✅ 3c80809a at 800d0dd4
+- ✅ 60845d94 at 800d0de8
 - ❌ 488d630c at 800d13f4
 - ❌ 488d7255 at 800d1ddc
 - ❌ 488d7185 at 800d1f04

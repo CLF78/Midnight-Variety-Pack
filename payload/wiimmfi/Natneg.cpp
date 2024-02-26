@@ -42,7 +42,8 @@ void ConnectToNode(int nodeIdx) {
     GT2Result ret = gt2Connect(*stpMatchCnt->gt2Socket, &conn, ipAddr, buffer,
                                -1, 2000, stpMatchCnt->gt2Callbacks, 0);
 
-    // If it was successful, store the AID
+    // If it was successful, store the AID in the custom field
+    // Increase value by 1 to leave 0 as sentinel value
     if (ret == GT2_RESULT_SUCCESS)
         conn->aid = aid + 1;
 
@@ -218,6 +219,89 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     // Store the connection and its info
     StoreConnectionAndInfo(connIdx, conn, node);
     UNIGNORE_ERR(304)
+}
+
+void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, int msgLen) {
+
+    // Check if the custom aid field was set, if not fall back to original game behaviour
+    if (conn->aid == 0) {
+        DWCi_GT2ConnectedCallback(conn, result, msg, msgLen);
+        return;
+    }
+
+    // Get the actual aid
+    u8 aid = conn->aid - 1;
+
+    // If the connection attempt resulted into a NATNEG error try again in 150 frames
+    if (result == GT2_RESULT_NEGOTIATION_ERROR) {
+
+        // Q: Why is the profileId check necessary and why does it use "<=" ?
+        DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForAid(aid);
+        if (node && node->profileId <= stpMatchCnt->profileId)
+            sTimers[aid] = 150;
+        return;
+    }
+
+    // For all other results than GT2_RESULT_SUCCESS, reset the timer if a wait message was received
+    if (result != GT2_RESULT_SUCCESS) {
+        if (msg && (!strcmp(msg, "wait1") || !strcmp(msg, "wait2")))
+            sTimers[aid] = 0;
+        return;
+    }
+
+    // If we are still in INIT state, bail
+    // Q: Why is the stpMatchCnt pointer not checked like the game function does?
+    if (stpMatchCnt->state == DWC_MATCH_STATE_INIT)
+        return;
+
+    // If the AID is not found, reject the connection attempt
+    // Q: The original callback does not run a check like this. Why is it necessary?
+    DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForAid(aid);
+    if (!node)
+        return;
+
+    // If the connection already exists, bail
+    if (DWCi_GetGT2Connection(node->aid))
+        return;
+
+    // Act depending on the match state
+    // Q: What is the reasoning behind this switch case?
+    // Q: Why is the pid compared to the new node one?
+    switch(stpMatchCnt->state) {
+
+        // Waiting for reservation response
+        // Running NATNEG (both server and client)
+        // Establishing GT2 connection (server only)
+        case DWC_MATCH_STATE_CL_WAIT_RESV:
+        case DWC_MATCH_STATE_CL_NN:
+        case DWC_MATCH_STATE_SV_OWN_NN:
+        case DWC_MATCH_STATE_SV_OWN_GT2:
+            if (node->profileId == stpMatchCnt->tempNewNodeInfo.profileId)
+                StopMeshMaking();
+            break;
+
+        // Establishing GT2 connection (client only)
+        case DWC_MATCH_STATE_CL_GT2:
+            if (node->profileId == stpMatchCnt->tempNewNodeInfo.profileId) {
+                DWCi_GT2ConnectedCallback(conn, result, msg, msgLen);
+                return;
+            }
+            break;
+
+        // Do nothing in all other cases
+        default:
+            break;
+    }
+
+    // If the server is full, bail (the game will close all connections in this case, so we avoid it)
+    int connIdx = DWCi_GT2GetConnectionListIdx();
+    if (connIdx == -1)
+        return;
+
+    // Store IP, port and connection
+    node->gt2Ip = conn->ip;
+    node->gt2Port = conn->port;
+    StoreConnectionAndInfo(connIdx, conn, node);
 }
 
 bool PreventRepeatNATNEGFail(u32 failedPid) {

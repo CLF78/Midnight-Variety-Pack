@@ -7,7 +7,9 @@ extern "C" {
 #endif
 
 typedef struct {
-    u8 unk[0x88];
+    GT2Socket socket;
+    GT2Callbacks callbacks;
+    u8 unk[0x88 - 0x14];
     DWCMatchedCallback userMatchedCallback;
     void* userMatchedCallbackParam;
     u8 unk2[0x360 - 0x90];
