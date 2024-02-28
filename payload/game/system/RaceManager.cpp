@@ -90,6 +90,10 @@ kmCallDefAsm(0x805350DC) {
 // Credits: Wiimmfi
 kmBranchDefCpp(0x8053369C, NULL, void) {
 
+    // Check if the race is online
+    if (!RaceGlobals::isOnlineRace)
+        return;
+
     // Check if the race is finished
     u32 raceStage = RaceManager::instance->raceStage;
     if (raceStage != RaceManager::STAGE_FINISH_ALL)
