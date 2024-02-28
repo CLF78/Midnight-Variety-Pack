@@ -1,6 +1,5 @@
 #include <common/Common.hpp>
 
-// Contains everything that i couldn't categorize
 namespace Wiimmfi {
 namespace ConnectionMatrix {
 

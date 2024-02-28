@@ -78,12 +78,12 @@
 - ✅ 800ee098 (Report product code properly on Dolphin)
 - ⏭ 800ee364 (Custom Wiimmfi error messages) - not needed because of the offline messages
 - ⏭ 800ee36c (Custom Wiimmfi error messages) - not needed because of the offline messages
-- ❌ 800ee74c (Matchmaking anti-abuse)
+- ✅ 800ee74c (Matchmaking anti-abuse)
 - ✅ 800ee9f8 (Parse authentication response)
 - ⚠️ 800fcedc (Handle kick messages)
 - ✅ 801007d8 (Report signature and certificate)
 - ✅ 8010e094 (Retry on port binding failure)
-- ❌ 80111534 (Matchmaking anti-abuse)
+- ✅ 80111534 (Matchmaking anti-abuse)
 - ❌ 8011ab28 (Improved NAT type detection)
 - ❌ 8011ab30 (Improved NAT type detection)
 - ✅ 8011b478 (Set CONNECT_PING retry time to 80 instead of 700)

@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 int bind(int sock, const SOSockAddrIn* addr, int len);
+int sendto(int sock, const char* buf, int len, int flags, const SOSockAddrIn* addr, int tolen);
 
 #ifdef __cplusplus
 }
