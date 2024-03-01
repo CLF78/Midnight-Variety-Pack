@@ -1,5 +1,7 @@
 #include <common/Common.h>
 #include <dwc/dwc_login.h>
+#include <dwc/dwc_report.h>
+#include <wiimmfi/Natify.hpp>
 
 // Ported from NitroDWC decompilation
 inline u32 DWCi_Acc_GetMaskBits(u32 data, u32 shift, u32 mask) {
@@ -51,4 +53,20 @@ kmBranchDefCpp(0x800D05A8, 0x800D0610, void) {
     // Copy temp loginId from pseudo loginId and mark user data as dirty
     stpLoginCnt->tempLoginId.playerId = stpLoginCnt->userdata->pseudo.playerId;
     stpLoginCnt->userdata->flag = DWC_USER_DATA_FLAG_DIRTY;
+}
+
+/////////////////////////
+// NATify Improvements //
+/////////////////////////
+
+// DWCi_RemoteLoginProcess() patch
+// Start custom NATify procedure
+// Credits: Wiimmfi
+kmCallDefCpp(0x800D086C, void, DWCReportFlag level, const char* str) {
+
+    // Original call
+    DWC_Printf(level, str);
+
+    // Start NATify
+    Wiimmfi::Natify::Try();
 }

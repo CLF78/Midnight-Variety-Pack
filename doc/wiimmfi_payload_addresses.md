@@ -10,14 +10,14 @@
 - ❌ 800095e4 (Frameskip code)
 - ❌ 800095f4 (Frameskip code)
 - ✅ 800ce220 (Friend status data buffer overflow fix)
-- ❌ 800ce7a4 (Improved NAT type detection)
+- ✅ 800ce7a4 (Improved NAT type detection)
 - ❌ 800cecb0 (Auto-reconnect: Fix issues with friend status)
 - ❌ 800cecbc (Auto-reconnect DWC stub implementation)
 - ❌ 800d01e4 (Auto-reconnect: Fix error 61070)
 - ✅ 800d0598 (Error 60000 fix)
 - ✅ 800d059c (Error 60000 fix)
 - ✅ 800d05a0 (Error 60000 fix)
-- ❌ 800d086c (Improved NAT type detection)
+- ✅ 800d086c (Improved NAT type detection)
 - ✅ 800d0dd4 (Replace DWCi_GT2ConnectedCallback to accept incoming connections in more cases)
 - ✅ 800d0de8 (Replace DWCi_GT2ConnectedCallback to accept incoming connections in more cases)
 - ❌ 800d13f4 (Auto-reconnect DWC stub implementation - allow p2p while offline)
@@ -160,7 +160,7 @@
 - ✅ 4801d0d5 at 800d0598
 - ✅ 488d8515 at 800d059c
 - ✅ 48000070 at 800d05a0
-- ❌ 488d4dc1 at 800d086c
+- ✅ 488d4dc1 at 800d086c
 - ✅ 3c80809a at 800d0dd4
 - ✅ 60845d94 at 800d0de8
 - ❌ 488d630c at 800d13f4
