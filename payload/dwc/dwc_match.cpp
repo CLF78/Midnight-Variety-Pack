@@ -2,7 +2,38 @@
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
 #include <wiimmfi/ConnectionMatrix.hpp>
+#include <wiimmfi/MatchCommand.hpp>
 #include <wiimmfi/Natneg.hpp>
+
+///////////////////////////
+// Custom Match Commands //
+///////////////////////////
+
+kmHookFn int ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen) {
+
+    // Check if the Wiimmfi payload can parse the command
+    if (Wiimmfi::MatchCommand::ProcessRecvMatchCommand(cmd, profileId, publicIp, publicPort, cmdData, dataLen))
+        return 0;
+
+    // Fall back to game code
+    // TODO insert our custom command parsing here when we do it
+    return DWCi_ProcessRecvMatchCommand(cmd, profileId, publicIp, publicPort, cmdData, dataLen);
+}
+
+// DWCi_MatchGPRecvBuddyMsgCallback() patch
+// Parse custom match commands coming from GPCM
+// Credits: Wiimmfi
+kmCall(0x800D94F0, ProcessRecvMatchCommand);
+
+// DWCi_HandleGT2UnreliableMatchCommandMessage() patch
+// Parse custom match commands coming from another client
+// Credits: Wiimmfi
+kmCall(0x800E5980, ProcessRecvMatchCommand);
+
+// DWCi_QR2ClientMsgCallback() patch
+// Parse custom match commands coming from MASTER
+// Credits: Wiimmfi
+kmCall(0x800E5B14, ProcessRecvMatchCommand);
 
 /////////////////
 // Fast NATNEG //
@@ -30,11 +61,6 @@ kmBranchDefAsm(0x800D80D0, 0x800D8360) {
 // Replace the destination branch destination
 kmCondBranch(0x800D8360, 0x800D819C, KM_COND_NOT_EQ, 0);
 
-// DWCi_MatchGPRecvBuddyMsgCallback() patch
-// Parse custom match commands coming from GPCM
-// Credits: Wiimmfi
-kmCall(0x800D94F0, Wiimmfi::Natneg::ProcessRecvMatchCommand);
-
 // DWCi_ProcessMatchSynPacket() patch
 // Parse SYN packets in more states than normally allowed
 // Credits: Wiimmfi
@@ -55,7 +81,7 @@ kmHookFn u32 SendConnFailMtxCmd(u32 aidsConnectedToHost) {
 
     // Get the AIDs connected to me and eventually send the command
     u32 aidsConnectedToMe = DWC_GetAIDBitmap();
-    Wiimmfi::Natneg::SendConnFailMtxCommand(aidsConnectedToHost, aidsConnectedToMe);
+    Wiimmfi::MatchCommand::SendConnFailMtxCommand(aidsConnectedToHost, aidsConnectedToMe);
 
     // Get the dead AID bitmap for the game code
     return aidsConnectedToMe & ~aidsConnectedToHost;
@@ -86,16 +112,6 @@ kmBranchDefCpp(0x800E1CA8, NULL, bool, bool ret) {
     Wiimmfi::Natneg::RecoverSynAckTimeout();
     return ret;
 }
-
-// DWCi_HandleGT2UnreliableMatchCommandMessage() patch
-// Parse custom match commands coming from another client
-// Credits: Wiimmfi
-kmCall(0x800E5980, Wiimmfi::Natneg::ProcessRecvMatchCommand);
-
-// DWCi_QR2ClientMsgCallback() patch
-// Parse custom match commands coming from MASTER
-// Credits: Wiimmfi
-kmCall(0x800E5B14, Wiimmfi::Natneg::ProcessRecvMatchCommand);
 
 // DWCi_NNCompletedCallback() patch
 // Do not count repeated NATNEG failures between the host and a client towards the Error 86420 counter

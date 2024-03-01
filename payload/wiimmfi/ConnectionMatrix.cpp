@@ -3,7 +3,7 @@
 #include <dwc/dwc_match.h>
 #include <nw4r/ut/Lock.hpp>
 #include <wiimmfi/ConnectionMatrix.hpp>
-#include <wiimmfi/Natneg.hpp>
+#include <wiimmfi/MatchCommand.hpp>
 #include <wiimmfi/Reporting.hpp>
 
 namespace Wiimmfi {
@@ -41,7 +41,7 @@ void Update() {
 
     // Report it to the server and share it with the clients
     Reporting::ReportConnectionMatrix(aidsConnectedToMe);
-    Natneg::SendConnMtxCommand(aidsConnectedToMe);
+    MatchCommand::SendConnMtxCommand(aidsConnectedToMe);
 }
 
 } // namespace ConnectionMatrix
