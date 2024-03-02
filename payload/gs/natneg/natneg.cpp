@@ -4,13 +4,16 @@
 #include <gs/common/gsSocketRevolution.h>
 #include <gs/natneg/natneg.h>
 #include <revolutionex/so/SOBasic.h>
+#include <wiimmfi/Natify.hpp>
 
 // Ported from GameSpy SDK
 u32 NameToIp(const char* name) {
 
+    IGNORE_ERR(144)
     SOHostEnt* hent = gethostbyname(name);
     if (!hent) return 0;
     return hent->addrList[0][0];
+    UNIGNORE_ERR(144)
 }
 
 // Ported from GameSpy SDK
@@ -74,7 +77,7 @@ int NNStartNatDetection(NatDetectionResultsFunc resultscallback) {
 /////////////////
 
 // NegotiateThink() patch
-// Reduce CONNECT_PING retry time from 700 to 80
+// Reduce PING retry time from 700 to 80
 // Credits: Wiimmfi
 kmWrite16(0x8011B47A, 80);
 
@@ -82,3 +85,20 @@ kmWrite16(0x8011B47A, 80);
 // Do not wait the retry time in case of successful NATNEG
 // Credits: Wiimmfi
 kmWrite32(0x8011B4B0, 0x60000000);
+
+/////////////////////////
+// NATify Improvements //
+/////////////////////////
+
+// SendInitPackets() patch
+// Modify INIT packets to send the NATify data
+// Credits: Wiimmfi
+kmCallDefCpp(0x8011AB28, int, u8* buffer) {
+    return Wiimmfi::Natify::CopyData(buffer);
+}
+
+// SendInitPackets() patch
+// Replace INIT message type
+// Credits: Wiimmfi
+kmWrite32(0x8011AB2C, 0x3BC00000 | WIIMMFI_NATIFY);
+kmWrite32(0x8011AB30, 0x9BC1004F);

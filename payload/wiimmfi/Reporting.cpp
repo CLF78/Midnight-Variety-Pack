@@ -92,6 +92,7 @@ void ReportCourseSubfiles() {
     *buffers[1] = *buffers[0];
 
     // Locate STGI section to overwrite lap/speed modifier
+    // Q: Why not just send the values from the KMP instead of hashing it twice??
     for (int i = 0; i < kmp->numSections; i++) {
 
         // Get KMP section

@@ -68,5 +68,5 @@ kmCallDefCpp(0x800D086C, void, DWCReportFlag level, const char* str) {
     DWC_Printf(level, str);
 
     // Start NATify
-    Wiimmfi::Natify::Try();
+    Wiimmfi::Natify::Start();
 }

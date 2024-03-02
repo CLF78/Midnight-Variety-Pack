@@ -59,6 +59,9 @@ typedef enum {
     NN_NATIFY_REQUEST,
     NN_REPORT,
     NN_REPORT_ACK,
+
+    // Custom commands from here onwards
+    WIIMMFI_NATIFY = 0x80,
 } NATNEGCommand;
 
 typedef struct {

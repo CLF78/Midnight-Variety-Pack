@@ -19,5 +19,5 @@ kmWrite32(0x800CE220, 0x38C00000 | sizeof(RKNetStatusData[2]));
 // Update custom NATify procedure
 // Credits: Wiimmfi
 kmBranchDefCpp(0x800CE7A4, NULL, void) {
-    Wiimmfi::Natify::Calc();
+    Wiimmfi::Natify::Update();
 }

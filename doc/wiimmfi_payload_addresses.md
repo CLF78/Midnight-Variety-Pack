@@ -84,8 +84,8 @@
 - ✅ 801007d8 (Report signature and certificate)
 - ✅ 8010e094 (Retry on port binding failure)
 - ✅ 80111534 (Matchmaking anti-abuse)
-- ❌ 8011ab28 (Improved NAT type detection)
-- ❌ 8011ab30 (Improved NAT type detection)
+- ✅ 8011ab28 (Improved NAT type detection)
+- ✅ 8011ab30 (Improved NAT type detection)
 - ✅ 8011b478 (Set CONNECT_PING retry time to 80 instead of 700)
 - ✅ 8011b4b0 (Skip retry time check on NATNEG success)
 - ⏭ 801938f8 (Block IOS calls) - pointless security measure
@@ -225,8 +225,8 @@
 - ⚠️ 488ac084 at 800fcedc
 - ✅ 488a0768 at 801007d8
 - ❌ 4889ae6d at 8010e094
-- ❌ 4888aa05 at 8011ab28
-- ❌ 4888a9f5 at 8011ab30
+- ✅ 4888aa05 at 8011ab28
+- ✅ 4888a9f5 at 8011ab30
 - ✅ 38830050 at 8011b478
 - ✅ 60000000 at 8011b4b0
 - ⏭ 4880dd9c at 801937e0

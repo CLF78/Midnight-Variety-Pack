@@ -5,24 +5,44 @@
 #include <gs/common/gsSocketRevolution.h>
 #include <gs/natneg/natify.h>
 #include <gs/natneg/natneg.h>
+#include <platform/string.h>
 #include <revolution/os/OS.h>
+#include <wiimmfi/Natify.hpp>
 
 namespace Wiimmfi {
 namespace Natify {
 
 bool sDoingNatify;
+NatifyData sNatifyData;
 
 void Callback(BOOL success, NAT* theNat) {
+
+    // If NATify was successful, copy the data over
     sDoingNatify = false;
-    // OSReport("[LE-CODE]: NATify done for pid %d\n", stpMatchCnt->profileId);
+    if (success) {
+
+        // OSReport("[LE-CODE]: NATify done for pid %d\n", stpMatchCnt->profileId);
+        sNatifyData.profileId = stpMatchCnt->profileId;
+        sNatifyData.portRestricted = nat.portRestricted;
+        sNatifyData.ipRestricted = nat.ipRestricted;
+        sNatifyData.natPromiscuity = nat.promiscuity;
+        sNatifyData.natType = nat.type;
+        sNatifyData.natMappingScheme = nat.mappingScheme;
+        sNatifyData.qr2Compatible = nat.qr2Compatible;
+    }
 }
 
-void Try() {
+int CopyData(u8* buffer) {
+    memcpy(buffer, &sNatifyData, sizeof(sNatifyData));
+    return sizeof(sNatifyData);
+}
+
+void Start() {
     sDoingNatify = true;
     NNStartNatDetection(Callback);
 }
 
-void Calc() {
+void Update() {
     if (sDoingNatify)
         NegotiateThink(nullptr);
 }
