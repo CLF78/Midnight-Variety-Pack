@@ -67,17 +67,17 @@ kmPointerDefCpp(0x808BBED0, void, SinglePlayerMenuPage* self, PushButton* button
     // Set various properties
     switch (buttonId) {
 
-        // Force 150cc, Hard CPUs and Modern tracklist in GP mode
+        // Force 150cc, Hard CPUs and Variety tracklist in GP mode
         case SinglePlayerMenuPage::GP_BUTTON:
             scenario->settings.engineClass = RaceConfig::Settings::CC_150;
             scenario->settings.cpuMode = RaceConfig::Settings::CPU_HARD;
-            CupManager::currentCupList = CupManager::TRACKS_MODERN;
+            CupManager::currentCupList = CupManager::TRACKS_VARIETY;
             break;
 
-        // Force Modern tracklist in TT mode
+        // Force Variety tracklist in TT mode
         // Ignore CC setting, as it will be overridden by the CC selector screen
         case SinglePlayerMenuPage::TT_BUTTON:
-            CupManager::currentCupList = CupManager::TRACKS_MODERN;
+            CupManager::currentCupList = CupManager::TRACKS_VARIETY;
             break;
 
         // TODO set proper tracklist for VS mode
