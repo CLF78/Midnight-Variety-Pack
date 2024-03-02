@@ -1,4 +1,5 @@
 #include <common/Common.hpp>
+#pragma pack(push, 1)
 
 namespace Wiimmfi {
 namespace Natify {
@@ -34,3 +35,5 @@ namespace Natify {
 
 } // namespace Natify
 } // namespace Wiimmfi
+
+#pragma pack(pop)

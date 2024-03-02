@@ -34,7 +34,7 @@ void Callback(BOOL success, NAT* theNat) {
 
 int CopyData(u8* buffer) {
     memcpy(buffer, &sNatifyData, sizeof(sNatifyData));
-    return sizeof(sNatifyData);
+    return sizeof(sNatifyData) + 1;
 }
 
 void Start() {
