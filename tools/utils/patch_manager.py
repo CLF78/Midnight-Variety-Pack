@@ -27,6 +27,11 @@ class RiivoPatchManager():
         for patch_name, attribs in self.patches:
             skd = patch_name
             for key, value in attribs.items():
+
+                # Replace slashes in strings to account for Windows stupidity
+                if isinstance(value, str):
+                    value = value.replace("\\", "/")
+
                 skd += f' {key}={value}'
             patchString += f'--patch {skd} '
 
