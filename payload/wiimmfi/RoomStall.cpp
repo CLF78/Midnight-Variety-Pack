@@ -7,6 +7,12 @@
 namespace Wiimmfi {
 namespace RoomStall {
 
+u16 sKickTimer;
+
+void Init() {
+    sKickTimer = 0;
+}
+
 void Update() {
 
     // Check if the player is the host, if not bail
@@ -14,7 +20,6 @@ void Update() {
         return;
 
     // Update the timer and check that it hasn't reached the threshold
-    static u16 sKickTimer = 0;
     if (sKickTimer++ < KICK_THRESHOLD_TIME)
         return;
 

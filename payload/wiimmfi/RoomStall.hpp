@@ -14,6 +14,9 @@ namespace RoomStall {
     // Functions //
     ///////////////
 
+    // Initializes the room stall timer
+    void Init();
+
     // Updates the room stall timer and kicks players if necessary
     void Update();
 

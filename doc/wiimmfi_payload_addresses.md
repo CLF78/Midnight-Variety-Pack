@@ -143,7 +143,7 @@
 - ❌ 8065a0ec (Auto-reconnect DWC stub implementation)
 - ❌ 8065a970 (Auto-reconnect)
 - ⏭ 8065df44 (Invalid ITEM packet check) - will be implemented separately
-- ⏭ 8065ff5c (Reset room stall timer) - implemented differently
+- ✅ 8065ff5c (Reset room stall timer)
 - ✅ 80660330 (Anti room stall logic)
 - ❌ 80760a88 (Bunch of antifreeze patches)
 - ❌ 8079bf88 (Bunch of antifreeze patches)
