@@ -16,7 +16,7 @@ kmHookFn int ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 pu
         return 0;
 
     // Fall back to game code
-    // TODO insert our custom command parsing here when we do it
+    // TODO insert our custom command parsing here once we need it
     return DWCi_ProcessRecvMatchCommand(cmd, profileId, publicIp, publicPort, cmdData, dataLen);
 }
 
@@ -58,7 +58,7 @@ kmBranchDefAsm(0x800D80D0, 0x800D8360) {
     blr
 }
 
-// Replace the destination branch destination
+// Replace the exit point branch destination
 kmCondBranch(0x800D8360, 0x800D819C, KM_COND_NOT_EQ, 0);
 
 // DWCi_ProcessMatchSynPacket() patch
