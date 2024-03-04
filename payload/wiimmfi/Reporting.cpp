@@ -206,6 +206,23 @@ void ReportRaceStage(u32 stage) {
     Status::SendMessage("race_status", "", stage);
 }
 
+void ReportServerDown(u32 cmd, u32 pid, u32* data) {
+
+    // If the packet has no extra data, just send the PID
+    char buffer[40];
+    if (!data)
+        snprintf(buffer, sizeof(buffer), "%d", pid);
+
+    // Else send the data both in decimal and hexadecimal form (??)
+    else {
+        u32 cmdData = NETReadSwappedBytes32(data);
+        snprintf(buffer, sizeof(buffer), "%d|%d|%08x", pid, cmdData, cmdData);
+    }
+
+    // Send message
+    Status::SendMessage("host_debug", buffer, cmd);
+}
+
 void ReportSignatureAndCert() {
 
     ALIGN(32) char cert[IOSECCCertSize];

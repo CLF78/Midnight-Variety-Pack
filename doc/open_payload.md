@@ -26,6 +26,7 @@ Major features that are not going to be ported include:
 Major features that may not be ported include:
 - **Frameskip**: Due to the amount of code used for the feature, whether porting will happen is still undecided as of now.
 
+### Existing Hooks
 The table below lists all the hooks used by the original Wiimmfi payload as of v96, their purpose, the reimplementation status and any changes that were made to the original code.
 
 The legend is as follows:
@@ -34,8 +35,6 @@ The legend is as follows:
 - ⚠️: The code for this hook is currently being ported
 - ⏭: The code for this hook will not be ported
 - ❌: The code for this hook has not been ported yet
-
-### Existing Hooks
 
 | **Hook Address(es)** | **Category** | **Purpose** | **Status** | **Code** | **Notes/Changes** |
 |----------------------|--------------|-------------|:----------:|:--------:|-------------------|
@@ -60,7 +59,7 @@ The legend is as follows:
 | `0x800D9754` | NATNEG Fixes | Parse SYN Packets in Additional States | ✅ | [dwc_match.cpp](/payload/dwc/dwc_match.cpp) | N/A |
 | `0x800DA7D0`<br>`0x800DA7D4`<br>`0x800DA7D8` | NATNEG Fixes | Send Failed Connection Matrix to Host | ✅ | [dwc_match.cpp](/payload/dwc/dwc_match.cpp)<br>[MatchCommand.cpp](/payload/wiimmfi/MatchCommand.cpp) | N/A |
 | `0x800DBE30` | Auto Reconnect | Handle P2P Status Messages While Offline | ⏭ | N/A | Auto Reconnect will not be implemented |
-| `0x800DC21C` | Telemetry | Report Host Disconnections | ❌ | N/A | N/A |
+| `0x800DC21C` | Telemetry | Report Host Disconnections | ☑️<br>(Changed to three hooks at `0x800DDF40`, `0x800DE1E4` and `0x800E6A14`) | [dwc_match.cpp](/payload/dwc/dwc_match.cpp)<br>[Reporting.cpp](/payload/wiimmfi/Reporting.cpp) | N/A |
 | `0x800DC49C` | Auto Reconnect | Stop People From Joining During Reconnect | ⏭ | N/A | Auto Reconnect will not be implemented |
 | `0x800DCA18` | NATNEG Fixes | Store Reservations in Queue | ⏭ | N/A | Patch not applied by the payload |
 | `0x800DCEC8`<br>`0x800DCF98`<br>`0x800E57FC` | NATNEG Fixes | Send Failed Connection Matrix to Host | ⏭ | N/A | Patch not applied by the payload |
@@ -123,13 +122,14 @@ The legend is as follows:
 | `0x8079BF88` | Security Fixes | EVENT Packet Data Validation | ⏭ | N/A | Integrated into RCE Fix |
 | `0x807A1914` | Bug Fixes | Stationary Item Collision Momentum Fix | ✅ | [ItemObj.cpp](/payload/game/item/ItemObj.cpp) | N/A |
 | `0x807BC940` | "Anticheat" | Store Item for Cheat Detection | ⏭ | N/A | Not ported due to the measure basically amounting to self-reporting, which is too fragile and easily bypassed |
+| `0x808BFF8C` | Authentication | Display Console Assignment Message | ✅ | [WifiMenuPage.cpp](/payload/game/ui/page/WifiMenuPage.cpp) | Replaced disgusting runtime hook with fixed hook |
 | `0x808D4100` | Frameskip | Display Debug Data | ⏭ | N/A | This should not be in the regular payload |
 | `0x808D410C` | Frameskip | N/A | ⏭ | N/A | Hook does literally nothing |
 
 ### New Hooks
+The table below lists all the new hooks introduced by OpenPayload and their purpose:
 
 | **Hook Address(es)** | **Category** | **Purpose** | **Code** | **Notes/Changes** |
 |----------------------|--------------|-------------|:--------:|-------------------|
 | `0x80657A6C` | Authentication | Delete Expired Token | [RKNetController.cpp](/payload/game/net/RKNetController.cpp) | N/A |
 | `0x808BFB74` | Custom Error Messages | Display Custom Error Message | [WifiDisconnectPage.cpp](/payload/game/ui/page/WifiDisconnectPage.cpp) | Virtual function override |
-| `0x808BFF8C` | Authentication | Display Console Assignment Message | [WifiMenuPage.cpp](/payload/game/ui/page/WifiMenuPage.cpp) | Virtual function override |

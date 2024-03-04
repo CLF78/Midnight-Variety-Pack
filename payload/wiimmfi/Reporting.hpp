@@ -38,6 +38,9 @@ namespace Reporting {
     // Reports the race stage
     void ReportRaceStage(u32 stage);
 
+    // Reports host disconnections
+    void ReportServerDown(u32 cmd, u32 pid, u32* data);
+
     // Reports the given track SHA1 hash
     void ReportTrackHash(u32* hash, u8 courseId);
 

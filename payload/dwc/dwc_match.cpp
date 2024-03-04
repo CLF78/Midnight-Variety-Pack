@@ -4,6 +4,7 @@
 #include <wiimmfi/ConnectionMatrix.hpp>
 #include <wiimmfi/MatchCommand.hpp>
 #include <wiimmfi/Natneg.hpp>
+#include <wiimmfi/Reporting.hpp>
 
 ///////////////////////////
 // Custom Match Commands //
@@ -214,3 +215,20 @@ kmCallDefAsm(0x800E77F4) {
     lwz r0, 0x71C(r31); // Get stpMatchCnt->state
     blr
 }
+
+///////////////////////
+// Wiimmfi Telemetry //
+///////////////////////
+
+// DWCi_ProcessRecvMatchCommand() and DWCi_SendServerDownQuery() patches
+// Report host disconnections to the server
+kmHookFn int ReportHostDisconnect(u8 cmd, int pid, u32 publicIp, u32 publicPort, u32* data, u32 dataLen) {
+    int ret = DWCi_SendMatchCommand(cmd, pid, publicIp, publicPort, data, dataLen);
+    Wiimmfi::Reporting::ReportServerDown(cmd, pid, data);
+    return ret;
+}
+
+// Glue code
+kmCall(0x800DDF40, ReportHostDisconnect);
+kmCall(0x800DE1E4, ReportHostDisconnect);
+kmCall(0x800E6A14, ReportHostDisconnect);
