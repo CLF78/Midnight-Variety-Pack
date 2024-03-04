@@ -50,6 +50,7 @@ typedef void (*Func)();
 #define BOOL s32
 #define MIN(a, b) (((b) < (a)) ? (b) : (a))
 #define MAX(a, b) (((a) < (b)) ? (b) : (a))
+#define offsetof(a, b) ((int)(&(((a*)(0))->b)))
 #define STRINGIFY(x) #x
 
 #ifdef __INTELLISENSE__

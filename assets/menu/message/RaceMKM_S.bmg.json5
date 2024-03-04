@@ -1,6 +1,6 @@
 {
     "1409": {
-        string: "Carrera VS. en equipo {arg message|0}{arg string|0}{arg message|1} {arg integer|0 0}/{arg integer|1 0}",
+        string: "Carrera VS. en equipo {arg message|0}{arg cond messages|2 0 1420} {arg integer|0 0}/{arg integer|1 0}",
     },
     "1410": {
         string: "{arg message|0} - Primera carrera",
@@ -15,13 +15,13 @@
         string: "{arg message|0} - Última carrera",
     },
     "1414": {
-        string: "Carrera VS. {arg message|0}{arg string|0}{arg message|1} {arg integer|0 0}/{arg integer|1 0}",
+        string: "Carrera VS. {arg message|0}{arg cond messages|2 0 1420} {arg integer|0 0}/{arg integer|1 0}",
     },
     "1421": {
         string: "{arg message|0}",
     },
     "1422": {
-        string: "Carrera VS. {arg message|0}{arg string|0}{arg message|1}",
+        string: "Carrera VS. {arg message|0}{arg cond messages|0 0 1420}",
     },
     "1427": {
         string: "{1 char|}",

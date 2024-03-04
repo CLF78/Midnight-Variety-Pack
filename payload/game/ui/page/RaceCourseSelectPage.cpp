@@ -105,12 +105,7 @@ kmPointerDefCpp(0x808D9480, void, RaceCourseSelectPage* self) {
             break;
     }
 
-    // Set mirror argument (VS only)
-    if (RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_MIRROR) {
-        msgInfo.messageIds[1] = 3414;
-        msgInfo.strings[0] = L" ";
-    }
-
-    // Apply message
+    // Set mirror argument and apply message
+    msgInfo.setCondMessageValue(0, RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_MIRROR != 0, true);
     self->instructionText->setText(msgId, &msgInfo);
 }

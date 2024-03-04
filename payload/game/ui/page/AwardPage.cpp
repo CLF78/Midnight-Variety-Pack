@@ -88,9 +88,6 @@ kmBranchDefCpp(0x805BC9DC, NULL, void, AwardPage* self) {
     u32 curSection = SectionManager::instance->curSection->sectionID;
     RaceConfig::Settings* settings = &RaceConfig::instance->awardsScenario.settings;
 
-    // Set first string to empty by default
-    msgInfo.strings[0] = L"";
-
     // Set icon and message for battle mode awards
     if (curSection == Section::AWARD_BT) {
         u32 battleType = settings->battleType;
@@ -142,10 +139,8 @@ kmBranchDefCpp(0x805BC9DC, NULL, void, AwardPage* self) {
         // Set the cup name/mirror
         if (curSection == Section::AWARD_GP)
             msgInfo.messageIds[0] = CupManager::GetCupList()[settings->cupId].cupName;
-        else if (settings->modeFlags & RaceConfig::Settings::FLAG_MIRROR) {
-            msgInfo.messageIds[1] = 1420;
-            msgInfo.strings[0] = L" ";
-        }
+        else
+            msgInfo.setCondMessageValue(0, settings->modeFlags & RaceConfig::Settings::FLAG_MIRROR != 0, true);
     }
 
     // Apply changes

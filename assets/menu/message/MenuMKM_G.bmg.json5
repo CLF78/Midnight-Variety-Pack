@@ -15,10 +15,10 @@
         string: "Zeitfahren, {arg message|0}",
     },
     "3363": {
-        string: "Versus-Rennen, {arg message|0}{arg string|0}{arg message|1}",
+        string: "Versus-Rennen, {arg message|0}{arg cond messages|0 0 3414}",
     },
     "3366": {
-        string: "Team-Versus-Rennen, {arg message|0}{arg string|0}{arg message|1}",
+        string: "Team-Versus-Rennen, {arg message|0}{arg cond messages|0 0 3414}",
     },
     "3376": {
         string: "{1 char|}",

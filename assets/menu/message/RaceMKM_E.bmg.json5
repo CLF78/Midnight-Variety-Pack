@@ -1,6 +1,6 @@
 {
     "1409": {
-        "string": "{arg message|0}{arg message|1}{arg string|0} Team VS Race - {arg integer|0 0} of {arg integer|1 0}",
+        "string": "{arg message|0}{arg cond messages|2 0 1420} Team VS Race - {arg integer|0 0} of {arg integer|1 0}",
     },
     "1410": {
         "string": "{arg message|0} - 1st Race",
@@ -15,13 +15,13 @@
         "string": "{arg message|0} - Final Race",
     },
     "1414": {
-        "string": "{arg message|0}{arg message|1}{arg string|0} VS Race - {arg integer|0 0} of {arg integer|1 0}",
+        "string": "{arg message|0}{arg cond messages|2 0 1420} VS Race - {arg integer|0 0} of {arg integer|1 0}",
     },
     "1421": {
         "string": "{arg message|0}",
     },
     "1422": {
-        "string": "{arg message|0}{arg message|1}{arg string|0} VS Race",
+        "string": "{arg message|0}{arg cond messages|0 0 1420} VS Race",
     },
     "1427": {
         "string": "{1 char|}",

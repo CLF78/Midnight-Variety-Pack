@@ -90,13 +90,8 @@ kmPointerDefCpp(0x808DA590, void, DemoPage* self) {
                 break;
         }
 
-        // Set the mirror argument
-        if (raceSettings->modeFlags & RaceConfig::Settings::FLAG_MIRROR) {
-            msgInfo.messageIds[1] = 1420;
-            msgInfo.strings[0] = L" ";
-        }
-
-        // Update the race number and insert it into the message together with the race count
+        // Update the race number and insert it into the message together with race count and mirror word
+        msgInfo.setCondMessageValue(2, raceSettings->modeFlags & RaceConfig::Settings::FLAG_MIRROR != 0, true);
         msgInfo.intVals[0] = ++globalCtx->currentRace;
         msgInfo.intVals[1] = globalCtx->raceCount;
 
