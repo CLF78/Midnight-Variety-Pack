@@ -52,7 +52,6 @@ int ParseKickMessage(GPConnection conn, char* data) {
         return 0;
 
     // Obtain the kick type
-    // TODO get kick message and store it (unused feature at the moment)
     strshift(kickCmd, KICK_MSG);
     u32 kickType = strtoul(kickCmd, nullptr, 10);
 

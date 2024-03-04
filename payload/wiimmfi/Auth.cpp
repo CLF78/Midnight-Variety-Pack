@@ -97,9 +97,6 @@ void AppendAuthParameters(NHTTPReq* req) {
         NHTTPAddPostDataAscii(req, "_upnpport", b64UserPort);
     }
 
-    // TODO:
-    // - UPNP Settings (most likely unneeded)
-    // - Reconnect data
     UNIGNORE_ERR(167)
 }
 
