@@ -3,6 +3,7 @@
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/page/FriendRoomJoinPage.hpp>
 #include <nw4r/ut/Lock.hpp>
+#include <revolution/vi.h>
 #include <revolutionex/net/NETDigest.h>
 #include <wiimmfi/Kick.hpp>
 #include <wiimmfi/Natneg.hpp>
@@ -76,4 +77,17 @@ kmBranchDefCpp(0x80658610, NULL, void, RKNetController* self, u32 aid, RKNetRACE
         FriendRoomJoinPage* page = FriendRoomJoinPage::getPage();
         if (page) page->forceConnectionError();
     }
+}
+
+/////////////////////////////////
+// Wiimmfi Telemetry / Various //
+/////////////////////////////////
+
+// RKNetController::mainNetworkLoop() patch
+// Main Wiimmfi update function
+// Credits: Wiimmfi
+kmCallDefCpp(0x806579B0, void) {
+
+    // Original call
+    VIWaitForRetrace();
 }

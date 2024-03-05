@@ -246,6 +246,7 @@ s64 DWCi_GetNextMeshMakeTryTick();
 BOOL DWCi_StopMeshMaking();
 
 extern DWCMatchControl* stpMatchCnt;
+extern s64 sMatchStateTick;
 
 #ifdef __cplusplus
 }

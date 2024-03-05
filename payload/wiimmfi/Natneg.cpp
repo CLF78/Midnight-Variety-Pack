@@ -348,7 +348,7 @@ bool PreventRepeatNATNEGFail(u32 failedPid) {
 
     // Define an array to store the PIDs who have already failed NATNEG
     // Q: Can't we just check the nnRetryCount variable in the corresponding DWCNodeInfo?
-    static u32 failedPids[10], failedPidsIdx;
+    static u32 sFailedPids[10], sFailedPidsIdx;
 
     // Only run the check for the host
     if (!DWC_IsServerMyself())
@@ -359,14 +359,14 @@ bool PreventRepeatNATNEGFail(u32 failedPid) {
         return false;
 
     // If the PID is already in the list, do not count the failed attempt
-    for (int i = 0; i < ARRAY_SIZE(failedPids); i++) {
-        if (failedPids[i] == failedPid)
+    for (int i = 0; i < ARRAY_SIZE(sFailedPids); i++) {
+        if (sFailedPids[i] == failedPid)
             return false;
     }
 
     // Store the PID in the list through a rolling counter and count the attempt
-    if (failedPidsIdx == ARRAY_SIZE(failedPids)) { failedPidsIdx = 0; }
-    failedPids[failedPidsIdx++] = failedPid;
+    if (sFailedPidsIdx == ARRAY_SIZE(sFailedPids)) { sFailedPidsIdx = 0; }
+    sFailedPids[sFailedPidsIdx++] = failedPid;
     return true;
 }
 
@@ -427,6 +427,30 @@ void RecoverSynAckTimeout() {
 
     // Restore the SYN send time
     stpMatchCnt->lastSynSent = lastSendTime;
+}
+
+void StopNATNEGAfterTime() {
+
+    // If at least 11 seconds haven't passed since the last state change, bail
+    if (OSTicksToSeconds(OSGetTime() - sMatchStateTick) <= 11)
+        return;
+
+    // If we are the host, bail
+    if (DWC_IsServerMyself())
+        return;
+
+    // If we are not in a NATNEG state, bail
+    int state = stpMatchCnt->state;
+    if (state != DWC_MATCH_STATE_CL_WAIT_RESV &&
+        state != DWC_MATCH_STATE_CL_NN &&
+        state != DWC_MATCH_STATE_CL_GT2)
+            return;
+
+    // Stop NATNEG and change state if necessary
+    BOOL ret = DWCi_StopMeshMaking();
+    // OSReport("[LE-CODE]: [natneg-ng]: StopMeshMaking = %d\n", ret);
+    if (ret)
+        DWCi_SetMatchStatus(DWC_MATCH_STATE_CL_WAITING);
 }
 
 UNIGNORE_ERR(144)

@@ -1,5 +1,8 @@
 #include <common/Common.hpp>
 #include <dwc/dwc_base64.h>
+#include <dwc/dwc_main.h>
+#include <dwc/dwc_match.h>
+#include <game/net/RKNetController.hpp>
 #include <game/net/packet/RKNetRoomPacket.hpp>
 #include <game/system/CourseMap.hpp>
 #include <game/system/MultiDvdArchive.hpp>
@@ -17,6 +20,8 @@
 
 namespace Wiimmfi {
 namespace Reporting {
+
+u32 sNodeCount;
 
 void* GetSubfileHash(const char* path, int src, char* hash) {
 
@@ -38,6 +43,40 @@ void* GetSubfileHash(const char* path, int src, char* hash) {
 
     // Return the file pointer anyway
     return file;
+}
+
+void ReportAIDPIDMap() {
+
+    // If we are not in a match, bail
+    int state = RKNetController::instance->connState;
+    if (state != RKNetController::STATE_UNK_5 && state != RKNetController::STATE_MATCHING)
+        return;
+
+    // Allocate the buffers and set them to the default base value
+    const int BUFFER_SIZE = sizeof("12=4294967295,") * 12 + 1;
+    static char sAidPidMap[BUFFER_SIZE] = ",";
+    char aidPidMap[BUFFER_SIZE];
+
+    // Insert a single comma if there are no nodes
+    if (stpMatchCnt->nodeInfoList.nodeCount == 0)
+        strcpy(aidPidMap, ",");
+
+    // Create the data string
+    char* mapPtr = aidPidMap;
+    for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
+
+        // Get the node info, print it and update the offset
+        DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];
+        int len = sprintf(mapPtr, "%d=%d,", node->aid, node->profileId);
+        mapPtr += len;
+    }
+
+    // If the data differs, send an update to the server
+    if (strcmp(sAidPidMap, aidPidMap))
+        Status::SendMessage("slot_pid_matrix", aidPidMap, stpMatchCnt->nodeInfoList.nodeCount);
+
+    // Copy the updated data
+    strcpy(sAidPidMap, aidPidMap);
 }
 
 void ReportConnectionMatrix(u32 aidsConnectedToMe) {
@@ -194,15 +233,74 @@ void ReportFriendRoomStart(RKNetROOMPacket* packet) {
         Status::SendMessage("friend_event_start", "3", packet->param1);
 }
 
+void ReportHostSlotChange() {
+
+    // Get the two AID values to compare
+    static u8 sHostAid = -1;
+    u8 hostAid = DWC_GetServerAID();
+
+    // If it has changed, report it
+    if (sHostAid != hostAid)
+        Status::SendMessage("host_slot", "", hostAid);
+
+    // Update the value so this doesn't run again next frame
+    sHostAid = hostAid;
+}
+
+void ReportMatchStateChange() {
+
+    // Initialize data
+    // Q: Why not use the existing debug strings instead of making these?
+    static int sMatchState = -1;
+    static const char* sMatchStateStrings[DWC_MATCH_STATE_COUNT] = {
+        "init",
+        "cl_waiting",
+        "cl_search_host",
+        "cl_wait_resv",
+        "cl_nn",
+        "cl_gt2",
+        "cl_cancel_syn",
+        "cl_syn",
+        "cl_svdown_1",
+        "cl_svdown_2",
+        "cl_svdown_3",
+        "cl_search_groupid_host",
+        "sv_waiting",
+        "sv_own_nn",
+        "sv_own_gt2",
+        "sv_cancel_syn",
+        "sv_cancel_syn_wait",
+        "sv_syn",
+        "sv_syn_wait",
+        "wait_close",
+        "search_own",
+    };
+
+    // If the state has not changed, bail
+    int matchState = stpMatchCnt->state;
+    if (matchState == sMatchState)
+        return;
+
+    // Send message
+    Status::SendMessage("dwc_match_state", sMatchStateStrings[matchState], matchState);
+
+    // If we have just become the host, force a suspend update report by setting the node count to 0
+    if (sMatchState < DWC_MATCH_STATE_SV_WAITING && matchState >= DWC_MATCH_STATE_SV_WAITING)
+        sNodeCount = 0;
+
+    // Update stored state
+    sMatchState = matchState;
+}
+
 void ReportRaceStage(u32 stage) {
 
     // Check that the current stage isn't already the new one
-    static u32 currStage;
-    if (currStage == stage)
+    static u32 sCurrStage;
+    if (sCurrStage == stage)
         return;
 
     // Update it and report it otherwise
-    currStage = stage;
+    sCurrStage = stage;
     Status::SendMessage("race_status", "", stage);
 }
 
@@ -251,6 +349,35 @@ void ReportSignatureAndCert() {
         Status::SendMessage("xy_sg", "invalid", ret);
         Status::SendMessage("xy_ct", "invalid", ret);
     }
+}
+
+void ReportSuspendUpdate() {
+
+    // Get suspend mask
+    static u32 sSuspendMask;
+    u32 suspendMask = stpMatchCnt->suspendMatchBitmap;
+
+    // If the suspend mask or the node count haven't been updated, bail
+    if (suspendMask == sSuspendMask && sNodeCount == stpMatchCnt->nodeInfoList.nodeCount)
+        return;
+
+    // If we are not the host, bail
+    if (!DWC_IsServerMyself())
+        return;
+
+    // For each aid, set 1 if suspended, 0 if it isn't suspended and the node exists, else "-"
+    char buffer[13] = "------------";
+    for (int i = 0; i < 12; i++) {
+        if (suspendMask & (1 << i))
+            buffer[i] = '1';
+        else if (DWCi_NodeInfoList_GetNodeInfoForAid(i))
+            buffer[i] = '0';
+    }
+
+    // Send report and update stored data
+    Status::SendMessage("host_suspend_bitmask", buffer);
+    sSuspendMask = suspendMask;
+    sNodeCount = stpMatchCnt->nodeInfoList.nodeCount;
 }
 
 void ReportTrackHash(u32* hash, u8 courseId) {

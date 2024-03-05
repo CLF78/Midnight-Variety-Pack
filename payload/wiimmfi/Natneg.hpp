@@ -27,5 +27,8 @@ namespace Natneg {
     // Attempt to recover from a SYN-ACK timeout (i think)
     void RecoverSynAckTimeout();
 
+    // Stops NATNEG after a certain amount of time has passed (only applies to guests)
+    void StopNATNEGAfterTime();
+
 } // namespace Natneg
 } // namespace Wiimmfi

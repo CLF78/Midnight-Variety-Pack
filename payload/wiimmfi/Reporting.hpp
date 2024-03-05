@@ -20,6 +20,9 @@ namespace Reporting {
     // Reports the battle results - UNUSED
     // void ReportBattleResults();
 
+    // Reports the AID to PID map when it changes
+    void ReportAIDPIDMap();
+
     // Reports various Common.szs subfiles that can be modified for cheating
     void ReportCommonSubfiles();
 
@@ -35,17 +38,26 @@ namespace Reporting {
     // Reports a room start
     void ReportFriendRoomStart(RKNetROOMPacket* packet);
 
+    // Reports the AID of the host when it changes
+    void ReportHostSlotChange();
+
+    // Reports a match state change, if it has happened
+    void ReportMatchStateChange();
+
     // Reports the race stage
     void ReportRaceStage(u32 stage);
 
     // Reports host disconnections
     void ReportServerDown(u32 cmd, u32 pid, u32* data);
 
-    // Reports the given track SHA1 hash
-    void ReportTrackHash(u32* hash, u8 courseId);
-
     // Reports the console signature and certificate
     void ReportSignatureAndCert();
+
+    // Reports NATNEG suspend updates
+    void ReportSuspendUpdate();
+
+    // Reports the given track SHA1 hash
+    void ReportTrackHash(u32* hash, u8 courseId);
 
 } // namespace Reporting
 } // namespace Wiimmfi
