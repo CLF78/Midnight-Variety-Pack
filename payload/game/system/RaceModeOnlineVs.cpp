@@ -7,11 +7,6 @@
 // Time Limit Modifier / Wiimmfi Kicking //
 ///////////////////////////////////////////
 
-// Reset the end race bool
-kmListHookDefCpp(RaceStartHook) {
-    Wiimmfi::Kick::sMustEndRace = false;
-}
-
 // RaceModeOnlineVs::calc() patch
 // Add extra conditions to end the race
 // Credits: Chadderz, Wiimmfi

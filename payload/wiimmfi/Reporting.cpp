@@ -22,6 +22,12 @@ namespace Wiimmfi {
 namespace Reporting {
 
 u32 sNodeCount;
+u32 sTargetFrameCount;
+
+// Reset the target frame count value
+kmListHookDefCpp(RaceStartHook) {
+    sTargetFrameCount = 0;
+}
 
 void* GetSubfileHash(const char* path, int src, char* hash) {
 
@@ -226,6 +232,38 @@ void ReportFinishTime(u8 playerIdx) {
 
     // Send message
     Status::SendMessage("finish", buffer, timer);
+}
+
+void _ReportFrameCount(u32 frameCount, int profileId) {
+
+    // Only include the PID in the report if the value is not -1
+    if (profileId != -1) {
+        char buffer[16];
+        snprintf(buffer, sizeof(buffer), "%d", profileId);
+        Status::SendMessage("frame_count", buffer, frameCount);
+
+    } else
+        Status::SendMessage("frame_count", "", frameCount);
+}
+
+void ReportFrameCount(u32 frameCount, int profileId) {
+
+    // NOTE: This function is implemented this way due to the frame counter sometimes being inaccurate
+    // Do not send anything if the frame counter hasn't been started
+    if (frameCount == 0)
+        return;
+
+    // If the target frame is zero this is the first frame, send a message and repeat when countdown ends
+    else if (sTargetFrameCount == 0) {
+        _ReportFrameCount(frameCount, profileId);
+        sTargetFrameCount = 240;
+    }
+
+    // The target has been reached, send a message and repeat in 10 seconds
+    else if (RaceManager::instance->frameCounter > sTargetFrameCount) {
+        _ReportFrameCount(frameCount, (sTargetFrameCount == 240) ? profileId : -1);
+        sTargetFrameCount += 600;
+    }
 }
 
 void ReportFriendRoomStart(RKNetROOMPacket* packet) {

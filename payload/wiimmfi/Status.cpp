@@ -16,6 +16,12 @@ char* sToken;
 char sScrambledToken[96];
 const int OFFSET = 0x20;
 
+// Delete the token at network shutdown
+kmListHookDefCpp(NetShutdownHook) {
+    if (sToken)
+        delete sToken;
+}
+
 void DecodeToken(const char* encodedToken) {
 
     // Get the decoded token size

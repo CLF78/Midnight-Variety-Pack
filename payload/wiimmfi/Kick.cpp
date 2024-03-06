@@ -11,6 +11,11 @@ namespace Kick {
 u32 sAidsToBeKicked = 0;
 bool sMustEndRace = false;
 
+// Reset the end race bool
+kmListHookDefCpp(RaceStartHook) {
+    sMustEndRace = false;
+}
+
 void ScheduleForAID(int aid) {
     DEBUG_REPORT("[WIIMMFI_KICK] Scheduled kick for aid %d\n", aid)
     sAidsToBeKicked |= (1 << aid);

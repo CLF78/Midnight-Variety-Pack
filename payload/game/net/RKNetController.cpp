@@ -38,18 +38,6 @@ kmCallDefCpp(0x80657990, void, RKNetController* self) {
     Wiimmfi::Natneg::CalcTimers(false);
 }
 
-/////////////////////
-// Network Cleanup //
-/////////////////////
-
-// Hook network shutdown to do some cleanup
-kmListHookDefCpp(NetShutdownHook) {
-
-    // Delete the Wiimmfi messaging token
-    if (Wiimmfi::Status::sToken)
-        delete Wiimmfi::Status::sToken;
-}
-
 /////////////
 // RCE Fix //
 /////////////
@@ -64,7 +52,7 @@ kmBranchDefCpp(0x80658610, NULL, void, RKNetController* self, u32 aid, RKNetRACE
         return;
 
     // Verify the checksum
-    // The game already does this later, but we shouldn't disconnect a player because a the packet got corrupted
+    // The game already does this later, but we shouldn't disconnect a player because a packet got corrupted
     u32 savedChecksum = data->checksum;
     data->checksum = 0;
     u32 realChecksum = NETCalcCRC32(data, dataLength);

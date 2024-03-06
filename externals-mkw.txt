@@ -17,6 +17,7 @@ __construct_new_array=0x80020E34
 strlen=0x80021254
 __register_global_object=0x80021338
 __ptmf_scall=0x80021450
+__cvt_fp2unsigned=0x80021478
 __div2i=0x800216F0
 Console_DrawDirect__Q24nw4r2dbFPQ34nw4r2db11ConsoleHead=0x80022AB0
 Console_GetTotalLines__Q24nw4r2dbFPQ34nw4r2db11ConsoleHead=0x800230E0
