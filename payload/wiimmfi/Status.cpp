@@ -65,10 +65,6 @@ void ScrambleMessage(char* msg, int msgLen) {
 
 void SendMessage(const char* key, const char* value, int integerValue) {
 
-    // Disable interrupts
-    // Q: Why is this necessary?
-    nw4r::ut::AutoInterruptLock lock;
-
     // Check that the match control structure exists
     if (!stpMatchCnt || !stpMatchCnt->gpConnection)
         return;
@@ -81,25 +77,30 @@ void SendMessage(const char* key, const char* value, int integerValue) {
     // Seems like this prevents using connections from MEM1, i will leave it out unless issues arise
     // Q: Why would this be necessary?
 
-    // Debug report
-    DEBUG_REPORT("[WIIMMFI-REPORT] %s=%s,%d\n", key, value, integerValue)
-
     // Print the message to the buffer
+    DEBUG_REPORT("[WIIMMFI_REPORT] %s=%s,%d\n", key, value, integerValue)
     char buffer[599];
     int len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\",
                        key, integerValue, value);
 
     // If the printed string did not fit in the buffer, bail
-    if (len > sizeof(buffer))
+    if (len > sizeof(buffer)) {
+        DEBUG_REPORT("[WIIMMFI_REPORT] Message length exceeded buffer (size=%d), discarding\n", len)
         return;
+    }
 
     // Another weird check here:
     // if (buffer + 4 > buffer + len - 7) quit (doing (len < 11) was obviously too difficult)
     // Either way this will never be true because the format string is longer, so i'm leaving it out
 
-    // Scramble the message and send it
+    // Scramble the message
     ScrambleMessage(buffer + sizeof("\\xy\\")-1, len - sizeof("\\final\\"));
-    gpiAppendStringToBuffer(conn, &(*conn)->outputBuffer, buffer);
+
+    // Lock interrupts and append message
+    {
+        nw4r::ut::AutoInterruptLock lock;
+        gpiAppendStringToBuffer(conn, &(*conn)->outputBuffer, buffer);
+    }
 }
 
 } // namespace Status

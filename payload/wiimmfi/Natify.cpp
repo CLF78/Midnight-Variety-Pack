@@ -20,7 +20,7 @@ void Callback(BOOL success, NAT* theNat) {
     sDoingNatify = false;
     if (success) {
 
-        DEBUG_REPORT("[LE-CODE]: NATify done for pid %d\n", stpMatchCnt->profileId)
+        DEBUG_REPORT("[NATIFY] NATify done for pid %d\n", stpMatchCnt->profileId)
         sNatifyData.profileId = stpMatchCnt->profileId;
         sNatifyData.portRestricted = nat.portRestricted;
         sNatifyData.ipRestricted = nat.ipRestricted;

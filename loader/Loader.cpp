@@ -29,7 +29,7 @@ void Load(const Functions* funcs, u32 binary, u32 binaryLength) {
     u32 bssSize = header->bssSize;
     u32 ctorStart = header->ctorStart;
     u32 ctorEnd = header->ctorEnd;
-    LOADER_DEBUG_REPORT(funcs, "header: bssSize=%u, codeSize=%u, ctors=%u-%u\n",
+    LOADER_DEBUG_REPORT(funcs, "[KAMEK] Header: bssSize=%u, codeSize=%u, ctors=%u-%u\n",
                         bssSize, codeSize, ctorStart, ctorEnd)
 
     // Allocate text + bss section buffer, bail on failure
@@ -83,7 +83,8 @@ void LoadFromDisc(const Functions* funcs, const char* path) {
     if (!funcs->DVDFastOpen(entrynum, &fileInfo))
         Error(funcs, "FATAL ERROR: Failed to open file!");
 
-    LOADER_DEBUG_REPORT(funcs, "DVD file located: addr=%p, size=%d\n", fileInfo.startAddr, fileInfo.length);
+    LOADER_DEBUG_REPORT(funcs, "[KAMEK] DVD file located: addr=%p, size=%d\n",
+                        fileInfo.startAddr, fileInfo.length);
 
     // Allocate read buffer
     u32 roundedLength = OSRoundUp32B(fileInfo.length);

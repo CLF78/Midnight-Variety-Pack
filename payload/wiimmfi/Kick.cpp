@@ -12,10 +12,12 @@ u32 sAidsToBeKicked = 0;
 bool sMustEndRace = false;
 
 void ScheduleForAID(int aid) {
+    DEBUG_REPORT("[WIIMMFI_KICK] Scheduled kick for aid %d\n", aid)
     sAidsToBeKicked |= (1 << aid);
 }
 
 void ScheduleForEveryone() {
+    DEBUG_REPORT("[WIIMMFI_KICK] Scheduled kick for all aids\n")
     sAidsToBeKicked = 0xFFFFFFFF;
 }
 
@@ -27,6 +29,7 @@ void CalcKick() {
 
     // Lock interrupts
     nw4r::ut::AutoInterruptLock lock;
+    DEBUG_REPORT("[WIIMMFI_KICK] Running kick task with aids %X\n", sAidsToBeKicked)
 
     // If the bitfield is full, close all connections immediately
     if (sAidsToBeKicked == 0xFFFFFFFF)
@@ -49,40 +52,51 @@ int ParseKickMessage(GPConnection conn, char* data) {
     // If the kick command isn't found, bail
     char* kickCmd = strstr(data, KICK_MSG);
     if (!kickCmd)
-        return 0;
+        return GP_ERROR_NONE;
 
     // Obtain the kick type
     strshift(kickCmd, KICK_MSG);
     u32 kickType = strtoul(kickCmd, nullptr, 10);
+    DEBUG_REPORT("[WIIMMFI_KICK] Received kick type ", kickType)
 
     // Act based on the kick type
     switch (kickType) {
 
         // Use CloseConnectionHard to kick everyone (HOST ONLY)
         case EVERYONE:
+            DEBUG_REPORT("EVERYONE\n")
             if (stpMatchCnt && stpMatchCnt->nodeInfoList.nodeCount > 1 && DWC_IsServerMyself())
                 ScheduleForEveryone();
+            else
+                DEBUG_REPORT("But ignored.\n")
             break;
 
         // Pretend to cause a network error and kick ourselves
         case SELF:
+            DEBUG_REPORT("SELF\n")
             DWCi_HandleGPError(GP_ERROR_NETWORK);
-            return 1;
+            return GP_ERROR_MEMORY;
 
         // Force end the race
         case END_RACE:
+            DEBUG_REPORT("END_RACE\n")
             sMustEndRace = true;
             break;
 
         // Kick a specific player (HOST ONLY)
         case SPECIFIC_PLAYER:
-            if (!DWC_IsServerMyself())
+            DEBUG_REPORT("PLAYER\n")
+            if (!DWC_IsServerMyself()) {
+                DEBUG_REPORT("But ignored (not host).\n")
                 break;
+            }
 
             // Get the kickpid parameter, if not found bail
             char* pidKickParam = strstr(kickCmd, KICK_MSG_PARAM_PID);
-            if (!pidKickParam)
+            if (!pidKickParam) {
+                DEBUG_REPORT("But ignored (no PID).\n")
                 break;
+            }
 
             // Shift the string and read the pid to an integer
             strshift(pidKickParam, KICK_MSG_PARAM_PID);
@@ -93,10 +107,15 @@ int ParseKickMessage(GPConnection conn, char* data) {
             DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForProfileId(pidToKick);
             if (node)
                 ScheduleForAID(node->aid);
+            else
+                DEBUG_REPORT("But ignored (no AID).\n")
             break;
+
+        default:
+            DEBUG_REPORT("UNKNOWN (%d)\n", kickType);
     }
 
-    return 0;
+    return GP_ERROR_NONE;
 }
 
 } // namespace Kick

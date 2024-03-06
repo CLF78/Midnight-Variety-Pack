@@ -42,6 +42,6 @@ struct Functions {
 void Load(const Functions* funcs, u32 binary, u32 binaryLength);
 void LoadFromDisc(const Functions* funcs, const char* path);
 void Error(const Functions* funcs, const char* msg);
-#define LOADER_DEBUG_REPORT(funcs, c, ...) if (DEBUG) { funcs->OSReport(c, __VA_ARGS__); }
+#define LOADER_DEBUG_REPORT(funcs, ...) if (DEBUG) { funcs->OSReport(__VA_ARGS__); }
 
 } // namespace Loader

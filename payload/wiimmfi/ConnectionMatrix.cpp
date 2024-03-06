@@ -22,13 +22,13 @@ void ResetRecv() {
 
 void Update() {
 
-    // Lock interrupts
-    // Q: Why is this needed?
-    nw4r::ut::AutoInterruptLock lock;
-
     // Failsafe
     if (!stpMatchCnt)
         return;
+
+    // Lock interrupts
+    // Q: Why is this needed?
+    nw4r::ut::AutoInterruptLock lock;
 
     // Compute the connection matrix
     // Q: Can DWC_GetDirectConnectedAIDBitmap() be used here?
