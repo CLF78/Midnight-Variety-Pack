@@ -81,6 +81,9 @@ void SendMessage(const char* key, const char* value, int integerValue) {
     // Seems like this prevents using connections from MEM1, i will leave it out unless issues arise
     // Q: Why would this be necessary?
 
+    // Debug report
+    DEBUG_REPORT("[WIIMMFI-REPORT] %s=%s,%d\n", key, value, integerValue)
+
     // Print the message to the buffer
     char buffer[599];
     int len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\",

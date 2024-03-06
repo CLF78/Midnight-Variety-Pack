@@ -6,7 +6,6 @@
 #include <gs/natneg/natify.h>
 #include <gs/natneg/natneg.h>
 #include <platform/string.h>
-#include <revolution/os/OS.h>
 #include <wiimmfi/Natify.hpp>
 
 namespace Wiimmfi {
@@ -21,7 +20,7 @@ void Callback(BOOL success, NAT* theNat) {
     sDoingNatify = false;
     if (success) {
 
-        // OSReport("[LE-CODE]: NATify done for pid %d\n", stpMatchCnt->profileId);
+        DEBUG_REPORT("[LE-CODE]: NATify done for pid %d\n", stpMatchCnt->profileId)
         sNatifyData.profileId = stpMatchCnt->profileId;
         sNatifyData.portRestricted = nat.portRestricted;
         sNatifyData.ipRestricted = nat.ipRestricted;

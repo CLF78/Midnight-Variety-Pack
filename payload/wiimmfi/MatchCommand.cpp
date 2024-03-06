@@ -14,38 +14,6 @@ namespace Wiimmfi {
 namespace MatchCommand {
 IGNORE_ERR(144)
 
-void ConnectToNode(int nodeIdx) {
-
-    // Get the corresponding node info
-    DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[nodeIdx];
-    u8 aid = node->aid;
-    int pid = node->profileId;
-
-    // Convert the IP and port to a string
-    const char* ipAddr = gt2AddressToString(node->publicip, node->publicport, nullptr);
-
-    // Debug report
-    // OSReport("[LE-CODE]:   [%02d] aid = %d, pid = %d, addr = %s\n", nodeIdx, aid, pid, ipAddr);
-
-    // Set up the message buffer and write to it
-    char buffer[24];
-    memset(buffer, 0, sizeof(buffer));
-    snprintf(buffer, sizeof(buffer), "%u%s", stpMatchCnt->profileId, "L");
-
-    // Connect to the node
-    IGNORE_ERR(304)
-    GT2Connection conn;
-    GT2Result ret = gt2Connect(*stpMatchCnt->gt2Socket, &conn, ipAddr, buffer,
-                               -1, 2000, stpMatchCnt->gt2Callbacks, 0);
-
-    // If it was successful, store the AID in the custom field
-    // Increase value by 1 to leave 0 as sentinel value
-    if (ret == GT2_RESULT_SUCCESS)
-        conn->aid = aid + 1;
-
-    UNIGNORE_ERR(304)
-}
-
 void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPort, DWCMatchCommandConnFailMtx* data, int dataLen) {
 
     // Only process the command if we are waiting

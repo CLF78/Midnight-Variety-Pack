@@ -29,7 +29,8 @@ void Load(const Functions* funcs, u32 binary, u32 binaryLength) {
     u32 bssSize = header->bssSize;
     u32 ctorStart = header->ctorStart;
     u32 ctorEnd = header->ctorEnd;
-    funcs->OSReport("header: bssSize=%u, codeSize=%u, ctors=%u-%u\n", bssSize, codeSize, ctorStart, ctorEnd);
+    LOADER_DEBUG_REPORT(funcs, "header: bssSize=%u, codeSize=%u, ctors=%u-%u\n",
+                        bssSize, codeSize, ctorStart, ctorEnd)
 
     // Allocate text + bss section buffer, bail on failure
     u32 textSize = codeSize + bssSize;
@@ -82,7 +83,7 @@ void LoadFromDisc(const Functions* funcs, const char* path) {
     if (!funcs->DVDFastOpen(entrynum, &fileInfo))
         Error(funcs, "FATAL ERROR: Failed to open file!");
 
-    funcs->OSReport("DVD file located: addr=%p, size=%d\n", fileInfo.startAddr, fileInfo.length);
+    LOADER_DEBUG_REPORT(funcs, "DVD file located: addr=%p, size=%d\n", fileInfo.startAddr, fileInfo.length);
 
     // Allocate read buffer
     u32 roundedLength = OSRoundUp32B(fileInfo.length);

@@ -29,7 +29,7 @@ void ConnectToNode(int nodeIdx) {
     const char* ipAddr = gt2AddressToString(node->publicip, node->publicport, nullptr);
 
     // Debug report
-    // OSReport("[LE-CODE]:   [%02d] aid = %d, pid = %d, addr = %s\n", nodeIdx, aid, pid, ipAddr);
+    DEBUG_REPORT("[LE-CODE]:   [%02d] aid = %d, pid = %d, addr = %s\n", nodeIdx, aid, pid, ipAddr)
 
     // Set up the message buffer and write to it
     char buffer[24];
@@ -448,7 +448,7 @@ void StopNATNEGAfterTime() {
 
     // Stop NATNEG and change state if necessary
     BOOL ret = DWCi_StopMeshMaking();
-    // OSReport("[LE-CODE]: [natneg-ng]: StopMeshMaking = %d\n", ret);
+    DEBUG_REPORT("[LE-CODE]: [natneg-ng]: StopMeshMaking = %d\n", ret)
     if (ret)
         DWCi_SetMatchStatus(DWC_MATCH_STATE_CL_WAITING);
 }

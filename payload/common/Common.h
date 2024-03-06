@@ -67,3 +67,4 @@ typedef void (*Func)();
 #include <kamek/hooks.h>
 #include <kamek/gekko.h>
 #include <midnight/config.h>
+#include <revolution/os/OSLog.h>

@@ -10,6 +10,16 @@
 #include <wiimmfi/Security.hpp>
 #include <wiimmfi/Status.hpp>
 
+/////////////////////
+// Debug Reporting //
+/////////////////////
+
+// RKNetController::Connect() patch
+// Print DWC debug messages to the console
+#if DEBUG
+kmWrite16(0x80658BE6, 0xFFFF);
+#endif
+
 /////////////////
 // Fast NATNEG //
 /////////////////

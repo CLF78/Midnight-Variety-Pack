@@ -50,6 +50,7 @@ SYMBOL_FILE = Path(ROOT_DIR, 'externals-mkw.txt')
 LOCALES = ['E', 'F', 'G', 'I', 'J', 'K', 'M', 'Q', 'S', 'U']
 REGIONS = ['P', 'E', 'J', 'K']
 LOADER_HOOK_ADDR = 0x80004010
+IS_DEBUG = False
 
 ##################
 # Mod Components #
@@ -277,11 +278,15 @@ UI_ASSETS = {
 # Parse Arguments and Additional Checks #
 #########################################
 
-if len(sys.argv) > 1 and sys.argv[1] == '--clean':
-    shutil.rmtree(BUILD_DIR, ignore_errors=True)
-    shutil.rmtree(OUT_DIR.parent, ignore_errors=True)
-    CUP_DATA_OUT_FILE.unlink(True)
-    CUP_DATA_COUNT_FILE.unlink(True)
+for arg in sys.argv:
+    if arg == '--clean':
+        shutil.rmtree(BUILD_DIR, ignore_errors=True)
+        shutil.rmtree(OUT_DIR.parent, ignore_errors=True)
+        CUP_DATA_OUT_FILE.unlink(True)
+        CUP_DATA_COUNT_FILE.unlink(True)
+    elif arg == '--debug':
+        IS_DEBUG = True
+
 
 ###################
 # Write Variables #
@@ -310,7 +315,7 @@ writer.rule('cup_builder',
             deps='gcc')
 
 writer.rule('cw',
-            command='$cc $cflags -c -DCODE_REGION=$region -o $out_conv -MDfile $out.d $in_conv',
+            command=f'$cc $cflags -c -DCODE_REGION=$region -DDEBUG={int(IS_DEBUG)} -o $out_conv -MDfile $out.d $in_conv',
             depfile='$out.d',
             description='Compile $in_short ($region_id)')
 

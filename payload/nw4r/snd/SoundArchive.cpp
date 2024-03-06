@@ -1,7 +1,6 @@
 #include <common/Common.hpp>
 #include <midnight/SoundExpansion.hpp>
 #include <nw4r/snd/DvdSoundArchive.hpp>
-#include <revolution/os/OS.h>
 #include <platform/new.hpp>
 
 namespace nw4r {

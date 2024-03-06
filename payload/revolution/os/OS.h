@@ -14,9 +14,6 @@ BOOL OSDisableInterrupts();
 BOOL OSEnableInterrupts();
 BOOL OSRestoreInterrupts(BOOL interrupts);
 
-// Report API
-void OSReport(char* format, ...);
-
 // Clock API
 #define OS_BUS_CLOCK __OSBusClockSpeed
 #define OS_TIMER_CLOCK (OS_BUS_CLOCK / 4)

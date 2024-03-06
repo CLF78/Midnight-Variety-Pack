@@ -5,7 +5,6 @@
 #include <platform/string.h>
 #include <revolution/base/PPCArch.h>
 #include <revolution/es/es.h>
-#include <revolution/os/OS.h>
 #include <revolutionex/nhttp/NHTTP.h>
 #include <midnight/DolphinDevice.hpp>
 #include <wiimmfi/Auth.hpp>
