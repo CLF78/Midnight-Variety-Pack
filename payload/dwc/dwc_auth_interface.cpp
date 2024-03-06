@@ -31,8 +31,10 @@ kmCallDefCpp(0x800EDEE8, void, NHTTPReq* req, const char* key, const char* val) 
 kmCallDefCpp(0x800EE098, const char*) {
 
     // Check if we're on Dolphin and use the dedicated IOCTL if so
-    if (DolphinDevice::Open())
-        return DolphinDevice::GetRealProductCode();
+    if (DolphinDevice::IsOpen()) {
+        const char* prodCode = DolphinDevice::GetRealProductCode();
+        return (prodCode != nullptr) ? prodCode : SCGetProductCode();
+    }
 
     // Else just call the original function
     return SCGetProductCode();

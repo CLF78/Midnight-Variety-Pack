@@ -3,25 +3,31 @@
 
 namespace DolphinDevice {
 
-s32 sDevDolphin = -1;
-ALIGN(32) char sVersionBuffer[64]; // Must be aligned by 32 and multiple of 32 bytes 
-ALIGN(32) char sProdCodeBuffer[6]; // Must be aligned by 32
+s32 sDevDolphin = IOS_Open("/dev/dolphin", 0);
+char sVersionBuffer[64];
+char sProdCodeBuffer[6];
 
 bool IsOpen() {
     return sDevDolphin >= 0;
 }
 
-bool Open() {
-    if (sDevDolphin == -1)
-        sDevDolphin = IOS_Open("/dev/dolphin", 0);
-    return IsOpen();
-}
+u32 GetElapsedTime() {
 
-void Close() {
-    if (IsOpen()) {
-        IOS_Close(sDevDolphin);
-        sDevDolphin = -1;
-    }
+    // Check if device is open
+    if (!IsOpen())
+        return 0;
+
+    // Do IOS call
+    u32 milliseconds = 0;
+    IOSIoVector vec = {&milliseconds, sizeof(milliseconds)};
+    s32 result = IOS_Ioctlv(sDevDolphin, GET_ELAPSED_TIME, 0, 1, &vec);
+
+    // Bail on failure
+    if (result != IPC_OK)
+        return 0;
+
+    // Return correct value
+    return milliseconds;
 }
 
 const char* GetVersion() {
@@ -36,7 +42,7 @@ const char* GetVersion() {
         return nullptr;
 
     // Do IOS call
-    ALIGN(32) IOSIoVector vec = {sVersionBuffer, sizeof(sVersionBuffer)};
+    IOSIoVector vec = {sVersionBuffer, sizeof(sVersionBuffer)};
     s32 result = IOS_Ioctlv(sDevDolphin, GET_VERSION, 0, 1, &vec);
 
     // Bail on failure
@@ -63,7 +69,7 @@ const char* GetRealProductCode() {
         return nullptr;
 
     // Do IOS call
-    ALIGN(32) IOSIoVector vec = {sProdCodeBuffer, sizeof(sProdCodeBuffer)};
+    IOSIoVector vec = {sProdCodeBuffer, sizeof(sProdCodeBuffer)};
     s32 result = IOS_Ioctlv(sDevDolphin, GET_REAL_PRODUCT_CODE, 0, 1, &vec);
 
     // Bail on failure

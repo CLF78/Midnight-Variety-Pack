@@ -24,10 +24,8 @@ enum Ioctlv {
     GET_SYSTEM_TIME = 10, // In = None, Out = u64
 };
 
-bool Open();
 bool IsOpen();
-void Close();
-
+u32 GetElapsedTime();
 const char* GetVersion();
 const char* GetRealProductCode();
 
