@@ -30,7 +30,7 @@ public:
     u32 aidsWithNewRaceSettings;
     u32 aidsWithAccurateAidPidMap;
     u32 aidsThatHaveVoted;
-    u8 _3F4[4]; // unused
+    // 4 bytes padding
 
     static RKNetSELECTHandler* instance;
 };

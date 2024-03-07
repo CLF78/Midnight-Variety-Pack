@@ -53,6 +53,9 @@ namespace Reporting {
     // Reports a region change
     void ReportRegionChange();
 
+    // Reports information extracted from the SELECT packet
+    void ReportSELECTInfo();
+
     // Reports host disconnections
     void ReportServerDown(u32 cmd, u32 pid, u32* data);
 

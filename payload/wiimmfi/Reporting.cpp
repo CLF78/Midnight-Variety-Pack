@@ -3,6 +3,7 @@
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
 #include <game/net/RKNetController.hpp>
+#include <game/net/RKNetSelectHandler.hpp>
 #include <game/net/packet/RKNetRoomPacket.hpp>
 #include <game/system/CourseMap.hpp>
 #include <game/system/MultiDvdArchive.hpp>
@@ -15,6 +16,7 @@
 #include <revolution/es/es.h>
 #include <revolutionex/net/NETDigest.h>
 #include <wiimmfi/Auth.hpp>
+#include <wiimmfi/ConnectionMatrix.hpp>
 #include <wiimmfi/Reporting.hpp>
 #include <wiimmfi/Status.hpp>
 
@@ -371,6 +373,40 @@ void ReportRegionChange() {
     char regionData[32];
     snprintf(regionData, sizeof(regionData), "%d|%d", 0, 0);
     Status::SendMessage("region",regionData);
+}
+
+void ReportSELECTInfo() {
+
+    // Get the outgoing packet
+    RKNetSELECTPacket* packet = &RKNetSELECTHandler::instance->sendPacket;
+
+    // Send the packet once we have voted
+    // Add a bool to send the report only once
+    static bool sPacketSent;
+    if (packet->winningVoterAid == 0xFF) {
+        sPacketSent = false;
+        return;
+    }
+
+    if (sPacketSent)
+        return;
+
+    // Prepare message
+    char buffer[300];
+    snprintf(buffer, sizeof(buffer), "driver=%d,%d|vehicle=%d,%d|engine=%d|self=%d|slots=%08x%08x%08x|team=%u",
+             packet->playerData[0].character, packet->playerData[1].character,
+             packet->playerData[0].vehicle, packet->playerData[1].vehicle,
+             packet->engineClass,
+             DWC_GetMyAID(),
+             packet->playerIdToAid.raw[0], packet->playerIdToAid.raw[1], packet->playerIdToAid.raw[2],
+             packet->battleTeamData.raw);
+
+    // Send it
+    Status::SendMessage("select", buffer);
+    sPacketSent = true;
+
+    // Update connection matrix
+    ConnectionMatrix::Update();
 }
 
 void ReportServerDown(u32 cmd, u32 pid, u32* data) {
