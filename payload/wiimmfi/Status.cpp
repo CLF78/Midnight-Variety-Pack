@@ -77,6 +77,10 @@ void SendMessage(const char* key, const char* value, int integerValue) {
 
     // Get connection
     GPConnection conn = stpMatchCnt->gpConnection;
+    if (!*conn) {
+        DEBUG_REPORT("[WIIMMFI_REPORT] Connection not initialized, discarding message\n")
+        return;
+    }
 
     // Here Wiimmfi does some weird check with the connection pointer:
     // if ((u8*)conn + 0x70000210 > 0x50000000) then quit
