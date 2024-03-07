@@ -86,6 +86,11 @@ kmWrite16(0x8011B47A, 80);
 // Credits: Wiimmfi
 kmWrite32(0x8011B4B0, 0x60000000);
 
+// ProcessPingPacket() patch
+// Do not wait the idle time after a successful NATNEG
+// Credits: WiiLink24
+kmWrite16(0x8011BC3A, 0);
+
 /////////////////////////
 // NATify Improvements //
 /////////////////////////
