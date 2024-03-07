@@ -82,11 +82,6 @@ void SendMessage(const char* key, const char* value, int integerValue) {
         return;
     }
 
-    // Here Wiimmfi does some weird check with the connection pointer:
-    // if ((u8*)conn + 0x70000210 > 0x50000000) then quit
-    // Seems like this prevents using connections from MEM1, i will leave it out unless issues arise
-    // Q: Why would this be necessary?
-
     // Print the message to the buffer
     DEBUG_REPORT("[WIIMMFI_REPORT] %s=%s,%d\n", key, value, integerValue)
     char buffer[599];
@@ -98,10 +93,6 @@ void SendMessage(const char* key, const char* value, int integerValue) {
         DEBUG_REPORT("[WIIMMFI_REPORT] Message length exceeded buffer (size=%d), discarding\n", len)
         return;
     }
-
-    // Another weird check here:
-    // if (buffer + 4 > buffer + len - 7) quit (doing (len < 11) was obviously too difficult)
-    // Either way this will never be true because the format string is longer, so i'm leaving it out
 
     // Scramble the message
     ScrambleMessage(buffer + sizeof("\\xy\\")-1, len - sizeof("\\final\\"));

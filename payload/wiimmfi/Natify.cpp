@@ -37,6 +37,7 @@ int CopyData(u8* buffer) {
 }
 
 void Start() {
+    DEBUG_REPORT("[NATIFY] Started NATify procedure\n")
     sDoingNatify = true;
     NNStartNatDetection(Callback);
 }

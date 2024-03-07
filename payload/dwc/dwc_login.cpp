@@ -43,6 +43,9 @@ void DWCi_Acc_SetFlag_DataType(DWCAccFlag* userdata, int type) {
 // Credits: Wiimmfi
 kmBranchDefCpp(0x800D05A8, 0x800D0610, void) {
 
+    // Debug report
+    DEBUG_REPORT("[WIIMMFI] Invalid profile ID detected, requesting new one\n")
+
     // Set state to GPGETINFO (AKA lastname acquisition during GP login)
     stpLoginCnt->state = DWC_LOGIN_STATE_GPGETINFO;
 

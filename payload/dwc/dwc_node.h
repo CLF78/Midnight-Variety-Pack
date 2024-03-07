@@ -34,6 +34,7 @@ typedef struct {
     DWCNodeInfo nodeInfos[32];
 } DWCNodeInfoList;
 
+DWCNodeInfo* DWCi_NodeInfoList_GetServerNodeInfo();
 DWCNodeInfo* DWCi_NodeInfoList_GetNodeInfoForProfileId(int pid);
 DWCNodeInfo* DWCi_NodeInfoList_GetNodeInfoForAid(u8 aid);
 

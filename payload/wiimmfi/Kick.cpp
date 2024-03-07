@@ -54,6 +54,10 @@ void CalcKick() {
 
 int ParseKickMessage(GPConnection conn, char* data) {
 
+    // Ignore kick commands if we don't have the necessary structures
+    if (!stpMatchCnt || stpMatchCnt->nodeInfoList.nodeCount > 1)
+        return GP_ERROR_NONE;
+
     // If the kick command isn't found, bail
     char* kickCmd = strstr(data, KICK_MSG);
     if (!kickCmd)
@@ -70,10 +74,12 @@ int ParseKickMessage(GPConnection conn, char* data) {
         // Use CloseConnectionHard to kick everyone (HOST ONLY)
         case EVERYONE:
             DEBUG_REPORT("EVERYONE\n")
-            if (stpMatchCnt && stpMatchCnt->nodeInfoList.nodeCount > 1 && DWC_IsServerMyself())
-                ScheduleForEveryone();
-            else
-                DEBUG_REPORT("But ignored.\n")
+            if (!DWC_IsServerMyself()) {
+                DEBUG_REPORT("[WIIMMFI_KICK] But ignored (not host).\n")
+                break;
+            }
+
+            ScheduleForEveryone();
             break;
 
         // Pretend to cause a network error and kick ourselves
@@ -92,14 +98,14 @@ int ParseKickMessage(GPConnection conn, char* data) {
         case SPECIFIC_PLAYER:
             DEBUG_REPORT("PLAYER\n")
             if (!DWC_IsServerMyself()) {
-                DEBUG_REPORT("But ignored (not host).\n")
+                DEBUG_REPORT("[WIIMMFI_KICK] But ignored (not host).\n")
                 break;
             }
 
             // Get the kickpid parameter, if not found bail
             char* pidKickParam = strstr(kickCmd, KICK_MSG_PARAM_PID);
             if (!pidKickParam) {
-                DEBUG_REPORT("But ignored (no PID).\n")
+                DEBUG_REPORT("[WIIMMFI_KICK] But ignored (no PID specified).\n")
                 break;
             }
 
@@ -110,10 +116,12 @@ int ParseKickMessage(GPConnection conn, char* data) {
             // Get the node info
             // If it exists, kick the corresponding aid
             DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForProfileId(pidToKick);
-            if (node)
-                ScheduleForAID(node->aid);
-            else
-                DEBUG_REPORT("But ignored (no AID).\n")
+            if (!node) {
+                DEBUG_REPORT("[WIIMMFI_KICK] But ignored (AID not found).\n")
+                break;
+            }
+
+            ScheduleForAID(node->aid);
             break;
 
         default:

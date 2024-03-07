@@ -62,7 +62,7 @@ void CalcTimers(bool connectedToHost) {
     for (int i = 0; i < nodeCount; i++) {
 
         // Get the aid
-        u32 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
+        u8 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
 
         // If i am host, do not use fast NATNEG
         if (DWC_IsServerMyself()) {
@@ -110,8 +110,6 @@ void CalcTimers(bool connectedToHost) {
 }
 
 void StopMeshMaking() {
-
-    // Q: What does this do in practice?
     DWCi_StopMeshMaking();
     DWCi_SetMatchStatus(DWC_IsServerMyself() ? DWC_MATCH_STATE_SV_WAITING : DWC_MATCH_STATE_CL_WAITING);
 }
@@ -161,7 +159,6 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     }
 
     // If the PID is not found, reject the connection attempt
-    // Q: The original callback does not run a check like this. Why is it necessary?
     DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForProfileId(pid);
     if (!node) {
         gt2Reject(conn, "wait2", -1);
@@ -237,7 +234,7 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     // If the connection attempt resulted into a NATNEG error try again in 150 frames
     if (result == GT2_RESULT_NEGOTIATION_ERROR) {
 
-        // Q: Why is the profileId check necessary and why does it use "<=" ?
+        // Q: Why is the profileId check using "<=" ?
         DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForAid(aid);
         if (node && node->profileId <= stpMatchCnt->profileId)
             sTimers[aid] = 150;
@@ -252,12 +249,10 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     }
 
     // If we are still in INIT state, bail
-    // Q: Why is the stpMatchCnt pointer not checked like the game function does?
     if (stpMatchCnt->state == DWC_MATCH_STATE_INIT)
         return;
 
     // If the AID is not found, reject the connection attempt
-    // Q: The original callback does not run a check like this. Why is it necessary?
     DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForAid(aid);
     if (!node)
         return;
@@ -348,7 +343,6 @@ DWCNodeInfo* GetNextMeshMakingNode() {
 bool PreventRepeatNATNEGFail(u32 failedPid) {
 
     // Define an array to store the PIDs who have already failed NATNEG
-    // Q: Can't we just check the nnRetryCount variable in the corresponding DWCNodeInfo?
     static u32 sFailedPids[10], sFailedPidsIdx;
 
     // Only run the check for the host
@@ -361,8 +355,10 @@ bool PreventRepeatNATNEGFail(u32 failedPid) {
 
     // If the PID is already in the list, do not count the failed attempt
     for (int i = 0; i < ARRAY_SIZE(sFailedPids); i++) {
-        if (sFailedPids[i] == failedPid)
+        if (sFailedPids[i] == failedPid) {
+            DEBUG_REPORT("Detected repeated NATNEG fail with PID %d\n", failedPid)
             return false;
+        }
     }
 
     // Store the PID in the list through a rolling counter and count the attempt

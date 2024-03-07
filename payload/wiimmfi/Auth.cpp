@@ -14,7 +14,7 @@
 namespace Wiimmfi {
 namespace Auth {
 
-char sConsoleCert[];
+char sConsoleCert[DWC_Base64GetEncodedSize(IOSECCCertSize)+1];
 char sConsoleAssignMessageBuffer[796];
 wchar_t* sConsoleAssignMessage;
 
@@ -90,6 +90,8 @@ void AppendAuthParameters(NHTTPReq* req) {
         if (version) {
             DEBUG_REPORT("[WIIMMFI_AUTH] Sending Dolphin version: %s\n", version)
             NHTTPAddPostDataAscii(req, "_dolphin_ver", version);
+        } else {
+            DEBUG_REPORT("[WIIMMFI_AUTH] Failed to get Dolphin version\n")
         }
     }
 

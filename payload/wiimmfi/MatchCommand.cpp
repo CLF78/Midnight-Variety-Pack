@@ -18,12 +18,16 @@ void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPor
 
     // Only process the command if we are waiting
     // This should also act as a host check since this state cannot be in use by a client (i think)
-    if (stpMatchCnt->state != DWC_MATCH_STATE_SV_WAITING)
+    if (stpMatchCnt->state != DWC_MATCH_STATE_SV_WAITING) {
+        DEBUG_REPORT("[WIIMMFI_RECV] But ignored (invalid state)\n")
         return;
+    }
 
     // Ensure the data size is correct
-    if (DWC_MATCH_CMD_GET_ACTUAL_SIZE(dataLen) != sizeof(*data))
+    if (DWC_MATCH_CMD_GET_ACTUAL_SIZE(dataLen) != sizeof(*data)) {
+        DEBUG_REPORT("[WIIMMFI_RECV] But ignored (invalid data size)\n")
         return;
+    }
 
     // Find a "client B" with a connection failure, as we can only send the commands once per function
     // Q: Why can't we just find the lowest AID instead of running the entire loop everytime?
@@ -34,15 +38,19 @@ void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPor
     }
 
     // If no "client B" was found, bail
-    if (clientBAid == -1)
+    if (clientBAid == -1) {
+        DEBUG_REPORT("[WIIMMFI_RECV] But ignored (no connection failures)\n")
         return;
+    }
 
     // Get node info for client A and client B
     // Check for null and eventually bail
     DWCNodeInfo* clientAInfo = DWCi_NodeInfoList_GetNodeInfoForProfileId(clientAPid);
     DWCNodeInfo* clientBInfo = DWCi_NodeInfoList_GetNodeInfoForAid(clientBAid);
-    if (!clientAInfo || !clientBInfo)
+    if (!clientAInfo || !clientBInfo) {
+        DEBUG_REPORT("[WIIMMFI_RECV] But ignored (invalid PID/AID)\n")
         return;
+    }
 
     // Copy the node info to the temporary new node
     // Q: Why is this necessary?
@@ -65,8 +73,10 @@ void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPor
 void ProcessRecvConnMtxCommand(int srcPid, DWCMatchCommandConnMtx* data, int dataLen) {
 
     // Ensure the data size is correct
-    if (DWC_MATCH_CMD_GET_ACTUAL_SIZE(dataLen) != sizeof(*data))
+    if (DWC_MATCH_CMD_GET_ACTUAL_SIZE(dataLen) != sizeof(*data)) {
+        DEBUG_REPORT("[WIIMMFI_RECV] But ignored (invalid data size)\n")
         return;
+    }
 
     // If the profile id of the source client isn't found, reset the outdated matrices
     DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForProfileId(srcPid);
@@ -81,11 +91,13 @@ bool ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort
     switch(cmd) {
 
         case DWC_MATCH_CMD_CONN_FAIL_MTX:
+            DEBUG_REPORT("[WIIMMFI_RECV] Received CONN_FAIL_MTX command\n")
             ProcessRecvConnFailMtxCommand(profileId, publicIp, publicPort,
                                           (DWCMatchCommandConnFailMtx*)cmdData, dataLen);
             return true;
 
         case DWC_MATCH_CMD_CONN_MTX:
+            DEBUG_REPORT("[WIIMMFI_RECV] Received CONN_MTX command\n")
             ProcessRecvConnMtxCommand(profileId, (DWCMatchCommandConnMtx*)cmdData, dataLen);
             return true;
 
@@ -105,15 +117,12 @@ void SendConnFailMtxCommand(u32 aidsConnectedToHost, u32 aidsConnectedToMe) {
         return;
 
     // Get the host's node info, with all the necessary failsaves
-    u8 hostAid = DWC_GetServerAID();
-    if (hostAid != 0xFF)
-        return;
-
-    DWCNodeInfo* hostNodeInfo = DWCi_NodeInfoList_GetNodeInfoForAid(hostAid);
+    DWCNodeInfo* hostNodeInfo = DWCi_NodeInfoList_GetServerNodeInfo();
     if (!hostNodeInfo || hostNodeInfo->profileId == 0)
         return;
 
     // Send the command
+    DEBUG_REPORT("[WIIMMFI_RECV] Sending CONN_MTX command with data %08X\n", cmd.connFailMtx)
     DWCi_SendMatchCommand(DWC_MATCH_CMD_CONN_FAIL_MTX, hostNodeInfo->profileId, hostNodeInfo->publicip,
                           hostNodeInfo->publicport, &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
 }
@@ -127,6 +136,7 @@ void SendConnMtxCommand(u32 aidsConnectedToMe) {
     // Set up the command
     DWCMatchCommandConnMtx cmd;
     cmd.connMtx = aidsConnectedToMe;
+    DEBUG_REPORT("[WIIMMFI_RECV] Sending CONN_FAIL_MTX command with data %08X\n", aidsConnectedToMe)
 
     // Send the command to every node
     for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
