@@ -1,12 +1,18 @@
 #include <common/Common.hpp>
+#include <dwc/dwc_match.h>
 #include <game/net/RKNetController.hpp>
+#include <game/net/RKNetSelectHandler.hpp>
+#include <game/race/RaceGlobals.hpp>
+#include <game/system/RaceManager.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/page/FriendRoomJoinPage.hpp>
 #include <nw4r/ut/Lock.hpp>
 #include <revolution/vi.h>
 #include <revolutionex/net/NETDigest.h>
+#include <wiimmfi/Delay.hpp>
 #include <wiimmfi/Kick.hpp>
 #include <wiimmfi/Natneg.hpp>
+#include <wiimmfi/Reporting.hpp>
 #include <wiimmfi/Security.hpp>
 #include <wiimmfi/Status.hpp>
 
@@ -85,6 +91,28 @@ kmBranchDefCpp(0x80658610, NULL, void, RKNetController* self, u32 aid, RKNetRACE
 // Main Wiimmfi update function
 // Credits: Wiimmfi
 kmCallDefCpp(0x806579B0, void) {
+
+    // Only run the tasks if we are online
+    if (stpMatchCnt) {
+        nw4r::ut::AutoInterruptLock lock;
+        Wiimmfi::Kick::CalcKick();
+        Wiimmfi::Reporting::ReportMatchStateChange();
+        Wiimmfi::Natneg::StopNATNEGAfterTime();
+        Wiimmfi::Reporting::ReportSuspendUpdate();
+        Wiimmfi::Reporting::ReportAIDPIDMap();
+        Wiimmfi::Reporting::ReportHostSlotChange();
+        Wiimmfi::Reporting::ReportRegionChange();
+
+        // Only run race tasks if we are in an online race
+        if (RaceGlobals::isOnlineRace && RaceManager::instance != nullptr) {
+            Wiimmfi::Reporting::ReportFrameCount(RaceManager::instance->frameCounter);
+            Wiimmfi::Delay::Calc(RaceManager::instance->frameCounter);
+        }
+
+        // Only run SELECT-tasks if the handler exists
+        if (RKNetSELECTHandler::instance)
+            Wiimmfi::Reporting::ReportSELECTInfo();
+    }
 
     // Original call
     VIWaitForRetrace();
