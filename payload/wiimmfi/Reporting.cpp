@@ -342,6 +342,34 @@ void ReportRaceStage(u32 stage) {
     Status::SendMessage("race_status", "", stage);
 }
 
+void ReportRegionChange() {
+
+    // Use the host profile ID to detect changes
+    static u32 sHostPid;
+
+    // If the PID hasn't changed, bail
+    u32 hostPid = stpMatchCnt->nodeInfoList.nodeInfos[0].profileId;
+    if (hostPid == sHostPid)
+        return;
+
+    // Update the stored PID
+    sHostPid = hostPid;
+
+    // Report the first four PIDs in the room (????)
+    // I seriously think this is pointless and needs to be removed
+    char buffer[64];
+    DWCNodeInfo* nodeInfos = stpMatchCnt->nodeInfoList.nodeInfos;
+    snprintf(buffer, sizeof(buffer), "%d|%d|%d|%d", nodeInfos[0].profileId, nodeInfos[1].profileId,
+             nodeInfos[2].profileId, nodeInfos[3].profileId);
+    Status::SendMessage("host", buffer, DWC_GetMyAID());
+
+    // Send the current VS and BT region
+    // TODO remove region placeholders
+    char regionData[32];
+    snprintf(regionData, sizeof(regionData), "%d|%d", 0, 0);
+    Status::SendMessage("region",regionData);
+}
+
 void ReportServerDown(u32 cmd, u32 pid, u32* data) {
 
     // If the packet has no extra data, just send the PID

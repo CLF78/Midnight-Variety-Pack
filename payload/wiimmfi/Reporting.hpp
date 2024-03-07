@@ -17,11 +17,11 @@ namespace Reporting {
     // Functions //
     ///////////////
 
-    // Reports the battle results - UNUSED
-    // void ReportBattleResults();
-
     // Reports the AID to PID map when it changes
     void ReportAIDPIDMap();
+
+    // Reports the battle results - UNUSED
+    // void ReportBattleResults();
 
     // Reports various Common.szs subfiles that can be modified for cheating
     void ReportCommonSubfiles();
@@ -49,6 +49,9 @@ namespace Reporting {
 
     // Reports the race stage
     void ReportRaceStage(u32 stage);
+
+    // Reports a region change
+    void ReportRegionChange();
 
     // Reports host disconnections
     void ReportServerDown(u32 cmd, u32 pid, u32* data);
