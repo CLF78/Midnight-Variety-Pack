@@ -36,7 +36,7 @@ namespace Reporting {
     void ReportFinishTime(u8 playerIdx);
 
     // Reports the frame count at certain intervals
-    void ReportFrameCount(u32 frameCount, int profileId);
+    void ReportFrameCount(u32 frameCount);
 
     // Reports a room start
     void ReportFriendRoomStart(RKNetROOMPacket* packet);
