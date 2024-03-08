@@ -68,9 +68,11 @@ kmCondBranch(0x800D8360, 0x800D819C, KM_COND_NOT_EQ, 0);
 kmCallDefAsm(0x800D9754) {
     nofralloc
 
+    // Original check
     cmpwi r0, DWC_MATCH_STATE_CL_WAITING
     beqlr
 
+    // Extra check
     cmpwi r0, DWC_MATCH_STATE_CL_SYN
     blr
 }

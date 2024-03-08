@@ -372,7 +372,7 @@ void ReportRegionChange() {
     // TODO remove region placeholders
     char regionData[32];
     snprintf(regionData, sizeof(regionData), "%d|%d", 0, 0);
-    Status::SendMessage("region",regionData);
+    Status::SendMessage("region", regionData);
 }
 
 void ReportSELECTInfo() {
@@ -471,8 +471,8 @@ void ReportSuspendUpdate() {
         return;
 
     // For each aid, set 1 if suspended, 0 if it isn't suspended and the node exists, else "-"
-    char buffer[13] = "------------";
-    for (int i = 0; i < 12; i++) {
+    char buffer[] = "------------";
+    for (int i = 0; i < sizeof(buffer) - 1; i++) {
         if (suspendMask & (1 << i))
             buffer[i] = '1';
         else if (DWCi_NodeInfoList_GetNodeInfoForAid(i))

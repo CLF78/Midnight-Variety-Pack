@@ -100,7 +100,6 @@ kmBranchDefCpp(0x8053369C, NULL, void) {
         return;
 
     // Report it
-    // TODO report battle results, delay bs
     Wiimmfi::Reporting::ReportRaceStage(raceStage);
 }
 
