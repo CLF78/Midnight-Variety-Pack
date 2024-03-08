@@ -110,6 +110,7 @@ void CalcTimers(bool connectedToHost) {
 }
 
 void StopMeshMaking() {
+    DEBUG_REPORT("[NATNEG-NG] Stopping mesh making\n")
     DWCi_StopMeshMaking();
     DWCi_SetMatchStatus(DWC_IsServerMyself() ? DWC_MATCH_STATE_SV_WAITING : DWC_MATCH_STATE_CL_WAITING);
 }
@@ -126,6 +127,7 @@ void StoreConnectionAndInfo(int connIdx, GT2Connection conn, DWCNodeInfo* node) 
     connInfo->aid = node->aid;
     connInfo->profileId = node->profileId;
     conn->data = connInfo;
+    DEBUG_REPORT("[NATNEG-NG] Stored connection with PID %d\n", node->profileId)
 
     // Reset data receive time and update connection matrix
     // Q: Why isn't PostProcessConnection called like in the original callbacks?
@@ -154,6 +156,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     // If we are still in INIT state, reject the connection attempt
     // Q: What is the difference between wait1 and wait2 in practice?
     if (stpMatchCnt->state == DWC_MATCH_STATE_INIT) {
+        DEBUG_REPORT("[NATNEG-NG] Connection rejected from PID %d (INIT state)\n", pid)
         gt2Reject(conn, "wait1", -1);
         return;
     }
@@ -161,13 +164,16 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     // If the PID is not found, reject the connection attempt
     DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForProfileId(pid);
     if (!node) {
+        DEBUG_REPORT("[NATNEG-NG] Connection rejected from PID %d (PID not found)\n", pid)
         gt2Reject(conn, "wait2", -1);
         return;
     }
 
     // If the connection already exists, bail
-    if (DWCi_GetGT2Connection(node->aid))
+    if (DWCi_GetGT2Connection(node->aid)) {
+        DEBUG_REPORT("[NATNEG-NG] Connection already exists with PID %d\n", pid)
         return;
+    }
 
     // Act depending on the match state
     // Q: What is the reasoning behind this switch case?
@@ -201,8 +207,10 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     // If the server is full, bail
     // Q: Why isn't the connection rejected in that case (like in the original callback)?
     int connIdx = DWCi_GT2GetConnectionListIdx();
-    if (connIdx == -1)
+    if (connIdx == -1) {
+        DEBUG_REPORT("[NATNEG-NG] Connection failed with PID %d (server full)\n", pid)
         return;
+    }
 
     // Store IP and port
     node->gt2Ip = ip;
@@ -211,8 +219,10 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     // Accept the connection, if it fails bail
     // The game normally refuses to do this if it's not in the DWC_MATCH_STATE_CL_NN or
     // DWC_MATCH_STATE_CL_GT2 state
-    if (!gt2Accept(conn, stpMatchCnt->gt2Callbacks))
+    if (!gt2Accept(conn, stpMatchCnt->gt2Callbacks)) {
+        DEBUG_REPORT("[NATNEG-NG] Connection failed with PID %d (gt2Accept failed)\n", pid)
         return;
+    }
 
     // Store the connection and its info
     StoreConnectionAndInfo(connIdx, conn, node);
@@ -235,6 +245,7 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     if (result == GT2_RESULT_NEGOTIATION_ERROR) {
 
         // Q: Why is the profileId check using "<=" ?
+        DEBUG_REPORT("[NATNEG-NG] Negotiation error with AID %d\n", aid)
         DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForAid(aid);
         if (node && node->profileId <= stpMatchCnt->profileId)
             sTimers[aid] = 150;
@@ -243,23 +254,33 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
 
     // For all other results than GT2_RESULT_SUCCESS, reset the timer if a wait message was received
     if (result != GT2_RESULT_SUCCESS) {
-        if (msg && (!strcmp(msg, "wait1") || !strcmp(msg, "wait2")))
+
+        if (msg && (!strcmp(msg, "wait1") || !strcmp(msg, "wait2"))) {
+            DEBUG_REPORT("[NATNEG-NG] Received wait message %s from AID %d\n", msg, aid)
             sTimers[aid] = 0;
+        }
+
         return;
     }
 
     // If we are still in INIT state, bail
-    if (stpMatchCnt->state == DWC_MATCH_STATE_INIT)
+    if (stpMatchCnt->state == DWC_MATCH_STATE_INIT) {
+        DEBUG_REPORT("[NATNEG-NG] Ignoring connection from AID %d (INIT state)\n", aid)
         return;
+    }
 
     // If the AID is not found, reject the connection attempt
     DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForAid(aid);
-    if (!node)
+    if (!node) {
+        DEBUG_REPORT("[NATNEG-NG] Ignoring connection from AID %d (invalid AID)\n", aid)
         return;
+    }
 
     // If the connection already exists, bail
-    if (DWCi_GetGT2Connection(node->aid))
+    if (DWCi_GetGT2Connection(node->aid)) {
+        DEBUG_REPORT("[NATNEG-NG] Connection already exists with AID %d\n", node->aid)
         return;
+    }
 
     // Act depending on the match state
     // Q: What is the reasoning behind this switch case?
@@ -292,8 +313,10 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
 
     // If the server is full, bail (the game will close all connections in this case, so we avoid it)
     int connIdx = DWCi_GT2GetConnectionListIdx();
-    if (connIdx == -1)
+    if (connIdx == -1) {
+        DEBUG_REPORT("[NATNEG-NG] Connection failed with AID %d (server full)\n", node->aid)
         return;
+    }
 
     // Store IP, port and connection
     node->gt2Ip = conn->ip;
@@ -337,6 +360,7 @@ DWCNodeInfo* GetNextMeshMakingNode() {
         return nullptr;
 
     // All checks passed, return the node we have found (if any)
+    DEBUG_REPORT("[NATNEG-NG] Got next connect node %d\n", minNextTryTimeNode)
     return minNextTryTimeNode;
 }
 
@@ -394,6 +418,7 @@ void RecoverSynAckTimeout() {
     noSynAckAids |= (1 << stpMatchCnt->tempNewNodeInfo.aid);
     noSynAckAids ^= stpMatchCnt->synAckBit;
     noSynAckAids &= ~(1 << DWC_GetMyAID());
+    DEBUG_REPORT("[NATNEG-NG] SYN-ACK not completed with AIDs %08X\n", noSynAckAids)
 
     // Send a NEW_PID_AID command to every AID left in the map
     // Only do so once
@@ -445,7 +470,7 @@ void StopNATNEGAfterTime() {
 
     // Stop NATNEG and change state if necessary
     BOOL ret = DWCi_StopMeshMaking();
-    DEBUG_REPORT("[NATNEG-NG] StopMeshMaking = %d\n", ret)
+    DEBUG_REPORT("[NATNEG-NG] Stopped mesh making with result %d\n", ret)
     if (ret)
         DWCi_SetMatchStatus(DWC_MATCH_STATE_CL_WAITING);
 }

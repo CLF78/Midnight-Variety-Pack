@@ -34,7 +34,7 @@ void CalcKick() {
 
     // Lock interrupts
     nw4r::ut::AutoInterruptLock lock;
-    DEBUG_REPORT("[WIIMMFI_KICK] Running kick task with aids %X\n", sAidsToBeKicked)
+    DEBUG_REPORT("[WIIMMFI_KICK] Running kick task with aids %08X\n", sAidsToBeKicked)
 
     // If the bitfield is full, close all connections immediately
     if (sAidsToBeKicked == 0xFFFFFFFF)

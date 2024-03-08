@@ -63,8 +63,10 @@ kmBranchDefCpp(0x80658610, NULL, void, RKNetController* self, u32 aid, RKNetRACE
     data->checksum = 0;
     u32 realChecksum = NETCalcCRC32(data, dataLength);
     data->checksum = savedChecksum;
-    if (realChecksum != savedChecksum)
+    if (realChecksum != savedChecksum) {
+        DEBUG_REPORT("[RKNET] Detected corrupted packet from aid %d\n", aid)
         return;
+    }
 
     // If the packet is valid, process it
     // Else kick the aid who sent it
@@ -72,6 +74,7 @@ kmBranchDefCpp(0x80658610, NULL, void, RKNetController* self, u32 aid, RKNetRACE
         self->processRacePacket(aid, data, dataLength);
     else {
         nw4r::ut::AutoInterruptLock lock;
+        DEBUG_REPORT("[RKNET] Detected malicious packet from aid %d\n", aid)
 
         // Do not kick players if we're not host
         if (self->isPlayerHost())

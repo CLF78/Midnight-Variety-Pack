@@ -40,6 +40,7 @@ void Update() {
 
     // Remove unused bits
     incompleteAids &= aidMap;
+    DEBUG_REPORT("[WIIMMFI_KICK] Detected room stall with AIDs %08X\n", incompleteAids)
 
     // Kick each user still lingering
     for (int i = 0; i < 12; i++) {
