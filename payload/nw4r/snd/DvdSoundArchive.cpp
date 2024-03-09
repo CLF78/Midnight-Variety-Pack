@@ -35,7 +35,7 @@ kmCallDefCpp(0x8009130C, int, const char* path) {
         return -1;
 
     // Check if the track name begins with "n", "r" or "S" (track music)
-    char start = path[sizeof(BRSTM_PREFIX)-1];
+    char start = path[strlenconst(BRSTM_PREFIX)];
     if (start == 'n' || start == 'r' || start == 'S') {
 
         // Reset the speed up value in ItemMusicManager

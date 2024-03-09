@@ -2,6 +2,7 @@
 #include <revolution/base/PPCReg.h>
 #include <revolution/os/OSLoMem.h>
 #include <midnight/Region.hpp>
+#include <platform/string.h>
 #include <Loader.hpp>
 
 const Loader::Functions functions[] = {
@@ -61,7 +62,7 @@ kmBranchDefCpp(0x800074D4, NULL, void) {
     const Loader::Functions* funcs = &functions[region];
 
     // Get code file and load it
-    path[sizeof(KAMEK_FILE_PATH)-1] = funcs->identifier;
+    path[strlenconst(KAMEK_FILE_PATH)] = funcs->identifier;
     Loader::LoadFromDisc(funcs, path);
 }
 

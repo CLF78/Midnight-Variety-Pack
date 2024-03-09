@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <midnight/DolphinDevice.hpp>
+#include <platform/string.h>
 
 namespace DolphinDevice {
 
@@ -50,7 +51,7 @@ const char* GetVersion() {
         return nullptr;
 
     // Ensure the string is null-terminated
-    sVersionBuffer[sizeof(sVersionBuffer)-1] = '\0';
+    sVersionBuffer[strlenconst(sVersionBuffer)] = '\0';
 
     // Return the buffer
     sVersionObtained = true;
@@ -77,7 +78,7 @@ const char* GetRealProductCode() {
         return nullptr;
 
     // Ensure the string is null-terminated
-    sProdCodeBuffer[sizeof(sProdCodeBuffer)-1] = '\0';
+    sProdCodeBuffer[strlenconst(sProdCodeBuffer)] = '\0';
 
     // Return the buffer
     sProdCodeObtained = true;
