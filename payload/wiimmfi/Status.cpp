@@ -14,13 +14,6 @@ namespace Status {
 
 char* sToken;
 char sScrambledToken[96];
-const int OFFSET = 0x20;
-
-// Delete the token at network shutdown
-kmListHookDefCpp(NetShutdownHook) {
-    if (sToken)
-        delete sToken;
-}
 
 void DecodeToken(const char* encodedToken) {
 
@@ -36,35 +29,28 @@ void DecodeToken(const char* encodedToken) {
     sToken[decodedLen] = '\0';
 
     // Scramble the token
-    // Start by filling the array with garbage data
-    // Q: Why is this scrambling even done when the token is available in plaintext at a fixed address?
-    for (int i = 0; i < sizeof(sScrambledToken); i++) {
-        sScrambledToken[i] = i + OFFSET;
+    // Start by filling an ASCII table
+    for (int i = 0; i < strlenconst(sScrambledToken); i++) {
+        sScrambledToken[i] = i + ' ';
     }
 
     // Check if the token was decoded correctly
     if (decodedLen > 0) {
 
-        // Run a substitution cipher on the token
-        const char key[] = "0123456789,abcdefghijklmnopqrstuvwxyz|=+-_";
-        for (int i = 0; i < decodedLen + 1 && i < sizeof(key); i++) {
+        // Run ASCII substitution
+        static const char key[] = "0123456789,abcdefghijklmnopqrstuvwxyz|=+-_";
+        for (int i = 0; i < decodedLen && i < strlenconst(key); i++) {
             char c = sToken[i];
             char pos = key[i];
-            sScrambledToken[pos - OFFSET] = c;
+            sScrambledToken[pos - ' '] = c;
         }
     }
 }
 
 void ScrambleMessage(char* msg, int msgLen) {
-
-    // Check that the token was obtained, if not bail
-    if (!sToken)
-        return;
-
-    // Scramble the message otherwise
     for (int i = 0; i < msgLen; i++) {
-        u8 c = msg[i] - OFFSET;
-        if (c < sizeof(sScrambledToken)-1)
+        u8 c = msg[i] - ' ';
+        if (c < strlenconst(sScrambledToken))
             msg[i] = sScrambledToken[c];
     }
 }
@@ -95,7 +81,8 @@ void SendMessage(const char* key, const char* value, int integerValue) {
     }
 
     // Scramble the message
-    ScrambleMessage(buffer + sizeof("\\xy\\")-1, len - sizeof("\\final\\"));
+    ScrambleMessage(buffer + strlenconst(STATUS_HEADER),
+                    len - strlenconst(STATUS_TERMINATOR) - strlenconst(STATUS_HEADER));
 
     // Lock interrupts and append message
     {
