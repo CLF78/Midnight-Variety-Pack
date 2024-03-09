@@ -3,7 +3,7 @@
 
 namespace DolphinDevice {
 
-s32 sDevDolphin = IOS_Open("/dev/dolphin", 0);
+s32 sDevDolphin = IOS_Open("/dev/dolphin", IPC_OPEN_NONE);
 char sVersionBuffer[64];
 char sProdCodeBuffer[6];
 
