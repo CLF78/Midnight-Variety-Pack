@@ -78,7 +78,7 @@ kmCallDefCpp(0x800061EC, u32) {
 
     // Disable the codehandler by BLRing the first instruction
     // This is not tamper-proof but it should be enough to deter any idiot that would cheat...
-    __CodeHandlerStart = 0x4E800020;
+    if (!DEBUG) __CodeHandlerStart = 0x4E800020;
 
     // Return 0 to match original call
     return 0;
