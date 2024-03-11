@@ -88,7 +88,7 @@
 // Savegame Expansion System //
 ///////////////////////////////
 
-// Allows to store additional savegame data outside the regular save.
+// Allows to store additional save data outside the regular save.
 // Credits: CLF78 (original code)
 
 // The savegame filename
@@ -99,6 +99,12 @@
 
 // The savegame version number
 #define SAVEEX_VERSION_NUMBER 1
+
+// The savegame license magic
+#define SAVEEX_LICENSE_MAGIC 'LCNS'
+
+// The savegame license count
+#define SAVEEX_LICENSE_COUNT 4
 
 ///////////////////////////
 // Custom Engine Classes //

@@ -4,6 +4,7 @@
 #include <game/ui/page/AwardPage.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <midnight/cup/CupManager.hpp>
+#include <midnight/save/SaveExpansionCup.hpp>
 
 ///////////////////////
 // Custom Cup System //
@@ -23,9 +24,9 @@ kmCallDefCpp(0x805BC788, int, u32 cupId, u32 engineClass, bool isMirror, u32 ran
         return AwardPage::CREDITS_NONE;
 
     // Check that each cup is completed
-    SaveExpansion::Cup* cups = save->expansion.licensesEx[save->currentLicenseId].gpRanks;
-    for (int i = 0; i < CupManager::GetCupListData(CupManager::TRACKS_MODERN)->cupCount; i++) {
-        if (!cups[i].completed)
+    SaveExpansionCup* cups = SaveExpansionCup::GetSection();
+    for (int i = 0; i < cups->GetCupCount(); i++) {
+        if (!cups->GetData(i)->mCompleted)
             return AwardPage::CREDITS_NONE;
     }
 
@@ -54,18 +55,15 @@ kmBranchDefCpp(0x805BD050, NULL, void) {
     if (save->currentLicenseId == -1)
         return;
 
-    // Get the cup entry
-    SaveExpansion* licenseEx = &save->expansion.licensesEx[save->currentLicenseId];
-    u32 cupId = rconfig->awardsScenario.settings.cupId;
-
     // Check if the new rank is better than the existing one
-    SaveExpansion::Cup* cup = &licenseEx->gpRanks[cupId];
-    if (cup->rank <= gpRank)
+    u32 cupId = rconfig->awardsScenario.settings.cupId;
+    SaveExpansionCup::Data* cupData = SaveExpansionCup::GetSection()->GetData(cupId);
+    if (cupData->mRank <= gpRank)
         return;
 
     // Store the data
-    cup->completed = true;
-    cup->rank = gpRank;
+    cupData->mCompleted = true;
+    cupData->mRank = gpRank;
 
     // Mark license as dirty
     SectionManager::instance->saveGhostManager->markLicensesDirty();

@@ -16,6 +16,6 @@ kmCallDefCpp(0x80543DDC, u32) {
 // Construct the expansion data
 kmBranchDefCpp(0x80543ED8, NULL, SaveManager*, SaveManager* self) {
     if (self)
-        SaveManagerEx::construct(&self->expansion);
+        SaveExpansion::construct(&self->expansion);
     return self;
 }

@@ -6,6 +6,7 @@
 #include <game/ui/UIUtils.hpp>
 #include <midnight/cup/CupManager.hpp>
 #include <midnight/cup/RaceCupSelectArrow.hpp>
+#include <midnight/save/SaveExpansionCup.hpp>
 
 ///////////////////////
 // Custom Cup System //
@@ -92,13 +93,12 @@ void RaceCupSelectPage::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u32 
             return;
 
         // Get the cup entry
-        SaveExpansion* licenseEx = &save->expansion.licensesEx[save->currentLicenseId];
         u32 cupId = CupManager::getCupIdxFromButton(cupButtonId, this->extension.curPage);
-        SaveExpansion::Cup* cup = &licenseEx->gpRanks[cupId];
+        SaveExpansionCup::Data* cupData = SaveExpansionCup::GetSection()->GetData(cupId);
 
         // Get the message ID
-        if (cup->completed)
-            msgInfo.messageIds[0] = 3373 + cup->rank;
+        if (cupData->mCompleted)
+            msgInfo.messageIds[0] = 3373 + cupData->mRank;
         else
             msgInfo.messageIds[0] = 3382;
 

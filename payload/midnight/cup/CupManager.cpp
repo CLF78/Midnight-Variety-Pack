@@ -12,8 +12,8 @@
 //////////////////////
 
 s32 CupManager::currentSzs = -1;
-u32 CupManager::currentCupList = TRACKS_MODERN;
-u32 CupManager::currentBattleCupList = TRACKS_BATTLE;
+u32 CupManager::currentCupList = TRACKS_VS_DEFAULT;
+u32 CupManager::currentBattleCupList = TRACKS_BT_DEFAULT;
 Random CupManager::randomizer = Random();
 char CupManager::currentSzsPath[] = "";
 u16 CupManager::trackOrder[];

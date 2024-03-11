@@ -6,18 +6,6 @@
 #include <game/system/Timer.hpp>
 #include <midnight/save/SaveExpansion.hpp>
 
-class SaveManagerEx {
-public:
-    SaveManagerEx() {}
-
-    static SaveManagerEx* construct(void* buffer) {
-        return new(buffer) SaveManagerEx;
-    }
-
-    SaveExpansion licensesEx[4];
-    // TODO add raw save expansion format
-};
-
 class SaveManager {
 public:
 
@@ -127,6 +115,11 @@ public:
     };
     size_assert(License, 0x93F0);
 
+    // Gets a section from the save expansion
+    static SaveExpansionSection* GetExpansionSection(u32 id) {
+        return instance->expansion.GetLicense(instance->currentLicenseId)->GetSection(id);
+    }
+
     EGG::Disposer inherit;
     virtual ~SaveManager();
 
@@ -155,8 +148,8 @@ public:
     bool canSave;
 
     s32 result;
-    SaveManagerEx expansion;
+    SaveExpansion expansion;
 
     static SaveManager* instance;
 };
-size_assert(SaveManager, 0x25008 + sizeof(SaveManagerEx));
+size_assert(SaveManager, 0x25008 + sizeof(SaveExpansion));

@@ -71,24 +71,24 @@ kmPointerDefCpp(0x808BBED0, void, SinglePlayerMenuPage* self, PushButton* button
         case SinglePlayerMenuPage::GP_BUTTON:
             scenario->settings.engineClass = RaceConfig::Settings::CC_150;
             scenario->settings.cpuMode = RaceConfig::Settings::CPU_HARD;
-            CupManager::currentCupList = CupManager::TRACKS_VARIETY;
+            CupManager::currentCupList = CupManager::TRACKS_GP;
             break;
 
         // Force Variety tracklist in TT mode
         // Ignore CC setting, as it will be overridden by the CC selector screen
         case SinglePlayerMenuPage::TT_BUTTON:
-            CupManager::currentCupList = CupManager::TRACKS_VARIETY;
+            CupManager::currentCupList = CupManager::TRACKS_TT;
             break;
 
         // TODO set proper tracklist for VS mode
         case SinglePlayerMenuPage::VS_BUTTON:
-            CupManager::currentCupList = CupManager::TRACKS_MODERN;
+            CupManager::currentCupList = CupManager::TRACKS_VS_DEFAULT;
             break;
 
         // Force 50cc and battle tracklist in Battle mode
         case SinglePlayerMenuPage::BT_BUTTON:
             scenario->settings.engineClass = RaceConfig::Settings::CC_50;
-            CupManager::currentBattleCupList = CupManager::TRACKS_BATTLE;
+            CupManager::currentBattleCupList = CupManager::TRACKS_BT_DEFAULT;
 
         // Do nothing for Mission mode
         default:

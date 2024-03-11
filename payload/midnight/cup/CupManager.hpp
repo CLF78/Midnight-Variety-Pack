@@ -24,6 +24,16 @@ public:
         TRACKS_RETRO,
         TRACKS_VARIETY,
         TRACKS_BATTLE,
+
+        // Other helpful definitions
+        TRACKS_GP = TRACKS_VARIETY,
+        TRACKS_TT = TRACKS_VARIETY,
+        TRACKS_VS_DEFAULT = TRACKS_MODERN,
+        TRACKS_BT_DEFAULT = TRACKS_BATTLE,
+        TRACKS_DEMO = TRACKS_VARIETY,
+        TRACKS_DEMO_BT = TRACKS_BATTLE,
+        TRACKS_VS_COUNT = TRACKS_VARIETY + 1,
+        TRACKS_BT_COUNT = TRACKS_BATTLE - TRACKS_VS_COUNT + 1,
     };
 
     //////////////////////
