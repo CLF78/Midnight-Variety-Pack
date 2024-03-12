@@ -64,13 +64,14 @@ void SaveExpansionLicense::Read(u8* buffer, u32 bufferSize) {
     for (int i = 0; i < header->sectionCount; i++) {
 
         // Get the section pointer
-        u8* section = buffer + header->headerSize + header->sectionOffsets[i];
+        SaveExpansionSection::RawData* rawSection = (SaveExpansionSection::RawData*)(buffer +
+                                                    header->headerSize + header->sectionOffsets[i]);
 
         // Determine which section it is and parse the data using its virtual function
         for (int j = 0; j < ARRAY_SIZE(mSections); j++) {
             SaveExpansionSection* section = mSections[j];
-            if (*(u32*)buffer == section->GetMagic()) {
-                section->Read(buffer + sizeof(u32));
+            if (rawSection->magic == section->GetMagic()) {
+                section->Read(rawSection->data);
                 break;
             }
         }
@@ -86,21 +87,22 @@ void SaveExpansionLicense::Write(u8* buffer) {
     header->sectionCount = ARRAY_SIZE(mSections);
 
     // Write each section
-    u8* licenseStart = (u8*)header + header->headerSize;
-    u8* currLicensePtr = licenseStart;
-    for (int i = 0; i < header->sectionCount; i++) {
+    u32 currOffs = 0;
+    for (int i = 0; i < ARRAY_SIZE(mSections); i++) {
 
         // Get section
         SaveExpansionSection* section = mSections[i];
+        SaveExpansionSection::RawData* rawSection = (SaveExpansionSection::RawData*)buffer +
+                                                    header->headerSize + currOffs;
 
         // Write magic
-        *(u32*)currLicensePtr++ = section->GetMagic();
+        rawSection->magic = section->GetMagic();
 
         // Write the section and its offset
-        section->Write(currLicensePtr);
-        header->sectionOffsets[i] = currLicensePtr - licenseStart;
+        section->Write(rawSection->data);
+        header->sectionOffsets[i] = currOffs;
 
         // Go to the next section
-        currLicensePtr += section->GetRequiredSpace();
+        currOffs += offsetof(SaveExpansionSection::RawData, data) + section->GetRequiredSpace();
     }
 }

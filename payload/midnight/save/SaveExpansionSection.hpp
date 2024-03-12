@@ -3,9 +3,16 @@
 class SaveExpansionSection {
 public:
 
+    // The section types (must be added for the section to be parsed)
     enum SectionID {
         SECTION_CUP_COMPLETION,
         SECTION_COUNT,
+    };
+
+    // The base structure of a section in raw form
+    struct RawData {
+        u32 magic;
+        u8 data[];
     };
 
     // Gets the magic of the section

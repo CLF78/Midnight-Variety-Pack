@@ -21,18 +21,24 @@ public:
         return new(buffer) SaveExpansion();
     }
 
-    SaveExpansion() : mLicenses() {
+    SaveExpansion() : mLicenses(), mReadBuffer(nullptr), mReadBufferSize(0) {
         Init();
-        mWriteBuffer = new u8[GetRequiredSpace()];
+        mWriteBufferSize = GetRequiredSpace();
+        mWriteBuffer = new u8[mWriteBufferSize];
     }
 
     SaveExpansionLicense* GetLicense(u8 idx) { return &mLicenses[idx]; }
 
     u32 GetRequiredSpace();
     void Init();
-    bool Read(u8* buffer, u32 bufferSize);
-    bool Write(u8* buffer, u32 bufferSize);
+    bool Read();
+    bool Write();
 
     SaveExpansionLicense mLicenses[SAVEEX_LICENSE_COUNT];
-    u8* mWriteBuffer;
+
+    u8* mWriteBuffer; // permanent
+    u32 mWriteBufferSize;
+
+    u8* mReadBuffer; // will be allocated and deleted when necessary
+    u32 mReadBufferSize;
 };

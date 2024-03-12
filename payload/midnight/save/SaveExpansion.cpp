@@ -53,28 +53,28 @@ void SaveExpansion::Init() {
     }
 }
 
-bool SaveExpansion::Read(u8* buffer, u32 bufferSize) {
+bool SaveExpansion::Read() {
 
     // If buffer is null, bail
-    if (!buffer)
+    if (!mReadBuffer)
         return false;
 
     // If the header is not valid, bail
-    Header* header = (Header*)buffer;
-    if (!header->IsValid(bufferSize))
+    Header* header = (Header*)mReadBuffer;
+    if (!header->IsValid(mReadBufferSize))
         return false;
 
     // Ensure the checksum matches
     u32 checksum = header->checksum;
     header->checksum = 0;
-    u32 checksumRecalc = NETCalcCRC32(buffer, bufferSize);
+    u32 checksumRecalc = NETCalcCRC32(mReadBuffer, mReadBufferSize);
     if (checksum != checksumRecalc)
         return false;
 
     // Parse each license
     for (int i = 0; i < header->licenseCount && i < ARRAY_SIZE(mLicenses); i++) {
-        u8* license = buffer + header->headerSize + header->licenseOffsets[i];
-        u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1 ) ? bufferSize - header->licenseOffsets[i]
+        u8* license = mReadBuffer + header->headerSize + header->licenseOffsets[i];
+        u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1 ) ? mReadBufferSize - header->licenseOffsets[i]
                                                             : header->licenseOffsets[i+1] - header->licenseOffsets[i];
         mLicenses[i].Read(license, licenseSize);
     }
@@ -82,14 +82,10 @@ bool SaveExpansion::Read(u8* buffer, u32 bufferSize) {
     return true;
 }
 
-bool SaveExpansion::Write(u8* buffer, u32 bufferSize) {
-
-    // If buffer is null, bail
-    if (!buffer)
-        return false;
+bool SaveExpansion::Write() {
 
     // Write the header
-    Header* header = (Header*)buffer;
+    Header* header = (Header*)mWriteBuffer;
     header->magic = SAVEEX_MAGIC;
     header->revision = SAVEEX_VERSION_NUMBER;
     header->headerSize = offsetof(Header, licenseOffsets) + sizeof(u32) * ARRAY_SIZE(mLicenses);
@@ -102,7 +98,7 @@ bool SaveExpansion::Write(u8* buffer, u32 bufferSize) {
     // Write each license
     u8* saveStart = (u8*)header + header->headerSize;
     u8* currLicensePtr = saveStart;
-    for (int i = 0; i < header->licenseCount; i++) {
+    for (int i = 0; i < ARRAY_SIZE(mLicenses); i++) {
 
         // Write the license and its offset
         mLicenses[i].Write(currLicensePtr);
@@ -111,6 +107,6 @@ bool SaveExpansion::Write(u8* buffer, u32 bufferSize) {
     }
 
     // Calculate the checksum
-    header->checksum = NETCalcCRC32(buffer, bufferSize);
+    header->checksum = NETCalcCRC32(mWriteBuffer, mWriteBufferSize);
     return true;
 }
