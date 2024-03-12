@@ -52,6 +52,7 @@ public:
     };
 
     void markLicensesDirty();
+    int getErrorSection();
 
     bool requestEraseAll;
     bool requestSaveGhost;

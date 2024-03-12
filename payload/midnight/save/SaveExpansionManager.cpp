@@ -33,6 +33,7 @@ void SaveExpansionManager::Init() {
     }
 
     // Try to allocate a read buffer
+    // Use the Kamek heap because at this point other heaps are locked
     DEBUG_REPORT("[SAVEEX] Got file length %d\n", expansionLength)
     SaveExpansion* expansion = &SaveManager::instance->expansion;
     u32 bufferLen = OSRoundUp32B(expansionLength);
@@ -74,9 +75,9 @@ void SaveExpansionManager::Init() {
         mError = NandUtil::ERROR_FILE_CORRUPT;
     } else {
         DEBUG_REPORT("[SAVEEX] Read completed!\n")
+        mError = NandUtil::ERROR_NONE;
     }
 
     // Delete the read buffer
     expansion->DeleteReadBuffer();
-    mError = NandUtil::ERROR_NONE;
 }
