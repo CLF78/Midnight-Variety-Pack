@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <midnight/save/SaveExpansionLicense.hpp>
+#include <revolution/os/OS.h>
 
 bool SaveExpansionLicense::Header::IsValid(u32 licenseSize) {
 
@@ -40,7 +41,7 @@ u32 SaveExpansionLicense::GetRequiredSpace() {
 
     // Get the required space of each section, plus the magic
     for (int i = 0; i < ARRAY_SIZE(mSections); i++) {
-        requiredSpace += mSections[i]->GetRequiredSpace();
+        requiredSpace += OSRoundUp(mSections[i]->GetRequiredSpace(), 4);
         requiredSpace += sizeof(u32);
     }
 
@@ -92,8 +93,8 @@ void SaveExpansionLicense::Write(u8* buffer) {
 
         // Get section
         SaveExpansionSection* section = mSections[i];
-        SaveExpansionSection::RawData* rawSection = (SaveExpansionSection::RawData*)buffer +
-                                                    header->headerSize + currOffs;
+        SaveExpansionSection::RawData* rawSection = (SaveExpansionSection::RawData*)(buffer +
+                                                    header->headerSize + currOffs);
 
         // Write magic
         rawSection->magic = section->GetMagic();
@@ -103,6 +104,6 @@ void SaveExpansionLicense::Write(u8* buffer) {
         header->sectionOffsets[i] = currOffs;
 
         // Go to the next section
-        currOffs += offsetof(SaveExpansionSection::RawData, data) + section->GetRequiredSpace();
+        currOffs += offsetof(SaveExpansionSection::RawData, data) + OSRoundUp(section->GetRequiredSpace(), 4);
     }
 }

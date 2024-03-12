@@ -87,7 +87,7 @@ void LoadFromDisc(const Functions* funcs, const char* path) {
                         fileInfo.startAddr, fileInfo.length);
 
     // Allocate read buffer
-    u32 roundedLength = OSRoundUp32B(fileInfo.length);
+    u32 roundedLength = OSRoundUp32(fileInfo.length);
     void* buffer = funcs->RKSystem->EGGSystem->alloc(roundedLength, -0x20);
     if (!buffer)
         Error(funcs, "FATAL ERROR: Out of file memory");

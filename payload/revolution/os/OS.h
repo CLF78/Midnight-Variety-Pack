@@ -6,8 +6,10 @@ extern "C" {
 #endif
 
 // Round API
-#define OSRoundUp32B(x) (((u32)(x) + 32 - 1) & ~(32 - 1))
-#define OSRoundDown32B(x) (((u32)(x)) & ~(32 - 1))
+#define OSRoundUp(x, y) (((u32)(x) + (y) - 1) & ~((y) - 1))
+#define OSRoundDown(x, y) (((u32)(x)) & ~((y) - 1))
+#define OSRoundUp32(x) OSRoundUp(x, 32)
+#define OSRoundDown32(x) OSRoundDown(x, 32)
 
 // Interrupt API
 BOOL OSDisableInterrupts();

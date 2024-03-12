@@ -36,7 +36,7 @@ void SaveExpansionManager::Init() {
     // Use the Kamek heap because at this point other heaps are locked
     DEBUG_REPORT("[SAVEEX] Got file length %d\n", expansionLength)
     SaveExpansion* expansion = &SaveManager::instance->expansion;
-    u32 bufferLen = OSRoundUp32B(expansionLength);
+    u32 bufferLen = OSRoundUp32(expansionLength);
     u8* buffer = new (KAMEK_HEAP, 32) u8[bufferLen];
 
     // If it fails, bail with a generic error

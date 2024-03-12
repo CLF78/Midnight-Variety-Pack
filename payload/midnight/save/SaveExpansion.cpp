@@ -1,6 +1,8 @@
 #include <common/Common.hpp>
 #include <game/util/NandUtil.hpp>
 #include <midnight/save/SaveExpansion.hpp>
+#include <platform/new.hpp>
+#include <platform/string.h>
 #include <revolution/os/OS.h>
 #include <revolutionex/net/NETDigest.h>
 
@@ -43,7 +45,9 @@ SaveExpansion::SaveExpansion() :
 
         // Create the write buffer since we know the write size
         mWriteBufferSize = GetRequiredSpace();
-        mWriteBuffer = new u8[mWriteBufferSize];
+        mWriteBuffer = new (32) u8[mWriteBufferSize];
+        memset(mWriteBuffer, 0, mWriteBufferSize);
+        Write();
 }
 
 u32 SaveExpansion::GetRequiredSpace() {
@@ -58,7 +62,7 @@ u32 SaveExpansion::GetRequiredSpace() {
     requiredSpace += mLicenses[0].GetRequiredSpace() * ARRAY_SIZE(mLicenses);
 
     // Ensure the file is 32-byte aligned
-    return OSRoundUp32B(requiredSpace);
+    return OSRoundUp32(requiredSpace);
 }
 
 void SaveExpansion::Init() {

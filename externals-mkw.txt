@@ -138,6 +138,7 @@ getExpandSize__Q23EGG6DecompFPCv=0x8021997C
 __nw__FUlPv=0x80224E94
 __nw__FUl=0x80229DCC
 __nwa__FUl=0x80229DF0
+__nwa__FUli=0x80229DFC
 __nwa__FUlPQ23EGG4Heapi=0x80229E04
 __dl__FPv=0x80229E14
 request__Q23EGG10TaskThreadFPFv_vii=0x80242C18
