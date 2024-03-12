@@ -1,6 +1,8 @@
 #include <common/Common.hpp>
 #include <egg/core/eggDisposer.hpp>
+#include <egg/core/eggTaskThread.hpp>
 #include <platform/new.hpp>
+#include <game/system/GhostFile.hpp>
 #include <game/system/Mii.hpp>
 #include <game/system/RawSave.hpp>
 #include <game/system/Timer.hpp>
@@ -124,11 +126,12 @@ public:
     virtual ~SaveManager();
 
     RawSave* rawSave;
-    void* rawGhostFile;
-    void* taskThread;
+    RawGhostFile* rawGhostFile;
+    EGG::TaskThread* taskThread;
 
     u32 ghostOffset;
     bool _24;
+    // 3 bytes padding
 
     void* ghostGroup;
     s32 _2C;
@@ -139,13 +142,14 @@ public:
 
     s16 currentLicenseId;
     License licenses[4];
-
     bool initialized;
-    RawSave* rawSaveCopy;
+    // 3 bytes padding
 
+    RawSave* rawSaveCopy;
     bool busy;
     bool valid;
     bool canSave;
+    // 1 byte padding
 
     s32 result;
     SaveExpansion expansion;
