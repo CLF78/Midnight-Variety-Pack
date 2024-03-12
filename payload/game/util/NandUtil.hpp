@@ -1,7 +1,7 @@
 #include <common/Common.hpp>
+#include <revolution/nand.h>
 
-class NandUtil {
-public:
+namespace NandUtil {
 
     enum Result {
         ERROR_NONE,
@@ -23,4 +23,9 @@ public:
         CHECK_ERROR_BLOCKS = BIT_FLAG(1), // Not enough blocks available in title directory
         CHECK_ERROR_INODES = BIT_FLAG(2), // Too many files in title directory
     };
+
+    int Open(const char* path, NANDFileInfo* info, int access);
+    int Read(NANDFileInfo* fileInfo, void* buffer, int size, int offset);
+    int GetLength(NANDFileInfo* info, u32* length);
+    int Close(NANDFileInfo* info);
 };

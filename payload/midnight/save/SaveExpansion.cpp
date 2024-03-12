@@ -1,4 +1,5 @@
 #include <common/Common.hpp>
+#include <game/util/NandUtil.hpp>
 #include <midnight/save/SaveExpansion.hpp>
 #include <revolution/os/OS.h>
 #include <revolutionex/net/NETDigest.h>
@@ -30,6 +31,19 @@ bool SaveExpansion::Header::IsValid(u32 fileSize) {
 
     // All checks passed!
     return true;
+}
+
+SaveExpansion::SaveExpansion() :
+    mLicenses(),
+    mReadBuffer(nullptr),
+    mReadBufferSize(0) {
+
+        // Initialize the save with the default values
+        Init();
+
+        // Create the write buffer since we know the write size
+        mWriteBufferSize = GetRequiredSpace();
+        mWriteBuffer = new u8[mWriteBufferSize];
 }
 
 u32 SaveExpansion::GetRequiredSpace() {

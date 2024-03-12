@@ -17,28 +17,27 @@ public:
         u32 licenseOffsets[];
     };
 
-    static SaveExpansion* construct(void* buffer) {
-        return new(buffer) SaveExpansion();
-    }
-
-    SaveExpansion() : mLicenses(), mReadBuffer(nullptr), mReadBufferSize(0) {
-        Init();
-        mWriteBufferSize = GetRequiredSpace();
-        mWriteBuffer = new u8[mWriteBufferSize];
-    }
-
-    SaveExpansionLicense* GetLicense(u8 idx) { return &mLicenses[idx]; }
-
+    SaveExpansion();
     u32 GetRequiredSpace();
     void Init();
     bool Read();
     bool Write();
+
+    static SaveExpansion* construct(void* buffer) { return new(buffer) SaveExpansion(); }
+    SaveExpansionLicense* GetLicense(u8 idx) { return &mLicenses[idx]; }
+
+    void DeleteReadBuffer() {
+        if (mReadBuffer) {
+            delete mReadBuffer;
+            mReadBufferSize = 0;
+        }
+    }
 
     SaveExpansionLicense mLicenses[SAVEEX_LICENSE_COUNT];
 
     u8* mWriteBuffer; // permanent
     u32 mWriteBufferSize;
 
-    u8* mReadBuffer; // will be allocated and deleted when necessary
+    u8* mReadBuffer; // temporary
     u32 mReadBufferSize;
 };
