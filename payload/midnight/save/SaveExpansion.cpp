@@ -35,10 +35,7 @@ bool SaveExpansion::Header::IsValid(u32 fileSize) {
     return true;
 }
 
-SaveExpansion::SaveExpansion() :
-    mLicenses(),
-    mReadBuffer(nullptr),
-    mReadBufferSize(0) {
+SaveExpansion::SaveExpansion() : mLicenses() {
 
         // Initialize the save with the default values
         Init();
@@ -71,28 +68,28 @@ void SaveExpansion::Init() {
     }
 }
 
-bool SaveExpansion::Read() {
+bool SaveExpansion::Read(u8* buffer, u32 bufferSize) {
 
     // If buffer is null, bail
-    if (!mReadBuffer)
+    if (!buffer)
         return false;
 
     // If the header is not valid, bail
-    Header* header = (Header*)mReadBuffer;
-    if (!header->IsValid(mReadBufferSize))
+    Header* header = (Header*)buffer;
+    if (!header->IsValid(bufferSize))
         return false;
 
     // Ensure the checksum matches
     u32 checksum = header->checksum;
     header->checksum = 0;
-    u32 checksumRecalc = NETCalcCRC32(mReadBuffer, mReadBufferSize);
+    u32 checksumRecalc = NETCalcCRC32(buffer, bufferSize);
     if (checksum != checksumRecalc)
         return false;
 
     // Parse each license
     for (int i = 0; i < header->licenseCount && i < ARRAY_SIZE(mLicenses); i++) {
-        u8* license = mReadBuffer + header->headerSize + header->licenseOffsets[i];
-        u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1 ) ? mReadBufferSize - header->licenseOffsets[i]
+        u8* license = buffer + header->headerSize + header->licenseOffsets[i];
+        u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1 ) ? bufferSize - header->licenseOffsets[i]
                                                             : header->licenseOffsets[i+1] - header->licenseOffsets[i];
         mLicenses[i].Read(license, licenseSize);
     }

@@ -20,24 +20,14 @@ public:
     SaveExpansion();
     u32 GetRequiredSpace();
     void Init();
-    bool Read();
+    bool Read(u8* buffer, u32 bufferSize);
     bool Write();
 
     static SaveExpansion* construct(void* buffer) { return new(buffer) SaveExpansion(); }
     SaveExpansionLicense* GetLicense(u8 idx) { return &mLicenses[idx]; }
 
-    void DeleteReadBuffer() {
-        if (mReadBuffer) {
-            delete mReadBuffer;
-            mReadBufferSize = 0;
-        }
-    }
-
     SaveExpansionLicense mLicenses[SAVEEX_LICENSE_COUNT];
 
     u8* mWriteBuffer; // permanent
     u32 mWriteBufferSize;
-
-    u8* mReadBuffer; // temporary
-    u32 mReadBufferSize;
 };

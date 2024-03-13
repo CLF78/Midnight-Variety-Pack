@@ -20,7 +20,7 @@ kmCallDefCpp(0x80634EC8, int, SaveGhostManager* self) {
         return section;
 
     // Otherwise do similar error checking with the save expansion error
-    switch (SaveExpansionManager::sInstance.mError) {
+    switch (SaveExpansionManager::sError) {
         case NandUtil::ERROR_NONE:
         case NandUtil::ERROR_REGION:
             return Section::NONE;

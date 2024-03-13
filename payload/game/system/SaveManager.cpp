@@ -33,7 +33,7 @@ kmBranchDefCpp(0x80544848, NULL, void, SaveManager* self) {
     // There is no point in trying to read the expansion if the normal save is corrupted, missing, or another error occurred
     if (self->result == NandUtil::ERROR_NONE) {
         DEBUG_REPORT("[SAVEEX] Read original save successfully!\n")
-        SaveExpansionManager::sInstance.Read();
+        SaveExpansionManager::sError = SaveExpansionManager::Read();
     } else {
         DEBUG_REPORT("[SAVEEX] Failed to read original save with error %d\n", self->result)
     }

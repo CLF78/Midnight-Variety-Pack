@@ -1,15 +1,12 @@
 #include <common/Common.hpp>
 #include <game/util/NandUtil.hpp>
 
-class SaveExpansionManager {
-public:
-    SaveExpansionManager() : mError(NandUtil::ERROR_NONE) {}
+namespace SaveExpansionManager {
 
-    void Read();
-    void Create();
-    void Write();
+    int Read();
+    int Create();
+    int Write();
 
-    int mError;
+    extern int sError;
 
-    static SaveExpansionManager sInstance;
-};
+} // namespace SaveExpansionManager
