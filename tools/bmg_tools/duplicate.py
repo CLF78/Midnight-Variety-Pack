@@ -43,7 +43,7 @@ def main(input: str, output: str, msg: list[int]):
             # Reorder the data and write it to the output file
             outputData = {key:outputData[str(key)] for key in sorted(map(int, outputData))}
             with dest.open('w', encoding='utf-8') as f:
-                json5.dump(outputData, f, ensure_ascii=False, indent=4, quote_keys=True)
+                json5.dump(outputData, f, ensure_ascii=False, indent=4, quote_keys=False)
 
 if __name__ == '__main__':
 
