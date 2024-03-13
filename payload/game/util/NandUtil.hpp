@@ -24,8 +24,18 @@ namespace NandUtil {
         CHECK_ERROR_INODES = BIT_FLAG(2), // Too many files in title directory
     };
 
+    enum Type {
+        TYPE_NONE,
+        TYPE_FILE,
+        TYPE_DIR,
+    };
+
+    int Check(u32 requiredBlocks, u32 requiredInodes, u32* answer);
+    int Create(const char* path, u8 perms);
     int Open(const char* path, NANDFileInfo* info, int access);
-    int Read(NANDFileInfo* fileInfo, void* buffer, int size, int offset);
+    int GetType(const char* path, u32* type);
     int GetLength(NANDFileInfo* info, u32* length);
+    int Read(NANDFileInfo* info, void* buffer, int size, int offset);
+    int Write(NANDFileInfo* info, void *buffer, int size, int offset);
     int Close(NANDFileInfo* info);
 };

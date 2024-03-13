@@ -4,7 +4,10 @@
 class SaveExpansionManager {
 public:
     SaveExpansionManager() : mError(NandUtil::ERROR_NONE) {}
-    void Init();
+
+    void Read();
+    void Create();
+    void Write();
 
     int mError;
 

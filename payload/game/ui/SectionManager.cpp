@@ -28,9 +28,6 @@ kmCallDefCpp(0x80634EC8, int, SaveGhostManager* self) {
         case NandUtil::ERROR_FILE_CORRUPT:
             return Section::SAVE_INVALID;
 
-        case NandUtil::ERROR_FILE_NOT_FOUND:
-            return Section::SAVE_NOT_FOUND;
-
         case NandUtil::ERROR_SPACE:
             return Section::SAVE_CANNOT_FLUSH;
 
