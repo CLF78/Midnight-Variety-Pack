@@ -49,3 +49,45 @@ kmWrite32(0x80544930, 0x60000000);
 // SaveManager::init() patch
 // Wait for save expansion before marking as not busy
 kmWrite32(0x80544A1C, 0x60000000);
+
+// SaveManager::reset() patch
+// Wait for save expansion before marking as not busy
+kmWrite32(0x8054A84C, 0x60000000);
+
+// SaveManager::resetTask() override
+// Do not reset the original savegame if the error is expansion-only
+void ResetTask() {
+
+    // Only run save reset if the savegame threw an error
+    SaveManager* mgr = SaveManager::instance;
+    if (mgr->result != NandUtil::ERROR_NONE)
+        mgr->reset();
+
+    // Reset the expansion by deleting it and writing it back
+    int result = SaveExpansionManager::Delete();
+    if (result == NandUtil::ERROR_NONE)
+        result = SaveExpansionManager::Write();
+
+    // Store the result
+    SaveExpansionManager::sError = result;
+
+    // End busy state
+    mgr->busy = false;
+}
+
+// SaveManager::resetAsync() override
+// Do not reset the RawSave if the error is expansion-only
+kmBranchDefCpp(0x8054A868, NULL, void, SaveManager* self) {
+
+    // Check for SaveManager error, if so reset the raw save (the rest will be done in a separate thread)
+    if (self->result != NandUtil::ERROR_NONE) {
+        self->rawSave->Reset();
+    }
+
+    // Reset the save expansion data
+    self->expansion.Init();
+
+    // Mark SaveManager as busy and start async process
+    self->busy = true;
+    self->taskThread->request(&ResetTask, 0, 0);
+}

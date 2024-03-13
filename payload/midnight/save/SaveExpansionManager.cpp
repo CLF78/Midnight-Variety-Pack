@@ -144,4 +144,11 @@ int SaveExpansionManager::Write() {
     return result;
 }
 
+int Delete() {
+
+    // NANDUtil already deals with the file not existing, so we are relatively safe
+    DEBUG_REPORT("[SAVEEX] Deleting save expansion data...\n")
+    return NandUtil::Delete(SAVEEX_FILENAME);
+}
+
 } // namespace SaveExpansionManager

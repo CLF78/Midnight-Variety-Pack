@@ -118,6 +118,7 @@ public:
     size_assert(License, 0x93F0);
 
     void init();
+    void reset();
 
     // Gets a section from the save expansion
     static SaveExpansionSection* GetExpansionSection(u32 id) {

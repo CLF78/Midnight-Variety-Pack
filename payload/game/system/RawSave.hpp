@@ -34,6 +34,8 @@ struct RawSave {
     };
     size_assert(UnkBlock, 0x14F0);
 
+    void Reset();
+
     u32 magic;
     u32 version;
     License licenses[4];

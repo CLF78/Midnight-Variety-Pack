@@ -6,6 +6,7 @@ namespace SaveExpansionManager {
     int Read();
     int Create();
     int Write();
+    int Delete();
 
     extern int sError;
 

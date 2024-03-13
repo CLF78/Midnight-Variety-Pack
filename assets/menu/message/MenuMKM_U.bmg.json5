@@ -1,4 +1,10 @@
 {
+    "2055": {
+        string: "The Mario Kart Wii data is\ncorrupted and cannot be used.\n\nDelete the corrupted file and\ncreate a new one?",
+    },
+    "2056": {
+        string: "The Mario Kart Midnight data is\ncorrupted and cannot be used.\n\nDelete the corrupted file and\ncreate a new one?",
+    },
     "3060": {
         string: "A Time Trial at regular speed.",
     },
