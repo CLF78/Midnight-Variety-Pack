@@ -100,7 +100,7 @@ bool SaveExpansion::Read(u8* buffer, u32 bufferSize) {
     return true;
 }
 
-bool SaveExpansion::Write() {
+void SaveExpansion::Write() {
 
     // Write the header
     Header* header = (Header*)mWriteBuffer;
@@ -126,5 +126,4 @@ bool SaveExpansion::Write() {
 
     // Calculate the checksum
     header->checksum = NETCalcCRC32(mWriteBuffer, mWriteBufferSize);
-    return true;
 }

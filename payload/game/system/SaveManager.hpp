@@ -119,6 +119,8 @@ public:
 
     void init();
     void reset();
+    void writeLicenses();
+    int flushSave();
 
     // Gets a section from the save expansion
     static SaveExpansionSection* GetExpansionSection(u32 id) {

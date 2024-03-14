@@ -91,3 +91,33 @@ kmBranchDefCpp(0x8054A868, NULL, void, SaveManager* self) {
     self->busy = true;
     self->taskThread->request(&ResetTask, 0, 0);
 }
+
+// SaveManager::saveLicensesTask() override
+// Write savegame and expansion to NAND
+void SaveTask() {
+
+    // Get SaveManager
+    SaveManager* mgr = SaveManager::instance;
+
+    // Try flushing savegame to NAND
+    // Only write the expansion if the original save is written successfully
+    mgr->result = mgr->flushSave();
+    if (mgr->result == NandUtil::ERROR_NONE)
+        SaveExpansionManager::sError = SaveExpansionManager::Write();
+
+    // End busy state
+    mgr->busy = false;
+}
+
+// SaveManager::saveLicensesAsync()
+// Save the expansion along the original save
+kmBranchDefCpp(0x80544C2C, NULL, void, SaveManager* self) {
+
+    // Write licenses and expansion
+    self->writeLicenses();
+    self->expansion.Write();
+
+    // Mark as busy and start save task
+    self->busy = true;
+    self->taskThread->request(&SaveTask, 0, 0);
+}

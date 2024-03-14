@@ -21,7 +21,7 @@ public:
     u32 GetRequiredSpace();
     void Init();
     bool Read(u8* buffer, u32 bufferSize);
-    bool Write();
+    void Write();
 
     static SaveExpansion* construct(void* buffer) { return new(buffer) SaveExpansion(); }
     SaveExpansionLicense* GetLicense(u8 idx) { return &mLicenses[idx]; }
