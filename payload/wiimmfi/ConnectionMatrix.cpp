@@ -26,8 +26,7 @@ void Update() {
     if (!stpMatchCnt)
         return;
 
-    // Lock interrupts
-    // Q: Why is this needed?
+    // Lock interrupts to avoid potential disconnections while this function is executing
     nw4r::ut::AutoInterruptLock lock;
 
     // Compute the connection matrix
