@@ -11,10 +11,6 @@ public:
         REQ_ERASE_GHOST,
         REQ_LOAD_GHOST,
         REQ_LOAD_ALL_GHOSTS,
-
-        // custom request types from here onwards (max 2)
-        REQ_SAVE_EXPANSION,
-        REQ_ERASE_EXPANSION,
         REQ_COUNT,
     };
 
@@ -60,10 +56,7 @@ public:
     bool requestEraseGhost;
     bool requestLoadGhost;
     bool requestLoadAllGhosts;
-
-    // custom fields, previously padding
-    bool requestSaveExpansion;
-    bool requestEraseExpansion;
+    // 2 bytes padding
 
     int lastRequestType;
     int saveManagerError;
