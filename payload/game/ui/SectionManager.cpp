@@ -19,7 +19,8 @@ kmCallDefCpp(0x80634EC8, int, SaveGhostManager* self) {
     if (section != Section::NONE)
         return section;
 
-    // Otherwise do similar error checking with the save expansion error
+    // Otherwise copy the savegame error from the expansion and do our own error check
+    self->saveManagerError = SaveExpansionManager::sError;
     switch (SaveExpansionManager::sError) {
         case NandUtil::ERROR_NONE:
         case NandUtil::ERROR_REGION:
@@ -29,6 +30,7 @@ kmCallDefCpp(0x80634EC8, int, SaveGhostManager* self) {
             return Section::SAVE_INVALID;
 
         case NandUtil::ERROR_SPACE:
+            self->nandManagerCheckError = SaveExpansionManager::sCheckError;
             return Section::SAVE_CANNOT_FLUSH;
 
         default:

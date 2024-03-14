@@ -9,6 +9,7 @@
 namespace SaveExpansionManager {
 
 int sError = NandUtil::ERROR_NONE;
+int sCheckError = NandUtil::CHECK_ERROR_NONE;
 
 int Read() {
 
@@ -71,6 +72,9 @@ int Read() {
 
 int SaveExpansionManager::Create() {
 
+    // Reset the check error
+    sCheckError = NandUtil::CHECK_ERROR_NONE;
+
     // Check that the file can be created, if not bail
     u32 answer;
     int result = NandUtil::Check(NANDBytesToBlocks(SaveManager::instance->expansion.mWriteBufferSize), 1, &answer);
@@ -78,12 +82,20 @@ int SaveExpansionManager::Create() {
     // If the procedure failed, bail
     if (result != NandUtil::ERROR_NONE) {
         DEBUG_REPORT("[SAVEEX] Check returned error %d\n", result)
+        sCheckError = NandUtil::CHECK_ERROR_FAIL;
         return result;
     }
 
     // If there's not enough space, bail
     if (answer != 0) {
         DEBUG_REPORT("[SAVEEX] Cannot fit save in NAND! (%x)\n", answer)
+
+        if (answer & (NAND_CHECK_HOME_NO_SPACE | NAND_CHECK_SYS_NO_SPACE))
+            sCheckError |= NandUtil::CHECK_ERROR_BLOCKS;
+
+        if (answer & (NAND_CHECK_HOME_NO_INODES | NAND_CHECK_SYS_NO_INODES))
+            sCheckError |= NandUtil::CHECK_ERROR_INODES;
+
         return NandUtil::ERROR_SPACE;
     }
 

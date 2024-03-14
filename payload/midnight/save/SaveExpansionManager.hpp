@@ -9,5 +9,6 @@ namespace SaveExpansionManager {
     int Delete();
 
     extern int sError;
+    extern int sCheckError;
 
 } // namespace SaveExpansionManager

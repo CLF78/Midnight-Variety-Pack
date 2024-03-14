@@ -281,6 +281,7 @@ __vt__19CtrlMenuMovieButton=0x808D3590
 __vt__9MenuMovie=0x808D3608
 __vt__22CtrlRaceBattleSetPoint=0x808D3BD8
 instance__9CourseMap=0x809BD6E8
+instance__11NandManager=0x809BD720
 instance__10RaceConfig=0x809BD728
 instance__11RaceManager=0x809BD730
 instance__15ResourceManager=0x809BD738
