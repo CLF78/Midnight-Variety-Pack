@@ -20,7 +20,7 @@ public:
     SaveExpansionSection* GetSection(u32 id) { return mSections[id]; }
 
     void Init();
-    void Read(u8* buffer, u32 bufferSize);
+    bool Read(u8* buffer, u32 bufferSize);
     void Write(u8* buffer);
 
     SaveExpansionSection* mSections[SaveExpansionSection::SECTION_COUNT];

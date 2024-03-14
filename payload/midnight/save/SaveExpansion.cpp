@@ -72,7 +72,7 @@ bool SaveExpansion::Read(u8* buffer, u32 bufferSize) {
 
     // If buffer is null, bail
     if (!buffer)
-        return false;
+        return true;
 
     // If the header is not valid, bail
     Header* header = (Header*)buffer;
@@ -91,7 +91,10 @@ bool SaveExpansion::Read(u8* buffer, u32 bufferSize) {
         u8* license = buffer + header->headerSize + header->licenseOffsets[i];
         u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1 ) ? bufferSize - header->licenseOffsets[i]
                                                             : header->licenseOffsets[i+1] - header->licenseOffsets[i];
-        mLicenses[i].Read(license, licenseSize);
+
+        // If one of the license headers is invalid, bail
+        if (!mLicenses[i].Read(license, licenseSize))
+            return false;
     }
 
     return true;

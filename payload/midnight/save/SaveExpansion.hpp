@@ -28,6 +28,6 @@ public:
 
     SaveExpansionLicense mLicenses[SAVEEX_LICENSE_COUNT];
 
-    u8* mWriteBuffer; // permanent
+    u8* mWriteBuffer;
     u32 mWriteBufferSize;
 };

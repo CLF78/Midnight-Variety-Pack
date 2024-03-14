@@ -54,14 +54,15 @@ void SaveExpansionLicense::Init() {
     }
 }
 
-void SaveExpansionLicense::Read(u8* buffer, u32 bufferSize) {
+bool SaveExpansionLicense::Read(u8* buffer, u32 bufferSize) {
 
-    // If the header for the license is not valid, bail
+    // If the header for the license is not valid, bail and mark as corrupted
     Header* header = (Header*)buffer;
     if (!header->IsValid(bufferSize))
-        return;
+        return false;
 
     // Parse each section
+    // Do not mark save as corrupted on invalid section/section data
     for (int i = 0; i < header->sectionCount; i++) {
 
         // Get the section pointer
@@ -77,6 +78,9 @@ void SaveExpansionLicense::Read(u8* buffer, u32 bufferSize) {
             }
         }
     }
+
+    // Everything in working order!
+    return true;
 }
 
 void SaveExpansionLicense::Write(u8* buffer) {
