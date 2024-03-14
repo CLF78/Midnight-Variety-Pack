@@ -119,7 +119,9 @@ public:
 
     void init();
     void reset();
+    void eraseLicense(u32 licenseId);
     void writeLicenses();
+
     int flushSave();
 
     // Gets a section from the save expansion

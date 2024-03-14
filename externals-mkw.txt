@@ -192,6 +192,7 @@ getFile__15ResourceManagerFiPCcPUl=0x805411FC
 init__11SaveManagerFv=0x8054484C
 flushSave__11SaveManagerFv=0x80544ADC
 writeLicenses__11SaveManagerFv=0x80544BC4
+eraseLicense__11SaveManagerFUi=0x80547FBC
 Reset__7RawSaveFv=0x80548104
 reset__11SaveManagerFv=0x8054A748
 __ct__6RandomFv=0x80555464
