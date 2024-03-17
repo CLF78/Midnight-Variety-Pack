@@ -85,9 +85,10 @@ public:
     s64 RACERecvTimesTaken[12]; // Time between the last two packets received from each aid
     u8 lastRACESendAid; // The last aid a packet was sent to
 
-    // TODO replace this with a pointer to a buffer for custom size
-    u8 fullRecvRACEPackets[12][736]; // 1 per aid
+    // Modified structure
     // 3 bytes padding
+    u8* fullRecvRACEPackets[12];
+    u8 unused[0x25E4 - 0x394];
 
     RKNetStatusData ownStatus;
     RKNetFriend friendStatus[30];
