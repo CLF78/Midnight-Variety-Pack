@@ -7,6 +7,13 @@ namespace CupData {
         IS_RANDOM = 0x8000, // Marks the track as a list of random variants
     };
 
+    enum Placeholders {
+        UNDECIDED_TRACK_VOTE = 0xFFFE, // Placeholder for track not voted (used in network protocol)
+        RANDOM_TRACK_VOTE = 0xFFFF, // Placeholder for random track vote (used in network protocol)
+        NO_PLAYER = 0xFFFE, // Placeholder for missing guest (used in network protocol)
+        NO_TRACK = 0xFFFF, // Placeholder for empty track (used in network protocol)
+    };
+
     // Structure for each individual track (battle or arena)
     // The file id is inferred from the entry index
     struct Track {

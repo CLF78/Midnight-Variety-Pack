@@ -52,6 +52,10 @@ public:
         return &subs[currentSub];
     }
 
+    RKNetRACEPacketHolder* getPacketSendBuffer(u8 aid) {
+        return splitSendRACEPackets[lastSendBufferUsed[aid]][aid];
+    }
+
     bool isPlayerHost() {
         Sub* sub = getCurrentSub();
         return sub->myAid == sub->hostAid;

@@ -21,10 +21,18 @@ struct RKNetRH1Packet {
     u8 player2Character;
     u16 countdownTime;
     u8 starRanks[2];
-    u8 course;
+
+    // Modified structure
+    u8 reserved; // we might use this in the future for game-mode stuff
+    // u8 course;
+
     u8 playerType;
     u8 slotMap[12];
     u8 engineClass;
-    // 3 bytes padding
+
+    // Modified structure
+    u8 reserved2;
+    u16 course;
+    // u8 pad[3];
 };
 size_assert(RKNetRH1Packet, 0x28);
