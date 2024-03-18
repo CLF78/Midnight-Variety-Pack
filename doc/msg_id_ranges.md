@@ -1,0 +1,6 @@
+- 1000-1600: Race.bmg
+- 1600-2000: RaceMKM.bmg
+- 2000-9000: Menu.bmg
+- 9000-10000: Common.bmg / CommonMKM.bmg
+- 10000-20000: CupData.bmg (reserved)
+- 20000+: MenuMKM.bmg
