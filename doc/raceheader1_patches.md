@@ -2,14 +2,14 @@
 - calc
 - copyEmptyPacket (both)
 - fillRecvData
-- getAidPidMap
-- getBattleType
-- getEngineClass
-- getPlayerCount
-- getSelectId
+- ~~getAidPidMap~~
+- ~~getBattleType~~
+- ~~getEngineClass~~
+- ~~getPlayerCount~~ (inline remnant, no patches needed)
+- ~~getRandomSeed~~
 - getStaticInstance
 - getTeam
-- getTrackId
+- ~~getTrackId~~
 - init
 - init2
 - isValidTrackMaybe

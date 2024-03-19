@@ -106,6 +106,7 @@ public:
         enum BattleType {
             BATTLE_BALLOON,
             BATTLE_COIN,
+            BATTLE_INVALID,
         };
 
         enum CPUMode {
