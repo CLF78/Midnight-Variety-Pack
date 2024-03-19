@@ -1,4 +1,5 @@
 #include <common/Common.hpp>
+#include <game/net/packet/RKNetPacketCommon.hpp>
 
 class RKNetRH1Handler {
 public:
@@ -8,9 +9,9 @@ public:
         int vehicles[2];
         int characters[2];
         int trackId;
-        u32 team;
+        RKNetBattleTeamData battleTeamData;
         u32 randomSeed;
-        s8 aidPidMap[12];
+        RKNetAidPidMap aidPidMap;
         u8 engineClass;
         u8 starRanks[2];
         // 1 byte padding

@@ -1,18 +1,11 @@
 #include <common/Common.hpp>
+#include <game/net/packet/RKNetPacketCommon.hpp>
 
 struct RKNetRH1Packet {
 
     u32 frameCount;
     u32 randomSeed;
-
-    union {
-        struct {
-            u8 battleType : 1;
-            u32 teams : 31; // 0 = ??, 1 = red team, 2 = ??, 3 = ??
-        };
-
-        u32 raw;
-    } battleTeamData;
+    RKNetBattleTeamData battleTeamData;
 
     u16 lagFrames;
     u8 player1Vehicle;
@@ -27,7 +20,7 @@ struct RKNetRH1Packet {
     // u8 course;
 
     u8 playerType;
-    u8 slotMap[12];
+    RKNetAidPidMap aidPidMap;
     u8 engineClass;
 
     // Modified structure

@@ -1,4 +1,5 @@
 #include <common/Common.hpp>
+#include <game/net/packet/RKNetPacketCommon.hpp>
 
 /*
 TODO update this structure to fit extra data:
@@ -27,21 +28,8 @@ struct RKNetSELECTPacket {
     s64 timeReceived;
     RKNetSELECTPlayer playerData[2];
     u32 selectId;
-
-    union {
-        struct {
-            u8 battleType;
-            u32 teams : 24; // 0 = ??, 1 = red team, 2 = ??, 3 = ??
-        };
-
-        u32 raw;
-    } battleTeamData;
-
-    union {
-        u8 playerIds[12];
-        u32 raw[3];
-    } playerIdToAid;
-
+    RKNetBattleTeamData battleTeamData;
+    RKNetAidPidMap aidPidMap;
     u8 winningCourse;
     u8 phase; // 0 = prepare, 1 = voting, 2 = lottery
     u8 winningVoterAid;

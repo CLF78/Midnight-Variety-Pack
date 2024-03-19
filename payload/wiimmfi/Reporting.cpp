@@ -395,7 +395,7 @@ void ReportSELECTInfo() {
              packet->playerData[0].vehicle, packet->playerData[1].vehicle,
              packet->engineClass,
              DWC_GetMyAID(),
-             packet->playerIdToAid.raw[0], packet->playerIdToAid.raw[1], packet->playerIdToAid.raw[2],
+             packet->aidPidMap.raw[0], packet->aidPidMap.raw[1], packet->aidPidMap.raw[2],
              packet->battleTeamData.raw);
 
     // Send it
