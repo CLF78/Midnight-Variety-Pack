@@ -63,6 +63,7 @@ public:
 
     virtual ~RKNetController();
 
+    bool isConnectedToAnyone();
     void processRacePacket(u32 aid, void* data, u32 dataLength);
     void updateSubsAndVr();
     WifiDisconnectInfo getWifiDisconnectInfo();

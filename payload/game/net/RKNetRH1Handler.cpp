@@ -1,11 +1,63 @@
 #include <common/Common.hpp>
+#include <game/net/RKNet.hpp>
+#include <game/net/RKNetController.hpp>
 #include <game/net/RKNetRH1Handler.hpp>
+#include <game/net/packet/RKNetRH1Packet.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <midnight/cup/CupCounts.h>
 
 ///////////////////////
 // Custom Cup System //
 ///////////////////////
+
+kmHookFn bool IsTrackAvailable(RKNetRH1Handler* self) {
+
+    // If we are not connected to anyone, bail
+    if (!RKNetController::instance->isConnectedToAnyone())
+        return false;
+
+    // If nobody has updated RH1, bail
+    if (self->aidsWithUpdatedRH1 == 0)
+        return false;
+
+    // Everyone must have updated RH1, if not bail
+    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    u32 mask = sub->availableAids & (self->aidsWithUpdatedRH1 | (1 << sub->myAid));
+    if (sub->availableAids != mask)
+        return false;
+
+    // Check each data
+    for (int i = 0; i < ARRAY_SIZE(self->datas); i++) {
+        if (self->datas[i].timer != 0 && self->datas[i].trackId < TRACK_COUNT)
+            return true;
+    }
+
+    // No one has it
+    return false;
+}
+
+// RKNetRH1Handler::calc() patch
+// Patch the course check to get the correct result
+kmBranchDefAsm(0x80663EA4, 0x80664084) {
+    nofralloc
+
+    // Call C++ code
+    mr r3, r31
+    bl IsTrackAvailable
+
+    // Move result to r0
+    mr r0, r3
+    blr
+}
+
+// RKNetRH1Handler::isTrackAvailable() override
+// Patch the course check to get the correct result
+kmBranch(0x806641B0, IsTrackAvailable);
+
+// RKNetRH1Handler::getTeam() patch
+// Patch the course check to get the team from the correct player
+// Only doing a patch because the function is confusing as fuck
+kmWrite16(0x80664506, TRACK_COUNT);
 
 // RKNetRH1Handler::getTrackId() override
 // Replace the course check to get the track id from the correct player
@@ -65,4 +117,22 @@ kmBranchDefCpp(0x80664B34, NULL, u8*, RKNetRH1Handler* self) {
     }
 
     return nullptr;
+}
+
+// RKNetRH1Handler::exportDefaultPacket() override
+// Set the correct data for sending
+kmBranchDefCpp(0x806653C8, NULL, void, RKNetRH1Handler* self, u8 aid) {
+
+    RKNetRH1Packet packet(RKNetRH1Packet::PLAYER_UNK_1);
+    RKNetRACEPacketHolder* holder = RKNetController::instance->getPacketSendBuffer(aid);
+    RKNet::CopyIntoPacketHolder(holder->raceHeader1, &packet, sizeof(packet));
+}
+
+// RKNetRH1Handler::exportDefaultSpectatorPacket() override
+// Set the correct data for sending
+kmBranchDefCpp(0x80665480, NULL, void, RKNetRH1Handler* self, u8 aid) {
+
+    RKNetRH1Packet packet(RKNetRH1Packet::PLAYER_SPECTATOR);
+    RKNetRACEPacketHolder* holder = RKNetController::instance->getPacketSendBuffer(aid);
+    RKNet::CopyIntoPacketHolder(holder->raceHeader1, &packet, sizeof(packet));
 }

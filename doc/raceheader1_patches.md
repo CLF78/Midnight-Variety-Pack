@@ -1,19 +1,15 @@
 ## RKNetRH1Handler
-- calc
-- copyEmptyPacket (both)
-- fillRecvData
+- ~~calc~~
+- ~~exportDefaultPacket~~
+- ~~exportDefaultSpectatorPacket~~
 - ~~getAidPidMap~~
 - ~~getBattleType~~
 - ~~getEngineClass~~
-- ~~getPlayerCount~~ (inline remnant, no patches needed)
 - ~~getRandomSeed~~
-- getStaticInstance
-- getTeam
+- ~~getTeam~~
 - ~~getTrackId~~
-- init
-- init2
-- isValidTrackMaybe
-- resetData
+- importRecvData
+- ~~isTrackAvailable~~
 
 ## RKNetPacketCreator / MiscPacketHandler
 - createRH1
