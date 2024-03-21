@@ -52,8 +52,12 @@ public:
         return &subs[currentSub];
     }
 
-    RKNetRACEPacketHolder* getPacketSendBuffer(u8 aid) {
-        return splitSendRACEPackets[lastSendBufferUsed[aid]][aid];
+    RKNetPacketHolder* getPacketSendBuffer(u8 aid, u8 section) {
+        return splitSendRACEPackets[lastSendBufferUsed[aid]][aid]->sections[section];
+    }
+
+    RKNetPacketHolder* getPacketRecvBuffer(u8 aid, u8 section) {
+        return splitRecvRACEPackets[lastRecvBufferUsed[aid][section]][aid]->sections[section];
     }
 
     bool isPlayerHost() {

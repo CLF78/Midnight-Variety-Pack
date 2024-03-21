@@ -8,9 +8,9 @@
 - ~~getRandomSeed~~
 - ~~getTeam~~
 - ~~getTrackId~~
-- importRecvData
+- ~~importRecvData~~
 - ~~isTrackAvailable~~
 
 ## RKNetPacketCreator / MiscPacketHandler
-- createRH1
-- createRH1PlusExportRACEDATAAndUSER
+- createRH1Spectator
+- createRH1Racer

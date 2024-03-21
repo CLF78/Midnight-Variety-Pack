@@ -12,10 +12,11 @@ public:
         RKNetBattleTeamData battleTeamData;
         u32 randomSeed;
         RKNetAidPidMap aidPidMap;
-        u8 engineClass;
+        RKNetEngineClassData engineClass;
         u8 starRanks[2];
         // 1 byte padding
     };
+    size_assert(Data, 0x30);
 
     bool prepared;
     bool _1;
