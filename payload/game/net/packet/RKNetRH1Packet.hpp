@@ -19,11 +19,13 @@ struct RKNetRH1Packet {
         player1Character(0xFF),
         player2Vehicle(0xFF),
         player2Character(0xFF),
+        countdownTime(0),
         reserved(0),
         playerType(plrType),
         aidPidMap(),
         engineClass(),
-        course(CupData::NO_TRACK) {}
+        reserved2(0),
+        course(CupData::NO_TRACK) { starRanks[0] = 0; starRanks[1] = 0; }
 
     u32 frameCount;
     u32 randomSeed;

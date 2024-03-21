@@ -117,6 +117,7 @@ public:
         };
 
         enum ModeFlags {
+            FLAG_NONE        = BIT_FLAG(-1),
             FLAG_MIRROR      = BIT_FLAG(0),
             FLAG_TEAMS       = BIT_FLAG(1),
             FLAG_COMPETITION = BIT_FLAG(2),

@@ -7,6 +7,7 @@
 #include <game/net/RKNetPacketHolder.hpp>
 #include <game/net/RKNetStatusData.hpp>
 #include <game/net/WifiDisconnectInfo.hpp>
+#include <game/net/packet/RKNetPacketCommon.hpp>
 #include <game/net/packet/RKNetRacePacketHeader.hpp>
 
 class RKNetController {
@@ -119,7 +120,7 @@ public:
     int lastSendBufferUsed[12]; // 1 per aid
     int lastRecvBufferUsed[12][RKNetRACEPacketHeader::SECTION_COUNT]; // 1 per packet section per aid
     int currentSub;
-    u8 aidPidMap[12]; // Index is player id, value is aid
+    RKNetAidPidMap aidPidMap;
     u32 disconnectedAids; // Bitfield
     u32 disconnectedPlayerIds; // Bitfield
 
