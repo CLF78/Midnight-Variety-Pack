@@ -133,7 +133,7 @@ kmBranchDefCpp(0x806651B4, NULL, void, RKNetRH1Handler* self) {
 
         // Skip if the AID is not available
         u32 aidMask = 1 << aid;
-        if (aidMask & sub->availableAids == 0)
+        if (!(aidMask & sub->availableAids))
             continue;
 
         // Get the packet buffer

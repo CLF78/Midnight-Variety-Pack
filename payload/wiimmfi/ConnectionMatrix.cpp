@@ -34,7 +34,7 @@ void Update() {
     for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
         u32 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
         if (DWCi_GetGT2Connection(aid))
-            aidsConnectedToMe |= 1 << i;
+            aidsConnectedToMe |= (1 << i);
     }
 
     // Report it to the server and share it with the clients
