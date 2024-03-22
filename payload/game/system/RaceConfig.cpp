@@ -16,7 +16,7 @@ kmBranchDefCpp(0x8052F208, 0x8052F228, RaceConfig::Scenario*, RaceConfig::Scenar
 
     // Get the track and store it
     u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
-    CupManager::SetCourse(self, actualTrackIdx);
+    CupManager::SetCourse(&self->settings, actualTrackIdx);
 
     // Return the first argument to avoid breaking the following code
     return self;

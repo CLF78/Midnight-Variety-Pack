@@ -15,7 +15,7 @@ kmCallDefCpp(0x8084E5C4, void, GlobalContext* self) {
 
     // Store the first track properly
     u16 firstTrack = self->trackOrder[0];
-    CupManager::SetCourse(&RaceConfig::instance->menuScenario, firstTrack);
+    CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, firstTrack);
 }
 
 // DriftSelectPage::onButtonSelect() patch
@@ -27,7 +27,7 @@ kmCallDefCpp(0x8084E58C, void, GlobalContext* self) {
 
     // Store the first track properly
     u16 firstTrack = self->arenaOrder[0];
-    CupManager::SetCourse(&RaceConfig::instance->menuScenario, firstTrack);
+    CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, firstTrack);
 }
 
 // DriftSelectPage::onButtonSelect() patches

@@ -69,7 +69,7 @@ kmBranchDefCpp(0x8083CFE8, NULL, void, BattleStageSelectPage* self, CtrlMenuBatt
 
         // Get the actual arena to be played and store it
         u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
-        CupManager::SetCourse(&RaceConfig::instance->menuScenario, actualTrackIdx);
+        CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
 
         // Prepare intro
         self->requestSectionChange(Section::DEMO_BT, button);

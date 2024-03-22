@@ -118,7 +118,7 @@ kmBranchDefCpp(0x8083955C, NULL, void, BattleCupSelectPage* self, CtrlMenuBattle
 
             // Get the actual track and store it
             u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
-            CupManager::SetCourse(&RaceConfig::instance->menuScenario, actualTrackIdx);
+            CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
         
         // Else wait for the course voting page to be loaded (is this even needed?)
         } else {

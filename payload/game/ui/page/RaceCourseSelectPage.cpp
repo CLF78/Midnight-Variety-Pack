@@ -39,7 +39,7 @@ kmBranchDefCpp(0x80840830, NULL, void, RaceCourseSelectPage* self, CtrlMenuCours
 
         // Get the actual track to be played and store it
         u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
-        CupManager::SetCourse(&RaceConfig::instance->menuScenario, actualTrackIdx);
+        CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
 
         // If we're in TT mode, go to the ghost select screen
         u32 gameMode = RaceConfig::instance->menuScenario.settings.gameMode;

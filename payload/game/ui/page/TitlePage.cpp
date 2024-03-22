@@ -23,7 +23,7 @@ kmBranchDefCpp(0x8063B1FC, 0x8063B338, void, Random* randomizer) {
 
     // Get the track and set it as the demo one
     trackIdx = CupManager::getTrackFile(trackIdx);
-    CupManager::SetCourse(&RaceConfig::instance->menuScenario, trackIdx);
+    CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, trackIdx);
     SectionManager::instance->globalContext->demoTrack = trackIdx;
 }
 
@@ -41,6 +41,6 @@ kmBranchDefCpp(0x8063B2F4, 0x8063B338, void, Random* randomizer) {
 
     // Get the arena and set it as the demo one
     trackIdx = CupManager::getTrackFile(trackIdx);
-    CupManager::SetCourse(&RaceConfig::instance->menuScenario, trackIdx);
+    CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, trackIdx);
     SectionManager::instance->globalContext->demoArena = trackIdx;
 }

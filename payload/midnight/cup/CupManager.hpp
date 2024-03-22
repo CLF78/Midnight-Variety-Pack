@@ -104,9 +104,9 @@ public:
     }
 
     // Sets the current course and its slot id
-    static void SetCourse(RaceConfig::Scenario* scenario, u32 actualTrackIdx) {
+    static void SetCourse(RaceConfig::Settings* settings, u32 actualTrackIdx) {
         currentSzs = actualTrackIdx;
-        scenario->settings.courseId = CupData::tracks[actualTrackIdx].specialSlot;
+        settings->courseId = CupData::tracks[actualTrackIdx].specialSlot;
     }
 
     ////////////////////

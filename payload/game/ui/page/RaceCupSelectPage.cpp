@@ -134,7 +134,7 @@ kmBranchDefCpp(0x80841744, NULL, void, RaceCupSelectPage* self, CtrlMenuCupSelec
 
             // Get the actual track and store it
             u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
-            CupManager::SetCourse(&RaceConfig::instance->menuScenario, actualTrackIdx);
+            CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
 
             // If in GP mode, go straight to the OK button instead of the course selection
             if (RaceConfig::instance->menuScenario.settings.gameMode == RaceConfig::Settings::GAMEMODE_GP) {
