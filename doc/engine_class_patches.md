@@ -42,6 +42,7 @@
 ### Patched
 - 0x805E1D0C - stores 150cc for time trial against ghost
 - 0x805E1EB0 - stores 150cc for ghost replay
+- 0x80609F10 - stores CC from RH1 packet
 - 0x8083FAFC - stores CC from CC select page
 
 ### No Patch Needed
@@ -61,7 +62,6 @@
 
 ### Unpatched
 - 0x805E03EC - stores 150cc for ghost race
-- 0x80609F10 - stores CC from RH1 packet
 - 0x80650E24 - stores CC from SELECT packet
 - 0x80665CA8 - stores CC from competition file
 - 0x808432AC - stores CC from mission mode file

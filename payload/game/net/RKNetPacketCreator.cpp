@@ -17,6 +17,10 @@
 // Credits: Wiimmfi
 kmWrite32(0x80654400, 0x60000000);
 
+///////////////////////////////////////////////
+// Custom Cup System / Custom Engine Classes //
+///////////////////////////////////////////////
+
 // RKNetPacketCreator::createRH1Racer() override
 // Pack the RACEHEADER_1 data
 kmBranchDefCpp(0x80654D08, NULL, void, RKNetPacketCreator* self) {

@@ -6,9 +6,45 @@
 #include <midnight/cup/CupCounts.h>
 #include <platform/string.h>
 
-///////////////////////
-// Custom Cup System //
-///////////////////////
+///////////////////////////////////////////////
+// Custom Cup System / Custom Engine Classes //
+///////////////////////////////////////////////
+
+// RKNetRH1Handler::getBattleType() override
+// Replace the course check to get the battle type from the correct player
+// Original address: 0x806646C8
+u8 RKNetRH1Handler::getBattleType() {
+    for (int i = 0; i < ARRAY_SIZE(datas); i++) {
+        if (datas[i].trackId < TRACK_COUNT)
+            return datas[i].battleTeamData.battleType;
+    }
+
+    return RaceConfig::Settings::BATTLE_INVALID;
+}
+
+// RKNetRH1Handler::getEngineClass() override
+// Replace the course check to get the engine class from the correct player
+// Original address: 0x80664A3C
+u8 RKNetRH1Handler::getEngineClass() {
+    for (int i = 0; i < ARRAY_SIZE(datas); i++) {
+        if (datas[i].trackId < TRACK_COUNT)
+            return datas[i].engineClass.raw;
+    }
+
+    return 0;
+}
+
+// RKNetRH1Handler::getTrackId() override
+// Replace the course check to get the track id from the correct player
+// Original address: 0x80664560
+u32 RKNetRH1Handler::getTrackId() {
+    for (int i = 0; i < ARRAY_SIZE(datas); i++) {
+        if (datas[i].timer != 0 && datas[i].trackId < TRACK_COUNT)
+            return datas[i].trackId;
+    }
+
+    return -1;
+}
 
 kmHookFn bool IsTrackAvailable(RKNetRH1Handler* self) {
 
@@ -59,34 +95,9 @@ kmBranch(0x806641B0, IsTrackAvailable);
 // Only doing a patch because the function is confusing as fuck
 kmWrite16(0x80664506, TRACK_COUNT);
 
-// RKNetRH1Handler::getTrackId() override
-// Replace the course check to get the track id from the correct player
-kmBranchDefCpp(0x80664560, NULL, u32, RKNetRH1Handler* self) {
-
-    for (int i = 0; i < ARRAY_SIZE(self->datas); i++) {
-        if (self->datas[i].timer != 0 && self->datas[i].trackId < TRACK_COUNT)
-            return self->datas[i].trackId;
-    }
-
-    return -1;
-}
-
-// RKNetRH1Handler::getBattleType() override
-// Replace the course check to get the battle type from the correct player
-kmBranchDefCpp(0x806646C8, NULL, u8, RKNetRH1Handler* self) {
-
-    for (int i = 0; i < ARRAY_SIZE(self->datas); i++) {
-        if (self->datas[i].trackId < TRACK_COUNT)
-            return self->datas[i].battleTeamData.battleType;
-    }
-
-    return RaceConfig::Settings::BATTLE_INVALID;
-}
-
 // RKNetRH1Handler::getRandomSeed() override
 // Replace the course check to get the random seed from the correct player
 kmBranchDefCpp(0x80664944, NULL, u32, RKNetRH1Handler* self) {
-
     for (int i = 0; i < ARRAY_SIZE(self->datas); i++) {
         if (self->datas[i].trackId < TRACK_COUNT)
             return self->datas[i].randomSeed;
@@ -95,22 +106,9 @@ kmBranchDefCpp(0x80664944, NULL, u32, RKNetRH1Handler* self) {
     return 0;
 }
 
-// RKNetRH1Handler::getEngineClass() override
-// Replace the course check to get the engine class from the correct player
-kmBranchDefCpp(0x80664A3C, NULL, u8, RKNetRH1Handler* self) {
-
-    for (int i = 0; i < ARRAY_SIZE(self->datas); i++) {
-        if (self->datas[i].trackId < TRACK_COUNT)
-            return self->datas[i].engineClass.raw;
-    }
-
-    return RaceConfig::Settings::CC_50;
-}
-
 // RKNetRH1Handler::getAidPidMap() override
 // Replace the course check to get the map from the correct player
 kmBranchDefCpp(0x80664B34, NULL, u8*, RKNetRH1Handler* self) {
-
     for (int i = 0; i < ARRAY_SIZE(self->datas); i++) {
         if (self->datas[i].trackId < TRACK_COUNT)
             return self->datas[i].aidPidMap.playerIds;
@@ -177,7 +175,6 @@ kmBranchDefCpp(0x806651B4, NULL, void, RKNetRH1Handler* self) {
 // RKNetRH1Handler::exportDefaultPacket() override
 // Set the correct data for sending
 kmBranchDefCpp(0x806653C8, NULL, void, RKNetRH1Handler* self, u8 aid) {
-
     RKNetRH1Packet packet(RKNetRH1Packet::PLAYER_UNK_1);
     RKNetPacketHolder* holder = RKNetController::instance->getPacketSendBuffer(aid, RKNetRACEPacketHeader::RACEHEADER_1);
     holder->copyData(&packet, sizeof(packet));
@@ -186,7 +183,6 @@ kmBranchDefCpp(0x806653C8, NULL, void, RKNetRH1Handler* self, u8 aid) {
 // RKNetRH1Handler::exportDefaultSpectatorPacket() override
 // Set the correct data for sending
 kmBranchDefCpp(0x80665480, NULL, void, RKNetRH1Handler* self, u8 aid) {
-
     RKNetRH1Packet packet(RKNetRH1Packet::PLAYER_SPECTATOR);
     RKNetPacketHolder* holder = RKNetController::instance->getPacketSendBuffer(aid, RKNetRACEPacketHeader::RACEHEADER_1);
     holder->copyData(&packet, sizeof(packet));

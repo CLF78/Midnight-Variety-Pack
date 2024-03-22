@@ -18,6 +18,10 @@ public:
     };
     size_assert(Data, 0x30);
 
+    u8 getBattleType();
+    u8 getEngineClass();
+    u32 getTrackId();
+
     bool prepared;
     bool _1;
     // 2 bytes padding
