@@ -160,10 +160,10 @@ kmBranchDefCpp(0x806651B4, NULL, void, RKNetRH1Handler* self) {
         // Fill the corresponding data
         RKNetRH1Handler::Data* data = &self->datas[aid];
         data->timer = packet->frameCount;
-        data->vehicles[0] = packet->player1Vehicle;
-        data->vehicles[1] = packet->player2Vehicle;
-        data->characters[0] = packet->player1Character;
-        data->characters[1] = packet->player2Character;
+        data->vehicles[0] = packet->playerCombos[0].vehicle;
+        data->vehicles[1] = packet->playerCombos[1].vehicle;
+        data->characters[0] = packet->playerCombos[0].character;
+        data->characters[1] = packet->playerCombos[1].character;
         data->trackId = packet->course;
         data->battleTeamData.raw = packet->battleTeamData.raw;
         data->randomSeed = packet->randomSeed;

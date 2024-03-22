@@ -10,15 +10,18 @@ struct RKNetRH1Packet {
         PLAYER_SPECTATOR,
     };
 
+    union PlayerCombo {
+        PlayerCombo() { raw = 0xFFFF; }
+        struct { u8 vehicle; u8 character; };
+        u16 raw;
+    };
+
     RKNetRH1Packet(u8 plrType) :
         frameCount(0),
         randomSeed(0),
         battleTeamData(),
         lagFrames(0),
-        player1Vehicle(0xFF),
-        player1Character(0xFF),
-        player2Vehicle(0xFF),
-        player2Character(0xFF),
+        playerCombos(),
         countdownTime(0),
         reserved(0),
         playerType(plrType),
@@ -32,10 +35,7 @@ struct RKNetRH1Packet {
     RKNetBattleTeamData battleTeamData;
 
     u16 lagFrames;
-    u8 player1Vehicle;
-    u8 player1Character;
-    u8 player2Vehicle;
-    u8 player2Character;
+    PlayerCombo playerCombos[2];
     u16 countdownTime;
     u8 starRanks[2];
 

@@ -72,6 +72,7 @@ public:
     void processRacePacket(u32 aid, void* data, u32 dataLength);
     void updateSubsAndVr();
     WifiDisconnectInfo getWifiDisconnectInfo();
+    u32 getLocalPlayerIdx(u32 localPlayerNum);
 
     RKNetMutex mutex;
     EGG::ExpHeap* heap;
@@ -129,7 +130,7 @@ public:
     u16 maxBrGaps[10];
     // 4 bytes padding
 
-    s64 _2960[12]; // More timers
+    s64 countdownTimers[12]; // Used in RACEHEADER_1
     u32 _29C0; // Another timer
     // 4 bytes padding
 

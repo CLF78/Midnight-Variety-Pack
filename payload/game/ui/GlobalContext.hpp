@@ -4,6 +4,14 @@
 class GlobalContext {
 public:
 
+    struct PlayerCombo {
+        int character;
+        int vehicle;
+        s8 starRank;
+        // 3 bytes padding
+    };
+    size_assert(PlayerCombo, 0xC);
+
     enum VehicleRestriction {
         VEHICLES_KARTS,
         VEHICLES_BIKES,
@@ -37,7 +45,10 @@ public:
 
     s32 lastCourse;
     s32 lastStage;
-    u8 unk2[0x4D0 - 0x154];
+    u8 unk2[0x220 - 0x154];
+
+    PlayerCombo playerCombos[2];
+    u8 unk3[0x4D0 - 0x238];
 
     int demoCameraMode;
     int demoType;
@@ -46,9 +57,9 @@ public:
     int demoTrack;
     int demoArena;
 
-    u8 unk3[0x500-0x4E8];
+    u8 unk4[0x500-0x4E8];
 
     WifiDisconnectInfo disconnectInfo;
-    u8 unk4[0x510-0x508];
+    u8 unk5[0x510-0x508];
 };
 size_assert(GlobalContext, 0x510);

@@ -12,5 +12,5 @@
 - ~~isTrackAvailable~~
 
 ## RKNetPacketCreator / MiscPacketHandler
-- createRH1Spectator
-- createRH1Racer
+- ~~createRH1Spectator~~
+- ~~createRH1Racer~~
