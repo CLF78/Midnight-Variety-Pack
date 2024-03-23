@@ -1,0 +1,43 @@
+## RKNetSELECTHandler
+
+### Patched
+- getStaticInstance
+- ImportNewPackets
+- PrepareUSERAndSELECTSendPackets
+
+### To Be Verified
+- allocatePlayerIdsToAids
+- calc
+- construct
+- DecideBattleTypeAndTeams
+- decideEngineClass
+- DecideTrack
+- DestroyInstance
+- DestroyInstance
+- Destruct
+- FUN_80660710
+- FUN_80662290
+- FUN_80662588
+- GenerateMySELECTId
+- GetAidsBelongingToPlayerIds
+- GetBattleType
+- GetEngineClass
+- GetMySelectId
+- GetPlayerDriverId
+- GetPlayerSection
+- GetPlayerStarRank
+- GetPlayerTeam
+- GetPlayerVehicleId
+- GetPlayerVote
+- GetWinningTrack
+- GetWinningVoter
+- HandleRecvPacketTimes
+- HasUnprocessedRecvPacketsMaybe
+- InitialiseRecvPackets
+- InitializePacket
+- InitializePackets
+- InitializeSELECTPlayer
+- InitializeSendPacket
+- prepareSendPacket
+- ProcessNewPacketVoting
+- SetSendPacketPlayerDetails

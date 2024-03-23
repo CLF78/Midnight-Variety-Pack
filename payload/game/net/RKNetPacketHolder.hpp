@@ -4,6 +4,8 @@
 class RKNetPacketHolder {
 public:
     void copyData(void* data, u32 dataSize);
+    void appendData(void* data, u32 dataSize);
+    void clear();
 
     void* buffer;
     u32 bufferSize;
