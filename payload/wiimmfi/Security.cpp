@@ -23,7 +23,7 @@ bool IsPacketSectionSizeValid(int section, u32 sectionSize) {
 
         // For ROOM/SELECT packets, ensure the size matches one of the two possible values
         case RKNetRACEPacketHeader::ROOM_SELECT:
-            return (sectionSize == sizeof(RKNetROOMPacket) || sectionSize == sizeof(RKNetSELECTPacket));
+            return (sectionSize == sizeof(RKNetROOMPacket) || sectionSize == sizeof(RKNetSELECTPacketEx));
 
         // For RACEDATA and ITEM packets, ensure the size is either half or the full buffer size
         case RKNetRACEPacketHeader::RACEDATA:

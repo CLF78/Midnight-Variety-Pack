@@ -2,6 +2,27 @@
 #include <game/net/RKNetSelectHandler.hpp>
 #include <wiimmfi/RoomStall.hpp>
 
+///////////////////////////////////////////////
+// Custom Cup System / Custom Engine Classes //
+///////////////////////////////////////////////
+
+// RKNetSELECTHandler::getStaticInstance() patch
+// Update size of class
+kmCallDefCpp(0x8065FEB0, u32) {
+    return sizeof(RKNetSELECTHandler);
+}
+
+// RKNetSELECTHandler::getStaticInstance() patch
+// Construct the expansion data
+kmCallDefCpp(0x8065FF48, void, RKNetSELECTHandler* self) {
+
+    // Store instance
+    RKNetSELECTHandler::instance = self;
+
+    // Construct expansion data
+    if (self) RKNetSELECTHandlerEx::construct(&self->expansion);
+}
+
 //////////////////////////////////
 // Online Room Stall Prevention //
 //////////////////////////////////

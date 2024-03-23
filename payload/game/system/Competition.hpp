@@ -1,8 +1,8 @@
 #include <common/Common.hpp>
 
 struct CharacterVehicleChoice {
-    s8 characterId;
-    s8 vehicleId;
+    u8 characterId;
+    u8 vehicleId;
 };
 size_assert(CharacterVehicleChoice, 0x2);
 

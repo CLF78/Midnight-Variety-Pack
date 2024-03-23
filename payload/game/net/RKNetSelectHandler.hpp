@@ -1,5 +1,16 @@
 #include <common/Common.hpp>
 #include <game/net/packet/RKNetSelectPacket.hpp>
+#include <revolution/os/OS.h>
+#include <platform/new.hpp>
+
+class RKNetSELECTHandlerEx {
+public:
+    RKNetSELECTHandlerEx() : sendPacketEx(), recvPacketsEx() {}
+    static RKNetSELECTHandlerEx* construct(void* buffer) { return new(buffer) RKNetSELECTHandlerEx; }
+
+    RKNetSELECTPacketExpansion sendPacketEx;
+    RKNetSELECTPacketExpansion recvPacketsEx[12];
+};
 
 class RKNetSELECTHandler {
 public:
@@ -30,8 +41,11 @@ public:
     u32 aidsWithNewRaceSettings;
     u32 aidsWithAccurateAidPidMap;
     u32 aidsThatHaveVoted;
-    // 4 bytes padding
+    u32 reserved; // previously padding
+
+    // Custom data
+    RKNetSELECTHandlerEx expansion;
 
     static RKNetSELECTHandler* instance;
 };
-size_assert(RKNetSELECTHandler, 0x3F8);
+size_assert(RKNetSELECTHandler, OSRoundUp(0x3F8 + sizeof(RKNetSELECTHandlerEx), 8));

@@ -17,8 +17,7 @@ kmCallDefCpp(0x80543DDC, u32) {
 // SaveManager::createInstance() patch
 // Construct the expansion data and initialize it
 kmBranchDefCpp(0x80543ED8, NULL, SaveManager*, SaveManager* self) {
-    if (self)
-        SaveExpansion::construct(&self->expansion);
+    if (self) SaveExpansion::construct(&self->expansion);
     return self;
 }
 

@@ -393,7 +393,7 @@ void ReportSELECTInfo() {
     snprintf(buffer, sizeof(buffer), "driver=%d,%d|vehicle=%d,%d|engine=%d|self=%d|slots=%08x%08x%08x|team=%u",
              packet->playerData[0].character, packet->playerData[1].character,
              packet->playerData[0].vehicle, packet->playerData[1].vehicle,
-             packet->engineClass,
+             packet->engineClass.raw,
              DWC_GetMyAID(),
              packet->aidPidMap.raw[0], packet->aidPidMap.raw[1], packet->aidPidMap.raw[2],
              packet->battleTeamData.raw);

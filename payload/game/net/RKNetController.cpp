@@ -59,7 +59,7 @@ const u32 packetbufferSizes[8] = {
     sizeof(RKNetRACEPacketHeader),
     sizeof(RKNetRH1Packet),
     sizeof(RKNetRH2Packet),
-    MAX(sizeof(RKNetROOMPacket), sizeof(RKNetSELECTPacket)),
+    MAX(sizeof(RKNetROOMPacket), sizeof(RKNetSELECTPacketEx)),
     sizeof(RKNetRACEDATAPacket) * 2,
     sizeof(RKNetUSERPacket),
     sizeof(RKNetITEMPacket) * 2,
@@ -67,7 +67,7 @@ const u32 packetbufferSizes[8] = {
 };
 
 const u32 totalPacketBufSize = sizeof(RKNetRACEPacketHeader) + sizeof(RKNetRH1Packet) + sizeof(RKNetRH2Packet)
-                             + MAX(sizeof(RKNetROOMPacket), sizeof(RKNetSELECTPacket)) + sizeof(RKNetRACEDATAPacket) * 2
+                             + MAX(sizeof(RKNetROOMPacket), sizeof(RKNetSELECTPacketEx)) + sizeof(RKNetRACEDATAPacket) * 2
                              + sizeof(RKNetUSERPacket) + sizeof(RKNetITEMPacket) * 2 + sizeof(RKNetEVENTPacket);
 
 // Replace the individual packet section sizes
