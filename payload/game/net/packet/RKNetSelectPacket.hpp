@@ -2,6 +2,7 @@
 #include <game/net/packet/RKNetPacketCommon.hpp>
 #include <game/system/Identifiers.hpp>
 #include <midnight/cup/CupData.hpp>
+#pragma pack(push, 1)
 
 struct RKNetSELECTPlayer {
 
@@ -77,3 +78,5 @@ struct RKNetSELECTPacketExpansion {
 struct RKNetSELECTPacketEx : RKNetSELECTPacket, RKNetSELECTPacketExpansion {
     RKNetSELECTPacketEx() {}
 };
+
+#pragma pack(pop)

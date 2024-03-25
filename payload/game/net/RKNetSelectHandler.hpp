@@ -23,7 +23,7 @@ public:
     };
 
     int mode;
-    // 4 bytes padding
+    u32 reserved; // previously padding
 
     RKNetSELECTPacket sendPacket;
     RKNetSELECTPacket recvPackets[12];
@@ -41,7 +41,7 @@ public:
     u32 aidsWithNewRaceSettings;
     u32 aidsWithAccurateAidPidMap;
     u32 aidsThatHaveVoted;
-    u32 reserved; // previously padding
+    u32 reserved2; // previously padding
 
     // Custom data
     RKNetSELECTHandlerEx expansion;
