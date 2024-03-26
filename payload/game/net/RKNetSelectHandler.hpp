@@ -22,6 +22,28 @@ public:
         MODE_PRIVATE_BATTLE,
     };
 
+    bool hasUnprocessedRecvPackets();
+
+    // Reimplemented functions
+    bool raceSettingsDetermined() { return sendPacket.battleTeamData.raw != 0; }
+    bool trackVoted() { return expansion.sendPacketEx.courseVote != CupData::UNDECIDED_TRACK_VOTE; }
+    bool voteDetermined() { return expansion.sendPacketEx.winningCourse != CupData::NO_TRACK; }
+
+    // Reimplemented functions
+    void storeUpdatedRaceSettings(u8 aid);
+    bool checkUpdatedRaceSettings(u8 aid);
+    bool checkUpdatedRaceSettingsAll();
+
+    // Reimplemented functions
+    void storeVote(u8 aid);
+    bool checkVote(u8 aid);
+    bool checkVoteAll();
+
+    // Reimplemented functions
+    void storeUpdatedVoteData(u8 aid);
+    bool checkUpdatedVoteData(u8 aid);
+    bool checkUpdatedVoteDataAll();
+
     int mode;
     u32 reserved; // previously padding
 
@@ -39,7 +61,7 @@ public:
     u32 aidsWithNewSelect;
     u32 aidsWithNewRH1;
     u32 aidsWithNewRaceSettings;
-    u32 aidsWithAccurateAidPidMap;
+    u32 aidsWithVoteData;
     u32 aidsThatHaveVoted;
     u32 reserved2; // previously padding
 

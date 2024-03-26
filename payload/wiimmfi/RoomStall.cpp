@@ -36,7 +36,7 @@ void Update() {
                            sel->aidsWithNewRH1 &
                            sel->aidsWithNewRaceSettings &
                            sel->aidsThatHaveVoted &
-                           sel->aidsWithAccurateAidPidMap);
+                           sel->aidsWithVoteData);
 
     // Remove unused bits
     incompleteAids &= aidMap;
