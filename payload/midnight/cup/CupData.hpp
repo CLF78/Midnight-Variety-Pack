@@ -8,10 +8,15 @@ namespace CupData {
     };
 
     enum Placeholders {
-        UNDECIDED_TRACK_VOTE = 0xFFFE, // Placeholder for track not voted (used in network protocol)
-        RANDOM_TRACK_VOTE = 0xFFFF, // Placeholder for random track vote (used in network protocol)
-        NO_PLAYER = 0xFFFE, // Placeholder for missing guest (used in network protocol)
-        NO_TRACK = 0xFFFF, // Placeholder for empty track (used in network protocol)
+        VANILLA_UNDECIDED_TRACK_VOTE = 0x43, // Original placeholder for track not voted
+        VANILLA_RANDOM_TRACK_VOTE = 0xFF, // Original placeholder for random track vote
+        VANILLA_NO_PLAYER = 0x43, // Original placeholder for missing guest
+        VANILLA_NO_TRACK = 0xFF, // Original placeholder for empty track
+
+        UNDECIDED_TRACK_VOTE = 0xFFFE, // Placeholder for track not voted
+        RANDOM_TRACK_VOTE = 0xFFFF, // Placeholder for random track vote
+        NO_PLAYER = 0xFFFE, // Placeholder for missing guest
+        NO_TRACK = 0xFFFF, // Placeholder for empty track
     };
 
     // Structure for each individual track (battle or arena)

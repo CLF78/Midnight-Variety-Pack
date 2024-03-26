@@ -23,11 +23,11 @@ struct RKNetRH1Packet {
         lagFrames(0),
         playerCombos(),
         countdownTime(0),
-        reserved(0),
+        vanillaCourse(CupData::VANILLA_NO_TRACK),
         playerType(plrType),
         aidPidMap(),
         engineClass(),
-        reserved2(0),
+        reserved(0),
         course(CupData::NO_TRACK) { starRanks[0] = 0; starRanks[1] = 0; }
 
     u32 frameCount;
@@ -40,7 +40,7 @@ struct RKNetRH1Packet {
     u8 starRanks[2];
 
     // Modified structure
-    u8 reserved; // we might use this in the future for game-mode stuff
+    u8 vanillaCourse;
     // u8 course;
 
     u8 playerType;
@@ -48,7 +48,7 @@ struct RKNetRH1Packet {
     RKNetEngineClassData engineClass;
 
     // Modified structure
-    u8 reserved2;
+    u8 reserved; // might use this in the future for game-mode stuff
     u16 course;
     // u8 pad[3];
 };

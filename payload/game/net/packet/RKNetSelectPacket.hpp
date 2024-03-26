@@ -11,7 +11,7 @@ struct RKNetSELECTPlayer {
         sumPoints(0),
         character(CHARACTER_COUNT),
         vehicle(VEHICLE_COUNT),
-        reserved(0),
+        vanillaCourseVote(CupData::VANILLA_UNDECIDED_TRACK_VOTE),
         starRank(0) {}
 
     u16 prevRaceRank;
@@ -20,7 +20,7 @@ struct RKNetSELECTPlayer {
     u8 vehicle;
 
     // Modified structure
-    u8 reserved;
+    u8 vanillaCourseVote;
     // u8 courseVote;
 
     u8 starRank;
@@ -42,7 +42,7 @@ struct RKNetSELECTPacket {
         selectId(0),
         battleTeamData(),
         aidPidMap(),
-        reserved(0),
+        vanillaWinningCourse(CupData::VANILLA_NO_TRACK),
         phase(PREPARE),
         winningVoterAid(0xFF) {}
 
@@ -54,7 +54,7 @@ struct RKNetSELECTPacket {
     RKNetAidPidMap aidPidMap;
 
     // Modified structure
-    u8 reserved;
+    u8 vanillaWinningCourse;
     // u8 winningCourse;
 
     u8 phase; // 0 = prepare, 1 = voting, 2 = lottery

@@ -17,10 +17,13 @@ union RKNetAidPidMap {
 
 union RKNetEngineClassData {
 
-    // Custom values here, not game defaults!
     enum Value {
     	CLASS_BATTLE,
+        CLASS_100CC,
         CLASS_150CC,
+        CLASS_150CC_MIRROR,
+
+        // Custom values from here onwards
         CLASS_200CC,
         CLASS_500CC,
     };
@@ -30,7 +33,11 @@ union RKNetEngineClassData {
 
     int getEngineClass() {
         switch(engineClass) {
+            case CLASS_100CC:
+                return RaceConfig::Settings::CC_100;
+
             case CLASS_150CC:
+            case CLASS_150CC_MIRROR:
                 return RaceConfig::Settings::CC_150;
 
             case CLASS_200CC:
@@ -45,7 +52,12 @@ union RKNetEngineClassData {
     }
 
     void setEngineClass(int cls) {
+
         switch(cls) {
+            case RaceConfig::Settings::CC_100:
+                engineClass = CLASS_100CC;
+                break;
+
             case RaceConfig::Settings::CC_150:
                 engineClass = CLASS_150CC;
                 break;
@@ -64,6 +76,7 @@ union RKNetEngineClassData {
     }
 
     int getIsMirrorFlag() {
+        if (engineClass == CLASS_150CC_MIRROR) return true;
         return isMirror ? RaceConfig::Settings::FLAG_MIRROR : RaceConfig::Settings::FLAG_NONE;
     }
 
