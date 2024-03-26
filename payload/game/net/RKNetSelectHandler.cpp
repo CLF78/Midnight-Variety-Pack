@@ -119,7 +119,7 @@ void RKNetSELECTHandler::storeVote(u8 aid) {
 
     // Override the winning AID's voted track with the one determined by the host
     u8 winningVoter = recvPackets[aid].winningVoterAid;
-    u8 winningCourse = expansion.recvPacketsEx[aid].winningCourse;
+    u16 winningCourse = expansion.recvPacketsEx[aid].winningCourse;
     if ((RKNetController::instance->getCurrentSub()->availableAids & (1 << winningVoter)) &&
         winningCourse != CupData::NO_TRACK)
         expansion.recvPacketsEx[winningVoter].winningCourse = winningCourse;
