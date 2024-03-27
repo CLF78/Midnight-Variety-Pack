@@ -7,13 +7,12 @@
 - GetWinningTrack
 - ImportNewPackets
 - PrepareUSERAndSELECTSendPackets
+- SetPlayerData
 
 ### To Be Patched
 - decideEngineClass
 - DecideTrack
-- InitializePackets
 - prepareSendPacket
-- SetSendPacketPlayerDetails
 
 ### VotingBackPage
 - GetInstructionText (0x80650BE0, update instruction text with custom info)

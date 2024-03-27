@@ -50,6 +50,18 @@ kmBranchDefCpp(0x80660574, NULL, u16, RKNetSELECTHandler* self, u8 aid, u8 local
     return self->expansion.recvPacketsEx[aid].courseVote;
 }
 
+// RKNetSELECTHandler::SetPlayerData() override
+// Store the course vote in the correct field
+kmBranchDefCpp(0x80660750, NULL, void, RKNetSELECTHandler* self, int characterId, int vehicleId,
+               int courseVote, int localPlayerIdx, u8 starRank) {
+
+    RKNetSELECTPlayer* player = &self->sendPacket.playerData[localPlayerIdx];
+    player->character = characterId;
+    player->vehicle = vehicleId;
+    player->starRank = starRank;
+    self->expansion.sendPacketEx.courseVote = courseVote;
+}
+
 // RKNetSELECTHandler::PrepareAndExportSELECTAndUSER() patch
 // Send the expanded packet
 kmCallDefCpp(0x80661040, void, RKNetPacketHolder* holder, RKNetSELECTPacket* data, u32 dataSize) {
