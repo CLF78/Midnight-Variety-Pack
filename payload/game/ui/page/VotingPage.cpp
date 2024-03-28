@@ -46,3 +46,24 @@ kmBranchDefCpp(0x80643F8C, NULL, bool, VotingPage* self, u32 playerIdx) {
                                           page->playerInfos[playerIdx].team);
     return true;
 }
+
+// VotingPage::tryStartRoulette() patch
+// Store the correct track name and prevent the game from stalling due to invalid votes
+void StoreWinningVote(VotingPage* self) {
+    u32 trackIdx = RKNetSELECTHandler::instance->getWinningTrack();
+    self->winningTrackBmgId = CupManager::getTrackName(trackIdx);
+}
+
+// Glue code
+kmBranchDefAsm(0x80644310, 0x8064436C) {
+    nofralloc
+
+    // Call C++ code
+    mr r3, r27
+    bl StoreWinningVote
+    blr
+}
+
+// VotingPage::tryStartRoulette() patch
+// Disable the course cache
+kmWrite32(0x80644414, 0x60000000);

@@ -21,6 +21,4 @@
 ## VotingPage
 ### Patched
 - StorePlayerVote
-
-### To Be Patched
-- SetupRoulette (0x806441E8, store correct track name)
+- TryStartRoulette

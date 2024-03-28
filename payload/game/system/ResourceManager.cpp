@@ -9,10 +9,6 @@
 // Custom Cup System //
 ///////////////////////
 
-// Disable the CourseCache
-// TODO remove this when online racing is implemented
-kmWrite32(0x805419AC, 0x4E800020);
-
 // ResourceManager::loadMission() override
 // Load the correct course and mission files without using the CourseCache
 kmCallDefCpp(0x80553DBC, MultiDvdArchive*, ResourceManager* self, u32 courseId, u32 missionNum, EGG::Heap* heap, bool isSplitScreen) {

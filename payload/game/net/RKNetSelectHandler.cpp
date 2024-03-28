@@ -26,7 +26,7 @@ kmCallDefCpp(0x8065FF48, void, RKNetSELECTHandler* self) {
     if (self) RKNetSELECTHandlerEx::construct(&self->expansion);
 }
 
-// RKNetSELECTHandler::GetWinningTrack() override
+// RKNetSELECTHandler::getWinningTrack() override
 // Get the winning course from the expansion
 kmBranchDefCpp(0x80660450, NULL, u16, RKNetSELECTHandler* self) {
 

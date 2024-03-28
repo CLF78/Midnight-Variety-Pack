@@ -24,6 +24,7 @@ public:
 
     u8 getPlayerCharacter(u8 aid, u8 localPlayerIdx);
     u16 getPlayerVote(u8 aid); // reimplemented function
+    u16 getWinningTrack(); // reimplemented function
     bool hasUnprocessedRecvPackets();
 
     // Reimplemented functions
