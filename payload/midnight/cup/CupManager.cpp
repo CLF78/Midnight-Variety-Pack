@@ -149,15 +149,19 @@ u32 CupManager::getMaxCupPage(bool isBattle) {
 
 u16 CupManager::getTrackName(u32 trackIdx) {
 
+    // Handle placeholders
+    if (trackIdx == CupData::RANDOM_TRACK_VOTE)
+        return 4353;
+
     // Get the random flag and turn it off
     bool isRegular = (trackIdx & CupData::IS_RANDOM) == 0;
     trackIdx &= ~CupData::IS_RANDOM;
 
     // Get the name
     if (isRegular)
-        return CupData::tracks[trackIdx].trackNameId;
+        return (trackIdx < TRACK_COUNT) ? CupData::tracks[trackIdx].trackNameId : 0;
     else
-        return CupData::randomTracks[trackIdx].variantNameId;
+        return (trackIdx < RANDOM_TRACK_COUNT) ? CupData::randomTracks[trackIdx].variantNameId : 0;
 }
 
 s32 CupManager::getTrackFile(u32 trackIdx) {

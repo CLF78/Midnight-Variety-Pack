@@ -38,16 +38,17 @@ kmBranchDefCpp(0x80660450, NULL, u16, RKNetSELECTHandler* self) {
     return self->expansion.sendPacketEx.winningCourse;
 }
 
-// RKNetSELECTHandler::GetPlayerVote() override
+// RKNetSELECTHandler::getPlayerVote() override
 // Get the course vote from the expansion
-kmBranchDefCpp(0x80660574, NULL, u16, RKNetSELECTHandler* self, u8 aid, u8 localPlayerIdx) {
+// Original address: 0x80660574
+u16 RKNetSELECTHandler::getPlayerVote(u8 aid) {
 
     // If it's my AID, get the value from the send packet
     if (aid == RKNetController::instance->getCurrentSub()->myAid)
-        return self->expansion.sendPacketEx.courseVote;
+        return expansion.sendPacketEx.courseVote;
 
     // Else get it from the correct received packet
-    return self->expansion.recvPacketsEx[aid].courseVote;
+    return expansion.recvPacketsEx[aid].courseVote;
 }
 
 // RKNetSELECTHandler::SetPlayerData() override

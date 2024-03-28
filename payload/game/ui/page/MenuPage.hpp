@@ -1,3 +1,5 @@
+#include <common/Common.hpp>
+#include <game/system/Mii.hpp>
 #include <game/ui/Page.hpp>
 #include <game/ui/LayoutUIControl.hpp>
 #include <game/ui/InputHandler.hpp>
@@ -6,8 +8,6 @@
 #include <game/ui/PushButton.hpp>
 #include <game/ui/ctrl/CtrlMenuBackButton.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
-
-class MiiGroup;
 
 class MenuPage : public Page {
 public:

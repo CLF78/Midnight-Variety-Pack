@@ -38,3 +38,9 @@ public:
     u32 _B4;
 };
 size_assert(Mii, 0xB8);
+
+class MiiGroup {
+public:
+    u8 unk[0x98];
+};
+size_assert(MiiGroup, 0x98);

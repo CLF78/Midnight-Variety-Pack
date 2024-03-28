@@ -22,6 +22,8 @@ public:
         MODE_PRIVATE_BATTLE,
     };
 
+    u8 getPlayerCharacter(u8 aid, u8 localPlayerIdx);
+    u16 getPlayerVote(u8 aid); // reimplemented function
     bool hasUnprocessedRecvPackets();
 
     // Reimplemented functions
