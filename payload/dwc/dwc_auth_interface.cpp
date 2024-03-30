@@ -25,21 +25,6 @@ kmCallDefCpp(0x800EDEE8, void, NHTTPReq* req, const char* key, const char* val) 
     Wiimmfi::Auth::AppendAuthParameters(req);
 }
 
-// DWCi_Auth_SendRequest() patch
-// Report the product code from the imported NAND on Dolphin
-// Credits: Wiimmfi
-kmCallDefCpp(0x800EE098, const char*) {
-
-    // Check if we're on Dolphin and use the dedicated IOCTL if so
-    if (DolphinDevice::IsOpen()) {
-        const char* prodCode = DolphinDevice::GetRealProductCode();
-        return (prodCode != nullptr) ? prodCode : SCGetProductCode();
-    }
-
-    // Else just call the original function
-    return SCGetProductCode();
-}
-
 // DWCi_Auth_HandleResponse() patch
 // Parse the custom response data
 // Credits: Wiimmfi

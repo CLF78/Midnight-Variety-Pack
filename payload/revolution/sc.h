@@ -18,7 +18,7 @@ typedef enum {
 } SCLanguage;
 
 u8 SCGetLanguage();
-char *SCGetProductCode();
+const char *SCGetProductCode();
 
 #ifdef __cplusplus
 }
