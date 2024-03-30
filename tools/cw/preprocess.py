@@ -53,7 +53,9 @@ def splitFunction(signature: str) -> tuple[str, str, str, str]:
         args = args[0:-1]
 
     # Split the return type
-    returntype, name = start.split()
+    retsplit = start.split()
+    returntype = ' '.join(retsplit[0:-1])
+    name = retsplit[-1]
 
     # Split the classes from the function name and merge them
     namespl = name.split('::')
@@ -82,7 +84,7 @@ def createFunctionThunk(mangledFuncName: str, funcClass: str, funcReturn: str, f
 
     # Add the extra arguments
     if funcArgs:
-        thunk += args
+        thunk += funcArgs
 
     # End the signature and add the body
     thunk += ') { nofralloc; opword '
@@ -164,8 +166,10 @@ def process_file(src: Path, symbol_file: Path, dest: Path) -> bool:
 
         # Find the corresponding symbol (try with mangled first, then demangled name if applicable)
         print(mangledFuncSignature)
+        isExtern = False
         if mangledFuncSignature not in symbols and not funcClass:
             mangledFuncSignature = funcName
+            isExtern = True
 
         # If the symbol was not found, add it to the missing list which we can display later
         if mangledFuncSignature not in symbols:
@@ -176,7 +180,9 @@ def process_file(src: Path, symbol_file: Path, dest: Path) -> bool:
         symbolAddr = symbols[mangledFuncSignature]
 
         # Write the branch hook
-        branchHook = f'\nextern "C" void {mangledFuncSignature}();\nkmBranch({symbolAddr}, {mangledFuncSignature});\n'
+        branchHook = f'kmBranch({symbolAddr}, {mangledFuncSignature});\n'
+        if not isExtern:
+            branchHook = f'\nextern "C" void {mangledFuncSignature}();\n' + branchHook
         dest_code += branchHook
 
         # Find instances of the replaced keyword in the function body
