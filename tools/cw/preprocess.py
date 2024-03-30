@@ -179,12 +179,6 @@ def process_file(src: Path, symbol_file: Path, dest: Path) -> bool:
         # Get the address
         symbolAddr = symbols[mangledFuncSignature]
 
-        # Write the branch hook
-        branchHook = f'kmBranch({symbolAddr}, {mangledFuncSignature});\n'
-        if not isExtern:
-            branchHook = f'\nextern "C" void {mangledFuncSignature}();\n' + branchHook
-        dest_code += branchHook
-
         # Find instances of the replaced keyword in the function body
         # If found, create the thunk to call the original game function and add it to the destination code
         if funcBody.find(REPLACED_STRING) != -1:
@@ -200,6 +194,12 @@ def process_file(src: Path, symbol_file: Path, dest: Path) -> bool:
 
             # Do the substitution in the whole function body
             funcBody = funcBody.replace(toReplace, replacement)
+
+        # Write the branch hook
+        branchHook = f'kmBranch({symbolAddr}, {mangledFuncSignature});\n'
+        if not isExtern:
+            branchHook = f'\nextern "C" void {mangledFuncSignature}();\n' + branchHook
+        dest_code += branchHook
 
         # Copy the function signature and the body
         dest_code += funcSignature
