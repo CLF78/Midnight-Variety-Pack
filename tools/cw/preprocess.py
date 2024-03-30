@@ -5,7 +5,6 @@
 
 from argparse import ArgumentParser
 from pathlib import Path
-
 from mangle import mangle_function
 
 REPLACE_STRING = 'REPLACE'
@@ -108,16 +107,14 @@ def createFunctionThunk(mangledFuncName: str, funcClass: str, funcReturn: str, f
     thunk += f'kmPatchExitPoint({thunkFuncName}, {hex(symbolAddr + 4)});\n\n'
     return thunkFuncName, thunk
 
-def process_file(src: Path, symbol_file: Path, dest: Path) -> bool:
+def process_file(src: Path, symbol_file: Path, dest: Path) -> None:
 
     # Check if the source and symbol files exist
     if not src.is_file():
-        print('ERROR: Source file not found!')
-        return False
+        raise SystemExit('ERROR: Source file not found!')
 
     if not symbol_file.is_file():
-        print('ERROR: Symbol map not found!')
-        return False
+        raise SystemExit('ERROR: Symbol map not found!')
 
     # Read all symbols from the map
     symbols = {}
@@ -219,12 +216,11 @@ def process_file(src: Path, symbol_file: Path, dest: Path) -> bool:
 
     # If any symbols were not found, print an error and do not continue
     if missing_syms:
-        print('ERROR: The following symbols were not found:', ','.join(missing_syms))
-        return False
+        err = 'ERROR: The following symbols were not found: ' + ', '.join(missing_syms)
+        raise SystemExit(err)
 
     # Write all the data to the output file
     dest.write_text(dest_code, encoding='utf-8')
-    return True
 
 if __name__ == '__main__':
 
