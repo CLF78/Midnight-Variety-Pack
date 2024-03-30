@@ -12,6 +12,20 @@ REPLACE_STRING = 'REPLACE'
 REPLACED_STRING = 'REPLACED'
 MAGIC_OPWORD = '0x78787878'
 THUNK_FUNCTION_PATTERN = 'thunk_replaced'
+TYPEDEFS = {
+    'u8': 'unsigned char',
+    'u16': 'unsigned short',
+    'u32': 'unsigned int',
+    'u64': 'unsigned long long',
+    's8': 'signed char',
+    's16': 'signed short',
+    's32': 'signed int',
+    's64': 'signed long long',
+    'f32': 'float',
+    'f64': 'double',
+    'size_t': 'unsigned long',
+    'ulong': 'unsigned long',
+}
 
 def getFunctionBodyLength(src: str, start_pos: int, maxlen: int) -> int:
     brace_count = 1
@@ -160,7 +174,7 @@ def process_file(src: Path, symbol_file: Path, dest: Path) -> bool:
         funcReturn, funcClass, funcName, funcArgs = splitFunction(funcSignature)
 
         # Try mangling the signature (let exceptions propagate)
-        mangledFuncSignature = mangle_function(funcSignature)
+        mangledFuncSignature = mangle_function(funcSignature, TYPEDEFS)
 
         # Find the corresponding symbol (try with mangled first, then demangled name if applicable)
         isExtern = False
