@@ -24,6 +24,7 @@ void ApplyPatches(const Loader::Functions* funcs, const u32* input, const u32* i
         // Apply patch
         u32 target, value, delta;
         u32 size = 0;
+        u32* placeholder, *originalInstr;
         switch (cmd) {
 
             case Addr32:
@@ -78,6 +79,17 @@ void ApplyPatches(const Loader::Functions* funcs, const u32* input, const u32* i
 
             case Branch:
                 target = ResolveAddress(text, *input++);
+
+                // Hack for the replace keyword
+                placeholder = (u32*)target;
+                originalInstr = (u32*)address;
+                if (*placeholder == 0x78787878) {
+                    *placeholder = originalInstr[-1];
+                    CacheInvalidateAddress(placeholder, 0);
+                    break;
+                }
+
+                // Regular behaviour
                 delta = target - address;
                 *(u32*)address = 0x48000000 | (delta & 0x3FFFFFC);
                 break;
