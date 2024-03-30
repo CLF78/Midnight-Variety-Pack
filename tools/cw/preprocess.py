@@ -20,8 +20,8 @@ def getFunctionBodyLength(src: str, start_pos: int, maxlen: int) -> int:
     curr_pos = start_pos + 1
     while brace_count > 0 and curr_pos < maxlen:
 
-        # Skip comments
-        if src[curr_pos:curr_pos+2] == '//':
+        # Skip comments, now with shitty hardcode!
+        if src[curr_pos:curr_pos+2] == '//' and src[curr_pos-1] != ':':
             curr_pos = src.index('\n', curr_pos)
             continue
         elif src [curr_pos:curr_pos+2] == '/*':
@@ -125,8 +125,8 @@ def process_file(src: Path, symbol_file: Path, dest: Path) -> bool:
         endLinePos = src_code.index('\n', srcCodePos) + 1
         line = src_code[srcCodePos:endLinePos]
 
-        # Strip comments
-        if line.find('//') != -1:
+        # Strip comments, now with shitty hardcode
+        if line.find('//') != -1 and line[line.find('//')-1] != ':':
             line = line[0:line.index('//')]
         elif line.find('/*') != -1:
             line = line[0:line.index('/*')]

@@ -99,6 +99,7 @@ SFX_PATCH_DIR = Path('sound', 'sfx')
 # Code directories - for custom code (new)
 CODE_DIR = Path(ROOT_DIR, 'payload')
 CODE_BUILD_DIR = Path(BUILD_DIR, 'payload')
+CODE_PREPROC_DIR = Path(BUILD_DIR, 'preproc')
 CODE_FINAL_DIR = Path(OUT_DIR, 'Code')
 
 # Loader directories/files - for loader code (new)
@@ -132,6 +133,7 @@ CC = Path(file) if (file := shutil.which('mwcceppc.exe')) else Path(TOOL_DIR, 'c
 CUP_BUILDER = Path(TOOL_DIR, 'cup_builder', 'exporter.py')
 CW_WRAPPER = Path(TOOL_DIR, 'cw', 'mwcceppc_wine_wrapper.py')
 CW_WRAPPER_WIN = Path(TOOL_DIR, 'cw', 'mwcceppc_windows_wrapper.py')
+PREPROCESSOR = Path(TOOL_DIR, 'cw', 'preprocess.py')
 KAMEK = Path(file) if (file := shutil.which('Kamek')) else Path(TOOL_DIR, 'kamek', f'Kamek{".exe" if sys.platform == "win32" else ""}')
 WUJ5 = Path(TOOL_DIR, 'wuj5', 'wuj5.py')
 XML_TOOL = Path(TOOL_DIR, 'xml_tool', 'xml_tool.py')
@@ -314,6 +316,10 @@ writer.rule('cup_builder',
             depfile='$logfile',
             deps='gcc')
 
+writer.rule('preprocess',
+            command=f'{sys.executable} {PREPROCESSOR} $in -m $symbol_file -o $out',
+            description='Preprocess Code $in_short')
+
 writer.rule('cw',
             command=f'$cc $cflags -c -DCODE_REGION=$region -DDEBUG={int(IS_DEBUG)} -o $out_conv -MDfile $out.d $in_conv',
             depfile='$out.d',
@@ -390,6 +396,13 @@ outputs = set()
 # Parse each file
 for file in sorted(inputs):
 
+    # Write the preprocessor build command
+    preproc_out = change_root(file, CODE_DIR, CODE_PREPROC_DIR)
+    writer.build('preprocess',
+                 preproc_out,
+                 file,
+                 in_short=file.name)
+
     # Obtain the configuration data
     configFile = file.with_suffix('.json5')
     if configFile.is_file():
@@ -413,10 +426,10 @@ for file in sorted(inputs):
         if output not in outputs:
             writer.build('cw',
                          output,
-                         file,
+                         preproc_out,
                          order_only_inputs=CUP_DATA_COUNT_FILE,
                          out_conv=escape_win_path(unix_to_windows(output)),
-                         in_conv=escape_win_path(unix_to_windows(file)),
+                         in_conv=escape_win_path(unix_to_windows(preproc_out)),
                          in_short=file.name,
                          region=i if region in configData else -1,
                          region_id=region if region in configData else 'ALL')
