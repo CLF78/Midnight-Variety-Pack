@@ -8,8 +8,6 @@ from pathlib import Path
 
 from mangle import mangle_function
 
-PREPROC_MAP = '--preproc-map'
-PREPROC_OUT = '--preproc-out'
 REPLACE_STRING = 'REPLACE'
 REPLACED_STRING = 'REPLACED'
 MAGIC_OPWORD = '0x78787878'
@@ -165,7 +163,6 @@ def process_file(src: Path, symbol_file: Path, dest: Path) -> bool:
         mangledFuncSignature = mangle_function(funcSignature)
 
         # Find the corresponding symbol (try with mangled first, then demangled name if applicable)
-        print(mangledFuncSignature)
         isExtern = False
         if mangledFuncSignature not in symbols and not funcClass:
             mangledFuncSignature = funcName
@@ -220,7 +217,7 @@ if __name__ == '__main__':
     # Get arguments
     parser = ArgumentParser(description='Preprocessor for Kamek code')
     parser.add_argument('source', type=Path, help='The file to be preprocessed')
-    parser.add_argument('-m', '--map', PREPROC_MAP, type=Path, required=True, help='The path to the symbol map')
-    parser.add_argument('-o', '--out', PREPROC_OUT, type=Path, required=True, help='The path to the output file')
+    parser.add_argument('-m', '--map', type=Path, required=True, help='The path to the symbol map')
+    parser.add_argument('-o', '--out', type=Path, required=True, help='The path to the output file')
     args = parser.parse_args()
     process_file(args.source, args.map, args.out)
