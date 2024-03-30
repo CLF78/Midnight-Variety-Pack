@@ -203,16 +203,16 @@ def process_file(src: Path, symbol_file: Path, dest: Path) -> None:
             # Do the substitution in the whole function body
             funcBody = funcBody.replace(toReplace, replacement)
 
+        # Copy the function signature and the body
+        dest_code += funcSignature
+        dest_code += funcBody
+        dest_code += '\n'
+
         # Write the branch hook
         branchHook = f'kmBranch({symbolAddr}, {mangledFuncSignature});\n'
         if not isExtern:
             branchHook = f'\nextern "C" void {mangledFuncSignature}();\n' + branchHook
         dest_code += branchHook
-
-        # Copy the function signature and the body
-        dest_code += funcSignature
-        dest_code += funcBody
-        dest_code += '\n'
 
     # If any symbols were not found, print an error and do not continue
     if missing_syms:
