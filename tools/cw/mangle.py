@@ -255,7 +255,7 @@ def mangle_decorated_type(txt_decors, type_txt, subs=None):
     if len(type_segs) == 1:
         ret = curr_mangled
     else:
-        ret = 'N' + curr_mangled + 'E'
+        ret = f'Q{len(type_segs)}' + curr_mangled
 
     for d in reversed(decors):
         ret = d + ret
