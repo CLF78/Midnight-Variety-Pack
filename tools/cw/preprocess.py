@@ -5,10 +5,12 @@
 
 from argparse import ArgumentParser
 from pathlib import Path
+from re import finditer
 from mangle import mangle_function
 
 REPLACE_STRING = 'REPLACE'
 REPLACED_STRING = 'REPLACED'
+MANGLE_PATTERN = r'(CALL|BRANCH)_CPP\((.+\(.*\))\)'
 MAGIC_OPWORD = '0x78787878'
 THUNK_FUNCTION_PATTERN = 'thunk_replaced'
 TYPEDEFS = {
@@ -127,7 +129,7 @@ def process_file(src: Path, symbol_file: Path, dest: Path) -> None:
     # Read the source file
     src_code = src.read_text(encoding='utf-8')
 
-    # Set up loop
+    # First pass: detect function replacements
     srcCodePos = 0
     dest_code = ''
     missing_syms = []
@@ -219,6 +221,25 @@ def process_file(src: Path, symbol_file: Path, dest: Path) -> None:
     if missing_syms:
         err = 'ERROR: The following symbols were not found: ' + ', '.join(missing_syms)
         raise SystemExit(err)
+
+    # Second pass: detect asm to C++ function calls
+    matches = finditer(MANGLE_PATTERN, dest_code)
+    for match in matches:
+
+        # Get the mangled function
+        mangledFunc = mangle_function(match.group(2), TYPEDEFS)
+        instruction = 'bl ' if match.group(1) == 'CALL' else 'b '
+
+        # Assemble the string
+        externDecl = f'extern "C" void {mangledFunc}();\n'
+
+        # Find the start of the function containing the call
+        callerStart = dest_code.rindex('{', 0, match.start(0))
+        callerStart = dest_code.rindex('\n', 0, callerStart)
+
+        # Insert the declaration and replace the macro
+        dest_code = dest_code[0:callerStart+1] + externDecl + dest_code[callerStart:match.start(0)] + \
+                    instruction + mangledFunc + dest_code[match.end(0):]
 
     # Write all the data to the output file
     dest.write_text(dest_code, encoding='utf-8')

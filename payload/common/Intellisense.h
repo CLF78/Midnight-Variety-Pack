@@ -10,7 +10,8 @@
     // Dummy preprocessor macros
     #define REPLACE
     #define REPLACED(...) NULL
-    #define MANGLE_FUNC(fn) 0
+    #define BRANCH_CPP(fn) ;
+    #define CALL_CPP(fn) ;
 
     // Remove useless warnings
     #pragma diag_suppress 69  // integer conversion resulted in truncation
