@@ -98,12 +98,14 @@ kmWrite16(0x8011BC3A, 0);
 // SendInitPackets() patch
 // Modify INIT packets to send the NATify data
 // Credits: Wiimmfi
-kmCallDefCpp(0x8011AB28, int, u8* buffer) {
-    return Wiimmfi::Natify::CopyData(buffer);
-}
+kmBranchDefAsm(0x8011AB28, 0x8011AB34) {
+    nofralloc
 
-// SendInitPackets() patch
-// Replace INIT message type
-// Credits: Wiimmfi
-kmWrite32(0x8011AB2C, 0x3BC00000 | WIIMMFI_NATIFY);
-kmWrite32(0x8011AB30, 0x9BC1004F);
+    // Copy profile ID over the game name
+    CALL_CPP(Wiimmfi::Natify::CopyData(u8*))
+
+    // Replace message type to distinguish it from the original
+    li r30, WIIMMFI_NATIFY
+    stb r30, 0x4F(r1)
+    blr
+}

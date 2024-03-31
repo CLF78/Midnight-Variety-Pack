@@ -104,6 +104,7 @@ gethostbyname=0x800F164C
 current_time=0x800F24C8
 gpiProcessRecvBuddyStatusInfo=0x800FDC4C
 gpiAppendStringToBuffer=0x800FF014
+gpiSendLogin=0x801007D8
 gt2CreateSocket=0x8010A918
 gt2Listen=0x8010A9B0
 gt2Accept=0x8010A9B4

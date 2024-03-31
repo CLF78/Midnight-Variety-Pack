@@ -1,14 +1,16 @@
 #include <common/Common.hpp>
+#include <gs/gp/gp.h>
+#include <gs/gp/gpiOperation.h>
 #include <wiimmfi/Reporting.hpp>
 
 ///////////////////////
 // Wiimmfi Telemetry //
 ///////////////////////
 
-// gpiSendLogin() patch
 // Report the signature and certificate to the server
 // Credits: Wiimmfi
-kmBranchDefCpp(0x801007D8, NULL, int, int ret) {
+REPLACE GPResult gpiSendLogin(GPConnection connection, GPIConnectData* data) {
+    GPResult ret = REPLACED(connection, data);
     Wiimmfi::Reporting::ReportSignatureAndCert();
     return ret;
 }
