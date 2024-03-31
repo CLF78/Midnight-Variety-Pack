@@ -400,6 +400,8 @@ def mangle_function(txt, typedefs=None):
     # print(identifier_segs)
     mangled_type = identifier_segs[-1] if is_cdtor else identifier_segs[-1]
     mangled_type += "__"
+    if len(identifier_segs) > 2:
+        mangled_type += "Q%s" % (len(identifier_segs) - 1)
     mangled_type += ''.join(len_encode(ts) for ts in identifier_segs[:len(identifier_segs)-1])
 
     ret += mangled_type
