@@ -154,6 +154,7 @@ SSLSetRootCA=0x801EF0DC
 decodeSZS__Q23EGG6DecompFPCvPv=0x80218C2C
 getExpandSize__Q23EGG6DecompFPCv=0x8021997C
 __nw__FUlPv=0x80224E94
+ExceptionCallback__3EGGFPQ34nw4r2db11ConsoleHeadPv=0x80226464
 __nw__FUl=0x80229DCC
 __nwa__FUl=0x80229DF0
 __nwa__FUli=0x80229DFC

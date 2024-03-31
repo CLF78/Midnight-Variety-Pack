@@ -12,16 +12,14 @@
 // Exception Handler //
 ///////////////////////
 
-namespace EGG {
-
 // Update exception console settings
 kmListHookDefCpp(BootHook) {
 
     // Enable automatic text wrapping
-    Exception::sConsoleHandle->attributes &= ~nw4r::db::ConsoleHead::CONSOLE_ATTR_NO_TURNOVER_LINE;
+    EGG::Exception::sConsoleHandle->attributes &= ~nw4r::db::ConsoleHead::CONSOLE_ATTR_NO_TURNOVER_LINE;
 
     // Do not require scrolling horizontally to read the contents
-    Exception::sConsoleHandle->width = 50;
+    EGG::Exception::sConsoleHandle->width = 50;
 }
 
 // Threshold functions for circle pads
@@ -34,7 +32,6 @@ bool CheckCLStickThreshold(s16 stick) {
     return (stick >= 161 || stick <= -160);
 }
 
-// EGG::ExceptionCallback() override
 // Patch the exception callback to add some new features (code lifted from mkw-sp):
 // - Mute game audio to avoid spooking players (and devs)
 // - Remove button combo requirement to display the exception handler
@@ -44,7 +41,7 @@ bool CheckCLStickThreshold(s16 stick) {
 // - Support controllers other than Wiimote
 // - Allow returning to the Wii Menu on HOME/START button press
 // Credits: Star, Vabold
-kmBranchDefCpp(0x80226464, NULL, bool, nw4r::db::ConsoleHead* console, void* arg) {
+REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
 
     // Mute game audio
     AXSetMasterVolume(0);
@@ -56,7 +53,7 @@ kmBranchDefCpp(0x80226464, NULL, bool, nw4r::db::ConsoleHead* console, void* arg
     }
 
     OSReport("Canceling all threads...\n");
-    Thread::kandoTestCancelAllThread();
+    EGG::Thread::kandoTestCancelAllThread();
     OSReport("Done.\n");
 
     OSDisableInterrupts();
@@ -144,5 +141,3 @@ kmBranchDefCpp(0x80226464, NULL, bool, nw4r::db::ConsoleHead* console, void* arg
         }
     }
 }
-
-} // namespace EGG

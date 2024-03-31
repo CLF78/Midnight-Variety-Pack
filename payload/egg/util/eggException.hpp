@@ -11,4 +11,6 @@ public:
     static nw4r::db::ConsoleHead* sConsoleHandle;
 };
 
+bool ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg);
+
 } // namespace EGG
