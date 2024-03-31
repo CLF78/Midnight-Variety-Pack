@@ -7,9 +7,11 @@ extern "C" {
 #endif
 
 typedef struct {
-    GT2Socket socket;
-    GT2Callbacks callbacks;
-    u8 unk[0x88 - 0x14];
+    GT2Socket gt2Socket;
+    GT2Callbacks gt2Callbacks;
+    int gt2SendBufSize;
+    int gt2RecvBufSize;
+    u8 unk[0x88 - 0x1C];
     DWCMatchedCallback userMatchedCallback;
     void* userMatchedCallbackParam;
     u8 unk2[0x360 - 0x90];
@@ -31,6 +33,10 @@ int DWCi_GT2GetConnectionListIdx();
 GT2Connection* DWCi_GetGT2ConnectionByIdx(int idx);
 GT2Connection DWCi_GetGT2Connection(u8 aid);
 DWCConnectionInfo* DWCi_GetConnectionInfoByIdx(int idx);
+
+void DWCi_GT2SocketErrorCallback(GT2Socket socket);
+BOOL DWCi_GT2UnrecognizedMessageCallback(GT2Socket socket, u32 ip, u16 port, u8* message, int len);
+GT2Result DWCi_HandleGT2Error(GT2Result result);
 
 u8 DWC_GetMyAID();
 u8 DWC_GetServerAID();

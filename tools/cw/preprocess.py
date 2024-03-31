@@ -24,6 +24,7 @@ TYPEDEFS = {
     'f64': 'double',
     'size_t': 'unsigned long',
     'ulong': 'unsigned long',
+    'BOOL': 'signed int',
 }
 
 def getFunctionBodyLength(src: str, start_pos: int, maxlen: int) -> int:

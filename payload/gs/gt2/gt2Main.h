@@ -71,9 +71,13 @@ struct GTI2Connection {
 GT2Result gt2Connect(GT2Socket socket, GT2Connection* connection, const char* remoteAddress,
                      const char* msg, int msgLen, int timeout, GT2Callbacks* callbacks, int blocking);
 
+GT2Result gt2CreateSocket(GT2Socket* socket, const char* localAddress, int outgoingBufferSize,
+                           int incomingBufferSize, GT2SocketErrorCallback callback);
+
 BOOL gt2Accept(GT2Connection connection, GT2Callbacks* callbacks);
 void gt2Listen(GT2Socket socket, GT2ConnectAttemptCallback callback);
 void gt2Reject(GT2Connection connection, const char* msg, int msgLen);
+void gt2SetUnrecognizedMessageCallback(GT2Socket socket, GT2UnrecognizedMessageCallback callback);
 
 #ifdef __cplusplus
 }

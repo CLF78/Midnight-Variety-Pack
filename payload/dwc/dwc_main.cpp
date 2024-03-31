@@ -1,5 +1,7 @@
 #include <common/Common.hpp>
+#include <dwc/dwc_common.h>
 #include <dwc/dwc_main.h>
+#include <dwc/dwc_report.h>
 #include <gs/gt2/gt2Main.h>
 #include <gs/gt2/gt2Utility.h>
 #include <wiimmfi/ConnectionMatrix.hpp>
@@ -10,54 +12,64 @@
 // Fast NATNEG //
 /////////////////
 
-// DWC_InitFriendsMatch() patch
 // Replace ConnectedCallback to accept incoming connections in more cases
 // Credits: Wiimmfi
-kmBranchDefCpp(0x800D0FE8, NULL, void) {
-    stpDwcCnt->callbacks.connectedCb = &Wiimmfi::Natneg::ConnectedCallback;
+REPLACE void DWC_InitFriendsMatch(void* unused, DWCUserData* userdata, int productID, const char* gameName,
+                                  const char* secretKey, int sendBufSize, int recvBufSize,
+                                  DWCFriendData* friendList, int friendListLen) {
+    REPLACED(unused, userdata, productID, gameName, secretKey, sendBufSize, recvBufSize, friendList, friendListLen);
+    stpDwcCnt->gt2Callbacks.connectedCb = &Wiimmfi::Natneg::ConnectedCallback;
 }
 
-// DWCi_GT2Startup() patch
-// Replace ConnectAttemptCallback to accept incoming connections in more cases
-// Credits: Wiimmfi
-kmCallDefCpp(0x800D28CC, void, GT2Socket sock, GT2ConnectAttemptCallback callback) {
-    gt2Listen(sock, Wiimmfi::Natneg::ConnectAttemptCallback);
-}
-
-// DWCi_MatchedCallback() patch
 // Update NATNEG timers
 // Credits: Wiimmfi
-kmCallDefCpp(0x800D3188, void, DWCError error, int cancel, int self, int isServer, int index, void* param) {
-
-    // Original call
-    stpDwcCnt->userMatchedCallback(error, cancel, self, isServer, index, param);
-
-    // Update NATNEG with the self value
+REPLACE void DWCi_MatchedCallback(DWCError error, BOOL cancel, BOOL self, BOOL isServer, int index, void* param) {
+    REPLACED(error, cancel, self, isServer, index, param);
     Wiimmfi::Natneg::CalcTimers(self);
+}
+
+////////////////////////////////////////
+// Fast NATNEG / Wiimmfi Port Binding //
+////////////////////////////////////////
+
+// Use the server-provided port for GT2 sockets and replace ConnectAttemptCallback
+// Credits: NitroDWC, Wiimmfi
+REPLACE GT2Result DWCi_GT2Startup() {
+
+    // Check if the socket was already made
+    if (stpDwcCnt->gt2Socket) {
+        DWC_Printf(DWC_REPORT_WARNING, "gt2Socket is already made.\n");
+        return GT2_RESULT_SUCCESS;
+    }
+
+    // Get the port
+    u16 port = (Wiimmfi::Port::sPort) ? Wiimmfi::Port::sPort : (u16)(0xC000 + DWCi_GetMathRand32(0x4000));
+    DWC_Printf(DWC_REPORT_MATCH_NN, "--- Private port = %d ---\n", port);
+
+    // Create the socket
+    GT2Result gt2Result = gt2CreateSocket(&stpDwcCnt->gt2Socket,
+                                          gt2AddressToString(0, port, nullptr),
+                                          stpDwcCnt->gt2SendBufSize,
+                                          stpDwcCnt->gt2RecvBufSize,
+                                          DWCi_GT2SocketErrorCallback);
+
+    // Set error code if necessary
+    if (DWCi_HandleGT2Error(gt2Result))
+        return gt2Result;
+
+    // Set callbacks
+    gt2Listen(stpDwcCnt->gt2Socket, Wiimmfi::Natneg::ConnectAttemptCallback);
+    gt2SetUnrecognizedMessageCallback(stpDwcCnt->gt2Socket, DWCi_GT2UnrecognizedMessageCallback);
+    return gt2Result;
 }
 
 /////////////////////////////////////
 // Fast NATNEG / Wiimmfi Telemetry //
 /////////////////////////////////////
 
-// DWCi_GT2ClosedProcess() patch
 // Update the connection matrix when a connection is closed
 // Credits: Wiimmfi
-kmBranch(0x800D3F1C, Wiimmfi::ConnectionMatrix::Update);
-
-//////////////////////////
-// Wiimmfi Port Binding //
-//////////////////////////
-
-// DWCi_GT2Startup() patch
-// Use the server-provided port for GT2Sockets
-// Credits: Wiimmfi
-kmCallDefCpp(0x800D2884, char*, u32 ip, u16 port, char* string) {
-
-    // Override port if set
-    if (Wiimmfi::Port::sPort)
-        port = Wiimmfi::Port::sPort;
-
-    // Original call
-    return gt2AddressToString(ip, port, string);
+REPLACE void DWCi_GT2ClosedProcess(GT2Connection connection, GT2CloseReason reason, BOOL isPseudClose, u8 closeAid) {
+    REPLACED(connection, reason, isPseudClose, closeAid);
+    Wiimmfi::ConnectionMatrix::Update();
 }
