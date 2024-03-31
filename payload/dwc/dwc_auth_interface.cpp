@@ -1,6 +1,6 @@
 #include <common/Common.hpp>
 #include <dwc/dwc_report.h>
-#include <midnight/DolphinDevice.hpp>
+#include <midnight/util/DolphinDevice.hpp>
 #include <platform/string.h>
 #include <revolution/sc.h>
 #include <revolutionex/nhttp/NHTTP.h>

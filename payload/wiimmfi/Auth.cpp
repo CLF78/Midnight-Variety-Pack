@@ -9,7 +9,7 @@
 #include <revolution/os/OSLoMem.h>
 #include <revolution/os/OSTitle.h>
 #include <revolutionex/nhttp/NHTTP.h>
-#include <midnight/DolphinDevice.hpp>
+#include <midnight/util/DolphinDevice.hpp>
 #include <wiimmfi/Auth.hpp>
 #include <wiimmfi/Port.hpp>
 #include <wiimmfi/Status.hpp>

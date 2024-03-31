@@ -7,7 +7,7 @@ enum Ioctlv {
 
     // 5.0-11186 and onwards
     GET_ELAPSED_TIME = 1, // In = None, Out = u32
-    GET_VERSION = 2,     // In = None, Out = char[]
+    GET_VERSION = 2,      // In = None, Out = char[]
     GET_SPEED_LIMIT = 3,  // In = None, Out = u32
     SET_SPEED_LIMIT = 4,  // In = u32, Out = None
     GET_CPU_SPEED = 5,    // In = None, Out = u32

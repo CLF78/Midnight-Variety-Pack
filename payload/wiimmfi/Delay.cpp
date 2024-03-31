@@ -1,6 +1,6 @@
 #include <common/Common.hpp>
 #include <gs/common/gsPlatformUtil.h>
-#include <midnight/DolphinDevice.hpp>
+#include <midnight/util/DolphinDevice.hpp>
 
 namespace Wiimmfi {
 namespace Delay {
