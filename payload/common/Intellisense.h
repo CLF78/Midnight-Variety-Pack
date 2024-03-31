@@ -7,6 +7,11 @@
     #define nofralloc __asm__ (
     #define blr );
 
+    // Dummy preprocessor macros
+    #define REPLACE
+    #define REPLACED(...) NULL
+    #define MANGLE_FUNC(fn) 0
+
     // Remove useless warnings
     #pragma diag_suppress 69  // integer conversion resulted in truncation
     #pragma diag_suppress 194 // expected string error caused by the asm block fix above

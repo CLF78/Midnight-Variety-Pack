@@ -43,6 +43,9 @@ typedef enum {
     GT2_STATE_CLOSED,
 } GT2SocketState;
 
+typedef struct GTI2Socket GTI2Socket, *GT2Socket;
+typedef struct GTI2Connection GTI2Connection, *GT2Connection;
+
 #ifdef __cplusplus
 }
 #endif

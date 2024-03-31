@@ -1,5 +1,6 @@
 #include <common/Common.h>
 #include <gs/gp/gp.h>
+#include <gs/sb/serverbrowsing.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,7 +32,8 @@ typedef enum {
     DWC_ERROR_COUNT,
 } DWCError;
 
-int DWCi_HandleGPError(int error);
+GPResult DWCi_HandleGPError(GPResult error);
+SBError DWCi_HandleSBError(SBError error);
 
 #ifdef __cplusplus
 }

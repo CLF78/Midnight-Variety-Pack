@@ -6,9 +6,6 @@
 extern "C" {
 #endif
 
-typedef struct GTI2Socket GTI2Socket, *GT2Socket;
-typedef struct GTI2Connection GTI2Connection, *GT2Connection;
-
 typedef void (*GT2SocketErrorCallback)(GT2Socket sock);
 typedef void (*GT2ConnectAttemptCallback)(GT2Socket sock, GT2Connection conn, u32 ip, u16 port,
                                           int latency, const char* msg, int msgLen);

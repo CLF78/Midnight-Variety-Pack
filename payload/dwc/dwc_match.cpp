@@ -1,6 +1,8 @@
 #include <common/Common.hpp>
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
+#include <dwc/dwc_report.h>
+#include <platform/string.h>
 #include <wiimmfi/ConnectionMatrix.hpp>
 #include <wiimmfi/MatchCommand.hpp>
 #include <wiimmfi/Natneg.hpp>
@@ -10,31 +12,19 @@
 // Custom Match Commands //
 ///////////////////////////
 
-kmHookFn int ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen) {
+// Parse custom match commands coming from GPCM
+// Credits: Wiimmfi
+REPLACE BOOL DWCi_ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort,
+                                          void* cmdData, int dataLen) {
 
     // Check if the Wiimmfi payload can parse the command
     if (Wiimmfi::MatchCommand::ProcessRecvMatchCommand(cmd, profileId, publicIp, publicPort, cmdData, dataLen))
-        return 0;
+        return FALSE;
 
     // Fall back to game code
     // TODO insert our custom command parsing here once we need it
-    return DWCi_ProcessRecvMatchCommand(cmd, profileId, publicIp, publicPort, cmdData, dataLen);
+    return REPLACED(cmd, profileId, publicIp, publicPort, cmdData, dataLen);
 }
-
-// DWCi_MatchGPRecvBuddyMsgCallback() patch
-// Parse custom match commands coming from GPCM
-// Credits: Wiimmfi
-kmCall(0x800D94F0, ProcessRecvMatchCommand);
-
-// DWCi_HandleGT2UnreliableMatchCommandMessage() patch
-// Parse custom match commands coming from another client
-// Credits: Wiimmfi
-kmCall(0x800E5980, ProcessRecvMatchCommand);
-
-// DWCi_QR2ClientMsgCallback() patch
-// Parse custom match commands coming from MASTER
-// Credits: Wiimmfi
-kmCall(0x800E5B14, ProcessRecvMatchCommand);
 
 /////////////////
 // Fast NATNEG //
@@ -43,24 +33,34 @@ kmCall(0x800E5B14, ProcessRecvMatchCommand);
 // DWCi_MatchProcess() patch
 // Replace Nintendo's algorithm to pick the next node to NATNEG with
 // Credits: Wiimmfi
-kmHookFn DWCNodeInfo* GetNextMeshMakingNode() {
-    return Wiimmfi::Natneg::GetNextMeshMakingNode();
+kmBranchDefCpp(0x800D80D0, 0x800D8360, void) {
+
+    // Get the next node with the custom algorithm, bail if none was found
+    DWCNodeInfo* meshMakeNode = Wiimmfi::Natneg::GetNextMeshMakingNode();
+    if (!meshMakeNode)
+        return;
+
+    // Copy node
+    DWC_Printf(DWC_REPORT_MATCH_NN, "*** TRY mesh create: aid(%d)\n", meshMakeNode->aid);
+    meshMakeNode->nextMeshMakeTryTick = DWCi_GetNextMeshMakeTryTick();
+    memcpy(&stpMatchCnt->tempNewNodeInfo, meshMakeNode, sizeof(DWCNodeInfo));
+
+    // Send reservation
+    int ret = DWCi_SendResvCommand(meshMakeNode->profileId, 0);
+
+    // Check for errors
+    ret = (stpMatchCnt->qr2MatchTypeExt == 0) ? DWCi_HandleSBError((SBError)ret) : DWCi_HandleGPError((GPResult)ret);
+    if (ret != 0) {
+        memset(&stpMatchCnt->tempNewNodeInfo, 0, sizeof(DWCNodeInfo));
+        return;
+    }
+
+    // Update status
+    stpMatchCnt->inMeshMaking = TRUE;
+    stpMatchCnt->lastStateBeforeStopMeshMaking = DWC_MATCH_STATE_INIT;
+    memset(&stpMatchCnt->tempNodeInfoBeforeStopMeshMaking, 0, sizeof(DWCNodeInfo));
+    DWCi_SetMatchStatus(DWC_MATCH_STATE_CL_WAIT_RESV);
 }
-
-// Glue code
-kmBranchDefAsm(0x800D80D0, 0x800D8360) {
-    nofralloc
-
-    // Call C++ code
-    bl GetNextMeshMakingNode
-
-    // Move result to r31 and check for null at the same time
-    mr. r31, r3
-    blr
-}
-
-// Replace the exit point branch destination
-kmCondBranch(0x800D8360, 0x800D819C, KM_COND_NOT_EQ, 0);
 
 // DWCi_ProcessMatchSynPacket() patch
 // Parse SYN packets in more states than normally allowed
@@ -80,27 +80,31 @@ kmCallDefAsm(0x800D9754) {
 // DWCi_ProcessMatchPollingPacket() patch
 // Send DWC_CMD_CONN_FAIL_MTX command to speed up NATNEG
 // Credits: Wiimmfi
-kmHookFn u32 SendConnFailMtxCmd(u32 aidsConnectedToHost) {
+kmBranchDefCpp(0x800DA7D4, 0x800DA81C, void, u32 aidsConnectedToHost) {
 
-    // Get the AIDs connected to me and eventually send the command
+    // Get the AIDs connected to me and send the custom command
     u32 aidsConnectedToMe = DWC_GetAIDBitmap();
     Wiimmfi::MatchCommand::SendConnFailMtxCommand(aidsConnectedToHost, aidsConnectedToMe);
 
-    // Get the dead AID bitmap for the game code
-    return aidsConnectedToMe & ~aidsConnectedToHost;
+    // Get the dead AID bitmap, if empty return early
+    u32 deadAidBitmap = aidsConnectedToMe & ~aidsConnectedToHost;
+    if (deadAidBitmap == 0)
+        return;
+
+    // Disconnect all AIDs marked as dead
+    DWC_Printf(DWC_REPORT_RECV_INFO, "check dead aid: dead aidBitmap is %08x.\n", deadAidBitmap);
+    for (int aid = 0; aid < 32; aid++) {
+        if (deadAidBitmap & (1 << aid))
+            DWC_CloseConnectionHard(aid);
+    }
 }
 
-// Glue code
-kmBranchDefAsm(0x800DA7D0, 0x800DA7DC) {
-    nofralloc
-
-    // Call C++ code
-    mr r3, r30
-    bl SendConnFailMtxCmd
-
-    // Move result to r29 and match null check from game code
-    mr. r29, r3
-    blr
+// Try to recover from a SYN-ACK timeout (i think)
+// Credits: Wiimmfi
+REPLACE BOOL DWCi_ProcessMatchSynTimeout() {
+    BOOL ret = REPLACED();
+    Wiimmfi::Natneg::RecoverSynAckTimeout();
+    return ret;
 }
 
 // DWCi_ProcessMatchSynTimeout() patch
@@ -108,47 +112,24 @@ kmBranchDefAsm(0x800DA7D0, 0x800DA7DC) {
 // Credits: Wiimmfi
 kmWrite32(0x800E1A58, 0x38C00000 | 7000);
 
-// DWCi_ProcessMatchSynTimeout() patch
-// Try to recover from a SYN-ACK timeout (i think)
-// Credits: Wiimmfi
-kmBranchDefCpp(0x800E1CA8, NULL, bool, bool ret) {
-    Wiimmfi::Natneg::RecoverSynAckTimeout();
-    return ret;
-}
-
 // DWCi_NNCompletedCallback() patch
 // Do not count repeated NATNEG failures between the host and a client towards the Error 86420 counter
 // Credits: Wiimmfi
-kmHookFn bool PreventRepeatNATNEGFail() {
-    return Wiimmfi::Natneg::PreventRepeatNATNEGFail(stpMatchCnt->tempNewNodeInfo.profileId);
-}
-
-// Glue code
-kmBranchDefAsm(0x800E6778, 0x800E6780) {
-    nofralloc
-
-    // Call C++ code
-    bl PreventRepeatNATNEGFail
-
-    // Restore r7
-    IGNORE_ERR(7)
-    lis r7, stpMatchCnt@ha
-    lwz r7, stpMatchCnt@l(r7)
-    UNIGNORE_ERR(7)
-
-    // Check that the return value is 0 to use the following game code
-    cmpwi r3, 0
-    blr
+kmBranchDefCpp(0x800E6778, 0x800E67AC, void) {
+    if (Wiimmfi::Natneg::PreventRepeatNATNEGFail(stpMatchCnt->tempNewNodeInfo.profileId))
+        DWC_Printf(DWC_REPORT_MATCH_NN, "NN failure %d/5.\n", ++stpMatchCnt->natnegFailureCount);
 }
 
 /////////////////////////////////////
 // Fast NATNEG / Wiimmfi Telemetry //
 /////////////////////////////////////
 
-// DWCi_PostProcessConnection() patch
 // Update the connection matrix when a new connection is made
 // Credits: Wiimmfi
-kmBranch(0x800E09A8, Wiimmfi::ConnectionMatrix::Update);
+REPLACE void DWCi_PostProcessConnection(DWCPostProcessConnectionType type) {
+    REPLACED(type);
+    Wiimmfi::ConnectionMatrix::Update();
+}
 
 ///////////////////////////////////////
 // Match Command Buffer Overflow Fix //
@@ -200,9 +181,8 @@ kmCallDefAsm(0x800E5AAC) {
 ////////////////////////
 
 // DWCi_RequestSuspendMatchAsync() patch
-// Attempt to fix the "suspend bug", where DWC stalls suspending the match due
-// to ongoing NATNEG between clients. This patch will ignore NATNEG and suspend
-// anyway if not the host.
+// Attempt to fix the "suspend bug", where DWC stalls suspending the match due to ongoing NATNEG between
+// clients. This patch will ignore NATNEG and suspend anyway if not the host.
 // Credits: WiiLink24, MrBean35000vr
 kmCallDefAsm(0x800E77F4) {
     nofralloc
@@ -222,15 +202,23 @@ kmCallDefAsm(0x800E77F4) {
 // Wiimmfi Telemetry //
 ///////////////////////
 
-// DWCi_ProcessRecvMatchCommand() and DWCi_SendServerDownQuery() patches
 // Report host disconnections to the server
-kmHookFn int ReportHostDisconnect(u8 cmd, int pid, u32 publicIp, u32 publicPort, u32* data, u32 dataLen) {
-    int ret = DWCi_SendMatchCommand(cmd, pid, publicIp, publicPort, data, dataLen);
-    Wiimmfi::Reporting::ReportServerDown(cmd, pid, data);
+// Credits: Wiimmfi
+REPLACE int DWCi_SendMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData,
+                                  int dataLen) {
+
+    // Call original function
+    int ret = REPLACED(cmd, profileId, publicIp, publicPort, cmdData, dataLen);
+
+    // Report to the server if it's a SVDOWN command
+    switch (cmd) {
+        case DWC_MATCH_CMD_SVDOWN_QUERY:
+        case DWC_MATCH_CMD_SVDOWN_ACK:
+        case DWC_MATCH_CMD_SVDOWN_NAK:
+        case DWC_MATCH_CMD_SVDOWN_KEEP:
+            Wiimmfi::Reporting::ReportServerDown(cmd, profileId, (u32*)cmdData);
+            break;
+    }
+
     return ret;
 }
-
-// Glue code
-kmCall(0x800DDF40, ReportHostDisconnect);
-kmCall(0x800DE1E4, ReportHostDisconnect);
-kmCall(0x800E6A14, ReportHostDisconnect);

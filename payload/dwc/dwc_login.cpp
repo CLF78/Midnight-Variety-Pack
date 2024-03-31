@@ -3,12 +3,12 @@
 #include <dwc/dwc_report.h>
 #include <wiimmfi/Natify.hpp>
 
-// Ported from NitroDWC decompilation
+// Credits: NitroDWC
 inline u32 DWCi_Acc_GetMaskBits(u32 data, u32 shift, u32 mask) {
     return ((data >> shift) & mask);
 }
 
-// Ported from NitroDWC decompilation
+// Credits: NitroDWC
 BOOL DWCi_Acc_SetMaskBits(u32* ptr, u32 data, u32 shift, u32 mask) {
     if ((data & ~mask) != 0)
         return FALSE;
@@ -17,17 +17,17 @@ BOOL DWCi_Acc_SetMaskBits(u32* ptr, u32 data, u32 shift, u32 mask) {
     return TRUE;
 }
 
-// Ported from NitroDWC decompilation
+// Credits: NitroDWC
 u32 DWCi_Acc_GetFlags(const DWCAccFlag* userdata) {
     return DWCi_Acc_GetMaskBits(userdata->flags, DWC_ACC_FLAGS_SHIFT, DWC_ACC_FLAGS_MASK);
 }
 
-// Ported from NitroDWC decompilation
+// Credits: NitroDWC
 void DWCi_Acc_SetFlags(DWCAccFlag* userdata, u32 flags) {
     DWCi_Acc_SetMaskBits(&userdata->flags, flags, DWC_ACC_FLAGS_SHIFT, DWC_ACC_FLAGS_MASK);
 }
 
-// Ported from NitroDWC decompilation
+// Credits: NitroDWC
 void DWCi_Acc_SetFlag_DataType(DWCAccFlag* userdata, int type) {
     u32 flags = DWCi_Acc_GetFlags(userdata);
     flags = (flags & ~DWC_FRIENDDATA_MASK) | type;

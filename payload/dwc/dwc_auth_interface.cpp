@@ -15,13 +15,7 @@
 // Insert custom authentication parameters
 // Credits: Wiimmfi
 kmCallDefCpp(0x800EDEE8, void, NHTTPReq* req, const char* key, const char* val) {
-
-    // Original call
-    IGNORE_ERR(167)
-    NHTTPAddPostDataAscii(req, key, val);
-    UNIGNORE_ERR(167)
-
-    // Send the required extra data
+    NHTTPAddPostDataAscii(req, key, val); // original call
     Wiimmfi::Auth::AppendAuthParameters(req);
 }
 
@@ -29,11 +23,7 @@ kmCallDefCpp(0x800EDEE8, void, NHTTPReq* req, const char* key, const char* val) 
 // Parse the custom response data
 // Credits: Wiimmfi
 kmCallDefCpp(0x800EEA08, void, DWCReportFlag level, const char* fmt, const char* arg) {
-
-    // Original call
-    DWC_Printf(level, fmt, arg);
-
-    // Parse the extra response data
+    DWC_Printf(level, fmt, arg); // original call
     Wiimmfi::Auth::ParseAuthResponse(arg);
 }
 
@@ -42,11 +32,9 @@ kmCallDefCpp(0x800EEA08, void, DWCReportFlag level, const char* fmt, const char*
 /////////////////////////////
 
 // DWCi_Auth_HandleResponse() patch
-// Save the login challenge
+// Save the login challenge for sending later
 // Credits: Wiimmfi
 kmCallDefCpp(0x800EE74C, void, char* dest, const char* src) {
-
-    // Save the challenge both to the stack and the Wiimmfi buffers
-    strcpy(dest, src);
+    strcpy(dest, src); // original call
     Wiimmfi::Challenge::Save(src);
 }

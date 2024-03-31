@@ -88,6 +88,14 @@ typedef enum {
     DWC_MATCH_SYN_CMD_SYN = 0x1,
 } DWCSynMatchCommandType;
 
+typedef enum {
+    DWC_PP_CONN_SV_CONNECT,
+    DWC_PP_CONN_CL_GT2_CONNECT,
+    DWC_PP_CONN_CL_GT2_ACCEPT,
+    DWC_PP_CONN_SYN_FINISH,
+    DWC_PP_CONN_NUM,
+} DWCPostProcessConnectionType;
+
 typedef struct {
     u32 pid; // endian-swapped
     u32 aid; // endian-swapped
@@ -237,12 +245,12 @@ void DWCi_GT2ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip
                                     const char* msg, int msgLen);
 void DWCi_GT2ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, int msgLen);
 
-BOOL DWCi_ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen);
 int DWCi_SendMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen);
 void DWCi_SendMatchSynPacket(u8 aid, u16 type);
-void DWCi_SetMatchStatus(DWCMatchState status);
+int DWCi_SendResvCommand(int profileId, int delay);
 
 s64 DWCi_GetNextMeshMakeTryTick();
+void DWCi_SetMatchStatus(DWCMatchState status);
 BOOL DWCi_StopMeshMaking();
 
 extern DWCMatchControl* stpMatchCnt;

@@ -57,8 +57,6 @@ typedef void (*Func)();
     #define AT_ADDR(addr)
     #define IGNORE_ERR(err) _Pragma(STRINGIFY(diag_suppress err))
     #define UNIGNORE_ERR(err) _Pragma(STRINGIFY(diag_default err))
-    #define REPLACE
-    #define REPLACED(...) NULL
 #else
     #define AT_ADDR(addr) : (addr);
     #define IGNORE_ERR(err)
