@@ -1,419 +1,626 @@
 #!/usr/bin/env python3
 
 # mangle.py
-# CodeWarrior mangler by CLF78, based on Ricbent's and Riidefi's manglers
+# CodeWarrior mangler
+
+TYPENAME_SPLITS = [
+    ' ',
+    '*',
+    '&',
+    ')',
+    '>',
+]
 
 DECORS = {
     '*': 'P',
     '&': 'R',
-    'const': 'C'
+    'const': 'C',
+    'volatile': 'V',
 }
-
-MULTI_SEGMENT_TYPES = [
-    ['signed', 'char'],
-    ['unsigned', 'char'],
-    ['signed', 'short'],
-    ['unsigned', 'short'],
-    ['signed', 'int'],
-    ['unsigned', 'int'],
-    ['signed', 'long'],
-    ['unsigned', 'long'],
-    ['long', 'long'],
-    ['signed', 'long', 'long'],
-    ['unsigned', 'long', 'long'],
-]
-MULTI_SEGMENT_TYPES.sort(key=len, reverse=True)
 
 BUILTIN_TYPES = {
     'void': 'v',
     'wchar_t': 'w',
     'bool': 'b',
     'char': 'c',
-    'signed_char': 'sc',
-    'unsigned_char': 'Uc',
+    'signed char': 'sc',
+    'unsigned char': 'Uc',
     'short': 's',
-    'signed_short': 's',
-    'unsigned_short': 'Us',
+    'signed short': 's',
+    'unsigned short': 'Us',
     'int': 'i',
-    'signed_int': 'i',
-    'unsigned_int': 'Ui',
+    'signed int': 'i',
+    'unsigned int': 'Ui',
     'long': 'l',
-    'signed_long': 'l',
-    'unsigned_long': 'Ul',
-    'long_long': 'x',
-    'signed_long_long': 'x',
-    'unsigned_long_long': 'Ux',
+    'signed long': 'l',
+    'unsigned long': 'Ul',
+    'long long': 'x',
+    'signed long long': 'x',
+    'unsigned long long': 'Ux',
     'float': 'f',
     'double': 'd',
     '...': 'e',
 }
 
-def encode_seqid(seqid):
-    alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+OPERATORS = {
+    'new': '__nw',
+    'delete': '__dl',
+    'new[]': '__nwa',
+    'delete[]': '__dla',
+    '=': '__as',
+    '+': '__pl',
+    '-': '__mi',
+    '*': '__ml',
+    '/': '__dv',
+    '%': '__md',
+    "^": "__er",
+    "&": "__ad",
+    "|": "__or",
+    "~": "__co",
+    "!": "__nt",
+    "<": "__lt",
+    ">": "__gt",
+    '+=': '__apl',
+    '-=': '__ami',
+    "*=": "__amu",
+    "/=": "__adv",
+    "%=": "__amd",
+    "^=": "__aer",
+    "&=": "__aad",
+    "|=": "__aor",
+    "<<": "__ls",
+    ">>": "__rs",
+    "<<=": "__als",
+    ">>=": "__ars",
+    '==': '__eq',
+    '!=': '__ne',
+    "<=": "__le",
+    ">=": "__ge",
+    "&&": "__aa",
+    "||": "__oo",
+    "++": "__pp",
+    "--": "__mm",
+    ",": "__cm",
+    "->*": "__rm",
+    "->": "__rf",
+    '()': '__cl',
+    '[]': '__vc',
+}
 
-    if seqid == 0:
-        return 'S_'
-
-    seqid -= 1
-    base36 = ''
-
-    while seqid:
-        seqid, i = divmod(seqid, 36)
-        base36 = alphabet[i] + base36
-
-    return 'S' + (base36 or '0') + '_'
-
-
-def check_identifier(ident):
-    # print(ident)
-    if len(ident) == 0:
-        return False
-
-    for c in ident:
-        if not c.isalnum() and not c == '_':
-            return False
-
-    if ident[0].isdigit():
-        return False
-
-    return True
-
-
-def brace_split(txt, char=' ', remove_empty=True):
-
-    braces = {
-        '(': ')',
-        '<': '>'
-    }
-
-    brace_stack = []
-
-    segs = []
-    curr_seg = ''
-
-    for c in txt:
-        if len(brace_stack):
-            if c == brace_stack[-1]:
-                brace_stack.pop()
-
-        if c in braces.keys():
-            brace_stack.append(braces[c])
-
-        if not len(brace_stack) and c == char:
-            if not remove_empty or curr_seg:
-                segs.append(curr_seg)
-                curr_seg = ''
-        else:
-            curr_seg += c
-
-    if curr_seg or (not remove_empty and len(segs)):
-        segs.append(curr_seg)
-
-    if len(brace_stack):
-        raise ValueError('Mismatched braces')
-
-    return segs
+# Status bool, not very elegant but needed
+isTemplatedFunction = False
 
 
-def len_encode(ident):
-    return "%u%s" % (len(ident), ident)
+def renumerate(data: list):
+    for i in range(len(data)-1, -1, -1):
+        yield (i, data[i])
 
 
-def apply_typedefs(segs, typedefs):
-    idx = 0
-    while idx < len(segs):
-        s = segs[idx]
-        if s in typedefs:
-            del segs[idx]
-            new_segs = typedefs[s].split()
-            while len(new_segs):
-                segs.insert(idx, new_segs.pop(0))
-                idx += 1
-        else:
-            idx += 1
+def apply_changes(func: str, typedefs: dict[str, str], substitutions: dict[str, str]) -> str:
+
+    # Apply substitutions first
+    if substitutions is not None:
+        for key, val in substitutions.items():
+            func = func.replace(key, val)
+
+    # Then apply typedefs
+    if typedefs is not None:
+        for key, val in typedefs.items():
+            func = func.replace(key, val)
+
+    # Return modified function
+    return func
 
 
-def fix_multi_seg_types(segs):
-    for l in range(len(segs)):
-        for mst in MULTI_SEGMENT_TYPES:
-            r = l + len(mst)
-            if mst == segs[l:r]:
-                del segs[l:r]
-                segs.insert(l, '_'.join(mst))
+def isolate_args(func: str) -> tuple[int, int]:
+
+    # Set up loop
+    start_brace_idx = -1
+    end_brace_idx = -1
+    curr_nest_level = 0
+
+    # Iterate through the string in reverse to find the first ending ")" character
+    # and the corresponding "(" character
+    for i, c in renumerate(func):
+        if c == ')':
+            if curr_nest_level == 0:
+                end_brace_idx = i
+            curr_nest_level += 1
+        elif c == '(':
+            curr_nest_level -= 1
+            if curr_nest_level == 0:
+                start_brace_idx = i
                 break
 
+    # Sanity checks
+    if start_brace_idx == -1 or end_brace_idx == -1 or start_brace_idx > end_brace_idx:
+        raise ValueError(f'Invalid function provided!')
 
-def mangle_type(txt):
-    if txt in BUILTIN_TYPES.keys():
-        return BUILTIN_TYPES[txt]
-
-    segs = txt.split('::')
-    if len(segs) == 1:
-        return len_encode(segs[0])
-
-    ret = ''
-    for s in segs:
-        ret += len_encode(s)
-    return ret
+    # Return indexes
+    return (start_brace_idx, end_brace_idx)
 
 
-def add_to_subs(subs, sub):
-    if sub in subs:
-        raise ValueError('Substitution "%s" is already registered' % sub)
-    subs[sub] = encode_seqid(len(subs))
+def split_args(args: str) -> list[str]:
+
+    # Account for empty arg list
+    if not args:
+        return ['void']
+
+    # Set up loop
+    pieces = []
+    curr_nest_level = 0
+    prev_component_idx = 0
+
+    # Iterate through the string and split by non-nested commas
+    for i, c in enumerate(args):
+
+        # Detect templates and function pointers
+        if c == '<' or c == '(':
+            curr_nest_level += 1
+        elif c == '>' or c == ')':
+            curr_nest_level -= 1
+
+        # Detect arg splits
+        elif c == ',' and curr_nest_level == 0:
+
+            # Prevent series of comma characters
+            if i == prev_component_idx:
+                raise ValueError('Empty argument!')
+
+            # Check passed, move along
+            pieces.append(args[prev_component_idx:i].strip())
+            prev_component_idx = i + 1
+
+    # Add the final piece
+    pieces.append(args[prev_component_idx:].strip())
+
+    # Detect mismatched braces
+    if curr_nest_level:
+        raise ValueError('Mismatched braces!')
+
+    # Return the pieces
+    return pieces
 
 
-# Oh boy, this hurts... This is literally the WORST function I ever wrote in my life. CLEAN IT UP
-# Todo: Allow templates
-def mangle_decorated_type(txt_decors, type_txt, subs=None):
-    if subs is None:
-        subs = {}
+def isolate_template(type: str) -> tuple[int, int]:
 
-    type_segs = type_txt.split('::')
-    if not len(type_segs):
-        raise ValueError('Type is empty')
+    # Set up loop
+    start_brace_idx = -1
+    end_brace_idx = -1
+    curr_nest_level = 0
 
-    decors = []
-    for d in txt_decors:
-        try:
-            decors.append(DECORS[d])
-        except KeyError:
-            raise ValueError('Invalid decor "%s"' % d)
-    decors.reverse()
-
-    if type_segs[-1] in BUILTIN_TYPES:
-        if len(type_segs) > 1:
-            raise ValueError('Builtin type may not be namespaced!')
-        ret = BUILTIN_TYPES[type_segs[-1]]
-
-        for i in range(len(decors) + 1):
-            curr_mangled_nosubs = ''.join(decors[i:]) + ret
-            # print('Testing for ' + curr_mangled_nosubs)
-
-            start_backtrack = False
-
-            if i == len(decors):        # No substitutions found
-                start_backtrack = True
-            if curr_mangled_nosubs in subs:
-                # print('Found ' + curr_mangled_nosubs + ' as ' + subs[curr_mangled_nosubs])
-                ret = subs[curr_mangled_nosubs]
-                start_backtrack = True
-
-            if start_backtrack:
-                while i:
-                    # print('Backtracking ' + decors[i - 1])
-                    ret = decors[i - 1] + ret
-                    curr_mangled_nosubs = decors[i - 1] + curr_mangled_nosubs
-                    add_to_subs(subs, curr_mangled_nosubs)
-                    # print(subs)
-                    i -= 1
+    # Iterate through the string to find the first non-nested "<" character
+    # and the corresponding ">" character
+    for i, c in enumerate(type):
+        if c == '<' or c == '(':
+            if curr_nest_level == 0 and c == '<':
+                start_brace_idx = i
+            curr_nest_level += 1
+        elif c == '>' or c == ')':
+            curr_nest_level -= 1
+            if curr_nest_level == 0 and c == '>':
+                end_brace_idx = i
                 break
 
-        return ret
+    # If the template was nested, ignore it
+    if start_brace_idx == -1 and end_brace_idx == -1:
+        return (start_brace_idx, end_brace_idx)
 
-    type_mangled_stripped = mangle_type(type_txt)
-    if type_mangled_stripped in subs:
-        for i in range(len(decors) + 1):
-            # print('Testing for decors ' + ''.join(decors[i:]))
-            curr_mangled = ''.join(decors[i:]) + type_mangled_stripped
-            if curr_mangled in subs:
-                # print('Found ' + curr_mangled + ' as ' + subs[curr_mangled])
-                ret = subs[curr_mangled]
-                while i:
-                    ret = decors[i-1] + ret
-                    curr_mangled = decors[i-1] + curr_mangled
-                    add_to_subs(subs, curr_mangled)
-                    # print(subs)
-                    i -= 1
-                break
-        return ret
+    # Sanity checks
+    if start_brace_idx == -1 or end_brace_idx == -1 or start_brace_idx > end_brace_idx:
+        raise ValueError(f'Invalid template provided!')
+
+    # Return indexes
+    return (start_brace_idx, end_brace_idx)
 
 
-    curr_mangled = ''
-    curr_mangled_nosubs = ''
+def mangle_func_ptr(type: str) -> tuple[int, int]:
 
-    # New found names are added to substitution from the left
-    for i in reversed(range(len(type_segs) + 1)):
-        curr_mangled_nosubs = ''.join(len_encode(ts) for ts in type_segs[:i])
-        # print('Testing for names ' + '::'.join(type_segs[:i]) + ' (' + curr_mangled_nosubs + ')')
+    # Set up loop
+    start_func_idx = -1
+    end_func_idx = -1
+    start_args_idx = -1
+    end_args_idx = -1
+    curr_nest_level = 0
 
-        if not curr_mangled_nosubs or curr_mangled_nosubs in subs:
-            if curr_mangled_nosubs:
-                # print('Found ' + curr_mangled_nosubs + ' as ' + subs[curr_mangled_nosubs])
-                curr_mangled = subs[curr_mangled_nosubs]
-            else:
-                curr_mangled = ''
-                # print('Did not find any substitution')
-            while i < len(type_segs):
-                curr_mangled += len_encode(type_segs[i])
-                curr_mangled_nosubs += len_encode(type_segs[i])
-                add_to_subs(subs, curr_mangled_nosubs)
-                # print(subs)
-                i += 1
+    # Iterate through the string in reverse to find the first two non-nested ")" characters
+    # and the corresponding "(" characters
+    for i, c in renumerate(type):
+        if c == ')':
+            if curr_nest_level == 0:
+                if end_args_idx != -1:
+                    end_func_idx = i
+                else:
+                    end_args_idx = i
+            curr_nest_level += 1
+        elif c == '>':
+            curr_nest_level += 1
+        elif c == '(':
+            curr_nest_level -= 1
+            if curr_nest_level == 0:
+                if start_args_idx != -1:
+                    start_func_idx = i
+                    break
+                else:
+                    start_args_idx = i
+        elif c == '<':
+            curr_nest_level -= 1
+
+    # If the function was nested, ignore it
+    if start_func_idx == -1 and start_args_idx == -1 and end_func_idx == -1 and end_args_idx == -1:
+        return ''
+
+    # Sanity checks
+    if (start_func_idx == -1 or start_args_idx == -1 or end_func_idx == -1 or end_args_idx == -1 or not
+        (start_func_idx < end_func_idx < start_args_idx < end_args_idx)):
+        raise ValueError(f'Invalid function pointer!')
+
+    # Set up result
+    mangledFunc = ''
+
+    # Isolate the pieces
+    funcReturn = type[:start_func_idx].strip()
+    funcName = type[start_func_idx+1:end_func_idx].strip()
+    funcArgs = type[start_args_idx+1:end_args_idx].strip()
+
+    # Ensure the return type and function name are properly declared
+    if not funcReturn or not funcName:
+        raise ValueError('Invalid function pointer!')
+
+    # Count the pointers from the function name
+    ptrcount = 0
+    for i, c in renumerate(funcName):
+
+        # Count the pointers
+        if c == '*':
+            ptrcount += 1
+
+        # Exit if the first of the two "::" characters are found
+        elif c == ':':
+            funcName = funcName[:i-1]
             break
 
-    if len(type_segs) == 1:
-        ret = curr_mangled
+    # Remove asterisks
+    funcName = funcName.rstrip('*')
+
+    # If it's not a pointer to member function, we can simply add PF
+    if not funcName:
+        mangledFunc += f'{DECORS["*"] * ptrcount}F'
+
+    # Else mangle the class
     else:
-        ret = f'Q{len(type_segs)}' + curr_mangled
+        mangledFunc += f'M{mangle_type(funcName)}F'
 
-    for d in reversed(decors):
-        ret = d + ret
-        curr_mangled = d + curr_mangled
-        curr_mangled_nosubs = d + curr_mangled_nosubs
-        add_to_subs(subs, curr_mangled_nosubs)
-        # print(subs)
+    # Split and mangle the args
+    funcArgs = split_args(funcArgs)
+    for arg in funcArgs:
+        mangledFunc += mangle_type(arg)
 
+    # Mangle the return type
+    mangledFunc += f'_{mangle_type(funcReturn)}'
 
-    return ret
-
-
-# Cleans up raw txt argument: Removes the label, parses decors
-def mangle_argument(txt, typedefs=None, subs=None):
-    if typedefs is None:
-        typedefs = {}
-
-    if subs is None:
-        subs = {}
-
-    if '(' in txt:
-        raise NotImplementedError('Function pointers are not supported')
-    if '<' in txt:
-        raise NotImplementedError('Templates are not supported')
-    if '&&' in txt:
-        raise NotImplementedError('r-value reference are not supported')
-
-    # Prepare text for space splitting
-    txt = txt.replace('&', ' & ')
-    txt = txt.replace('*', ' * ')
-
-    segs = brace_split(txt)
-
-    apply_typedefs(segs, typedefs)
-
-    # Fix multi segment types for easier parsing
-    fix_multi_seg_types(segs)
-
-    # Check for pre-const: Belongs to first * or &, const without * or & is omitted
-    if len(segs) != 0 and segs[0] == 'const':
-        idx = -1
-        for i in range(1, len(segs)):
-            x = segs[i]
-            if x == 'const':
-                raise ValueError('Multiple const')
-            if x in ['*', '&']:
-                idx = i
-                break
-
-        if idx != -1:
-            segs.insert(idx, 'const')
-        del segs[0]
-
-    # Current segment layout: type, decors, optional label
-
-    # Filter out label
-    if len(segs) >= 2:
-        if not segs[-1] in DECORS.keys():   # Already no label?
-            if not check_identifier(segs[-1]):
-                raise ValueError('Invalid identifier "%s"' % segs[-1])
-            if segs[-1] in BUILTIN_TYPES:
-                raise ValueError('Invalid identifier "%s"' % segs[-1])
-            del segs[-1]
-
-    # Check decors
-    decors = segs[1:]
-
-    if len(decors) and decors[-1] == 'const':
-        del decors[-1]
-
-    if not len(segs):
-        raise ValueError('No argument type')
-
-    return mangle_decorated_type(decors, segs[0], subs)
+    # We got it!
+    return mangledFunc
 
 
-# Mangles the entire text inside argument braces.
-def mangle_arguments(txt, typedefs=None, subs=None):
-    if typedefs is None:
-        typedefs = {}
+def mangle_type(type: str, noLength: bool = False) -> str:
+    global isTemplatedFunction
 
-    if subs is None:
-        subs = {}
+    # Initialize type
+    mangledType = ''
 
-    args = brace_split(txt, ',', False)
+    # Detect pointers and references and remove them from the type
+    refcount = 0
+    ptrcount = 0
+    for i, c in renumerate(type):
+        if c == '*':
+            ptrcount += 1
+        elif c == '&':
+            refcount += 1
+        elif c == ')' or c == '>' or c not in TYPENAME_SPLITS:
+            type = type[:i+1]
+            break
 
-    args = [a.strip() for a in args]
+    # Add the mangled decorators (one per count)
+    mangledType += DECORS['&'] * refcount
+    mangledType += DECORS['*'] * ptrcount
 
-    # Detect void arguments
-    if not len(args) or (len(args) == 1 and (not args[0] or args[0] == 'void')):
-        return 'v'
+    # Detect initial const and remove it if found
+    if type.startswith('const '):
+        mangledType += DECORS['const']
+        type = type.lstrip('const').lstrip()
 
-    ret = ''
-    for a in args:
-        ret += mangle_argument(a, typedefs, subs)
-    return ret
+    # Do the same for volatile, but ensure it only adds the mangled decorator for pointer/ref types
+    if type.startswith('volatile '):
+        type = type.lstrip('volatile').lstrip()
+        if refcount or ptrcount:
+            mangledType += DECORS['volatile']
+
+    # Strip multi spaces
+    type = ' '.join(type.split())
+
+    # Detect built in types
+    if type in BUILTIN_TYPES:
+        return mangledType + BUILTIN_TYPES[type]
+
+    # Try to split the type into decorated types and mangle each one of them
+    splitTypes = split_decorated_type(type)
+    if len(splitTypes) > 1:
+        mangledType += mangle_decorated_type(splitTypes)
+        return mangledType
+
+    # If the type contains a template, isolate it
+    if '<' in type or '>' in type:
+        templateStart, templateEnd = isolate_template(type)
+
+        # If the template was not nested, split the contents and mangle each piece
+        if not (templateStart == -1 and templateEnd == -1):
+            template = type[templateStart+1:templateEnd].strip()
+            type = type[:templateStart+1].strip()
+            templateArgs = split_args(template)
+            type += ','.join(map(mangle_type, templateArgs))
+            type += '>'
+
+            # If the length is to be omitted this is the function name, so mark function as templated
+            if noLength:
+                isTemplatedFunction = True
+
+    # If the type contains a function pointer, isolate it and mangle each component properly
+    if '(' in type or ')' in type:
+        mangledFunc = mangle_func_ptr(type)
+        if mangledFunc:
+            type = mangledFunc
+            noLength = True
+
+    # Prepend the length if wanted
+    if not noLength:
+        mangledType += str(len(type))
+
+    # Append the type itself (might be mangled or not mangled)
+    return mangledType + type
 
 
-# Basically the main function of all this
-def mangle_function(txt, typedefs=None):
-    if typedefs is None:
-        typedefs = {}
+def mangle_arg(arg: str) -> str:
 
-    left_brace_idx = txt.find('(')
-    right_brace_idx = txt.rfind(')')
+    # Set up loop
+    typeEnd = len(arg)
 
-    if left_brace_idx < 0 or right_brace_idx < 0 or left_brace_idx > right_brace_idx:
-        raise ValueError('Finding argument braces failed')
+    # Remove arg names before mangling, if found
+    for i, c in renumerate(arg):
+        if c in TYPENAME_SPLITS:
+            typeEnd = i
+            break
 
-    # Check identifier
-    pre_brace_segs = txt[:left_brace_idx].split()
+    # Mangle the type
+    argType = arg[:typeEnd+1].strip()
+    return mangle_type(argType)
 
-    if len(pre_brace_segs) < 1:
-        raise ValueError('No function identifier found')
 
-    identifier = pre_brace_segs[-1]
+def isolate_func_name(func: str) -> int:
 
-    # Arguments
-    arguments = txt[left_brace_idx+1:right_brace_idx]
+    # Set up loop
+    space_idx = -1
+    curr_nest_level = 0
 
-    # Decors
-    post_brace_segs = txt[right_brace_idx + 1:].split()
+    # Iterate through the string in reverse to find the first non-nested split character
+    # Only detect templates since function names cannot contain function pointers
+    for i, c in renumerate(func):
+        if c == '>':
+            curr_nest_level += 1
+        elif c == '<':
+            curr_nest_level -= 1
+        elif c in TYPENAME_SPLITS and curr_nest_level == 0:
+            space_idx = i
+            break
 
-    subs = {}
-    ret = ''
-    identifier_segs = identifier.split('::')
-    is_cdtor = False
+    # Detect mismatched braces
+    if curr_nest_level:
+        raise ValueError('Mismatched braces!')
 
-    # Check for ctors and dtors
-    if len(identifier_segs) >= 2:
-        if identifier_segs[-1] == identifier_segs[-2]:              # ctor
-            identifier_segs[-1] = "__ct"# 'C%u' % ctor_type
-            is_cdtor = True
-        elif identifier_segs[-1] == ('~' + identifier_segs[-2]):    # dtor
-            identifier_segs[-1] = "__dt" # 'D%u' % dtor_type
-            is_cdtor = True
+    # Detect missing return type
+    if space_idx == -1:
+        raise ValueError('Missing return type!')
 
-    for s in identifier_segs:
-        if not check_identifier(s):
-            raise ValueError('Invalid identifier "%s"' % s)
+    # Return index
+    return space_idx + 1
 
-    # print(identifier_segs)
-    mangled_type = identifier_segs[-1] if is_cdtor else identifier_segs[-1]
-    mangled_type += "__"
-    if len(identifier_segs) > 2:
-        mangled_type += "Q%s" % (len(identifier_segs) - 1)
-    mangled_type += ''.join(len_encode(ts) for ts in identifier_segs[:len(identifier_segs)-1])
 
-    ret += mangled_type
+def split_decorated_type(type: str) -> list[str]:
 
-    for i in range(1, len(identifier_segs)):
-        add_to_subs(subs, ''.join(len_encode(ts) for ts in identifier_segs[:i]))
+    # Set up loop
+    pieces = []
+    curr_nest_level = 0
+    prev_component_idx = 0
 
-    if 'const' in post_brace_segs:
-        if len(identifier_segs) < 2:
-            raise ValueError('Function outside struct/class may not be const')
-        ret = ret + "C"
-    ret += "F"
-    ret += mangle_arguments(arguments, typedefs, subs)
+    # Iterate through the string and split by non-nested :: characters
+    for i, c in enumerate(type):
 
-    return ret
+        # Detect templates and function pointers
+        if c == '<' or c == '(':
+            curr_nest_level += 1
+        elif c == '>' or c == ')':
+            curr_nest_level -= 1
+
+        # Detect name splits
+        elif type[i:i+2] == '::' and curr_nest_level == 0:
+
+            # Prevent series of more than two :: characters
+            if i <= prev_component_idx:
+                raise ValueError('Invalid type provided!')
+
+            # Check passed, move along
+            pieces.append(type[prev_component_idx:i])
+            prev_component_idx = i + 2
+
+    # Add the final piece
+    pieces.append(type[prev_component_idx:])
+
+    # Failsafe
+    if not pieces or not pieces[-1]:
+        raise ValueError('Invalid type provided!')
+
+    # Detect mismatched braces
+    if curr_nest_level:
+        raise ValueError('Mismatched braces!')
+
+    # Return the pieces
+    return pieces
+
+
+def mangle_decorated_type(types: list[str]):
+
+    # Set up string
+    mangledTypes = ''
+
+    # Add Q if there are multiple pieces
+    if len(types) > 1:
+        mangledTypes += f'Q{len(types)}'
+
+    # Mangle each piece
+    for type in types:
+        mangledTypes += mangle_type(type)
+
+    # Return result
+    return mangledTypes
+
+
+def mangle_operator(operator: str) -> str:
+
+    # Check for default operators
+    if operator in OPERATORS:
+        return OPERATORS[operator]
+
+    # If it's not a cast operator, blame the user
+    if not operator.endswith('()'):
+        raise ValueError('Invalid operator!')
+
+    # Isolate the type and mangle it
+    operatorType = operator[:-2]
+    return f'__op{mangle_type(operatorType)}'
+
+
+def mangle_function_name(pieces: list[str], isConst: bool) -> str:
+
+    # Initialize string
+    mangledName = ''
+
+    # Isolate the last piece
+    lastPiece = pieces.pop()
+
+    # Check for special names
+    if pieces:
+
+        # If the last piece is the same as the previous it's a constructor, use the dedicated keyword
+        if lastPiece == pieces[-1]:
+            mangledName += '__ct'
+
+        # If the last piece is the same as the previous with a "~" it's a destructor, use the dedicated keyword
+        elif lastPiece == f'~{pieces[-1]}':
+            mangledName += '__dt'
+
+        # If the piece starts with "operator", get the operator
+        elif lastPiece.startswith('operator'):
+            lastPiece = lastPiece.split('operator', 1)[-1].strip()
+            mangledName += mangle_operator(lastPiece)
+
+        # No special cases, add the name as is
+        else:
+            mangledName += mangle_type(lastPiece, True)
+
+    # It's a regular function, add the name as is
+    else:
+        mangledName += mangle_type(lastPiece, True)
+
+    # Add the separator
+    mangledName += '__'
+
+    # Mangle the rest of the function
+    if pieces:
+        mangledName += mangle_decorated_type(pieces)
+
+    # Add the const function identifier
+    if isConst:
+        mangledName += DECORS['const']
+
+    # Terminate the function name
+    mangledName += 'F'
+    return mangledName
+
+
+def mangle_function(func: str, typedefs: dict[str, str] = None, substitutions: dict[str, str] = None) -> str:
+    global isTemplatedFunction
+
+    # Reset status bool
+    isTemplatedFunction = False
+
+    # Apply typedefs and substitutions and strip whitespace
+    func = apply_changes(func, typedefs, substitutions).strip()
+
+    # Bail on any array argument
+    if '[' in func or ']' in func:
+        raise NotImplementedError('Array types are not supported!')
+
+    # Ensure the function ends either with "const" or ")"
+    isConstFunc = func.endswith('const')
+    if not isConstFunc and not func.endswith(')'):
+        raise ValueError('Invalid function provided!')
+
+    # Isolate the arguments from the function
+    # Do so by finding the first ending ")" and the corresponding "(" characters
+    argStart, argEnd = isolate_args(func)
+    funcArgs = func[argStart+1:argEnd].strip()
+
+    # Isolate the function name from the return type
+    funcRetPlusName = func[:argStart].strip()
+    nameStart = isolate_func_name(funcRetPlusName)
+    funcName = funcRetPlusName[nameStart:]
+    funcRet = funcRetPlusName[:nameStart].strip()
+
+    # If the function starts with extern "C", return the function name as is (C functions only!)
+    if funcRet.startswith('extern "C"') and '::' not in funcName:
+        return funcName
+
+    # Prepare the final string
+    mangledName = ''
+
+    # Split the function name and mangle it
+    funcNameSplit = split_decorated_type(funcName)
+    mangledName += mangle_function_name(funcNameSplit, isConstFunc)
+
+    # Split the arguments and mangle them
+    splitArgs = split_args(funcArgs)
+    for arg in splitArgs:
+        mangledName += mangle_arg(arg)
+
+    # If the function is templated, add the mangled return type too
+    if isTemplatedFunction:
+        mangledName += f'_{mangle_type(funcRet)}'
+
+    # Return result
+    return mangledName
+
+
+def main():
+    TESTS = (
+        ('void *EGG::TSystem<EGG::Video, EGG::AsyncDisplay, EGG::XfbManager, EGG::SimpleAudioMgr, EGG::SceneManager, EGG::ProcessMeter>::Configuration::getVideo(sStateIf_c*& state, int (fBase_c::*func1)(const void*, void*), int (fBase_c::*func2)(const void*, void*), void (fBase_c::*)(const void*, void*, fBase_c::MAIN_STATE)) const',
+         'getVideo__Q33EGG126TSystem<Q23EGG5Video,Q23EGG12AsyncDisplay,Q23EGG10XfbManager,Q23EGG14SimpleAudioMgr,Q23EGG12SceneManager,Q23EGG12ProcessMeter>13ConfigurationCFRP10sStateIf_cM7fBase_cFPCvPv_iM7fBase_cFPCvPv_iM7fBase_cFPCvPvQ27fBase_c10MAIN_STATE_v'),
+        ('void std::__sort132<bool (*)( const nw4r::g3d::detail::workmem::MdlZ&, const nw4r::g3d::detail::workmem::MdlZ& )&, nw4r::g3d::detail::workmem::MdlZ*>( nw4r::g3d::detail::workmem::MdlZ*, nw4r::g3d::detail::workmem::MdlZ*, nw4r::g3d::detail::workmem::MdlZ*, bool (*)( const nw4r::g3d::detail::workmem::MdlZ&, const nw4r::g3d::detail::workmem::MdlZ& )& )',
+         '__sort132<RPFRCQ54nw4r3g3d6detail7workmem4MdlZRCQ54nw4r3g3d6detail7workmem4MdlZ_b,PQ54nw4r3g3d6detail7workmem4MdlZ>__3stdFPQ54nw4r3g3d6detail7workmem4MdlZPQ54nw4r3g3d6detail7workmem4MdlZPQ54nw4r3g3d6detail7workmem4MdlZRPFRCQ54nw4r3g3d6detail7workmem4MdlZRCQ54nw4r3g3d6detail7workmem4MdlZ_b_v'),
+        ('void nw4r::snd::detail::AxfxImpl::HookAlloc( void* (**)( unsigned long ), void (**)( void* ) )',
+         'HookAlloc__Q44nw4r3snd6detail8AxfxImplFPPFUl_PvPPFPv_v'),
+        ('void nw4r::snd::detail::Test(volatile unsigned int* x)', 'Test__Q34nw4r3snd6detailFPVUi'),
+        ('extern "C" void DWCi_ProcessPacket(int value)', 'DWCi_ProcessPacket')
+    )
+
+    print('Running tests...')
+    for src, mangled in TESTS:
+        print('Mangling', src, end=' -> ')
+        result = mangle_function(src)
+        print(result)
+        if mangled != result:
+            raise AssertionError('Test failed!')
+    print('All tests passed!')
+
+
+if __name__ == '__main__':
+    main()
