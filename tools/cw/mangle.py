@@ -3,12 +3,20 @@
 # mangle.py
 # CodeWarrior mangler
 
-TYPENAME_SPLITS = [
-    ' ',
+TYPE_ENDINGS = [
     '*',
     '&',
     ')',
     '>',
+]
+
+PREPEND_KEYWORDS = [
+    'extern "C"',
+    'static',
+    'virtual',
+    'inline',
+    'explicit',
+    'friend',
 ]
 
 DECORS = {
@@ -133,8 +141,8 @@ def isolate_args(func: str) -> tuple[int, int]:
                 break
 
     # Sanity checks
-    if start_brace_idx == -1 or end_brace_idx == -1 or start_brace_idx > end_brace_idx:
-        raise ValueError(f'Invalid function provided!')
+    if curr_nest_level:
+        raise ValueError(f'Mismatched braces!')
 
     # Return indexes
     return (start_brace_idx, end_brace_idx)
@@ -207,8 +215,8 @@ def isolate_template(type: str) -> tuple[int, int]:
         return (start_brace_idx, end_brace_idx)
 
     # Sanity checks
-    if start_brace_idx == -1 or end_brace_idx == -1 or start_brace_idx > end_brace_idx:
-        raise ValueError(f'Invalid template provided!')
+    if curr_nest_level:
+        raise ValueError(f'Mismatched braces!')
 
     # Return indexes
     return (start_brace_idx, end_brace_idx)
@@ -247,13 +255,12 @@ def mangle_func_ptr(type: str) -> tuple[int, int]:
             curr_nest_level -= 1
 
     # If the function was nested, ignore it
-    if start_func_idx == -1 and start_args_idx == -1 and end_func_idx == -1 and end_args_idx == -1:
+    if start_func_idx == start_args_idx == end_func_idx == end_args_idx == -1:
         return ''
 
     # Sanity checks
-    if (start_func_idx == -1 or start_args_idx == -1 or end_func_idx == -1 or end_args_idx == -1 or not
-        (start_func_idx < end_func_idx < start_args_idx < end_args_idx)):
-        raise ValueError(f'Invalid function pointer!')
+    if end_func_idx == -1 or curr_nest_level:
+        raise ValueError(f'Mismatched braces!')
 
     # Set up result
     mangledFunc = ''
@@ -317,7 +324,9 @@ def mangle_type(type: str, noLength: bool = False) -> str:
             ptrcount += 1
         elif c == '&':
             refcount += 1
-        elif c == ')' or c == '>' or c not in TYPENAME_SPLITS:
+        elif c.isspace():
+            continue
+        else:
             type = type[:i+1]
             break
 
@@ -335,9 +344,6 @@ def mangle_type(type: str, noLength: bool = False) -> str:
         type = type.lstrip('volatile').lstrip()
         if refcount or ptrcount:
             mangledType += DECORS['volatile']
-
-    # Strip multi spaces
-    type = ' '.join(type.split())
 
     # Detect built in types
     if type in BUILTIN_TYPES:
@@ -387,7 +393,7 @@ def mangle_arg(arg: str) -> str:
 
     # Remove arg names before mangling, if found
     for i, c in renumerate(arg):
-        if c in TYPENAME_SPLITS:
+        if c in TYPE_ENDINGS or c.isspace():
             typeEnd = i
             break
 
@@ -399,7 +405,7 @@ def mangle_arg(arg: str) -> str:
 def isolate_func_name(func: str) -> int:
 
     # Set up loop
-    space_idx = -1
+    funcStart = -1
     curr_nest_level = 0
 
     # Iterate through the string in reverse to find the first non-nested split character
@@ -409,8 +415,8 @@ def isolate_func_name(func: str) -> int:
             curr_nest_level += 1
         elif c == '<':
             curr_nest_level -= 1
-        elif c in TYPENAME_SPLITS and curr_nest_level == 0:
-            space_idx = i
+        elif (c in TYPE_ENDINGS or c.isspace()) and curr_nest_level == 0:
+            funcStart = i
             break
 
     # Detect mismatched braces
@@ -418,11 +424,11 @@ def isolate_func_name(func: str) -> int:
         raise ValueError('Mismatched braces!')
 
     # Detect missing return type
-    if space_idx == -1:
+    if funcStart == -1:
         raise ValueError('Missing return type!')
 
     # Return index
-    return space_idx + 1
+    return funcStart + 1
 
 
 def split_decorated_type(type: str) -> list[str]:
@@ -553,22 +559,26 @@ def mangle_function(func: str, typedefs: dict[str, str] = None, substitutions: d
     # Reset status bool
     isTemplatedFunction = False
 
-    # Apply typedefs and substitutions and strip whitespace
-    func = apply_changes(func, typedefs, substitutions).strip()
+    # Apply typedefs and substitutions and strip excess whitespace
+    func = apply_changes(func, typedefs, substitutions)
+    func = ' '.join(func.split())
 
     # Bail on any array argument
     if '[' in func or ']' in func:
         raise NotImplementedError('Array types are not supported!')
 
-    # Ensure the function ends either with "const" or ")"
-    isConstFunc = func.endswith('const')
-    if not isConstFunc and not func.endswith(')'):
-        raise ValueError('Invalid function provided!')
+    # Ensure the function ends with a valid keyword
+    if not (func.endswith(')') or func.endswith('const') or func.endswith('override')):
+        raise ValueError('Invalid function ending!')
 
     # Isolate the arguments from the function
     # Do so by finding the first ending ")" and the corresponding "(" characters
     argStart, argEnd = isolate_args(func)
+    funcEnd = func[argEnd+1:].strip()
     funcArgs = func[argStart+1:argEnd].strip()
+
+    # Check for const at the end of the function
+    isConstFunc = 'const' in funcEnd
 
     # Isolate the function name from the return type
     funcRetPlusName = func[:argStart].strip()
@@ -576,9 +586,14 @@ def mangle_function(func: str, typedefs: dict[str, str] = None, substitutions: d
     funcName = funcRetPlusName[nameStart:]
     funcRet = funcRetPlusName[:nameStart].strip()
 
-    # If the function starts with extern "C", return the function name as is (C functions only!)
-    if funcRet.startswith('extern "C"') and '::' not in funcName:
+    # Check if the return type contains extern "C"
+    # If it's a C function, return the name without mangling it
+    if 'extern "C" ' in funcRet and '::' not in funcName:
         return funcName
+
+    # Remove all keywords from the return type
+    for keyword in PREPEND_KEYWORDS:
+        funcRet = funcRet.replace(f'{keyword} ', '').strip()
 
     # Prepare the final string
     mangledName = ''
@@ -606,9 +621,9 @@ def main():
          'getVideo__Q33EGG126TSystem<Q23EGG5Video,Q23EGG12AsyncDisplay,Q23EGG10XfbManager,Q23EGG14SimpleAudioMgr,Q23EGG12SceneManager,Q23EGG12ProcessMeter>13ConfigurationCFRP10sStateIf_cM7fBase_cFPCvPv_iM7fBase_cFPCvPv_iM7fBase_cFPCvPvQ27fBase_c10MAIN_STATE_v'),
         ('void std::__sort132<bool (*)( const nw4r::g3d::detail::workmem::MdlZ&, const nw4r::g3d::detail::workmem::MdlZ& )&, nw4r::g3d::detail::workmem::MdlZ*>( nw4r::g3d::detail::workmem::MdlZ*, nw4r::g3d::detail::workmem::MdlZ*, nw4r::g3d::detail::workmem::MdlZ*, bool (*)( const nw4r::g3d::detail::workmem::MdlZ&, const nw4r::g3d::detail::workmem::MdlZ& )& )',
          '__sort132<RPFRCQ54nw4r3g3d6detail7workmem4MdlZRCQ54nw4r3g3d6detail7workmem4MdlZ_b,PQ54nw4r3g3d6detail7workmem4MdlZ>__3stdFPQ54nw4r3g3d6detail7workmem4MdlZPQ54nw4r3g3d6detail7workmem4MdlZPQ54nw4r3g3d6detail7workmem4MdlZRPFRCQ54nw4r3g3d6detail7workmem4MdlZRCQ54nw4r3g3d6detail7workmem4MdlZ_b_v'),
-        ('void nw4r::snd::detail::AxfxImpl::HookAlloc( void* (**)( unsigned long ), void (**)( void* ) )',
+        ('virtual void nw4r::snd::detail::AxfxImpl::HookAlloc( void* (**)( unsigned long ), void (**)( void* ) )',
          'HookAlloc__Q44nw4r3snd6detail8AxfxImplFPPFUl_PvPPFPv_v'),
-        ('void nw4r::snd::detail::Test(volatile unsigned int* x)', 'Test__Q34nw4r3snd6detailFPVUi'),
+        ('void nw4r::snd::detail::Test(volatile unsigned int* x) override', 'Test__Q34nw4r3snd6detailFPVUi'),
         ('extern "C" void DWCi_ProcessPacket(int value)', 'DWCi_ProcessPacket')
     )
 
