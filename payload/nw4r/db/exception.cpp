@@ -19,7 +19,7 @@ bool IsValidStackAddr(u32 addr) {
     if (addr & 3)
         return false;
 
-    // Use the secure boundaries from low memory to support Dolphin's expanded memory
+    // Use the secure boundaries from low memory to support expanded memory
     return ((addr >= 0x80000000 && addr <= __OSBootInfo2.MEM1SecureBoundary) ||
             (addr >= 0x90000000 && addr <= __OSBootInfo2.MEM2SecureBoundary));
 }
@@ -177,30 +177,30 @@ void ShowStackTrace_(u32* sp) {
     }
 }
 
-// nw4r::db::PrintContext_() override
 // Make the exception handler more user friendly
-kmCallDefCpp(0x80023484, void, OSError error, const OSContext* context, u32 dsisr, u32 dar) {
+REPLACE void PrintContext_(OSError error, const OSContext* context, u32 dsisr, u32 dar) {
+    static const char SEP_LINES[] = "--------------------------------\n";
 
     // Print heading
-    Exception_Printf_("--------------------------------\n");
+    Exception_Printf_(SEP_LINES);
     Exception_Printf_(EXCEPTION_HANDLER_DISTRO_NAME " Exception Handler (%s)\n", Region::GetIdentifier());
     Exception_Printf_("Please take a picture of the information below and send it to " EXCEPTION_HANDLER_SUPPORT_ADDRESS ".");
     Exception_Printf_(" Use the D-Pad/Circle Pad to scroll through the data or press HOME/START to return to the System Menu.\n");
 
     // Print main information
-    Exception_Printf_("--------------------------------\n");
+    Exception_Printf_(SEP_LINES);
     ShowMainInfo_(error, context, dsisr, dar);
 
     // Print registers
-    Exception_Printf_("--------------------------------\n");
+    Exception_Printf_(SEP_LINES);
     ShowGPR_(context);
 
     // Print stack trace
-    Exception_Printf_("--------------------------------\n");
+    Exception_Printf_(SEP_LINES);
     ShowStackTrace_((u32*)context->gpr[1]);
 
     // Print a dashed line to end the display
-    Exception_Printf_("--------------------------------\n");
+    Exception_Printf_(SEP_LINES);
 }
 
 } // namespace db

@@ -431,7 +431,7 @@ class _Preprocessor:
         self.buffer.write('\n')
 
         # If the function contains C++ syntax, add a reference for the branch hook
-        if '::' in func:
+        if '::' in filled_func:
             self.buffer.write(f'\nextern "C" void {mangled_func}();')
 
         # Write the branch hook

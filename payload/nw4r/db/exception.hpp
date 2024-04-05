@@ -4,8 +4,7 @@
 namespace nw4r {
 namespace db {
 
-void Exception_Printf_(char* format, ...);
-void ShowMainInfo_(u16 error, const OSContext* context, u32 dsisr, u32 dar);
+void Exception_Printf_(const char* format, ...);
 
 } // namespace db
 } // namespace nw4r
