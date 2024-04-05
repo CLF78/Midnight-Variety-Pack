@@ -102,7 +102,7 @@ kmBranchDefAsm(0x8011AB28, 0x8011AB34) {
     nofralloc
 
     // Copy profile ID over the game name
-    CALL_CPP(Wiimmfi::Natify::CopyData(u8*))
+    CALL_CPP(Natify::CopyData(u8*))
 
     // Replace message type to distinguish it from the original
     li r30, WIIMMFI_NATIFY

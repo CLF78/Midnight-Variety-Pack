@@ -317,7 +317,7 @@ writer.rule('cup_builder',
             deps='gcc')
 
 writer.rule('preprocess',
-            command=f'{sys.executable} {PREPROCESSOR} $in -m $symbol_file -o $out',
+            command=f'{sys.executable} {PREPROCESSOR} $in -m $symbol_file -o $out -i {CODE_DIR}',
             description='Preprocess Code $in_short')
 
 writer.rule('cw',

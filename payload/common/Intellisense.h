@@ -9,6 +9,7 @@
 
     // Dummy preprocessor macros
     #define REPLACE
+    #define REPLACE_STATIC
     #define REPLACED(...) NULL
     #define BRANCH_CPP(fn) ;
     #define CALL_CPP(fn) ;

@@ -1,23 +1,25 @@
 #!/usr/bin/env python3
 
 # mangle.py
-# CodeWarrior mangler
+# CodeWarrior mangler, by CLF78 and RoadrunnerWMC
 
-TYPE_ENDINGS = [
+
+TYPE_ENDINGS = {
     '*',
     '&',
     ')',
     '>',
-]
+}
 
-PREPEND_KEYWORDS = [
+PREPEND_KEYWORDS = {
     'extern "C"',
+    'extern',
     'static',
     'virtual',
     'inline',
     'explicit',
     'friend',
-]
+}
 
 DECORS = {
     '*': 'P',
@@ -31,7 +33,7 @@ BUILTIN_TYPES = {
     'wchar_t': 'w',
     'bool': 'b',
     'char': 'c',
-    'signed char': 'sc',
+    'signed char': 'Sc',
     'unsigned char': 'Uc',
     'short': 's',
     'signed short': 's',
@@ -96,8 +98,7 @@ OPERATORS = {
 }
 
 # Status bool, not very elegant but needed
-isTemplatedFunction = False
-
+is_templated_function = False
 
 def renumerate(data: list):
     for i in range(len(data)-1, -1, -1):
@@ -142,7 +143,7 @@ def isolate_args(func: str) -> tuple[int, int]:
 
     # Sanity checks
     if curr_nest_level:
-        raise ValueError(f'Mismatched braces!')
+        raise ValueError('Mismatched braces!')
 
     # Return indexes
     return (start_brace_idx, end_brace_idx)
@@ -216,13 +217,13 @@ def isolate_template(type: str) -> tuple[int, int]:
 
     # Sanity checks
     if curr_nest_level:
-        raise ValueError(f'Mismatched braces!')
+        raise ValueError('Mismatched braces!')
 
     # Return indexes
     return (start_brace_idx, end_brace_idx)
 
 
-def mangle_func_ptr(type: str) -> tuple[int, int]:
+def isolate_func_ptr(type: str) -> tuple[int, int, int, int]:
 
     # Set up loop
     start_func_idx = -1
@@ -260,70 +261,83 @@ def mangle_func_ptr(type: str) -> tuple[int, int]:
 
     # Sanity checks
     if end_func_idx == -1 or curr_nest_level:
-        raise ValueError(f'Mismatched braces!')
+        raise ValueError('Mismatched braces!')
+
+    # Return indexes
+    return (start_func_idx, end_func_idx, start_args_idx, end_args_idx)
+
+
+def mangle_func_ptr(type: str) -> str:
+
+    # Get the function indexes
+    start_func_idx, end_func_idx, start_args_idx, end_args_idx = isolate_func_ptr(type)
 
     # Set up result
-    mangledFunc = ''
+    mangled_func = ''
 
     # Isolate the pieces
-    funcReturn = type[:start_func_idx].strip()
-    funcName = type[start_func_idx+1:end_func_idx].strip()
-    funcArgs = type[start_args_idx+1:end_args_idx].strip()
+    func_return = type[:start_func_idx].strip()
+    func_name = type[start_func_idx+1:end_func_idx].strip()
+    func_args = type[start_args_idx+1:end_args_idx].strip()
 
     # Ensure the return type and function name are properly declared
-    if not funcReturn or not funcName:
+    if not func_return or not func_name:
         raise ValueError('Invalid function pointer!')
 
     # Count the pointers from the function name
-    ptrcount = 0
-    for i, c in renumerate(funcName):
+    ptr_count = 0
+    for i, c in renumerate(func_name):
 
         # Count the pointers
         if c == '*':
-            ptrcount += 1
+            ptr_count += 1
 
         # Exit if the first of the two "::" characters are found
         elif c == ':':
-            funcName = funcName[:i-1]
+            func_name = func_name[:i-1]
             break
 
     # Remove asterisks
-    funcName = funcName.rstrip('*')
+    func_name = func_name.rstrip('*')
 
     # If it's not a pointer to member function, we can simply add PF
-    if not funcName:
-        mangledFunc += f'{DECORS["*"] * ptrcount}F'
+    if not func_name:
+        mangled_func += f'{DECORS["*"] * ptr_count}F'
 
     # Else mangle the class
     else:
-        mangledFunc += f'M{mangle_type(funcName)}F'
+        mangled_func += f'M{mangle_type(func_name)}F'
 
     # Split and mangle the args
-    funcArgs = split_args(funcArgs)
-    for arg in funcArgs:
-        mangledFunc += mangle_type(arg)
+    func_args = split_args(func_args)
+    for arg in func_args:
+        mangled_func += mangle_type(arg)
 
     # Mangle the return type
-    mangledFunc += f'_{mangle_type(funcReturn)}'
+    mangled_func += f'_{mangle_type(func_return)}'
 
     # We got it!
-    return mangledFunc
+    return mangled_func
 
 
-def mangle_type(type: str, noLength: bool = False) -> str:
-    global isTemplatedFunction
+def mangle_type(type: str, no_length: bool = False) -> str:
+    global is_templated_function
 
     # Initialize type
-    mangledType = ''
+    mangled_type = ''
+
+    # If the type is a simple integer, return it as is
+    if type.isdigit():
+        return type
 
     # Detect pointers and references and remove them from the type
-    refcount = 0
-    ptrcount = 0
+    ref_count = 0
+    ptr_count = 0
     for i, c in renumerate(type):
         if c == '*':
-            ptrcount += 1
+            ptr_count += 1
         elif c == '&':
-            refcount += 1
+            ref_count += 1
         elif c.isspace():
             continue
         else:
@@ -331,81 +345,92 @@ def mangle_type(type: str, noLength: bool = False) -> str:
             break
 
     # Add the mangled decorators (one per count)
-    mangledType += DECORS['&'] * refcount
-    mangledType += DECORS['*'] * ptrcount
+    mangled_type += DECORS['&'] * ref_count
+    mangled_type += DECORS['*'] * ptr_count
 
     # Detect initial const and remove it if found
     if type.startswith('const '):
-        mangledType += DECORS['const']
+        mangled_type += DECORS['const']
         type = type.lstrip('const').lstrip()
 
     # Do the same for volatile, but ensure it only adds the mangled decorator for pointer/ref types
     if type.startswith('volatile '):
         type = type.lstrip('volatile').lstrip()
-        if refcount or ptrcount:
-            mangledType += DECORS['volatile']
+        if ref_count or ptr_count:
+            mangled_type += DECORS['volatile']
 
     # Detect built in types
     if type in BUILTIN_TYPES:
-        return mangledType + BUILTIN_TYPES[type]
+        return mangled_type + BUILTIN_TYPES[type]
 
     # Try to split the type into decorated types and mangle each one of them
-    splitTypes = split_decorated_type(type)
-    if len(splitTypes) > 1:
-        mangledType += mangle_decorated_type(splitTypes)
-        return mangledType
+    # Now with extra hardcode for function pointer returns
+    split_types = split_decorated_type(type)
+    if len(split_types) > 1 and '(' not in type and ')' not in type:
+        mangled_type += mangle_decorated_type(split_types)
+        return mangled_type
 
     # If the type contains a template, isolate it
     if '<' in type or '>' in type:
-        templateStart, templateEnd = isolate_template(type)
+        template_start, template_end = isolate_template(type)
 
         # If the template was not nested, split the contents and mangle each piece
-        if not (templateStart == -1 and templateEnd == -1):
-            template = type[templateStart+1:templateEnd].strip()
-            type = type[:templateStart+1].strip()
-            templateArgs = split_args(template)
-            type += ','.join(map(mangle_type, templateArgs))
+        if not (template_start == -1 and template_end == -1):
+            template = type[template_start+1:template_end].strip()
+            type = type[:template_start+1].strip()
+            template_args = split_args(template)
+            type += ','.join(map(mangle_type, template_args))
             type += '>'
 
             # If the length is to be omitted this is the function name, so mark function as templated
-            if noLength:
-                isTemplatedFunction = True
+            if no_length:
+                is_templated_function = True
 
-    # If the type contains a function pointer, isolate it and mangle each component properly
-    if '(' in type or ')' in type:
-        mangledFunc = mangle_func_ptr(type)
-        if mangledFunc:
-            type = mangledFunc
-            noLength = True
+    # Else if the type contains a function pointer, isolate it and mangle each component properly
+    elif '(' in type or ')' in type:
+        mangled_func = mangle_func_ptr(type)
+
+        # Don't do anything if the function was nested
+        if mangled_func:
+            type = mangled_func
+            no_length = True
 
     # Prepend the length if wanted
-    if not noLength:
-        mangledType += str(len(type))
+    if not no_length:
+        mangled_type += str(len(type))
 
     # Append the type itself (might be mangled or not mangled)
-    return mangledType + type
+    return mangled_type + type
 
 
-def mangle_arg(arg: str) -> str:
+def isolate_arg(arg: str) -> str:
 
     # Set up loop
-    typeEnd = len(arg)
+    type_end = len(arg)
 
     # Remove arg names before mangling, if found
     for i, c in renumerate(arg):
         if c in TYPE_ENDINGS or c.isspace():
-            typeEnd = i
+            type_end = i
             break
 
-    # Mangle the type
-    argType = arg[:typeEnd+1].strip()
-    return mangle_type(argType)
+    # Ensure we don't cut off built in types
+    arg_name = arg[type_end:].strip()
+    arg_type = arg
+    if arg_name not in BUILTIN_TYPES:
+        arg_type = arg[:type_end+1].strip()
+
+    return arg_type
+
+
+def mangle_arg(arg: str) -> str:
+    return mangle_type(isolate_arg(arg))
 
 
 def isolate_func_name(func: str) -> int:
 
     # Set up loop
-    funcStart = -1
+    func_start = -1
     curr_nest_level = 0
 
     # Iterate through the string in reverse to find the first non-nested split character
@@ -416,19 +441,15 @@ def isolate_func_name(func: str) -> int:
         elif c == '<':
             curr_nest_level -= 1
         elif (c in TYPE_ENDINGS or c.isspace()) and curr_nest_level == 0:
-            funcStart = i
+            func_start = i
             break
 
     # Detect mismatched braces
     if curr_nest_level:
         raise ValueError('Mismatched braces!')
 
-    # Detect missing return type
-    if funcStart == -1:
-        raise ValueError('Missing return type!')
-
     # Return index
-    return funcStart + 1
+    return func_start + 1
 
 
 def split_decorated_type(type: str) -> list[str]:
@@ -476,18 +497,18 @@ def split_decorated_type(type: str) -> list[str]:
 def mangle_decorated_type(types: list[str]):
 
     # Set up string
-    mangledTypes = ''
+    mangled_types = ''
 
     # Add Q if there are multiple pieces
     if len(types) > 1:
-        mangledTypes += f'Q{len(types)}'
+        mangled_types += f'Q{len(types)}'
 
     # Mangle each piece
     for type in types:
-        mangledTypes += mangle_type(type)
+        mangled_types += mangle_type(type)
 
     # Return result
-    return mangledTypes
+    return mangled_types
 
 
 def mangle_operator(operator: str) -> str:
@@ -501,63 +522,63 @@ def mangle_operator(operator: str) -> str:
         raise ValueError('Invalid operator!')
 
     # Isolate the type and mangle it
-    operatorType = operator[:-2]
-    return f'__op{mangle_type(operatorType)}'
+    operator_type = operator[:-2]
+    return f'__op{mangle_type(operator_type)}'
 
 
-def mangle_function_name(pieces: list[str], isConst: bool) -> str:
+def mangle_function_name(pieces: list[str], is_const: bool) -> str:
 
     # Initialize string
-    mangledName = ''
+    mangled_name = ''
 
     # Isolate the last piece
-    lastPiece = pieces.pop()
+    last_piece = pieces.pop()
 
     # Check for special names
     if pieces:
 
         # If the last piece is the same as the previous it's a constructor, use the dedicated keyword
-        if lastPiece == pieces[-1]:
-            mangledName += '__ct'
+        if last_piece == pieces[-1]:
+            mangled_name += '__ct'
 
-        # If the last piece is the same as the previous with a "~" it's a destructor, use the dedicated keyword
-        elif lastPiece == f'~{pieces[-1]}':
-            mangledName += '__dt'
+        # If the last piece starts with a "~" it's a destructor, use the dedicated keyword
+        elif last_piece.startswith('~'):
+            mangled_name += '__dt'
 
         # If the piece starts with "operator", get the operator
-        elif lastPiece.startswith('operator'):
-            lastPiece = lastPiece.split('operator', 1)[-1].strip()
-            mangledName += mangle_operator(lastPiece)
+        elif last_piece.startswith('operator'):
+            last_piece = last_piece.split('operator', 1)[-1].strip()
+            mangled_name += mangle_operator(last_piece)
 
         # No special cases, add the name as is
         else:
-            mangledName += mangle_type(lastPiece, True)
+            mangled_name += mangle_type(last_piece, True)
 
     # It's a regular function, add the name as is
     else:
-        mangledName += mangle_type(lastPiece, True)
+        mangled_name += mangle_type(last_piece, True)
 
     # Add the separator
-    mangledName += '__'
+    mangled_name += '__'
 
     # Mangle the rest of the function
     if pieces:
-        mangledName += mangle_decorated_type(pieces)
+        mangled_name += mangle_decorated_type(pieces)
 
     # Add the const function identifier
-    if isConst:
-        mangledName += DECORS['const']
+    if is_const:
+        mangled_name += DECORS['const']
 
     # Terminate the function name
-    mangledName += 'F'
-    return mangledName
+    mangled_name += 'F'
+    return mangled_name
 
 
 def mangle_function(func: str, typedefs: dict[str, str] = None, substitutions: dict[str, str] = None) -> str:
-    global isTemplatedFunction
+    global is_templated_function
 
-    # Reset status bool
-    isTemplatedFunction = False
+    # Reset bool
+    is_templated_function = False
 
     # Apply typedefs and substitutions and strip excess whitespace
     func = apply_changes(func, typedefs, substitutions)
@@ -573,50 +594,61 @@ def mangle_function(func: str, typedefs: dict[str, str] = None, substitutions: d
 
     # Isolate the arguments from the function
     # Do so by finding the first ending ")" and the corresponding "(" characters
-    argStart, argEnd = isolate_args(func)
-    funcEnd = func[argEnd+1:].strip()
-    funcArgs = func[argStart+1:argEnd].strip()
+    arg_start, arg_end = isolate_args(func)
+
+    # If the arguments were not found, return function as is
+    if arg_start == arg_end == -1:
+        return func
+
+    # Split the arguments off
+    func_end = func[arg_end+1:].strip()
+    func_args = func[arg_start+1:arg_end].strip()
 
     # Check for const at the end of the function
-    isConstFunc = 'const' in funcEnd
+    is_const_func = 'const' in func_end
 
     # Isolate the function name from the return type
-    funcRetPlusName = func[:argStart].strip()
-    nameStart = isolate_func_name(funcRetPlusName)
-    funcName = funcRetPlusName[nameStart:]
-    funcRet = funcRetPlusName[:nameStart].strip()
+    func_ret_plus_name = func[:arg_start].strip()
+    name_start = isolate_func_name(func_ret_plus_name)
+    func_name = func_ret_plus_name[name_start:]
+
+    # Add dummy return value if no return type was provided
+    if name_start != -1:
+        func_ret = func_ret_plus_name[:name_start].strip()
+    else:
+        func_ret = 'void'
 
     # Check if the return type contains extern "C"
     # If it's a C function, return the name without mangling it
-    if 'extern "C" ' in funcRet and '::' not in funcName:
-        return funcName
+    if 'extern "C" ' in func_ret and '::' not in func_name:
+        return func_name
 
     # Remove all keywords from the return type
     for keyword in PREPEND_KEYWORDS:
-        funcRet = funcRet.replace(f'{keyword} ', '').strip()
+        func_ret = func_ret.replace(f'{keyword} ', '').strip()
 
     # Prepare the final string
-    mangledName = ''
+    mangled_name = ''
 
     # Split the function name and mangle it
-    funcNameSplit = split_decorated_type(funcName)
-    mangledName += mangle_function_name(funcNameSplit, isConstFunc)
+    func_name_split = split_decorated_type(func_name)
+    mangled_name += mangle_function_name(func_name_split, is_const_func)
 
     # Split the arguments and mangle them
-    splitArgs = split_args(funcArgs)
-    for arg in splitArgs:
-        mangledName += mangle_arg(arg)
+    split_func_args = split_args(func_args)
+    for arg in split_func_args:
+        mangled_name += mangle_arg(arg)
 
     # If the function is templated, add the mangled return type too
-    if isTemplatedFunction:
-        mangledName += f'_{mangle_type(funcRet)}'
+    if is_templated_function:
+        mangled_name += f'_{mangle_type(func_ret)}'
 
     # Return result
-    return mangledName
+    return mangled_name
 
 
 def main():
-    TESTS = (
+    TESTS = [
         ('void *EGG::TSystem<EGG::Video, EGG::AsyncDisplay, EGG::XfbManager, EGG::SimpleAudioMgr, EGG::SceneManager, EGG::ProcessMeter>::Configuration::getVideo(sStateIf_c*& state, int (fBase_c::*func1)(const void*, void*), int (fBase_c::*func2)(const void*, void*), void (fBase_c::*)(const void*, void*, fBase_c::MAIN_STATE)) const',
          'getVideo__Q33EGG126TSystem<Q23EGG5Video,Q23EGG12AsyncDisplay,Q23EGG10XfbManager,Q23EGG14SimpleAudioMgr,Q23EGG12SceneManager,Q23EGG12ProcessMeter>13ConfigurationCFRP10sStateIf_cM7fBase_cFPCvPv_iM7fBase_cFPCvPv_iM7fBase_cFPCvPvQ27fBase_c10MAIN_STATE_v'),
         ('void std::__sort132<bool (*)( const nw4r::g3d::detail::workmem::MdlZ&, const nw4r::g3d::detail::workmem::MdlZ& )&, nw4r::g3d::detail::workmem::MdlZ*>( nw4r::g3d::detail::workmem::MdlZ*, nw4r::g3d::detail::workmem::MdlZ*, nw4r::g3d::detail::workmem::MdlZ*, bool (*)( const nw4r::g3d::detail::workmem::MdlZ&, const nw4r::g3d::detail::workmem::MdlZ& )& )',
@@ -624,8 +656,11 @@ def main():
         ('virtual void nw4r::snd::detail::AxfxImpl::HookAlloc( void* (**)( unsigned long ), void (**)( void* ) )',
          'HookAlloc__Q44nw4r3snd6detail8AxfxImplFPPFUl_PvPPFPv_v'),
         ('void nw4r::snd::detail::Test(volatile unsigned int* x) override', 'Test__Q34nw4r3snd6detailFPVUi'),
-        ('extern "C" void DWCi_ProcessPacket(int value)', 'DWCi_ProcessPacket')
-    )
+        ('extern "C" void DWCi_ProcessPacket(int value)', 'DWCi_ProcessPacket'),
+        ('NMSndObject<4>::SoundHandlePrm::SoundHandlePrm()', '__ct__Q214NMSndObject<4>14SoundHandlePrmFv'),
+        ('nw4r::g3d::ScnLeaf::ForEach( nw4r::g3d::ScnObj::ForEachResult (*)( nw4r::g3d::ScnObj*, void* ), void*, bool )', 'ForEach__Q34nw4r3g3d7ScnLeafFPFPQ34nw4r3g3d6ScnObjPv_Q44nw4r3g3d6ScnObj13ForEachResultPvb'),
+        ('EGG::DrawPathDOF::@24@SetBinaryInner( const EGG::IBinary<EGG::DrawPathDOF>::Bin& )', '@24@SetBinaryInner__Q23EGG11DrawPathDOFFRCQ33EGG28IBinary<Q23EGG11DrawPathDOF>3Bin')
+    ]
 
     print('Running tests...')
     for src, mangled in TESTS:
