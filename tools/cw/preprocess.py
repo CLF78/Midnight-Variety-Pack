@@ -346,7 +346,7 @@ class _Preprocessor:
 
         # Create the thunk function
         thunk_name = f'{THUNK_FUNCTION_PATTERN}_{mangled_name}'
-        self.buffer.write(f'extern "C" asm {func_ret} {thunk_name}(')
+        self.buffer.write(f'extern "C" asm {func_ret if func_ret else "void"} {thunk_name}(')
 
         # Try splitting the class name into its decorated components
         func_class = mangle.split_decorated_type(func_name)
@@ -497,11 +497,16 @@ class _Preprocessor:
         if not self.symbol_file.is_file():
             raise SystemExit('ERROR: Symbol map not found!')
 
-        # Read all symbols from the map
-        self.read_symbol_file()
-
         # Read the source file
         src_code = self.src.read_text(encoding='utf-8')
+
+        # If no keyword replacements were found, write the file directly and bail
+        if REPLACE_STRING not in src_code and BRANCH_MANGLE not in src_code and CALL_MANGLE not in src_code:
+            self.dest.write_text(src_code, encoding='utf-8')
+            return
+
+        # Read all symbols from the map
+        self.read_symbol_file()
 
         # Set up loop
         curr_pos = 0
