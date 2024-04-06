@@ -61,3 +61,4 @@ public:
     float megaScale;
     float axleDistance;
 };
+size_assert(KartStats, 0x18C);

@@ -60,7 +60,7 @@ public:
         IN_A_SLIPSTREAM        = BIT_FLAG(1),
         SOMETHING_WHEELIE_BUMP = BIT_FLAG(2),
         WHEELIE_ROT            = BIT_FLAG(4),
-        UNK_20                 = BIT_FLAG(5),
+        SKIP_WHEEL_CALC        = BIT_FLAG(5),
         SHOCKED                = BIT_FLAG(7),
         UNK_100                = BIT_FLAG(8),
         IN_RESPAWN             = BIT_FLAG(13),

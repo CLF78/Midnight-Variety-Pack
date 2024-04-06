@@ -14,16 +14,18 @@ const float KartMove::speedModifiers[] = {
     CC_150_SPEED_MODIFIER,
     CC_200_SPEED_MODIFIER,
     CC_500_SPEED_MODIFIER,
-    CC_BATTLE_SPEED_MODIFIER,
 };
 
-// KartMove::KartMove() patch
 // Apply the speed multiplier
-kmBranchDefCpp(0x80578118, NULL, KartMove*, KartMove* self) {
-    self->speedMultiplier = KartMove::speedModifiers[RaceConfig::instance->raceScenario.settings.engineClass];
+REPLACE KartMove::KartMove() {
+
+    // Call the original constructor
+    REPLACED();
+
+    // Apply the multiplier
+    speedMultiplier = speedModifiers[RaceConfig::instance->raceScenario.settings.engineClass];
     if (RaceConfig::instance->raceScenario.settings.isBattle())
-        self->speedMultiplier = KartMove::speedModifiers[RaceConfig::Settings::CC_COUNT];
-    return self;
+        speedMultiplier = CC_BATTLE_SPEED_MODIFIER;
 }
 
 // Replace the hard speed limits and the minimum drift threshold
@@ -47,7 +49,7 @@ kmBranchDefCpp(0x80584F6C, 0x80584FF8, void, KartMove* self, KartState* state) {
 
     // Replicated code
     state->bitfield1 &= ~KartState::IN_CANNON;
-    state->bitfield2 &= ~KartState::UNK_20;
+    state->bitfield2 &= ~KartState::SKIP_WHEEL_CALC;
     state->bitfield3 |= KartState::UNK_40;
 
     // Divide speed by the multiplier for CCs higher than 150cc
@@ -57,9 +59,9 @@ kmBranchDefCpp(0x80584F6C, 0x80584FF8, void, KartMove* self, KartState* state) {
 
     // Get physics and apply result
     VehiclePhysics* physics = self->getVehiclePhysics();
-    physics->internalVelocity.x = self->_1F4.x * self->speed;
-    physics->internalVelocity.y = self->_1F4.y * self->speed;
-    physics->internalVelocity.z = self->_1F4.z * self->speed;
+    physics->internalVelocity.x = self->cannonExitDir.x * self->speed;
+    physics->internalVelocity.y = self->cannonExitDir.y * self->speed;
+    physics->internalVelocity.z = self->cannonExitDir.z * self->speed;
 
     // More replicated code
     self->FUN_80591050(0, 0, 1);
