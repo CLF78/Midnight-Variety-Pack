@@ -354,6 +354,12 @@ class _Preprocessor:
         # Add the class if present
         if len(func_class) > 1 and not is_static_func:
             func_class = '::'.join(func_class[:-1])
+
+            # If the function is const, add the const directive to the class pointer
+            if 'const' in func_end:
+                self.buffer.write('const ')
+
+            # Write the class
             self.buffer.write(f'{func_class}* self')
 
             # Add the comma for the extra args if necessary
