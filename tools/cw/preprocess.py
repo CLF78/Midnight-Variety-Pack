@@ -61,6 +61,7 @@ class _Preprocessor:
         self.symbols = {}
         self.missing_symbols = []
         self.externdefs = []
+        self.visited_headers = set()
 
 
     def read_symbol_file(self) -> None:
@@ -181,6 +182,10 @@ class _Preprocessor:
             elif self.check_sequence(src_code, curr_pos, '/*'):
                 curr_pos = self.parse_multiline_comment(src_code, curr_pos)
 
+            # If the current characters include a header, parse it
+            elif self.check_sequence(src_code, curr_pos, '#include'):
+                curr_pos = self.parse_include(src_code, curr_pos)
+
             # Else test for keywords
             else:
                 type, type_end_idx = self.try_parse_keyword(src_code, curr_pos)
@@ -202,19 +207,23 @@ class _Preprocessor:
                 curr_pos += 1
 
 
-    def parse_include(self, src_code: str, curr_pos: int) -> int:
+    def parse_include(self, src_code: str, curr_pos: int, write: bool = False) -> int:
 
         # Isolate the path
         include_start = src_code.index('<', curr_pos) + 1
         include_end = src_code.index('>', include_start)
 
-        # Only process C++ headers
+        # Only process C++ headers (and don't parse them multiple times)
         include_path = Path(self.include_dir, src_code[include_start:include_end])
-        if include_path.suffix == '.hpp':
+        if include_path.suffix == '.hpp' and include_path not in self.visited_headers:
+            self.visited_headers.add(include_path)
             self.process_header(include_path)
 
-        # Copy the line in any case
-        self.buffer.write(src_code[curr_pos:include_end+1])
+        # Copy the line if requested
+        if write:
+            self.buffer.write(src_code[curr_pos:include_end+1])
+
+        # Return end of header
         return include_end + 1
 
 
@@ -534,9 +543,9 @@ class _Preprocessor:
             elif self.check_sequence(src_code, curr_pos, '/*'):
                 curr_pos = self.parse_multiline_comment(src_code, curr_pos, True)
 
-            # If the current characters include a header, add it to the list
+            # If the current characters include a header, parse it
             elif self.check_sequence(src_code, curr_pos, '#include'):
-                curr_pos = self.parse_include(src_code, curr_pos)
+                curr_pos = self.parse_include(src_code, curr_pos, True)
 
             # If the current characters define a static function replacement, apply the necessary changes
             elif self.check_sequence(src_code, curr_pos, REPLACE_STATIC_STRING):
