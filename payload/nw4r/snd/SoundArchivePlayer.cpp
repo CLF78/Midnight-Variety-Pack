@@ -4,7 +4,6 @@
 #include <nw4r/snd/SoundArchivePlayer.hpp>
 #include <nw4r/snd/SoundStartable.hpp>
 #include <revolution/dvd/dvd.h>
-#include <platform/new.hpp>
 #include <platform/string.h>
 
 namespace nw4r {

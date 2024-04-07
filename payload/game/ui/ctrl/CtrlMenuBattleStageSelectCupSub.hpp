@@ -2,7 +2,6 @@
 #include <game/ui/LayoutUIControl.hpp>
 #include <nw4r/lyt/pane.hpp>
 #include <revolution/mtx.h>
-#include <platform/new.hpp>
 
 class CtrlMenuBattleStageSelectCupSub : public LayoutUIControl {
 public:

@@ -1,6 +1,5 @@
 #include <common/Common.hpp>
 #include <midnight/save/SaveExpansionLicense.hpp>
-#include <platform/new.hpp>
 
 class SaveExpansion {
 public:

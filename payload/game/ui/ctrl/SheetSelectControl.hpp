@@ -1,5 +1,4 @@
 #include <common/Common.hpp>
-#include <platform/new.hpp>
 #include <game/ui/ControlInputManager.hpp>
 #include <game/ui/InputHandler.hpp>
 #include <game/ui/LayoutUIControl.hpp>

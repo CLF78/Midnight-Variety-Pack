@@ -14,7 +14,6 @@
 #include <game/system/RaceManager.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <nw4r/ut/Lock.hpp>
-#include <platform/new.hpp>
 #include <platform/string.h>
 #include <revolution/vi.h>
 #include <wiimmfi/Delay.hpp>

@@ -4,7 +4,6 @@
 #include <game/system/RKSystem.hpp>
 #include <gs/gp/gpi.h>
 #include <nw4r/ut/Lock.hpp>
-#include <platform/new.hpp>
 #include <platform/stdio.h>
 #include <platform/string.h>
 #include <wiimmfi/Status.hpp>

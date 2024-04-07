@@ -3,7 +3,6 @@
 #include <game/system/SaveManager.hpp>
 #include <midnight/save/SaveExpansionManager.hpp>
 #include <midnight/util/NANDFile.hpp>
-#include <platform/new.hpp>
 #include <revolution/os/OS.h>
 
 namespace SaveExpansionManager {

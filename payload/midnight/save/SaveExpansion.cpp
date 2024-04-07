@@ -1,7 +1,6 @@
 #include <common/Common.hpp>
 #include <game/util/NandUtil.hpp>
 #include <midnight/save/SaveExpansion.hpp>
-#include <platform/new.hpp>
 #include <platform/string.h>
 #include <revolution/os/OS.h>
 #include <revolutionex/net/NETDigest.h>

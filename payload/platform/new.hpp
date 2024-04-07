@@ -1,6 +1,7 @@
-#include <common/Common.hpp>
-#include <egg/core/eggHeap.hpp>
+#include <common/Common.h>
 
+// Declare Heap class pre-emptively
+namespace EGG { class Heap; }
 void* operator new(size_t size, int align);
 void* operator new(size_t size, EGG::Heap* heap, int align);
 void* operator new[](size_t size, int align);

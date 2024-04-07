@@ -1,7 +1,6 @@
 #include <common/Common.hpp>
 #include <game/net/packet/RKNetSelectPacket.hpp>
 #include <revolution/os/OS.h>
-#include <platform/new.hpp>
 
 class RKNetSELECTHandlerEx {
 public:

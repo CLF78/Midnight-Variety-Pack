@@ -1,7 +1,6 @@
 #include <common/Common.hpp>
 #include <egg/core/eggDisposer.hpp>
 #include <egg/core/eggTaskThread.hpp>
-#include <platform/new.hpp>
 #include <game/system/GhostFile.hpp>
 #include <game/system/Mii.hpp>
 #include <game/system/RawSave.hpp>

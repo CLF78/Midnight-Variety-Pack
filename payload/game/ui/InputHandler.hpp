@@ -1,5 +1,4 @@
 #include <common/Common.hpp>
-#include <platform/new.hpp>
 
 template <class T, typename R>
 class InputHandler0 {

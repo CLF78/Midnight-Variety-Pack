@@ -1,5 +1,6 @@
 #include <common/Common.h>
 #include <kamek/ListHook.hpp>
+#include <platform/new.hpp>
 
 // Macros
 #ifndef __INTELLISENSE__
