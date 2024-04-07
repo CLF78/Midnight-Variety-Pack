@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#include <common/Common.hpp>
 #include <gs/common/gsAvailable.h>
 #include <gs/common/gsPlatformUtil.h>
 #include <gs/common/gsSocketRevolution.h>
