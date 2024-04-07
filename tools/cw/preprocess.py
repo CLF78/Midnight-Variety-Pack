@@ -430,8 +430,12 @@ class _Preprocessor:
         # If the original function call is in the body, add the thunk and insert the calls in the body
         if REPLACED_STRING in func_body:
 
+            # Ensure the args are filled to prevent namespace issues
+            filled_func_data = self.split_function_signature(filled_func)
+            thunk_func_data = (func_data[0], func_data[1], filled_func_data[2] if func_data[2] else '', func_data[3])
+
             # Create the thunk
-            thunk_name = self.create_thunk(mangled_func, func_data, symbol_addr, is_static)
+            thunk_name = self.create_thunk(mangled_func, thunk_func_data, symbol_addr, is_static)
 
             # Insert replacement calls
             # Check if the function has a class, and if so prepend the this argument
