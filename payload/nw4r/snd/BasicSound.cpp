@@ -10,23 +10,16 @@ namespace detail {
 // Custom SFX System //
 ///////////////////////
 
-// nw4r::snd::BasicSound::SetId() override
-// Trim the SASR bit before calling the function
+// Set the original sound ID
 // Credits: stebler
-kmHookFn void SetIDOverride(BasicSound* self, ulong soundId) {
-    self->SetId(soundId & ~SASR_BIT);
+REPLACE void BasicSound::SetId(ulong soundId) {
+    REPLACED(soundId & ~SASR_BIT);
 }
 
-// Glue code
-kmCall(0x800A1BC4, SetIDOverride);
-kmCall(0x800A1D6C, SetIDOverride);
-kmCall(0x800A1F14, SetIDOverride);
-
-// nw4r::snd::BasicSound::GetAmbientPriority() override
-// Trim the SASR bit before calling the function
+// Get the ambient priority from the original sound ID
 // Credits: stebler
-kmCallDefCpp(0x800A1954, s32, BasicSound::AmbientInfo* info, ulong soundId) {
-    return BasicSound::GetAmbientPriority(info, soundId & ~SASR_BIT);
+REPLACE_STATIC s32 BasicSound::GetAmbientPriority(AmbientInfo* info, ulong soundId) {
+    return REPLACED(info, soundId & ~SASR_BIT);
 }
 
 } // namespace detail

@@ -71,11 +71,11 @@ class SoundArchive {
 
         bool ReadSoundInfo(ulong soundId, SoundInfo* info) const;
 
-        virtual const void* detail_GetFileAddress(ulong fileId);
-        virtual const void* detail_GetWaveDataFileAddress(ulong fileId);
-        virtual int detail_GetRequiredStreamBufferSize();
-        virtual ut::FileStream* OpenStream(void* buffer, int size, u32 begin, u32 length);
-        virtual ut::FileStream* OpenExtStream(void* buffer, int size, const char* extFilePath, u32 begin, u32 length);
+        virtual const void* detail_GetFileAddress(ulong fileId) const = 0;
+        virtual const void* detail_GetWaveDataFileAddress(ulong fileId) const = 0;
+        virtual int detail_GetRequiredStreamBufferSize() const = 0;
+        virtual ut::FileStream* OpenStream(void* buffer, int size, u32 begin, u32 length) const = 0;
+        virtual ut::FileStream* OpenExtStream(void* buffer, int size, const char* extFilePath, u32 begin, u32 length) const = 0;
         ut::FileStream* detail_OpenFileStream(ulong fileId, void* buffer, int size) const;
 
         ulong GetSoundCount() const; // custom function
@@ -84,12 +84,12 @@ class SoundArchive {
 
         ulong GetSoundUserParam(ulong soundId) const;
         SoundType GetSoundType(ulong soundId) const;
+        bool detail_ReadStrmSoundInfo(ulong soundId, StrmSoundInfo* info) const;
         bool detail_ReadGroupInfo(ulong groupId, GroupInfo* info) const;
         bool detail_ReadGroupItemInfo(ulong groupId, ulong index, GroupItemInfo* info) const;
         bool detail_ReadFileInfo(ulong fileId, FileInfo* info) const;
         bool detail_ReadFilePos(ulong fileId, ulong index, FilePos* filePos) const;
 
-        // vtable 0x0
         detail::SoundArchiveFileReader* fileReader;
         char extFileRoot[256];
 };

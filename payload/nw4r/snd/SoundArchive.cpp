@@ -13,42 +13,37 @@ ulong SoundArchive::GetSoundCount() const {
 // Custom SFX System //
 ///////////////////////
 
-// nw4r::snd::SoundArchive::GetSoundType() override
-// Force sound type for replaced sfx
+// Force BRSTM sound type for replaced sound IDs
 // Credits: stebler
-kmBranchDefCpp(0x8009DF30, NULL, SoundArchive::SoundType, SoundArchive* self, ulong soundId) {
+REPLACE SoundArchive::SoundType SoundArchive::GetSoundType(ulong soundId) const {
     if (soundId & SASR_BIT)
         return SoundArchive::SOUND_TYPE_STRM;
 
-    return self->fileReader->GetSoundType(soundId);
+    return fileReader->GetSoundType(soundId);
 }
 
-// nw4r::snd::SoundArchive::ReadSoundInfo() override
-// Ensure the original sfx sound info is read
+// Replace the file ID with the replacement BRSTM's ID
 // Credits: stebler
-kmBranchDefCpp(0x8009DF40, NULL, bool, SoundArchive* self, ulong soundId, SoundArchive::SoundInfo* soundInfo) {
-
-    if (!self->fileReader->ReadSoundInfo(soundId & ~SASR_BIT, soundInfo))
+REPLACE bool SoundArchive::ReadSoundInfo(ulong soundId, SoundInfo* soundInfo) const {
+    if (!fileReader->ReadSoundInfo(soundId & ~SASR_BIT, soundInfo))
         return false;
 
     if (soundId & SASR_BIT)
-        soundInfo->fileId = self->detail_GetFileCount() + (soundId & ~SASR_BIT);
+        soundInfo->fileId = detail_GetFileCount() + (soundId & ~SASR_BIT);
 
     return true;
 }
 
-// nw4r::snd::SoundArchive::detail_ReadStrmSoundInfo() override
-// Ensure the StrmSoundInfo structure is filled properly
+// Ensure the StrmSoundInfo structure is filled properly for replaced sounds
 // Credits: stebler
-kmBranchDefCpp(0x8009DF60, NULL, bool, SoundArchive* self,
-                                       ulong soundId,
-                                       SoundArchive::StrmSoundInfo* strmSoundInfo) {
+REPLACE bool SoundArchive::detail_ReadStrmSoundInfo(ulong soundId, StrmSoundInfo* strmSoundInfo) const {
 
+    // If the sound was not replaced, do the original call
     if (!(soundId & SASR_BIT))
-        return self->fileReader->ReadStrmSoundInfo(soundId, strmSoundInfo);
+        return fileReader->ReadStrmSoundInfo(soundId, strmSoundInfo);
 
     // Update some flags to avoid broken defaults
-    switch (self->GetSoundType(soundId & ~SASR_BIT)) {
+    switch (GetSoundType(soundId & ~SASR_BIT)) {
     case SoundArchive::SOUND_TYPE_SEQ:
     case SoundArchive::SOUND_TYPE_WAVE:
         strmSoundInfo->startPosition = 0;
@@ -60,38 +55,30 @@ kmBranchDefCpp(0x8009DF60, NULL, bool, SoundArchive* self,
     }
 }
 
-// nw4r::snd::SoundArchive::detail_OpenFileStream() override
-// Replace the file stream when opening an sfx
+// Replace the file stream when opening a sound file
 // Credits: stebler
-kmHookFn ut::FileStream* OpenFileStreamOverride(SoundArchive* self,
-                                                         u32 fileId,
-                                                         void* buffer,
-                                                         s32 size) {
+REPLACE ut::FileStream* SoundArchive::detail_OpenFileStream(ulong fileId, void* buffer, s32 size) const {
 
-    if (fileId & SASR_BIT) {
+    // Check if the file ID is a faked pointer
+    if (fileId & 0x80000000) {
 
         // Ensure the stream fits the buffer
         if (size < sizeof(DvdSoundArchive::DvdFileStream))
             return nullptr;
 
-        // Get the stream, bail if it does not exist
+        // Get the stream, faked as the file ID
         DvdSoundArchive::DvdFileStream* stream = (DvdSoundArchive::DvdFileStream*)fileId;
         if (!stream)
             return nullptr;
 
-        // Create a new stream
+        // Construct the stream
         stream = new (buffer) DvdSoundArchive::DvdFileStream(&stream->fileInfo.dvdInfo, 0, 0x7FFFFFFF);
         return (ut::FileStream*)stream;
     }
 
     // If the fileId is valid, proceed to the original call
-    return self->detail_OpenFileStream(fileId, buffer, size);
+    return REPLACED(fileId, buffer, size);
 }
-
-// Glue code
-kmCall(0x800A002C, OpenFileStreamOverride);
-kmCall(0x800A2384, OpenFileStreamOverride);
-kmCall(0x800A26C8, OpenFileStreamOverride);
 
 } // namespace snd
 } // namespace nw4r

@@ -10,6 +10,12 @@ class DvdSoundArchive : public SoundArchive {
 public:
     class DvdFileStream;
 
+    virtual int detail_GetRequiredStreamBufferSize() const;
+    virtual const void* detail_GetFileAddress(ulong fileId) const;
+    virtual const void* detail_GetWaveDataFileAddress(ulong fileId) const;
+    virtual ut::FileStream* OpenStream(void* buffer, int size, u32 begin, u32 length) const;
+    virtual ut::FileStream* OpenExtStream(void* buffer, int size, const char* extFilePath, u32 begin, u32 length) const;
+
     detail::SoundArchiveFileReader reader;
     DVDFileInfo fileInfo;
     bool open;

@@ -1,33 +1,20 @@
 #include <common/Common.hpp>
 #include <game/sound/ItemMusicManager.hpp>
+#include <nw4r/snd/DvdSoundArchive.hpp>
 #include <revolution/dvd/dvd.h>
 #include <platform/stdio.h>
 #include <platform/string.h>
 #include <midnight/cup/CupManager.hpp>
 #include <midnight/SoundExpansion.hpp>
 
-//////////////////////////////
-// Automatic BRSAR Patching //
-//////////////////////////////
+namespace nw4r {
+namespace snd {
 
-// nw4r::snd::DvdSoundArchive::OpenExtStream() patch
-// Prevent BRSTMs from cutting off when looping
-// Credits: Elias
-kmCallDefAsm(0x800912D4) {
-    nofralloc
+//////////////////////////////////////////////////
+// Automatic BRSAR Patching / Custom Cup System //
+//////////////////////////////////////////////////
 
-    lis r31, 0x7FFF
-    ori r31, r31, 0xFFFF
-    blr
-}
-
-///////////////////////
-// Custom Cup System //
-///////////////////////
-
-// nw4r::snd::DvdSoundArchive::OpenExtStream() patch
-// Replace the BRSTM to be played with the track's custom music
-kmCallDefCpp(0x8009130C, int, const char* path) {
+int GetExtStreamEntryNum(const char* path) {
 
     // Get the path length and fail if it's outside of our working range
     size_t pathLen = strlen(path);
@@ -73,3 +60,28 @@ kmCallDefCpp(0x8009130C, int, const char* path) {
     // Original call
     return DVDConvertPathToEntrynum(path);
 }
+
+// Replace the BRSTM to be played with the track's custom music
+// Credits: Elias
+REPLACE ut::FileStream* DvdSoundArchive::OpenExtStream(void* buffer, int size, const char* extFilePath, u32 begin, u32 length) const {
+
+    // Ensure the file is open
+    if (!open)
+        return nullptr;
+
+    // Ensure the buffer can contain the file stream
+    if (size < sizeof(DvdFileStream))
+        return nullptr;
+
+    // Get the entry num from our custom function
+    s32 entryNum = GetExtStreamEntryNum(extFilePath);
+    if (entryNum < 0)
+        return nullptr;
+
+    // Create the stream with infinite length to prevent BRSTM cutoffs
+    DvdFileStream* stream = new(buffer) DvdFileStream(entryNum, begin, 0x7FFFFFFF);
+    return stream;
+}
+
+} // namespace snd
+} // namespace nw4r

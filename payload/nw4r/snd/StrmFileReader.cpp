@@ -9,15 +9,13 @@ namespace detail {
 // BRSTM Cutoff Fix //
 //////////////////////
 
-// nw4r::snd::detail::StrmFileReader::ReadStrmTrackInfo() override
 // Prevent muting on missing extra music channel(s)
 // Credits: stebler
-kmCallDefCpp(0x800A54F4, bool, StrmFileReader* self, StrmFileReader::StrmTrackInfo* info, int trackIndex) {
-
-    if (self->ReadStrmTrackInfo(info, trackIndex))
+REPLACE bool StrmFileReader::ReadStrmTrackInfo(StrmFileReader::StrmTrackInfo* info, int trackIndex) const {
+    if (REPLACED(info, trackIndex))
         return true;
 
-    return self->ReadStrmTrackInfo(info, 0);
+    return REPLACED(info, 0);
 }
 
 } // namespace detail
