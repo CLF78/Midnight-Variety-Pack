@@ -1,9 +1,11 @@
 #include <common/Common.hpp>
+#include <game/sound/AudioHandleHolder.hpp>
 
 ///////////////////////
 // Custom Cup System //
 ///////////////////////
 
-// AudioHandleHolder::PrepareSpecial() override
 // Remove Toad's Factory special delayed music start
-kmBranch(0x806F8ED8, 0x806F8DCC);
+REPLACE void AudioHandleHolder::prepareSpecial(u32 soundId, bool unk) {
+    prepare(soundId, unk);
+}

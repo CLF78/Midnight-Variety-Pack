@@ -21,6 +21,8 @@ public:
         RESULTS_BGM,
     };
 
+    void init();
+
     u32 courseId;
     u8 _14[4];
 

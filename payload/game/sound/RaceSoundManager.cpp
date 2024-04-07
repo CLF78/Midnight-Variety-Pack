@@ -7,26 +7,18 @@
 // Custom Cup System //
 ///////////////////////
 
-// RaceSoundManager::init() patch
-// Store the selected track's music slot
-kmHookFn void StoreMusicSlot(RaceSoundManager* manager, u32 originalSlot) {
+// Replace the music slot
+REPLACE void RaceSoundManager::init() {
+
+    // Get the slot and apply it
+    u32 originalSlot = RaceConfig::instance->raceScenario.settings.courseId;
     u32 slot = CupManager::IsSystemCourse(originalSlot) ? originalSlot
                                                         : CupData::tracks[CupManager::currentSzs].musicSlot;
-    manager->courseId = slot;
+    courseId = slot;
+
+    // Call the original function
+    REPLACED();
 }
 
 // Glue code
-kmBranchDefAsm(0x80710A30, 0x80710A34) {
-    nofralloc
-
-    // Preserve r4
-    mr r30, r4
-
-    // Call C++ code
-    mr r4, r0
-    bl StoreMusicSlot
-
-    // Restore r4
-    mr r4, r30
-    blr
-}
+kmWrite32(0x80710A30, 0x60000000);
