@@ -18,7 +18,7 @@ enum PatchCommand {
     BranchLink = 65,
 };
 
-void ApplyPatches(const Loader::Functions* funcs, const u32* input, const u32* inputEnd, const u32 text);
+void ApplyPatches(const u32* input, const u32* inputEnd, const u32 text, const OSReport_t reportFunc);
 
 inline void CacheInvalidateAddress(const void* address, u32 size) {
     if (size == 0) {

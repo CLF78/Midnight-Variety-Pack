@@ -54,9 +54,7 @@ void Load(const Functions* funcs, u32 binary, u32 binaryLength) {
     input += (codeSize / sizeof(u32));
 
     // Apply patches
-    IGNORE_ERR(167);
-    Patcher::ApplyPatches(funcs, input, inputEnd, text);
-    UNIGNORE_ERR(167);
+    Patcher::ApplyPatches(input, inputEnd, text, funcs->OSReport);
 
     // Synchronize to ensure caches are flushed
     __sync();

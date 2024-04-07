@@ -4,7 +4,7 @@
 
 namespace Patcher {
 
-void ApplyPatches(const Loader::Functions* funcs, const u32* input, const u32* inputEnd, const u32 text) {
+void ApplyPatches(const u32* input, const u32* inputEnd, const u32 text, const OSReport_t reportFunc) {
 
    while (input < inputEnd) {
 
@@ -101,7 +101,7 @@ void ApplyPatches(const Loader::Functions* funcs, const u32* input, const u32* i
                 break;
 
             default:
-                funcs->OSReport("Unknown patch type: %d\n", cmd);
+                reportFunc("Unknown patch type: %d\n", cmd);
         }
 
         // Invalidate cache

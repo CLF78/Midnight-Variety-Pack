@@ -1,7 +1,5 @@
 #include <common/Common.hpp>
 #include <midnight/cup/CupManager.hpp>
-#include <game/ui/GlobalContext.hpp>
-#include <game/ui/UIUtils.hpp>
 #include <game/system/MultiDvdArchive.hpp>
 #include <game/system/ResourceManager.hpp>
 #include <game/util/Random.hpp>
