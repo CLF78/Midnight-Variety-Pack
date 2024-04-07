@@ -1,5 +1,4 @@
 #include <common/Common.hpp>
-#include <dwc/dwc_base64.h>
 #include <platform/stdio.h>
 #include <platform/stdlib.h>
 #include <platform/string.h>
@@ -8,7 +7,6 @@
 #include <revolution/es/es.h>
 #include <revolution/os/OSLoMem.h>
 #include <revolution/os/OSTitle.h>
-#include <revolutionex/nhttp/NHTTP.h>
 #include <midnight/util/DolphinDevice.hpp>
 #include <wiimmfi/Auth.hpp>
 #include <wiimmfi/Port.hpp>
@@ -45,7 +43,6 @@ u32 GetConsoleType() {
 void AppendAuthParameters(NHTTPReq* req) {
 
     // Send payload version
-    IGNORE_ERR(167)
     DEBUG_REPORT("[WIIMMFI_AUTH] Started auth procedure\n")
     DEBUG_REPORT("[WIIMMFI_AUTH] Sending payload version: %s\n", PAYLOAD_VERSION)
     NHTTPAddPostDataAscii(req, "_payload_ver", PAYLOAD_VERSION);
@@ -135,7 +132,6 @@ void AppendAuthParameters(NHTTPReq* req) {
     }
 
     DEBUG_REPORT("[WIIMMFI_AUTH] Auth completed!\n")
-    UNIGNORE_ERR(167)
 }
 
 void ParseAuthResponse(const char* response) {

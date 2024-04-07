@@ -1,5 +1,4 @@
 #include <common/Common.hpp>
-#include <game/util/NandUtil.hpp>
 
 namespace SaveExpansionManager {
 

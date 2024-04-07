@@ -1,5 +1,4 @@
 #include <common/Common.hpp>
-#include <revolution/os/OSContext.h>
 
 namespace nw4r {
 namespace db {

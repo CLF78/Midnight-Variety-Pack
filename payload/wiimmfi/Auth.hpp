@@ -1,7 +1,7 @@
 #include <common/Common.hpp>
 #include <dwc/dwc_base64.h>
 #include <revolution/ios.h>
-#include <revolutionex/nhttp/NHTTPInternal.h>
+#include <revolutionex/nhttp/NHTTP.h>
 
 namespace Wiimmfi {
 namespace Auth {

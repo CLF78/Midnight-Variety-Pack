@@ -1,5 +1,4 @@
 #include <common/Common.h>
-#include <dwc/dwc_account.h>
 #include <dwc/dwc_base64.h>
 #include <dwc/dwc_friend.h>
 #include <game/net/RKNetStatusData.hpp>
