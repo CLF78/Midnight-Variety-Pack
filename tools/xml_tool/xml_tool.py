@@ -42,31 +42,22 @@ def create_xml(file_name: str, gameId: str, patchName: str, patchId: str, patche
 def parse_external(file: str, patches: list):
     tree = None
 
-    # Try parsing the XML for the first time
-    try:
-        tree = ET.parse(file)
-    except ET.ParseError:
-        pass
+    # Try opening the file and reading it
+    with open(file) as f:
+        xmlstring = f.read().strip()
 
-    # If this did not work, add a root tag around the file
-    # This is required for Kamek-generated XMLs
-    if not tree:
-        with open(file, 'r+', encoding='utf-8') as f:
-            data = f.read()
-            f.seek(0)
-            f.truncate()
-            f.write('<root>')
-            f.write(data)
-            f.write('</root>')
+    # If the file does not begin with a root tag, then add one
+    if not xmlstring.startswith('<root>'):
+        xmlstring = '<root>' + xmlstring
 
-        # Try parsing it again, bail on failure
-        try:
-            tree = ET.parse(file)
-        except ET.ParseError:
-            print(f'Failed to parse {file}!')
-            return
+    # If the file does not end with a closing root tag, then add one
+    if not xmlstring.endswith('</root>'):
+        xmlstring += '</root>'
 
-    # Parse the XML
+    # Try parsing the XML
+    tree = ET.ElementTree(ET.fromstring(xmlstring))
+
+    # Iterate through the XML
     root = tree.getroot()
     for element in root:
 
