@@ -4,8 +4,11 @@
 # Generates a Riivolution XML from the given directives.
 
 import argparse
+import re
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
+
+PATCH_END_PATTERN = r'^(\s*)<\/patch>'
 
 def create_xml(file_name: str, gameId: str, patchName: str, patchId: str, patches: list):
 
@@ -34,55 +37,12 @@ def create_xml(file_name: str, gameId: str, patchName: str, patchId: str, patche
     xml_string = ET.tostring(root, encoding='utf-8')
     pretty_xml = xml.dom.minidom.parseString(xml_string).toprettyxml(indent='	')
 
+    # Insert the Kamek placeholder at the end of the patch list
+    pretty_xml = re.sub(PATCH_END_PATTERN, '\g<1>\g<1>$KF$\n\g<0>', pretty_xml, flags=re.MULTILINE)
+
     # Flush it to file
     with open(file_name, 'w', encoding='utf-8') as f:
         f.write(pretty_xml)
-
-
-def parse_external(file: str, patches: list):
-    tree = None
-
-    # Try opening the file and reading it
-    with open(file) as f:
-        xmlstring = f.read().strip()
-
-    # If the file does not begin with a root tag, then add one
-    if not xmlstring.startswith('<root>'):
-        xmlstring = '<root>' + xmlstring
-
-    # If the file does not end with a closing root tag, then add one
-    if not xmlstring.endswith('</root>'):
-        xmlstring += '</root>'
-
-    # Try parsing the XML
-    tree = ET.ElementTree(ET.fromstring(xmlstring))
-
-    # Iterate through the XML
-    root = tree.getroot()
-    for element in root:
-
-        # Generate data
-        tag = element.tag
-        attributes = {attr: value for attr, value in element.attrib.items()}
-
-        # Deduplicate identical patches
-        deduplication_attribs = {
-            'file': 'disc',
-            'memory': 'offset',
-        }
-
-        # Find elements with the same tag with an equal attribute
-        duplicated = False
-        if tag in deduplication_attribs:
-            for patch, attribs in patches:
-                attr_to_check = deduplication_attribs[tag]
-                if patch == tag and attributes.get(attr_to_check, '') == attribs.get(attr_to_check, ''):
-                    duplicated = True
-                    break
-
-        # Add the patch if no equivalent was found
-        if not duplicated:
-            patches.append((tag, attributes))
 
 
 if __name__ == '__main__':
@@ -94,7 +54,6 @@ if __name__ == '__main__':
     parser.add_argument('patch_name', help='The name of the patch')
     parser.add_argument('patch_id', help='The ID of the patch')
     parser.add_argument('--patch', nargs='+', help='Define a patch, in the format patch_type attribute1=value1 attribute2=value2', action='append')
-    parser.add_argument("--external", nargs="+", help="External file(s) to import patches from")
     args = parser.parse_args()
 
     patches = []
@@ -114,11 +73,6 @@ if __name__ == '__main__':
 
             # Add the patch
             patches.append((patch_name, attributes))
-
-    # Parse external patches
-    if args.external:
-        for file in args.external:
-            parse_external(file, patches)
 
     # Do not proceed if no patches have been found
     if not patches:
