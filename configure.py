@@ -326,11 +326,11 @@ writer.rule('cw',
             description='Compile $in_short ($region_id)')
 
 writer.rule('kmdynamic',
-            command='$kamek $in -dynamic -versions=$port_file -externals=$symbol_file -output-kamek=$out -select-version=$selectversion',
+            command='$kamek $in -dynamic -versions=$port_file -externals=$symbol_file -output-kamek=$out -select-version=$selectversion -q',
             description='Link Code ($selectversion)')
 
 writer.rule('kmstatic',
-            command='$kamek $in -static=$loadaddr -externals=$symbol_file -output-code=$out_bin -output-riiv=$out_riiv',
+            command='$kamek $in -static=$loadaddr -externals=$symbol_file -output-code=$out_bin -output-riiv=$out_riiv -q',
             description='Link Loader')
 
 writer.rule('bmg_merge',
