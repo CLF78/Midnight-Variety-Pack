@@ -26,6 +26,9 @@ public:
     u16 getWinningTrack();
     void setPlayerData(int characterId, int vehicleId, int courseVote, int localPlayerIdx, u8 starRank);
 
+    void decideEngineClass();
+    void decideTrack();
+
     bool raceSettingsDetermined() { return sendPacket.battleTeamData.raw != 0; }
     bool trackVoted() { return expansion.sendPacketEx.courseVote != CupData::UNDECIDED_TRACK_VOTE; }
     bool voteDetermined() { return expansion.sendPacketEx.winningCourse != CupData::NO_TRACK; }

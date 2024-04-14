@@ -1,16 +1,16 @@
 ## RKNetSELECTHandler
 ### Patched
 - calcPhase
-- GetPlayerVote
+- getPlayerVote
 - getStaticInstance
-- GetWinningTrack
-- ImportNewPackets
-- PrepareUSERAndSELECTSendPackets
-- SetPlayerData
+- getWinningTrack
+- importNewPackets
+- setPlayerData
+- setSendPacket
 
 ### To Be Patched
 - decideEngineClass
-- DecideTrack
+- decideTrack
 - prepareSendPacket
 
 ## VotingBackPage

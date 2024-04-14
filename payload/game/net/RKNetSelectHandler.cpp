@@ -304,6 +304,21 @@ REPLACE void RKNetSELECTHandler::setSendPacket() {
     }
 }
 
+// TODO override this with custom chances
+REPLACE void RKNetSELECTHandler::decideEngineClass() {
+    REPLACED();
+}
+
+// TODO override this
+REPLACE void RKNetSELECTHandler::decideTrack() {
+    REPLACED();
+}
+
+// TODO override this to fix voting and add custom settings
+REPLACE void RKNetSELECTHandler::prepareSendPacket(u8 aid, s64 sendTime) {
+    REPLACED(aid, sendTime);
+}
+
 //////////////////////////////////
 // Online Room Stall Prevention //
 //////////////////////////////////
