@@ -8,32 +8,16 @@
 #include <game/ui/SectionManager.hpp>
 #include <midnight/cup/CupManager.hpp>
 
-//////////////////
-// Game Lag Fix //
-//////////////////
-
-// RKNetPacketCreator::updateAsRacer() patch
-// Disable processing of lag frames to fix matrix slowdown and delays caused by slower Dolphin players
-// Credits: Wiimmfi
-kmWrite32(0x80654400, 0x60000000);
-
 ///////////////////////////////////////////////
 // Custom Cup System / Custom Engine Classes //
 ///////////////////////////////////////////////
 
-// RKNetPacketCreator::createRH1Racer() override
-// Pack the RACEHEADER_1 data
-kmBranchDefCpp(0x80654D08, NULL, void, RKNetPacketCreator* self) {
+// Pack the RACEHEADER_1 data and send it (for players in the race)
+REPLACE void RKNetPacketCreator::createRH1Racer() {
     for (int aid = 0; aid < 12; aid++) {
 
-        // Skip if it's my AID
-        RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
-        if (aid == sub->myAid)
-            continue;
-
-        // Skip if the AID is not available
-        u32 aidMask = 1 << aid;
-        if (!(aidMask & sub->availableAids))
+        // Skip invalid AIDs
+        if (!RKNetController::instance->isConnectedPlayer(aid))
             continue;
 
         // Create the packet
@@ -58,10 +42,11 @@ kmBranchDefCpp(0x80654D08, NULL, void, RKNetPacketCreator* self) {
         packet.aidPidMap = RKNetController::instance->aidPidMap;
 
         // All the following data is not sent in the spectator version of the function
+        RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
         if ((1 << sub->myAid) & sub->availableAids)
-            packet.lagFrames = self->lagFrames;
+            packet.lagFrames = lagFrames;
 
-        packet.countdownTime = self->countdownTimer - RKNetController::instance->countdownTimers[aid];
+        packet.countdownTime = countdownTimer - RKNetController::instance->countdownTimers[aid];
 
         for (int i = 0; i < sub->localPlayerCount; i++) {
             u32 playerIdx = RKNetController::instance->getLocalPlayerIdx(i);
@@ -71,32 +56,25 @@ kmBranchDefCpp(0x80654D08, NULL, void, RKNetPacketCreator* self) {
         }
 
         // Send the RH1 packet
-        RKNetPacketHolder* holder = RKNetController::instance->getPacketSendBuffer(aid, RKNetRACEPacketHeader::RACEHEADER_1);
+        RKNetPacketHolder* holder = RKNetController::instance->getPacketSendBuffer(aid, RKNET_SECTION_RACEHEADER_1);
         holder->copyData(&packet, sizeof(packet));
 
         // Send the RACEDATA packet
-        holder = RKNetController::instance->getPacketSendBuffer(aid, RKNetRACEPacketHeader::RACEDATA);
-        holder->copyData(&self->sendRacedataPackets, sizeof(RKNetRACEDATAPacket) * sub->localPlayerCount);
+        holder = RKNetController::instance->getPacketSendBuffer(aid, RKNET_SECTION_RACEDATA);
+        holder->copyData(&sendRacedataPackets, sizeof(RKNetRACEDATAPacket) * sub->localPlayerCount);
 
         // Send the USER packet to this AID if they do not have the random seed
-        if (!(self->aidsWithSelectId & aidMask))
+        if (!(aidsWithSelectId & (1 << aid)))
             RKNetUSERHandler::instance->SetSendUSERPacket(aid);
     }
 }
 
-// RKNetPacketCreator::createRH1Spectator() override
-// Pack the RACEHEADER_1 data
-kmBranchDefCpp(0x80655164, NULL, void, RKNetPacketCreator* self) {
+// Pack the RACEHEADER_1 data and send it (for spectators)
+REPLACE void RKNetPacketCreator::createRH1Spectator() {
     for (int aid = 0; aid < 12; aid++) {
 
-        // Skip if it's my AID
-        RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
-        if (aid == sub->myAid)
-            continue;
-
-        // Skip if the AID is not available
-        u32 aidMask = 1 << aid;
-        if (!(aidMask & sub->availableAids))
+        // Skip invalid AIDs
+        if (!RKNetController::instance->isConnectedPlayer(aid))
             continue;
 
         // Create the packet
@@ -121,11 +99,20 @@ kmBranchDefCpp(0x80655164, NULL, void, RKNetPacketCreator* self) {
         packet.aidPidMap = RKNetController::instance->aidPidMap;
 
         // Send the data
-        RKNetPacketHolder* holder = RKNetController::instance->getPacketSendBuffer(aid, RKNetRACEPacketHeader::RACEHEADER_1);
+        RKNetPacketHolder* holder = RKNetController::instance->getPacketSendBuffer(aid, RKNET_SECTION_RACEHEADER_1);
         holder->copyData(&packet, sizeof(packet));
 
         // Send the USER packet to this AID if they do not have the random seed
-        if (!(self->aidsWithSelectId & aidMask))
+        if (!(aidsWithSelectId & (1 << aid)))
             RKNetUSERHandler::instance->SetSendUSERPacket(aid);
     }
 }
+
+/////////////////////////
+// Matrix Slowdown Fix //
+/////////////////////////
+
+// RKNetPacketCreator::updateAsRacer() patch
+// Disable processing of lag frames to fix matrix slowdown and delays caused by slower Dolphin players
+// Credits: Wiimmfi
+kmWrite32(0x80654400, 0x60000000);

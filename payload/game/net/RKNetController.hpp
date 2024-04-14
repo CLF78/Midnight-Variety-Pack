@@ -8,7 +8,6 @@
 #include <game/net/RKNetStatusData.hpp>
 #include <game/net/WifiDisconnectInfo.hpp>
 #include <game/net/packet/RKNetPacketCommon.hpp>
-#include <game/net/packet/RKNetRacePacketHeader.hpp>
 
 class RKNetController {
 public:
@@ -66,11 +65,22 @@ public:
         return sub->myAid == sub->hostAid;
     }
 
+    bool isLocalPlayer(u8 aid) {
+        Sub* sub = getCurrentSub();
+        return aid == sub->myAid;
+    }
+
+    bool isConnectedPlayer(u8 aid) {
+        Sub* sub = getCurrentSub();
+        if (isLocalPlayer(aid)) return false;
+        return (1 << aid) & sub->availableAids;
+    }
+
+    RKNetController(EGG::Heap* heap);
     virtual ~RKNetController();
 
     bool isConnectedToAnyone();
     void processRacePacket(u32 aid, void* data, u32 dataLength);
-    void updateSubsAndVr();
     WifiDisconnectInfo getWifiDisconnectInfo();
     u32 getLocalPlayerIdx(u32 localPlayerNum);
 
@@ -119,7 +129,7 @@ public:
     int br;
 
     int lastSendBufferUsed[12]; // 1 per aid
-    int lastRecvBufferUsed[12][RKNetRACEPacketHeader::SECTION_COUNT]; // 1 per packet section per aid
+    int lastRecvBufferUsed[12][RKNET_SECTION_COUNT]; // 1 per packet section per aid
     int currentSub;
     RKNetAidPidMap aidPidMap;
     u32 disconnectedAids; // Bitfield
@@ -135,6 +145,6 @@ public:
     // 4 bytes padding
 
     static RKNetController* instance;
-    static u32 packetBufferSizes[RKNetRACEPacketHeader::SECTION_COUNT];
+    static u32 packetBufferSizes[RKNET_SECTION_COUNT];
 };
 size_assert(RKNetController, 0x29C8);

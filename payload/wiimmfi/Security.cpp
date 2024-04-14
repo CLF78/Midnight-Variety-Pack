@@ -18,16 +18,16 @@ bool IsPacketSectionSizeValid(int section, u32 sectionSize) {
     switch (section) {
 
         // For EVENT packets, ensure the size fits the buffer as it is variable
-        case RKNetRACEPacketHeader::EVENT:
+        case RKNET_SECTION_EVENT:
             return sectionSize <= destSize;
 
         // For ROOM/SELECT packets, ensure the size matches one of the two possible values
-        case RKNetRACEPacketHeader::ROOM_SELECT:
+        case RKNET_SECTION_ROOM_SELECT:
             return (sectionSize == sizeof(RKNetROOMPacket) || sectionSize == sizeof(RKNetSELECTPacketEx));
 
         // For RACEDATA and ITEM packets, ensure the size is either half or the full buffer size
-        case RKNetRACEPacketHeader::RACEDATA:
-        case RKNetRACEPacketHeader::ITEM:
+        case RKNET_SECTION_RACEDATA:
+        case RKNET_SECTION_ITEM:
             return (sectionSize == destSize / 2 || sectionSize == destSize);
 
         // For all other sections, match exactly the default size
@@ -47,7 +47,7 @@ bool ValidateRACEPacket(u32 aid, RKNetRACEPacketHeader* data, u32 dataLength) {
     // Verify each section size is valid
     // Do this separately as the sizes may be valid but may not add up
     u32 expectedPacketSize = 0;
-    for (int i = 0; i < RKNetRACEPacketHeader::SECTION_COUNT; i++) {
+    for (int i = 0; i < RKNET_SECTION_COUNT; i++) {
         expectedPacketSize += data->sizes[i];
         if (!IsPacketSectionSizeValid(i, data->sizes[i]))
             return false;
@@ -59,7 +59,7 @@ bool ValidateRACEPacket(u32 aid, RKNetRACEPacketHeader* data, u32 dataLength) {
 
     // Verify each section's data is valid
     u8* packetData = (u8*)data;
-    for (int i = 0; i < RKNetRACEPacketHeader::SECTION_COUNT; i++) {
+    for (int i = 0; i < RKNET_SECTION_COUNT; i++) {
         if (!IsPacketSectionDataValid(i, packetData))
             return false;
 

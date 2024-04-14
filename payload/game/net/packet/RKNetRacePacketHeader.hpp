@@ -1,21 +1,9 @@
 #include <common/Common.hpp>
+#include <game/net/packet/RKNetPacketCommon.hpp>
 
 struct RKNetRACEPacketHeader {
-
-    enum Section {
-        HEADER,
-        RACEHEADER_1,
-        RACEHEADER_2,
-        ROOM_SELECT,
-        RACEDATA,
-        USER,
-        ITEM,
-        EVENT,
-        SECTION_COUNT,
-    };
-
     u32 empty;
     u32 checksum;
-    u8 sizes[SECTION_COUNT];
+    u8 sizes[RKNET_SECTION_COUNT];
 };
 size_assert(RKNetRACEPacketHeader, 0x10);

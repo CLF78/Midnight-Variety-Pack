@@ -2,6 +2,7 @@
 #include <dwc/dwc_friend.h>
 #include <dwc/dwc_match.h>
 #include <dwc/dwc_transport.h>
+#include <game/net/packet/RKNetRacePacketHeader.hpp>
 #include <game/net/packet/RKNetEventPacket.hpp>
 #include <game/net/packet/RKNetItemPacket.hpp>
 #include <game/net/packet/RKNetRacedataPacket.hpp>
@@ -32,29 +33,11 @@
 kmWrite16(0x80658BE6, 0xFFFF);
 #endif
 
-/////////////////
-// Fast NATNEG //
-/////////////////
-
-// RKNetController::mainNetworkLoop() patch
-// Update NATNEG
-// Credits: Wiimmfi
-// Q: Can we move this to main Wiimmfi network loop?
-kmCallDefCpp(0x80657990, void, RKNetController* self) {
-
-    // Original call
-    self->updateSubsAndVr();
-
-    // Update Wiimmfi NATNEG
-    // Since we're in a matching state, force the value to 0
-    Wiimmfi::Natneg::CalcTimers(false);
-}
-
 ////////////////////////////////
 // Network Protocol Expansion //
 ////////////////////////////////
 
-const u32 packetbufferSizes[8] = {
+const u32 packetbufferSizes[RKNET_SECTION_COUNT] = {
     sizeof(RKNetRACEPacketHeader),
     sizeof(RKNetRH1Packet),
     sizeof(RKNetRH2Packet),
@@ -72,22 +55,21 @@ const u32 totalPacketBufSize = sizeof(RKNetRACEPacketHeader) + sizeof(RKNetRH1Pa
 // Replace the individual packet section sizes
 kmWriteArea(0x8089A194, packetbufferSizes);
 
-// RKNetController::RKNetController() patches
-// Replace the packet buffer size
-kmWrite16(0x80657086, totalPacketBufSize);
-kmWrite16(0x806570B2, totalPacketBufSize);
-
-// RKNetController::RKNetController() patch
 // Move the received packet buffers outside the class to allow different packet sizes
-kmBranchDefCpp(0x806573D8, NULL, RKNetController*, RKNetController* self) {
+REPLACE RKNetController::RKNetController(EGG::Heap* heap) {
+
+    // Create the class
+    REPLACED(heap);
 
     // Create the buffers
     for (int i = 0; i < 12; i++)
-        self->fullRecvRACEPackets[i] = new (self->heap, 4) u8[totalPacketBufSize];
-
-    // Return self since we're hooking a constructor
-    return self;
+        fullRecvRACEPackets[i] = new (this->heap, 4) u8[totalPacketBufSize];
 }
+
+// RKNetController::RKNetController() patches
+// Replace the total packet buffer size
+kmWrite16(0x80657086, totalPacketBufSize);
+kmWrite16(0x806570B2, totalPacketBufSize);
 
 // RKNetController::Connect() patch
 // Set the custom buffers for receiving
@@ -125,6 +107,12 @@ kmCallDefCpp(0x806579B0, void) {
     // Only run the tasks if we are online
     if (stpMatchCnt) {
         nw4r::ut::AutoInterruptLock lock;
+
+        // Only run matching tasks if we are in a matching state
+        if (RKNetController::instance->connState == RKNetController::STATE_MATCHING)
+            Wiimmfi::Natneg::CalcTimers(false);
+
+        // Run other tasks
         Wiimmfi::Kick::CalcKick();
         Wiimmfi::Reporting::ReportMatchStateChange();
         Wiimmfi::Natneg::StopNATNEGAfterTime();
@@ -139,7 +127,7 @@ kmCallDefCpp(0x806579B0, void) {
             Wiimmfi::Delay::Calc(RaceManager::instance->frameCounter);
         }
 
-        // Only run SELECT-tasks if the handler exists
+        // Only run SELECT tasks if the handler exists
         if (RKNetSELECTHandler::instance)
             Wiimmfi::Reporting::ReportSELECTInfo();
     }

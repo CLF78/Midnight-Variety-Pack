@@ -22,29 +22,35 @@ public:
     };
 
     u8 getPlayerCharacter(u8 aid, u8 localPlayerIdx);
-    u16 getPlayerVote(u8 aid); // reimplemented function
-    u16 getWinningTrack(); // reimplemented function
-    bool hasUnprocessedRecvPackets();
+    u16 getPlayerVote(u8 aid);
+    u16 getWinningTrack();
+    void setPlayerData(int characterId, int vehicleId, int courseVote, int localPlayerIdx, u8 starRank);
 
-    // Reimplemented functions
     bool raceSettingsDetermined() { return sendPacket.battleTeamData.raw != 0; }
     bool trackVoted() { return expansion.sendPacketEx.courseVote != CupData::UNDECIDED_TRACK_VOTE; }
     bool voteDetermined() { return expansion.sendPacketEx.winningCourse != CupData::NO_TRACK; }
 
-    // Reimplemented functions
     void storeUpdatedRaceSettings(u8 aid);
     bool checkUpdatedRaceSettings(u8 aid);
     bool checkUpdatedRaceSettingsAll();
 
-    // Reimplemented functions
     void storeVote(u8 aid);
     bool checkVote(u8 aid);
     bool checkVoteAll();
 
-    // Reimplemented functions
     void storeUpdatedVoteData(u8 aid);
     bool checkUpdatedVoteData(u8 aid);
     bool checkUpdatedVoteDataAll();
+
+    void calcPhase();
+    bool hasUnprocessedRecvPackets();
+    void importNewPackets();
+    void handleRecvPacketDelay(u8 aid);
+
+    void prepareSendPacket(u8 aid, s64 sendTime);
+    void setSendPacket();
+
+    static void getStaticInstance();
 
     int mode;
     u32 reserved; // previously padding

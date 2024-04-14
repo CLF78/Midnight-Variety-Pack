@@ -42,7 +42,7 @@ kmBranchDefCpp(0x80643F8C, NULL, bool, VotingPage* self, u32 playerIdx) {
 
     // Set the vote
     self->voteControls[playerIdx].setData(track == CupData::RANDOM_TRACK_VOTE, bmgId, &page->miiGroup,
-                                          playerIdx, RKNetController::instance->getCurrentSub()->myAid == aid,
+                                          playerIdx, RKNetController::instance->isLocalPlayer(aid),
                                           page->playerInfos[playerIdx].team);
     return true;
 }

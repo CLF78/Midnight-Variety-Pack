@@ -18,9 +18,16 @@ public:
     };
     size_assert(Data, 0x30);
 
+    u8* getAidPidMap();
     u8 getBattleType();
     u8 getEngineClass();
+    u32 getRandomSeed();
     u32 getTrackId();
+    bool isTrackAvailable();
+
+    void importRecvData();
+    void exportDefaultPacket(u8 aid);
+    void exportDefaultSpectatorPacket(u8 aid);
 
     bool prepared;
     bool _1;

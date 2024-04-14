@@ -1,5 +1,5 @@
 #include <common/Common.hpp>
-#include <game/net/packet/RKNetRacePacketHeader.hpp>
+#include <game/net/packet/RKNetPacketCommon.hpp>
 
 class RKNetPacketHolder {
 public:
@@ -25,6 +25,6 @@ union RKNetRACEPacketHolder {
         RKNetPacketHolder* event;
     };
 
-    RKNetPacketHolder* sections[RKNetRACEPacketHeader::SECTION_COUNT];
+    RKNetPacketHolder* sections[RKNET_SECTION_COUNT];
 };
 size_assert(RKNetRACEPacketHolder, 0x20);

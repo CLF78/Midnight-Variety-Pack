@@ -2,6 +2,7 @@
 #include <game/net/RKNetController.hpp>
 #include <game/net/RKNetPacketHolder.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
+#include <game/net/RKNetUserHandler.hpp>
 #include <platform/string.h>
 #include <wiimmfi/RoomStall.hpp>
 
@@ -15,90 +16,49 @@ kmCallDefCpp(0x8065FEB0, u32) {
     return sizeof(RKNetSELECTHandler);
 }
 
-// RKNetSELECTHandler::getStaticInstance() patch
-// Construct the expansion data
-kmCallDefCpp(0x8065FF48, void, RKNetSELECTHandler* self) {
-
-    // Store instance
-    RKNetSELECTHandler::instance = self;
+// Create the expanded class
+REPLACE_STATIC void RKNetSELECTHandler::getStaticInstance() {
 
     // Construct expansion data
-    if (self) RKNetSELECTHandlerEx::construct(&self->expansion);
+    REPLACED();
+    if (RKNetSELECTHandler* handler = RKNetSELECTHandler::instance)
+        RKNetSELECTHandlerEx::construct(&handler->expansion);
+
+    // Initialize Wiimmfi room stall timer
+    Wiimmfi::RoomStall::Init();
 }
 
-// RKNetSELECTHandler::getWinningTrack() override
-// Get the winning course from the expansion
-kmBranchDefCpp(0x80660450, NULL, u16, RKNetSELECTHandler* self) {
-
-    // Do not get the track if it hasn't been decided
-    if (self->sendPacket.phase != RKNetSELECTPacket::LOTTERY)
-        return CupData::NO_TRACK;
-
-    // Otherwise get it from the expansion
-    return self->expansion.sendPacketEx.winningCourse;
-}
-
-// RKNetSELECTHandler::getPlayerVote() override
 // Get the course vote from the expansion
-// Original address: 0x80660574
-u16 RKNetSELECTHandler::getPlayerVote(u8 aid) {
+REPLACE u16 RKNetSELECTHandler::getPlayerVote(u8 aid) {
 
     // If it's my AID, get the value from the send packet
-    if (aid == RKNetController::instance->getCurrentSub()->myAid)
+    if (RKNetController::instance->isLocalPlayer(aid))
         return expansion.sendPacketEx.courseVote;
 
     // Else get it from the correct received packet
     return expansion.recvPacketsEx[aid].courseVote;
 }
 
-// RKNetSELECTHandler::SetPlayerData() override
+// Get the winning course from the expansion
+REPLACE u16 RKNetSELECTHandler::getWinningTrack() {
+
+    // Do not get the track if it hasn't been decided
+    if (sendPacket.phase != RKNetSELECTPacket::LOTTERY)
+        return CupData::NO_TRACK;
+
+    // Otherwise get it from the expansion
+    return expansion.sendPacketEx.winningCourse;
+}
+
 // Store the course vote in the correct field
-kmBranchDefCpp(0x80660750, NULL, void, RKNetSELECTHandler* self, int characterId, int vehicleId,
+REPLACE void RKNetSELECTHandler::setPlayerData(int characterId, int vehicleId,
                int courseVote, int localPlayerIdx, u8 starRank) {
 
-    RKNetSELECTPlayer* player = &self->sendPacket.playerData[localPlayerIdx];
+    RKNetSELECTPlayer* player = &sendPacket.playerData[localPlayerIdx];
     player->character = characterId;
     player->vehicle = vehicleId;
     player->starRank = starRank;
-    self->expansion.sendPacketEx.courseVote = courseVote;
-}
-
-// RKNetSELECTHandler::PrepareAndExportSELECTAndUSER() patch
-// Send the expanded packet
-kmCallDefCpp(0x80661040, void, RKNetPacketHolder* holder, RKNetSELECTPacket* data, u32 dataSize) {
-
-    // Copy the original packet
-    holder->copyData(data, dataSize);
-
-    // Copy the expansion as well
-    holder->appendData(&RKNetSELECTHandler::instance->expansion.sendPacketEx,
-                       sizeof(RKNetSELECTPacketExpansion));
-}
-
-// RKNetSELECTHandler::ImportNewPackets() patch
-// Update incoming packet size check
-kmWrite16(0x806610FE, sizeof(RKNetSELECTPacketEx));
-
-// RKNetSelectHandler::ImportNewPackets() patch
-// Import the expanded packet correctly
-kmHookFn void CopyExpandedPacket(RKNetPacketHolder* holder, u32 aid) {
-
-    // Copy the expansion data
-    void* dest = &RKNetSELECTHandler::instance->expansion.recvPacketsEx[aid];
-    memcpy(dest, ((u8*)holder->buffer) + sizeof(RKNetSELECTPacket), sizeof(RKNetSELECTPacketExpansion));
-
-    // Clear the buffer (original call)
-    holder->clear();
-}
-
-// Glue code
-kmCallDefAsm(0x806611D4) {
-    nofralloc
-
-    // Call C++ code
-    mr r4, r19
-    b CopyExpandedPacket
-    blr
+    expansion.sendPacketEx.courseVote = courseVote;
 }
 
 // TODO add custom settings
@@ -179,57 +139,49 @@ bool RKNetSELECTHandler::checkUpdatedVoteDataAll() {
     return sub->availableAids == (sub->availableAids & aidsWithVoteData);
 }
 
-// RKNetSELECTHandler::calcPhase() override
 // Update the voting phase using the correct data
-kmBranchDefCpp(0x806614B0, NULL, void, RKNetSELECTHandler* self) {
+REPLACE void RKNetSELECTHandler::calcPhase() {
 
     // Check if there are any unprocessed incoming packets, if not bail
-    if (!self->hasUnprocessedRecvPackets())
+    if (!hasUnprocessedRecvPackets())
         return;
 
-    // Get current sub
+    // Get current sub and outgoing packet expansion
     RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
-
-    // Get outgoing packet and its expansion
-    RKNetSELECTPacket* sendPacket = &self->sendPacket;
-    RKNetSELECTPacketExpansion* sendPacketEx = &self->expansion.sendPacketEx;
+    RKNetSELECTPacketExpansion* sendPacketEx = &expansion.sendPacketEx;
 
     // Parse each received packet
     for (int aid = 0; aid < 12; aid++) {
 
-        // Skip my AID
-        if (aid == sub->myAid)
-            continue;
-
-        // If the AID is not available, skip
-        u32 aidMask = 1 << aid;
-        if (!(aidMask & sub->availableAids))
+        // Skip invalid AIDs
+        if (!RKNetController::instance->isConnectedPlayer(aid))
             continue;
 
         // Get incoming packet and its expansion
-        RKNetSELECTPacket* recvPacket = &self->recvPackets[aid];
-        RKNetSELECTPacketExpansion* revcPacketEx = &self->expansion.recvPacketsEx[aid];
+        u32 aidMask = 1 << aid;
+        RKNetSELECTPacket* recvPacket = &recvPackets[aid];
+        RKNetSELECTPacketExpansion* revcPacketEx = &expansion.recvPacketsEx[aid];
 
         // Update phase for host
         if (sub->myAid == sub->hostAid) {
-            switch (sendPacket->phase) {
+            switch (sendPacket.phase) {
 
                 // In the prepare phase, check that everyone has the updated race settings
                 case RKNetSELECTPacket::PREPARE:
-                    if (self->checkUpdatedRaceSettings(aid))
-                        self->aidsWithNewRaceSettings |= aidMask;
+                    if (checkUpdatedRaceSettings(aid))
+                        aidsWithNewRaceSettings |= aidMask;
 
-                    if (self->checkUpdatedRaceSettingsAll())
-                        sendPacket->phase = RKNetSELECTPacket::VOTING;
+                    if (checkUpdatedRaceSettingsAll())
+                        sendPacket.phase = RKNetSELECTPacket::VOTING;
                     break;
 
                 // In the voting phase, check that everyone has the vote result
                 case RKNetSELECTPacket::VOTING:
-                    if (self->checkUpdatedVoteData(aid))
-                        self->aidsWithVoteData |= aidMask;
+                    if (checkUpdatedVoteData(aid))
+                        aidsWithVoteData |= aidMask;
 
-                    if (self->checkUpdatedVoteDataAll())
-                        sendPacket->phase = RKNetSELECTPacket::LOTTERY;
+                    if (checkUpdatedVoteDataAll())
+                        sendPacket.phase = RKNetSELECTPacket::LOTTERY;
                     break;
 
                 // In the lottery phase, don't do anything
@@ -239,25 +191,25 @@ kmBranchDefCpp(0x806614B0, NULL, void, RKNetSELECTHandler* self) {
 
         // Update phase for guest
         } else if (aid == sub->hostAid) {
-            switch (sendPacket->phase) {
+            switch (sendPacket.phase) {
 
                 // In the prepare phase, copy the race settings and wait for host to go to the next phase
                 case RKNetSELECTPacket::PREPARE:
-                    self->storeUpdatedRaceSettings(aid);
+                    storeUpdatedRaceSettings(aid);
                     if (recvPacket->phase > RKNetSELECTPacket::PREPARE)
-                        sendPacket->phase = RKNetSELECTPacket::VOTING;
+                        sendPacket.phase = RKNetSELECTPacket::VOTING;
                     break;
 
                 // In the voting phase, check that everyone has voted, copy the vote data
                 // then wait for host to go to the next phase
                 case RKNetSELECTPacket::VOTING:
-                    if (self->checkVoteAll()) {
-                        self->storeVote(aid);
-                        self->storeUpdatedVoteData(aid);
+                    if (checkVoteAll()) {
+                        storeVote(aid);
+                        storeUpdatedVoteData(aid);
                     }
 
                     if (recvPacket->phase > RKNetSELECTPacket::VOTING)
-                        sendPacket->phase = RKNetSELECTPacket::LOTTERY;
+                        sendPacket.phase = RKNetSELECTPacket::LOTTERY;
                     break;
 
                 // In the lottery phase, don't do anything
@@ -267,12 +219,88 @@ kmBranchDefCpp(0x806614B0, NULL, void, RKNetSELECTHandler* self) {
         }
 
         // Update who has voted
-        if (self->checkVote(aid))
-            self->aidsThatHaveVoted |= aidMask;
+        if (checkVote(aid))
+            aidsThatHaveVoted |= aidMask;
 
         // Something??
-        if (self->aidsWithNewRH1)
-            sendPacket->phase = RKNetSELECTPacket::LOTTERY;
+        if (aidsWithNewRH1)
+            sendPacket.phase = RKNetSELECTPacket::LOTTERY;
+    }
+}
+
+// Import expanded packets properly
+REPLACE void RKNetSELECTHandler::importNewPackets() {
+    for (int aid = 0; aid < 12; aid++) {
+
+        // Skip invalid AIDs
+        if (!RKNetController::instance->isConnectedPlayer(aid))
+            continue;
+
+        // Get the received packet buffer and check that it's a SELECT packet using the size
+        RKNetPacketHolder* holder = RKNetController::instance->getPacketRecvBuffer(aid, RKNET_SECTION_ROOM_SELECT);
+        if (holder->currentPacketSize == sizeof(RKNetSELECTPacketEx)) {
+
+            // Store received time
+            lastRecvTimes[aid] = OSGetTime();
+
+            // Update AID map of players that have sent at least one SELECT packet
+            aidsWithNewSelect |= (1 << aid);
+
+            // Copy the original packet
+            holder->copyData(&recvPackets[aid], sizeof(RKNetSELECTPacket));
+
+            // Copy the expansion data
+            memcpy(&expansion.recvPacketsEx[aid], ((u8*)holder->buffer) + sizeof(RKNetSELECTPacket),
+                   sizeof(RKNetSELECTPacketExpansion));
+
+            // Handle receive delay
+            handleRecvPacketDelay(aid);
+
+            // Clear the buffer
+            holder->clear();
+        }
+
+        // Check if the AID is already in the race
+        if (hasUnprocessedRecvPackets() && RKNetController::instance->getPacketRecvBuffer(aid, RKNET_SECTION_RACEHEADER_1)->currentPacketSize)
+            aidsWithNewRH1 |= (1 << aid);
+    }
+}
+
+// Send the expanded packet
+REPLACE void RKNetSELECTHandler::setSendPacket() {
+
+    // Check that at least 170 milliseconds have passed
+    s64 currTime = OSGetTime();
+    if (OSTicksToMilliseconds(currTime - lastSentTime) < 170)
+        return;
+
+    // Find the next AID to send the packet to
+    u8 aid = lastSentToAid;
+    for (int i = 0; i < 12; i++) {
+
+        // Ensure the next AID does not overflow
+        if (++aid >= 12)
+            aid = 0;
+
+        // Skip invalid AIDs
+        if (!RKNetController::instance->isConnectedPlayer(aid))
+            continue;
+
+        // Schedule USER packet for sending
+        RKNetUSERHandler::instance->SetSendUSERPacket(aid);
+
+        // Prepare the SELECT packet
+        prepareSendPacket(aid, currTime);
+
+        // Copy the data and the expansion to the holder
+        RKNetPacketHolder* holder = RKNetController::instance->getPacketSendBuffer(aid, RKNET_SECTION_ROOM_SELECT);
+        holder->copyData(&sendPacket, sizeof(RKNetSELECTPacket));
+        holder->appendData(&expansion.sendPacketEx, sizeof(RKNetSELECTPacketExpansion));
+
+        // Update last send info and return
+        lastSentTime = currTime;
+        lastSentToAid = aid;
+        return;
     }
 }
 
@@ -286,11 +314,4 @@ kmBranchDefCpp(0x806614B0, NULL, void, RKNetSELECTHandler* self) {
 kmCallDefCpp(0x80660330, bool) {
     Wiimmfi::RoomStall::Update();
     return true; // Not calling the original function here because the result would always be true
-}
-
-// RKNetSELECTHandler::getStaticInstance() patch
-// Initialize the timer
-// Credits: Wiimmfi
-kmBranchDefCpp(0x8065FF5C, NULL, void) {
-    Wiimmfi::RoomStall::Init();
 }

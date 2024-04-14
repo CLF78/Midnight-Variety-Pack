@@ -1,6 +1,18 @@
 #include <common/Common.hpp>
 #include <game/system/RaceConfig.hpp>
 
+enum RKNetPacketSection {
+    RKNET_SECTION_HEADER,
+    RKNET_SECTION_RACEHEADER_1,
+    RKNET_SECTION_RACEHEADER_2,
+    RKNET_SECTION_ROOM_SELECT,
+    RKNET_SECTION_RACEDATA,
+    RKNET_SECTION_USER,
+    RKNET_SECTION_ITEM,
+    RKNET_SECTION_EVENT,
+    RKNET_SECTION_COUNT,
+};
+
 union RKNetBattleTeamData {
 
     RKNetBattleTeamData() { raw = 0; }
@@ -51,6 +63,7 @@ union RKNetEngineClassData {
             case CLASS_500CC:
                 return RaceConfig::Settings::CC_500;
 
+            case CLASS_BATTLE:
             default:
                 return RaceConfig::Settings::CC_50;
         }
@@ -75,18 +88,19 @@ union RKNetEngineClassData {
                 engineClass = CLASS_500CC;
                 break;
 
+            case RaceConfig::Settings::CC_50:
             default:
                 engineClass = CLASS_BATTLE;
         }
     }
 
     int getIsMirrorFlag() {
-        if (engineClass == CLASS_150CC_MIRROR) return true;
+        if (engineClass == CLASS_150CC_MIRROR) return RaceConfig::Settings::FLAG_MIRROR;
         return isMirror ? RaceConfig::Settings::FLAG_MIRROR : RaceConfig::Settings::FLAG_NONE;
     }
 
     void setIsMirrorFlag(int flags) {
-        isMirror = (flags & RaceConfig::Settings::FLAG_MIRROR);
+        isMirror = (flags & RaceConfig::Settings::FLAG_MIRROR) != 0;
     }
 
     struct { bool isMirror : 1; u8 engineClass : 7; };

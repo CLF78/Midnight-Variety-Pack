@@ -4,6 +4,9 @@
 
 class RKNetPacketCreator {
 public:
+    void createRH1Racer();
+    void createRH1Spectator();
+
     bool isOnline;
     bool isSomeoneLagging;
     // 2 bytes padding
