@@ -31,6 +31,16 @@ public:
             TEAM_NONE,
         };
 
+        enum GPRank {
+            RANK_3_STARS,
+            RANK_2_STARS,
+            RANK_1_STAR,
+
+            // Custom values here onwards
+            RANK_GOLDEN_CUP,
+            RANK_COUNT,
+        };
+
         virtual ~Player();
 
         int computeGPRank();
@@ -174,6 +184,8 @@ public:
     public:
         virtual ~Scenario();
 
+        void initCoursePositions();
+
         u8 playerCount;
         u8 hudCount;
         u8 localPlayerCount;
@@ -186,6 +198,8 @@ public:
     size_assert(Scenario, 0xBF0);
 
     virtual ~RaceConfig();
+
+    void loadNextCourse();
 
     Scenario raceScenario;
     Scenario menuScenario;

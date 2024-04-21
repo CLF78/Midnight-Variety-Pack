@@ -12,24 +12,23 @@
 // Custom Cup System / Wiimmfi Telemetry //
 ///////////////////////////////////////////
 
-// DvdArchive::decompress() override
 // Hash track file, store the hash and report it to Wiimmfi if necessary
 // Credits: Wiimmfi
-kmBranchDefCpp(0x80519508, NULL, void, DvdArchive* self, const char* path, EGG::Heap* heap) {
+REPLACE void DvdArchive::decompress(const char* path, EGG::Heap* heap) {
 
     // Get decompressed size
-    u32 decompressedSize = EGG::Decomp::getExpandSize(self->fileBuffer);
+    u32 decompressedSize = EGG::Decomp::getExpandSize(fileBuffer);
 
     // Allocate the buffer and decode the file in it
     void* buffer = heap->alloc(decompressedSize, 0x20);
-    EGG::Decomp::decodeSZS(self->fileBuffer, buffer);
+    EGG::Decomp::decodeSZS(fileBuffer, buffer);
 
     // Store info and invalidate cache
-    self->archiveSize = decompressedSize;
-    self->archiveBuffer = buffer;
-    self->archiveHeap = heap;
+    archiveSize = decompressedSize;
+    archiveBuffer = buffer;
+    archiveHeap = heap;
     DCStoreRange(buffer, decompressedSize);
-    self->state = DvdArchive::DECOMPRESSED;
+    state = DvdArchive::DECOMPRESSED;
 
     // Check if it's a track file, if not bail
     if (!strstartw(path, "Race/Course/"))

@@ -7,37 +7,72 @@
 // Custom Cup System //
 ///////////////////////
 
-// RaceConfig::Scenario::copyPrevPositions() patch
 // Set the current track for GP mode
-kmBranchDefCpp(0x8052F208, 0x8052F228, RaceConfig::Scenario*, RaceConfig::Scenario* self, u32 raceNumber) {
+REPLACE void RaceConfig::Scenario::initCoursePositions() {
+    if (settings.gameMode == Settings::GAMEMODE_GP &&
+        settings.raceNumber < 5 &&
+        settings.cameraMode != Settings::CAMERA_MODE_REPLAY) {
 
-    // Get the next track in the cup
-    u32 trackIdx = CupManager::GetCupList()[self->settings.cupId].entryId[raceNumber];
+        // Get the next track in the cup
+        u32 trackIdx = CupManager::GetCupList()[settings.cupId].entryId[settings.raceNumber];
 
-    // Get the track and store it
-    u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
-    CupManager::SetCourse(&self->settings, actualTrackIdx);
+        // Get the track and store it
+        u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+        CupManager::SetCourse(&settings, actualTrackIdx);
+    }
 
-    // Return the first argument to avoid breaking the following code
-    return self;
+    // Update starting positions if we're online
+    else if (settings.isOnline()) {
+
+        // Initialize position array
+        u8 startPositions[ARRAY_SIZE(players)];
+        for (int i = 0; i < ARRAY_SIZE(players); i++) {
+            startPositions[i] = i + 1;
+        }
+
+        // Update existing player positions to account for gaps
+        u8 currPos = 1;
+        for (int pos = 0; pos < ARRAY_SIZE(players); pos++) {
+            for (int i = 0; i < ARRAY_SIZE(players); i++) {
+                if (players[i].playerType != Player::TYPE_NONE && players[i].prevFinishPos == pos) {
+                    startPositions[i] = currPos++;
+                    break;
+                }
+            }
+        }
+
+        // Insert new players at the end of the starting grid
+        for (int i = 0; i < ARRAY_SIZE(players); i++) {
+            if (players[i].playerType != Player::TYPE_NONE && players[i].prevFinishPos == 0)
+                startPositions[i] = currPos++;
+        }
+
+        // Copy the calculated positions (includes non-existant players)
+        for (int i = 0; i < ARRAY_SIZE(players); i++) {
+            players[i].prevFinishPos = startPositions[i];
+        }
+    }
 }
 
-// RaceConfig::loadNextCourse() override
 // Do not load the next track in the course cache
-kmWrite32(0x80531F80, 0x4E800020);
+REPLACE void RaceConfig::loadNextCourse() {}
 
 /////////////////////
 // Custom GP Ranks //
 /////////////////////
 
-// RaceConfig::Player::computeGpRank() override
 // Compute GP rank based on score only
-kmBranchDefCpp(0x8052DAF0, NULL, int, RaceConfig::Player* self) {
-    static const u8 scores[3] = {GP_SCORE_3_STARS, GP_SCORE_2_STARS, GP_SCORE_1_STAR};
+REPLACE int RaceConfig::Player::computeGPRank() {
+
+    // Initialize score thresholds
+    static const u8 scores[RANK_COUNT-1] = {GP_SCORE_3_STARS, GP_SCORE_2_STARS, GP_SCORE_1_STAR};
+
+    // Calculate the score
     for (int i = 0; i < ARRAY_SIZE(scores); i++) {
-        if (self->gpScore >= scores[i])
+        if (gpScore >= scores[i])
             return i;
     }
 
-    return 3;
+    // None of the thresholds were reached, the player is a failure
+    return RANK_GOLDEN_CUP;
 }

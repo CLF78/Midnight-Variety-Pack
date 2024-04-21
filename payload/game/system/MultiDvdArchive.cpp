@@ -52,19 +52,63 @@ const char* getLanguageCode() {
         return "K";
 
     // Should never occur
-    return "";
+    return nullptr;
 }
 
-// MultiDvdArchive::create() patches
 // Update archive counts
 // Credits: stebler, Vabold
-kmWrite8(0x8052A10B, 6); // Common files
-kmWrite8(0x8052A18B, 6); // UI files
+REPLACE_STATIC MultiDvdArchive* MultiDvdArchive::create(int type) {
 
-// MenuDvdArchive::init() override
+    switch (type) {
+        case COMMON:
+            return new RaceMultiDvdArchive();
+
+        case COURSE:
+            return new CourseMultiDvdArchive();
+
+        case MENU:
+            return new MenuMultiDvdArchive();
+
+        case FONT ... BACKMODEL:
+            return new MultiDvdArchive();
+
+        default:
+            return nullptr;
+    }
+}
+
+// Reverse the archive check loop to match ResourceManager's behaviour
+REPLACE void* MultiDvdArchive::getFile(const char* path, u32* size) {
+
+    // Default to null
+    void* file = nullptr;
+
+    // Parse each archive
+    for (int i = 0; i < archiveCount; i++) {
+        DvdArchive* archive = &archives[i];
+
+        // Check that the archive is mounted
+        if (archive->state != DvdArchive::MOUNTED && archive->state != DvdArchive::UNK_5)
+            continue;
+
+        // Get the file, if found exit the loop
+        if (file = archive->getFile(path, size))
+            break;
+    }
+
+    // Return the file
+    return file;
+}
+
+// Update archive count
+// Credits: stebler, Vabold
+MenuMultiDvdArchive::MenuMultiDvdArchive() : MultiDvdArchive(6) {
+    init();
+}
+
 // Add archives for UI files
 // Credits: stebler, Vabold
-kmBranchDefCpp(0x8052A2FC, NULL, void, MultiDvdArchive* self) {
+REPLACE void MenuMultiDvdArchive::init() {
 
     // This is used for UI files: Award.szs, Channel.szs, Event.szs, Globe.szs,
     // MenuSingle/Multi/Other.szs, Present.szs, Race.szs and Title.szs
@@ -77,27 +121,28 @@ kmBranchDefCpp(0x8052A2FC, NULL, void, MultiDvdArchive* self) {
     // 6) Race.szs
     const char* languageCode = getLanguageCode();
 
-    snprintf(self->suffixes[0], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
-    snprintf(self->suffixes[1], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
-    snprintf(self->suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
-    snprintf(self->suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
-    snprintf(self->suffixes[4], 0x80, "_%s.szs", languageCode);
+    // The check in suffix four is required because NTSC-K uses Race_R.szs instead of Race.szs for some reason
+    snprintf(suffixes[0], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
+    snprintf(suffixes[1], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
+    snprintf(suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
+    snprintf(suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
+    snprintf(suffixes[4], 0x80, "_%s.szs", languageCode);
+    snprintf(suffixes[5], 0x80, (CODE_REGION == Region::REGION_K) ? "_R.szs" : ".szs");
 
-    // This is required because NTSC-K uses Race_R.szs instead of Race.szs for some reason
-    if (CODE_REGION == Region::REGION_K)
-        snprintf(self->suffixes[5], 0x80, "_R.szs");
-    else
-        snprintf(self->suffixes[5], 0x80, ".szs");
-
-    for (int i = 0; i < self->archiveCount; i++) {
-        self->kinds[i] = MultiDvdArchive::SUFFIX_ONLY;
+    for (int i = 0; i < archiveCount; i++) {
+        kinds[i] = MultiDvdArchive::SUFFIX_ONLY;
     }
 }
 
-// RaceDvdArchive::init() override
+// Update archive count
+// Credits: stebler, Vabold
+RaceMultiDvdArchive::RaceMultiDvdArchive() : MultiDvdArchive(6) {
+    init();
+}
+
 // Add archives for Common files
 // Credits: stebler, Vabold
-kmBranchDefCpp(0x8052A3C0, NULL, void, MultiDvdArchive* self) {
+REPLACE void RaceMultiDvdArchive::init() {
 
     // This is used for Common.szs only
     // Priority order (X is the languageCode):
@@ -109,46 +154,15 @@ kmBranchDefCpp(0x8052A3C0, NULL, void, MultiDvdArchive* self) {
     // 6) Common.szs
     const char* languageCode = getLanguageCode();
 
-    snprintf(self->suffixes[0], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
-    snprintf(self->suffixes[1], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
-    snprintf(self->suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
-    snprintf(self->suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
+    // The check in suffix four is required because NTSC-K uses Common_J.szs for some reason
+    snprintf(suffixes[0], 0x80, "_%s" MULTI_ARCHIVE_USER_SUFFIX ".szs", languageCode);
+    snprintf(suffixes[1], 0x80, MULTI_ARCHIVE_USER_SUFFIX ".szs");
+    snprintf(suffixes[2], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX "_%s.szs", languageCode);
+    snprintf(suffixes[3], 0x80, MULTI_ARCHIVE_DISTRO_SUFFIX ".szs");
+    snprintf(suffixes[4], 0x80, (CODE_REGION == Region::REGION_K) ? "_J.szs" : "_%s.szs", languageCode);
+    snprintf(suffixes[5], 0x80, ".szs");
 
-    // This is required because NTSC-K uses Common_J.szs for some reason
-    if (CODE_REGION == Region::REGION_K)
-        snprintf(self->suffixes[4], 0x80, "_J.szs");
-    else
-        snprintf(self->suffixes[4], 0x80, "_%s.szs", languageCode);
-
-    snprintf(self->suffixes[5], 0x80, ".szs");
-
-    for (int i = 0; i < self->archiveCount; i++) {
-        self->kinds[i] = MultiDvdArchive::SUFFIX_ONLY;
+    for (int i = 0; i < archiveCount; i++) {
+        kinds[i] = MultiDvdArchive::SUFFIX_ONLY;
     }
-}
-
-// MultiDvdArchive::getFile() override
-// Reverse the priority loop so that it matches ResourceManager
-kmBranchDefCpp(0x8052A760, NULL, void*, MultiDvdArchive* self, const char* path, u32* size) {
-
-    // Default to null
-    void* file = nullptr;
-
-    // Parse each archive
-    for (int i = 0; i < self->archiveCount; i++) {
-
-        // Get archive
-        DvdArchive* archive = &self->archives[i];
-
-        // Check that the archive is mounted
-        if (archive->state != DvdArchive::MOUNTED && archive->state == DvdArchive::UNK_5)
-            continue;
-
-        // Get the file, if found exit the loop
-        file = archive->getFile(path, size);
-        if (file) break;
-    }
-
-    // Return the file
-    return file;
 }

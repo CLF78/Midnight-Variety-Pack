@@ -5,6 +5,7 @@
 ///////////////////////////////////
 
 // Prevent invalid profile identifiers from crashing the game
+// TODO add USER packet validation so this will no longer be necessary
 // Credits: MrBean35000vr
 kmBranch(0x805D2EF8, 0x805D2EBC);
 kmBranch(0x805D2F00, 0x805D2EBC);
