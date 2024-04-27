@@ -203,28 +203,15 @@ void ReportCourseSubfiles() {
     Status::SendMessage("track_subfile_sha1", statusMsgBuffer);
 }
 
-void ReportFinishTime(u8 playerIdx) {
-
-    // Check if the player is a local player
-    bool isLocal = false;
-    for (int i = 0; i < RaceConfig::instance->raceScenario.localPlayerCount; i++) {
-        if (RaceConfig::instance->raceScenario.settings.hudPlayerIds[i] == playerIdx) {
-            isLocal = true;
-            break;
-        }
-    }
-
-    if (!isLocal)
-        return;
+void ReportFinishTime(u8 playerIdx, Timer* finishTime) {
 
     // Get the finish time
     char buffer[32];
-    u32 timer;
-    u32 finishTime = RaceManager::instance->players[playerIdx]->finishTime->getTimeMs();
-    snprintf(buffer, sizeof(buffer), "slot=%d|time=%d", playerIdx, finishTime);
+    snprintf(buffer, sizeof(buffer), "slot=%d|time=%d", playerIdx, finishTime->getTimeMs());
 
     // Get the RaceManager timer
     // Use interrupts to get a more accurate value
+    u32 timer;
     {
         nw4r::ut::AutoInterruptLock lock;
         timer = RaceManager::instance->frameCounter;

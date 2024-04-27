@@ -18,9 +18,23 @@ public:
 
     class Player {
     public:
+
+        // TODO add custom reasons maybe?
+        enum EndReason {
+            REASON_NONE,
+            REASON_UNK_1,
+            REASON_ALL_FINISHED,
+            REASON_TIME_LIMIT_REACHED,
+            REASON_TIME_LEADER_FINISH,
+        };
+
         virtual ~Player();
 
-        u8 unk[0x0A - 0x04];
+        void endRace(Timer* finishTime, bool isLast, u32 endReason);
+
+        u8 unk[0x08 - 0x04];
+        u8 playerIdx;
+        // 1 byte padding
         u16 checkpointId;
 
         u8 unk2[0x26 - 0x0C];
@@ -34,6 +48,8 @@ public:
     size_assert(Player, 0x54);
 
     virtual ~RaceManager();
+
+    void calc();
 
     Random* dynamicRandom;
     Random* staticRandom;

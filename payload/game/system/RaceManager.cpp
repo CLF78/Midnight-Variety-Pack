@@ -1,5 +1,4 @@
 #include <common/Common.hpp>
-#include <game/kart/KartObjectManager.hpp>
 #include <game/race/RaceGlobals.hpp>
 #include <game/system/CourseMap.hpp>
 #include <game/system/RaceConfig.hpp>
@@ -22,7 +21,7 @@ kmWrite32(0x80534BBC, 0x60000000);
 ////////////////////////
 
 // Split enabled check for easier upgradeability
-bool IsUltraUncutEnabled() {
+bool UltraUncutEnabled() {
 
     // Only turn this on in Worldwide races for now
     // TODO allow disabling this with a friend room setting
@@ -38,7 +37,7 @@ kmHookFn bool UltraUncut(float requiredCompletion, MapdataCheckPoint* currCkpt, 
 	if (currCkpt->mpData->lapCheck == 0) {
 
 		// If the previous key checkpoint is not 1 and the feature is enabled, always decrement the lap
-		if (nextCkpt->prevKcpId > 1 && IsUltraUncutEnabled())
+		if (nextCkpt->prevKcpId > 1 && UltraUncutEnabled())
 			return false;
 
 		// Original check
@@ -53,13 +52,8 @@ kmHookFn bool UltraUncut(float requiredCompletion, MapdataCheckPoint* currCkpt, 
 }
 
 // Glue code
-kmCallDefAsm(0x805350DC) {
+kmBranchDefAsm(0x805350DC, 0x80535150) {
     nofralloc
-
-    // Push stack
-    stwu r1, -0x10(r1)
-    mflr r0
-    stw r0, 0x14(r1)
 
     // Call C++ code
     fmr f1, f30
@@ -67,17 +61,8 @@ kmCallDefAsm(0x805350DC) {
     mr r4, r29
     bl UltraUncut
 
-    // Determine the exit address based on the bool return value
-    // Return 0 to run regular check -> returns to 80535154
-    // Return 1 to skip the next checks -> returns to 805351DC
-    mulli r3, r3, 0x88
-    addi r3, r3, 0x74
-    lwz r4, 0x14(r1)
-    add r3, r3, r4
-
-    // Pop stack and return
-    mtlr r3
-    addi r1, r1, 0x10
+    // Compare result against 1 to reuse the bge instruction at the return address
+    cmpwi r3, 1
     blr
 }
 
@@ -85,10 +70,10 @@ kmCallDefAsm(0x805350DC) {
 // Wiimmfi Telemetry //
 ///////////////////////
 
-// RaceManager::calc() patch
 // Report race finish
 // Credits: Wiimmfi
-kmBranchDefCpp(0x8053369C, NULL, void) {
+REPLACE void RaceManager::calc() {
+    REPLACED();
 
     // Check if the race is online
     if (!RaceGlobals::isOnlineRace)
@@ -99,19 +84,23 @@ kmBranchDefCpp(0x8053369C, NULL, void) {
     if (raceStage != RaceManager::STAGE_FINISH_ALL)
         return;
 
-    // Report it
+    // Report it if so
     Wiimmfi::Reporting::ReportRaceStage(raceStage);
 }
 
-// RaceManager::Player::endRace() patch
-// Report finish times
+// Report finish time
 // Credits: Wiimmfi
-kmCallDefCpp(0x8053490C, void, u8 playerIdx) {
+REPLACE void RaceManager::Player::endRace(Timer* finishTime, bool isLast, u32 endReason) {
+    REPLACED(finishTime, isLast, endReason);
 
-    // Check if the race is online and if so send the data
-    if (RaceGlobals::isOnlineRace)
-        Wiimmfi::Reporting::ReportFinishTime(playerIdx);
+    // Check if the race is online
+    if (!RaceGlobals::isOnlineRace)
+        return;
 
-    // Original call
-    KartObjectManager::endRace(playerIdx);
+    // Check if the player is local
+    if (RaceConfig::instance->raceScenario.players[playerIdx].playerType != RaceConfig::Player::TYPE_LOCAL)
+        return;
+
+    // Report the time
+    Wiimmfi::Reporting::ReportFinishTime(playerIdx, finishTime);
 }

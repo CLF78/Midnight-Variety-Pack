@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <game/system/RaceConfig.hpp>
+#include <game/system/RaceManager.hpp>
 #include <game/system/RaceModeOnlineVs.hpp>
 #include <wiimmfi/Kick.hpp>
 
@@ -24,5 +25,5 @@ kmBranchDefCpp(0x8053F39C, 0x8053F444, void, RaceModeOnlineVs* self) {
     // Run the modified check
     // TODO custom reason for Wiimmfi-mandated race end?
     if (self->manager->timerManager->timers[0].getTimeMs() > DEFAULT_ONLINE_TIME_LIMIT || Wiimmfi::Kick::sMustEndRace)
-        self->endLocalRaceWithReason(4);
+        self->endLocalRaceWithReason(RaceManager::Player::REASON_TIME_LIMIT_REACHED);
 }

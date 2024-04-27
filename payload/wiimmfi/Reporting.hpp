@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <game/net/packet/RKNetRoomPacket.hpp>
+#include <game/system/Timer.hpp>
 
 // Contains all Wiimmfi telemetry
 namespace Wiimmfi {
@@ -33,7 +34,7 @@ namespace Reporting {
     void ReportCourseSubfiles();
 
     // Reports the race finish time of the given local player
-    void ReportFinishTime(u8 playerIdx);
+    void ReportFinishTime(u8 playerIdx, Timer* finishTime);
 
     // Reports the frame count at certain intervals
     void ReportFrameCount(u32 frameCount);
