@@ -9,13 +9,44 @@
 // Custom Cup System //
 ///////////////////////
 
-// ResourceManager::loadMission() override
-// Load the correct course and mission files without using the CourseCache
-kmCallDefCpp(0x80553DBC, MultiDvdArchive*, ResourceManager* self, u32 courseId, u32 missionNum, EGG::Heap* heap, bool isSplitScreen) {
+// Load the correct course file without using the CourseCache
+REPLACE MultiDvdArchive* ResourceManager::loadCourse(u32 courseId, EGG::Heap* heap, bool isSplitScreen) {
 
     // Choose the proper multi archive and job context
-    MultiDvdArchive* multiArchive = self->multis[MultiDvdArchive::COURSE];
-    ResourceManager::JobContext* jobContext = &self->jobContexts[ResourceManager::JobContext::MISSION];
+    MultiDvdArchive* multiArchive = multis[MultiDvdArchive::COURSE];
+    JobContext* jobContext = &jobContexts[JobContext::TRACK];
+
+    // Check if loaded
+    if (!multiArchive->isLoaded()) {
+
+        // Initialize archive
+        multiArchive->init();
+
+        // Load the correct track depending on the multiplayer bool
+        CupManager::getTrackFilename(courseId, isSplitScreen);
+        if (!multiArchive->exists(CupManager::currentSzsPath) && isSplitScreen)
+            CupManager::getTrackFilename(courseId, false);
+
+        // Set up the job context
+        jobContext->multiArchive = multiArchive;
+        strncpy(jobContext->filename, CupManager::currentSzsPath, sizeof(jobContext->filename));
+        jobContext->archiveHeap = heap;
+
+        // Request load
+        taskThread->request((Func)&doLoadTask, JobContext::TRACK, 0);
+        process();
+    }
+
+    // Return archive
+    return multiArchive;
+}
+
+// Load the correct course and mission files without using the CourseCache
+REPLACE MultiDvdArchive* ResourceManager::loadMission(u32 courseId, u32 missionNum, EGG::Heap* heap, bool isSplitScreen) {
+
+    // Choose the proper multi archive and job context
+    MultiDvdArchive* multiArchive = multis[MultiDvdArchive::COURSE];
+    JobContext* jobContext = &jobContexts[JobContext::MISSION];
 
     // Check if loaded
     if (!multiArchive->isLoaded()) {
@@ -40,41 +71,8 @@ kmCallDefCpp(0x80553DBC, MultiDvdArchive*, ResourceManager* self, u32 courseId, 
         jobContext->archiveHeap = heap;
 
         // Request load
-        self->taskThread->request((Func)&ResourceManager::doLoadTask, ResourceManager::JobContext::MISSION, 0);
-        self->process();
-    }
-
-    // Return archive
-    return multiArchive;
-}
-
-// ResourceManager::loadCourse() override
-// Load the correct course file without using the CourseCache
-kmCallDefCpp(0x80553E10, MultiDvdArchive*, ResourceManager* self, u32 courseId, EGG::Heap* heap, bool isSplitScreen) {
-
-    // Choose the proper multi archive and job context
-    MultiDvdArchive* multiArchive = self->multis[MultiDvdArchive::COURSE];
-    ResourceManager::JobContext* jobContext = &self->jobContexts[ResourceManager::JobContext::TRACK];
-
-    // Check if loaded
-    if (!multiArchive->isLoaded()) {
-
-        // Initialize archive
-        multiArchive->init();
-
-        // Load the correct track depending on the multiplayer bool
-        CupManager::getTrackFilename(courseId, isSplitScreen);
-        if (!multiArchive->exists(CupManager::currentSzsPath) && isSplitScreen)
-            CupManager::getTrackFilename(courseId, false);
-
-        // Set up the job context
-        jobContext->multiArchive = multiArchive;
-        strncpy(jobContext->filename, CupManager::currentSzsPath, sizeof(jobContext->filename));
-        jobContext->archiveHeap = heap;
-
-        // Request load
-        self->taskThread->request((Func)&ResourceManager::doLoadTask, ResourceManager::JobContext::TRACK, 0);
-        self->process();
+        taskThread->request((Func)&doLoadTask, JobContext::MISSION, 0);
+        process();
     }
 
     // Return archive
@@ -85,13 +83,12 @@ kmCallDefCpp(0x80553E10, MultiDvdArchive*, ResourceManager* self, u32 courseId, 
 // Multi Archive System //
 //////////////////////////
 
-// ResourceManager::getMenuArchiveCount() override
 // Correct the file count by ignoring missing archives
 // Credits: stebler, Vabold
-kmBranchDefCpp(0x80541794, NULL, u16, ResourceManager* self) {
+REPLACE u16 ResourceManager::getMenuArchiveCount() {
 
     // Get the multi archive
-    MultiDvdArchive* multi = self->multis[MultiDvdArchive::MENU];
+    MultiDvdArchive* multi = multis[MultiDvdArchive::MENU];
 
     // Count all the mounted archives
     u16 loadedCount = 0;

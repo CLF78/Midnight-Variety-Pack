@@ -1,12 +1,12 @@
 #include <common/Common.hpp>
+#include <game/system/UnlockFlags.hpp>
 
 ///////////////////////
 // Unlock Everything //
 ///////////////////////
 
-// UnlockFlags::get() override
 // Unlock everything without checking the savegame
 // Credits: _tZ
-kmBranchDefCpp(0x8054994C, NULL, bool) {
+REPLACE bool UnlockFlags::get(u32 flag) {
     return true;
 }

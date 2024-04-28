@@ -116,12 +116,22 @@ public:
     };
     size_assert(License, 0x93F0);
 
+    SaveManager();
+
     void init();
+
     void reset();
+    void resetAsync();
+    static void resetTask();
+
+    void saveLicensesAsync();
+    static void saveLicensesTask();
+
     void eraseLicense(u32 licenseId);
     void writeLicenses();
-
     int flushSave();
+
+    static SaveManager* createStaticInstance();
 
     // Gets a section from the save expansion
     static SaveExpansionSection* GetExpansionSection(u32 id) {

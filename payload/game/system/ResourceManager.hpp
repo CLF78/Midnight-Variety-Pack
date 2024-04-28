@@ -43,10 +43,13 @@ public:
     virtual ~ResourceManager();
 
     void* getFile(int source, const char* path, size_t* size);
-    void process();
-    static void doLoadTask(int jobContext);
+    u16 getMenuArchiveCount();
 
+    MultiDvdArchive* loadCourse(u32 courseId, EGG::Heap* heap, bool isSplitScreen);
     MultiDvdArchive* loadMission(u32 courseId, u32 missionNum, EGG::Heap* heap, bool isSplitScreen);
+    void process();
+
+    static void doLoadTask(int jobContext);
 
     MultiDvdArchive** multis;
 
