@@ -14,8 +14,8 @@ public:
     virtual const char* getTypeName() const;
 
     PushButton cupButtons[8];
-    InputHandler0<PushButton, void> onClickHandler;
-    InputHandler0<PushButton, void> onSelectHandler;
+    InputHandler2<PushButton, void, PushButton*, u32> onClickHandler;
+    InputHandler2<PushButton, void, PushButton*, u32> onSelectHandler;
     u32 currentSelected;
     CtrlMenuMovieLayout movieLayout;
 };

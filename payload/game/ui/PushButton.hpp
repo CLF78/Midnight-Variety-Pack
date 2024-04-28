@@ -28,8 +28,8 @@ public:
 
     float getDelay();
 
-    void setOnClickHandler(InputHandler0<PushButton, void>* handler, u8 unk);
-    void setOnSelectHandler(InputHandler0<PushButton, void>* handler);
+    void setOnClickHandler(InputHandler2<PushButton, void, PushButton*, u32>* handler, u8 unk);
+    void setOnSelectHandler(InputHandler2<PushButton, void, PushButton*, u32>* handler);
 
     ControlInputManager inputManager;
     InputHandler0<PushButton, void> onSelectHandlerObj;

@@ -14,8 +14,8 @@ public:
     CtrlMenuMovieButton courseButtons[4];
     CtrlMenuMovieButton unusedButton;
     LayoutUIControl _D90;
-    InputHandler0<PushButton, void> onClickHandler;
-    InputHandler0<PushButton, void> onSelectHandler;
+    InputHandler2<PushButton, void, PushButton*, u32> onClickHandler;
+    InputHandler2<PushButton, void, PushButton*, u32> onSelectHandler;
 
     static const char* buttonAnims[6];
 };

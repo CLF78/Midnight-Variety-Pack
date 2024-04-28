@@ -9,9 +9,8 @@
 // Custom Cup System //
 ///////////////////////
 
-// CtrlMenuBattleCupSelectCup::initSelf() override
-// Remove the loop, the cup boundary check and more unnecessary crud
-kmPointerDefCpp(0x808D2EDC, void, CtrlMenuBattleCupSelectCup* self) {
+// Remove cup boundary check and movie-related code
+REPLACE void CtrlMenuBattleCupSelectCup::initSelf() {
 
     // Get page
     BattleCupSelectPage* page = BattleCupSelectPage::getPage();
@@ -20,20 +19,19 @@ kmPointerDefCpp(0x808D2EDC, void, CtrlMenuBattleCupSelectCup* self) {
     // This does not have any safeguards and assumes the selectedButtonId value is valid
     PushButton* cupButton = page->getCupButton(page->selectedButtonId);
     page->setSelection(cupButton); // is this needed?
-    self->currentSelected = cupButton->buttonId;
-    page->setCourseNames(self, cupButton, 0);
+    currentSelected = cupButton->buttonId;
+    page->setCourseNames(this, cupButton, 0);
 }
 
-// CtrlMenuBattleCupSelectCup::load() override
 // Replace the BRCTR, update the button loop size, set cup names and icons and remove the background movies
-kmBranchDefCpp(0x807E0958, NULL, void, CtrlMenuBattleCupSelectCup* self, u32 playerFlags, bool unk) {
+REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
 
     // Initialize loader and get page
-    ControlLoader loader(self);
+    ControlLoader loader(this);
     BattleCupSelectPage* page = BattleCupSelectPage::getPage();
 
     // Set starting button to the first one
-    self->currentSelected = 0;
+    currentSelected = 0;
 
     // Load the main controller
     u8 playerCount = UIUtils::getPlayerCount();
@@ -41,7 +39,7 @@ kmBranchDefCpp(0x807E0958, NULL, void, CtrlMenuBattleCupSelectCup* self, u32 pla
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
     // Initialize children
-    self->initChildren(8);
+    initChildren(8);
     for (int i = 0; i < 8; i++) {
 
         // Get button control variant
@@ -50,7 +48,7 @@ kmBranchDefCpp(0x807E0958, NULL, void, CtrlMenuBattleCupSelectCup* self, u32 pla
 
         // Initialize the button
         PushButton* button = page->getCupButton(i);
-        self->insertChild(i, button);
+        insertChild(i, button);
         button->load("button", "CupSelectCup", buffer, playerFlags, unk, false);
         button->buttonId = i;
 
@@ -63,18 +61,16 @@ kmBranchDefCpp(0x807E0958, NULL, void, CtrlMenuBattleCupSelectCup* self, u32 pla
         CupManager::updateCupButton(button, page->extension.curPage, i, true);
 
         // Set button handlers
-        button->setOnClickHandler(&self->onClickHandler,0);
-        button->setOnSelectHandler(&self->onSelectHandler);
+        button->setOnClickHandler(&onClickHandler,0);
+        button->setOnSelectHandler(&onSelectHandler);
     }
 
     // Set selection to first button
     page->setSelection(page->getCupButton(0));
 }
 
-// CtrlMenuBattleCupSelectCup::onCupSelect() override
-// Update course names and remove button movies
-kmPointerDefCpp(0x808BC3D4, void, CtrlMenuBattleCupSelectCup* self, PushButton* btn, int unk) {
-    self->currentSelected = btn->buttonId;
-    BattleCupSelectPage* page = BattleCupSelectPage::getPage();
-    page->setCourseNames(self, btn, unk);
+// Remove movie updating code
+REPLACE void CtrlMenuBattleCupSelectCup::onCupSelect(PushButton* btn, u32 unk) {
+    currentSelected = btn->buttonId;
+    BattleCupSelectPage::getPage()->setCourseNames(this, btn, unk);
 }

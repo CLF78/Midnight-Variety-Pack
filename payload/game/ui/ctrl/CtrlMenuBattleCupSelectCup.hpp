@@ -14,9 +14,14 @@ public:
     virtual const TypeInfo* getTypeInfo() const;
     virtual const char* getTypeName() const;
 
+    void load(u32 playerFlags, bool unk);
+
+    void onCupClick(PushButton* btn, u32 unk);
+    void onCupSelect(PushButton* btn, u32 unk);
+
     PushButton cupButtons[2];
-    InputHandler0<PushButton, void> onClickHandler;
-    InputHandler0<PushButton, void> onSelectHandler;
+    InputHandler2<PushButton, void, PushButton*, u32> onClickHandler;
+    InputHandler2<PushButton, void, PushButton*, u32> onSelectHandler;
     u32 currentSelected;
     CtrlMenuMovieLayout movieLayout; // unused
 };

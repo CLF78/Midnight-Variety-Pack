@@ -8,9 +8,42 @@
 // Custom Cup System //
 ///////////////////////
 
-// CtrlMenuBattleCupSelectStage::setCourseNames() override
-// Update arena names on cup switch/initialization
-kmHookFn void SetArenaNames(CtrlMenuBattleCupSelectStage* self, u32 cupButtonId) {
+// Initialize course names
+REPLACE void CtrlMenuBattleCupSelectStage::initSelf() {
+    setCourseNames(BattleCupSelectPage::getPage()->selectedButtonId);
+    zIndex = 10.0f;
+}
+
+// Replace the BRCTR and update the child count
+REPLACE void CtrlMenuBattleCupSelectStage::load() {
+
+    // Load the main controller
+    ControlLoader loader(this);
+    u8 playerCount = UIUtils::getPlayerCount();
+    const char* mainCtr = (playerCount <= 2) ? "CupSelectCourseNULL" : "CupSelectCourseNULL_4";
+    loader.load("control", "CupSelectNULL", mainCtr, nullptr);
+
+    // Initialize children
+    initChildren(4);
+    for (int i = 0; i < 4; i++) {
+
+        // Get button variant
+        char buffer[20];
+        snprintf(buffer, sizeof(buffer), "Course%d", i);
+
+        // Insert the button
+        LayoutUIControl* button = &courseNames[i];
+        insertChild(i, button);
+
+        // Initialize it
+        ControlLoader buttonLoader(button);
+        buttonLoader.load("control", "BattleCupSelectStage", buffer,
+                          CtrlMenuBattleCupSelectStage::animNames);
+    }
+}
+
+// Update course names
+REPLACE void CtrlMenuBattleCupSelectStage::setCourseNames(u32 cupButtonId) {
 
     // Get cup index from page
     BattleCupSelectPage* page = BattleCupSelectPage::getPage();
@@ -20,8 +53,8 @@ kmHookFn void SetArenaNames(CtrlMenuBattleCupSelectStage* self, u32 cupButtonId)
     for (int i = 0; i < 4; i++) {
 
         // Get button
-        LayoutUIControl* courseName = &self->courseNames[i];
-        
+        LayoutUIControl* courseName = &courseNames[i];
+
         // Play switch animation
         courseName->animator.getGroup(0)->setAnimation(0, 0.0f);
         courseName->animator.getGroup(1)->setAnimation(0, 0.0f);
@@ -34,52 +67,6 @@ kmHookFn void SetArenaNames(CtrlMenuBattleCupSelectStage* self, u32 cupButtonId)
 
         // Hide some pane thingy
         courseName->setPaneVisible("waku_null", false);
-    }
-}
-
-// Glue code for cup change
-kmBranch(0x807E0EE4, SetArenaNames);
-
-// CtrlMenuBattleCupSelectStage::initSelf() override
-// Glue code for initialization
-kmPointerDefCpp(0x808D2EA0, void, CtrlMenuBattleCupSelectStage* self) {
-
-    // Get page
-    BattleCupSelectPage* page = BattleCupSelectPage::getPage();
-
-    // Call main function (was inlined before)
-    SetArenaNames(self, page->selectedButtonId);
-
-    // Update Z-value
-    self->zIndex = 10.0f;
-}
-
-// CtrlMenuBattleCupSelectStage::load() override
-// Replace the BRCTR and update the child count
-kmBranchDefCpp(0x807E0DC0, NULL, void, CtrlMenuBattleCupSelectStage* self) {
-
-    // Load the main controller
-    ControlLoader loader(self);
-    u8 playerCount = UIUtils::getPlayerCount();
-    const char* mainCtr = (playerCount <= 2) ? "CupSelectCourseNULL" : "CupSelectCourseNULL_4";
-    loader.load("control", "CupSelectNULL", mainCtr, nullptr);
-
-    // Initialize children
-    self->initChildren(4);
-    for (int i = 0; i < 4; i++) {
-
-        // Get button variant
-        char buffer[20];
-        snprintf(buffer, sizeof(buffer), "Course%d", i);
-
-        // Insert the button
-        LayoutUIControl* button = &self->courseNames[i];
-        self->insertChild(i, button);
-
-        // Initialize it
-        ControlLoader buttonLoader(button);
-        buttonLoader.load("control", "BattleCupSelectStage", buffer,
-                          CtrlMenuBattleCupSelectStage::animNames);
     }
 }
 
