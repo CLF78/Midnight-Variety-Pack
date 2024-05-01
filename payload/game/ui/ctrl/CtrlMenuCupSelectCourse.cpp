@@ -6,17 +6,15 @@
 // Custom Cup System //
 ///////////////////////
 
-// CtrlMenuCupSelectCourse::setCourseNames() override
-// Update track names on cup switch/initialization
-// Original function address: 807E5FF0
-void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
+// Update track names on cup switch
+REPLACE void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
 
     // Get cup index from page
     RaceCupSelectPage* page = RaceCupSelectPage::getPage();
     u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage);
 
     // Update each track name
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < ARRAY_SIZE(courseNames); i++) {
 
         // Get button
         LayoutUIControl* courseName = &this->courseNames[i];
@@ -36,16 +34,8 @@ void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
     }
 }
 
-// CtrlMenuCupSelectCourse::initSelf() override
-// Glue code for startup
-kmPointerDefCpp(0x808D3210, void, CtrlMenuCupSelectCourse* self) {
-
-    // Get page
-    RaceCupSelectPage* page = RaceCupSelectPage::getPage();
-
-    // Call main function
-    self->setCourseNames(page->selectedButtonId);
-
-    // Update Z-value
-    self->zIndex = 10.0f;
+// Update track names on cup initialization
+REPLACE void CtrlMenuCupSelectCourse::initSelf() {
+    setCourseNames(RaceCupSelectPage::getPage()->selectedButtonId);
+    zIndex = 10.0f;
 }

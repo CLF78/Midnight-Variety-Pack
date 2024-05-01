@@ -34,10 +34,14 @@ public:
     // Custom structures from here onwards
     BattleCupSelectPageEx extension;
 
+    static u32 getCupCount() {
+        return 2 + ARRAY_SIZE_STATIC(BattleCupSelectPageEx, cupButtons);
+    }
+
     PushButton* getCupButton(u32 idx) {
         if (idx < 2)
             return &cupHolder.cupButtons[idx];
-        else if (idx < 8)
+        else if (idx < getCupCount())
             return &extension.cupButtons[idx-2];
         return nullptr;
     }

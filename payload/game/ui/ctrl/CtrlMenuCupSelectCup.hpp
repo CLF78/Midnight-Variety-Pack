@@ -13,6 +13,8 @@ public:
     virtual const TypeInfo* getTypeInfo() const;
     virtual const char* getTypeName() const;
 
+    void onCupSelect(PushButton* btn, u32 unk);
+
     PushButton cupButtons[8];
     InputHandler2<PushButton, void, PushButton*, u32> onClickHandler;
     InputHandler2<PushButton, void, PushButton*, u32> onSelectHandler;

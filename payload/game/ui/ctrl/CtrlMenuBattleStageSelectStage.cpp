@@ -11,9 +11,8 @@
 // Custom Cup System //
 ///////////////////////
 
-// CtrlMenuBattleStageSelectStage::initSelf() override
 // Update arena names
-kmPointerDefCpp(0x808D2F18, void, CtrlMenuBattleStageSelectStage* self) {
+REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
 
     BattleCupSelectPage* cupPage = BattleCupSelectPage::getPage();
     BattleStageSelectPage* coursePage = BattleStageSelectPage::getPage();
@@ -21,10 +20,10 @@ kmPointerDefCpp(0x808D2F18, void, CtrlMenuBattleStageSelectStage* self) {
     u32 lastStage = SectionManager::instance->globalContext->lastStage;
     int selected = -1;
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < ARRAY_SIZE(courseButtons); i++) {
 
         // Get button
-        PushButton* trackButton = &self->courseButtons[i];
+        PushButton* trackButton = &courseButtons[i];
 
         // Set name
         u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->extension.curPage, true);
@@ -45,15 +44,14 @@ kmPointerDefCpp(0x808D2F18, void, CtrlMenuBattleStageSelectStage* self) {
     }
 
     if (selected == -1)
-        coursePage->setSelection((PushButton*)&self->courseButtons[0]);
+        coursePage->setSelection(&courseButtons[0]);
 }
 
-// CtrlMenuBattleStageSelectStage::load() override
 // Replace the BRCTR and update the child count
-kmBranchDefCpp(0x807E1D80, NULL, void, CtrlMenuBattleStageSelectStage* self, u32 playerFlags, bool unk) {
+REPLACE void CtrlMenuBattleStageSelectStage::load(u32 playerFlags, bool unk) {
 
     // Initialize main loader
-    ControlLoader loader(self);
+    ControlLoader loader(this);
 
     // Load the main controller
     u8 playerCount = UIUtils::getPlayerCount();
@@ -61,28 +59,28 @@ kmBranchDefCpp(0x807E1D80, NULL, void, CtrlMenuBattleStageSelectStage* self, u32
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
     // Initialize children
-    self->initChildren(4);
-    for (int i = 0; i < 4; i++) {
+    initChildren(ARRAY_SIZE(courseButtons));
+    for (int i = 0; i < ARRAY_SIZE(courseButtons); i++) {
 
         // Get button and its variant
-        CtrlMenuMovieButton* button = &self->courseButtons[i];
+        CtrlMenuMovieButton* button = &courseButtons[i];
         char buffer[20];
         snprintf(buffer, sizeof(buffer), "Button%d", i);
 
         // Insert it
-        self->insertChild(i, button);
+        insertChild(i, button);
 
         // Initialize it
         button->loadWithAnims(CtrlMenuBattleStageSelectStage::buttonAnims, "button",
                               "BattleStageSelectStage", buffer, playerFlags, unk);
-        button->setOnClickHandler(&self->onClickHandler, 0);
-        button->setOnSelectHandler(&self->onSelectHandler);
+        button->setOnClickHandler(&onClickHandler, 0);
+        button->setOnSelectHandler(&onSelectHandler);
     }
 
     // Set first button as default selection
-    self->courseButtons[0].selectDefault(0);
+    courseButtons[0].selectDefault(0);
 }
 
 // CtrlMenuBattleStageSelectStage::onSelect() override
 // Disable button movies
-kmPointerDefCpp(0x808BC440, void, CtrlMenuBattleStageSelectStage* self, PushButton* button, u32 unk) {}
+REPLACE void CtrlMenuBattleStageSelectStage::onCupSelect(PushButton* btn, u32 unk) {}

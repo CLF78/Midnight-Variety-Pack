@@ -11,7 +11,7 @@ public:
     virtual const TypeInfo* getTypeInfo() const;
     virtual const char* getTypeName() const;
 
-    void setCourseNames(u32 cupButtonId); // replaced function
+    void setCourseNames(u32 cupButtonId);
 
     LayoutUIControl courseNames[4];
 };

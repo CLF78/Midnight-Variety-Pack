@@ -9,9 +9,8 @@
 // Custom Cup System //
 ///////////////////////
 
-// CtrlMenuCourseSelectCourse::initSelf() override
 // Update track names
-kmPointerDefCpp(0x808D30D8, void, CtrlMenuCourseSelectCourse* self) {
+REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
 
     RaceCupSelectPage* cupPage = RaceCupSelectPage::getPage();
     RaceCourseSelectPage* coursePage = RaceCourseSelectPage::getPage();
@@ -19,10 +18,10 @@ kmPointerDefCpp(0x808D30D8, void, CtrlMenuCourseSelectCourse* self) {
     u32 lastCourse = SectionManager::instance->globalContext->lastCourse;
     int selected = -1;
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < ARRAY_SIZE(courseButtons); i++) {
 
         // Get button
-        PushButton* trackButton = &self->courseButtons[i];
+        PushButton* trackButton = &courseButtons[i];
 
         // Set name
         u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->extension.curPage);
@@ -40,9 +39,8 @@ kmPointerDefCpp(0x808D30D8, void, CtrlMenuCourseSelectCourse* self) {
     }
 
     if (selected == -1)
-        coursePage->setSelection((PushButton*)&self->courseButtons[0]);
+        coursePage->setSelection(&courseButtons[0]);
 }
 
-// CtrlMenuCourseSelectCourse::onSelect() override
 // Disable printing time trial times and updating button movies
-kmPointerDefCpp(0x808BC170, void, CtrlMenuCourseSelectCourse* self, PushButton* button) {}
+REPLACE void CtrlMenuCourseSelectCourse::onSelect(PushButton* button, u32 unk) {}

@@ -39,8 +39,8 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
     // Initialize children
-    initChildren(8);
-    for (int i = 0; i < 8; i++) {
+    initChildren(BattleCupSelectPage::getCupCount());
+    for (int i = 0; i < BattleCupSelectPage::getCupCount(); i++) {
 
         // Get button control variant
         char buffer[20];
@@ -61,7 +61,7 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
         CupManager::updateCupButton(button, page->extension.curPage, i, true);
 
         // Set button handlers
-        button->setOnClickHandler(&onClickHandler,0);
+        button->setOnClickHandler(&onClickHandler, 0);
         button->setOnSelectHandler(&onSelectHandler);
     }
 

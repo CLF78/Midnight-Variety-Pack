@@ -11,6 +11,8 @@ public:
     virtual const TypeInfo* getTypeInfo() const;
     virtual const char* getTypeName() const;
 
+    void load();
+
     CtrlMenuBattleStageSelectCupSub cups[2];
 
     static const char* cupAnimNames[16];

@@ -45,6 +45,7 @@ typedef void (*Func)();
 
 // Macros
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define ARRAY_SIZE_STATIC(a, b) ARRAY_SIZE(((a*)NULL)->b)
 #define ALIGN(a) __attribute__ ((aligned(a)))
 #define BIT_FLAG(bit) ((bit) < 0 ? 0 : 1 << (bit))
 #define BOOL s32

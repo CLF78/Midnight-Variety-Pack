@@ -6,18 +6,17 @@
 // Custom Cup System //
 ///////////////////////
 
-// CtrlMenuCupSelectCup::initSelf() override
 // Update cup names and icons
-kmPointerDefCpp(0x808D324C, void, CtrlMenuCupSelectCup* self) {
+REPLACE void CtrlMenuCupSelectCup::initSelf() {
 
     // Get owning page
     RaceCupSelectPage* page = RaceCupSelectPage::getPage();
 
     // Update children
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < ARRAY_SIZE(cupButtons); i++) {
 
         // Get the button
-        PushButton* button = &page->cupHolder.cupButtons[i];
+        PushButton* button = &cupButtons[i];
 
         // Set cup name
         u32 cupIdx = CupManager::getCupIdxFromButton(i, page->extension.curPage);
@@ -28,22 +27,20 @@ kmPointerDefCpp(0x808D324C, void, CtrlMenuCupSelectCup* self) {
         CupManager::updateCupButton(button, page->extension.curPage, i);
 
         // Set button handlers
-        button->setOnClickHandler(&self->onClickHandler,0);
-        button->setOnSelectHandler(&self->onSelectHandler);
+        button->setOnClickHandler(&onClickHandler, 0);
+        button->setOnSelectHandler(&onSelectHandler);
 
         // Set as selected if the button is the previously selected one
         if (i == page->selectedButtonId) {
             page->setSelection(button); // is this needed?
-            self->currentSelected = button->buttonId;
-            page->updateTextMessages(self, 0);
+            currentSelected = button->buttonId;
+            page->updateTextMessages(this, 0);
         }
     }
 }
 
-// CtrlMenuCupSelectCup::onSelect() override
 // Update track names
-kmPointerDefCpp(0x808BC104, void, CtrlMenuCupSelectCup* self, PushButton* button, u32 unk) {
-    self->currentSelected = button->buttonId;
-    RaceCupSelectPage* page = RaceCupSelectPage::getPage();
-    page->updateTextMessages(self, unk);
+REPLACE void CtrlMenuCupSelectCup::onCupSelect(PushButton* button, u32 unk) {
+    currentSelected = button->buttonId;
+    RaceCupSelectPage::getPage()->updateTextMessages(this, unk);
 }

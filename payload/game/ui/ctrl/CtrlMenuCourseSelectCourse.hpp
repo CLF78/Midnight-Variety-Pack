@@ -11,6 +11,8 @@ public:
     virtual const TypeInfo* getTypeInfo() const;
     virtual const char* getTypeName() const;
 
+    void onSelect(PushButton* btn, u32 unk);
+
     CtrlMenuMovieButton courseButtons[4];
     LayoutUIControl _B24;
     InputHandler0<CtrlMenuCourseSelectCourse, void> onClickHandler;

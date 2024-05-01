@@ -8,20 +8,18 @@
 // Custom Cup System //
 ///////////////////////
 
-// CtrlMenuCourseSelectCup::initSelf() override
 // Update cup names and icons
-kmPointerDefCpp(0x808D3190, void, CtrlMenuCourseSelectCup* self) {
+REPLACE void CtrlMenuCourseSelectCup::initSelf() {
 
-    // Get pages and selected cup
+    // Get page and selected cup
     RaceCupSelectPage* cupPage = RaceCupSelectPage::getPage();
-    RaceCourseSelectPage* coursePage = RaceCourseSelectPage::getPage();
     u32 selectedCup = cupPage->selectedButtonId;
 
     // Update each cup
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < ARRAY_SIZE(cups); i++) {
 
         // Get cup
-        CtrlMenuCourseSelectCupSub* cup = &coursePage->cupHolder.cups[i];
+        CtrlMenuCourseSelectCupSub* cup = &cups[i];
         
         // Set name
         u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->extension.curPage);
@@ -38,7 +36,7 @@ kmPointerDefCpp(0x808D3190, void, CtrlMenuCourseSelectCup* self) {
         cup->animator.getGroup(3)->setAnimation(i == selectedCup, 0.0f);
 
         // Call the virtual function
-        cup->vf_3C(&self->elementPositions[POS_LAYOUT].trans);
+        cup->vf_3C(&elementPositions[POS_LAYOUT].trans);
 
         // Mark as selected if necessary
         cup->selected = (i == selectedCup);
