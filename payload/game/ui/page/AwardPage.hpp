@@ -13,14 +13,29 @@ public:
         CREDITS_FULL,
     };
 
+    virtual ~AwardPage();
+
+    virtual void onInit();
+    virtual void onActivate();
+
+    virtual void beforeInAnim();
+    virtual void afterCalc();
+
+    virtual TypeInfo* getTypeInfo() const;
+
+    void initRank();
+    void initType();
+
+    static CreditsType getCreditsType(u32 cupId, u32 engineClass, bool isMirror, u32 rank);
+
     InputHandler0<AwardPage, void> onFront;
     u32 _58;
 
     PageInputManager inputManager;
     LayoutUIControl cupDisplay;
-    LayoutUIControl _314;
-    LayoutUIControl congratulations;
-    LayoutUIControl items[12];
+    LayoutUIControl rankDisplay;
+    LayoutUIControl congratulations; // AwardDemoCongratulations
+    LayoutUIControl items[12]; // AwardDemoResultItem
 
     bool isTeams;
     u8 bestRank;

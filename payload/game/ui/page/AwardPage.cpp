@@ -12,7 +12,8 @@
 
 // Trigger the credits if all GPs have been completed
 // TODO figure out which TU this code belongs to and move it there
-kmCallDefCpp(0x805BC788, int, u32 cupId, u32 engineClass, bool isMirror, u32 rank) {
+REPLACE_STATIC AwardPage::CreditsType AwardPage::getCreditsType(u32 cupId, u32 engineClass,
+                                                                bool isMirror, u32 rank) {
 
     // Copied check from the original function
     if (rank == 0 || rank > 3)
@@ -34,13 +35,8 @@ kmCallDefCpp(0x805BC788, int, u32 cupId, u32 engineClass, bool isMirror, u32 ran
     return AwardPage::CREDITS_FULL;
 }
 
-// AwardPage::initCup() patch
-// Use the VS trophy for the GP award scene
-kmWrite8(0x805BCF87, 0x90);
-
-// AwardPage::initRank() override
 // Save the GP rank to the save expansion
-kmBranchDefCpp(0x805BD050, NULL, void) {
+REPLACE void AwardPage::initRank() {
 
     // Check if we're in GP mode
     if (SectionManager::instance->curSection->sectionID != Section::AWARD_GP)
@@ -69,13 +65,16 @@ kmBranchDefCpp(0x805BD050, NULL, void) {
     SectionManager::instance->saveGhostManager->markLicensesDirty();
 }
 
+// AwardPage::initCup() patch
+// Use the VS trophy for the GP award scene
+kmWrite8(0x805BCF87, 0x90);
+
 ///////////////////////////////////////////////
 // Custom Cup System / Custom Engine Classes //
 ///////////////////////////////////////////////
 
-// AwardPage::initType() override
 // Set the proper icons and text messages for each mode
-kmBranchDefCpp(0x805BC9DC, NULL, void, AwardPage* self) {
+REPLACE void AwardPage::initType() {
 
     // Initialize values
     u32 msgId = 0;
@@ -103,7 +102,7 @@ kmBranchDefCpp(0x805BC9DC, NULL, void, AwardPage* self) {
 
         // Get the cup icon (or the flag icon if not in GP mode)
         if (curSection == Section::AWARD_GP)
-            iconPane = CupManager::replaceCupIcon(&self->cupDisplay, settings->cupId);
+            iconPane = CupManager::replaceCupIcon(&cupDisplay, settings->cupId);
         else
             iconPane = "icon_11_flag";
 
@@ -142,6 +141,6 @@ kmBranchDefCpp(0x805BC9DC, NULL, void, AwardPage* self) {
     }
 
     // Apply changes
-    self->cupDisplay.setMatIcon("cup_icon", iconPane);
-    self->cupDisplay.setMatText("cup_name", msgId, &msgInfo);
+    cupDisplay.setMatIcon("cup_icon", iconPane);
+    cupDisplay.setMatText("cup_name", msgId, &msgInfo);
 }
