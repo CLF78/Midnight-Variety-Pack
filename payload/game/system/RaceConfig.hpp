@@ -5,13 +5,13 @@
 #include <game/system/Mii.hpp>
 #include <game/system/Rating.hpp>
 
-class RaceConfigEx {
+class RaceConfigBase {
 public:
-    virtual ~RaceConfigEx();
+    virtual ~RaceConfigBase();
 };
-size_assert(RaceConfigEx, 0x4);
+size_assert(RaceConfigBase, 0x4);
 
-class RaceConfig : public RaceConfigEx, public ParameterFile {
+class RaceConfig : public RaceConfigBase, public ParameterFile {
 public:
 
     class Player {

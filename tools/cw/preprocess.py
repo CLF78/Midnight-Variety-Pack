@@ -147,7 +147,7 @@ class _Preprocessor:
                 type = src_code[keyword_end:type_end_idx].strip()
 
                 # Remove any inheritances and exit the loop
-                type = type.split(': ')[0].strip()
+                type = type.split(' :')[0].strip()
                 break
 
         # Return both the type and the updated position
@@ -298,6 +298,12 @@ class _Preprocessor:
         if not found_filler and include_curr_namespaces:
             type_split = self.curr_namespaces + [type]
 
+        # Remove trailing Ex from a type, if present
+        # This is a reserved keyword for class expansions
+        for i, type in enumerate(type_split):
+            if type.endswith('Ex'):
+                type_split[i] = type_split[i][:-2]
+
         # Reassemble the type back
         return f'{pre_decors}{"::".join(type_split)}{post_decors}'
 
@@ -402,7 +408,7 @@ class _Preprocessor:
         func = src_code[curr_pos:func_body_start_idx]
 
         # Split off any constructor initializer if present
-        filled_func = func.split(': ')[0].strip()
+        filled_func = func.split(' :')[0].strip()
 
         # Divide the function into pieces and pass them to the fill function
         func_data = self.split_function_signature(filled_func)
