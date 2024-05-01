@@ -184,7 +184,7 @@ kmPointerDefCpp(0x808D9518, void, RaceCupSelectPage* self) {
     }
 
     // Call base function
-    self->callOnActivate();
+    self->MenuPage::onActivate();
 
     // Adjust X wrapping and arrow display by setting the distance function appropriately
     // 0 wraps on the X and Y axis, 1 wraps on Y axis only

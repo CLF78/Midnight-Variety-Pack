@@ -66,7 +66,7 @@ kmBranchDefCpp(0x80840830, NULL, void, RaceCourseSelectPage* self, CtrlMenuCours
 kmPointerDefCpp(0x808D9480, void, RaceCourseSelectPage* self) {
 
     self->multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
-    self->callOnActivate();
+    self->MenuPage::onActivate();
 
     // Set the instruction text based on the game mode
     u32 msgId = 0;

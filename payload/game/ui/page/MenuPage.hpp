@@ -46,10 +46,6 @@ public:
     void requestSectionChange(u32 sectionId, PushButton* button);
     void forceSectionChange(u32 sectionId, PushButton* button);
 
-    // non-virtual versions of virtual functions
-    void callOnInit();
-    void callOnActivate();
-
     void loadMovies(const char** movies, u32 movieCount);
 
     MiiGroup* miiGroup;

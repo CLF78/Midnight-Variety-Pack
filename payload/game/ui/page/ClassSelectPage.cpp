@@ -38,7 +38,7 @@ kmPointerDefCpp(0x808D93C0, void, ClassSelectPage* self) {
 
     // Default behaviour
     self->hasBackButton = true;
-    self->callOnInit();
+    self->MenuPage::onInit();
     SectionManager::instance->curSection->loadTHPManager();
     self->switchModeOff = true;
     self->multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
@@ -71,7 +71,7 @@ kmPointerDefCpp(0x808D93C0, void, ClassSelectPage* self) {
 kmPointerDefCpp(0x808D93C8, void, ClassSelectPage* self) {
 
     // Call base function
-    self->callOnActivate();
+    self->MenuPage::onActivate();
 
     // Load movie
     const char* movies[] = { "thp/button/class_top.thp" };

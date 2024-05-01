@@ -82,7 +82,7 @@ kmBranchDefCpp(0x808390A4, 0x808390D8, void, BattleCupSelectPage* self) {
     self->selectedButtonId = CupManager::getCupButtonFromTrack(lastStage, self->extension.curPage, true);
 
     // Call overloaded function
-    self->callOnActivate();
+    self->MenuPage::onActivate();
 
     // Adjust X wrapping by setting the correct distance function
     // 0 wraps on the X and Y axis, 1 wraps on Y axis only
