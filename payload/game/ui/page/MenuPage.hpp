@@ -32,7 +32,7 @@ public:
 
     virtual void setSelection(int buttonId);
     virtual void setSelection(PushButton* button);
-    virtual void onStartPressed();
+    virtual void onStartPressed(int playerId);
     virtual void onActionsLoaded();
 
     virtual PushButton* loadButton(int buttonIdx);
@@ -86,11 +86,11 @@ public:
     MultiControlInputManager multiControlInputManager;
     u32 curChildCount;
 
-    InputHandler0<MenuPage, void> onBtnClick;
-    InputHandler0<MenuPage, void> onBtnSelect;
-    InputHandler0<MenuPage, void> onBtnDeselect;
-    InputHandler0<MenuPage, void> onBackPress;
-    InputHandler0<MenuPage, void> onStartPress;
+    InputHandler1<MenuPage, void, PushButton*> onBtnClick;
+    InputHandler1<MenuPage, void, PushButton*> onBtnSelect;
+    InputHandler1<MenuPage, void, PushButton*> onBtnDeselect;
+    InputHandler1<MenuPage, void, int> onBackPress;
+    InputHandler1<MenuPage, void, int> onStartPress;
 
     u32 activePlayers;
     u32 activeControllers;

@@ -1,6 +1,7 @@
 #include <common/Common.hpp>
 #include <game/ui/Section.hpp>
 #include <game/ui/page/BattleCupSelectPage.hpp>
+#include <game/ui/page/BattleStageSelectPage.hpp>
 
 ///////////////////////////
 // Page Expansion System //
@@ -13,6 +14,9 @@ REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
         // Expand battle cup select for custom cup system
         case Page::CUP_SELECT_BT:
             return new BattleCupSelectPageEx();
+
+        case Page::COURSE_SELECT_BT:
+            return new BattleStageSelectPageEx();
 
         // Fallback
         default:

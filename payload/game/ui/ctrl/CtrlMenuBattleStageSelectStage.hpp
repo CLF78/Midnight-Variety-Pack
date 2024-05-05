@@ -13,7 +13,8 @@ public:
 
     void load(u32 playerFlags, bool unk);
 
-    void onCupSelect(PushButton* btn, u32 unk);
+    void onCourseClick(PushButton* btn, u32 unk);
+    void onCourseSelect(PushButton* btn, u32 unk);
 
     CtrlMenuMovieButton courseButtons[4];
     CtrlMenuMovieButton unusedButton;

@@ -16,8 +16,8 @@ BattleCupSelectPageEx::BattleCupSelectPageEx() :
     leftHandler((BattleCupSelectArrow*)&arrows.leftButton, &BattleCupSelectArrow::onLeftArrowPress),
     rightHandler((BattleCupSelectArrow*)&arrows.rightButton, &BattleCupSelectArrow::onRightArrowPress),
     curPage(CupManager::getCupPageFromTrack(SectionManager::instance->globalContext->lastStage, true)) {
-        arrows.leftHandler = (InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32>*)&leftHandler;
-        arrows.rightHandler = (InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32>*)&rightHandler;
+        arrows.leftHandler = (typeof(arrows.leftHandler))&leftHandler;
+        arrows.rightHandler = (typeof(arrows.rightHandler))&rightHandler;
         layoutCount++;
 }
 

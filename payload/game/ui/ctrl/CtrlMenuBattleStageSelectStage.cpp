@@ -15,7 +15,7 @@
 REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
 
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
-    BattleStageSelectPage* coursePage = BattleStageSelectPage::getPage();
+    BattleStageSelectPageEx* coursePage = BattleStageSelectPageEx::getPage();
     u32 selectedCup = cupPage->selectedButtonId;
     u32 lastStage = SectionManager::instance->globalContext->lastStage;
     int selected = -1;
@@ -81,6 +81,10 @@ REPLACE void CtrlMenuBattleStageSelectStage::load(u32 playerFlags, bool unk) {
     courseButtons[0].selectDefault(0);
 }
 
-// CtrlMenuBattleStageSelectStage::onSelect() override
+// Set the selected course
+REPLACE void CtrlMenuBattleStageSelectStage::onCourseClick(PushButton* btn, u32 unk) {
+    BattleStageSelectPageEx::getPage()->setCourse(this, btn, unk);
+}
+
 // Disable button movies
-REPLACE void CtrlMenuBattleStageSelectStage::onCupSelect(PushButton* btn, u32 unk) {}
+REPLACE void CtrlMenuBattleStageSelectStage::onCourseSelect(PushButton* btn, u32 unk) {}

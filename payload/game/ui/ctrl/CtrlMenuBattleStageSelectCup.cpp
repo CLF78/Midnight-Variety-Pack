@@ -16,7 +16,7 @@ REPLACE void CtrlMenuBattleStageSelectCup::initSelf() {
 
     // Get pages and selected cup
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
-    BattleStageSelectPage* coursePage = BattleStageSelectPage::getPage();
+    BattleStageSelectPageEx* coursePage = BattleStageSelectPageEx::getPage();
     u32 selectedCup = cupPage->selectedButtonId;
 
     // Update each cup
@@ -52,7 +52,7 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
 
     // Initialize main loader and get pages
     ControlLoader loader(this);
-    BattleStageSelectPage* coursePage = BattleStageSelectPage::getPage();
+    BattleStageSelectPageEx* coursePage = BattleStageSelectPageEx::getPage();
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
 
     // Load the main controller
