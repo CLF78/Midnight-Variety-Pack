@@ -10,7 +10,7 @@
 
 // Initialize course names
 REPLACE void CtrlMenuBattleCupSelectStage::initSelf() {
-    setCourseNames(BattleCupSelectPage::getPage()->selectedButtonId);
+    setCourseNames(BattleCupSelectPageEx::getPage()->selectedButtonId);
     zIndex = 10.0f;
 }
 
@@ -46,8 +46,8 @@ REPLACE void CtrlMenuBattleCupSelectStage::load() {
 REPLACE void CtrlMenuBattleCupSelectStage::setCourseNames(u32 cupButtonId) {
 
     // Get cup index from page
-    BattleCupSelectPage* page = BattleCupSelectPage::getPage();
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage, true);
+    BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();
+    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->curPage, true);
 
     // Update each track name
     for (int i = 0; i < ARRAY_SIZE(courseNames); i++) {

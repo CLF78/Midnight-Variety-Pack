@@ -15,23 +15,23 @@
 REPLACE void CtrlMenuBattleStageSelectCup::initSelf() {
 
     // Get pages and selected cup
-    BattleCupSelectPage* cupPage = BattleCupSelectPage::getPage();
+    BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
     BattleStageSelectPage* coursePage = BattleStageSelectPage::getPage();
     u32 selectedCup = cupPage->selectedButtonId;
 
     // Update each cup
-    for (int i = 0; i < BattleCupSelectPage::getCupCount(); i++) {
+    for (int i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
 
         // Get cup
         CtrlMenuBattleStageSelectCupSub* cup = coursePage->getCupButton(i);
 
         // Set name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->extension.curPage, true);
+        u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
         u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
         cup->setText(cupName, nullptr);
 
         // Set icon
-        CupManager::updateCupButton(cup, cupPage->extension.curPage, i, true);
+        CupManager::updateCupButton(cup, cupPage->curPage, i, true);
 
         // Play switch animation
         cup->animator.getGroup(0)->setAnimation(0, 0.0f);
@@ -53,7 +53,7 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
     // Initialize main loader and get pages
     ControlLoader loader(this);
     BattleStageSelectPage* coursePage = BattleStageSelectPage::getPage();
-    BattleCupSelectPage* cupPage = BattleCupSelectPage::getPage();
+    BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
 
     // Load the main controller
     u8 playerCount = UIUtils::getPlayerCount();
@@ -61,8 +61,8 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
     // Initialize children
-    initChildren(BattleCupSelectPage::getCupCount());
-    for (int i = 0; i < BattleCupSelectPage::getCupCount(); i++) {
+    initChildren(BattleCupSelectPageEx::getCupCount());
+    for (int i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
 
         // Get button variant
         char buffer[20];
@@ -80,11 +80,11 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
                           CtrlMenuBattleStageSelectCup::cupAnimNames);
 
         // Set cup name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->extension.curPage, true);
+        u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
         u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
         cup->setText(cupName, nullptr);
 
         // Set cup icon
-        CupManager::updateCupButton(cup, cupPage->extension.curPage, i, true);
+        CupManager::updateCupButton(cup, cupPage->curPage, i, true);
     }
 }

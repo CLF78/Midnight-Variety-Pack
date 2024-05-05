@@ -87,6 +87,11 @@ public:
         return GetCupListData(cupList)->cupCount;
     }
 
+    // Gets the track count for the current cup list
+    static u32 GetTrackCount(bool isBattle = false) {
+        return GetCupCount(isBattle) * 4;
+    }
+
     // Gets the current cup list
     static const CupData::Cup* GetCupList(bool isBattle = false) {
         u32 cupList = GetCurrentTracklist(isBattle);

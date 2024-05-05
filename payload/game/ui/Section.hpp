@@ -206,6 +206,10 @@ public:
     void loadTHPManager();
     void shutdownNet();
 
+    void addPages(SectionID section);
+    void addActivePages(SectionID section);
+    static Page* createPage(Page::PageID page);
+
     static u32 getSoundID(u32 sectionId);
 
     u32 sectionID;

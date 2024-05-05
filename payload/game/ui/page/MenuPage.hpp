@@ -36,7 +36,7 @@ public:
     virtual void onActionsLoaded();
 
     virtual PushButton* loadButton(int buttonIdx);
-    virtual LayoutUIControl* loadLayout() = 0;
+    virtual UIControl* loadLayout(u32 layoutIdx) = 0;
     virtual void setupButton(PushButton* button);
 
     virtual MessageInfo* getMsgInfo();

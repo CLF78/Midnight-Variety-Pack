@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <game/ui/page/BattleCupSelectPage.hpp>
+#include <game/ui/page/VotingBackPage.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <midnight/cup/BattleCupSelectArrow.hpp>
@@ -9,103 +10,120 @@
 // Custom Cup System //
 ///////////////////////
 
-// Section::createPage() patch (here for convenience)
-// Update memory size of page
-kmCallDefCpp(0x80623E84, u32) {
-    return sizeof(BattleCupSelectPage);
-}
-
-// BattleCupSelectPage::BattleCupSelectPage() patch
 // Construct the expansion data
-kmBranchDefCpp(0x80629854, NULL, BattleCupSelectPage*, BattleCupSelectPage* self) {
-
-    // Update the children count
-    self->layoutCount++;
-
-    // Construct the extra cup buttons
-    for (int i = 0; i < ARRAY_SIZE(self->extension.cupButtons); i++)
-        PushButton::construct(&self->extension.cupButtons[i]);
-
-    // Construct the arrows
-    SheetSelectControl::construct(&self->extension.arrows);
-
-    // Set the input handlers
-    InputHandler2<BattleCupSelectArrow, void, SheetSelectControl*, u32>::construct(
-                                               (BattleCupSelectArrow*)&self->extension.arrows.leftButton,
-                                               &BattleCupSelectArrow::onLeftArrowPress,
-                                               &self->extension.leftHandler);
-    self->extension.arrows.leftHandler = &self->extension.leftHandler;
-
-    InputHandler2<BattleCupSelectArrow, void, SheetSelectControl*, u32>::construct(
-                                                (BattleCupSelectArrow*)&self->extension.arrows.leftButton,
-                                                &BattleCupSelectArrow::onRightArrowPress,
-                                                &self->extension.rightHandler);
-    self->extension.arrows.rightHandler = &self->extension.rightHandler;
-
-    // Set the correct page
-    s32 lastTrack = SectionManager::instance->globalContext->lastStage;
-    self->extension.curPage = CupManager::getCupPageFromTrack(lastTrack, true);
-    return self;
+BattleCupSelectPageEx::BattleCupSelectPageEx() :
+    cupButtons(), arrows(),
+    leftHandler((BattleCupSelectArrow*)&arrows.leftButton, &BattleCupSelectArrow::onLeftArrowPress),
+    rightHandler((BattleCupSelectArrow*)&arrows.rightButton, &BattleCupSelectArrow::onRightArrowPress),
+    curPage(CupManager::getCupPageFromTrack(SectionManager::instance->globalContext->lastStage, true)) {
+        arrows.leftHandler = (InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32>*)&leftHandler;
+        arrows.rightHandler = (InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32>*)&rightHandler;
+        layoutCount++;
 }
 
-// BattleCupSelectPage::loadLayout() patch
-// Load the arrows
-kmCallDefCpp(0x8083906C, SheetSelectControl*, BattleCupSelectPage* page, int childIdx) {
+// Load the external layouts
+UIControl* BattleCupSelectPageEx::loadLayout(u32 layoutIdx) {
+    switch (layoutIdx) {
 
-    if (childIdx != 2)
-        return nullptr;
+        // CtrlBattleCupSelectCup
+        case 0:
+            insertChild(curChildCount++, &cupHolder, 0);
+            cupHolder.load(1, false);
+            return &cupHolder;
 
-    // Insert entry
-    SheetSelectControl* arrows = &page->extension.arrows;
-    page->insertChild(childIdx, arrows, 0);
+        // CtrlBattleCupSelectStage
+        case 1:
+            insertChild(curChildCount++, &stageHolder, 0);
+            stageHolder.load();
+            return &stageHolder;
 
-    // Determine the variant to use depending on the player count
-    const char* rightVar = "ButtonArrowRight";
-    const char* leftVar = "ButtonArrowLeft";
-    if (UIUtils::getPlayerCount() > 2) {
-        rightVar = "ButtonArrowRight2";
-        leftVar = "ButtonArrowLeft2";
+        // Cup Arrows
+        case 2:
+            insertChild(curChildCount++, &arrows, 0);
+
+            // Determine the variant to use depending on the player count
+            const char* rightVar = UIUtils::getPlayerCount() > 2 ? "ButtonArrowRight2" : "ButtonArrowRight";
+            const char* leftVar = UIUtils::getPlayerCount() > 2 ? "ButtonArrowLeft2" : "ButtonArrowLeft";
+
+            // Load BRCTR
+            arrows.load("button", CUP_ARROW_R_BRCTR, rightVar, CUP_ARROW_L_BRCTR, leftVar, 1, false, false);
+            return &arrows;
+
+        // Invalid child
+        default:
+            return nullptr;
     }
-
-    // Load BRCTR
-    arrows->load("button", CUP_ARROW_R_BRCTR, rightVar, CUP_ARROW_L_BRCTR, leftVar, 1, false, false);
-    return arrows;
 }
 
-// BattleCupSelectPage::onActivate() patch
-// Set the starting cup button, skip the boundary check, adjust selection wrapping and disable the
-// arrows if not required
-kmBranchDefCpp(0x808390A4, 0x808390D8, void, BattleCupSelectPage* self) {
+// Set the starting cup button, skip the boundary check, adjust selection wrapping, disable the
+// arrows if not required, update instruction text and display vote prompt if online
+void BattleCupSelectPageEx::onActivate() {
 
     // Set the starting button
     u32 lastStage = SectionManager::instance->globalContext->lastStage;
-    self->selectedButtonId = CupManager::getCupButtonFromTrack(lastStage, self->extension.curPage, true);
+    selectedButtonId = CupManager::getCupButtonFromTrack(lastStage, curPage, true);
 
-    // Call overloaded function
-    self->MenuPage::onActivate();
+    // Do backend initialization
+    MenuPage::onActivate();
 
     // Adjust X wrapping by setting the correct distance function
     // 0 wraps on the X and Y axis, 1 wraps on Y axis only
     bool arrowsEnabled = CupManager::GetCupArrowsEnabled(true);
-    int wrapType = (CupManager::GetCupCount(true) == 2 || arrowsEnabled);
-    self->multiControlInputManager.setDistanceFunc(wrapType);
+    int wrapType = (CupManager::GetCupCount(true) == 2 || arrowsEnabled)
+        ? MultiControlInputManager::Y_WRAP
+        : MultiControlInputManager::XY_WRAP;
+    multiControlInputManager.setDistanceFunc(wrapType);
 
     // Disable the arrows if not required
-    self->extension.arrows.configure(arrowsEnabled, arrowsEnabled);
+    arrows.configure(arrowsEnabled, arrowsEnabled);
+
+    // Initialize cup holder
+    cupHolder.init();
+
+    // If we're offline, set the instruction text according to the battle type
+    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID)) {
+        u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
+        u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ? 3364 : 3365;
+        instructionText->setText(msgId, nullptr);
+        return;
+    }
+
+    // If we're online, obtain the relevant message from VotingBackPage
+    u32 msgId = VotingBackPage::getPage()->getInstructionText();
+    instructionText->setText(msgId, nullptr);
+
+    // If we're entering the screen, add the Vote/Random prompt
+    if (animId != Page::ANIM_NEXT)
+        return;
+
+    // Get the popup page
+    YesNoPopupPage* popupPage = YesNoPopupPage::getPage();
+
+    // Reset it and update the messages
+    popupPage->reset();
+    popupPage->setWindowMessage(4356, nullptr);
+    popupPage->configureButton(0, 4351, nullptr, Page::ANIM_NONE, nullptr);
+    popupPage->configureButton(1, 4352, nullptr, Page::ANIM_NONE, nullptr);
+
+    // Default to the Vote button
+    popupPage->currSelected = 0;
+
+    // Display the page and store a reference to it
+    popupPage = (YesNoPopupPage*)addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);
+    voteOrRandomPage = popupPage;
 }
 
-// BattleCupSelectPage::setCourse() override
 // Set the selected stage when a cup is clicked
-kmBranchDefCpp(0x8083955C, NULL, void, BattleCupSelectPage* self, CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button) {
+void BattleCupSelectPageEx::setCourse(CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button, int unk) {
 
     // Check for defocusing state
-    if (self->pageState == Page::STATE_DEFOCUSING) {
+    if (pageState == Page::STATE_DEFOCUSING) {
 
         // Update selected button
-        self->selectedButtonId = cupHolder->currentSelected;
+        selectedButtonId = cupHolder->currentSelected;
 
         // Get the cup and its first track
-        u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, self->extension.curPage, true);
+        u32 cupIdx = CupManager::getCupIdxFromButton(selectedButtonId, curPage, true);
         u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[0];
 
         // Get the previous cup, and update the last selected stage if it differs
@@ -119,25 +137,13 @@ kmBranchDefCpp(0x8083955C, NULL, void, BattleCupSelectPage* self, CtrlMenuBattle
             // Get the actual track and store it
             u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
             CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
-        
+
         // Else wait for the course voting page to be loaded (is this even needed?)
         } else {
             while (SectionManager::instance->curSection->pages[Page::WIFI_VOTING] == nullptr) {}
         }
 
         // Go to the course select page
-        self->startReplace(Page::COURSE_SELECT_BT, button);
+        startReplace(Page::COURSE_SELECT_BT, button);
     }
-}
-
-// BattleCupSelectPage::~BattleCupSelectPage() patch
-// Destroy the expansion data
-kmCallDefCpp(0x80839FEC, void, BattleCupSelectPage* self) {
-
-    // Delete the cup buttons
-    for (int i = 0; i < ARRAY_SIZE(self->extension.cupButtons); i++)
-        self->extension.cupButtons[i].~PushButton();
-
-    // Delete the arrows
-    self->extension.arrows.~SheetSelectControl();
 }

@@ -7,24 +7,24 @@
 void BattleCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {
 
     // Get the parent page
-    BattleCupSelectPage* self = BattleCupSelectPage::getPage();
+    BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();
 
     // Update the page number
-    self->extension.curPage--;
-    if (self->extension.curPage < 0)
-        self->extension.curPage = CupManager::getMaxCupPage(true);
+    page->curPage--;
+    if (page->curPage < 0)
+        page->curPage = CupManager::getMaxCupPage(true);
 
     // Update each cup button
     for (int i = 0; i < 8; i++) {
-        PushButton* cupButton = self->getCupButton(i);
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, self->extension.curPage, true);
+        PushButton* cupButton = page->getCupButton(i);
+        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
         cupButton->setText(CupManager::GetCupList(true)[cupIdx].cupName, nullptr);
-        CupManager::updateCupButton(cupButton, self->extension.curPage, i, true);
+        CupManager::updateCupButton(cupButton, page->curPage, i, true);
     }
 
     // Remove the text in the course selection
     for (int i = 0; i < 4; i++) {
-        self->stageHolder.courseNames[i].resetText();
+        page->stageHolder.courseNames[i].resetText();
     }
 }
 
@@ -32,23 +32,23 @@ void BattleCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 l
 void BattleCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {
 
     // Get the parent page
-    BattleCupSelectPage* self = BattleCupSelectPage::getPage();
+    BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();
 
     // Update the page number
-    self->extension.curPage++;
-    if (self->extension.curPage > CupManager::getMaxCupPage(true))
-        self->extension.curPage = 0;
+    page->curPage++;
+    if (page->curPage > CupManager::getMaxCupPage(true))
+        page->curPage = 0;
 
     // Update each cup button
     for (int i = 0; i < 8; i++) {
-        PushButton* cupButton = self->getCupButton(i);
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, self->extension.curPage, true);
+        PushButton* cupButton = page->getCupButton(i);
+        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
         cupButton->setText(CupManager::GetCupList(true)[cupIdx].cupName, nullptr);
-        CupManager::updateCupButton(cupButton, self->extension.curPage, i, true);
+        CupManager::updateCupButton(cupButton, page->curPage, i, true);
     }
 
     // Remove the text in the course selection
     for (int i = 0; i < 4; i++) {
-        self->stageHolder.courseNames[i].resetText();
+        page->stageHolder.courseNames[i].resetText();
     }
 }

@@ -10,7 +10,7 @@ public:
     R (T::*handle)();
 
     static InputHandler0* construct(T* pOwner, R (T::*pInputFunc)(), void* buffer) {
-        return new(buffer) InputHandlerEx(pOwner, pInputFunc);
+        return new(buffer) InputHandler0(pOwner, pInputFunc);
     }
 };
 

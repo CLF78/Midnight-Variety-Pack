@@ -13,7 +13,7 @@
 REPLACE void CtrlMenuBattleCupSelectCup::initSelf() {
 
     // Get page
-    BattleCupSelectPage* page = BattleCupSelectPage::getPage();
+    BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();
 
     // Replace loop with a straight function
     // This does not have any safeguards and assumes the selectedButtonId value is valid
@@ -28,7 +28,7 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
 
     // Initialize loader and get page
     ControlLoader loader(this);
-    BattleCupSelectPage* page = BattleCupSelectPage::getPage();
+    BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();
 
     // Set starting button to the first one
     currentSelected = 0;
@@ -39,8 +39,8 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
     // Initialize children
-    initChildren(BattleCupSelectPage::getCupCount());
-    for (int i = 0; i < BattleCupSelectPage::getCupCount(); i++) {
+    initChildren(BattleCupSelectPageEx::getCupCount());
+    for (int i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
 
         // Get button control variant
         char buffer[20];
@@ -53,12 +53,12 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
         button->buttonId = i;
 
         // Set cup name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->extension.curPage, true);
+        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
         u16 msgId = CupManager::GetCupList(true)[cupIdx].cupName;
         button->setText(msgId, nullptr);
 
         // Set cup icon
-        CupManager::updateCupButton(button, page->extension.curPage, i, true);
+        CupManager::updateCupButton(button, page->curPage, i, true);
 
         // Set button handlers
         button->setOnClickHandler(&onClickHandler, 0);
@@ -69,8 +69,14 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
     page->setSelection(page->getCupButton(0));
 }
 
+// Select the cup
+REPLACE void CtrlMenuBattleCupSelectCup::onCupClick(PushButton* btn, u32 unk) {
+    currentSelected = btn->buttonId;
+    BattleCupSelectPageEx::getPage()->setCourse(this, btn, unk);
+}
+
 // Remove movie updating code
 REPLACE void CtrlMenuBattleCupSelectCup::onCupSelect(PushButton* btn, u32 unk) {
     currentSelected = btn->buttonId;
-    BattleCupSelectPage::getPage()->setCourseNames(this, btn, unk);
+    BattleCupSelectPageEx::getPage()->setCourseNames(this, btn, unk);
 }

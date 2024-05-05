@@ -14,7 +14,7 @@
 // Update arena names
 REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
 
-    BattleCupSelectPage* cupPage = BattleCupSelectPage::getPage();
+    BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
     BattleStageSelectPage* coursePage = BattleStageSelectPage::getPage();
     u32 selectedCup = cupPage->selectedButtonId;
     u32 lastStage = SectionManager::instance->globalContext->lastStage;
@@ -26,7 +26,7 @@ REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
         PushButton* trackButton = &courseButtons[i];
 
         // Set name
-        u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->extension.curPage, true);
+        u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->curPage, true);
         u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[i];
         trackButton->setText(CupManager::getTrackName(trackIdx), nullptr);
 

@@ -50,8 +50,8 @@ kmBranchDefCpp(0x8083CFE8, NULL, void, BattleStageSelectPage* self, CtrlMenuBatt
         return;
 
     // Get selected arena and set it as last stage
-    BattleCupSelectPage* cupPage = BattleCupSelectPage::getPage();
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->extension.curPage, true);
+    BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
+    u32 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->curPage, true);
     u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[button->buttonId];
     SectionManager::instance->globalContext->lastStage = trackIdx;
 

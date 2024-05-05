@@ -44,6 +44,8 @@ public:
 
     virtual TypeInfo* getTypeInfo() const;
 
+    u32 getInstructionText();
+
     static VotingBackPage* getPage() {
         return (VotingBackPage*)SectionManager::instance->curSection->pages[Page::TIMER];
     }
