@@ -12,9 +12,8 @@
 // Custom Cup System //
 ///////////////////////
 
-// DemoPage::onInit() override
 // Apply custom cup icons and cup/track names
-kmPointerDefCpp(0x808DA590, void, DemoPage* self) {
+REPLACE void DemoPage::onInit() {
 
     // Get current section
     u32 curSection = SectionManager::instance->curSection->sectionID;
@@ -22,28 +21,28 @@ kmPointerDefCpp(0x808DA590, void, DemoPage* self) {
     GlobalContext* globalCtx = SectionManager::instance->globalContext;
 
     // Initialize input manager and set it
-    self->inputManager.init(0, false);
-    self->setInputManager(&self->inputManager);
+    inputManager.init(0, false);
+    setInputManager(&inputManager);
 
     // Initialize child count (add the bubbles if we're in battle mode)
     u32 childCount = 2;
     u32 childIdx = 0;
     if (curSection == Section::DEMO_BT)
         childCount += globalCtx->raceCount * 2;
-    self->initChildren(childCount);
+    initChildren(childCount);
 
     // Initialize course name display
-    self->insertChild(childIdx++, &self->courseName, 0);
-    ControlLoader courseDisplayLoader(&self->courseName);
+    insertChild(childIdx++, &courseName, 0);
+    ControlLoader courseDisplayLoader(&courseName);
     courseDisplayLoader.load("demo", "course_name", "course_name", nullptr);
 
     // Set the course name
     u16 trackName = CupManager::getTrackName(CupManager::currentSzs);
-    self->courseName.setText(trackName, nullptr);
+    courseName.setText(trackName, nullptr);
 
     // Initialize the top text
-    self->insertChild(childIdx++, &self->topText, 0);
-    ControlLoader topTextLoader(&self->topText);
+    insertChild(childIdx++, &topText, 0);
+    ControlLoader topTextLoader(&topText);
     topTextLoader.load("demo", "cup_name", "cup_name", nullptr);
 
     // Set everything else depending on the mode
@@ -53,19 +52,19 @@ kmPointerDefCpp(0x808DA590, void, DemoPage* self) {
 
         // Replace the cup icon
         u32 cupIdx = raceSettings->cupId;
-        const char* cupIcon = CupManager::replaceCupIcon(&self->topText, cupIdx);
-        self->topText.setMatIcon("cup_icon", cupIcon);
+        const char* cupIcon = CupManager::replaceCupIcon(&topText, cupIdx);
+        topText.setMatIcon("cup_icon", cupIcon);
 
         // Set the cup name in the message info
         msgInfo.messageIds[0] = CupManager::GetCupList()[cupIdx].cupName;
 
         // Set the text depending on the race number
-        self->topText.setText(1410 + raceSettings->raceNumber, &msgInfo);
+        topText.setText(1410 + raceSettings->raceNumber, &msgInfo);
     
     } else if (curSection == Section::DEMO_VS) {
 
         // Set the VS flag as the icon
-        self->topText.setMatIcon("cup_icon", "icon_11_flag");
+        topText.setMatIcon("cup_icon", "icon_11_flag");
 
         // Set the CC argument
         switch (raceSettings->engineClass) {
@@ -97,7 +96,7 @@ kmPointerDefCpp(0x808DA590, void, DemoPage* self) {
 
         // Set the message number
         u32 msgId = (raceSettings->modeFlags & RaceConfig::Settings::FLAG_TEAMS) ? 1409 : 1414;
-        self->topText.setText(msgId, &msgInfo);
+        topText.setText(msgId, &msgInfo);
     
     } else if (curSection == Section::DEMO_BT) {
 
@@ -106,29 +105,29 @@ kmPointerDefCpp(0x808DA590, void, DemoPage* self) {
 
         // Set icon and top text depending on the battle mode
         if (raceSettings->battleType == RaceConfig::Settings::BATTLE_BALLOON) {
-            self->topText.setMatIcon("cup_icon", "icon_09_balloon");
-            self->topText.setText(1415, nullptr);
+            topText.setMatIcon("cup_icon", "icon_09_balloon");
+            topText.setText(1415, nullptr);
         } else {
-            self->topText.setMatIcon("cup_icon", "icon_10_coin");
-            self->topText.setText(1416, nullptr);
+            topText.setMatIcon("cup_icon", "icon_10_coin");
+            topText.setText(1416, nullptr);
         }
 
         // Create red bubbles
         for (int i = 0; i < globalCtx->raceCount; i++) {
             CtrlRaceBattleSetPoint* redBubble = new CtrlRaceBattleSetPoint();
-            self->insertChild(childIdx++, redBubble, 0);
+            insertChild(childIdx++, redBubble, 0);
             redBubble->load(false, i);
         }
 
         // Create blue bubbles
         for (int i = 0; i < globalCtx->raceCount; i++) {
             CtrlRaceBattleSetPoint* blueBubble = new CtrlRaceBattleSetPoint();
-            self->insertChild(childIdx++, blueBubble, 0);
+            insertChild(childIdx++, blueBubble, 0);
             blueBubble->load(true, i);
         }
     
     // On other modes, hide the top text altogether
     } else {
-        self->topText.hidden = true;
+        topText.hidden = true;
     }
 }
