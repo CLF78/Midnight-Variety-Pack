@@ -8,40 +8,22 @@
 // Custom Engine Classes //
 ///////////////////////////
 
-static const char* btnVariants[] = {
-    "Button50cc",
-    "Button100cc",
-    "Button150cc",
-};
-
-static const char* btnMats[] = {
-    "kinoko_1",
-    "kinoko_2",
-    "kinoko_3",
-};
-
-// ClassSelectPage::ClassSelectPage() patch
-// Fix the back button when exiting TT mode after changing course/character
-kmBranchDefCpp(0x80626C0C, NULL, ClassSelectPage*, ClassSelectPage* self) {
-    self->prevPageId = Page::SINGLE_PLAYER_MENU;
-    self->buttonCount = 3;
-    return self;
-}
-
-// ClassSelectPage::onStartPress() override
 // Disable the "change vehicles" behaviour
-kmWrite32(0x8083FBC8, 0x4E800020);
+REPLACE void ClassSelectPage::onStartPressed(int playerId) {}
 
-// ClassSelectPage::onInit() override
 // Remove the mirror button and select the correct button when exiting TT mode
-kmPointerDefCpp(0x808D93C0, void, ClassSelectPage* self) {
+REPLACE void ClassSelectPage::onInit() {
+
+    // Fix the back button when exiting TT mode after changing course/character and reduce the button count
+    prevPageId = Page::SINGLE_PLAYER_MENU;
+    buttonCount = 3;
 
     // Default behaviour
-    self->hasBackButton = true;
-    self->MenuPage::onInit();
+    hasBackButton = true;
+    MenuPage::onInit();
     SectionManager::instance->curSection->loadTHPManager();
-    self->switchModeOff = true;
-    self->multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
+    switchModeOff = true;
+    multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
 
     // If we are not returning from TT mode, we don't need to set the button
     u32 section = SectionManager::instance->curSection->sectionID;
@@ -49,8 +31,8 @@ kmPointerDefCpp(0x808D93C0, void, ClassSelectPage* self) {
         return;
 
     // Get each button id
-    for (int i = 0; i < self->buttonCount; i++) {
-        PushButton* btn = self->buttons[i];
+    for (int i = 0; i < buttonCount; i++) {
+        PushButton* btn = buttons[i];
         int buttonId = btn->buttonId;
 
         // Skip all irrelevant buttons
@@ -66,32 +48,42 @@ kmPointerDefCpp(0x808D93C0, void, ClassSelectPage* self) {
     }
 }
 
-// ClassSelectPage::onActivate() override
 // Hide the switch vehicles option by default
-kmPointerDefCpp(0x808D93C8, void, ClassSelectPage* self) {
+REPLACE void ClassSelectPage::onActivate() {
 
     // Call base function
-    self->MenuPage::onActivate();
+    MenuPage::onActivate();
 
     // Load movie
     const char* movies[] = { "thp/button/class_top.thp" };
-    self->loadMovies(movies, ARRAY_SIZE(movies));
+    loadMovies(movies, ARRAY_SIZE(movies));
 
     // Toggle mirror flag
     RaceConfig::instance->menuScenario.settings.modeFlags &= ~RaceConfig::Settings::FLAG_MIRROR;
-    self->switchButton.hidden = true;
+    switchButton.hidden = true;
 }
 
-// ClassSelectPage::loadButton() override
 // Skip creating the mirror mode button, force kart+bike movies and update the text messages
-kmPointerDefCpp(0x808D941C, PushButton*, ClassSelectPage* self, int buttonIdx) {
+REPLACE PushButton* ClassSelectPage::loadButton(int buttonIdx) {
+
+    static const char* btnVariants[] = {
+        "Button50cc",
+        "Button100cc",
+        "Button150cc",
+    };
+
+    static const char* btnMats[] = {
+        "kinoko_1",
+        "kinoko_2",
+        "kinoko_3",
+    };
 
     // Create the button and insert it
     CtrlMenuMovieButton* movieBtn = new CtrlMenuMovieButton();
-    self->insertChild(self->curChildCount++, movieBtn, 0);
+    insertChild(curChildCount++, movieBtn, 0);
 
     // Load the layout
-    movieBtn->load("button", "ClassSelect", btnVariants[buttonIdx], self->activePlayers, false, false);
+    movieBtn->load("button", "ClassSelect", btnVariants[buttonIdx], activePlayers, false, false);
 
     // Set movie, icon and text message
     u32 cropTop = (buttonIdx > 1) ? buttonIdx : buttonIdx + 4;

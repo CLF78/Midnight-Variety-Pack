@@ -3,6 +3,26 @@
 
 class ClassSelectPage : public MenuPage {
 public:
+    virtual ~ClassSelectPage();
+
+    virtual void onInit();
+    virtual void onActivate();
+    virtual void onDeactivate();
+    virtual void afterCalc();
+
+    virtual TypeInfo* getTypeInfo() const;
+
+    virtual void onSelectChange(PushButton* button, int playerId);
+    virtual int getActivePlayers();
+    virtual int getActiveControllers();
+    virtual MenuInputManager* getInputManager();
+
+    virtual void onStartPressed(int playerId);
+
+    virtual PushButton* loadButton(int buttonIdx);
+    virtual UIControl* loadLayout(u32 layoutIdx);
+    virtual void setupButton(PushButton* button);
+
     bool switchModeOff;
     LayoutUIControl switchButton;
 
