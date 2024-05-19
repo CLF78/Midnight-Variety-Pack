@@ -298,12 +298,6 @@ class _Preprocessor:
         if not found_filler and include_curr_namespaces:
             type_split = self.curr_namespaces + [type]
 
-        # Remove trailing Ex from a type, if present
-        # This is a reserved keyword for class expansions
-        for i, type in enumerate(type_split):
-            if type.endswith('Ex'):
-                type_split[i] = type_split[i][:-2]
-
         # Reassemble the type back
         return f'{pre_decors}{"::".join(type_split)}{post_decors}'
 
