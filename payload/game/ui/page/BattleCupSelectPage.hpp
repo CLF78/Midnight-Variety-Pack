@@ -46,6 +46,13 @@ size_assert(BattleCupSelectPage, 0x175C);
 // Class expansion for the custom cup system
 class BattleCupSelectPageEx : public BattleCupSelectPage {
 public:
+
+    enum LayoutIdx {
+        LYT_CUP_SELECT_CUP,
+        LYT_CUP_SELECT_COURSE,
+        LYT_CUP_ARROWS,
+    };
+
     BattleCupSelectPageEx();
     virtual ~BattleCupSelectPageEx() {}
 

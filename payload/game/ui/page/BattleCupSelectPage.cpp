@@ -25,20 +25,17 @@ BattleCupSelectPageEx::BattleCupSelectPageEx() :
 UIControl* BattleCupSelectPageEx::loadLayout(u32 layoutIdx) {
     switch (layoutIdx) {
 
-        // CtrlBattleCupSelectCup
-        case 0:
+        case LYT_CUP_SELECT_CUP:
             insertChild(curChildCount++, &cupHolder, 0);
             cupHolder.load(1, false);
             return &cupHolder;
 
-        // CtrlBattleCupSelectStage
-        case 1:
+        case LYT_CUP_SELECT_COURSE:
             insertChild(curChildCount++, &stageHolder, 0);
             stageHolder.load();
             return &stageHolder;
 
-        // Cup Arrows
-        case 2:
+        case LYT_CUP_ARROWS:
             insertChild(curChildCount++, &arrows, 0);
 
             // Determine the variant to use depending on the player count
