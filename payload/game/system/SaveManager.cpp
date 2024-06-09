@@ -102,7 +102,7 @@ REPLACE_STATIC void SaveManager::saveLicensesTask() {
     mgr->busy = false;
 }
 
-// Save the expansion along the original save
+// Save the expansion along with the original save
 REPLACE void SaveManager::saveLicensesAsync() {
 
     // Write licenses and expansion
@@ -112,4 +112,10 @@ REPLACE void SaveManager::saveLicensesAsync() {
     // Mark as busy and start save task
     busy = true;
     taskThread->request(&saveLicensesTask, 0, 0);
+}
+
+// Erase the expansion along with the original save
+REPLACE void SaveManager::eraseLicense(u32 licenseId) {
+    REPLACED(licenseId);
+    expansion.mLicenses[licenseId].Init();
 }
