@@ -13,7 +13,7 @@
                 "__CODE_REGION__=0"
             ],
             "forcedInclude": [
-                "${workspaceFolder}/src/common/Intellisense.h"
+                "${workspaceFolder}/src/common/common/Intellisense.h"
             ],
             "cStandard": "c99",
             "cppStandard": "c++11"

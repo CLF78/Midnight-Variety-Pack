@@ -14,8 +14,8 @@
 # Build artifacts
 build/
 out/
-payload/midnight/cup/CupData.cpp
-payload/midnight/cup/CupCounts.h
+src/payload/midnight/cup/CupData.cpp
+src/payload/midnight/cup/CupCounts.h
 *.ninja
 
 # Compiled Python scripts
