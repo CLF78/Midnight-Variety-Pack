@@ -46,13 +46,13 @@ NEST_KEYWORD_TERMINATORS = {
 }
 
 class _Preprocessor:
-    def __init__(self, src: Path, symbol_file: Path, include_dir: Path, dest: Path):
+    def __init__(self, src: Path, symbol_file: Path, include_dirs: list[Path], dest: Path):
 
         # Import arguments
         self.src = src
         self.symbol_file = symbol_file
         self.dest = dest
-        self.include_dir = include_dir
+        self.include_dirs = include_dirs
 
         # Set up the rest
         self.buffer = StringIO()
@@ -73,6 +73,10 @@ class _Preprocessor:
 
     def check_sequence(self, src_code: str, curr_pos: int, sequence: str) -> bool:
         return src_code[curr_pos:curr_pos+len(sequence)] == sequence
+
+
+    def get_line_number(self, src_code: str, curr_pos: int) -> int:
+        return src_code.count('\n', 0, curr_pos) + 1
 
 
     def parse_string_literal(self, src_code: str, char: str, curr_pos: int, copy: bool = False) -> int:
@@ -156,10 +160,6 @@ class _Preprocessor:
 
     def process_header(self, src: Path) -> None:
 
-        # Check if the header file exists
-        if not src.is_file():
-            raise SystemExit(f'ERROR: Header file {src} not found!')
-
         # Read the file
         src_code = src.read_text(encoding='utf-8')
 
@@ -214,10 +214,11 @@ class _Preprocessor:
         include_end = src_code.index('>', include_start)
 
         # Only process C++ headers (and don't parse them multiple times)
-        include_path = Path(self.include_dir, src_code[include_start:include_end])
-        if include_path.suffix == '.hpp' and include_path not in self.visited_headers:
-            self.visited_headers.add(include_path)
-            self.process_header(include_path)
+        for dir in self.include_dirs:
+            include_path = Path(dir, src_code[include_start:include_end])
+            if include_path.suffix == '.hpp' and include_path not in self.visited_headers and include_path.is_file():
+                self.visited_headers.add(include_path)
+                self.process_header(include_path)
 
         # Copy the line if requested
         if write:
@@ -347,7 +348,7 @@ class _Preprocessor:
         raise SystemExit('Function body end not found!')
 
 
-    def create_thunk(self, mangled_name: str, func_data: tuple[str, str, str, str], symbol_addr: str, is_static_func: bool) -> str:
+    def create_thunk(self, mangled_name: str, func_data: tuple[str, str, str, str], symbol_addr: str, is_static_func: bool, line_no: int) -> str:
 
         # Extract the function data and convert the symbol to an integer value
         func_ret, func_name, func_args, func_end = func_data
@@ -385,7 +386,10 @@ class _Preprocessor:
 
         # Add the fake branch and the patch exit hooks
         self.buffer.write(f'kmBranch({hex(symbol_addr+4)}, {thunk_name});\n')
-        self.buffer.write(f'kmPatchExitPoint({thunk_name}, {hex(symbol_addr + 4)});\n\n')
+        self.buffer.write(f'kmPatchExitPoint({thunk_name}, {hex(symbol_addr + 4)});\n')
+
+        # Adjust the line number so it matches the original code
+        self.buffer.write(f'#line {line_no - 1}\n\n')
         return thunk_name
 
 
@@ -434,8 +438,9 @@ class _Preprocessor:
             filled_func_data = self.split_function_signature(filled_func)
             thunk_func_data = (func_data[0], func_data[1], filled_func_data[2] if func_data[2] else '', func_data[3])
 
-            # Create the thunk
-            thunk_name = self.create_thunk(mangled_func, thunk_func_data, symbol_addr, is_static)
+            # Create the thunk and adjust the line number to make error debugging easier
+            line_no = self.get_line_number(src_code, curr_pos)
+            thunk_name = self.create_thunk(mangled_func, thunk_func_data, symbol_addr, is_static, line_no)
 
             # Insert replacement calls
             # Check if the function has a class, and if so prepend the this argument
@@ -455,6 +460,10 @@ class _Preprocessor:
 
         # Write the branch hook
         self.buffer.write(f'\nkmBranch({symbol_addr}, {mangled_func});')
+
+        # Adjust the line number
+        line_no = self.get_line_number(src_code, func_body_end_idx)
+        self.buffer.write(f'\n#line {line_no + 1}')
 
         # Return updated position
         return func_body_end_idx + 1
@@ -607,7 +616,7 @@ class _Preprocessor:
         src_code = self.buffer.getvalue()
 
         # Prepend the extern declarations if necessary
-        src_code = ''.join(self.externdefs) + src_code
+        src_code = ''.join(self.externdefs) + '#line 1\n' + src_code
 
         # Write the result to the file
         self.dest.write_text(src_code, encoding='utf-8')
@@ -620,7 +629,7 @@ if __name__ == '__main__':
     parser.add_argument('source', type=Path, help='The file to be preprocessed')
     parser.add_argument('-m', '--map', type=Path, required=True, help='The path to the symbol map')
     parser.add_argument('-o', '--out', type=Path, required=True, help='The path to the output file')
-    parser.add_argument('-i', '--include', type=Path, required=True, help='The folder that contains the includes')
+    parser.add_argument('-i', '--include', action='append', type=Path, required=True, help='The folder(s) that contain the includes')
     args = parser.parse_args()
 
     # Start processing

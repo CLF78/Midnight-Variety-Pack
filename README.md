@@ -43,7 +43,7 @@ The following dependencies are additionally required on Linux:
 - Go to the CodeWarrior installation directory and copy the contents of the `PowerPC_EABI_Tools/Command_Line_Tools` folder to the `cw` folder inside the `tools` folder;
     - Copy `license.dat` from the main CodeWarrior directory to the `cw` folder as well;
 - Download Kamek and copy it to the `kamek` folder (inside `tools`);
-- Download wuj5 and copy it to the `wuj5` folder;
+- Download wuj5 and copy it to the `wuj5` folder (unless already present);
 
 #### Installation - Mac
 I'm not covering this. Figure it out yourself.
@@ -59,7 +59,7 @@ I'm not covering this. Figure it out yourself.
     - All the files will be placed to the correct folder automatically.
 - Install Wiimm's SZS Tools;
 - Download Kamek and copy it to the `kamek` folder inside `tools`;
-- Download wuj5 and copy it to the `wuj5` folder;
+- Download wuj5 and copy it to the `wuj5` folder (unless already present);
 
 ## Building
 - Run `configure.py` to create the Ninja build script;
@@ -85,7 +85,7 @@ A few usage notes:
 - Ninja will re-run the cup data exporter if either the track roster file or the assets linked to it are updated. In the latter case, Ninja will only detect the change if the updated asset's modification date is newer.
 
 ### Mod Features
-The various features in the mod (including the aforementioned custom cups) can be toggled and further configured by editing `payload/midnight/config.h`. While most features are free standing, some are dependent on others; checks are included to prevent most breakages.
+The various features in the mod (including the aforementioned custom cups) can be toggled and further configured by editing `src/common/midnight/config.h`. While most features are free standing, some are dependent on others; checks are included to prevent most breakages.
 
 ### Assets
 Most of the assets in the mod (excluding tracks and music due to file size reasons) are available in (mostly) decoded form in the `assets` folder. They can be changed, added or removed, provided the `configure.py` script is updated to match.

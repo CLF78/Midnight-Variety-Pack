@@ -3,16 +3,17 @@
         {
             "name": "MarioKartMidnight",
             "includePath": [
-                "${workspaceFolder}/payload/**",
-                "${workspaceFolder}/loader"
+                "${workspaceFolder}/src/payload/**",
+                "${workspaceFolder}/src/loader/**",
+                "${workspaceFolder}/src/common/**"
             ],
             "defines": [
                 "__CWCC__",
-                "CODE_REGION=0",
-                "DEBUG=1"
+                "__LOG_LEVEL__=0",
+                "__CODE_REGION__=0"
             ],
             "forcedInclude": [
-                "${workspaceFolder}/payload/common/Intellisense.h"
+                "${workspaceFolder}/src/common/Intellisense.h"
             ],
             "cStandard": "c99",
             "cppStandard": "c++11"

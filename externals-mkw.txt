@@ -4,6 +4,7 @@ __flush_cache=0x8000636C
 ShutdownSystem__13SystemManagerFv=0x8000B154
 ReturnToMenu__13SystemManagerFv=0x8000B188
 Restart__13SystemManagerFv=0x8000B1BC
+vsnprintf=0x8001182C
 snprintf=0x80011938
 sprintf=0x80011A2C
 strcpy=0x80013120
