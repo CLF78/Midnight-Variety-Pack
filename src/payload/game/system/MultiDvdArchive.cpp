@@ -1,5 +1,4 @@
 #include <common/Common.hpp>
-#include <midnight/Region.hpp>
 #include <revolution/sc.h>
 #include <platform/stdio.h>
 #include <game/system/MultiDvdArchive.hpp>

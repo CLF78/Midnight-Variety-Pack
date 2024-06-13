@@ -1,6 +1,5 @@
 #include <common/Common.hpp>
 #include <nw4r/db/exception.hpp>
-#include <midnight/Region.hpp>
 #include <revolution/base/PPCArch.h>
 #include <revolution/os/OSContext.h>
 #include <revolution/os/OSError.h>

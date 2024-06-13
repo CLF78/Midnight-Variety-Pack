@@ -1,7 +1,6 @@
 #include <common/Common.hpp>
 #include <revolution/base/PPCReg.h>
 #include <revolution/os/OSLoMem.h>
-#include <midnight/Region.hpp>
 #include <platform/string.h>
 #include <Loader.hpp>
 
