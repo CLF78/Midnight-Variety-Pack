@@ -28,7 +28,7 @@ def get_missing_symbols(src: Path, sym_map: Path) -> None:
             syms[sym] = int(addr, 16)
 
     # Read symbol file
-    data = src.read_text(encoding='utf-8').splitlines()
+    data = src.read_text(encoding='utf-8').replace('"', '').splitlines()
 
     # Ask the user for each missing symbol
     for line in data:
