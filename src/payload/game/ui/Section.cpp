@@ -2,6 +2,7 @@
 #include <game/ui/Section.hpp>
 #include <game/ui/page/BattleCupSelectPage.hpp>
 #include <game/ui/page/BattleStageSelectPage.hpp>
+#include <game/ui/page/WifiMenuPage.hpp>
 
 ///////////////////////////
 // Page Expansion System //
@@ -17,6 +18,10 @@ REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
 
         case Page::COURSE_SELECT_BT:
             return new BattleStageSelectPageEx();
+
+        // Expand main online menu for Wiimmfi console assignment message
+        case Page::WIFI_MENU:
+            return new WifiMenuPageEx();
 
         // Fallback
         default:
