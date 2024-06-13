@@ -12,10 +12,15 @@
 REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
     switch (pageId) {
 
+        // Expand cup select for custom cup system
+        case Page::CUP_SELECT:
+            return new RaceCupSelectPageEx();
+
         // Expand battle cup select for custom cup system
         case Page::CUP_SELECT_BT:
             return new BattleCupSelectPageEx();
 
+        // Expand battle course select for custom cup system
         case Page::COURSE_SELECT_BT:
             return new BattleStageSelectPageEx();
 

@@ -12,7 +12,7 @@
 // Update track names
 REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
 
-    RaceCupSelectPage* cupPage = RaceCupSelectPage::getPage();
+    RaceCupSelectPageEx* cupPage = RaceCupSelectPageEx::getPage();
     RaceCourseSelectPage* coursePage = RaceCourseSelectPage::getPage();
     u32 selectedCup = cupPage->selectedButtonId;
     u32 lastCourse = SectionManager::instance->globalContext->lastCourse;
@@ -24,7 +24,7 @@ REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
         PushButton* trackButton = &courseButtons[i];
 
         // Set name
-        u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->extension.curPage);
+        u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->curPage);
         u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[i];
         trackButton->setText(CupManager::getTrackName(trackIdx), nullptr);
 

@@ -12,7 +12,7 @@
 REPLACE void CtrlMenuCourseSelectCup::initSelf() {
 
     // Get page and selected cup
-    RaceCupSelectPage* cupPage = RaceCupSelectPage::getPage();
+    RaceCupSelectPageEx* cupPage = RaceCupSelectPageEx::getPage();
     u32 selectedCup = cupPage->selectedButtonId;
 
     // Update each cup
@@ -22,12 +22,12 @@ REPLACE void CtrlMenuCourseSelectCup::initSelf() {
         CtrlMenuCourseSelectCupSub* cup = &cups[i];
         
         // Set name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->extension.curPage);
+        u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage);
         u16 cupName = CupManager::GetCupList()[cupIdx].cupName;
         cup->setText(cupName, nullptr);
 
         // Set icon
-        CupManager::updateCupButton(cup, cupPage->extension.curPage, i);
+        CupManager::updateCupButton(cup, cupPage->curPage, i);
 
         // Play switch animation
         cup->animator.getGroup(0)->setAnimation(0, 0.0f);

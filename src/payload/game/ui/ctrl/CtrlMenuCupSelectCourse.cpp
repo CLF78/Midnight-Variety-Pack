@@ -10,8 +10,8 @@
 REPLACE void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
 
     // Get cup index from page
-    RaceCupSelectPage* page = RaceCupSelectPage::getPage();
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->extension.curPage);
+    RaceCupSelectPageEx* page = RaceCupSelectPageEx::getPage();
+    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->curPage);
 
     // Update each track name
     for (int i = 0; i < ARRAY_SIZE(courseNames); i++) {
@@ -36,6 +36,6 @@ REPLACE void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
 
 // Update track names on cup initialization
 REPLACE void CtrlMenuCupSelectCourse::initSelf() {
-    setCourseNames(RaceCupSelectPage::getPage()->selectedButtonId);
+    setCourseNames(RaceCupSelectPageEx::getPage()->selectedButtonId);
     zIndex = 10.0f;
 }

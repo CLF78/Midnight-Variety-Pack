@@ -10,7 +10,7 @@
 REPLACE void CtrlMenuCupSelectCup::initSelf() {
 
     // Get owning page
-    RaceCupSelectPage* page = RaceCupSelectPage::getPage();
+    RaceCupSelectPageEx* page = RaceCupSelectPageEx::getPage();
 
     // Update children
     for (int i = 0; i < ARRAY_SIZE(cupButtons); i++) {
@@ -19,12 +19,12 @@ REPLACE void CtrlMenuCupSelectCup::initSelf() {
         PushButton* button = &cupButtons[i];
 
         // Set cup name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->extension.curPage);
+        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage);
         u16 msgId = CupManager::GetCupList()[cupIdx].cupName;
         button->setText(msgId, nullptr);
 
         // Set cup icon
-        CupManager::updateCupButton(button, page->extension.curPage, i);
+        CupManager::updateCupButton(button, page->curPage, i);
 
         // Set button handlers
         button->setOnClickHandler(&onClickHandler, 0);
@@ -42,5 +42,11 @@ REPLACE void CtrlMenuCupSelectCup::initSelf() {
 // Update track names
 REPLACE void CtrlMenuCupSelectCup::onCupSelect(PushButton* button, u32 unk) {
     currentSelected = button->buttonId;
-    RaceCupSelectPage::getPage()->updateTextMessages(this, unk);
+    RaceCupSelectPageEx::getPage()->updateTextMessages(this, unk);
+}
+
+// Update courses
+REPLACE void CtrlMenuCupSelectCup::onCupClick(PushButton* button, u32 unk) {
+    currentSelected = button->buttonId;
+    RaceCupSelectPageEx::getPage()->setCourse(this, button);
 }

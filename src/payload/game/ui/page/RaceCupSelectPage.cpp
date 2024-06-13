@@ -5,81 +5,63 @@
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <midnight/cup/CupManager.hpp>
-#include <midnight/cup/RaceCupSelectArrow.hpp>
 #include <midnight/save/SaveExpansionCup.hpp>
 
 ///////////////////////
 // Custom Cup System //
 ///////////////////////
 
-// Section::createPage() patch (here for convenience)
-// Update memory size of page
-kmCallDefCpp(0x80623D94, u32) {
-    return sizeof(RaceCupSelectPage);
-}
-
-// RaceCupSelectPage::RaceCupSelectPage() patch
 // Construct the expansion data
-kmBranchDefCpp(0x80627A3C, NULL, RaceCupSelectPage*, RaceCupSelectPage* self) {
-
-    // Update the children count
-    self->layoutCount++;
-
-    // Construct extra buttons
-    SheetSelectControl::construct(&self->extension.arrows);
-
-    // Set the input handlers
-    InputHandler2<RaceCupSelectArrow, void, SheetSelectControl*, u32>::construct(
-                                               (RaceCupSelectArrow*)&self->extension.arrows.leftButton,
-                                               &RaceCupSelectArrow::onLeftArrowPress,
-                                               &self->extension.leftHandler);
-    self->extension.arrows.leftHandler = &self->extension.leftHandler;
-
-    InputHandler2<RaceCupSelectArrow, void, SheetSelectControl*, u32>::construct(
-                                                (RaceCupSelectArrow*)&self->extension.arrows.leftButton,
-                                                &RaceCupSelectArrow::onRightArrowPress,
-                                                &self->extension.rightHandler);
-    self->extension.arrows.rightHandler = &self->extension.rightHandler;
-
-    // Set the correct page
-    s32 lastTrack = SectionManager::instance->globalContext->lastCourse;
-    self->extension.curPage = CupManager::getCupPageFromTrack(lastTrack);
-    return self;
+RaceCupSelectPageEx::RaceCupSelectPageEx() :
+    arrows(),
+    leftHandler((RaceCupSelectArrow*)&arrows.leftButton, &RaceCupSelectArrow::onLeftArrowPress),
+    rightHandler((RaceCupSelectArrow*)&arrows.rightButton, &RaceCupSelectArrow::onRightArrowPress),
+    curPage(CupManager::getCupPageFromTrack(SectionManager::instance->globalContext->lastCourse)) {
+        arrows.leftHandler = (typeof(arrows.leftHandler))&leftHandler;
+        arrows.rightHandler = (typeof(arrows.rightHandler))&rightHandler;
+        layoutCount++;
 }
 
-// RaceCupSelectPage::loadLayout() patch
-// Load the arrows
-kmBranchDefCpp(0x80841090, 0x808410F8, SheetSelectControl*, RaceCupSelectPage* page, int childIdx) {
+UIControl* RaceCupSelectPageEx::loadLayout(u32 layoutIdx) {
+    switch (layoutIdx) {
 
-    if (childIdx != 2)
-        return nullptr;
+        // Load the cup holder
+        case LYT_CUP_SELECT_CUP:
+            insertChild(curChildCount++, &cupHolder, 0);
+            cupHolder.load(1, false);
+            return &cupHolder;
 
-    // Insert entry
-    SheetSelectControl* arrows = &page->extension.arrows;
-    page->insertChild(childIdx, arrows, 0);
+        // Load the course holder
+        case LYT_CUP_SELECT_COURSE:
+            insertChild(curChildCount++, &courseHolder, 0);
+            courseHolder.load();
+            return &courseHolder;
 
-    // Determine the variant to use depending on the player count
-    const char* rightVar = "ButtonArrowRight";
-    const char* leftVar = "ButtonArrowLeft";
-    if (UIUtils::getPlayerCount() > 2) {
-        rightVar = "ButtonArrowRight2";
-        leftVar = "ButtonArrowLeft2";
+        // Load the cup arrows
+        case LYT_CUP_ARROWS:
+            insertChild(curChildCount++, &arrows, 0);
+
+            // Determine the variant to use depending on the player count
+            const char* rightVar = UIUtils::getPlayerCount() > 2 ? "ButtonArrowRight2" : "ButtonArrowRight";
+            const char* leftVar = UIUtils::getPlayerCount() > 2 ? "ButtonArrowLeft2" : "ButtonArrowLeft";
+
+            // Load BRCTR
+            arrows.load("button", CUP_ARROW_R_BRCTR, rightVar, CUP_ARROW_L_BRCTR, leftVar, 1, false, false);
+            return &arrows;
+
+        // Invalid child
+        default:
+            return nullptr;
     }
-
-    // Load BRCTR
-    arrows->load("button", CUP_ARROW_R_BRCTR, rightVar,
-                 CUP_ARROW_L_BRCTR, leftVar, 1, false, false);
-    return arrows;
 }
 
-// RaceCupSelectPage::updateTextMessages() override
 // Display the GP rank from the expanded save
 // Original function address: 80841614
-void RaceCupSelectPage::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u32 unk) {
+void RaceCupSelectPageEx::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u32 unk) {
 
     // Update course names
     u32 cupButtonId = cupHolder->currentSelected;
-    this->courseHolder.setCourseNames(cupButtonId);
+    courseHolder.setCourseNames(cupButtonId);
 
     // If game mode is Grand Prix, update the message at the bottom with the cup rank
     if (RaceConfig::instance->menuScenario.settings.gameMode == RaceConfig::Settings::GAMEMODE_GP) {
@@ -93,7 +75,7 @@ void RaceCupSelectPage::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u32 
             return;
 
         // Get the cup entry
-        u32 cupId = CupManager::getCupIdxFromButton(cupButtonId, this->extension.curPage);
+        u32 cupId = CupManager::getCupIdxFromButton(cupButtonId, curPage);
         SaveExpansionCup::Data* cupData = SaveExpansionCup::GetSection()->GetData(cupId);
 
         // Get the message ID
@@ -107,18 +89,17 @@ void RaceCupSelectPage::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u32 
     }
 }
 
-// RaceCupSelectPage::setCourse() override
 // Set the selected track when a cup is clicked
-kmBranchDefCpp(0x80841744, NULL, void, RaceCupSelectPage* self, CtrlMenuCupSelectCup* cupHolder, PushButton* button) {
+void RaceCupSelectPageEx::setCourse(CtrlMenuCupSelectCup* cupHolder, PushButton* button) {
 
     // Check for defocusing state
-    if (self->pageState == Page::STATE_DEFOCUSING) {
+    if (pageState == Page::STATE_DEFOCUSING) {
 
         // Update selected button
-        self->selectedButtonId = cupHolder->currentSelected;
+        selectedButtonId = cupHolder->currentSelected;
 
         // Get the cup and its first track
-        u32 cupIdx = CupManager::getCupIdxFromButton(self->selectedButtonId, self->extension.curPage);
+        u32 cupIdx = CupManager::getCupIdxFromButton(selectedButtonId, curPage);
         u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[0];
 
         // Get the previous cup, and update the last selected stage if it differs
@@ -138,7 +119,7 @@ kmBranchDefCpp(0x80841744, NULL, void, RaceCupSelectPage* self, CtrlMenuCupSelec
 
             // If in GP mode, go straight to the OK button instead of the course selection
             if (RaceConfig::instance->menuScenario.settings.gameMode == RaceConfig::Settings::GAMEMODE_GP) {
-                self->requestSectionChange(Section::DEMO_GP, button);
+                requestSectionChange(Section::DEMO_GP, button);
                 return;
             }
 
@@ -147,7 +128,7 @@ kmBranchDefCpp(0x80841744, NULL, void, RaceCupSelectPage* self, CtrlMenuCupSelec
             while (SectionManager::instance->curSection->pages[Page::WIFI_VOTING] == nullptr) {}
 
         // Go to the course select page
-        self->startReplace(Page::COURSE_SELECT, button);
+        startReplace(Page::COURSE_SELECT, button);
     }
 }
 
@@ -155,51 +136,42 @@ kmBranchDefCpp(0x80841744, NULL, void, RaceCupSelectPage* self, CtrlMenuCupSelec
 // Disable background movies
 kmBranch(0x80841F74, 0x80841FD4);
 
-// RaceCupSelectPage::~RaceCupSelectPage() patch
-// Destroy the expansion data
-kmCallDefCpp(0x8084226C, void, RaceCupSelectPage* self) {
-
-    // Only delete the arrows, since the other fields do not have/need a destructor
-    self->extension.arrows.~SheetSelectControl();
-}
-
 ///////////////////////////////////////////////
 // Custom Cup System / Custom Engine Classes //
 ///////////////////////////////////////////////
 
-// RaceCupSelectPage::onActivate() override
 // A lot of stuff (see code comments)
-kmPointerDefCpp(0x808D9518, void, RaceCupSelectPage* self) {
+void RaceCupSelectPageEx::onActivate() {
 
     // Set top message
     if (RaceConfig::instance->menuScenario.settings.gameMode == RaceConfig::Settings::GAMEMODE_GP)
-        self->titleBmgId = 3404;
+        titleBmgId = 3404;
     else
-        self->titleBmgId = 3405;
+        titleBmgId = 3405;
 
     // Set default cup button to the cup the previously selected track belongs to
-    if (self->animId == Page::ANIM_NEXT) {
+    if (animId == Page::ANIM_NEXT) {
         u32 lastTrack = SectionManager::instance->globalContext->lastCourse;
-        self->selectedButtonId = CupManager::getCupButtonFromTrack(lastTrack, self->extension.curPage);
+        selectedButtonId = CupManager::getCupButtonFromTrack(lastTrack, curPage);
     }
 
     // Call base function
-    self->MenuPage::onActivate();
+    MenuPage::onActivate();
 
     // Adjust X wrapping and arrow display by setting the distance function appropriately
     // 0 wraps on the X and Y axis, 1 wraps on Y axis only
     bool arrowsEnabled = CupManager::GetCupArrowsEnabled();
     int wrapType = (CupManager::GetCupCount() == 2 || arrowsEnabled);
-    self->multiControlInputManager.setDistanceFunc(wrapType);
+    multiControlInputManager.setDistanceFunc(wrapType);
 
     // Disable the arrows if not required
-    self->extension.arrows.configure(arrowsEnabled, arrowsEnabled);
+    arrows.configure(arrowsEnabled, arrowsEnabled);
 
     // Initialize cup holder
-    self->cupHolder.init();
+    cupHolder.init();
 
     // Load the Vote/Random popup if we are in an online room
-    if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID) && self->animId == Page::ANIM_NEXT) {
+    if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID) && animId == Page::ANIM_NEXT) {
 
         // Get the page
         YesNoPopupPage* popupPage = YesNoPopupPage::getPage();
@@ -214,21 +186,26 @@ kmPointerDefCpp(0x808D9518, void, RaceCupSelectPage* self) {
         popupPage->currSelected = 0;
 
         // Display the page and store a reference to it
-        popupPage = (YesNoPopupPage*)self->addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);
-        self->voteOrRandomPage = popupPage;
+        popupPage = (YesNoPopupPage*)addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);
+        voteOrRandomPage = popupPage;
     }
 
     // Set the instruction text based on the game mode
     u32 msgId = 0;
     MessageInfo msgInfo;
+    switch(RaceConfig::instance->menuScenario.settings.gameMode) {
 
-    u32 gameMode = RaceConfig::instance->menuScenario.settings.gameMode;
-    if (gameMode == RaceConfig::Settings::GAMEMODE_TT)
-        msgId = 3361;
-    else if (gameMode == RaceConfig::Settings::GAMEMODE_VS) {
-        msgId = 3363;
-        if (RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_TEAMS)
-            msgId = 3366;
+        case RaceConfig::Settings::GAMEMODE_TT:
+            msgId = 3361;
+            break;
+
+        case RaceConfig::Settings::GAMEMODE_VS:
+            msgId = (RaceConfig::instance->menuScenario.settings.modeFlags &
+                     RaceConfig::Settings::FLAG_TEAMS) ? 3366 : 3363;
+            break;
+
+        default:
+            break;
     }
 
     // Set CC argument
@@ -257,5 +234,5 @@ kmPointerDefCpp(0x808D9518, void, RaceCupSelectPage* self) {
 
     // Set mirror argument and apply message
     msgInfo.setCondMessageValue(0, RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_MIRROR != 0, true);
-    self->instructionText->setText(msgId, &msgInfo);
+    instructionText->setText(msgId, &msgInfo);
 }

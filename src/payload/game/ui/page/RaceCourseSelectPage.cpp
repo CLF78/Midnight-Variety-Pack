@@ -20,8 +20,8 @@ kmBranchDefCpp(0x80840830, NULL, void, RaceCourseSelectPage* self, CtrlMenuCours
         return;
 
     // Get selected track and set it as last course
-    RaceCupSelectPage* cupPage = RaceCupSelectPage::getPage();
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->extension.curPage);
+    RaceCupSelectPageEx* cupPage = RaceCupSelectPageEx::getPage();
+    u32 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->curPage);
     u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[button->buttonId];
     SectionManager::instance->globalContext->lastCourse = trackIdx;
 
