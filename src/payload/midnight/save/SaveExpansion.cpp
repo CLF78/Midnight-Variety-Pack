@@ -36,14 +36,14 @@ bool SaveExpansion::Header::IsValid(u32 fileSize) {
 
 SaveExpansion::SaveExpansion() : mLicenses() {
 
-        // Initialize the save with the default values
-        Init();
+    // Initialize the save with the default values
+    Init();
 
-        // Create the write buffer since we know the write size
-        mWriteBufferSize = GetRequiredSpace();
-        mWriteBuffer = new (32) u8[mWriteBufferSize];
-        memset(mWriteBuffer, 0, mWriteBufferSize);
-        Write();
+    // Create the write buffer since we know the write size
+    mWriteBufferSize = GetRequiredSpace();
+    mWriteBuffer = new (32) u8[mWriteBufferSize];
+    memset(mWriteBuffer, 0, mWriteBufferSize);
+    Write();
 }
 
 u32 SaveExpansion::GetRequiredSpace() {

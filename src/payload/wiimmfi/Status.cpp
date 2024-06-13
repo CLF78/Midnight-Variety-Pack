@@ -60,22 +60,24 @@ void SendMessage(const char* key, const char* value, int integerValue) {
     if (!stpMatchCnt || !stpMatchCnt->gpConnection)
         return;
 
+    // Log entry
+    LOG_DEBUG("Sending report message %s=%s,%d", key, value, integerValue);
+
     // Get connection
     GPConnection conn = stpMatchCnt->gpConnection;
     if (!*conn) {
-        LOG_DEBUG("[WIIMMFI_REPORT] Connection not initialized, discarding message\n");
+        LOG_WARN("Connection not initialized, discarding message...");
         return;
     }
 
     // Print the message to the buffer
-    LOG_DEBUG("[WIIMMFI_REPORT] %s=%s,%d\n", key, value, integerValue);
     char buffer[599];
     int len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\",
                        key, integerValue, value);
 
     // If the printed string did not fit in the buffer, bail
     if (len > sizeof(buffer)) {
-        LOG_DEBUG("[WIIMMFI_REPORT] Message length exceeded buffer (size=%d), discarding\n", len);
+        LOG_WARN("Message length exceeded buffer (size: %d), discarding...", len);
         return;
     }
 

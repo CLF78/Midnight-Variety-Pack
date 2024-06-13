@@ -47,7 +47,7 @@ void Calc(u32 frameCount) {
     int delay = framesElapsed32 - frameCount - sCumulativeDelay;
     if (delay > 0) {
         sCurrentDelay = delay;
-        LOG_DEBUG("[WIIMMFI_TIME] Detected delay of %d frames\n", delay);
+        LOG_WARN("Detected delay of %d frames", delay);
     }
 }
 

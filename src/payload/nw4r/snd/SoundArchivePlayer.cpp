@@ -82,6 +82,7 @@ REPLACE bool SoundArchivePlayer::LoadGroup(ulong groupId, SoundMemoryAllocatable
     // Try opening the sfx directory
     DVDDir sfxDir;
     if (DVDOpenDir(SASR_SFX_DIR, &sfxDir)) {
+        LOG_DEBUG("Scanning for sound effect replacements for group %d...", groupId);
 
         // Read each folder entry until exhausted
         DVDDirEntry curEntry;
@@ -148,6 +149,8 @@ REPLACE bool SoundArchivePlayer::LoadGroup(ulong groupId, SoundMemoryAllocatable
                     IGNORE_ERR(513)
                     soundStreams()[soundId] = stream;
                     UNIGNORE_ERR(513)
+
+                    LOG_DEBUG("Found music file %s", curEntry.name);
                 }
 
                 break;

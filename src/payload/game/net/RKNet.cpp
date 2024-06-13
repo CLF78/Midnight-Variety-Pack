@@ -21,6 +21,10 @@ REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
     if (dataLength < sizeof(RKNetRACEPacketHeader))
         return;
 
+    // Get the PID of the AID that sent the packet
+    DWCNodeInfo* info = DWCi_NodeInfoList_GetNodeInfoForAid(aid);
+    u32 pid = info->profileId;
+
     // Verify the checksum
     // The game already does this later, but we shouldn't disconnect a player because a packet got corrupted
     RKNetRACEPacketHeader* header = (RKNetRACEPacketHeader*)data;
@@ -29,7 +33,7 @@ REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
     u32 realChecksum = NETCalcCRC32(data, dataLength);
     header->checksum = savedChecksum;
     if (realChecksum != savedChecksum) {
-        LOG_DEBUG("[RKNET] Detected corrupted packet from aid %d\n", aid);
+        LOG_WARN("Detected corrupted packet from PID %d", pid);
         return;
     }
 
@@ -41,15 +45,17 @@ REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
 
     // Lock interrupts
     nw4r::ut::AutoInterruptLock lock;
-    LOG_DEBUG("[RKNET] Detected malicious packet from aid %d\n", aid);
+    LOG_WARN("Detected malicious packet from PID %d\n", pid);
 
     // Kick the offending player if we're host
     if (RKNetController::instance->isPlayerHost())
         Wiimmfi::Kick::ScheduleForAID(aid);
 
     // Warn the user if possible
-    if (FriendRoomJoinPage* page = FriendRoomJoinPage::getPage())
+    if (FriendRoomJoinPage* page = FriendRoomJoinPage::getPage()) {
+        LOG_DEBUG("Exiting friend room as a precautionary measure...");
         page->forceConnectionError();
+    }
 }
 
 } // namespace RKNet

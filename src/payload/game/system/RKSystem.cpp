@@ -3,7 +3,11 @@
 #include <revolution/os/OSLog.h>
 #include <revolution/os/OSFatal.h>
 
-// Create the logger
+/////////////////////
+// Debug Reporting //
+/////////////////////
+
+// Create the logger for debug reporting
 kmListHookDefCpp(BootHook) {
     Logger::CreateInstance(OSReport, OSFatal, vsnprintf);
 }

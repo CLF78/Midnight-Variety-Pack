@@ -38,13 +38,13 @@ REPLACE GT2Result DWCi_GT2Startup() {
 
     // Check if the socket was already made
     if (stpDwcCnt->gt2Socket) {
-        DWC_Printf(DWC_REPORT_WARNING, "gt2Socket is already made.\n");
+        DWC_Printf(DWC_REPORT_WARNING, "GT2Socket already created\n");
         return GT2_RESULT_SUCCESS;
     }
 
     // Get the port
     u16 port = (Wiimmfi::Port::sPort) ? Wiimmfi::Port::sPort : (u16)(0xC000 + DWCi_GetMathRand32(0x4000));
-    DWC_Printf(DWC_REPORT_MATCH_NN, "--- Private port = %d ---\n", port);
+    DWC_Printf(DWC_REPORT_MATCH_NN, "Got private port %d\n", port);
 
     // Create the socket
     GT2Result gt2Result = gt2CreateSocket(&stpDwcCnt->gt2Socket,

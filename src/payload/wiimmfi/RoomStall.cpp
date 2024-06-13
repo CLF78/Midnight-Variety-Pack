@@ -52,7 +52,7 @@ void Update() {
     }
 
     // Kick the AIDs
-    LOG_DEBUG("[WIIMMFI_KICK] Detected room stall with AIDs %08X\n", incompleteAids);
+    LOG_WARN("Detected room stall with AIDs %#08x", incompleteAids);
     Kick::ScheduleForAIDs(incompleteAids);
 }
 

@@ -18,13 +18,13 @@ int Read() {
     // If there was an error, bail
     int result = fileHandler.mResult;
     if (result != NandUtil::ERROR_NONE && result != NandUtil::ERROR_FILE_NOT_FOUND) {
-        LOG_DEBUG("[SAVEEX] Open returned error %d\n", result);
+        LOG_ERROR("Open returned error %d", result);
         return result;
     }
 
     // If the file was not found, try creating it
     if (result == NandUtil::ERROR_FILE_NOT_FOUND) {
-        LOG_DEBUG("[SAVEEX] Expansion not found! Creating...\n");
+        LOG_DEBUG("Expansion not found! Creating...");
         return Write();
     }
 
@@ -34,18 +34,18 @@ int Read() {
 
     // If there was an error, close the file and bail
     if (result != NandUtil::ERROR_NONE) {
-        LOG_DEBUG("[SAVEEX] GetLength returned error %d\n", result);
+        LOG_ERROR("GetLength returned error %d", result);
         return result;
     }
 
     // Try to allocate a read buffer
-    LOG_DEBUG("[SAVEEX] Got file length %d\n", expansionLength);
+    LOG_DEBUG("File length is %d bytes.", expansionLength);
     u32 bufferLen = OSRoundUp32(expansionLength);
     NANDFileBuffer buffer(bufferLen, KAMEK_HEAP);
 
     // If it fails, bail with a generic error
     if (!buffer.mBuffer) {
-        LOG_DEBUG("[SAVEEX] Failed to allocate read buffer!\n");
+        LOG_ERROR("Failed to allocate read buffer!");
         return NandUtil::ERROR_OTHER;
     }
 
@@ -53,19 +53,19 @@ int Read() {
     // If it fails, bail
     result = NandUtil::Read(&fileHandler.mInfo, buffer.mBuffer, bufferLen, 0);
     if (result != NandUtil::ERROR_NONE) {
-        LOG_DEBUG("[SAVEEX] Read returned error %d\n", result);
+        LOG_ERROR("Read returned error %d", result);
         return result;
     }
 
     // Read the data into the expansion
     // If the read fails due to corrupted/invalid data, return an error
     if (!SaveManager::instance->expansion.Read(buffer.mBuffer, bufferLen)) {
-        LOG_DEBUG("[SAVEEX] Failed to read save due to corrupted data!\n");
+        LOG_ERROR("Failed to read save due to corrupted data!");
         return NandUtil::ERROR_FILE_CORRUPT;
     }
 
     // Read completed!
-    LOG_DEBUG("[SAVEEX] Read completed!\n");
+    LOG_DEBUG("Read completed!");
     return NandUtil::ERROR_NONE;
 }
 
@@ -80,14 +80,14 @@ int SaveExpansionManager::Create() {
 
     // If the procedure failed, bail
     if (result != NandUtil::ERROR_NONE) {
-        LOG_DEBUG("[SAVEEX] Check returned error %d\n", result);
+        LOG_ERROR("Check returned error %d", result);
         sCheckError = NandUtil::CHECK_ERROR_FAIL;
         return result;
     }
 
     // If there's not enough space, bail
     if (answer != 0) {
-        LOG_DEBUG("[SAVEEX] Cannot fit save in NAND! (%x)\n", answer);
+        LOG_ERROR("Cannot fit save in NAND! Error Code: %x", answer);
 
         if (answer & (NAND_CHECK_HOME_NO_SPACE | NAND_CHECK_SYS_NO_SPACE))
             sCheckError |= NandUtil::CHECK_ERROR_BLOCKS;
@@ -104,10 +104,11 @@ int SaveExpansionManager::Create() {
                                                NAND_PERM_OWNER_RW);
 
     // Return the error code
-    if (result != NandUtil::ERROR_NONE)
-        LOG_DEBUG("[SAVEEX] Create returned error %d\n", result);
-    else
-        LOG_DEBUG("[SAVEEX] Creation successful!\n");
+    if (result != NandUtil::ERROR_NONE) {
+        LOG_ERROR("Create returned error %d", result);
+    } else {
+        LOG_DEBUG("Creation successful!");
+    }
 
     return result;
 }
@@ -120,7 +121,7 @@ int SaveExpansionManager::Write() {
 
     // If there was an error, bail
     if (result != NandUtil::ERROR_NONE) {
-        LOG_DEBUG("[SAVEEX] GetType returned %d\n", result);
+        LOG_ERROR("GetType returned %d", result);
         return result;
     }
 
@@ -137,7 +138,7 @@ int SaveExpansionManager::Write() {
     NANDFileHandler fileHandler(SAVEEX_FILENAME, NAND_ACCESS_WRITE);
     result = fileHandler.mResult;
     if (result != NandUtil::ERROR_NONE) {
-        LOG_DEBUG("[SAVEEX] Open returned error %d\n", result);
+        LOG_ERROR("Open returned error %d", result);
         return result;
     }
 
@@ -146,19 +147,19 @@ int SaveExpansionManager::Write() {
     SaveExpansion* expansion = &SaveManager::instance->expansion;
     result = NandUtil::Write(&fileHandler.mInfo, expansion->mWriteBuffer, expansion->mWriteBufferSize, 0);
     if (result != NandUtil::ERROR_NONE) {
-        LOG_DEBUG("[SAVEEX] Write returned error %d\n", result);
+        LOG_ERROR("Write returned error %d", result);
         return result;
     }
 
     // Return the result
-    LOG_DEBUG("[SAVEEX] Write successful!\n");
+    LOG_DEBUG("Write successful!");
     return result;
 }
 
 int Delete() {
 
     // NANDUtil already deals with the file not existing, so we are relatively safe
-    LOG_DEBUG("[SAVEEX] Deleting save expansion data...\n");
+    LOG_DEBUG("Deleting save expansion data...");
     return NandUtil::Delete(SAVEEX_FILENAME);
 }
 

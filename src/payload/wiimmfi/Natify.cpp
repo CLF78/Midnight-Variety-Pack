@@ -20,7 +20,7 @@ void Callback(BOOL success, NAT* theNat) {
     sDoingNatify = false;
     if (success) {
 
-        LOG_DEBUG("[NATIFY] NATify done for PID %d\n", stpMatchCnt->profileId);
+        LOG_DEBUG("NATify done for PID %d.", stpMatchCnt->profileId);
         sNatifyData.profileId = stpMatchCnt->profileId;
         sNatifyData.portRestricted = nat.portRestricted;
         sNatifyData.ipRestricted = nat.ipRestricted;
@@ -37,7 +37,7 @@ int CopyData(u8* buffer) {
 }
 
 void Start() {
-    LOG_DEBUG("[NATIFY] Started NATify procedure\n");
+    LOG_DEBUG("Started NATify procedure.");
     sDoingNatify = true;
     NNStartNatDetection(Callback);
 }

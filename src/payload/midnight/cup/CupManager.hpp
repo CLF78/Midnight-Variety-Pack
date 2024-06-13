@@ -110,6 +110,7 @@ public:
 
     // Sets the current course and its slot id
     static void SetCourse(RaceConfig::Settings* settings, u32 actualTrackIdx) {
+        LOG_DEBUG("Setting course file to %d.szs...", actualTrackIdx);
         currentSzs = actualTrackIdx;
         settings->courseId = CupData::tracks[actualTrackIdx].specialSlot;
     }

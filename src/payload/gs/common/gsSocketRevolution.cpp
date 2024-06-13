@@ -16,16 +16,17 @@ REPLACE int bind(int sock, SOSockAddrIn* addr, int len) {
         return ret;
 
     // If binding fails, try on a different random port up to 10 times
-    LOG_DEBUG("[WIIMMFI_PORT] Bind failed on port %d\n", addr->port);
+    LOG_WARN("Bind failed on port %d.", addr->port);
     for (int i = 0; i < 10; i++) {
         addr->port = (DWCi_GetMathRand32(0x4000) + 0xC000) & 0xFFFF;
         ret = REPLACED(sock, addr, sizeof(*addr));
         if (ret >= 0) {
-            LOG_DEBUG("[WIIMMFI_PORT] Bind successful on alternate port %d\n", addr->port);
+            LOG_DEBUG("Bind successful on alternate port %d", addr->port);
             return ret;
         }
     }
 
     // Everything failed, give up
+    LOG_ERROR("Could not bind to any port");
     return -1;
 }

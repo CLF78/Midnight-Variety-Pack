@@ -29,10 +29,10 @@ REPLACE void SaveManager::init() {
     // Only read the expansion if there is no error with the original save
     // There is no point in trying to read the expansion if the normal save couldn't be loaded
     if (result == NandUtil::ERROR_NONE) {
-        LOG_DEBUG("[SAVEEX] Read original save successfully!\n");
+        LOG_DEBUG("Read original save successfully!");
         SaveExpansionManager::sError = SaveExpansionManager::Read();
     } else {
-        LOG_DEBUG("[SAVEEX] Failed to read original save with error %d\n", result);
+        LOG_ERROR("Failed to read original save with error %d", result);
     }
 
     // Tell SaveManager we are done

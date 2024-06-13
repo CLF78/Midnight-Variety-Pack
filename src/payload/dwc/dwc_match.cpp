@@ -12,7 +12,7 @@
 // Custom Match Commands //
 ///////////////////////////
 
-// Parse custom match commands coming from GPCM
+// Parse custom match commands
 // Credits: Wiimmfi
 REPLACE BOOL DWCi_ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort,
                                           void* cmdData, int dataLen) {
@@ -41,7 +41,7 @@ kmBranchDefCpp(0x800D80D0, 0x800D8360, void) {
         return;
 
     // Copy node
-    DWC_Printf(DWC_REPORT_MATCH_NN, "*** TRY mesh create: aid(%d)\n", meshMakeNode->aid);
+    DWC_Printf(DWC_REPORT_MATCH_NN, "Try matchmaking with AID %d\n", meshMakeNode->aid);
     meshMakeNode->nextMeshMakeTryTick = DWCi_GetNextMeshMakeTryTick();
     memcpy(&stpMatchCnt->tempNewNodeInfo, meshMakeNode, sizeof(DWCNodeInfo));
 
@@ -92,7 +92,7 @@ kmBranchDefCpp(0x800DA7D4, 0x800DA81C, void, u32 aidsConnectedToHost) {
         return;
 
     // Disconnect all AIDs marked as dead
-    DWC_Printf(DWC_REPORT_RECV_INFO, "check dead aid: dead aidBitmap is %08x.\n", deadAidBitmap);
+    DWC_Printf(DWC_REPORT_RECV_INFO, "Disconnecting dead AIDs (bitmap: %08x)\n", deadAidBitmap);
     for (int aid = 0; aid < 32; aid++) {
         if (deadAidBitmap & (1 << aid))
             DWC_CloseConnectionHard(aid);
@@ -117,7 +117,7 @@ kmWrite32(0x800E1A58, 0x38C00000 | 7000);
 // Credits: Wiimmfi
 kmBranchDefCpp(0x800E6778, 0x800E67AC, void) {
     if (Wiimmfi::Natneg::PreventRepeatNATNEGFail(stpMatchCnt->tempNewNodeInfo.profileId))
-        DWC_Printf(DWC_REPORT_MATCH_NN, "NN failure %d/5.\n", ++stpMatchCnt->natnegFailureCount);
+        DWC_Printf(DWC_REPORT_MATCH_NN, "NATNEG failure %d/5.\n", ++stpMatchCnt->natnegFailureCount);
 }
 
 /////////////////////////////////////

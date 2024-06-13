@@ -17,17 +17,17 @@ kmListHookDefCpp(RaceStartHook) {
 }
 
 void ScheduleForAID(int aid) {
-    LOG_DEBUG("[WIIMMFI_KICK] Scheduled kick for aid %d\n", aid);
+    LOG_DEBUG("Scheduled kick for AID %d.", aid);
     sAidsToBeKicked |= (1 << aid);
 }
 
 void ScheduleForAIDs(u32 aids) {
-    LOG_DEBUG("[WIIMMFI_KICK] Scheduled kick for aids %08X\n", aids);
+    LOG_DEBUG("Scheduled kick for AIDs %#08x.", aids);
     sAidsToBeKicked |= aids;
 }
 
 void ScheduleForEveryone() {
-    LOG_DEBUG("[WIIMMFI_KICK] Scheduled kick for all aids\n");
+    LOG_DEBUG("Scheduled kick for all AIDs.");
     sAidsToBeKicked = 0xFFFFFFFF;
 }
 
@@ -38,8 +38,8 @@ void CalcKick() {
         return;
 
     // Lock interrupts
+    LOG_DEBUG("Executing kick task on AID map %#08x...", sAidsToBeKicked);
     nw4r::ut::AutoInterruptLock lock;
-    LOG_DEBUG("[WIIMMFI_KICK] Running kick task with aids %08X\n", sAidsToBeKicked);
 
     // If the bitfield is full, close all connections immediately
     if (sAidsToBeKicked == 0xFFFFFFFF)
@@ -55,6 +55,7 @@ void CalcKick() {
 
     // Reset the bitfield
     sAidsToBeKicked = 0;
+    LOG_DEBUG("Kick task complete.");
 }
 
 int ParseKickMessage(GPConnection conn, char* data) {
@@ -71,16 +72,15 @@ int ParseKickMessage(GPConnection conn, char* data) {
     // Obtain the kick type
     strshift(kickCmd, KICK_MSG);
     u32 kickType = strtoul(kickCmd, nullptr, 10);
-    LOG_DEBUG("[WIIMMFI_KICK] Received kick type ", kickType);
 
     // Act based on the kick type
     switch (kickType) {
 
         // Use CloseConnectionHard to kick everyone (HOST ONLY)
         case EVERYONE:
-            LOG_DEBUG("EVERYONE\n");
+            LOG_DEBUG("Received kick message type: EVERYONE");
             if (!DWC_IsServerMyself()) {
-                LOG_DEBUG("[WIIMMFI_KICK] But ignored (not host).\n");
+                LOG_WARN("Ignoring kick message type EVERYONE because we are not host.");
                 break;
             }
 
@@ -89,28 +89,28 @@ int ParseKickMessage(GPConnection conn, char* data) {
 
         // Pretend to cause a network error and kick ourselves
         case SELF:
-            LOG_DEBUG("SELF\n");
+            LOG_DEBUG("Received kick message type: SELF");
             DWCi_HandleGPError(GP_ERROR_NETWORK);
             return GP_ERROR_MEMORY;
 
         // Force end the race
         case END_RACE:
-            LOG_DEBUG("END_RACE\n");
+            LOG_DEBUG("Received kick message type: END_RACE");
             sMustEndRace = true;
             break;
 
         // Kick a specific player (HOST ONLY)
         case SPECIFIC_PLAYER:
-            LOG_DEBUG("PLAYER\n");
+            LOG_DEBUG("Received kick message type: PLAYER");
             if (!DWC_IsServerMyself()) {
-                LOG_DEBUG("[WIIMMFI_KICK] But ignored (not host).\n");
+                LOG_WARN("Ignoring kick message type PLAYER because we are not host.");
                 break;
             }
 
             // Get the kickpid parameter, if not found bail
             char* pidKickParam = strstr(kickCmd, KICK_MSG_PARAM_PID);
             if (!pidKickParam) {
-                LOG_DEBUG("[WIIMMFI_KICK] But ignored (no PID specified).\n");
+                LOG_WARN("Ignoring kick message type PLAYER because no PID was specified.");
                 break;
             }
 
@@ -122,7 +122,7 @@ int ParseKickMessage(GPConnection conn, char* data) {
             // If it exists, kick the corresponding aid
             DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForProfileId(pidToKick);
             if (!node) {
-                LOG_DEBUG("[WIIMMFI_KICK] But ignored (AID not found).\n");
+                LOG_WARN("Ignoring kick message type PLAYER because the AID was not found.");
                 break;
             }
 
@@ -130,7 +130,7 @@ int ParseKickMessage(GPConnection conn, char* data) {
             break;
 
         default:
-            LOG_DEBUG("UNKNOWN (%d)\n", kickType);
+            LOG_WARN("Unknown kick message type: %d", kickType);
     }
 
     return GP_ERROR_NONE;

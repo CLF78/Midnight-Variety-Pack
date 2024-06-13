@@ -14,6 +14,9 @@ void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 loc
     if (self->extension.curPage < 0)
         self->extension.curPage = CupManager::getMaxCupPage();
 
+    // Log entry
+    LOG_DEBUG("Changing cup select page to %d...", self->extension.curPage);
+
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
@@ -38,6 +41,9 @@ void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 lo
     self->extension.curPage++;
     if (self->extension.curPage > CupManager::getMaxCupPage())
         self->extension.curPage = 0;
+
+    // Log entry
+    LOG_DEBUG("Changing cup select page to %d...", self->extension.curPage);
 
     // Update each cup button
     for (int i = 0; i < 8; i++) {

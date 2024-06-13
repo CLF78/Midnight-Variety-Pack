@@ -14,6 +14,9 @@ void BattleCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 l
     if (page->curPage < 0)
         page->curPage = CupManager::getMaxCupPage(true);
 
+    // Log entry
+    LOG_DEBUG("Changing cup select page to %d...", page->curPage);
+
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = page->getCupButton(i);
@@ -38,6 +41,9 @@ void BattleCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 
     page->curPage++;
     if (page->curPage > CupManager::getMaxCupPage(true))
         page->curPage = 0;
+
+    // Log entry
+    LOG_DEBUG("Changing cup select page to %d...", page->curPage);
 
     // Update each cup button
     for (int i = 0; i < 8; i++) {
