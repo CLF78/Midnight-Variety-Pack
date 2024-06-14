@@ -11,12 +11,11 @@
 // Custom Cup System //
 ///////////////////////
 
-// RaceCourseSelectPage::setCourse() override
-// Set selected track
-kmBranchDefCpp(0x80840830, NULL, void, RaceCourseSelectPage* self, CtrlMenuCourseSelectCourse* courseHolder, PushButton* button) {
+// Set the selected track
+REPLACE void RaceCourseSelectPage::setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button) {
 
     // Do not do anything if we're not defocusing the page
-    if (self->pageState != Page::STATE_DEFOCUSING)
+    if (pageState != Page::STATE_DEFOCUSING)
         return;
 
     // Get selected track and set it as last course
@@ -32,8 +31,8 @@ kmBranchDefCpp(0x80840830, NULL, void, RaceCourseSelectPage* self, CtrlMenuCours
         votingPage->submitVote(trackIdx);
 
         // Go to the next page
-        self->nextPageId = Page::NONE;
-        self->replace(Page::ANIM_NEXT, button->getDelay());
+        nextPageId = Page::NONE;
+        replace(Page::ANIM_NEXT, button->getDelay());
 
     } else {
 
@@ -44,41 +43,45 @@ kmBranchDefCpp(0x80840830, NULL, void, RaceCourseSelectPage* self, CtrlMenuCours
         // If we're in TT mode, go to the ghost select screen
         u32 gameMode = RaceConfig::instance->menuScenario.settings.gameMode;
         if (gameMode == RaceConfig::Settings::GAMEMODE_TT)
-            self->startReplace(Page::GHOST_SELECT_TOP, button);
+            startReplace(Page::GHOST_SELECT_TOP, button);
 
         // If we're in VS mode, prepare intro and generate the track order from here
         else if (gameMode == RaceConfig::Settings::GAMEMODE_VS) {
-            self->requestSectionChange(Section::DEMO_VS, button);
+            requestSectionChange(Section::DEMO_VS, button);
             CupManager::generateCourseOrder(cupIdx, button->buttonId);
         }
     }
 
     // Report course as selected
-    self->courseSelected = true;
+    courseSelected = true;
 }
 
 ///////////////////////////
 // Custom Engine Classes //
 ///////////////////////////
 
-// RaceCourseSelectPage::onActivate() override
 // Update instruction text with new CCs and Mirror option
-kmPointerDefCpp(0x808D9480, void, RaceCourseSelectPage* self) {
+REPLACE void RaceCourseSelectPage::onActivate() {
 
-    self->multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
-    self->MenuPage::onActivate();
+    multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
+    MenuPage::onActivate();
 
     // Set the instruction text based on the game mode
     u32 msgId = 0;
     MessageInfo msgInfo;
+    switch(RaceConfig::instance->menuScenario.settings.gameMode) {
 
-    u32 gameMode = RaceConfig::instance->menuScenario.settings.gameMode;
-    if (gameMode == RaceConfig::Settings::GAMEMODE_TT)
-        msgId = 3361;
-    else if (gameMode == RaceConfig::Settings::GAMEMODE_VS) {
-        msgId = 3363;
-        if (RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_TEAMS)
-            msgId = 3366;
+        case RaceConfig::Settings::GAMEMODE_TT:
+            msgId = 3361;
+            break;
+
+        case RaceConfig::Settings::GAMEMODE_VS:
+            msgId = (RaceConfig::instance->menuScenario.settings.modeFlags &
+                     RaceConfig::Settings::FLAG_TEAMS) ? 3366 : 3363;
+            break;
+
+        default:
+            break;
     }
 
     // Set CC argument
@@ -107,5 +110,5 @@ kmPointerDefCpp(0x808D9480, void, RaceCourseSelectPage* self) {
 
     // Set mirror argument and apply message
     msgInfo.setCondMessageValue(0, RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_MIRROR != 0, true);
-    self->instructionText->setText(msgId, &msgInfo);
+    instructionText->setText(msgId, &msgInfo);
 }

@@ -7,6 +7,29 @@
 
 class RaceCourseSelectPage : public MenuPage {
 public:
+    virtual ~RaceCourseSelectPage();
+
+    virtual void onInit();
+    virtual void onActivate();
+    virtual void onDeactivate();
+
+    virtual void beforeInAnim();
+    virtual void beforeOutAnim();
+    virtual void afterCalc();
+
+    virtual TypeInfo* getTypeInfo() const;
+
+    virtual void onSelectChange(PushButton* button, int playerId);
+    virtual int getActivePlayers();
+    virtual int getActiveControllers();
+    virtual MenuInputManager* getInputManager();
+
+    virtual PushButton* loadButton(int buttonIdx);
+    virtual UIControl* loadLayout(u32 layoutIdx);
+    virtual void setupButton(PushButton* button);
+
+    void setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button);
+
     UIControlTimer* timer;
 
     CtrlMenuCourseSelectCup cupHolder;

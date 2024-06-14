@@ -9,39 +9,39 @@
 // Custom Cup System / Custom Engine Classes //
 ///////////////////////////////////////////////
 
-// Game mode for each menu button
-const u32 gameModes[SinglePlayerMenuPage::BUTTON_COUNT] = {
-    RaceConfig::Settings::GAMEMODE_GP,
-    RaceConfig::Settings::GAMEMODE_TT,
-    RaceConfig::Settings::GAMEMODE_VS,
-    RaceConfig::Settings::GAMEMODE_BT,
-    RaceConfig::Settings::GAMEMODE_MR
-};
-
-// Camera mode for each menu button
-const u32 cameraModes[SinglePlayerMenuPage::BUTTON_COUNT] = {
-    RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_INTRO,
-    RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO,
-    RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_INTRO,
-    RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_INTRO,
-    RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO
-};
-
-// Player count for each menu button
-const u8 playerCounts[SinglePlayerMenuPage::BUTTON_COUNT] = { 12, 1, 12, 12, 1 };
-
-// Next screen for each menu button
-const u32 nextPages[SinglePlayerMenuPage::BUTTON_COUNT] = {
-    Page::CHARACTER_SELECT,
-    Page::GP_CLASS_SELECT,
-    Page::VS_MODE_PROMPT,
-    Page::BT_MODE_PROMPT,
-    Page::LEVEL_SELECT_MR
-};
-
 // SinglePlayerMenuPage::onBtnClick() override
 // Update settings based on the selected button
-kmPointerDefCpp(0x808BBED0, void, SinglePlayerMenuPage* self, PushButton* button) {
+REPLACE void SinglePlayerMenuPage::onBtnClick(PushButton* button) {
+
+    // Game mode for each menu button
+    static const u32 gameModes[SinglePlayerMenuPage::BUTTON_COUNT] = {
+        RaceConfig::Settings::GAMEMODE_GP,
+        RaceConfig::Settings::GAMEMODE_TT,
+        RaceConfig::Settings::GAMEMODE_VS,
+        RaceConfig::Settings::GAMEMODE_BT,
+        RaceConfig::Settings::GAMEMODE_MR
+    };
+
+    // Camera mode for each menu button
+    static const u32 cameraModes[SinglePlayerMenuPage::BUTTON_COUNT] = {
+        RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_INTRO,
+        RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO,
+        RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_INTRO,
+        RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_INTRO,
+        RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO
+    };
+
+    // Player count for each menu button
+    static const u8 playerCounts[SinglePlayerMenuPage::BUTTON_COUNT] = { 12, 1, 12, 12, 1 };
+
+    // Next screen for each menu button
+    static const u32 nextPages[SinglePlayerMenuPage::BUTTON_COUNT] = {
+        Page::CHARACTER_SELECT,
+        Page::GP_CLASS_SELECT,
+        Page::VS_MODE_PROMPT,
+        Page::BT_MODE_PROMPT,
+        Page::LEVEL_SELECT_MR
+    };
 
     // Get menu scenario
     RaceConfig::Scenario* scenario = &RaceConfig::instance->menuScenario;
@@ -58,7 +58,7 @@ kmPointerDefCpp(0x808BBED0, void, SinglePlayerMenuPage* self, PushButton* button
 
     // If the back button was pressed, return to the main menu
     if (buttonId == MenuPage::BACK_BUTTON) {
-        self->forceSectionChange(Section::MENU_FROM_GAME, button);
+        forceSectionChange(Section::MENU_FROM_GAME, button);
         u32 soundId = Section::getSoundID(Section::MENU_FROM_GAME);
         AudioHandleHolder::instance->prepare(soundId, false);
         return;
@@ -116,5 +116,5 @@ kmPointerDefCpp(0x808BBED0, void, SinglePlayerMenuPage* self, PushButton* button
     }
 
     // Go to the next screen
-    self->startReplace(nextPages[buttonId], button);
+    startReplace(nextPages[buttonId], button);
 }

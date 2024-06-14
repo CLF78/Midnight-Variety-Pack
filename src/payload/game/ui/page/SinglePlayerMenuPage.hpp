@@ -3,6 +3,26 @@
 
 class SinglePlayerMenuPage : public MenuPage {
 public:
+    virtual ~SinglePlayerMenuPage();
+
+    virtual void onInit();
+    virtual void onActivate();
+    virtual void onDeactivate();
+    virtual void afterCalc();
+
+    virtual TypeInfo* getTypeInfo() const;
+
+    virtual void onSelectChange(PushButton* button, int playerId);
+    virtual int getActivePlayers();
+    virtual int getActiveControllers();
+    virtual MenuInputManager* getInputManager();
+
+    virtual PushButton* loadButton(int buttonIdx);
+    virtual UIControl* loadLayout(u32 layoutIdx);
+    virtual void setupButton(PushButton* button);
+
+    void onBtnClick(PushButton* button);
+
     enum ButtonID {
         GP_BUTTON,
         TT_BUTTON,
@@ -12,4 +32,4 @@ public:
         BUTTON_COUNT,
     };
 };
-size_assert(SinglePlayerMenuPage, 0x6C4);
+size_assert(SinglePlayerMenuPage, sizeof(MenuPage));

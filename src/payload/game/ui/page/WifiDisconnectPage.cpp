@@ -252,12 +252,11 @@ u32 GetErrorMessage(u32 errorCode, MessageInfo* extraInfo) {
     return 4625;
 }
 
-// WifiDisconnectedPage::onActivate() override
 // Display the error code in more cases and make the error messages more descriptive
-kmPointerDefCpp(0x808BFB74, void, WifiDisconnectPage* self) {
+REPLACE void WifiDisconnectPage::onActivate() {
 
     // Display the OK button by default
-    self->okButton.hidden = false;
+    okButton.hidden = false;
 
     // Get the section
     Section* section = SectionManager::instance->curSection;
@@ -265,44 +264,44 @@ kmPointerDefCpp(0x808BFB74, void, WifiDisconnectPage* self) {
     // If the disconnection was triggered by the game, there are no error codes to display
     if (section->sectionID == Section::DC_WITHOUT_ERROR_CODE) {
         section->shutdownNet();
-        self->messageBox.setText(4018, nullptr);
+        messageBox.setText(4018, nullptr);
         return;
     }
 
     // Get the disconnection info
     if (section->sectionID == Section::DC_WITH_ERROR_CODE || section->sectionID == Section::UNK_98) {
-        self->disconnectInfo = SectionManager::instance->globalContext->disconnectInfo;
+        disconnectInfo = SectionManager::instance->globalContext->disconnectInfo;
         SectionManager::instance->globalContext->disconnectInfo.reset();
     } else {
-        self->disconnectInfo = RKNetController::instance->getWifiDisconnectInfo();
+        disconnectInfo = RKNetController::instance->getWifiDisconnectInfo();
     }
 
     // Setup message info with category and error code (not used by every message)
-    u32 disconnectCategory = self->disconnectInfo.errorCategory;
+    u32 disconnectCategory = disconnectInfo.errorCategory;
     MessageInfo msgInfo;
-    msgInfo.intVals[0] = self->disconnectInfo.errorCode;
+    msgInfo.intVals[0] = disconnectInfo.errorCode;
 
     // Various errors, display a different message depending on the error code
     if (disconnectCategory == WifiDisconnectInfo::ERROR_WITH_CODE) {
-        u32 errorMsg = GetErrorMessage(self->disconnectInfo.errorCode, &msgInfo);
-        self->messageBox.setText(errorMsg, &msgInfo);
+        u32 errorMsg = GetErrorMessage(disconnectInfo.errorCode, &msgInfo);
+        messageBox.setText(errorMsg, &msgInfo);
         section->shutdownNet();
 
     // Mii name detected as offensive, use the dedicated message (no error codes available)
     } else if (disconnectCategory == WifiDisconnectInfo::ERROR_OFFENSIVE_MII) {
-        self->messageBox.setText(4016, nullptr);
+        messageBox.setText(4016, nullptr);
         section->shutdownNet();
 
     // Generic error, unsure of use cases
     } else if (disconnectCategory == WifiDisconnectInfo::ERROR_GENERIC) {
-        self->messageBox.setText(2072, nullptr);
+        messageBox.setText(2072, nullptr);
         section->shutdownNet();
 
     // There was a fatal error, prevent returning to the main menu and display the error code
     // TODO allow restarting the game instead of disabling the button?
     } else if (disconnectCategory == WifiDisconnectInfo::ERROR_UNRECOVERABLE) {
-        self->messageBox.setText(2052, &msgInfo);
-        self->okButton.hidden = true;
-        self->inputManager.playerEnabledFlags = 0;
+        messageBox.setText(2052, &msgInfo);
+        okButton.hidden = true;
+        inputManager.playerEnabledFlags = 0;
     }
 }
