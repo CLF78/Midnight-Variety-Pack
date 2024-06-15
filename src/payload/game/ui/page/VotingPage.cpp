@@ -13,7 +13,7 @@
 
 // VotingPage::setPlayerVote() override
 // Ensure the correct track name is displayed
-kmBranchDefCpp(0x80643F8C, NULL, bool, VotingPage* self, u32 playerIdx) {
+REPLACE bool VotingPage::setPlayerVote(u32 playerIdx) {
 
     // Get VotingBackPage, bail if it doesn't exist
     VotingBackPage* page = VotingBackPage::getPage();
@@ -25,7 +25,7 @@ kmBranchDefCpp(0x80643F8C, NULL, bool, VotingPage* self, u32 playerIdx) {
         return false;
 
     // If the vote has already been set, bail
-    if (self->votes[playerIdx] != -1)
+    if (votes[playerIdx] != -1)
         return false;
 
     // Get aid and local player index
@@ -41,9 +41,9 @@ kmBranchDefCpp(0x80643F8C, NULL, bool, VotingPage* self, u32 playerIdx) {
     u16 bmgId = CupManager::getTrackName(track);
 
     // Set the vote
-    self->voteControls[playerIdx].setData(track == CupData::RANDOM_TRACK_VOTE, bmgId, &page->miiGroup,
-                                          playerIdx, RKNetController::instance->isLocalPlayer(aid),
-                                          page->playerInfos[playerIdx].team);
+    voteControls[playerIdx].setData(track == CupData::RANDOM_TRACK_VOTE, bmgId, &page->miiGroup,
+                                    playerIdx, RKNetController::instance->isLocalPlayer(aid),
+                                    page->playerInfos[playerIdx].team);
     return true;
 }
 

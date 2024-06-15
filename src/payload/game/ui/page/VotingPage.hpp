@@ -20,6 +20,7 @@ public:
 
     virtual TypeInfo* getTypeInfo() const;
 
+    bool setPlayerVote(u32 playerIdx);
     void submitVote(u32 courseId);
 
     static VotingPage* getPage() {
