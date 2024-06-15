@@ -24,7 +24,7 @@ REPLACE void RaceConfig::Scenario::initCoursePositions() {
     // Update starting positions if we're online
     else if (settings.isOnline()) {
 
-        // Initialize position array
+        // Initialize position array using the player ID
         u8 startPositions[ARRAY_SIZE(players)];
         for (int i = 0; i < ARRAY_SIZE(players); i++) {
             startPositions[i] = i + 1;

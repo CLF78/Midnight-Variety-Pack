@@ -31,8 +31,7 @@ public:
     kmListHookNode* next;
     Func func;
 
-    kmListHookNode(kmListHook* parent, Func function) : func(function) {
-        this->next = parent->head;
+    kmListHookNode(kmListHook* parent, Func function) : func(function), next(parent->head) {
         parent->head = this;
     }
 };

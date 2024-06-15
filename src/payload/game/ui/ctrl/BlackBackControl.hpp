@@ -10,4 +10,4 @@ public:
     virtual const TypeInfo* getTypeInfo() const;
     virtual const char* getTypeName() const;
 };
-size_assert(BlackBackControl, 0x174);
+size_assert(BlackBackControl, sizeof(LayoutUIControl));

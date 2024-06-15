@@ -12,4 +12,4 @@ public:
 
     void setText(u32 bmgId, MessageInfo* info);
 };
-size_assert(CtrlMenuInstructionText, 0x174);
+size_assert(CtrlMenuInstructionText, sizeof(LayoutUIControl));

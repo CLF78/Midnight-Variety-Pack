@@ -10,5 +10,5 @@
 kmBranchDefCpp(0x80760A88, 0x80760A98, float, AnmHolder* anm) {
 
 	// Get animation frame count, otherwise a dummy value
-	return (anm != nullptr) ? anm->GetFrameCount() : 0.0f;
+	return anm ? anm->GetFrameCount() : 0.0f;
 }

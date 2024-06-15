@@ -42,7 +42,7 @@ size_assert(WifiMenuPage, 0xF34);
 
 class WifiMenuPageEx : public WifiMenuPage {
 public:
-    WifiMenuPageEx() : WifiMenuPage() {}
+    WifiMenuPageEx() {}
 
     virtual void beforeCalc();
 };
