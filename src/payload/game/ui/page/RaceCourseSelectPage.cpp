@@ -2,6 +2,7 @@
 #include <game/ui/page/RaceCourseSelectPage.hpp>
 #include <game/ui/page/RaceCupSelectPage.hpp>
 #include <game/ui/page/VotingPage.hpp>
+#include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <game/system/RaceConfig.hpp>
@@ -67,17 +68,18 @@ REPLACE void RaceCourseSelectPage::onActivate() {
     MenuPage::onActivate();
 
     // Set the instruction text based on the game mode
-    u32 msgId = 0;
+    u32 msgId = Message::NONE;
     MessageInfo msgInfo;
     switch(RaceConfig::instance->menuScenario.settings.gameMode) {
 
         case RaceConfig::Settings::GAMEMODE_TT:
-            msgId = 3361;
+            msgId = Message::Menu::INSTRUCTION_TEXT_TIME_TRIAL;
             break;
 
         case RaceConfig::Settings::GAMEMODE_VS:
-            msgId = (RaceConfig::instance->menuScenario.settings.modeFlags &
-                     RaceConfig::Settings::FLAG_TEAMS) ? 3366 : 3363;
+            msgId = (RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_TEAMS) ?
+                    Message::Menu::INSTRUCTION_TEXT_TEAM_VS :
+                    Message::Menu::INSTRUCTION_TEXT_VS;
             break;
 
         default:
@@ -88,23 +90,23 @@ REPLACE void RaceCourseSelectPage::onActivate() {
     switch (RaceConfig::instance->menuScenario.settings.engineClass) {
 
         case RaceConfig::Settings::CC_50:
-            msgInfo.messageIds[0] = 3411;
+            msgInfo.messageIds[0] = Message::Menu::CC_50;
             break;
 
         case RaceConfig::Settings::CC_100:
-            msgInfo.messageIds[0] = 3412;
+            msgInfo.messageIds[0] = Message::Menu::CC_100;
             break;
 
         case RaceConfig::Settings::CC_150:
-            msgInfo.messageIds[0] = 3413;
+            msgInfo.messageIds[0] = Message::Menu::CC_150;
             break;
 
         case RaceConfig::Settings::CC_200:
-            msgInfo.messageIds[0] = 20003;
+            msgInfo.messageIds[0] = Message::Menu::CC_200;
             break;
 
         case RaceConfig::Settings::CC_500:
-            msgInfo.messageIds[0] = 20004;
+            msgInfo.messageIds[0] = Message::Menu::CC_500;
             break;
     }
 

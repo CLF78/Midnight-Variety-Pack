@@ -2,6 +2,7 @@
 #include <game/system/RaceConfig.hpp>
 #include <game/system/SaveManager.hpp>
 #include <game/ui/page/AwardPage.hpp>
+#include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <midnight/cup/CupManager.hpp>
 #include <midnight/save/SaveExpansionCup.hpp>
@@ -77,7 +78,7 @@ kmWrite8(0x805BCF87, 0x90);
 REPLACE void AwardPage::initType() {
 
     // Initialize values
-    u32 msgId = 0;
+    u32 msgId = Message::NONE;
     MessageInfo msgInfo;
     const char* iconPane = nullptr;
 
@@ -89,11 +90,11 @@ REPLACE void AwardPage::initType() {
     if (curSection == Section::AWARD_BT) {
         u32 battleType = settings->battleType;
         if (battleType == RaceConfig::Settings::BATTLE_BALLOON) {
-            msgId = 1415;
+            msgId = Message::Race::BALLOON_BATTLE;
             iconPane = "icon_09_balloon";
         }
         else if (battleType == RaceConfig::Settings::BATTLE_COIN) {
-            msgId = 1416;
+            msgId = Message::Race::COIN_RUNNERS;
             iconPane = "icon_10_coin";
         }
 
@@ -107,29 +108,31 @@ REPLACE void AwardPage::initType() {
             iconPane = "icon_11_flag";
 
         // Get the message depending on the mode
-        msgId = (curSection == Section::AWARD_GP) ? 1421 : 1422;
+        msgId = (curSection == Section::AWARD_GP) ?
+                Message::Race::AWARD_GP :
+                Message::Race::AWARD_VS;
 
         // Set the CC
         u32 engineClass = settings->engineClass;
         switch (engineClass) {
             case RaceConfig::Settings::CC_50:
-                msgInfo.messageIds[0] = 1417;
+                msgInfo.messageIds[0] = Message::Race::CC_50;
                 break;
 
             case RaceConfig::Settings::CC_100:
-                msgInfo.messageIds[0] = 1418;
+                msgInfo.messageIds[0] = Message::Race::CC_100;
                 break;
 
             case RaceConfig::Settings::CC_150:
-                msgInfo.messageIds[0] = 1419;
+                msgInfo.messageIds[0] = Message::Race::CC_150;
                 break;
 
             case RaceConfig::Settings::CC_200:
-                msgInfo.messageIds[0] = 1600;
+                msgInfo.messageIds[0] = Message::Race::CC_200;
                 break;
 
             case RaceConfig::Settings::CC_500:
-                msgInfo.messageIds[0] = 1601;
+                msgInfo.messageIds[0] = Message::Race::CC_500;
                 break;
         }
 

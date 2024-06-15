@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <game/ui/LayoutUIControl.hpp>
+#include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/util/NandUtil.hpp>
 
@@ -15,11 +16,11 @@ kmCallDefCpp(0x806207CC, void, LayoutUIControl* self, u32 msgId, MessageInfo* ms
     if (SectionManager::instance->curSection->sectionID != Section::SAVE_CANNOT_READ_RFL) {
         int checkError = SectionManager::instance->saveGhostManager->nandManagerCheckError;
         if (checkError & NandUtil::CHECK_ERROR_BLOCKS)
-            msgId = 2053;
+            msgId = Message::Menu::ERROR_NOT_ENOUGH_MEMORY;
         else if (checkError & NandUtil::CHECK_ERROR_INODES)
-            msgId = 2071;
+            msgId = Message::Menu::ERROR_NOT_ENOUGH_INODES;
         else
-            msgId = 2057;
+            msgId = Message::Menu::ERROR_COULD_NOT_READ_MEMORY;
     }
 
     // Set the text

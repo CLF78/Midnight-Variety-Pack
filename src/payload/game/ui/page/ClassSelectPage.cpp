@@ -1,6 +1,7 @@
 #include <common/Common.hpp>
 #include <game/ui/ctrl/CtrlMenuMovieButton.hpp>
 #include <game/ui/page/ClassSelectPage.hpp>
+#include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/system/RaceConfig.hpp>
 
@@ -78,6 +79,12 @@ REPLACE PushButton* ClassSelectPage::loadButton(int buttonIdx) {
         "kinoko_3",
     };
 
+    static const u32 btnMsgIds[] = {
+        Message::Menu::CC_SELECT_BTN_150CC,
+        Message::Menu::CC_SELECT_BTN_200CC,
+        Message::Menu::CC_SELECT_BTN_500CC,
+    };
+
     // Create the button and insert it
     CtrlMenuMovieButton* movieBtn = new CtrlMenuMovieButton();
     insertChild(curChildCount++, movieBtn, 0);
@@ -85,12 +92,14 @@ REPLACE PushButton* ClassSelectPage::loadButton(int buttonIdx) {
     // Load the layout
     movieBtn->load("button", "ClassSelect", btnVariants[buttonIdx], activePlayers, false, false);
 
-    // Set movie, icon and text message
+    // Crop the movie correctly
     u32 cropTop = (buttonIdx > 1) ? buttonIdx : buttonIdx + 4;
     const float totalBtns = 1.0f / 6.0f;
     movieBtn->setMovieCrop("black_base", cropTop * totalBtns, (cropTop + 1) * totalBtns, 0.0f, 1.0f);
+
+    // Set icon and text message
     movieBtn->setMatIcon("kinoko_set_p", btnMats[buttonIdx]);
-    movieBtn->setText(20000 + (buttonIdx & 3), nullptr);
+    movieBtn->setText(btnMsgIds[buttonIdx & 3], nullptr);
     return movieBtn;
 }
 

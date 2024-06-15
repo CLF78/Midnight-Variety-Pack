@@ -1,6 +1,7 @@
 #include <common/Common.hpp>
 #include <game/ui/page/BattleCupSelectPage.hpp>
 #include <game/ui/page/VotingBackPage.hpp>
+#include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <midnight/cup/BattleCupSelectArrow.hpp>
@@ -66,9 +67,9 @@ void BattleCupSelectPageEx::onActivate() {
     // Adjust X wrapping by setting the correct distance function
     // 0 wraps on the X and Y axis, 1 wraps on Y axis only
     bool arrowsEnabled = CupManager::GetCupArrowsEnabled(true);
-    int wrapType = (CupManager::GetCupCount(true) == 2 || arrowsEnabled)
-        ? MultiControlInputManager::Y_WRAP
-        : MultiControlInputManager::XY_WRAP;
+    int wrapType = (CupManager::GetCupCount(true) == 2 || arrowsEnabled) ?
+                    MultiControlInputManager::Y_WRAP :
+                    MultiControlInputManager::XY_WRAP;
     multiControlInputManager.setDistanceFunc(wrapType);
 
     // Disable the arrows if not required
@@ -80,7 +81,9 @@ void BattleCupSelectPageEx::onActivate() {
     // If we're offline, set the instruction text according to the battle type
     if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID)) {
         u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
-        u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ? 3364 : 3365;
+        u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
+                    Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
+                    Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
         instructionText->setText(msgId, nullptr);
         return;
     }
@@ -98,9 +101,9 @@ void BattleCupSelectPageEx::onActivate() {
 
     // Reset it and update the messages
     popupPage->reset();
-    popupPage->setWindowMessage(4356, nullptr);
-    popupPage->configureButton(0, 4351, nullptr, Page::ANIM_NONE, nullptr);
-    popupPage->configureButton(1, 4352, nullptr, Page::ANIM_NONE, nullptr);
+    popupPage->setWindowMessage(Message::Menu::VOTE_FOR_STAGE_QUESTION, nullptr);
+    popupPage->configureButton(0, Message::Menu::VOTE, nullptr, Page::ANIM_NONE, nullptr);
+    popupPage->configureButton(1, Message::Menu::VOTE_RANDOM, nullptr, Page::ANIM_NONE, nullptr);
 
     // Default to the Vote button
     popupPage->currSelected = 0;

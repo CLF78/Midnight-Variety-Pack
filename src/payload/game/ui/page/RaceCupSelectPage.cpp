@@ -2,6 +2,7 @@
 #include <game/system/RaceConfig.hpp>
 #include <game/system/SaveManager.hpp>
 #include <game/ui/page/RaceCupSelectPage.hpp>
+#include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <midnight/cup/CupManager.hpp>
@@ -80,12 +81,12 @@ void RaceCupSelectPageEx::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u3
 
         // Get the message ID
         if (cupData->mCompleted)
-            msgInfo.messageIds[0] = 3373 + cupData->mRank;
+            msgInfo.messageIds[0] = Message::Menu::GP_RANK_3_STARS + cupData->mRank;
         else
-            msgInfo.messageIds[0] = 3382;
+            msgInfo.messageIds[0] = Message::Menu::GP_RANK_NONE;
 
         // Set it
-        this->instructionText->setText(3360, &msgInfo);
+        this->instructionText->setText(Message::Menu::INSTRUCTION_TEXT_GP_RANK, &msgInfo);
     }
 }
 
@@ -145,9 +146,9 @@ void RaceCupSelectPageEx::onActivate() {
 
     // Set top message
     if (RaceConfig::instance->menuScenario.settings.gameMode == RaceConfig::Settings::GAMEMODE_GP)
-        titleBmgId = 3404;
+        titleBmgId = Message::Menu::SELECT_CUP;
     else
-        titleBmgId = 3405;
+        titleBmgId = Message::Menu::SELECT_COURSE;
 
     // Set default cup button to the cup the previously selected track belongs to
     if (animId == Page::ANIM_NEXT) {
@@ -178,9 +179,9 @@ void RaceCupSelectPageEx::onActivate() {
 
         // Reset it and update the messages
         popupPage->reset();
-        popupPage->setWindowMessage(4350, nullptr);
-        popupPage->configureButton(0, 4351, nullptr, Page::ANIM_NONE, nullptr);
-        popupPage->configureButton(1, 4352, nullptr, Page::ANIM_NONE, nullptr);
+        popupPage->setWindowMessage(Message::Menu::VOTE_FOR_COURSE_QUESTION, nullptr);
+        popupPage->configureButton(0, Message::Menu::VOTE, nullptr, Page::ANIM_NONE, nullptr);
+        popupPage->configureButton(1, Message::Menu::VOTE_RANDOM, nullptr, Page::ANIM_NONE, nullptr);
 
         // Default to the Vote button
         popupPage->currSelected = 0;
@@ -191,17 +192,18 @@ void RaceCupSelectPageEx::onActivate() {
     }
 
     // Set the instruction text based on the game mode
-    u32 msgId = 0;
+    u32 msgId = Message::NONE;
     MessageInfo msgInfo;
     switch(RaceConfig::instance->menuScenario.settings.gameMode) {
 
         case RaceConfig::Settings::GAMEMODE_TT:
-            msgId = 3361;
+            msgId = Message::Menu::INSTRUCTION_TEXT_TIME_TRIAL;
             break;
 
         case RaceConfig::Settings::GAMEMODE_VS:
-            msgId = (RaceConfig::instance->menuScenario.settings.modeFlags &
-                     RaceConfig::Settings::FLAG_TEAMS) ? 3366 : 3363;
+            msgId = (RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_TEAMS) ?
+                    Message::Menu::INSTRUCTION_TEXT_TEAM_VS :
+                    Message::Menu::INSTRUCTION_TEXT_VS;
             break;
 
         default:
@@ -212,23 +214,23 @@ void RaceCupSelectPageEx::onActivate() {
     switch (RaceConfig::instance->menuScenario.settings.engineClass) {
 
         case RaceConfig::Settings::CC_50:
-            msgInfo.messageIds[0] = 3411;
+            msgInfo.messageIds[0] = Message::Menu::CC_50;
             break;
 
         case RaceConfig::Settings::CC_100:
-            msgInfo.messageIds[0] = 3412;
+            msgInfo.messageIds[0] = Message::Menu::CC_100;
             break;
 
         case RaceConfig::Settings::CC_150:
-            msgInfo.messageIds[0] = 3413;
+            msgInfo.messageIds[0] = Message::Menu::CC_150;
             break;
 
         case RaceConfig::Settings::CC_200:
-            msgInfo.messageIds[0] = 20003;
+            msgInfo.messageIds[0] = Message::Menu::CC_200;
             break;
 
         case RaceConfig::Settings::CC_500:
-            msgInfo.messageIds[0] = 20004;
+            msgInfo.messageIds[0] = Message::Menu::CC_500;
             break;
     }
 

@@ -1,16 +1,17 @@
 #include <common/Common.hpp>
-#include <game/ui/ctrl/CtrlRaceBattleSetPoint.hpp>
 #include <game/ui/ControlLoader.hpp>
+#include <game/ui/Message.hpp>
 #include <game/ui/UIUtils.hpp>
+#include <game/ui/ctrl/CtrlRaceBattleSetPoint.hpp>
 #include <game/ui/page/DemoPage.hpp>
 #include <game/system/MultiDvdArchive.hpp>
 #include <game/system/ResourceManager.hpp>
 #include <platform/stdio.h>
 #include <midnight/cup/CupManager.hpp>
 
-///////////////////////
-// Custom Cup System //
-///////////////////////
+///////////////////////////////////////////////
+// Custom Cup System / Custom Engine Classes //
+///////////////////////////////////////////////
 
 // Apply custom cup icons and cup/track names
 REPLACE void DemoPage::onInit() {
@@ -59,7 +60,7 @@ REPLACE void DemoPage::onInit() {
         msgInfo.messageIds[0] = CupManager::GetCupList()[cupIdx].cupName;
 
         // Set the text depending on the race number
-        topText.setText(1410 + raceSettings->raceNumber, &msgInfo);
+        topText.setText(Message::Race::GP_RACE_1 + raceSettings->raceNumber, &msgInfo);
     
     } else if (curSection == Section::DEMO_VS) {
 
@@ -69,23 +70,23 @@ REPLACE void DemoPage::onInit() {
         // Set the CC argument
         switch (raceSettings->engineClass) {
             case RaceConfig::Settings::CC_50:
-                msgInfo.messageIds[0] = 1417;
+                msgInfo.messageIds[0] = Message::Race::CC_50;
                 break;
 
             case RaceConfig::Settings::CC_100:
-                msgInfo.messageIds[0] = 1418;
+                msgInfo.messageIds[0] = Message::Race::CC_100;
                 break;
 
             case RaceConfig::Settings::CC_150:
-                msgInfo.messageIds[0] = 1419;
+                msgInfo.messageIds[0] = Message::Race::CC_150;
                 break;
 
             case RaceConfig::Settings::CC_200:
-                msgInfo.messageIds[0] = 1600;
+                msgInfo.messageIds[0] = Message::Race::CC_200;
                 break;
 
             case RaceConfig::Settings::CC_500:
-                msgInfo.messageIds[0] = 1601;
+                msgInfo.messageIds[0] = Message::Race::CC_500;
                 break;
         }
 
@@ -95,7 +96,10 @@ REPLACE void DemoPage::onInit() {
         msgInfo.intVals[1] = globalCtx->raceCount;
 
         // Set the message number
-        u32 msgId = (raceSettings->modeFlags & RaceConfig::Settings::FLAG_TEAMS) ? 1409 : 1414;
+        u32 msgId = (raceSettings->modeFlags & RaceConfig::Settings::FLAG_TEAMS) ?
+                    Message::Race::TEAM_VS :
+                    Message::Race::VS;
+
         topText.setText(msgId, &msgInfo);
     
     } else if (curSection == Section::DEMO_BT) {
@@ -106,10 +110,10 @@ REPLACE void DemoPage::onInit() {
         // Set icon and top text depending on the battle mode
         if (raceSettings->battleType == RaceConfig::Settings::BATTLE_BALLOON) {
             topText.setMatIcon("cup_icon", "icon_09_balloon");
-            topText.setText(1415, nullptr);
+            topText.setText(Message::Race::BALLOON_BATTLE, nullptr);
         } else {
             topText.setMatIcon("cup_icon", "icon_10_coin");
-            topText.setText(1416, nullptr);
+            topText.setText(Message::Race::COIN_RUNNERS, nullptr);
         }
 
         // Create red bubbles

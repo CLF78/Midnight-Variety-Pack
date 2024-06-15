@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <game/net/RKNetController.hpp>
+#include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/page/WifiDisconnectPage.hpp>
 
@@ -21,15 +22,15 @@ u32 GetErrorMessage(u32 errorCode, MessageInfo* extraInfo) {
 
             // Can't connect to the internet
             case 20100:
-                return 4601;
+                return Message::Menu::ERROR_NO_CONNECTION;
 
             // WFC shutdown message, can only appear if domain patches were applied incorrectly
             case 20110:
-                return 4602;
+                return Message::Menu::ERROR_INCORRECT_WIFI_PATCHES;
 
             // Let other errors fall back to a generic message
             default:
-                return 4603;
+                return Message::Menu::ERROR_CONNECTION_GENERIC;
         }
 
     // 23XXX - Wiimmfi NASWII error codes
@@ -38,89 +39,89 @@ u32 GetErrorMessage(u32 errorCode, MessageInfo* extraInfo) {
 
             // 1 hour before activation
             case 23801:
-                return 4605;
+                return Message::Menu::ERROR_ACTIVATION_1_HOUR;
 
             // XX hours before activation
             case 23802 ... 23879:
                 extraInfo->intVals[1] = errorCode - 23800;
-                return 4604;
+                return Message::Menu::ERROR_ACTIVATION_X_HOURS;
 
             // 1 day before activation
             case 23881:
-                return 4609;
+                return Message::Menu::ERROR_ACTIVATION_1_DAY;
 
             // X days before activation
             case 23882 ... 23887:
                 extraInfo->intVals[1] = errorCode - 23880;
-                return 4606;
+                return Message::Menu::ERROR_ACTIVATION_X_DAYS;
 
             // Console registered but needs activation
             case 23899:
-                return 4610;
+                return Message::Menu::ERROR_CONSOLE_REGISTERED;
 
             // Server under maintenance
             case 23901:
-                return 4611;
+                return Message::Menu::ERROR_MAINTENANCE;
 
             // Server under heavy traffic
             case 23902:
-                return 4612;
+                return Message::Menu::ERROR_HIGH_TRAFFIC;
 
             // Profile creation disabled
             case 23903:
-                return 4613;
+                return Message::Menu::ERROR_PROFILE_CREATION_DISABLED;
 
             // Outdated patches (may happen in the future)
             case 23904 ... 23905:
             case 23951 ... 23953:
-                return 4614;
+                return Message::Menu::ERROR_OUTDATED_WIFI_PATCHES;
 
             // Banned profile (imported savegame most likely)
             case 23910:
             case 23912:
-                return 4615;
+                return Message::Menu::ERROR_PROFILE_BANNED;
 
             // Profile creation denied
             case 23911:
-                return 4616;
+                return Message::Menu::ERROR_PROFILE_CREATION_DENIED;
 
             // Console creation denied
             case 23913:
-                return 4617;
+                return Message::Menu::ERROR_CONSOLE_CREATION_DENIED;
 
             // Console banned
             case 23914:
-                return 4618;
+                return Message::Menu::ERROR_CONSOLE_BANNED;
 
             // NAND not imported
             case 23915:
             case 23918:
-                return 4619;
+                return Message::Menu::ERROR_DEFAULT_NAND;
 
             // Proxies not allowed
             case 23916:
-                return 4620;
+                return Message::Menu::ERROR_PROXY;
 
             // User banned
             case 23917:
-                return 4621;
+                return Message::Menu::ERROR_BANNED;
 
             // Profile not created on Wiimmfi
             case 23919:
-                return 4622;
+                return Message::Menu::ERROR_INVALID_PROFILE;
 
             // Offensive or invalid Mii
             case 23927 ... 23928:
-                return 4623;
+                return Message::Menu::ERROR_OFFENSIVE_MII;
 
             // Various patching errors
             case 23931 ... 23935:
             case 23971 ... 23973:
-                return 4602;
+                return Message::Menu::ERROR_INCORRECT_WIFI_PATCHES;
 
             // Let other errors fall back to a generic message
             default:
-                return 4603;
+                return Message::Menu::ERROR_CONNECTION_GENERIC;
         }
 
     // 29XXX - NAND Errors
@@ -129,24 +130,24 @@ u32 GetErrorMessage(u32 errorCode, MessageInfo* extraInfo) {
 
             // NAND full
             case 29000:
-                return 4607;
+                return Message::Menu::ERROR_CONNECTION_NOT_ENOUGH_MEMORY;
 
             // NAND damaged
             case 29001:
-                return 4608;
+                return Message::Menu::ERROR_CONNECTION_NAND_DAMAGED;
 
             // Let other errors fall back to a generic message
             default:
-                return 4639;
+                return Message::Menu::ERROR_CONNECTION_NAND_ACCESS;
         }
 
     // 31XXX - DLS1 Errors
     } else if (IsErrorInRange(errorCode, 31000, 32000))
-        return 4624;
+        return Message::Menu::ERROR_DOWNLOAD;
 
     // 33XXX - Profanity Check Errors
     else if (IsErrorInRange(errorCode, 33000, 34000))
-        return 4626;
+        return Message::Menu::ERROR_MII_NAME_CHECK;
 
     // 5XXXX - Network Connection Errors
     else if (IsErrorInRange(errorCode, 50000, 60000)) {
@@ -154,38 +155,38 @@ u32 GetErrorMessage(u32 errorCode, MessageInfo* extraInfo) {
 
             // No internet connection configured
             case 50200 ... 50299:
-                return 4627;
+                return Message::Menu::ERROR_NO_CONNECTION_CONFIGURED;
 
             // Cannot connect to LAN
             case 50400 ... 50499:
             case 51400 ... 51499:
-                return 4628;
+                return Message::Menu::ERROR_UNSTABLE_LAN_ADAPTER;
 
             // Cannot connect to access point
             case 51000 ... 51099:
             case 51300 ... 51399:
-                return 4629;
+                return Message::Menu::ERROR_AP_CONFIG;
 
             // DHCP error or IP address conflict
             case 52000 ... 52099:
             case 52700 ... 52799:
-                return 4630;
+                return Message::Menu::ERROR_IP_SETTINGS;
 
             // DNS error
             case 52100 ... 52199:
-                return 4631;
+                return Message::Menu::ERROR_DNS_SETTINGS;
 
             // Proxy configuration error
             case 52400 ... 52599:
-                return 4632;
+                return Message::Menu::ERROR_PROXY_SETTINGS;
 
             // Unstable connection
             case 54000 ... 54099:
-                return 4633;
+                return Message::Menu::ERROR_UNSTABLE_CONNECTION;
 
             // Fall back to a generic error message
             default:
-                return 4601;
+                return Message::Menu::ERROR_NO_CONNECTION;
         }
 
     // 6XXXX - Network Errors (Login State)
@@ -194,11 +195,11 @@ u32 GetErrorMessage(u32 errorCode, MessageInfo* extraInfo) {
 
             // Error 60000 cannot appear unless the patch was removed
             case 60000:
-                return 4602;
+                return Message::Menu::ERROR_INCORRECT_WIFI_PATCHES;
 
             // Fall back to a generic error message
             default:
-                return 4634;
+                return Message::Menu::ERROR_DURING_LOGIN;
         }
 
     // 7XXXX - Network Errors (Friend Roster Synchronization State)
@@ -207,11 +208,11 @@ u32 GetErrorMessage(u32 errorCode, MessageInfo* extraInfo) {
 
             // Possible kick or ban
             case 71010:
-                return 4638;
+                return Message::Menu::ERROR_KICK_BAN;
 
             // Fall back to a generic error message
             default:
-                return 4635;
+                return Message::Menu::ERROR_DURING_FRIEND_PROCESS;
         }
 
     // 8XXXX - Network Errors (Matchmaking State)
@@ -220,15 +221,15 @@ u32 GetErrorMessage(u32 errorCode, MessageInfo* extraInfo) {
 
             // Possible kick or ban
             case 81010:
-                return 4638;
+                return Message::Menu::ERROR_KICK_BAN;
 
             // Bad connection
             case 86420:
-                return 4640;
+                return Message::Menu::ERROR_86420;
 
             // Fall back to a generic error message
             default:
-                return 4636;
+                return Message::Menu::ERROR_DURING_MATCHMAKING;
         }
 
     // 9XXXX - Network Errors (Other Stage)
@@ -237,19 +238,19 @@ u32 GetErrorMessage(u32 errorCode, MessageInfo* extraInfo) {
 
             // Possible kick or ban
             case 91010:
-                return 4638;
+                return Message::Menu::ERROR_KICK_BAN;
 
             // Fall back to a generic error message
             default:
-                return 4637;
+                return Message::Menu::ERROR_DURING_GAMEPLAY;
         }
 
     // 1XXXXX - WiiConnect24 Errors
     } else if (errorCode >= 100000)
-        return 4600;
+        return Message::Menu::ERROR_COMMUNICATION;
 
     // Fallback to all the above
-    return 4625;
+    return Message::Menu::ERROR_CONNECTION_UNKNOWN;
 }
 
 // Display the error code in more cases and make the error messages more descriptive
@@ -264,7 +265,7 @@ REPLACE void WifiDisconnectPage::onActivate() {
     // If the disconnection was triggered by the game, there are no error codes to display
     if (section->sectionID == Section::DC_WITHOUT_ERROR_CODE) {
         section->shutdownNet();
-        messageBox.setText(4018, nullptr);
+        messageBox.setText(Message::Menu::ERROR_DISCONNECTED_BY_GAME, nullptr);
         return;
     }
 
@@ -289,18 +290,18 @@ REPLACE void WifiDisconnectPage::onActivate() {
 
     // Mii name detected as offensive, use the dedicated message (no error codes available)
     } else if (disconnectCategory == WifiDisconnectInfo::ERROR_OFFENSIVE_MII) {
-        messageBox.setText(4016, nullptr);
+        messageBox.setText(Message::Menu::ERROR_OFFENSIVE_MII, nullptr);
         section->shutdownNet();
 
     // Generic error, unsure of use cases
     } else if (disconnectCategory == WifiDisconnectInfo::ERROR_GENERIC) {
-        messageBox.setText(2072, nullptr);
+        messageBox.setText(Message::Menu::ERROR_DISCONNECT_GENERIC, nullptr);
         section->shutdownNet();
 
     // There was a fatal error, prevent returning to the main menu and display the error code
     // TODO allow restarting the game instead of disabling the button?
     } else if (disconnectCategory == WifiDisconnectInfo::ERROR_UNRECOVERABLE) {
-        messageBox.setText(2052, &msgInfo);
+        messageBox.setText(Message::Menu::ERROR_UNRECOVERABLE, &msgInfo);
         okButton.hidden = true;
         inputManager.playerEnabledFlags = 0;
     }

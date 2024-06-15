@@ -1,4 +1,5 @@
 #include <common/Common.hpp>
+#include <game/ui/Message.hpp>
 #include <game/ui/page/MessagePopupPage.hpp>
 #include <game/ui/page/WifiMenuPage.hpp>
 #include <wiimmfi/Auth.hpp>
@@ -26,7 +27,7 @@ void WifiMenuPageEx::beforeCalc() {
     // Display the message
     MessageInfo msgInfo;
     msgInfo.strings[0] = Wiimmfi::Auth::sConsoleAssignMessage;
-    page->setWindowMessage(6602, &msgInfo);
+    page->setWindowMessage(Message::Menu::STRING_FORMATTER, &msgInfo);
 
     // Display the page and delete the pointer so this doesn't run again next frame
     addPage(Page::MESSAGE_POPUP, Page::ANIM_NEXT);
