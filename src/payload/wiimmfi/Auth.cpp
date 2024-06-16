@@ -146,7 +146,7 @@ void ParseAuthResponse(const char* response) {
 
     // Response type: P2P port
     // Store the UPNP port to be used
-    if (strstartw(response, RESPONSE_P2PPORT)) {
+    if (strstart(response, RESPONSE_P2PPORT)) {
         strshift(response, RESPONSE_P2PPORT);
         LOG_DEBUG("Received Wiimmfi P2P port: %s", response);
         Wiimmfi::Port::sPort = atoi(response);
@@ -154,7 +154,7 @@ void ParseAuthResponse(const char* response) {
 
     // Response type: console assignment message
     // Decode the message and store it for display later
-    else if (strstartw(response, RESPONSE_CONSOLE_ASSIGN)) {
+    else if (strstart(response, RESPONSE_CONSOLE_ASSIGN)) {
         strshift(response, RESPONSE_CONSOLE_ASSIGN);
         LOG_DEBUG("Received Wiimmfi console assignment message");
 
@@ -178,7 +178,7 @@ void ParseAuthResponse(const char* response) {
 
     // Response type: token
     // Decode the token and scramble it
-    else if (strstartw(response, RESPONSE_TOKEN)) {
+    else if (strstart(response, RESPONSE_TOKEN)) {
         strshift(response, RESPONSE_TOKEN);
         LOG_DEBUG("Received Wiimmfi scramble token.");
         Status::DecodeToken(response);

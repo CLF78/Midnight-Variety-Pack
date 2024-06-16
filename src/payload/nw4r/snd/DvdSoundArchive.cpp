@@ -22,7 +22,7 @@ int GetExtStreamEntryNum(const char* path) {
         return -1;
 
     // Check if the track name begins with "n", "r" or "S" (track music)
-    char start = path[strlenconst(BRSTM_PREFIX)];
+    char start = path[strlenc(BRSTM_PREFIX)];
     if (start == 'n' || start == 'r' || start == 'S') {
 
         // Reset the speed up value in ItemMusicManager

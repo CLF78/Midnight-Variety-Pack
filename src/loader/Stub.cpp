@@ -62,7 +62,7 @@ kmBranchDefCpp(0x800074D4, NULL, void) {
     Logger::CreateInstance(funcs->OSReport, funcs->OSFatal, funcs->vsnprintf);
 
     // Get code file and load it
-    path[strlenconst(KAMEK_FILE_PATH)] = funcs->identifier;
+    path[strlenc(KAMEK_FILE_PATH)] = funcs->identifier;
     Loader::LoadFromDisc(funcs, path);
 }
 

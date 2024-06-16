@@ -51,7 +51,7 @@ const char* GetVersion() {
         return nullptr;
 
     // Ensure the string is null-terminated
-    sVersionBuffer[strlenconst(sVersionBuffer)] = '\0';
+    sVersionBuffer[strlenc(sVersionBuffer)] = '\0';
 
     // Return the buffer
     sVersionObtained = true;
@@ -78,7 +78,7 @@ const char* GetRealProductCode() {
         return nullptr;
 
     // Ensure the string is null-terminated
-    sProdCodeBuffer[strlenconst(sProdCodeBuffer)] = '\0';
+    sProdCodeBuffer[strlenc(sProdCodeBuffer)] = '\0';
 
     // Return the buffer
     sProdCodeObtained = true;

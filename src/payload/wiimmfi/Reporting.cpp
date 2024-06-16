@@ -459,7 +459,7 @@ void ReportSuspendUpdate() {
 
     // For each aid, set 1 if suspended, 0 if it isn't suspended and the node exists, else "-"
     char buffer[] = "------------";
-    for (int i = 0; i < strlenconst(buffer); i++) {
+    for (int i = 0; i < strlenc(buffer); i++) {
         if (suspendMask & (1 << i))
             buffer[i] = '1';
         else if (DWCi_NodeInfoList_GetNodeInfoForAid(i))

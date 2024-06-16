@@ -14,7 +14,7 @@
 kmCallDefCpp(0x800FCEE8, int, GPConnection conn, char* data) {
 
     // Reproduce skipped code
-    if (strstartw(data, "\\bsi\\"))
+    if (strstart(data, "\\bsi\\"))
         return gpiProcessRecvBuddyStatusInfo(conn, data);
 
     // Call Wiimmfi code

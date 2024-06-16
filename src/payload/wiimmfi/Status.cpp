@@ -29,7 +29,7 @@ void DecodeToken(const char* encodedToken) {
 
     // Scramble the token
     // Start by filling an ASCII table
-    for (int i = 0; i < strlenconst(sScrambledToken); i++) {
+    for (int i = 0; i < strlenc(sScrambledToken); i++) {
         sScrambledToken[i] = i + ' ';
     }
 
@@ -38,7 +38,7 @@ void DecodeToken(const char* encodedToken) {
 
         // Run ASCII substitution
         static const char key[] = "0123456789,abcdefghijklmnopqrstuvwxyz|=+-_";
-        for (int i = 0; i < decodedLen && i < strlenconst(key); i++) {
+        for (int i = 0; i < decodedLen && i < strlenc(key); i++) {
             char c = sToken[i];
             char pos = key[i];
             sScrambledToken[pos - ' '] = c;
@@ -49,7 +49,7 @@ void DecodeToken(const char* encodedToken) {
 void ScrambleMessage(char* msg, int msgLen) {
     for (int i = 0; i < msgLen; i++) {
         u8 c = msg[i] - ' ';
-        if (c < strlenconst(sScrambledToken))
+        if (c < strlenc(sScrambledToken))
             msg[i] = sScrambledToken[c];
     }
 }
@@ -82,8 +82,8 @@ void SendMessage(const char* key, const char* value, int integerValue) {
     }
 
     // Scramble the message
-    ScrambleMessage(buffer + strlenconst(STATUS_HEADER),
-                    len - strlenconst(STATUS_TERMINATOR) - strlenconst(STATUS_HEADER));
+    ScrambleMessage(buffer + strlenc(STATUS_HEADER),
+                    len - strlenc(STATUS_TERMINATOR) - strlenc(STATUS_HEADER));
 
     // Lock interrupts and append message
     {
