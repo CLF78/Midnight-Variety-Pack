@@ -1,6 +1,7 @@
 ## RKNetSELECTHandler
 ### Patched
 - calcPhase
+- decideEngineClass
 - getPlayerVote
 - getStaticInstance
 - getWinningTrack
@@ -9,7 +10,6 @@
 - setSendPacket
 
 ### To Be Patched
-- decideEngineClass
 - decideTrack
 - prepareSendPacket
 

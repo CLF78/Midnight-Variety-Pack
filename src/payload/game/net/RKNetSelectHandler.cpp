@@ -3,6 +3,8 @@
 #include <game/net/RKNetPacketHolder.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
 #include <game/net/RKNetUserHandler.hpp>
+#include <game/util/Random.hpp>
+#include <midnight/cup/CupManager.hpp>
 #include <platform/string.h>
 #include <wiimmfi/RoomStall.hpp>
 
@@ -306,7 +308,62 @@ REPLACE void RKNetSELECTHandler::setSendPacket() {
 
 // TODO override this with custom chances
 REPLACE void RKNetSELECTHandler::decideEngineClass() {
-    REPLACED();
+
+    // Create randomizer
+    Random rnd;
+
+    // Default to the battle settings
+    int engineClass = RKNetEngineClassData::CLASS_BATTLE;
+    bool mirror = false;
+    u32 randNum;
+
+    // Decide the engine class based on the tracklist for VS
+    // TODO make the chances configurable instead of hardcoding them here
+    // TODO prevent overriding the engine class if explicitly set in the settings
+    if (mode == MODE_PUBLIC_VS || mode == MODE_PRIVATE_VS) {
+        switch (CupManager::currentCupList) {
+
+            // Chances: 100% 150cc
+            case CupManager::TRACKS_MIDNIGHT:
+                engineClass = RKNetEngineClassData::CLASS_150CC;
+                break;
+
+            // Chances: 99% 150cc, 1% 200cc
+            case CupManager::TRACKS_NOSTALGIA:
+                randNum = rnd.nextU32(100);
+                engineClass = (randNum == 99) ?
+                              RKNetEngineClassData::CLASS_200CC :
+                              RKNetEngineClassData::CLASS_150CC;
+                break;
+
+            // Chances: game-mode dependent
+            // - Regular VS: 40% 150cc, 40% 200cc, 20% 500cc
+            // TODO add support for other game modes
+            case CupManager::TRACKS_FUSION:
+                randNum = rnd.nextU32(100);
+                if (randNum > 79) {
+                    engineClass = RKNetEngineClassData::CLASS_500CC;
+                } else if (randNum > 39) {
+                    engineClass = RKNetEngineClassData::CLASS_200CC;
+                } else {
+                    engineClass = RKNetEngineClassData::CLASS_150CC;
+                }
+                break;
+        }
+    }
+
+    // Decide whether mirror mode should be enabled
+    // Chances: 90% Normal, 10% Mirror
+    // TODO make the chances configurable instead of hardcoding them here
+    // TODO prevent overriding the flag if explicitly set in the settings
+    randNum = rnd.nextU32(100);
+    if (randNum > 89) {
+        mirror = true;
+    }
+
+    // Set the data
+    sendPacket.engineClass.engineClass = engineClass;
+    sendPacket.engineClass.isMirror = mirror;
 }
 
 // TODO override this

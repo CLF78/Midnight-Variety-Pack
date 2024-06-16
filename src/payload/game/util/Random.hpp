@@ -3,7 +3,6 @@
 class Random {
 public:
     Random();
-
     virtual ~Random();
 
     u32 nextU32(u32 range);
