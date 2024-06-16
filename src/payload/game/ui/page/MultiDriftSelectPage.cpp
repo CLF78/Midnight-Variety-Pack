@@ -23,7 +23,7 @@ kmCallDefCpp(0x8084B774, void, GlobalContext* self) {
 kmCallDefCpp(0x8084B73C, void, GlobalContext* self) {
 
     // Generate the order
-    CupManager::generateRandomCourseOrder(true);
+    CupManager::generateRandomCourseOrder(nullptr, true);
 
     // Store the first arena properly
     u16 firstTrack = self->arenaOrder[0];

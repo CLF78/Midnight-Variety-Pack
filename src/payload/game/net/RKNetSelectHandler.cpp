@@ -5,6 +5,7 @@
 #include <game/net/RKNetUserHandler.hpp>
 #include <game/util/Random.hpp>
 #include <midnight/cup/CupManager.hpp>
+#include <midnight/online/RepickQueue.hpp>
 #include <platform/string.h>
 #include <wiimmfi/RoomStall.hpp>
 
@@ -366,9 +367,55 @@ REPLACE void RKNetSELECTHandler::decideEngineClass() {
     sendPacket.engineClass.isMirror = mirror;
 }
 
-// TODO override this
 REPLACE void RKNetSELECTHandler::decideTrack() {
-    REPLACED();
+
+    // Check if battle
+    bool isBattle = (mode == MODE_PRIVATE_BATTLE || mode == MODE_PUBLIC_BATTLE);
+
+    // Bail if no one is connected
+    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    if (sub->playerCount <= sub->localPlayerCount) return;
+
+    // Collect every player's vote
+    for (int i = 0; i < 12; i++) {
+
+        // Check if AID is available
+        if (sub->availableAids & (1 << i)) {
+
+            // Get the vote and ensure it is valid
+            u16 track = getPlayerVote(i);
+            u32 trackCount = CupManager::GetTrackCount();
+            track = (track < trackCount) ? track : CupData::RANDOM_TRACK_VOTE;
+
+            // Add it to the repick manager
+            RepickQueue::instance.AddVote(i, track);
+        }
+    }
+
+    // Get the vote
+    RepickQueue::Vote vote = RepickQueue::instance.GetWinningVote();
+
+    // Get the track, and if it's random then get a random track
+    u16 track = vote.track;
+    if (track == CupData::RANDOM_TRACK_VOTE) {
+
+        // Initialize loop
+        Random randomizer;
+        const CupData::CupList* cupList = CupManager::GetCupListData(CupManager::GetCurrentTracklist(isBattle));
+
+        // Get a random track until it's not in the queue
+        do {
+            const CupData::Cup* cup = &cupList->cups[randomizer.nextU32(cupList->cupCount)];
+            track = cup->entryId[randomizer.nextU32(4)];
+        } while (RepickQueue::instance.GetQueuePosition(track) != -1);
+
+        LOG_DEBUG("Got a random track, picked %d.", track);
+    }
+
+    // Set the data and clear the votes
+    sendPacket.winningVoterAid = vote.aid;
+    expansion.sendPacketEx.winningCourse = track;
+    RepickQueue::instance.ClearVotes();
 }
 
 // TODO override this to fix voting and add custom settings

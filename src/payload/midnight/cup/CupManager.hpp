@@ -52,9 +52,6 @@ public:
     // The buffer for the track name
     static char currentSzsPath[0x40];
 
-    // The randomizer used by CupManager
-    static Random randomizer;
-
     // The array used for track ordering
     static u16 trackOrder[VS_CUP_COUNT * 4];
 
@@ -182,10 +179,10 @@ public:
     ////////////////////////
 
     // Gets a track file, given the track index
-    static s32 getTrackFile(u32 trackIdx);
+    static s32 getTrackFile(u32 trackIdx, u32* seed = nullptr);
 
-    // Gets a random track file, given the random track index
-    static s32 getRandomTrackFile(u16 trackEntry);
+    // Gets a random track file, given the random track index and an optional seed
+    static s32 getRandomTrackFile(u16 trackEntry, u32* seed = nullptr);
 
     // Prints the track file path into a buffer
     static void getTrackFilename(u8 slot, bool isMP);
@@ -197,8 +194,8 @@ public:
     // Generates a course order given the starting cup and track button
     static u32 generateCourseOrder(u32 cupIdx, u32 track, bool isBattle = false);
 
-    // Generates a random track order
-    static u32 generateRandomCourseOrder(bool isBattle = false);
+    // Generates a random track order, optionally using the given seed
+    static u32 generateRandomCourseOrder(u32* seed = nullptr, bool isBattle = false);
 
     //////////////////
     // Cup Icon API //

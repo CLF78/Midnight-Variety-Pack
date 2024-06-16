@@ -2,6 +2,7 @@
 #include <midnight/cup/CupManager.hpp>
 #include <game/system/MultiDvdArchive.hpp>
 #include <game/system/ResourceManager.hpp>
+#include <game/ui/Message.hpp>
 #include <game/util/Random.hpp>
 #include <platform/stdio.h>
 
@@ -12,7 +13,6 @@
 s32 CupManager::currentSzs = -1;
 u32 CupManager::currentCupList = TRACKS_VS_DEFAULT;
 u32 CupManager::currentBattleCupList = TRACKS_BT_DEFAULT;
-Random CupManager::randomizer = Random();
 char CupManager::currentSzsPath[] = "";
 u16 CupManager::trackOrder[];
 u16 CupManager::arenaOrder[];
@@ -149,20 +149,25 @@ u16 CupManager::getTrackName(u32 trackIdx) {
 
     // Handle placeholders
     if (trackIdx == CupData::RANDOM_TRACK_VOTE)
-        return 4353;
+        return Message::Menu::VOTE_RANDOM_TRACK;
 
     // Get the random flag and turn it off
     bool isRegular = (trackIdx & CupData::IS_RANDOM) == 0;
     trackIdx &= ~CupData::IS_RANDOM;
 
     // Get the name
-    if (isRegular)
-        return (trackIdx < TRACK_COUNT) ? CupData::tracks[trackIdx].trackNameId : 0;
-    else
-        return (trackIdx < RANDOM_TRACK_COUNT) ? CupData::randomTracks[trackIdx].variantNameId : 0;
+    if (isRegular) {
+        return (trackIdx < TRACK_COUNT) ?
+        CupData::tracks[trackIdx].trackNameId :
+        Message::Menu::VOTE_RANDOM_TRACK;
+    } else {
+        return (trackIdx < RANDOM_TRACK_COUNT) ?
+        CupData::randomTracks[trackIdx].variantNameId :
+        Message::Menu::VOTE_RANDOM_TRACK;
+    }
 }
 
-s32 CupManager::getTrackFile(u32 trackIdx) {
+s32 CupManager::getTrackFile(u32 trackIdx, u32* seed) {
 
     // Get the random flag and remove it from the index value
     bool isRegular = (trackIdx & CupData::IS_RANDOM) == 0;
@@ -170,7 +175,7 @@ s32 CupManager::getTrackFile(u32 trackIdx) {
 
     // Get the file ID
     if (!isRegular)
-        return getRandomTrackFile(trackIdx);
+        return getRandomTrackFile(trackIdx, seed);
     return trackIdx;
 }
 
@@ -190,10 +195,11 @@ void CupManager::getTrackFilename(u8 slot, bool isMP) {
     }
 }
 
-s32 CupManager::getRandomTrackFile(u16 trackEntry) {
+s32 CupManager::getRandomTrackFile(u16 trackEntry, u32* seedValue) {
 
-    // Get the random track holder
+    // Get the random track holder and the randomizer
     const CupData::RandomTrack* holder = &CupData::randomTracks[trackEntry];
+    Random randomizer = Random(seedValue);
 
     // Get a number between 0 and 255, and check in which chance range it lands
     u32 chanceVal = randomizer.nextU32(256);
@@ -241,13 +247,14 @@ u32 CupManager::generateCourseOrder(u32 cupIdx, u32 track, bool isBattle) {
     return raceCount;
 }
 
-u32 CupManager::generateRandomCourseOrder(bool isBattle) {
+u32 CupManager::generateRandomCourseOrder(u32* seed, bool isBattle) {
 
     // Generate a starting order
     u32 raceCount = generateCourseOrder(0, 0, isBattle);
 
-    // Get the context and the order array
+    // Get the context, the randomizer and the order array
     GlobalContext* context = SectionManager::instance->globalContext;
+    Random randomizer = Random(seed);
     u16* orderArray = isBattle ? context->arenaOrder : context->trackOrder;
 
     // Randomize the tracklist raceCount times

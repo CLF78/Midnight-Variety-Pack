@@ -3,8 +3,10 @@
 class Random {
 public:
     Random();
+    Random(u32* seedValue); // custom constructor
     virtual ~Random();
 
+    void initialize();
     u32 nextU32(u32 range);
 
     u64 x;

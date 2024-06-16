@@ -2,6 +2,7 @@
 ### Patched
 - calcPhase
 - decideEngineClass
+- decideTrack
 - getPlayerVote
 - getStaticInstance
 - getWinningTrack
@@ -10,7 +11,6 @@
 - setSendPacket
 
 ### To Be Patched
-- decideTrack
 - prepareSendPacket
 
 ## VotingBackPage
