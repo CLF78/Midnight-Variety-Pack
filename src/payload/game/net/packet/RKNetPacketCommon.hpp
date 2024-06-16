@@ -15,7 +15,7 @@ enum RKNetPacketSection {
 
 union RKNetBattleTeamData {
 
-    RKNetBattleTeamData() { raw = 0; }
+    RKNetBattleTeamData() : raw(0) {}
     struct { u8 battleType : 1; u32 teams : 31; };
     u32 raw;
 };
@@ -45,8 +45,8 @@ union RKNetEngineClassData {
         CLASS_500CC,
     };
 
-    RKNetEngineClassData() { raw = 0; }
-    RKNetEngineClassData(u8 data) { raw = data; }
+    RKNetEngineClassData() : raw(0) {}
+    RKNetEngineClassData(u8 data) : raw(data) {}
 
     int getEngineClass() {
         switch(engineClass) {

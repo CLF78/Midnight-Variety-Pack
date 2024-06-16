@@ -11,7 +11,7 @@ struct RKNetRH1Packet {
     };
 
     union PlayerCombo {
-        PlayerCombo() { raw = 0xFFFF; }
+        PlayerCombo() : raw(0xFFFF) {}
         struct { u8 vehicle; u8 character; };
         u16 raw;
     };

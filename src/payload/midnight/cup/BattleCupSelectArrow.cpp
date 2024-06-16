@@ -1,5 +1,5 @@
 #include <common/Common.hpp>
-#include <game/ui/page/BattleCupSelectPage.hpp>
+#include <midnight/cup/BattleCupSelectPageEx.hpp>
 #include <midnight/cup/BattleCupSelectArrow.hpp>
 #include <midnight/cup/CupManager.hpp>
 

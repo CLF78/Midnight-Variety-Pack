@@ -1,8 +1,9 @@
 #include <common/Common.hpp>
 #include <game/ui/Section.hpp>
-#include <game/ui/page/BattleCupSelectPage.hpp>
-#include <game/ui/page/BattleStageSelectPage.hpp>
-#include <game/ui/page/WifiMenuPage.hpp>
+#include <midnight/cup/BattleCupSelectPageEx.hpp>
+#include <midnight/cup/BattleStageSelectPageEx.hpp>
+#include <midnight/cup/RaceCupSelectPageEx.hpp>
+#include <midnight/online/WifiMenuPageEx.hpp>
 
 ///////////////////////////
 // Page Expansion System //

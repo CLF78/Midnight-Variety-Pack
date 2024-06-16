@@ -1,12 +1,12 @@
 #include <common/Common.hpp>
-#include <game/ui/page/RaceCourseSelectPage.hpp>
-#include <game/ui/page/RaceCupSelectPage.hpp>
-#include <game/ui/page/VotingPage.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIUtils.hpp>
+#include <game/ui/page/RaceCourseSelectPage.hpp>
+#include <game/ui/page/VotingPage.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <midnight/cup/CupManager.hpp>
+#include <midnight/cup/RaceCupSelectPageEx.hpp>
 
 ///////////////////////
 // Custom Cup System //

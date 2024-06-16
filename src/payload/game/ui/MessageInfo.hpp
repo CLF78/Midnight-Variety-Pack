@@ -27,6 +27,8 @@ public:
     int playerIds[9];
     wchar_t* strings[9];
     bool useColoredBorder;
+
     bool prependSpace; // custom field
+    // 2 bytes padding
 };
 size_assert(MessageInfo, 0xC4);

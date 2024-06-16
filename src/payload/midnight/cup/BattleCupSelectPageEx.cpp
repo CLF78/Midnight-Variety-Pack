@@ -1,10 +1,8 @@
 #include <common/Common.hpp>
-#include <game/ui/page/BattleCupSelectPage.hpp>
-#include <game/ui/page/VotingBackPage.hpp>
 #include <game/ui/Message.hpp>
-#include <game/ui/SectionManager.hpp>
 #include <game/ui/UIUtils.hpp>
-#include <midnight/cup/BattleCupSelectArrow.hpp>
+#include <game/ui/page/VotingBackPage.hpp>
+#include <midnight/cup/BattleCupSelectPageEx.hpp>
 #include <midnight/cup/CupManager.hpp>
 
 ///////////////////////

@@ -1,9 +1,9 @@
 #include <common/Common.hpp>
 #include <game/ui/ctrl/CtrlMenuCourseSelectCourse.hpp>
 #include <game/ui/page/RaceCourseSelectPage.hpp>
-#include <game/ui/page/RaceCupSelectPage.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <midnight/cup/CupManager.hpp>
+#include <midnight/cup/RaceCupSelectPageEx.hpp>
 
 ///////////////////////
 // Custom Cup System //

@@ -1,9 +1,12 @@
 #include <common/Common.hpp>
+#include <game/ui/MessageInfo.hpp>
 
 //////////////////////////////
 // Conditional Text Display //
 //////////////////////////////
 
-// MessageInfo::MessageInfo() patch
-// Initialize custom fields to zero
-kmWrite8(0x805CDA2C, 0x90);
+// Initialize custom fields
+REPLACE MessageInfo::MessageInfo() {
+    REPLACED();
+    prependSpace = false;
+}
