@@ -46,9 +46,9 @@
 // Credits: CLF78 (original code), Ismy (cup button <=> cup position algorithm)
 
 // Directories holding the VS/Battle cup icons, inside the SZS file.
-#define CUP_ICON_DIR_VS_MODERN "/cups/modern"
-#define CUP_ICON_DIR_VS_RETRO "/cups/retro"
-#define CUP_ICON_DIR_VS_VARIETY "/cups/variety"
+#define CUP_ICON_DIR_VS_MIDNIGHT "/cups/midnight"
+#define CUP_ICON_DIR_VS_NOSTALGIA "/cups/nostalgia"
+#define CUP_ICON_DIR_VS_FUSION "/cups/fusion"
 #define CUP_ICON_DIR_BT "/cups/battle"
 
 // BRCTR filenames for the custom cup selection arrows.

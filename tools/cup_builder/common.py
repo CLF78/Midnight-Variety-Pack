@@ -116,9 +116,9 @@ class Language(Enum):
 
 
 class Tracklist(Enum):
-    VS_MODERN = 'Modern'
-    VS_RETRO = 'Retro'
-    VS_VARIETY = 'Variety'
+    VS_MIDNIGHT = 'Midnight'
+    VS_NOSTALGIA = 'Nostalgia'
+    VS_FUSION = 'Fusion'
     BT = 'Battle'
 
     def __str__(self) -> str:

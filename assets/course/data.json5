@@ -1,5 +1,5 @@
 {
-    vs_modern: [
+    vs_midnight: [
         {
             cup_name_eng_eu: "Banana Cup",
             cup_name_fra_eu: "Coupe Banane",
@@ -1353,7 +1353,7 @@
             ],
         },
     ],
-    vs_retro: [
+    vs_nostalgia: [
         {
             cup_name_eng_eu: "Bulb Berry Cup",
             icon_file: "../cup_icons/1_Banana_Cup.png",
@@ -1433,7 +1433,7 @@
             ],
         },
     ],
-    vs_variety: [
+    vs_fusion: [
         {
             cup_name_eng_eu: "Bulb Berry Cup",
             icon_file: "../cup_icons/1_Banana_Cup.png",
