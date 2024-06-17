@@ -413,9 +413,12 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
         LOG_DEBUG("Got a random track, picked %d.", track);
     }
 
-    // Set the data and clear the votes
+    // Set the data and add the track to the queue
     sendPacket.winningVoterAid = vote.aid;
     expansion.sendPacketEx.winningCourse = track;
+    RepickQueue::instance.Push(track);
+
+    // Clear the votes as well
     RepickQueue::instance.ClearVotes();
 }
 

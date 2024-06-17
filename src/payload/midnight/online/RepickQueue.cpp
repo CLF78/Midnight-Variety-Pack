@@ -22,7 +22,7 @@ void RepickQueue::ClearVotes() {
 
 void RepickQueue::AddVote(u8 aid, u16 vote) {
     if (voteCount < 12) {
-        LOG_DEBUG("Adding vote %d by AID %d...", aid, vote);
+        LOG_DEBUG("Adding vote %d by AID %d...", vote, aid);
         votes[voteCount++].Set(vote, aid);
     }
 }
@@ -65,7 +65,7 @@ RepickQueue::Vote RepickQueue::GetWinningVote() {
 void RepickQueue::Push(u16 track) {
 
     // Only add the track if it's not already there
-    if (GetQueuePosition(track) == -1) {
+    if (GetQueuePosition(track) == NOT_IN_QUEUE) {
         LOG_DEBUG("Pushing track %d to the queue...", track);
         memmove(&lastPicks[1], &lastPicks, sizeof(lastPicks) - sizeof(lastPicks[0]));
         lastPicks[0] = track;
