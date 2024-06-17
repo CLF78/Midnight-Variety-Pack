@@ -7,11 +7,9 @@
 - getStaticInstance
 - getWinningTrack
 - importNewPackets
+- prepareSendPacket
 - setPlayerData
 - setSendPacket
-
-### To Be Patched
-- prepareSendPacket
 
 ## VotingBackPage
 ### To Be Patched

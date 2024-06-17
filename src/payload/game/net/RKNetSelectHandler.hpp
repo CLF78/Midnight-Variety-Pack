@@ -26,7 +26,10 @@ public:
     u16 getWinningTrack();
     void setPlayerData(int characterId, int vehicleId, int courseVote, int localPlayerIdx, u8 starRank);
 
+    void decideBattleAndTeams();
     void decideEngineClass();
+    void decideSelectId();
+    void decidePidToAidMap();
     void decideTrack();
 
     bool raceSettingsDetermined() { return sendPacket.battleTeamData.raw != 0; }

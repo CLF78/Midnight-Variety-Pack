@@ -307,7 +307,7 @@ REPLACE void RKNetSELECTHandler::setSendPacket() {
     }
 }
 
-// TODO override this with custom chances
+// Replace the engine class picking algorithm
 REPLACE void RKNetSELECTHandler::decideEngineClass() {
 
     // Create randomizer
@@ -367,6 +367,7 @@ REPLACE void RKNetSELECTHandler::decideEngineClass() {
     sendPacket.engineClass.isMirror = mirror;
 }
 
+// Replace the track vote picking algorithm
 REPLACE void RKNetSELECTHandler::decideTrack() {
 
     // Check if battle
@@ -384,7 +385,7 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
 
             // Get the vote and ensure it is valid
             u16 track = getPlayerVote(i);
-            u32 trackCount = CupManager::GetTrackCount();
+            u32 trackCount = CupManager::GetTrackCount(isBattle);
             track = (track < trackCount) ? track : CupData::RANDOM_TRACK_VOTE;
 
             // Add it to the repick manager
@@ -392,18 +393,19 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
         }
     }
 
-    // Get the vote
+    // Get the winning vote
     RepickQueue::Vote vote = RepickQueue::instance.GetWinningVote();
 
-    // Get the track, and if it's random then get a random track
+    // Get the track, and if it's random then pick a random track
     u16 track = vote.track;
     if (track == CupData::RANDOM_TRACK_VOTE) {
 
         // Initialize loop
         Random randomizer;
         const CupData::CupList* cupList = CupManager::GetCupListData(CupManager::GetCurrentTracklist(isBattle));
+        LOG_DEBUG("Player voted random, picking a track...");
 
-        // Get a random track until it's not in the queue
+        // Ensure the random track isn't in the repick queue
         do {
             const CupData::Cup* cup = &cupList->cups[randomizer.nextU32(cupList->cupCount)];
             track = cup->entryId[randomizer.nextU32(4)];
@@ -418,9 +420,40 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
     RepickQueue::instance.ClearVotes();
 }
 
-// TODO override this to fix voting and add custom settings
+// Send the expanded packet information
 REPLACE void RKNetSELECTHandler::prepareSendPacket(u8 aid, s64 sendTime) {
-    REPLACED(aid, sendTime);
+
+    // If there are no unprocessed packets, bail
+    if (!hasUnprocessedRecvPackets())
+        return;
+
+    // Update the timers (replicated code)
+    sendPacket.timeSender = OSTicksToMilliseconds(sendTime);
+    s64 timeSent = recvPackets[aid].timeSender;
+    if (timeSent == 0) {
+        sendPacket.timeReceived = 0;
+    } else {
+        sendPacket.timeReceived = OSTicksToMilliseconds(sendTime - lastRecvTimes[aid]) + timeSent;
+    }
+
+    // If we are not host, bail
+    if (!RKNetController::instance->isPlayerHost())
+        return;
+
+    // If the settings have not been decided, do so
+    // TODO copy the repick queue into the packet
+    if (!raceSettingsDetermined()) {
+        LOG_DEBUG("Deciding settings...");
+        decideBattleAndTeams();
+        decideSelectId();
+        decideEngineClass();
+    }
+
+    // If everyone has voted and the track has not been decided, do so
+    if (checkVoteAll() && expansion.sendPacketEx.winningCourse == CupData::NO_TRACK) {
+        decideTrack();
+        decidePidToAidMap();
+    }
 }
 
 //////////////////////////////////
