@@ -41,9 +41,13 @@ REPLACE bool VotingPage::setPlayerVote(u32 playerIdx) {
     u16 bmgId = CupManager::getTrackName(track);
 
     // Set the vote
+    LOG_DEBUG("Setting vote for player %d to %d...", playerIdx, track);
     voteControls[playerIdx].setData(track == CupData::RANDOM_TRACK_VOTE, bmgId, &page->miiGroup,
                                     playerIdx, RKNetController::instance->isLocalPlayer(aid),
                                     page->playerInfos[playerIdx].team);
+
+    // Update the vote index and count
+    votes[playerIdx] = voteCount++;
     return true;
 }
 
