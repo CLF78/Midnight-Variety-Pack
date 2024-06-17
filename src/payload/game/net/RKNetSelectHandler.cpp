@@ -408,7 +408,7 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
         do {
             const CupData::Cup* cup = &cupList->cups[randomizer.nextU32(cupList->cupCount)];
             track = cup->entryId[randomizer.nextU32(4)];
-        } while (RepickQueue::instance.GetQueuePosition(track) != -1);
+        } while (RepickQueue::instance.GetQueuePosition(track) != RepickQueue::NOT_IN_QUEUE);
 
         LOG_DEBUG("Got a random track, picked %d.", track);
     }

@@ -1,7 +1,9 @@
 #include <common/Common.hpp>
 #include <game/net/RKNetController.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
+#include <game/sound/SoundEffect.hpp>
 #include <game/system/Identifiers.hpp>
+#include <game/ui/Message.hpp>
 #include <game/ui/page/VotingBackPage.hpp>
 #include <game/ui/page/VotingPage.hpp>
 #include <midnight/cup/CupData.hpp>
@@ -52,14 +54,37 @@ REPLACE bool VotingPage::setPlayerVote(u32 playerIdx) {
 }
 
 // VotingPage::tryStartRoulette() patch
-// Store the correct track name and prevent the game from stalling due to invalid votes
+// Store the correct track name, prevent the game from stalling due to invalid votes
+// and disable the course cache
 void StoreWinningVote(VotingPage* self) {
+
+    // Get the winning track and bail if we have not yet obtained it
     u32 trackIdx = RKNetSELECTHandler::instance->getWinningTrack();
+    if (trackIdx == CupData::NO_TRACK) {
+        LOG_DEBUG("Not yet in phase 2. Retrying later...");
+        return;
+    }
+
+    // Set the winning track text
     self->winningTrackBmgId = CupManager::getTrackName(trackIdx);
+    LOG_DEBUG("Winning track: %d, BMG: %d", trackIdx, self->winningTrackBmgId);
+
+    // Set the winning vote control
+    u8 winningVoter = RKNetSELECTHandler::instance->getWinningVoter();
+    self->winningVote = VotingBackPage::getPage()->getVoteIdx(winningVoter, 0);
+
+    // Start the roulette
+    self->curRouletteSpeed = 0.3f;
+    self->curAnimPos = 0.0f;
+    self->curSelectedVote = 0;
+    self->voteControls[0].animator.getGroup(4)->setAnimation(1, 0.0f);
+    self->voteControls[0].playSound(SE_UI_CRS_ROULETTE, -1);
+    self->state = 1;
+    self->instructionText.setText(Message::Menu::VOTE_ROULETTE_DECIDING, nullptr);
 }
 
 // Glue code
-kmBranchDefAsm(0x80644310, 0x8064436C) {
+kmBranchDefAsm(0x80644310, 0x80644418) {
     nofralloc
 
     // Call C++ code
@@ -67,7 +92,3 @@ kmBranchDefAsm(0x80644310, 0x8064436C) {
     bl StoreWinningVote
     blr
 }
-
-// VotingPage::tryStartRoulette() patch
-// Disable the course cache
-kmWrite32(0x80644414, 0x60000000);

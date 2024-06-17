@@ -44,6 +44,7 @@ public:
 
     void initChildren(u32 count);
     void insertChild(u32 index, UIControl* child);
+    void playSound(int soundId, int param_3);
 
     Element elementPositions[POS_COUNT];
 

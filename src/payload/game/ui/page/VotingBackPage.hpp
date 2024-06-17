@@ -44,6 +44,7 @@ public:
 
     virtual TypeInfo* getTypeInfo() const;
 
+    int getVoteIdx(u32 aid, u32 localPlayerIdx);
     u32 getInstructionText();
 
     static VotingBackPage* getPage() {
