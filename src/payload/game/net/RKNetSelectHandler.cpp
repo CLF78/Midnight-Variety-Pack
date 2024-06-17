@@ -160,10 +160,9 @@ REPLACE void RKNetSELECTHandler::calcPhase() {
         if (!RKNetController::instance->isConnectedPlayer(aid))
             continue;
 
-        // Get incoming packet and its expansion
+        // Get incoming packet
         u32 aidMask = 1 << aid;
         RKNetSELECTPacket* recvPacket = &recvPackets[aid];
-        RKNetSELECTPacketExpansion* revcPacketEx = &expansion.recvPacketsEx[aid];
 
         // Update phase for host
         if (sub->myAid == sub->hostAid) {
@@ -250,7 +249,7 @@ REPLACE void RKNetSELECTHandler::importNewPackets() {
             aidsWithNewSelect |= (1 << aid);
 
             // Copy the original packet
-            holder->copyData(&recvPackets[aid], sizeof(RKNetSELECTPacket));
+            memcpy(&recvPackets[aid], holder->buffer, sizeof(RKNetSELECTPacket));
 
             // Copy the expansion data
             memcpy(&expansion.recvPacketsEx[aid], ((u8*)holder->buffer) + sizeof(RKNetSELECTPacket),
