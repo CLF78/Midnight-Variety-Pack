@@ -24,8 +24,8 @@ public:
             REASON_NONE,
             REASON_UNK_1,
             REASON_ALL_FINISHED,
-            REASON_TIME_LIMIT_REACHED,
             REASON_TIME_LEADER_FINISH,
+            REASON_TIME_LIMIT_REACHED,
         };
 
         virtual ~Player();
