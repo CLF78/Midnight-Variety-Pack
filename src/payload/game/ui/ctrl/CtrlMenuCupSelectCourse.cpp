@@ -28,7 +28,7 @@ REPLACE void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
 
         // Get the track name and set it
         u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[i];
-        courseName->setText(CupManager::getTrackName(trackIdx), nullptr);
+        CupManager::setTrackName(courseName, trackIdx);
 
         // Hide some pane thingy
         courseName->setPaneVisible("waku_null", false);

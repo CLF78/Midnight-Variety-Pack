@@ -5,7 +5,6 @@
 #include <game/net/RKNetUserHandler.hpp>
 #include <game/util/Random.hpp>
 #include <midnight/cup/CupManager.hpp>
-#include <midnight/online/RepickQueue.hpp>
 #include <platform/string.h>
 #include <wiimmfi/RoomStall.hpp>
 
@@ -17,6 +16,14 @@
 // Update size of class
 kmCallDefCpp(0x8065FEB0, u32) {
     return sizeof(RKNetSELECTHandler);
+}
+
+// Clear the repick queue when opening a room
+// We don't need to clear it at any other time since it's for online only and the host
+// shares his list with us
+kmListHookDefCpp(RoomOpenHook) {
+    LOG_DEBUG("Clearing repick queue...");
+    RepickQueue::instance.Clear();
 }
 
 // Create the expanded class
@@ -69,6 +76,7 @@ void RKNetSELECTHandler::storeUpdatedRaceSettings(u8 aid) {
     sendPacket.battleTeamData.raw = recvPackets[aid].battleTeamData.raw;
     sendPacket.selectId = recvPackets[aid].selectId;
     sendPacket.engineClass.raw = recvPackets[aid].engineClass.raw;
+    expansion.sendPacketEx.repickQueue = expansion.recvPacketsEx[aid].repickQueue;
 }
 
 // TODO add custom settings
@@ -76,7 +84,8 @@ bool RKNetSELECTHandler::checkUpdatedRaceSettings(u8 aid) {
     return raceSettingsDetermined() &&
            (sendPacket.battleTeamData.raw == recvPackets[aid].battleTeamData.raw) &&
            (sendPacket.selectId == recvPackets[aid].selectId) &&
-           (sendPacket.engineClass.raw == recvPackets[aid].engineClass.raw);
+           (sendPacket.engineClass.raw == recvPackets[aid].engineClass.raw) &&
+           (expansion.sendPacketEx.repickQueue == expansion.recvPacketsEx[aid].repickQueue);
 }
 
 bool RKNetSELECTHandler::checkUpdatedRaceSettingsAll() {
@@ -121,6 +130,9 @@ void RKNetSELECTHandler::storeUpdatedVoteData(u8 aid) {
     expansion.sendPacketEx.winningCourse = expansion.recvPacketsEx[aid].winningCourse;
     sendPacket.winningVoterAid = recvPackets[aid].winningVoterAid;
     sendPacket.aidPidMap = recvPackets[aid].aidPidMap;
+
+    // Add the winning track to the repick queue (for guests)
+    RepickQueue::instance.Push(expansion.sendPacketEx.winningCourse);
 }
 
 bool RKNetSELECTHandler::checkUpdatedVoteData(u8 aid) {
@@ -443,12 +455,12 @@ REPLACE void RKNetSELECTHandler::prepareSendPacket(u8 aid, s64 sendTime) {
         return;
 
     // If the settings have not been decided, do so
-    // TODO copy the repick queue into the packet
     if (!raceSettingsDetermined()) {
         LOG_DEBUG("Deciding settings...");
         decideBattleAndTeams();
         decideSelectId();
         decideEngineClass();
+        copyRepickQueue();
     }
 
     // If everyone has voted and the track has not been decided, do so

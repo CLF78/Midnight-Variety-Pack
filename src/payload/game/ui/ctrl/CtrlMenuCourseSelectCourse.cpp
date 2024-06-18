@@ -26,7 +26,7 @@ REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
         // Set name
         u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->curPage);
         u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[i];
-        trackButton->setText(CupManager::getTrackName(trackIdx), nullptr);
+        CupManager::setTrackName(trackButton, trackIdx);
 
         // Set button id
         trackButton->buttonId = i;

@@ -174,6 +174,9 @@ public:
     // Gets the track name BMG id from a track index
     static u16 getTrackName(u32 trackIdx);
 
+    // Sets the track name
+    static void setTrackName(LayoutUIControl* ctrl, u32 trackIdx);
+
     ////////////////////////
     // Track File Helpers //
     ////////////////////////

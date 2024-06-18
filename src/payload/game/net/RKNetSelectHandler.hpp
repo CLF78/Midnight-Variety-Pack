@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <game/net/packet/RKNetSelectPacket.hpp>
+#include <midnight/online/RepickQueue.hpp>
 #include <revolution/os/OS.h>
 
 class RKNetSELECTHandlerEx {
@@ -32,6 +33,7 @@ public:
     void decideSelectId();
     void decidePidToAidMap();
     void decideTrack();
+    void copyRepickQueue() { expansion.sendPacketEx.repickQueue = RepickQueue::instance.queue; }
 
     bool raceSettingsDetermined() { return sendPacket.battleTeamData.raw != 0; }
     bool trackVoted() { return expansion.sendPacketEx.courseVote != CupData::UNDECIDED_TRACK_VOTE; }

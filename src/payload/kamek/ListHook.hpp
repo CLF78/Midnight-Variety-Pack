@@ -36,6 +36,7 @@ public:
     }
 };
 
-kmDefineListHook(RaceStartHook);
 kmDefineListHook(BootHook);
+kmDefineListHook(RoomOpenHook);
+kmDefineListHook(RaceStartHook);
 kmDefineListHook(NetShutdownHook);

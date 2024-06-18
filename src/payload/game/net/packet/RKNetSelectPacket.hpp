@@ -2,6 +2,7 @@
 #include <game/net/packet/RKNetPacketCommon.hpp>
 #include <game/system/Identifiers.hpp>
 #include <midnight/cup/CupData.hpp>
+#include <midnight/online/RepickQueue.hpp>
 #pragma pack(push, 1)
 
 struct RKNetSELECTPlayer {
@@ -68,10 +69,13 @@ struct RKNetSELECTPacketExpansion {
 
     RKNetSELECTPacketExpansion() :
         courseVote(CupData::UNDECIDED_TRACK_VOTE),
-        winningCourse(CupData::NO_TRACK) {}
+        winningCourse(CupData::NO_TRACK),
+        repickQueue() {}
 
     u16 courseVote;
     u16 winningCourse;
+
+    RepickQueue::RawQueue repickQueue;
 };
 
 // Custom expansion structure

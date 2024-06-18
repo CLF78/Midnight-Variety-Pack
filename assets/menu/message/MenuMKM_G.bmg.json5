@@ -44,4 +44,10 @@
     "20004": {
         string: "500 ccm",
     },
+    "20005": {
+        string: "{arg message|0}",
+    },
+    "20006": {
+        string: "{color|team red}{arg message|0}",
+    },
 }

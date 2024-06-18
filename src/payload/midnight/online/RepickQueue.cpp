@@ -2,14 +2,38 @@
 #include <midnight/cup/CupManager.hpp>
 #include <midnight/online/RepickQueue.hpp>
 
-RepickQueue RepickQueue::instance = RepickQueue();
+RepickQueue RepickQueue::instance;
 
-void RepickQueue::Clear() {
+void RepickQueue::RawQueue::Clear() {
     for (int i = 0; i < ARRAY_SIZE(lastPicks); i++) {
         lastPicks[i] = NO_PICK;
     }
+}
 
-    ClearVotes();
+void RepickQueue::RawQueue::Push(u16 track) {
+
+    // Only add the track if it's not already there
+    if (GetQueuePosition(track) == NOT_IN_QUEUE) {
+        LOG_DEBUG("Pushing track %d to the queue...", track);
+        memmove(&lastPicks[1], &lastPicks, sizeof(lastPicks) - sizeof(lastPicks[0]));
+        lastPicks[0] = track;
+    } else {
+        LOG_DEBUG("Track %d already in queue, not pushing.", track);
+    }
+}
+
+u8 RepickQueue::RawQueue::GetQueuePosition(u16 track) {
+
+    // Treat random track votes as a track not in the queue
+    if (track == CupData::RANDOM_TRACK_VOTE) return NOT_IN_QUEUE;
+
+    // Get the queue position
+    for (int i = 0; i < ARRAY_SIZE(lastPicks); i++) {
+        if (lastPicks[i] == track) return i;
+    }
+
+    // Track isn't in the queue
+    return NOT_IN_QUEUE;
 }
 
 void RepickQueue::ClearVotes() {
@@ -60,30 +84,4 @@ RepickQueue::Vote RepickQueue::GetWinningVote() {
     LOG_DEBUG("Selected Voter: %d, Selected Track: %d", selectedVote.aid, selectedVote.track);
 
     return selectedVote;
-}
-
-void RepickQueue::Push(u16 track) {
-
-    // Only add the track if it's not already there
-    if (GetQueuePosition(track) == NOT_IN_QUEUE) {
-        LOG_DEBUG("Pushing track %d to the queue...", track);
-        memmove(&lastPicks[1], &lastPicks, sizeof(lastPicks) - sizeof(lastPicks[0]));
-        lastPicks[0] = track;
-    } else {
-        LOG_DEBUG("Track %d already in queue, not pushing.", track);
-    }
-}
-
-u8 RepickQueue::GetQueuePosition(u16 track) {
-
-    // Treat random track votes as a track not in the queue
-    if (track == CupData::RANDOM_TRACK_VOTE) return NOT_IN_QUEUE;
-
-    // Get the queue position
-    for (int i = 0; i < ARRAY_SIZE(lastPicks); i++) {
-        if (lastPicks[i] == track) return i;
-    }
-
-    // Track isn't in the queue
-    return NOT_IN_QUEUE;
 }

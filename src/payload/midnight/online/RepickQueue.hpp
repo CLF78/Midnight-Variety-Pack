@@ -9,8 +9,26 @@ public:
         NO_PICK = 0xFFFF,
     };
 
+    struct RawQueue {
+        RawQueue() { Clear(); }
+
+        bool operator==(const RawQueue &queue) const {
+            for (int i = 0; i < ARRAY_SIZE(lastPicks); i++) {
+                if (lastPicks[i] != queue.lastPicks[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        void Clear();
+        void Push(u16 track);
+        u8 GetQueuePosition(u16 track);
+
+        u16 lastPicks[32];
+    };
+
     struct Vote {
-        Vote() { Clear(); }
 
         void Clear() {
             track = NO_PICK;
@@ -29,18 +47,16 @@ public:
         u8 queuePos;
     };
 
-    RepickQueue() { Clear(); }
+    void Clear() { queue.Clear(); ClearVotes(); }
 
-    void Clear();
+    void Push(u16 track) { queue.Push(track); }
+    u8 GetQueuePosition(u16 track) { return queue.GetQueuePosition(track); }
 
     void ClearVotes();
     void AddVote(u8 aid, u16 vote);
-
-    void Push(u16 track);
-    u8 GetQueuePosition(u16 track);
     Vote GetWinningVote();
 
-    u16 lastPicks[32];
+    RawQueue queue;
     Vote votes[12];
     u8 voteCount;
 

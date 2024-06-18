@@ -63,7 +63,7 @@ REPLACE void CtrlMenuBattleCupSelectStage::setCourseNames(u32 cupButtonId) {
 
         // Get the track name and set it
         u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[i];
-        courseName->setText(CupManager::getTrackName(trackIdx), nullptr);
+        CupManager::setTrackName(courseName, trackIdx);
 
         // Hide some pane thingy
         courseName->setPaneVisible("waku_null", false);

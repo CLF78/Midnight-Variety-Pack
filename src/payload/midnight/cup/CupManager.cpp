@@ -4,6 +4,7 @@
 #include <game/system/ResourceManager.hpp>
 #include <game/ui/Message.hpp>
 #include <game/util/Random.hpp>
+#include <midnight/online/RepickQueue.hpp>
 #include <platform/stdio.h>
 
 //////////////////////
@@ -165,6 +166,22 @@ u16 CupManager::getTrackName(u32 trackIdx) {
         CupData::randomTracks[trackIdx].variantNameId :
         Message::Menu::VOTE_RANDOM_TRACK;
     }
+}
+
+void CupManager::setTrackName(LayoutUIControl* ctrl, u32 trackIdx) {
+
+    // Initialize formatting
+    u32 fmt = Message::Menu::TRACK_FORMATTER;
+    MessageInfo msgInfo;
+    msgInfo.messageIds[0] = getTrackName(trackIdx);
+
+    // Color the track in red if we are online and the track is in the repick queue
+    if (RaceConfig::instance->menuScenario.settings.isOnline() &&
+        RepickQueue::instance.GetQueuePosition(trackIdx) != RepickQueue::NOT_IN_QUEUE)
+        fmt = Message::Menu::TRACK_UNPICKABLE_FORMATTER;
+
+    // Set the message
+    ctrl->setText(fmt, &msgInfo);
 }
 
 s32 CupManager::getTrackFile(u32 trackIdx, u32* seed) {
