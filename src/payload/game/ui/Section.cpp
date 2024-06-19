@@ -2,6 +2,7 @@
 #include <game/ui/Section.hpp>
 #include <midnight/cup/BattleCupSelectPageEx.hpp>
 #include <midnight/cup/BattleStageSelectPageEx.hpp>
+#include <midnight/cup/RaceCourseSelectPageEx.hpp>
 #include <midnight/cup/RaceCupSelectPageEx.hpp>
 #include <midnight/online/WifiMenuPageEx.hpp>
 
@@ -16,6 +17,10 @@ REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
         // Expand cup select for custom cup system
         case Page::CUP_SELECT:
             return new RaceCupSelectPageEx();
+
+        // Expand course select for custom cup system
+        case Page::COURSE_SELECT:
+            return new RaceCourseSelectPageEx();
 
         // Expand battle cup select for custom cup system
         case Page::CUP_SELECT_BT:

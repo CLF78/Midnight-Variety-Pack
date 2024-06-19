@@ -1,19 +1,28 @@
 #include <common/Common.hpp>
 #include <game/sound/SoundEffect.hpp>
+#include <game/ui/Message.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <game/ui/page/VotingPage.hpp>
 #include <midnight/cup/BattleCupSelectPageEx.hpp>
 #include <midnight/cup/BattleStageSelectPageEx.hpp>
 #include <midnight/cup/CupManager.hpp>
+#include <midnight/online/RepickQueue.hpp>
 
 ///////////////////////
 // Custom Cup System //
 ///////////////////////
 
 // Add the additional cup buttons and replace some handlers
-BattleStageSelectPageEx::BattleStageSelectPageEx() : cups() {
+BattleStageSelectPageEx::BattleStageSelectPageEx() : cups(), repickHandler(this, &onRepickPromptPress) {
     onBtnClick.handle = (typeof(onBtnClick.handle))&handleBtnClick;
     onBackPress.handle = (typeof(onBackPress.handle))&handleBackPress;
+}
+
+void BattleStageSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button) {
+    if (choice == 0) {
+        nextPageId = Page::NONE;
+        replace(Page::ANIM_NEXT, button->getDelay());
+    }
 }
 
 // Properly store/vote the selected arena
@@ -35,10 +44,31 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
         VotingPage* votingPage = VotingPage::getPage();
         votingPage->submitVote(trackIdx);
 
-        // Go to the next page
-        nextPageId = Page::NONE;
-        replace(Page::ANIM_NEXT, button->getDelay());
+        // If the track is in the repick queue, show a popup
+        if (RepickQueue::instance.GetQueuePosition(trackIdx) != RepickQueue::NOT_IN_QUEUE) {
 
+            // Get the popup
+            YesNoPopupPage* popupPage = YesNoPopupPage::getPage();
+
+            // Reset it and update the messages
+            popupPage->reset();
+            popupPage->setWindowMessage(Message::Menu::TRACK_UNPICKABLE_PROMPT_BT, nullptr);
+            popupPage->configureButton(0, Message::Menu::TRACK_UNPICKABLE_VOTE_ANYWAY, nullptr, Page::ANIM_NONE,
+                                       (InputHandler2<Page, void, s32, PushButton*>*)&repickHandler);
+            popupPage->configureButton(1, Message::Menu::TRACK_UNPICKABLE_GO_BACK, nullptr, Page::ANIM_NONE,
+                                       (InputHandler2<Page, void, s32, PushButton*>*)&repickHandler);
+
+            // Default to the Go Back button
+            popupPage->currSelected = 1;
+
+            // Display the page
+            addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);
+
+        // Else go to the next page
+        } else {
+            nextPageId = Page::NONE;
+            replace(Page::ANIM_NEXT, button->getDelay());
+        }
     } else {
 
         // Get the actual arena to be played and store it

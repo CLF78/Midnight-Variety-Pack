@@ -50,4 +50,16 @@
     "20006": {
         string: "{color|team red}{arg message|0}",
     },
+    "20007": {
+        string: "This course has been voted recently\nand has less chances to be picked again.\nVote anyway?",
+    },
+    "20008": {
+        string: "This stage has been voted recently\nand has less chances to be picked again.\nVote anyway?",
+    },
+    "20009": {
+        string: "Vote Anyway",
+    },
+    "20010": {
+        string: "Go Back",
+    },
 }

@@ -7,6 +7,7 @@
 
 class RaceCourseSelectPage : public MenuPage {
 public:
+    RaceCourseSelectPage();
     virtual ~RaceCourseSelectPage();
 
     virtual void onInit();
@@ -28,16 +29,10 @@ public:
     virtual UIControl* loadLayout(u32 layoutIdx);
     virtual void setupButton(PushButton* button);
 
-    void setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button);
-
     UIControlTimer* timer;
 
     CtrlMenuCourseSelectCup cupHolder;
     CtrlMenuCourseSelectCourse courseHolder;
     bool courseSelected;
-
-    static RaceCourseSelectPage* getPage() {
-        return (RaceCourseSelectPage*)SectionManager::instance->curSection->pages[Page::COURSE_SELECT];
-    }
 };
 size_assert(RaceCourseSelectPage, 0x2160);

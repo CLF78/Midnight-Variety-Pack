@@ -1,8 +1,8 @@
 #include <common/Common.hpp>
 #include <game/ui/ctrl/CtrlMenuCourseSelectCourse.hpp>
-#include <game/ui/page/RaceCourseSelectPage.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <midnight/cup/CupManager.hpp>
+#include <midnight/cup/RaceCourseSelectPageEx.hpp>
 #include <midnight/cup/RaceCupSelectPageEx.hpp>
 
 ///////////////////////
@@ -13,7 +13,7 @@
 REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
 
     RaceCupSelectPageEx* cupPage = RaceCupSelectPageEx::getPage();
-    RaceCourseSelectPage* coursePage = RaceCourseSelectPage::getPage();
+    RaceCourseSelectPageEx* coursePage = RaceCourseSelectPageEx::getPage();
     u32 selectedCup = cupPage->selectedButtonId;
     u32 lastCourse = SectionManager::instance->globalContext->lastCourse;
     int selected = -1;
@@ -42,5 +42,10 @@ REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
         coursePage->setSelection(&courseButtons[0]);
 }
 
+// Call the correct function
+REPLACE void CtrlMenuCourseSelectCourse::onCourseClick(PushButton* button, u32 unk) {
+    RaceCourseSelectPageEx::getPage()->setCourse(this, button, unk);
+}
+
 // Disable printing time trial times and updating button movies
-REPLACE void CtrlMenuCourseSelectCourse::onSelect(PushButton* button, u32 unk) {}
+REPLACE void CtrlMenuCourseSelectCourse::onCourseSelect(PushButton* button, u32 unk) {}

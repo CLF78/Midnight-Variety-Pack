@@ -7,6 +7,7 @@ public:
     BattleStageSelectPageEx();
     virtual ~BattleStageSelectPageEx() {}
 
+    void onRepickPromptPress(s32 choice, PushButton* button);
     void setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button, int unk);
     void handleBtnClick(PushButton* button);
     void handleBackPress(int playerId);
@@ -28,4 +29,5 @@ public:
     }
 
     CtrlMenuBattleStageSelectCupSub cups[6];
+    InputHandler2<BattleStageSelectPageEx, void, s32, PushButton*> repickHandler;
 };

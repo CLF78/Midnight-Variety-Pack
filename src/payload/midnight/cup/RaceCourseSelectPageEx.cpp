@@ -2,18 +2,26 @@
 #include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIUtils.hpp>
-#include <game/ui/page/RaceCourseSelectPage.hpp>
 #include <game/ui/page/VotingPage.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <midnight/cup/CupManager.hpp>
 #include <midnight/cup/RaceCupSelectPageEx.hpp>
+#include <midnight/cup/RaceCourseSelectPageEx.hpp>
+#include <midnight/online/RepickQueue.hpp>
 
 ///////////////////////
 // Custom Cup System //
 ///////////////////////
 
+void RaceCourseSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button) {
+    if (choice == 0) {
+        nextPageId = Page::NONE;
+        replace(Page::ANIM_NEXT, button->getDelay());
+    }
+}
+
 // Set the selected track
-REPLACE void RaceCourseSelectPage::setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button) {
+void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button, int unk) {
 
     // Do not do anything if we're not defocusing the page
     if (pageState != Page::STATE_DEFOCUSING)
@@ -31,9 +39,31 @@ REPLACE void RaceCourseSelectPage::setCourse(CtrlMenuCourseSelectCourse* courseH
         VotingPage* votingPage = VotingPage::getPage();
         votingPage->submitVote(trackIdx);
 
-        // Go to the next page
-        nextPageId = Page::NONE;
-        replace(Page::ANIM_NEXT, button->getDelay());
+        // If the track is in the repick queue, show a popup
+        if (RepickQueue::instance.GetQueuePosition(trackIdx) != RepickQueue::NOT_IN_QUEUE) {
+
+            // Get the popup
+            YesNoPopupPage* popupPage = YesNoPopupPage::getPage();
+
+            // Reset it and update the messages
+            popupPage->reset();
+            popupPage->setWindowMessage(Message::Menu::TRACK_UNPICKABLE_PROMPT_VS, nullptr);
+            popupPage->configureButton(0, Message::Menu::TRACK_UNPICKABLE_VOTE_ANYWAY, nullptr, Page::ANIM_NONE,
+                                       (InputHandler2<Page, void, s32, PushButton*>*)&repickHandler);
+            popupPage->configureButton(1, Message::Menu::TRACK_UNPICKABLE_GO_BACK, nullptr, Page::ANIM_NONE,
+                                       (InputHandler2<Page, void, s32, PushButton*>*)&repickHandler);
+
+            // Default to the Go Back button
+            popupPage->currSelected = 1;
+
+            // Display the page
+            addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);
+
+        // Else go to the next page
+        } else {
+            nextPageId = Page::NONE;
+            replace(Page::ANIM_NEXT, button->getDelay());
+        }
 
     } else {
 
@@ -62,7 +92,7 @@ REPLACE void RaceCourseSelectPage::setCourse(CtrlMenuCourseSelectCourse* courseH
 ///////////////////////////
 
 // Update instruction text with new CCs and Mirror option
-REPLACE void RaceCourseSelectPage::onActivate() {
+void RaceCourseSelectPageEx::onActivate() {
 
     multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
     MenuPage::onActivate();

@@ -50,4 +50,16 @@
     "20006": {
         string: "{color|team red}{arg message|0}",
     },
+    "20007": {
+        string: "Questa pista è stata giocata di recente\ne ha meno chance di essere votata.\nVotare comunque?",
+    },
+    "20008": {
+        string: "Questo livello è stato giocato di recente\ne ha meno chance di essere votata.\nVotare comunque?",
+    },
+    "20009": {
+        string: "Vota comunque",
+    },
+    "20010": {
+        string: "Torna indietro",
+    },
 }
