@@ -1,11 +1,14 @@
 #include <common/Common.hpp>
 #include <game/ui/page/BattleStageSelectPage.hpp>
 #include <game/ui/SectionManager.hpp>
+#include <midnight/online/YesNoPopupPageEx.hpp>
 
 class BattleStageSelectPageEx : public BattleStageSelectPage {
 public:
     BattleStageSelectPageEx();
     virtual ~BattleStageSelectPageEx() {}
+
+    virtual void afterCalc();
 
     void onRepickPromptPress(s32 choice, PushButton* button);
     void setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button, int unk);
@@ -30,4 +33,5 @@ public:
 
     CtrlMenuBattleStageSelectCupSub cups[6];
     InputHandler2<BattleStageSelectPageEx, void, s32, PushButton*> repickHandler;
+    YesNoPopupPageEx* repickPrompt;
 };

@@ -19,10 +19,15 @@ BattleStageSelectPageEx::BattleStageSelectPageEx() : cups(), repickHandler(this,
 }
 
 void BattleStageSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button) {
+
+    // If Vote Anyway is selected, go to the next page
     if (choice == 0) {
         nextPageId = Page::NONE;
         replace(Page::ANIM_NEXT, button->getDelay());
     }
+
+    // Remove the prompt reference anyway
+    repickPrompt = nullptr;
 }
 
 // Properly store/vote the selected arena
@@ -64,7 +69,7 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
             popupPage->onBackSelectedButton = 1;
 
             // Display the page
-            addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);
+            repickPrompt = (YesNoPopupPageEx*)addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);
 
         // Else go to the next page
         } else {
@@ -86,6 +91,31 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
 
     // Report stage as selected
     stageSelected = true;
+}
+
+// Force press the selected option on the repick prompt when the timer runs out
+void BattleStageSelectPageEx::afterCalc() {
+
+    // Check if defocusing
+    if (pageState != Page::STATE_DEFOCUSING)
+        return;
+
+    // Check if we are online
+    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID))
+        return;
+
+    // Check if the timer is zero
+    if (timer->value > 0.0f)
+        return;
+
+    // If the prompt is not enabled, vote random
+    if (repickPrompt == nullptr) {
+        forceRandomVote();
+
+    // Else force press the selected button
+    } else {
+        repickPrompt->forcePressSelected();
+    }
 }
 
 // Apply properties to the extra cups when pressing the on-screen back button

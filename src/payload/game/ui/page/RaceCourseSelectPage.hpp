@@ -29,6 +29,8 @@ public:
     virtual UIControl* loadLayout(u32 layoutIdx);
     virtual void setupButton(PushButton* button);
 
+    void forceRandomVote();
+
     UIControlTimer* timer;
 
     CtrlMenuCourseSelectCup cupHolder;

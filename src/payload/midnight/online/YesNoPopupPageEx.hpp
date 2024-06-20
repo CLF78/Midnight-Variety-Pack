@@ -8,6 +8,7 @@ public:
     virtual void reset();
 
     void handleBackPress();
+    void forcePressSelected();
 
     static YesNoPopupPageEx* getPage() {
         return (YesNoPopupPageEx*)SectionManager::instance->curSection->pages[Page::ONLINE_VOTE_PROMPT];

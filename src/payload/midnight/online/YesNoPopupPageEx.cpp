@@ -14,6 +14,15 @@ void YesNoPopupPageEx::reset() {
     onBackSelectedButton = -1;
 }
 
+void YesNoPopupPageEx::forcePressSelected() {
+    for (int i = 0; i < ARRAY_SIZE(buttons); i++) {
+        if (buttons[i].isSelected()) {
+            buttons[i].click(0);
+            break;
+        }
+    }
+}
+
 void YesNoPopupPageEx::handleBackPress() {
     if (isBackButtonEnabled && onBackSelectedButton != -1) {
         for (int i = 0; i < 5; i++) {

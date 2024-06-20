@@ -5,5 +5,5 @@
 namespace UIUtils {
     const char* getCupIconPane(int iconId);
     u8 getPlayerCount();
-    bool isOnlineRoom(u32 pageId);
+    bool isOnlineRoom(u32 sectionId);
 };
