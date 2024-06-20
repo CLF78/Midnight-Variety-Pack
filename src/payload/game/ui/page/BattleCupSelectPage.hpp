@@ -4,6 +4,7 @@
 #include <game/ui/ctrl/CtrlMenuBattleCupSelectCup.hpp>
 #include <game/ui/ctrl/CtrlMenuBattleCupSelectStage.hpp>
 #include <game/ui/ctrl/SheetSelectControl.hpp>
+#include <midnight/online/YesNoPopupPageEx.hpp>
 
 class BattleCupSelectPage : public MenuPage {
 public:
@@ -35,7 +36,7 @@ public:
     CtrlMenuBattleCupSelectStage stageHolder;
     u32 selectedButtonId;
 
-    Page* voteOrRandomPage;
+    YesNoPopupPageEx* voteOrRandomPage;
     UIControlTimer* timer;
 };
 size_assert(BattleCupSelectPage, 0x175C);

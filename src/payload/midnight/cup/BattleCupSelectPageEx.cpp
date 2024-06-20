@@ -95,7 +95,7 @@ void BattleCupSelectPageEx::onActivate() {
         return;
 
     // Get the popup page
-    YesNoPopupPage* popupPage = YesNoPopupPage::getPage();
+    YesNoPopupPageEx* popupPage = YesNoPopupPageEx::getPage();
 
     // Reset it and update the messages
     popupPage->reset();
@@ -107,7 +107,7 @@ void BattleCupSelectPageEx::onActivate() {
     popupPage->currSelected = 0;
 
     // Display the page and store a reference to it
-    popupPage = (YesNoPopupPage*)addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);
+    popupPage = (YesNoPopupPageEx*)addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);
     voteOrRandomPage = popupPage;
 }
 

@@ -39,6 +39,7 @@ public:
 
     typedef int (*calcDistanceFunc)(Player* src, Player* dest, u32 direction);
     void setDistanceFunc(int wrapType);
+    void setHandler(int inputId, InputHandlerBase* inputHandler, bool unk, bool pointerOnly);
 
     EGG::List list;
     InputHandler0<MultiControlInputManager, void>* handlers[MenuInputManager::INPUT_COUNT];

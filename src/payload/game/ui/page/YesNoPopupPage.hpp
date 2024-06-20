@@ -5,6 +5,7 @@
 
 class YesNoPopupPage : public YesNoPage {
 public:
+    YesNoPopupPage();
     virtual ~YesNoPopupPage();
 
     virtual void onInit();
@@ -14,10 +15,6 @@ public:
     virtual TypeInfo* getTypeInfo() const;
 
     virtual void reset();
-
-    static YesNoPopupPage* getPage() {
-        return (YesNoPopupPage*)SectionManager::instance->curSection->pages[Page::ONLINE_VOTE_PROMPT];
-    }
 
     BlackBackControl blackBackControl;
     LayoutUIControl messagePopup;

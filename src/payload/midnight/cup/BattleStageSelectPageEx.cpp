@@ -48,7 +48,7 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
         if (RepickQueue::instance.GetQueuePosition(trackIdx) != RepickQueue::NOT_IN_QUEUE) {
 
             // Get the popup
-            YesNoPopupPage* popupPage = YesNoPopupPage::getPage();
+            YesNoPopupPageEx* popupPage = YesNoPopupPageEx::getPage();
 
             // Reset it and update the messages
             popupPage->reset();
@@ -58,8 +58,10 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
             popupPage->configureButton(1, Message::Menu::TRACK_UNPICKABLE_GO_BACK, nullptr, Page::ANIM_NONE,
                                        (InputHandler2<Page, void, s32, PushButton*>*)&repickHandler);
 
-            // Default to the Go Back button
+            // Default to the Go Back button and allow going back
             popupPage->currSelected = 1;
+            popupPage->isBackButtonEnabled = true;
+            popupPage->onBackSelectedButton = 1;
 
             // Display the page
             addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);

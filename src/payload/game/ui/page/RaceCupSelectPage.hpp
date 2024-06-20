@@ -1,9 +1,9 @@
 #include <common/Common.hpp>
 #include <game/ui/UIControlTimer.hpp>
 #include <game/ui/page/MenuPage.hpp>
-#include <game/ui/page/YesNoPopupPage.hpp>
 #include <game/ui/ctrl/CtrlMenuCupSelectCup.hpp>
 #include <game/ui/ctrl/CtrlMenuCupSelectCourse.hpp>
+#include <midnight/online/YesNoPopupPageEx.hpp>
 
 class RaceCupSelectPage : public MenuPage {
 public:
@@ -33,7 +33,7 @@ public:
     CtrlMenuCupSelectCourse courseHolder;
     u32 selectedButtonId;
 
-    YesNoPopupPage* voteOrRandomPage;
+    YesNoPopupPageEx* voteOrRandomPage;
     UIControlTimer* timer;
 };
 size_assert(RaceCupSelectPage, 0x23E0);

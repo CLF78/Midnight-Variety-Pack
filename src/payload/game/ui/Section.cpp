@@ -5,6 +5,7 @@
 #include <midnight/cup/RaceCourseSelectPageEx.hpp>
 #include <midnight/cup/RaceCupSelectPageEx.hpp>
 #include <midnight/online/WifiMenuPageEx.hpp>
+#include <midnight/online/YesNoPopupPageEx.hpp>
 
 ///////////////////////////
 // Page Expansion System //
@@ -13,6 +14,10 @@
 // Apply page replacements
 REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
     switch (pageId) {
+
+        // Expand yes/no prompt to allow going back
+        case Page::ONLINE_VOTE_PROMPT:
+            return new YesNoPopupPageEx();
 
         // Expand cup select for custom cup system
         case Page::CUP_SELECT:
