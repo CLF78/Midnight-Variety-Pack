@@ -1,5 +1,5 @@
-# Mario Kart Midnight 2
-Mario Kart Midnight 2 is a WIP custom track distribution created by NuoKart and CLF78.
+# Mario Kart Midnight 3
+Mario Kart Midnight 3 is a WIP custom track distribution created by NuoKart and CLF78.
 
 ## Project Setup - Automatic (Windows ONLY)
 - Clone this repository to a folder of choice (make sure the path to the folder has no spaces in it!);
