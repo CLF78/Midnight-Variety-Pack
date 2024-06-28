@@ -17,6 +17,14 @@ typedef enum {
     SC_LANG_KOREAN,
 } SCLanguage;
 
+typedef struct {
+    u32 id;
+    u16 countryName[16][64];
+    u16 regionName[16][64];
+    u16 latitude;
+    u16 longitude;
+} SCSimpleAddressData;
+
 u8 SCGetLanguage();
 const char *SCGetProductCode();
 

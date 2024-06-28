@@ -23,9 +23,12 @@ public:
     };
 
     u8 getPlayerCharacter(u8 aid, u8 localPlayerIdx);
+    RKNetSELECTPlayer* getPlayerData(u8 aid, u8 localPlayerIdx);
     u16 getPlayerVote(u8 aid);
+    u32 getRandomSeed();
     u16 getWinningTrack();
     u8 getWinningVoter();
+
     void setPlayerData(int characterId, int vehicleId, int courseVote, int localPlayerIdx, u8 starRank);
 
     void decideBattleAndTeams();

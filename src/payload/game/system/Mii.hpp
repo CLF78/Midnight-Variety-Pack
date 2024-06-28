@@ -41,6 +41,10 @@ size_assert(Mii, 0xB8);
 
 class MiiGroup {
 public:
+    void copyFrom(MiiGroup* other, u8 destIdx, u8 srcIdx);
+    void copyFromManager(u8 destIdx, u8 aid, u8 localPlayerIdx);
+    void reset(u32 playerId);
+
     u8 unk[0x98];
 };
 size_assert(MiiGroup, 0x98);

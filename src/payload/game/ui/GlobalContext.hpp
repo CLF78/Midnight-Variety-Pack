@@ -1,5 +1,7 @@
 #include <common/Common.hpp>
 #include <game/net/WifiDisconnectInfo.hpp>
+#include <game/system/Mii.hpp>
+#include <game/ui/Message.hpp>
 
 class GlobalContext {
 public:
@@ -17,6 +19,12 @@ public:
         VEHICLES_BIKES,
         VEHICLES_ALL,
     };
+
+    void copyPlayerMiis();
+
+    void setPlayerStarRank(u32 playerId, u8 starRank) {
+        playerStarRanks[playerId] = (starRank < 12) ? starRank + Message::Common::STAR_RANK_MIN : 0; 
+    }
 
     u8 unk[0x60];
 
@@ -45,10 +53,19 @@ public:
 
     s32 lastCourse;
     s32 lastStage;
-    u8 unk2[0x220 - 0x154];
+    u8 unk2[0x188 - 0x154];
 
+    MiiGroup playerMiis;
     PlayerCombo playerCombos[2];
-    u8 unk3[0x4D0 - 0x238];
+    MiiGroup localPlayerMiis;
+
+    u32 friendRoomRaceNumber;
+    u32 friendRoomEngineClass;
+    u8 unk3[0x35C - 0x2D8];
+
+    u32 playerStarRanks[12];
+    u32 playerRegions[12];
+    u8 unk4[0x4D0 - 0x3BC];
 
     int demoCameraMode;
     int demoType;
@@ -57,9 +74,9 @@ public:
     int demoTrack;
     int demoArena;
 
-    u8 unk4[0x500-0x4E8];
+    u8 unk5[0x500-0x4E8];
 
     WifiDisconnectInfo disconnectInfo;
-    u8 unk5[0x510-0x508];
+    u8 unk6[0x510-0x508];
 };
 size_assert(GlobalContext, 0x510);

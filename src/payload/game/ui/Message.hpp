@@ -6,6 +6,15 @@ enum Value {
     NONE = 0,
 };
 
+namespace Common {
+
+enum Value {
+    STAR_RANK_MIN = 9710,
+    STAR_RANK_MAX = 9721,
+};
+
+} // namespace Common
+
 namespace Menu {
 
 enum Value {

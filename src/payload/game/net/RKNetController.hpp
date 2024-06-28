@@ -80,7 +80,10 @@ public:
     virtual ~RKNetController();
 
     bool isConnectedToAnyone();
+    void updateAidPidMap();
+
     void processRacePacket(u32 aid, void* data, u32 dataLength);
+
     WifiDisconnectInfo getWifiDisconnectInfo();
     u32 getLocalPlayerIdx(u32 localPlayerNum);
 

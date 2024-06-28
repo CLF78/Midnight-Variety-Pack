@@ -199,6 +199,8 @@ public:
 
     virtual ~RaceConfig();
 
+    void reset();
+    void update();
     void loadNextCourse();
 
     Scenario raceScenario;
