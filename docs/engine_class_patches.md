@@ -6,6 +6,8 @@
 - 0x805BCA48 - for printing CC text at the GP award scene
 - 0x805BCAB8 - for printing CC text at the VS award scene
 - 0x805BD0CC - for saving the GP rank for the respective CC
+- 0x80654EE4 - for writing the engine class into the RACEHEADER_1 packet
+- 0x80655310 - for writing the engine class into the RACEHEADER_1 packet (live view version)
 - 0x807E5934 - for checking cup unlock in GP mode
 - 0x807FEDC8 - for reading the KMP setting for dc_pillar
 - 0x807FEF30 - for reading the KMP setting for dc_pillar_c (sub-component of dc_pillar)
@@ -27,8 +29,6 @@
 
 ### Unpatched
 - 0x806462C4 - for printing CC text at the end of friend rooms
-- 0x80654EE4 - for writing the engine class into the RACEHEADER_1 packet
-- 0x80655310 - for writing the engine class into the RACEHEADER_1 packet (live view version)
 - 0x806FAEBC - something related to KartSound
 - 0x807399A4 - for initializing AiHolder (MORE INVESTIGATION REQUIRED)
 - 0x8073ADB8 - for obtaining the CPU speed/action data
@@ -43,6 +43,7 @@
 - 0x805E1D0C - stores 150cc for time trial against ghost
 - 0x805E1EB0 - stores 150cc for ghost replay
 - 0x80609F10 - stores CC from RH1 packet
+- 0x80650E24 - stores CC from SELECT packet
 - 0x8083FAFC - stores CC from CC select page
 
 ### No Patch Needed
@@ -62,7 +63,6 @@
 
 ### Unpatched
 - 0x805E03EC - stores 150cc for ghost race
-- 0x80650E24 - stores CC from SELECT packet
 - 0x80665CA8 - stores CC from competition file
 - 0x808432AC - stores CC from mission mode file
 - 0x80852550 - stores CC from VS rules
