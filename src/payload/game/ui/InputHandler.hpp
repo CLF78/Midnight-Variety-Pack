@@ -10,10 +10,6 @@ public:
 
     T* owner;
     R (T::*handle)();
-
-    static InputHandler0* construct(T* pOwner, R (T::*pInputFunc)(), void* buffer) {
-        return new(buffer) InputHandler0(pOwner, pInputFunc);
-    }
 };
 
 template <class T, typename R, typename A1>
@@ -24,10 +20,6 @@ public:
 
     T* owner;
     R (T::*handle)(A1);
-
-    static InputHandler1* construct(T* pOwner, R (T::*pInputFunc)(A1), void* buffer) {
-        return new(buffer) InputHandler1(pOwner, pInputFunc);
-    }
 };
 
 template <class T, typename R, typename A1, typename A2>
@@ -38,10 +30,6 @@ public:
 
     T* owner;
     R (T::*handle)(A1, A2);
-
-    static InputHandler2* construct(T* pOwner, R (T::*pInputFunc)(A1, A2), void* buffer) {
-        return new(buffer) InputHandler2(pOwner, pInputFunc);
-    }
 };
 
 template <class T, typename R, typename A1, typename A2, typename A3>
@@ -52,8 +40,4 @@ public:
 
     T* owner;
     R (T::*handle)(A1, A2, A3);
-
-    static InputHandler3* construct(T* pOwner, R (T::*pInputFunc)(A1, A2, A3), void* buffer) {
-        return new(buffer) InputHandler3(pOwner, pInputFunc);
-    }
 };

@@ -48,9 +48,5 @@ public:
     nw4r::lyt::Pane* colorBasePane;
 
     int selectionSound;
-
-    static PushButton* construct(void* buffer) {
-        return new(buffer) PushButton;
-    }
 };
 size_assert(PushButton, 0x254);

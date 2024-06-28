@@ -21,9 +21,5 @@ public:
     VEC3 somePos;
     bool selected;
     u8 fadeDirection; // 0 = entering, 1 = exiting
-
-    static CtrlMenuBattleStageSelectCupSub* construct(void* buffer) {
-        return new(buffer) CtrlMenuBattleStageSelectCupSub;
-    }
 };
 size_assert(CtrlMenuBattleStageSelectCupSub, 0x18C);

@@ -20,7 +20,7 @@ kmCallDefCpp(0x8065FEB0, u32) {
 
 // Clear the repick queue when opening a room
 // We don't need to clear it at any other time since it's for online only and the host
-// shares his list with us
+// shares their list with us
 kmListHookDefCpp(RoomOpenHook) {
     LOG_DEBUG("Clearing repick queue...");
     RepickQueue::instance.Clear();
