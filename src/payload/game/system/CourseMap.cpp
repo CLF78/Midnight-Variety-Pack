@@ -8,25 +8,31 @@
 /////////////////////////////
 
 // Prevent invalid item points from crashing the game
-REPLACE const MapdataItemPoint* CourseMap::getItemPoint(u32 id) {
-
+const MapdataItemPoint* CourseMap::getDummyItemPoint() {
     static const MapdataItemPoint::SData dummyPointData = {{0.0f, 0.0f, 0.0f}, 1.0f, {0, 0}};
     static const MapdataItemPoint dummyPoint = {(MapdataItemPoint::SData*)&dummyPointData };
 
+    return &dummyPoint;
+}
+
+REPLACE const MapdataItemPoint* CourseMap::getItemPoint(u32 id) {
     if (!mpItemPoint || id >= mpItemPoint->numEntries)
-        return &dummyPoint;
+        return getDummyItemPoint();
 
     return mpItemPoint->entries[id];
 }
 
 // Prevent invalid cannon points from crashing the game
-REPLACE const MapdataCannonPoint* CourseMap::getCannonPoint(u32 id) {
-
+const MapdataCannonPoint* CourseMap::getDummyCannonPoint() {
     static const MapdataCannonPoint::SData dummyPointData = {{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, 0, 0};
     static const MapdataCannonPoint dummyPoint = {(MapdataCannonPoint::SData*)&dummyPointData};
 
+    return &dummyPoint;
+}
+
+REPLACE const MapdataCannonPoint* CourseMap::getCannonPoint(u32 id) {
     if (!mpCannonPoint || id >= mpCannonPoint->numEntries)
-        return &dummyPoint;
+        return getDummyCannonPoint();
 
     return mpCannonPoint->entries[id];
 }

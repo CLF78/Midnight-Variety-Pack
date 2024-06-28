@@ -406,8 +406,12 @@ public:
     MapdataStageAccessor* parseStageInformation(u32 magic);
 
     s16 getClosestAreaIdByType(VEC3* pos, s16 prevAreaId, s16 type); // prevAreaId = previous area this function returned
-    const MapdataCannonPoint* CourseMap::getCannonPoint(u32 id);
-    const MapdataItemPoint* CourseMap::getItemPoint(u32 id);
+
+    static const MapdataCannonPoint* getDummyCannonPoint();
+    const MapdataCannonPoint* getCannonPoint(u32 id);
+
+    static const MapdataItemPoint* getDummyItemPoint();
+    const MapdataItemPoint* getItemPoint(u32 id);
 
     MapdataFileAccessor* mpCourse;
 
