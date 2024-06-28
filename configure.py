@@ -10,6 +10,7 @@
 import argparse
 import shutil
 import sys
+from enum import Enum
 from pathlib import Path
 
 from tools.utils.asset_manager import GlobalAssetManager
@@ -52,17 +53,11 @@ SYMBOL_FILE = Path(ROOT_DIR, 'externals-mkw.txt')
 LOCALES = ['E', 'F', 'G', 'I', 'J', 'K', 'M', 'Q', 'S', 'U']
 REGIONS = ['P', 'E', 'J', 'K']
 LOADER_HOOK_ADDR = 0x80004010
+LOADER_MAX_ADDR = 0x80005E00
 
 # Debug Log Information
-LOG_LEVELS = {
-    "DEBUG": 0,
-    "WARN": 1,
-    "ERROR": 2,
-    "FATAL": 3,
-}
-
-# Default to WARN
-LOG_LEVEL = LOG_LEVELS["WARN"]
+LOG_LEVELS = Enum('LogLevel', ['DEBUG', 'WARN', 'ERROR', 'FATAL'], start=0)
+LOG_LEVEL = LOG_LEVELS.WARN
 
 ##################
 # Mod Components #
@@ -152,8 +147,9 @@ CC = Path(file) if (file := shutil.which('mwcceppc.exe')) else Path(TOOL_DIR, 'c
 CUP_BUILDER = Path(TOOL_DIR, 'cup_builder', 'exporter.py')
 CW_WRAPPER = Path(TOOL_DIR, 'cw', 'mwcceppc_wine_wrapper.py')
 CW_WRAPPER_WIN = Path(TOOL_DIR, 'cw', 'mwcceppc_windows_wrapper.py')
-PREPROCESSOR = Path(TOOL_DIR, 'cw', 'preprocess.py')
 KAMEK = Path(file) if (file := shutil.which('Kamek')) else Path(TOOL_DIR, 'kamek', f'Kamek{".exe" if sys.platform == "win32" else ""}')
+PREPROCESSOR = Path(TOOL_DIR, 'cw', 'preprocess.py')
+SIZE_CHECKER = Path(TOOL_DIR, 'utils', 'check_file_size.py')
 WUJ5 = Path(TOOL_DIR, 'wuj5', 'wuj5.py')
 XML_TOOL = Path(TOOL_DIR, 'xml_tool', 'xml_tool.py')
 
@@ -303,11 +299,11 @@ UI_ASSETS = {
 
 parser = argparse.ArgumentParser(description='Ninja Configurator Script')
 parser.add_argument('--clean', action='store_true', help='specify to remove all build outputs')
-parser.add_argument('--loglevel', choices=LOG_LEVELS.keys(), default="ERROR",
+parser.add_argument('--loglevel', choices=LOG_LEVELS._member_names_, default="ERROR",
                     help='specify the log level to be used (default: "ERROR")')
 args = parser.parse_args()
 
-LOG_LEVEL = LOG_LEVELS[args.loglevel]
+LOG_LEVEL = LOG_LEVELS[args.loglevel].value
 if args.clean:
     shutil.rmtree(BUILD_DIR, ignore_errors=True)
     shutil.rmtree(OUT_DIR.parent, ignore_errors=True)
@@ -354,12 +350,17 @@ writer.rule('kmdynamic',
             description='Link Code ($selectversion)')
 
 writer.rule('kmstatic',
-            command='$kamek $in_code -static=$loadaddr -externals=$symbol_file -output-code=$out_bin -output-riiv=$out_riiv -valuefile=$out_valuefile -input-riiv=$in_xml -q',
+            command=[f'$kamek $in_code -static=$loadaddr -externals=$symbol_file -output-code=$out_bin -output-riiv=$out_riiv -valuefile=$out_valuefile -input-riiv=$in_xml -q',
+                    f'{sys.executable} {SIZE_CHECKER} $out_bin $size'],
             description='Link Loader')
 
 writer.rule('bmg_merge',
             command=f'{sys.executable} {BMG_MERGE} $in -o $out',
             description='Merge $out_short Messages ($region)')
+
+writer.rule('size_check',
+            command=f'{sys.executable} {SIZE_CHECKER} $in $size',
+            description='Check size of $in_short')
 
 writer.rule('wuj5',
             command=f'{sys.executable} {WUJ5} encode $in -o $out',
@@ -560,7 +561,8 @@ writer.build('kmstatic',
              out_bin=LOADER_OUT_FILE,
              out_riiv=XML_OUT_FILE,
              out_valuefile=f'/{LOADER_OUT_FILE.relative_to(XML_ROOT_DIR)}',
-             loadaddr=hex(LOADER_HOOK_ADDR))
+             loadaddr=hex(LOADER_HOOK_ADDR),
+             size=LOADER_MAX_ADDR - LOADER_HOOK_ADDR)
 
 # Merge and add localized messages to the UI asset list
 for locale, cupTextFile in zip(LOCALES, CUP_DATA_TEXT_FILES):

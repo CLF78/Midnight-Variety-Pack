@@ -52,6 +52,9 @@ class Writer():
         if rule is None:
             return
 
+        if is_iterable(command):
+            command = ' && '.join(command)
+
         self.output.write(f'rule {rule}')
         self.newline()
         self.variable('command', command, 2)
