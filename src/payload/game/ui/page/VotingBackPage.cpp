@@ -44,10 +44,14 @@ REPLACE void VotingBackPage::setupRace() {
         rconf->reset();
     }
 
-    // Set shared random seed, camera mode and track
+    // Set shared random seed and camera mode
     settings->seed1 = selectHandler->getRandomSeed();
     settings->cameraMode = RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO;
-    CupManager::SetCourse(settings, selectHandler->getWinningTrack());
+
+    // Set the track
+    // If random, pick a variant using the shared seed
+    u32 actualTrackIdx = CupManager::getTrackFile(selectHandler->getWinningTrack(), &settings->seed1);
+    CupManager::SetCourse(settings, actualTrackIdx);
 
     // Set game mode depending on the current menu
     switch (curSection) {
