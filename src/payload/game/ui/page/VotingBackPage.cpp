@@ -8,6 +8,13 @@
 #include <midnight/cup/CupManager.hpp>
 #include <midnight/online/RepickQueue.hpp>
 
+///////////////////////
+// Always Show Timer //
+///////////////////////
+
+// Always display the timer on the course voting screen
+kmWrite32(0x80650254, 0x60000000);
+
 ///////////////////
 // Course Voting //
 ///////////////////
