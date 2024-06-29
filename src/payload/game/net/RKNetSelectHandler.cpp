@@ -130,9 +130,6 @@ void RKNetSELECTHandler::storeUpdatedVoteData(u8 aid) {
     expansion.sendPacketEx.winningCourse = expansion.recvPacketsEx[aid].winningCourse;
     sendPacket.winningVoterAid = recvPackets[aid].winningVoterAid;
     sendPacket.aidPidMap = recvPackets[aid].aidPidMap;
-
-    // Add the winning track to the repick queue (for guests)
-    RepickQueue::instance.Push(expansion.sendPacketEx.winningCourse);
 }
 
 bool RKNetSELECTHandler::checkUpdatedVoteData(u8 aid) {
@@ -222,8 +219,13 @@ REPLACE void RKNetSELECTHandler::calcPhase() {
                         storeUpdatedVoteData(aid);
                     }
 
-                    if (recvPacket->phase > RKNetSELECTPacket::VOTING)
+                    // When the host goes to the next phase, add the winning course to the repick
+                    // queue as well
+                    if (recvPacket->phase > RKNetSELECTPacket::VOTING) {
+                        RepickQueue::instance.Push(expansion.sendPacketEx.winningCourse);
                         sendPacket.phase = RKNetSELECTPacket::LOTTERY;
+                    }
+
                     break;
 
                 // In the lottery phase, don't do anything
