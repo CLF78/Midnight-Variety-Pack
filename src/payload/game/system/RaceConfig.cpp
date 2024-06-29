@@ -32,7 +32,7 @@ REPLACE void RaceConfig::Scenario::initCoursePositions() {
 
         // Update existing player positions to account for gaps
         u8 currPos = 1;
-        for (int pos = 0; pos < ARRAY_SIZE(players); pos++) {
+        for (int pos = 1; pos < ARRAY_SIZE(players) + 1; pos++) {
             for (int i = 0; i < ARRAY_SIZE(players); i++) {
                 if (players[i].playerType != Player::TYPE_NONE && players[i].prevFinishPos == pos) {
                     startPositions[i] = currPos++;
