@@ -93,6 +93,21 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
     stageSelected = true;
 }
 
+// Disable movies and simplify instruction text setting
+void BattleStageSelectPageEx::onActivate() {
+
+    // Set the instruction text according to the battle type
+    u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
+    u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
+                Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
+                Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
+    instructionText->setText(msgId, nullptr);
+
+    // Do base activation
+    MenuPage::onActivate();
+    multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
+}
+
 // Force press the selected option on the repick prompt when the timer runs out
 void BattleStageSelectPageEx::afterCalc() {
 

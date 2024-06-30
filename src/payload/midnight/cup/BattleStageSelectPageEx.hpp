@@ -8,6 +8,7 @@ public:
     BattleStageSelectPageEx();
     virtual ~BattleStageSelectPageEx() {}
 
+    virtual void onActivate();
     virtual void afterCalc();
 
     void onRepickPromptPress(s32 choice, PushButton* button);
