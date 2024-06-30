@@ -1,7 +1,6 @@
 #include <common/Common.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/UIUtils.hpp>
-#include <game/ui/page/VotingBackPage.hpp>
 #include <midnight/cup/BattleCupSelectPageEx.hpp>
 #include <midnight/cup/CupManager.hpp>
 
@@ -76,19 +75,16 @@ void BattleCupSelectPageEx::onActivate() {
     // Initialize cup holder
     cupHolder.init();
 
-    // If we're offline, set the instruction text according to the battle type
-    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID)) {
-        u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
-        u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
-                    Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
-                    Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
-        instructionText->setText(msgId, nullptr);
-        return;
-    }
-
-    // If we're online, obtain the relevant message from VotingBackPage
-    u32 msgId = VotingBackPage::getPage()->getInstructionText();
+    // Set the instruction text according to the battle type
+    u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
+    u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
+                Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
+                Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
     instructionText->setText(msgId, nullptr);
+
+    // If we're offline, we're done
+    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID))
+        return;
 
     // If we're entering the screen, add the Vote/Random prompt
     if (animId != Page::ANIM_NEXT)
