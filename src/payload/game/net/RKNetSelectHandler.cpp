@@ -364,15 +364,15 @@ REPLACE void RKNetSELECTHandler::decideEngineClass() {
                 }
                 break;
         }
-    }
 
-    // Decide whether mirror mode should be enabled
-    // Chances: 90% Normal, 10% Mirror
-    // TODO make the chances configurable instead of hardcoding them here
-    // TODO prevent overriding the flag if explicitly set in the settings
-    randNum = rnd.nextU32(100);
-    if (randNum > 89) {
-        mirror = true;
+        // Decide whether mirror mode should be enabled for VS
+        // Chances: 90% Normal, 10% Mirror
+        // TODO make the chances configurable instead of hardcoding them here
+        // TODO prevent overriding the flag if explicitly set in the settings
+        randNum = rnd.nextU32(100);
+        if (randNum > 89) {
+            mirror = true;
+        }
     }
 
     // Set the data
