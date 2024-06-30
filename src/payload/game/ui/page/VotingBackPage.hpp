@@ -46,8 +46,11 @@ public:
 
     int getVoteIdx(u32 aid, u32 localPlayerIdx);
     u32 getInstructionText();
+    u32 getInstructionText(MessageInfo* info);
 
     void setupRace();
+
+    static bool teamsEnabled();
 
     static VotingBackPage* getPage() {
         return (VotingBackPage*)SectionManager::instance->curSection->pages[Page::TIMER];

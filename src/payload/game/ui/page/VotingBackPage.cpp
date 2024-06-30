@@ -6,7 +6,6 @@
 #include <game/ui/page/VotingBackPage.hpp>
 #include <game/util/Random.hpp>
 #include <midnight/cup/CupManager.hpp>
-#include <midnight/online/RepickQueue.hpp>
 
 ///////////////////////
 // Always Show Timer //
@@ -19,15 +18,10 @@ kmWrite32(0x80650254, 0x60000000);
 // Course Voting //
 ///////////////////
 
-// Copy the repick queue from the SELECT packet
-REPLACE u32 VotingBackPage::getInstructionText() {
-
-    // Copy the repick queue
-    LOG_DEBUG("Copying repick queue...");
-    RepickQueue::instance.queue = RKNetSELECTHandler::instance->expansion.sendPacketEx.repickQueue;
-
-    // Original call
-    return REPLACED();
+// Get the instruction text
+// TODO figure out what to do here
+u32 VotingBackPage::getInstructionText(MessageInfo* msgInfo) {
+    return getInstructionText();
 }
 
 // Set up the race with the custom settings
