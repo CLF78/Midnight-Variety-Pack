@@ -4,6 +4,7 @@
 #include <game/ui/MenuInputManager.hpp>
 #include <game/ui/Page.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
+#include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>
 #include <game/ui/ctrl/VoteControl.hpp>
 
 class VotingPage : public Page {
@@ -31,7 +32,7 @@ public:
     MenuInputManager inputManager;
     int votedCourse;
 
-    LayoutUIControl titleText;
+    CtrlMenuPageTitleText titleText;
     CtrlMenuInstructionText instructionText;
     LayoutUIControl voteCounter;
     VoteControl voteControls[12];

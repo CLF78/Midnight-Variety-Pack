@@ -4,6 +4,7 @@
 #include <midnight/cup/BattleStageSelectPageEx.hpp>
 #include <midnight/cup/RaceCourseSelectPageEx.hpp>
 #include <midnight/cup/RaceCupSelectPageEx.hpp>
+#include <midnight/online/WifiMemberConfirmPageEx.hpp>
 #include <midnight/online/WifiMenuPageEx.hpp>
 #include <midnight/online/YesNoPopupPageEx.hpp>
 
@@ -39,6 +40,10 @@ REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
         case Page::WIFI_MENU:
             return new WifiMenuPageEx();
 
+        // Expand VR screen for various things
+        case Page::VR_SCREEN:
+            return new WifiMemberConfirmPageEx();
+
         // Fallback
         default:
             return REPLACED(pageId);
@@ -53,6 +58,23 @@ REPLACE void Section::addPages(SectionID sectionId) {
         // Replace save error page to prevent using the game without saving
         case SAVE_CANNOT_FLUSH:
             REPLACED(SAVE_CANNOT_READ_RFL);
+            break;
+
+        // Add the message popup to display the rules
+        case WIFI_VS_1P_VOTE:
+        case WIFI_BT_1P_VOTE:
+        case WIFI_VS_2P_VOTE:
+        case WIFI_BT_2P_VOTE:
+        case WIFI_FROOM_1P_VS_VOTE:
+        case WIFI_FROOM_1P_TEAM_VS_VOTE:
+        case WIFI_FROOM_1P_BALLOON_BATTLE_VOTE:
+        case WIFI_FROOM_1P_COIN_RUNNERS_VOTE:
+        case WIFI_FROOM_2P_VS_VOTE:
+        case WIFI_FROOM_2P_TEAM_VS_VOTE:
+        case WIFI_FROOM_2P_BALLOON_BATTLE_VOTE:
+        case WIFI_FROOM_2P_COIN_RUNNERS_VOTE:
+            addPage(Page::MESSAGE_POPUP);
+            REPLACED(sectionId);
             break;
 
         // Fallback

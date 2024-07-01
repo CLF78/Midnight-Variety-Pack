@@ -18,6 +18,8 @@ public:
     virtual void setWindowMessage(u32 msgId, MessageInfo* msgInfo) = 0;
     virtual void process() = 0;
 
+    void handleFront();
+
     PageInputManager inputManager;
     InputHandler0<MessagePage, void>* onPopupFront;
     InputHandler0<MessagePage, void> onFront;

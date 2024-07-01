@@ -8,6 +8,7 @@
 #include <game/ui/PushButton.hpp>
 #include <game/ui/ctrl/CtrlMenuBackButton.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
+#include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>
 
 class MenuPage : public Page {
 public:
@@ -55,7 +56,7 @@ public:
     PushButton* selectedButton;
     CtrlMenuBackButton backButton;
 
-    LayoutUIControl* titleText;
+    CtrlMenuPageTitleText* titleText;
     CtrlMenuInstructionText* instructionText;
 
     u8 _2BC[0x50];

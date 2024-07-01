@@ -208,6 +208,8 @@ public:
 
     void addPages(SectionID section);
     void addActivePages(SectionID section);
+
+    void addPage(Page::PageID page);
     static Page* createPage(Page::PageID page);
 
     static u32 getSoundID(u32 sectionId);

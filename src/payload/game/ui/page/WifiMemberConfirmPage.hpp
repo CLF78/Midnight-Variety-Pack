@@ -6,8 +6,9 @@
 #include <game/ui/PushButton.hpp>
 #include <game/ui/UIControlTimer.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
+#include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>
 
-class WifiPlayerListPage : public Page {
+class WifiMemberConfirmPage : public Page {
 public:
 
     enum RatingType {
@@ -16,7 +17,8 @@ public:
         RATING_BT,
     };
 
-    virtual ~WifiPlayerListPage();
+    WifiMemberConfirmPage();
+    virtual ~WifiMemberConfirmPage();
 
     virtual void onInit();
     virtual void onActivate();
@@ -27,14 +29,16 @@ public:
     void setPlayerEntry(int entryIdx, int playerIdx, RaceConfig::Player::Team team,
                         RatingType ratingType, bool isLocalPlayer);
 
-    InputHandler1<WifiPlayerListPage, void, PushButton*> onBtnPress;
+    InputHandler1<WifiMemberConfirmPage, void, PushButton*> onBtnPress;
     MultiControlInputManager inputManager;
 
-    LayoutUIControl titleText;
+    CtrlMenuPageTitleText titleText;
     CtrlMenuInstructionText instructionText;
     PushButton okButton;
 
     LayoutUIControl playerEntries[12];
     UIControlTimer* timer;
+
+    static const char* animNames[12];
 };
-size_assert(WifiPlayerListPage, 0x192C);
+size_assert(WifiMemberConfirmPage, 0x192C);

@@ -219,17 +219,21 @@ UI_ASSETS = {
 	},
 
 	'MenuSingleMKM': {
+        Path(UI_ASSETS_DIR, 'button', 'blyt', 'CosmosVRScreenButton.brlyt.json5'): None,
         Path(UI_ASSETS_DIR, 'button', 'ctrl', 'BattleStageSelectStage.brctr.json5'): None,
 		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowLeft.brctr.json5'): None,
 		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowRight.brctr.json5'): None,
+		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'WifiMemberConfirmButton.brctr.json5'): None,
         Path(UI_ASSETS_DIR, 'control', 'ctrl', 'BattleCupSelectStage.brctr.json5'): None,
         Path(CUP_ICONS_BUILD_DIR): Path('cups')
 	},
 
 	'MenuMultiMKM': {
+        Path(UI_ASSETS_DIR, 'button', 'blyt', 'CosmosVRScreenButton.brlyt.json5'): None,
         Path(UI_ASSETS_DIR, 'button', 'ctrl', 'BattleStageSelectStage.brctr.json5'): None,
 		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowLeft.brctr.json5'): None,
 		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowRight.brctr.json5'): None,
+		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'WifiMemberConfirmButton.brctr.json5'): None,
         Path(UI_ASSETS_DIR, 'control', 'ctrl', 'BattleCupSelectStage.brctr.json5'): None,
         Path(CUP_ICONS_BUILD_DIR): Path('cups')
 	},

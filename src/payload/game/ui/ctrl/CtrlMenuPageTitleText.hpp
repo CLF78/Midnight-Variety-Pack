@@ -1,16 +1,16 @@
 #include <common/Common.hpp>
 #include <game/ui/LayoutUIControl.hpp>
 
-class CtrlMenuInstructionText : public LayoutUIControl {
+class CtrlMenuPageTitleText : public LayoutUIControl {
 public:
-    virtual ~CtrlMenuInstructionText();
+    virtual ~CtrlMenuPageTitleText();
 
     virtual void solveAnim(Element* element, float frame);
 
     virtual const TypeInfo* getTypeInfo() const;
     virtual const char* getTypeName() const;
 
-    void load();
-    void setText(u32 bmgId, MessageInfo* info);
+    void load(bool isOptions);
+    void setText(int bmgId, MessageInfo* msgInfo);
 };
-size_assert(CtrlMenuInstructionText, sizeof(LayoutUIControl));
+size_assert(CtrlMenuPageTitleText, sizeof(LayoutUIControl));

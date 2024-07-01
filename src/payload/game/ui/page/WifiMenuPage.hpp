@@ -6,6 +6,7 @@
 #include <game/ui/PushButton.hpp>
 #include <game/ui/ctrl/CtrlMenuBackButton.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
+#include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>
 #include <game/ui/ctrl/FriendStatusButton.hpp>
 
 class WifiMenuPage : public Page {
@@ -27,7 +28,7 @@ public:
     InputHandler1<WifiMenuPage, void, PushButton*> onButtonSelect;
     InputHandler0<WifiMenuPage, void> onBack;
 
-    LayoutUIControl titleText;
+    CtrlMenuPageTitleText titleText;
     PushButton worldwideButton;
     PushButton regionalButton;
     FriendStatusButton friendButton;
