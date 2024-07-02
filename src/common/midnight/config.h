@@ -51,6 +51,13 @@
 #define CUP_ICON_DIR_VS_FUSION "/cups/fusion"
 #define CUP_ICON_DIR_BT "/cups/battle"
 
+// Online regions for each tracklist
+#define ONLINE_REGION_VS_MIDNIGHT 609
+#define ONLINE_REGION_VS_NOSTALGIA 753
+#define ONLINE_REGION_VS_FUSION 891
+#define ONLINE_REGION_BT ONLINE_REGION_VS_MIDNIGHT
+#define LOGIN_REGION ONLINE_REGION_VS_MIDNIGHT
+
 // BRCTR filenames for the custom cup selection arrows.
 #define CUP_ARROW_L_BRCTR "CupSelectCupArrowLeft"
 #define CUP_ARROW_R_BRCTR "CupSelectCupArrowRight"

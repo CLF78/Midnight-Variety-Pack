@@ -47,6 +47,7 @@ namespace CupData {
         const u16 cupCount; // The amount of cups
         const Cup* cups; // The cups in the list
         const char* cupIconDir; // The cup icon directory for this list
+        const u16 onlineRegion; // The online region for this list
     };
 
     // Structure for random track variants

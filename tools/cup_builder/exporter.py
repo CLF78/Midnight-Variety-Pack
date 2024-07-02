@@ -238,8 +238,8 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     # Write the cup holder
     cupDataFile.write('const CupData::CupList CupData::cupLists[] = {\n')
     for cupDir in Tracklist:
-        newline = '    {%d, ARRAY_SIZE(cups%s), cups%s, CUP_ICON_DIR_%s "/%%d.tpl"},\n' % (
-                    bmgMng.usedIds[cupDir.value], cupDir.value, cupDir.value, cupDir.name)
+        newline = '    {%d, ARRAY_SIZE(cups%s), cups%s, CUP_ICON_DIR_%s "/%%d.tpl", ONLINE_REGION_%s},\n' % (
+                    bmgMng.usedIds[cupDir.value], cupDir.value, cupDir.value, cupDir.name, cupDir.name)
         cupDataFile.write(newline)
     cupDataFile.write('};\n')
 
