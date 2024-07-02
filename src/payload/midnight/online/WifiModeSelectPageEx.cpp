@@ -1,6 +1,7 @@
 #include <common/Common.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <midnight/online/WifiModeSelectPageEx.hpp>
+#include <midnight/save/SaveExpansionRating.hpp>
 #include <platform/stdio.h>
 
 void WifiModeSelectPageEx::onInit() {
@@ -54,10 +55,8 @@ void WifiModeSelectPageEx::onInit() {
         btn->setMatText("text_light_02", cupListName, nullptr);
 
         // Set rating message
-        // TODO get correct rating value
         MessageInfo msgInfo;
-        msgInfo.intVals[0] = i;
-
+        msgInfo.intVals[0] = SaveExpansionRating::GetSection()->GetData(i)->mRating;
         int msgId = (i >= CupManager::TRACKS_VS_COUNT) ?
                     Message::Menu::BATTLE_RATING :
                     Message::Menu::RACE_RATING;
