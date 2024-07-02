@@ -5,5 +5,6 @@ class WifiMenuPageEx : public WifiMenuPage {
 public:
     WifiMenuPageEx() {}
 
+    virtual void onInit();
     virtual void beforeCalc();
 };

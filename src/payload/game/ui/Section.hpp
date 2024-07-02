@@ -203,6 +203,7 @@ public:
         SECTION_COUNT,
     };
 
+    void loadFriendListManager();
     void loadTHPManager();
     void shutdownNet();
 

@@ -11,6 +11,13 @@
 
 class WifiMenuPage : public Page {
 public:
+    enum ButtonId {
+        BTN_WORLDWIDE = 1,
+        BTN_REGIONAL = 2,
+        BTN_FRIENDS = 3,
+        BTN_BACK = 4,
+    };
+
     WifiMenuPage();
     virtual ~WifiMenuPage();
 

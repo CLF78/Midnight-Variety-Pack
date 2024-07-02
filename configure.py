@@ -218,6 +218,10 @@ UI_ASSETS = {
         Path(CUP_ICONS_BUILD_DIR): Path('cups')
 	},
 
+    'GlobeMKM': {
+        Path(UI_ASSETS_DIR, 'button', 'ctrl', 'WifiMenuSingleTop.brctr.json5'): None,
+    },
+
 	'MenuSingleMKM': {
         Path(UI_ASSETS_DIR, 'button', 'blyt', 'CosmosVRScreenButton.brlyt.json5'): None,
         Path(UI_ASSETS_DIR, 'button', 'ctrl', 'BattleStageSelectStage.brctr.json5'): None,

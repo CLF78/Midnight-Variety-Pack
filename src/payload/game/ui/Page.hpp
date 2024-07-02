@@ -264,6 +264,7 @@ public:
     void initChildren(u32 childCount);
     void insertChild(u32 childIdx, UIControl* child, u32 drawPass);
 
+    void setAnimSfxIds(int nextAnimSoundId, int prevAnimSoundId);
     void playSound(int soundId, int param_3);
     void replace(int animationDirection, float delay);
 

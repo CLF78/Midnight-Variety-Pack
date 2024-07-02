@@ -15,6 +15,8 @@ public:
     virtual void onSelect();
     virtual void onDeselect();
 
+    static const char* animNames[11];
+
     MiiGroup* miiGroup;
     int friendIndex;
 };

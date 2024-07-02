@@ -11,6 +11,7 @@
 // Always Show Timer //
 ///////////////////////
 
+// VotingBackPage::beforeCalc() patch
 // Always display the timer on the course voting screen
 kmWrite32(0x80650254, 0x60000000);
 
