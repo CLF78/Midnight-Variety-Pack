@@ -6,6 +6,7 @@ public:
     // The section types (must be added for the section to be parsed)
     enum SectionID {
         SECTION_CUP_COMPLETION,
+        SECTION_RATING,
         SECTION_COUNT,
     };
 
