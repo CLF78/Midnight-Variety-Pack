@@ -6,6 +6,7 @@
 #include <midnight/cup/RaceCupSelectPageEx.hpp>
 #include <midnight/online/WifiMemberConfirmPageEx.hpp>
 #include <midnight/online/WifiMenuPageEx.hpp>
+#include <midnight/online/WifiModeSelectPageEx.hpp>
 #include <midnight/online/YesNoPopupPageEx.hpp>
 
 ///////////////////////////
@@ -39,6 +40,10 @@ REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
         // Expand main online menu for Wiimmfi console assignment message
         case Page::WIFI_MENU:
             return new WifiMenuPageEx();
+
+        // Expand mode select to allow multiple tracklists
+        case Page::WIFI_GAME_MODE_SELECT:
+            return new WifiModeSelectPageEx();
 
         // Expand VR screen for various things
         case Page::VR_SCREEN:

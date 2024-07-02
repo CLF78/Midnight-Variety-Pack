@@ -34,6 +34,7 @@ public:
         TRACKS_DEMO_BT = TRACKS_BATTLE,
         TRACKS_VS_COUNT = TRACKS_FUSION + 1,
         TRACKS_BT_COUNT = TRACKS_BATTLE - TRACKS_VS_COUNT + 1,
+        TRACKS_TOTAL_COUNT = TRACKS_VS_COUNT + TRACKS_BT_COUNT,
     };
 
     //////////////////////

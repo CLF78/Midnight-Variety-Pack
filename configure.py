@@ -219,6 +219,7 @@ UI_ASSETS = {
 	},
 
     'GlobeMKM': {
+        Path(UI_ASSETS_DIR, 'button', 'ctrl', 'WifiMenuModeSelect.brctr.json5'): None,
         Path(UI_ASSETS_DIR, 'button', 'ctrl', 'WifiMenuSingleTop.brctr.json5'): None,
     },
 
