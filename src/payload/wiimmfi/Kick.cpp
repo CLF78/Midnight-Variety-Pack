@@ -22,7 +22,7 @@ void ScheduleForAID(int aid) {
 }
 
 void ScheduleForAIDs(u32 aids) {
-    LOG_DEBUG("Scheduled kick for AIDs %#08x.", aids);
+    LOG_DEBUG("Scheduled kick for AIDs %08X.", aids);
     sAidsToBeKicked |= aids;
 }
 
@@ -38,7 +38,7 @@ void CalcKick() {
         return;
 
     // Lock interrupts
-    LOG_DEBUG("Executing kick task on AID map %#08x...", sAidsToBeKicked);
+    LOG_DEBUG("Executing kick task on AID map %08X...", sAidsToBeKicked);
     nw4r::ut::AutoInterruptLock lock;
 
     // If the bitfield is full, close all connections immediately

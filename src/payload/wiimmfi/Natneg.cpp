@@ -29,7 +29,7 @@ void ConnectToNode(int nodeIdx) {
     const char* ipAddr = gt2AddressToString(node->publicip, node->publicport, nullptr);
 
     // Debug report
-    LOG_DEBUG("Connecting to node %02d (AID = %d, PID = %d, Address = %s)\n", nodeIdx, aid, pid, ipAddr);
+    LOG_DEBUG("Connecting to node %02d (AID = %d, PID = %d, Address = %s)", nodeIdx, aid, pid, ipAddr);
 
     // Set up the message buffer and write to it
     char buffer[24];
@@ -153,7 +153,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
 
     // If we are still in INIT state, reject the connection attempt
     if (stpMatchCnt->state == DWC_MATCH_STATE_INIT) {
-        LOG_DEBUG("Connection rejected from PID %d (INIT state)\n", pid);
+        LOG_DEBUG("Connection rejected from PID %d (INIT state)", pid);
         gt2Reject(conn, "wait1", -1);
         return;
     }
@@ -161,14 +161,14 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     // If the PID is not found, reject the connection attempt
     DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForProfileId(pid);
     if (!node) {
-        LOG_DEBUG("Connection rejected from PID %d (PID not found)\n", pid);
+        LOG_DEBUG("Connection rejected from PID %d (PID not found)", pid);
         gt2Reject(conn, "wait2", -1);
         return;
     }
 
     // If the connection already exists, bail
     if (DWCi_GetGT2Connection(node->aid)) {
-        LOG_DEBUG("Connection already exists with PID %d\n", pid);
+        LOG_DEBUG("Connection already exists with PID %d", pid);
         return;
     }
 
@@ -202,7 +202,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     // If the server is full, bail
     int connIdx = DWCi_GT2GetConnectionListIdx();
     if (connIdx == -1) {
-        LOG_DEBUG("Connection failed with PID %d (server full)\n", pid);
+        LOG_DEBUG("Connection failed with PID %d (server full)", pid);
         return;
     }
 
@@ -214,7 +214,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     // The game normally refuses to do this if it's not in the DWC_MATCH_STATE_CL_NN or
     // DWC_MATCH_STATE_CL_GT2 state
     if (!gt2Accept(conn, stpMatchCnt->gt2Callbacks)) {
-        LOG_DEBUG("Connection failed with PID %d (gt2Accept failed)\n", pid);
+        LOG_DEBUG("Connection failed with PID %d (gt2Accept failed)", pid);
         return;
     }
 
@@ -238,7 +238,7 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     // If the connection attempt resulted into a NATNEG error try again in 150 frames
     // Only do so on one side of the connection by comparing the PIDs
     if (result == GT2_RESULT_NEGOTIATION_ERROR) {
-        LOG_DEBUG("Negotiation error with AID %d\n", aid);
+        LOG_DEBUG("Negotiation error with AID %d", aid);
         DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForAid(aid);
         if (node && node->profileId <= stpMatchCnt->profileId)
             sTimers[aid] = 150;
@@ -249,7 +249,7 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     if (result != GT2_RESULT_SUCCESS) {
 
         if (msg && (!strcmp(msg, "wait1") || !strcmp(msg, "wait2"))) {
-            LOG_DEBUG("Received wait message %s from AID %d\n", msg, aid);
+            LOG_DEBUG("Received wait message %s from AID %d", msg, aid);
             sTimers[aid] = 0;
         }
 
@@ -258,20 +258,20 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
 
     // If we are still in INIT state, bail
     if (stpMatchCnt->state == DWC_MATCH_STATE_INIT) {
-        LOG_DEBUG("Ignoring connection from AID %d (INIT state)\n", aid);
+        LOG_DEBUG("Ignoring connection from AID %d (INIT state)", aid);
         return;
     }
 
     // If the AID is not found, reject the connection attempt
     DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForAid(aid);
     if (!node) {
-        LOG_DEBUG("Ignoring connection from AID %d (invalid AID)\n", aid);
+        LOG_DEBUG("Ignoring connection from AID %d (invalid AID)", aid);
         return;
     }
 
     // If the connection already exists, bail
     if (DWCi_GetGT2Connection(node->aid)) {
-        LOG_DEBUG("Connection already exists with AID %d\n", node->aid);
+        LOG_DEBUG("Connection already exists with AID %d", node->aid);
         return;
     }
 
@@ -305,7 +305,7 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     // If the server is full, bail (the game will close all connections in this case, so we avoid it)
     int connIdx = DWCi_GT2GetConnectionListIdx();
     if (connIdx == -1) {
-        LOG_DEBUG("Connection failed with AID %d (server full)\n", node->aid);
+        LOG_DEBUG("Connection failed with AID %d (server full)", node->aid);
         return;
     }
 
@@ -351,7 +351,6 @@ DWCNodeInfo* GetNextMeshMakingNode() {
         return nullptr;
 
     // All checks passed, return the node we have found (if any)
-    LOG_DEBUG("Got next connect node %d\n", minNextTryTimeNode);
     return minNextTryTimeNode;
 }
 
@@ -371,7 +370,7 @@ bool PreventRepeatNATNEGFail(u32 failedPid) {
     // If the PID is already in the list, do not count the failed attempt
     for (int i = 0; i < ARRAY_SIZE(sFailedPids); i++) {
         if (sFailedPids[i] == failedPid) {
-            LOG_DEBUG("Detected repeated NATNEG fail with PID %d\n", failedPid);
+            LOG_DEBUG("Detected repeated NATNEG fail with PID %d", failedPid);
             return false;
         }
     }
@@ -408,7 +407,7 @@ void RecoverSynAckTimeout() {
     noSynAckAids |= (1 << stpMatchCnt->tempNewNodeInfo.aid);
     noSynAckAids ^= stpMatchCnt->synAckBit;
     noSynAckAids &= ~(1 << DWC_GetMyAID());
-    LOG_DEBUG("SYN-ACK not completed with AIDs %08X\n", noSynAckAids);
+    LOG_DEBUG("SYN-ACK not completed with AIDs %08X", noSynAckAids);
 
     // Send a NEW_PID_AID command to every AID left in the map
     // Only do so once
@@ -459,7 +458,7 @@ void StopNATNEGAfterTime() {
 
     // Stop NATNEG and change state if necessary
     BOOL ret = DWCi_StopMeshMaking();
-    LOG_DEBUG("Stopped mesh making with result %d\n", ret);
+    LOG_DEBUG("Stopped mesh making with result %d", ret);
     if (ret)
         DWCi_SetMatchStatus(DWC_MATCH_STATE_CL_WAITING);
 }

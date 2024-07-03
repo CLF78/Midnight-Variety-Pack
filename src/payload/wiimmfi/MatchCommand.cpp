@@ -122,7 +122,7 @@ void SendConnFailMtxCommand(u32 aidsConnectedToHost, u32 aidsConnectedToMe) {
         return;
 
     // Send the command
-    LOG_DEBUG("Sending CONN_MTX command with data %#08x", cmd.connFailMtx);
+    LOG_DEBUG("Sending CONN_MTX command with data %08X", cmd.connFailMtx);
     DWCi_SendMatchCommand(DWC_MATCH_CMD_CONN_FAIL_MTX, hostNodeInfo->profileId, hostNodeInfo->publicip,
                           hostNodeInfo->publicport, &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
 }
@@ -136,7 +136,7 @@ void SendConnMtxCommand(u32 aidsConnectedToMe) {
     // Set up the command
     DWCMatchCommandConnMtx cmd;
     cmd.connMtx = aidsConnectedToMe;
-    LOG_DEBUG("Sending CONN_FAIL_MTX command with data %#08x", aidsConnectedToMe);
+    LOG_DEBUG("Sending CONN_FAIL_MTX command with data %08X", aidsConnectedToMe);
 
     // Send the command to every node
     for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {

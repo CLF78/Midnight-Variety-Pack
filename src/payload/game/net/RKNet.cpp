@@ -46,7 +46,7 @@ REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
 
     // Lock interrupts
     nw4r::ut::AutoInterruptLock lock;
-    LOG_WARN("Detected malicious packet from PID %d\n", pid);
+    LOG_WARN("Detected malicious packet from PID %d", pid);
 
     // Kick the offending player if we're host
     if (RKNetController::instance->isPlayerHost())

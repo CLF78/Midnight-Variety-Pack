@@ -52,7 +52,7 @@ void Update() {
     }
 
     // Kick the AIDs
-    LOG_WARN("Detected room stall with AIDs %#08x", incompleteAids);
+    LOG_WARN("Detected room stall with AIDs %08X", incompleteAids);
     Kick::ScheduleForAIDs(incompleteAids);
 }
 

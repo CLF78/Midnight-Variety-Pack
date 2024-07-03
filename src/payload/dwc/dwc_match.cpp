@@ -92,7 +92,7 @@ kmBranchDefCpp(0x800DA7D4, 0x800DA81C, void, u32 aidsConnectedToHost) {
         return;
 
     // Disconnect all AIDs marked as dead
-    DWC_Printf(DWC_REPORT_RECV_INFO, "Disconnecting dead AIDs (bitmap: %08x)\n", deadAidBitmap);
+    DWC_Printf(DWC_REPORT_RECV_INFO, "Disconnecting dead AIDs (bitmap: %08X)\n", deadAidBitmap);
     for (int aid = 0; aid < 32; aid++) {
         if (deadAidBitmap & (1 << aid))
             DWC_CloseConnectionHard(aid);
