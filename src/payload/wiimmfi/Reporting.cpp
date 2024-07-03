@@ -10,6 +10,7 @@
 #include <game/system/RaceConfig.hpp>
 #include <game/system/RaceManager.hpp>
 #include <game/system/ResourceManager.hpp>
+#include <midnight/cup/CupManager.hpp>
 #include <nw4r/ut/Lock.hpp>
 #include <platform/stdio.h>
 #include <platform/string.h>
@@ -354,9 +355,9 @@ void ReportRegionChange() {
     Status::SendMessage("host", buffer, DWC_GetMyAID());
 
     // Send the current VS and BT region
-    // TODO remove region placeholders
     char regionData[32];
-    snprintf(regionData, sizeof(regionData), "%d|%d", 0, 0);
+    snprintf(regionData, sizeof(regionData), "%d|%d",
+             CupManager::currentOnlineRegion, CupManager::currentOnlineRegion);
     Status::SendMessage("region", regionData);
 }
 

@@ -50,6 +50,9 @@ public:
     // The cup list currently in use (Battle)
     static u32 currentBattleCupList;
 
+    // The current online region
+    static u32 currentOnlineRegion;
+
     // The buffer for the track name
     static char currentSzsPath[0x40];
 

@@ -14,6 +14,7 @@
 s32 CupManager::currentSzs = -1;
 u32 CupManager::currentCupList = TRACKS_VS_DEFAULT;
 u32 CupManager::currentBattleCupList = TRACKS_BT_DEFAULT;
+u32 CupManager::currentOnlineRegion = CupManager::GetCupListData(TRACKS_VS_DEFAULT)->onlineRegion;
 char CupManager::currentSzsPath[] = "";
 u16 CupManager::trackOrder[];
 u16 CupManager::arenaOrder[];

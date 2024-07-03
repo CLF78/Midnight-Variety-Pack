@@ -313,6 +313,7 @@ setNextSection__4PageFiif=0x80602530
 addPage__4PageFii=0x806025B0
 playSound__4PageFii=0x80602CF8
 setAnimSfxIds__4PageFii=0x80602D20
+setupGameMode__18RandomMatchingPageFb=0x80609CB8
 getErrorSection__16SaveGhostManagerFv=0x80620C5C
 markLicensesDirty__16SaveGhostManagerFv=0x80621410
 loadTHPManager__7SectionFv=0x80622C68

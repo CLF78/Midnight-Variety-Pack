@@ -1,8 +1,13 @@
 #include <common/Common.hpp>
 #include <game/ui/SectionManager.hpp>
+#include <game/ui/page/RandomMatchingPage.hpp>
 #include <midnight/online/WifiModeSelectPageEx.hpp>
 #include <midnight/save/SaveExpansionRating.hpp>
 #include <platform/stdio.h>
+
+WifiModeSelectPageEx::WifiModeSelectPageEx() : extraRaceButtons() {
+    onButtonPress.handle = (typeof(onButtonPress.handle))&WifiModeSelectPageEx::handleButtonPress;
+}
 
 void WifiModeSelectPageEx::onInit() {
 
@@ -97,4 +102,26 @@ void WifiModeSelectPageEx::onActivate() {
 
     // Set replacement page to NONE
     replacementPage = Page::NONE;
+}
+
+// Update the tracklist and region correctly
+void WifiModeSelectPageEx::handleButtonPress(PushButton* button) {
+
+    // Get RandomMatchingPage
+    RandomMatchingPage* page = RandomMatchingPage::getPage();
+    u32 cupList = button->buttonId - 1;
+
+    // Set the online region, cup list and RaceConfig game mode accordingly
+    CupManager::currentOnlineRegion = CupManager::GetCupListData(cupList)->onlineRegion;
+    if (cupList >= CupManager::TRACKS_VS_COUNT) {
+        CupManager::currentBattleCupList = cupList;
+        page->setupGameMode(true);
+    } else {
+        CupManager::currentCupList = cupList;
+        page->setupGameMode(false);
+    }
+
+    // Set the next page and go to it
+    replacementPage = Page::GLOBAL_SEARCH_MANAGER;
+    replace(ANIM_NEXT, button->getDelay());
 }

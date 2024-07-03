@@ -4,11 +4,13 @@
 
 class WifiModeSelectPageEx : public WifiModeSelectPage {
 public:
-    WifiModeSelectPageEx() : extraRaceButtons() {}
+    WifiModeSelectPageEx();
     virtual ~WifiModeSelectPageEx() {}
 
     virtual void onInit();
     virtual void onActivate();
+
+    void handleButtonPress(PushButton* button);
 
     int getButtonCount() {
         return 2 + ARRAY_SIZE(extraRaceButtons);
