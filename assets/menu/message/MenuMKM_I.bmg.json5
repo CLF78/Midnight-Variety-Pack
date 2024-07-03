@@ -62,4 +62,7 @@
     "20010": {
         string: "Torna indietro",
     },
+    "20011": {
+        string: "Personaggio",
+    },
 }
