@@ -1,7 +1,7 @@
 #include <common/Common.hpp>
-#include <game/ui/LayoutUIControl.hpp>
+#include <game/ui/ctrl/CtrlRaceBase.hpp>
 
-class CtrlRaceMessageDisplay : public LayoutUIControl {
+class CtrlRaceMessageDisplay : public CtrlRaceBase {
 public:
 
     enum State {
@@ -14,6 +14,10 @@ public:
     virtual ~CtrlRaceMessageDisplay() {}
 
     virtual void calcSelf();
+
+    virtual nw4r::lyt::Pane* getPane() { return textBox; }
+    virtual bool shouldHide();
+    virtual bool shouldActivate();
 
     RUNTIME_TYPE_INFO;
     RUNTIME_TYPENAME_INFO(CtrlRaceMessageDisplay);

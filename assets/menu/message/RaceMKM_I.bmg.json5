@@ -32,4 +32,10 @@
     "1601": {
         "string": "500cc",
     },
+    "1602": {
+        "string": "{color|team blue}{font scale|150}♪{font scale|100}{color|unspecified} {arg message|0} (by {arg message|1})"
+    },
+    "1603": {
+        "string": "{font scale|150}{font scale|100} {arg message|0} (by {arg message|1})"
+    },
 }

@@ -32,4 +32,10 @@
     "1601": {
         "string": "500cc",
     },
+    "1602": {
+        "string": "Music: {arg message|0} (by {arg message|1})"
+    },
+    "1603": {
+        "string": "Track: {arg message|0} (by {arg message|1})"
+    },
 }

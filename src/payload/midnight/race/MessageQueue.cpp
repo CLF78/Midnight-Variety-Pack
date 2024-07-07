@@ -40,6 +40,11 @@ void MessageQueue::Push(u32 msgId, MessageInfo* msgInfo, u32 playerFlags) {
                 dst->display->state = src->display->state;
                 dst->display->hidden = src->display->hidden;
                 dst->display->textBox->alpha = src->display->textBox->alpha;
+
+                if (dst->display->screenState == CtrlRaceBase::DISPLAYED) {
+                    dst->display->screenState = CtrlRaceBase::ENTERING_SCREEN;
+                    dst->display->delta = 0.5f;
+                }
             }
 
             // Add the new message

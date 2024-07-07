@@ -3,7 +3,45 @@
 #include <game/system/CourseMap.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <game/system/RaceManager.hpp>
+#include <game/ui/MessageInfo.hpp>
+#include <midnight/cup/CupManager.hpp>
+#include <midnight/race/MessageQueue.hpp>
 #include <wiimmfi/Reporting.hpp>
+
+///////////////////////
+// Custom Cup System //
+///////////////////////
+
+// Show the author display for the current track
+kmListHookDefCpp(RaceUpdateHook) {
+    RaceManager* self = RaceManager::instance;
+    RaceConfig::Settings* settings = &RaceConfig::instance->raceScenario.settings;
+
+    // If the intro camera has started playing, show the track author
+    if (self->canCountdownStart && self->introTimer == 10 &&
+        settings->cameraMode == RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO) {
+
+        MessageInfo msgInfo;
+        msgInfo.messageIds[0] = CupData::tracks[CupManager::currentSzs].trackNameId;
+        msgInfo.messageIds[1] = CupData::tracks[CupManager::currentSzs].trackAuthorId;
+        MessageQueue::instance.Push(Message::Race::TRACK_PLAYING, &msgInfo);
+
+    // If the race has started, show the normal music author
+    } else if (self->timerManager->raceStarted && self->timerManager->raceFrameCounter == 0) {
+        MessageInfo msgInfo;
+        msgInfo.messageIds[0] = CupData::tracks[CupManager::currentSzs].musicNameId;
+        msgInfo.messageIds[1] = CupData::tracks[CupManager::currentSzs].musicAuthorId;
+        MessageQueue::instance.Push(Message::Race::MUSIC_PLAYING, &msgInfo);
+    }
+
+    // If the race has started, show the normal music author
+    else if (self->timerManager->raceStarted && self->timerManager->raceFrameCounter == 0) {
+        MessageInfo msgInfo;
+        msgInfo.messageIds[0] = CupData::tracks[CupManager::currentSzs].musicNameId;
+        msgInfo.messageIds[1] = CupData::tracks[CupManager::currentSzs].musicAuthorId;
+        MessageQueue::instance.Push(Message::Race::MUSIC_PLAYING, &msgInfo);
+    }
+}
 
 //////////////////
 // Lap Modifier //
@@ -72,8 +110,7 @@ kmBranchDefAsm(0x805350DC, 0x80535150) {
 
 // Report race finish
 // Credits: Wiimmfi
-REPLACE void RaceManager::calc() {
-    REPLACED();
+kmListHookDefCpp(RaceUpdateHook) {
 
     // Check if the race is online
     if (!RaceGlobals::isOnlineRace)

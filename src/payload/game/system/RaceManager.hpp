@@ -56,13 +56,18 @@ public:
     Player** players;
     RaceMode* gameModeData;
     TimerManager* timerManager;
-    u8 unk[0x20 - 0x18];
+    u8 unk[0x1E - 0x18];
 
+    s16 introTimer;
     u32 frameCounter;
     u8 unk2[0x28 - 0x24];
 
     u32 raceStage;
-    u8 unk3[0x4C - 0x2C];
+    bool introSkipped;
+    bool spectatorMode;
+    bool canCountdownStart;
+    bool cutsceneMode;
+    u8 unk3[0x4C - 0x30];
 
     static RaceManager* instance;
 };

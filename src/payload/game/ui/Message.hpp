@@ -150,7 +150,10 @@ enum Value {
     CC_100 = 1418,
     CC_150 = 1419,
     CC_200 = 1600,
-    CC_500 = 1601
+    CC_500 = 1601,
+
+    MUSIC_PLAYING = 1602,
+    TRACK_PLAYING = 1603,
 };
 
 } // namespace Race

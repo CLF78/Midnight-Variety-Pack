@@ -38,5 +38,6 @@ public:
 
 kmDefineListHook(BootHook);
 kmDefineListHook(RoomOpenHook);
+kmDefineListHook(RaceUpdateHook);
 kmDefineListHook(RaceStartHook);
 kmDefineListHook(NetShutdownHook);

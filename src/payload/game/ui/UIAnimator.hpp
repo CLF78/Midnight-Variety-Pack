@@ -1,4 +1,5 @@
 #include <common/Common.hpp>
+#include <game/ui/Layout.hpp>
 
 class UIAnimationGroup {
 public:
@@ -9,6 +10,9 @@ class UIAnimator {
 public:
     UIAnimationGroup* getGroup(u32 groupId);
 
-    u8 _0[0x10];
+    UIAnimationGroup* groups;
+    u32 groupCount;
+    nw4r::lyt::Pane* rootPane;
+    MainLayout* mainLayout;
 };
 size_assert(UIAnimator, 0x10);
