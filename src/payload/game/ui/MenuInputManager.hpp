@@ -16,7 +16,7 @@ public:
         INPUT_COUNT,
     };
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
     virtual ~MenuInputManager();
     virtual void init(u32 playerFlags, bool isMultiPlayer);
     virtual void vf_14();

@@ -18,7 +18,7 @@ public:
     virtual void beforeOutAnim();
     virtual void afterCalc();
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual void onSelectChange(PushButton* button, int playerId);
     virtual int getActivePlayers();

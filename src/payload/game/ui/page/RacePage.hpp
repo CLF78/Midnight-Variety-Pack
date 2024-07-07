@@ -36,7 +36,7 @@ public:
     virtual void beforeCalc();
     virtual void afterCalc();
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const = 0;
     virtual int getControls() const = 0;
@@ -85,7 +85,7 @@ size_assert(RacePage, 0x1DC);
 class GpRacePage : public RacePage {
 public:
     virtual ~GpRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -95,7 +95,7 @@ public:
 class GpReplayRacePage : public RacePage {
 public:
     virtual ~GpReplayRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -105,7 +105,7 @@ public:
 class TtRacePage : public RacePage {
 public:
     virtual ~TtRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -115,7 +115,7 @@ public:
 class GhostReplayRacePage : public RacePage {
 public:
     virtual ~GhostReplayRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -125,7 +125,7 @@ public:
 class SingleVsRacePage : public RacePage {
 public:
     virtual ~SingleVsRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -135,7 +135,7 @@ public:
 class WifiSingleVsRacePage : public RacePage {
 public:
     virtual ~WifiSingleVsRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -145,7 +145,7 @@ public:
 class WifiFriendVsRacePage : public RacePage {
 public:
     virtual ~WifiFriendVsRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -155,7 +155,7 @@ public:
 class WifiFriendTeamVsRacePage : public RacePage {
 public:
     virtual ~WifiFriendTeamVsRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -165,7 +165,7 @@ public:
 class MultiVsRacePage : public RacePage {
 public:
     virtual ~MultiVsRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -175,7 +175,7 @@ public:
 class WifiMultiVsRacePage : public RacePage {
 public:
     virtual ~WifiMultiVsRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -185,7 +185,7 @@ public:
 class LiveViewPage : public RacePage {
 public:
     virtual ~LiveViewPage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -195,7 +195,7 @@ public:
 class SingleBtRacePage : public RacePage {
 public:
     virtual ~SingleBtRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -205,7 +205,7 @@ public:
 class MultiBtRacePage : public RacePage {
 public:
     virtual ~MultiBtRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -215,7 +215,7 @@ public:
 class LiveViewBtPage : public RacePage {
 public:
     virtual ~LiveViewBtPage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;
@@ -225,7 +225,7 @@ public:
 class ToRacePage : public RacePage {
 public:
     virtual ~ToRacePage();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual int getPausePage() const;
     virtual int getControls() const;

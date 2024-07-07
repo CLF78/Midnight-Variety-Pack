@@ -10,8 +10,8 @@ public:
     virtual ~CtrlMenuCupSelectCup();
     virtual void initSelf();
 
-    virtual const TypeInfo* getTypeInfo() const;
-    virtual const char* getTypeName() const;
+    RUNTIME_TYPE_INFO_NODECL;
+    RUNTIME_TYPENAME_INFO_NODECL;
 
     void load(u32 playerFlags, bool unk);
 

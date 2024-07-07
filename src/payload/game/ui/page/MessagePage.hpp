@@ -12,7 +12,7 @@ public:
     virtual void onDeactivate();
     virtual void afterCalc();
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual void reset();
     virtual void setWindowMessage(u32 msgId, MessageInfo* msgInfo) = 0;

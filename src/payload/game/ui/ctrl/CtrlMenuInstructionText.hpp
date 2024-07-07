@@ -7,8 +7,8 @@ public:
 
     virtual void solveAnim(Element* element, float frame);
 
-    virtual const TypeInfo* getTypeInfo() const;
-    virtual const char* getTypeName() const;
+    RUNTIME_TYPE_INFO_NODECL;
+    RUNTIME_TYPENAME_INFO_NODECL;
 
     void load();
     void setText(u32 bmgId, MessageInfo* info);

@@ -11,8 +11,8 @@ public:
     virtual void calc();
     virtual void solveAnim(Element* element, float frame);
 
-    virtual const TypeInfo* getTypeInfo() const;
-    virtual const char* getTypeName() const;
+    RUNTIME_TYPE_INFO_NODECL;
+    RUNTIME_TYPENAME_INFO_NODECL;
 
     ControlInputManager inputManager;
     InputHandler0<SheetSelectButton, void> onScrollHandler;
@@ -34,8 +34,8 @@ public:
     virtual ~SheetSelectControl();
     virtual void init();
 
-    virtual const TypeInfo* getTypeInfo() const;
-    virtual const char* getTypeName() const;
+    RUNTIME_TYPE_INFO_NODECL;
+    RUNTIME_TYPENAME_INFO_NODECL;
 
     virtual void vf_38();
     virtual void onRightSelected();

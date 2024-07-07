@@ -11,8 +11,8 @@ public:
     virtual void initSelf();
     virtual void calcSelf();
 
-    virtual const TypeInfo* getTypeInfo() const;
-    virtual const char* getTypeName() const;
+    RUNTIME_TYPE_INFO_NODECL;
+    RUNTIME_TYPENAME_INFO_NODECL;
 
     virtual void vf_3C(VEC3* vector);
 

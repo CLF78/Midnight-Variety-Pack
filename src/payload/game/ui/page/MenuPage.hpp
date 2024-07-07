@@ -24,7 +24,7 @@ public:
     virtual void beforeInAnim();
     virtual void beforeOutAnim();
     virtual void onRefocus();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual void onSelectChange(PushButton* button, int playerId);
     virtual int getActivePlayers() = 0;

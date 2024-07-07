@@ -11,8 +11,8 @@ public:
     virtual void init();
     virtual void calc();
 
-    virtual const TypeInfo* getTypeInfo() const;
-    virtual const char* getTypeName() const;
+    RUNTIME_TYPE_INFO_NODECL;
+    RUNTIME_TYPENAME_INFO_NODECL;
 
     virtual void onButtonInit();
     virtual void onSelect();

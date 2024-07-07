@@ -42,7 +42,7 @@ public:
     virtual void afterCalc();
     virtual void onRefocus();
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     int getVoteIdx(u32 aid, u32 localPlayerIdx);
     u32 getInstructionText();

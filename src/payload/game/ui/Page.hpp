@@ -259,7 +259,7 @@ public:
     virtual void onRefocus();
     virtual void onSectionChange();
     virtual void vf_5c();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     void initChildren(u32 childCount);
     void insertChild(u32 childIdx, UIControl* child, u32 drawPass);

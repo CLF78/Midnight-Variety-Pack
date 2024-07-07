@@ -17,7 +17,7 @@ public:
     virtual void onInit();
     virtual void onActivate();
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     InputHandler1<WifiModeSelectPage, void, PushButton*> onButtonPress;
     InputHandler1<WifiModeSelectPage, void, PushButton*> onBackButtonPress;

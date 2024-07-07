@@ -9,7 +9,7 @@ public:
     virtual int getMovieCount() const;
     virtual char** getPaneNames() const;
 
-    virtual const TypeInfo* getTypeInfo() const;
-    virtual const char* getTypeName() const;
+    RUNTIME_TYPE_INFO_NODECL;
+    RUNTIME_TYPENAME_INFO_NODECL;
 };
 size_assert(CtrlMenuMovieButton, 0x26C);

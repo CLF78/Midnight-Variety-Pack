@@ -26,7 +26,7 @@ public:
     virtual void onInit();
     virtual void onActivate();
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     InputHandler1<WifiMenuPage, void, PushButton*> onWorldwideButtonPressed;
     InputHandler1<WifiMenuPage, void, PushButton*> onRegionalButtonPressed;

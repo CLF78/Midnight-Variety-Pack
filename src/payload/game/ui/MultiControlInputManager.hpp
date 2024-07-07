@@ -31,8 +31,7 @@ public:
         LINEAR,
     };
 
-    virtual TypeInfo* getTypeInfo() const;
-
+    RUNTIME_TYPE_INFO_NODECL;
     virtual ~MultiControlInputManager();
 
     virtual void init(u32 playerFlags, bool isMultiplayer);

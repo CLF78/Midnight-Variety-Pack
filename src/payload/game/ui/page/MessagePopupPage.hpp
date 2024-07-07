@@ -12,7 +12,7 @@ public:
     virtual void beforeInAnim();
     virtual void afterOutAnim();
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
     virtual void reset();
     virtual void setWindowMessage(u32 msgId, MessageInfo* msgInfo);
     virtual void process();

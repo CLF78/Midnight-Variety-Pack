@@ -19,7 +19,7 @@ public:
     virtual void beforeOutAnim();
     virtual void beforeCalc();
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     bool setPlayerVote(u32 playerIdx);
     void submitVote(u32 courseId);

@@ -43,7 +43,7 @@ public:
     virtual void afterCalc();
     virtual void onRefocus();
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     void forceConnectionError() {
         if (playerRoomState == JOINED_AS_GUEST)

@@ -12,7 +12,7 @@ public:
     virtual void onActivate();
     virtual void afterCalc();
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     virtual void reset();
 

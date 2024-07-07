@@ -24,7 +24,7 @@ public:
     virtual void onActivate();
     virtual void afterCalc();
 
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     void setPlayerEntry(int entryIdx, int playerIdx, RaceConfig::Player::Team team,
                         RatingType ratingType, bool isLocalPlayer);

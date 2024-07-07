@@ -4,7 +4,7 @@
 #include <midnight/race/CtrlRaceMessageDisplay.hpp>
 #include <platform/stdio.h>
 
-TypeInfo CtrlRaceMessageDisplay::typeInfo = TypeInfo(LayoutUIControl::typeInfo);
+RUNTIME_TYPE_INFO_DEFINE(CtrlRaceMessageDisplay, LayoutUIControl);
 
 void CtrlRaceMessageDisplay::load(u32 localPlayerCount, u32 localPlayerIdx, u32 queuePos) {
 

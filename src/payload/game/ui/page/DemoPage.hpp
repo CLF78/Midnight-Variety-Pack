@@ -7,7 +7,7 @@ public:
     virtual ~DemoPage();
 
     virtual void onInit();
-    virtual TypeInfo* getTypeInfo() const;
+    RUNTIME_TYPE_INFO_NODECL;
 
     LayoutUIControl courseName;
     LayoutUIControl topText;
