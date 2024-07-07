@@ -33,5 +33,7 @@ public:
     MessageGroup commonMessageGroup;
     PictureSourceLayout* pictureSourceLayout;
     nw4r::lyt::Pane* mainPane;
+
+    static TypeInfo typeInfo;
 };
 size_assert(LayoutUIControl, 0x174);

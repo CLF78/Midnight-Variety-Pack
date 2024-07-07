@@ -7,7 +7,12 @@ namespace lyt {
 class Pane {
 public:
     Material* GetMaterial();
+
+    u8 unk[0xB8];
+    u8 alpha;
+    u8 unk2[0xD8 - 0xB9];
 };
+size_assert(Pane, 0xD8);
 
 } // namespace lyt
 } // namespace nw4r

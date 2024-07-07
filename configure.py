@@ -245,6 +245,7 @@ UI_ASSETS = {
 
 	'RaceMKM': {
         Path(CUP_ICONS_BUILD_DIR): Path('cups'),
+        Path(UI_ASSETS_DIR, 'game_image', 'ctrl', 'MessageQueueMessage.brctr.json5'): None,
         Path(UI_ASSETS_DIR, 'game_image', 'ctrl', 'time_number.brctr.json5'): None,
         Path(UI_ASSETS_DIR, 'game_image', 'anim', 'game_image_lap_texture_pattern_0_9.brlan.json5'): None,
         Path(UI_ASSETS_DIR, 'game_image', 'timg', 'fm_item_pikakumo.tpl.png'): None

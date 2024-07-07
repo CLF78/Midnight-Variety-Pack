@@ -18,6 +18,20 @@ public:
         prependSpace = prependSpaceCharacter;
     }
 
+    void reset() {
+        for (int i = 0; i < ARRAY_SIZE(intVals); i++) {
+            intVals[i] = 0;
+            messageIds[i] = 0;
+            miis[i] = nullptr;
+            licenseIds[i] = 0;
+            playerIds[i] = -1;
+            strings[i] = nullptr;
+        }
+
+        useColoredBorder = false;
+        prependSpace = false;
+    }
+
     int intVals[9];
     int messageIds[9];
     Mii* miis[9];
