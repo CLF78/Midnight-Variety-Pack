@@ -16,6 +16,8 @@ BattleCupSelectPageEx::BattleCupSelectPageEx() :
     curPage(CupManager::getCupPageFromTrack(SectionManager::instance->globalContext->lastStage, true)) {
         arrows.leftHandler = (typeof(arrows.leftHandler))&leftHandler;
         arrows.rightHandler = (typeof(arrows.rightHandler))&rightHandler;
+        arrows.leftButton.onDeselectHandler.handle = (typeof(arrows.leftButton.onDeselectHandler.handle))&BattleCupSelectArrow::onDeselect;
+        arrows.rightButton.onDeselectHandler.handle = (typeof(arrows.rightButton.onDeselectHandler.handle))&BattleCupSelectArrow::onDeselect;
         layoutCount++;
 }
 

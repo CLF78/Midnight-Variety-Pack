@@ -59,3 +59,15 @@ void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 lo
         self->courseHolder.courseNames[i].resetText();
     }
 }
+
+void RaceCupSelectArrow::onDeselect(u32 localPlayerId) {
+
+    // Call the original function
+    SheetSelectButton::onDeselect(localPlayerId);
+
+    // Force select the previous selected cup
+    RaceCupSelectPageEx* page = RaceCupSelectPageEx::getPage();
+    u32 curSelected = page->cupHolder.currentSelected;
+    LOG_DEBUG("Restoring selected button to %d...", curSelected);
+    page->cupHolder.cupButtons[curSelected].select(localPlayerId);
+}

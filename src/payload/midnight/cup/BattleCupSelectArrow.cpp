@@ -58,3 +58,15 @@ void BattleCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 
         page->stageHolder.courseNames[i].resetText();
     }
 }
+
+void BattleCupSelectArrow::onDeselect(u32 localPlayerId) {
+
+    // Call the original function
+    SheetSelectButton::onDeselect(localPlayerId);
+
+    // Force select the previous selected cup
+    BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();
+    u32 curSelected = page->cupHolder.currentSelected;
+    LOG_DEBUG("Restoring selected button to %d...", curSelected);
+    page->getCupButton(curSelected)->select(localPlayerId);
+}

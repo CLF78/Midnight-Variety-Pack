@@ -25,6 +25,7 @@ public:
                        const char* variant, u32 playerFlags, bool param_6);
 
     bool isSelected();
+    void select(u32 localPlayerId);
     void selectDefault(u32 localPlayerId);
     void click(u32 localPlayerId);
 

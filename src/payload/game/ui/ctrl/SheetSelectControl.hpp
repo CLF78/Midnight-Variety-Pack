@@ -14,10 +14,12 @@ public:
     RUNTIME_TYPE_INFO_NODECL;
     RUNTIME_TYPENAME_INFO_NODECL;
 
+    void onDeselect(u32 localPlayerId);
+
     ControlInputManager inputManager;
-    InputHandler0<SheetSelectButton, void> onScrollHandler;
-    InputHandler0<SheetSelectButton, void> onDeselectHandler;
-    InputHandler0<SheetSelectButton, void> onSelectHandler;
+    InputHandler1<SheetSelectButton, void, u32> onScrollHandler;
+    InputHandler1<SheetSelectButton, void, u32> onDeselectHandler;
+    InputHandler1<SheetSelectButton, void, u32> onSelectHandler;
 
     int arrowSide;
     u32 playerFlags;
