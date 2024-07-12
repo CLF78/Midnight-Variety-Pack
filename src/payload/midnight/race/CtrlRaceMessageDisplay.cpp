@@ -11,6 +11,7 @@ void CtrlRaceMessageDisplay::load(u32 localPlayerCount, u32 localPlayerIdx, u32 
 
     // Load the correct BRCTR variant
     char buffer[32];
+    localPlayerCount = (localPlayerCount == 3) ? 4 : localPlayerCount;
     snprintf(buffer, sizeof(buffer), "Message_%d_%d_%d", localPlayerCount, localPlayerIdx, queuePos);
 
     ControlLoader loader(this);
