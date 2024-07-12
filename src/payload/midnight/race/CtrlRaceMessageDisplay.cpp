@@ -24,7 +24,7 @@ void CtrlRaceMessageDisplay::load(u32 localPlayerCount, u32 localPlayerIdx, u32 
 void CtrlRaceMessageDisplay::calcSelf() {
 
     // Constants for frame durations
-    const int stayFrames = 60 * 8;
+    const int stayFrames = 60 * 5;
     const int fadeOutFrames = 60 * 1;
 
     // Only update if not paused
