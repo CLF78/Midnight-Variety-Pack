@@ -59,7 +59,8 @@ REPLACE u8 RacePage::getControlCount(Controls controls) {
 
     // Add the message queue if enabled
     if (controls & MESSAGE_QUEUE) {
-        count += ARRAY_SIZE(MessageQueue::instance.entries[0]) * RaceConfig::instance->raceScenario.localPlayerCount;
+        u32 localPlayerCount = RaceConfig::instance->raceScenario.localPlayerCount;
+        count += MessageQueue::instance.GetMessageCount(localPlayerCount) * localPlayerCount;
     }
 
     // Return modified count
@@ -85,15 +86,17 @@ REPLACE void RacePage::initControls(Controls controls) {
         return;
 
     // Initialize the message queue
+    MessageQueue::instance.Clear();
     if (controls & MESSAGE_QUEUE) {
 
-        // Reset the queue and set the local player count
+        // Set the local player count and enable the queue
         u32 localPlayerCount = RaceConfig::instance->raceScenario.localPlayerCount;
-        MessageQueue::instance.Clear();
         MessageQueue::instance.localPlayerCount = localPlayerCount;
+        MessageQueue::instance.queueEnabled = true;
 
+        // Initialize the messages
         for (int i = 0; i < localPlayerCount; i++) {
-            for (int j = 0; j < ARRAY_SIZE(MessageQueue::instance.entries[0]); j++) {
+            for (int j = 0; j < MessageQueue::instance.GetMessageCount(localPlayerCount); j++) {
 
                 // Insert the display
                 CtrlRaceMessageDisplay* display = new CtrlRaceMessageDisplay();

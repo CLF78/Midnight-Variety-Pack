@@ -12,10 +12,28 @@ void MessageQueue::Clear() {
         }
     }
 
-    localPlayerCount = 0;
+    localPlayerCount = 1;
+    queueEnabled = false;
+}
+
+int MessageQueue::GetMessageCount(u32 localPlayerCount) {
+    switch (localPlayerCount) {
+        case 1:
+            return ARRAY_SIZE(entries[0]);
+
+        case 2:
+            return 2;
+
+        default:
+            return 0;
+    }
 }
 
 void MessageQueue::Push(u32 msgId, MessageInfo* msgInfo, u32 playerFlags) {
+
+    // If not enabled, bail
+    if (!queueEnabled)
+        return;
 
     // Parse each player
     LOG_DEBUG("Pushing message %d to the queue...", msgId);
@@ -25,7 +43,7 @@ void MessageQueue::Push(u32 msgId, MessageInfo* msgInfo, u32 playerFlags) {
         if (playerFlags & (1 << i)) {
 
             // Push existing entries forwards
-            for (int j = ARRAY_SIZE(entries[0]) - 1; j > 0; j--) {
+            for (int j = GetMessageCount(localPlayerCount) - 1; j > 0; j--) {
                 Entry* src = &entries[i][j-1];
                 Entry* dst = &entries[i][j];
 
