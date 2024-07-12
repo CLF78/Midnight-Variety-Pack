@@ -1,5 +1,6 @@
 #include <common/Common.hpp>
 #include <game/race/RaceGlobals.hpp>
+#include <game/sound/RaceSoundManager.hpp>
 #include <game/system/CourseMap.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <game/system/RaceManager.hpp>
@@ -16,15 +17,16 @@
 kmListHookDefCpp(RaceUpdateHook) {
     RaceManager* self = RaceManager::instance;
     RaceConfig::Settings* settings = &RaceConfig::instance->raceScenario.settings;
+    static bool fastMusicShown = false;
 
     // If the intro camera has started playing, show the track author
-    if (self->canCountdownStart && self->introTimer == 10 &&
-        settings->cameraMode == RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO) {
+    if (self->frameCounter == 1) {
 
         MessageInfo msgInfo;
         msgInfo.messageIds[0] = CupData::tracks[CupManager::currentSzs].trackNameId;
         msgInfo.messageIds[1] = CupData::tracks[CupManager::currentSzs].trackAuthorId;
         MessageQueue::instance.Push(Message::Race::TRACK_PLAYING, &msgInfo);
+        fastMusicShown = false;
 
     // If the race has started, show the normal music author
     } else if (self->timerManager->raceStarted && self->timerManager->raceFrameCounter == 0) {
@@ -32,14 +34,20 @@ kmListHookDefCpp(RaceUpdateHook) {
         msgInfo.messageIds[0] = CupData::tracks[CupManager::currentSzs].musicNameId;
         msgInfo.messageIds[1] = CupData::tracks[CupManager::currentSzs].musicAuthorId;
         MessageQueue::instance.Push(Message::Race::MUSIC_PLAYING, &msgInfo);
-    }
 
-    // If the race has started, show the normal music author
-    else if (self->timerManager->raceStarted && self->timerManager->raceFrameCounter == 0) {
-        MessageInfo msgInfo;
-        msgInfo.messageIds[0] = CupData::tracks[CupManager::currentSzs].musicNameId;
-        msgInfo.messageIds[1] = CupData::tracks[CupManager::currentSzs].musicAuthorId;
-        MessageQueue::instance.Push(Message::Race::MUSIC_PLAYING, &msgInfo);
+    // If the fast music has started playing, show the fast music author
+    } else if (RaceSoundManager::instance->currSoundType == RaceSoundManager::COURSE_BGM_FAST && !fastMusicShown) {
+
+        // Only display the fast music if it's unchanged
+        if (CupData::tracks[CupManager::currentSzs].musicNameIdFast != 0) {
+            MessageInfo msgInfo;
+            msgInfo.messageIds[0] = CupData::tracks[CupManager::currentSzs].musicNameIdFast;
+            msgInfo.messageIds[1] = CupData::tracks[CupManager::currentSzs].musicAuthorIdFast;
+            MessageQueue::instance.Push(Message::Race::MUSIC_PLAYING, &msgInfo);
+        }
+
+        // Do not try this again
+        fastMusicShown = true;
     }
 }
 
