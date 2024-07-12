@@ -1,0 +1,37 @@
+{
+    "main brlyt": "score",
+    "bmg": "Common",
+    "picture source brlyt": "",
+    "groups": [],
+    "animations": [],
+    "variants": [
+        {
+            "name": "score",
+            "opacity": 255,
+            "animated": true,
+            "animation delay": 0.0,
+            "translation x 4:3": 244.0,
+            "translation y 4:3": 146.0,
+            "translation z 4:3": 0.0,
+            "scale x 4:3": 0.6,
+            "scale y 4:3": 0.6,
+            "translation x 16:9": 337.0,
+            "translation y 16:9": 138.0,
+            "translation z 16:9": 0.0,
+            "scale x 16:9": 0.8,
+            "scale y 16:9": 0.8,
+            "first message": 0,
+            "message count": 1,
+            "first picture": 0,
+            "picture count": 0,
+        },
+    ],
+    "messages": [
+        {
+            "pane": "",
+            "name": "",
+            "message id": 9655,
+        },
+    ],
+    "pictures": [],
+}
