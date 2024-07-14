@@ -3,6 +3,7 @@
 #include <game/ui/page/RacePage.hpp>
 #include <midnight/race/CtrlRaceMessageDisplay.hpp>
 #include <midnight/race/MessageQueue.hpp>
+#include <platform/stdio.h>
 
 ///////////////////////////////
 // Race UI Element Injection //
@@ -108,4 +109,11 @@ REPLACE void RacePage::initControls(Controls controls) {
             }
         }
     }
+}
+
+// RacePage::initControls() patch
+// Change the timer BRCTR variant depending on VS/Battle mode
+kmCallDefCpp(0x80858178, void, char* buffer, int bufferSize, const char* fmt, u32 localPlayerCount) {
+    bool isBattle = RaceConfig::instance->raceScenario.settings.isBattle();
+    snprintf(buffer, bufferSize, "CtrlRaceTime%s_%d", isBattle ? "BT" : "", localPlayerCount);
 }
