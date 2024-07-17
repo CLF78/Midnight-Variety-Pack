@@ -47,11 +47,12 @@ public:
     void forceSectionChange(u32 sectionId, PushButton* button);
     void loadPrevPageById(u32 pageId, PushButton& button);
     void loadNextPageById(u32 pageId, PushButton* button);
+    void loadNextPageWithDelayById(u32 pageId, float delay);
     void loadPrevPage(PushButton& button);
     void loadPrevPageWithDelay(float delay);
     void pushMessage(u32 bmgId, MessageInfo* text = nullptr);
-
     void loadMovies(const char** movies, u32 movieCount);
+    bool checkAllPlayersActive();
 
     MiiGroup* miiGroup;
 

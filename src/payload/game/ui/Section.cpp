@@ -9,6 +9,7 @@
 #include <midnight/online/WifiModeSelectPageEx.hpp>
 #include <midnight/online/YesNoPopupPageEx.hpp>
 #include <midnight/transmission/TransmissionSelectPage.hpp>
+#include <midnight/transmission/MultiTransmissionSelectPage.hpp>
 
 ///////////////////////////
 // Page Expansion System //
@@ -53,6 +54,10 @@ REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
         // Inherits from DriftSelectPage: allows the player to select their transmission in SinglePlayer
         case Page::TRANSMISSION_SELECT:
             return new TransmissionSelectPage();
+
+        // Inherits from MultiDriftSelectPage: allows the player to select their transmission in MultiPlayer
+        case Page::TRANSMISSION_SELECT_MULTI_PLAYER:
+            return new MultiTransmissionSelectPage();
 
         // Fallback
         default:
