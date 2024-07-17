@@ -4,21 +4,27 @@
 ECHO Checking for admin privileges...
 openfiles >nul 2>&1
 IF NOT %ErrorLevel% EQU 0 (
-    CALL :Error "Please run this script with admin privileges."
+    ECHO Please run this script with admin privileges.
+    pause
+    EXIT 1
 )
 
 :: Check if cURL is present
 ECHO Checking for cURL...
 WHERE /q curl
 IF NOT %ErrorLevel% EQU 0 (
-    CALL :Error "cURL is not installed on this version of Windows. Please refer to the manual installation guide."
+    ECHO cURL is not installed on this version of Windows. Please refer to the manual installation guide.
+    pause
+    EXIT 1
 )
 
 :: Check .NET version
 ECHO Checking for .NET Core...
 WHERE /q dotnet
 IF NOT %ErrorLevel% EQU 0 (
-    CALL :Error ".NET Core 6.0 or higher is required to run Kamek. Please install it before proceeding."
+    ECHO .NET Core 6.0 or higher is required to run Kamek. Please install it before proceeding.
+    pause
+    EXIT 1
 )
 
 :: Set project root directory as CWD
@@ -38,16 +44,24 @@ SET "LOGOFFREQUIRED=0"
 ECHO Checking for Python installation...
 python -c "import sys; exit_code = 0 if sys.version_info >= (3, 8) else 1; sys.exit(exit_code)" >nul 2>&1
 IF NOT %ErrorLevel% EQU 0 (
-
     :: Download Python
     ECHO Python missing or outdated! Downloading installer...
-    CALL :DownloadFile "python-installer.exe" "https://www.python.org/ftp/python/3.12.1/python-3.12.1-amd64.exe" "Python installer"
+    IF NOT EXIST "python-installer.exe" (
+        curl -L -o "python-installer.exe" "https://www.python.org/ftp/python/3.12.1/python-3.12.1-amd64.exe"
+        IF NOT %ErrorLevel% EQU 1 (
+            ECHO Failed to download Python installer.
+            pause
+            EXIT 1
+        )
+    )
 
     :: Install it
     ECHO Running installer...
     python-installer.exe /quiet InstallAllUsers=1 PrependPath=1 Include_tcltk=0 Include_test=0
     IF NOT %ErrorLevel% EQU 0 (
-        CALL :Error "Failed to install Python."
+        ECHO Failed to install Python.
+        pause
+        EXIT 1
     )
 
     :: Schedule logout
@@ -59,15 +73,20 @@ IF NOT %ErrorLevel% EQU 0 (
 ECHO Checking for Wiimm's SZS Tools installation...
 WHERE /q wszst
 IF NOT %ErrorLevel% EQU 0 (
-
     :: Download WSZST
-    CALL :DownloadFile "wszst.zip" "https://szs.wiimm.de/download/szs-v2.39a-r8904-cygwin64.zip" "WSZST Installer"
+    IF NOT EXIST "wszst.zip" (
+        curl -L -o "wszst.zip" "https://szs.wiimm.de/download/szs-v2.39a-r8904-cygwin64.zip"
+        IF NOT %ErrorLevel% EQU 1 (
+            ECHO Failed to download WSZST Installer.
+            pause
+            EXIT 1
+        )
+    )
 
     :: Install it
     tar -xkf wszst.zip
     CD szs-v2.39a-r8904-cygwin64
     windows-install.exe
-
     ECHO Wiimm's SZS Tools installed successfully!
     SET "LOGOFFREQUIRED=1"
 )
@@ -93,8 +112,23 @@ IF %ErrorLevel% EQU 0 (
 
 :: Download CodeWarrior
 ECHO CodeWarrior not installed! Proceeding with installation...
-CALL :DownloadFile "CW55xx_v2_10_SE.exe" "https://nxp.com/lgfiles/devsuites/PowerPC/CW55xx_v2_10_SE.exe" "CodeWarrior installer"
-CALL :DownloadFile "isxunpack.exe" "http://www.compdigitec.com/labs/files/isxunpack.exe" "ISXUnpack tool"
+IF NOT EXIST "CW55xx_v2_10_SE.exe" (
+    curl -L -o "CW55xx_v2_10_SE.exe" "https://nxp.com/lgfiles/devsuites/PowerPC/CW55xx_v2_10_SE.exe"
+    IF NOT %ErrorLevel% EQU 1 (
+        ECHO Failed to download CodeWarrior installer.
+        pause
+        EXIT 1
+    )
+)
+
+IF NOT EXIST "isxunpack.exe" (
+    curl -L -o "isxunpack.exe" "http://www.compdigitec.com/labs/files/isxunpack.exe"
+    IF NOT %ErrorLevel% EQU 1 (
+        ECHO Failed to download ISXUnpack tool.
+        pause
+        EXIT 1
+    )
+)
 
 :: Unpack the installer
 ECHO Unpacking CodeWarrior files...
@@ -129,18 +163,48 @@ IF %ErrorLevel% EQU 0 (
 :: Download Kamek
 ECHO Kamek not installed! Proceeding with installation...
 MD ..\tools\kamek
-CALL :DownloadFile "kamek.zip" "https://github.com/Treeki/Kamek/releases/latest/download/kamek_2024-01-17_win-x64.zip " "Kamek archive"
+IF NOT EXIST "kamek.zip" (
+    curl -L -o "kamek.zip" "https://github.com/Treeki/Kamek/releases/download/2024-04-10_prerelease/kamek_2024-04-10_win-x64.zip"
+    IF NOT %ErrorLevel% EQU 1 (
+        ECHO Failed to download Kamek archive.
+        pause
+        EXIT 1
+    )
+)
 
 :: Install Kamek
 ECHO Installing Kamek...
 tar -xkf kamek.zip -C "..\tools\kamek"
+IF NOT %ErrorLevel% EQU 0 (
+    ECHO Failed to unpack Kamek archive.
+    pause
+    EXIT 1
+)
+
 ECHO Kamek installed successfully!
 
 :: Check and eventually install ninja, json5 and qtpy
 :kamekInstalled
-CALL :DownloadPythonPackage "ninja"
-CALL :DownloadPythonPackage "json5"
-CALL :DownloadPythonPackage "qtpy"
+ECHO Checking for ninja installation...
+pip show ninja >nul 2>&1
+IF NOT %ErrorLevel% EQU 0 (
+    ECHO Installing ninja...
+    pip install ninja
+)
+
+ECHO Checking for json5 installation...
+pip show json5 >nul 2>&1
+IF NOT %ErrorLevel% EQU 0 (
+    ECHO Installing json5...
+    pip install json5
+)
+
+ECHO Checking for qtpy installation...
+pip show qtpy >nul 2>&1
+IF NOT %ErrorLevel% EQU 0 (
+    ECHO Installing qtpy...
+    pip install qtpy
+)
 
 :: Check for any of the qtpy dependencies
 ECHO Checking qtpy dependencies...
@@ -175,9 +239,15 @@ pip install PyQt5
 :qtDepsInstalled
 ECHO Checking wuj5 installation...
 IF NOT EXIST ..\tools\wuj5\wuj5.py (
-
     :: Download wuj5
-    CALL :DownloadFile "wuj5.zip" "https://github.com/stblr/wuj5/archive/refs/heads/main.zip" "wuj5"
+    IF NOT EXIST "wuj5.zip" (
+        curl -L -o "wuj5.zip" "https://github.com/stblr/wuj5/archive/refs/heads/main.zip"
+        IF NOT %ErrorLevel% EQU 1 (
+            ECHO Failed to download wuj5.
+            pause
+            EXIT 1
+        )
+    )
 
     :: Install wuj5
     tar -xkf wuj5.zip
@@ -193,30 +263,3 @@ rmdir /s /q "%TMPDIR%"
 :: Installation complete!
 ECHO All done!
 pause
-EXIT /B
-
-:: Error - display error message and exit the script
-:Error
-ECHO %1
-pause
-EXIT /B 1
-
-:: DownloadFile - download file using cURL (unless it already exists)
-:DownloadFile
-IF NOT EXIST "%~1" (
-    curl -L -o "%~1" "%~2"
-    IF NOT %ErrorLevel% EQU 0 (
-        CALL :Error "Failed to download %3."
-    )
-)
-EXIT /B
-
-:: DownloadPythonPackage - check for Python package and install it if not present
-:DownloadPythonPackage
-ECHO Checking for %1 installation...
-pip show %1 >nul 2>&1
-IF NOT %ErrorLevel% EQU 0 (
-    ECHO Installing %1...
-    pip install %1
-)
-EXIT /B
