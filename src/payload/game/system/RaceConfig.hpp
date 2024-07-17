@@ -41,6 +41,12 @@ public:
             RANK_COUNT,
         };
 
+        enum Transmission {
+            TRANSMISSION_DEFAULT,
+            TRANSMISSION_OUTSIDE,
+            TRANSMISSION_INSIDE
+        };
+
         virtual ~Player();
 
         int computeGPRank();
@@ -64,6 +70,7 @@ public:
         u8 finishPos;
         Rating rating;
         s8 _EC;
+        u8 transmission;
     };
     size_assert(Player, 0xF0);
 

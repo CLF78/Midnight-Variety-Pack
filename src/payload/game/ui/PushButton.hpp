@@ -33,6 +33,7 @@ public:
 
     void setOnClickHandler(InputHandlerBase* handler, u8 unk);
     void setOnSelectHandler(InputHandlerBase* handler);
+    void setOnDeselectHandler(InputHandlerBase* handler);
 
     ControlInputManager inputManager;
     InputHandler0<PushButton, void> onSelectHandlerObj;

@@ -116,5 +116,5 @@ REPLACE void SinglePlayerMenuPage::onBtnClick(PushButton* button) {
     }
 
     // Go to the next screen
-    startReplace(nextPages[buttonId], button);
+    loadNextPageById(nextPages[buttonId], button);
 }

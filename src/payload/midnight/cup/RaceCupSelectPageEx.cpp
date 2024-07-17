@@ -130,7 +130,7 @@ void RaceCupSelectPageEx::setCourse(CtrlMenuCupSelectCup* cupHolder, PushButton*
             while (SectionManager::instance->curSection->pages[Page::WIFI_VOTING] == nullptr) {}
 
         // Go to the course select page
-        startReplace(Page::COURSE_SELECT, button);
+        loadNextPageById(Page::COURSE_SELECT, button);
     }
 }
 

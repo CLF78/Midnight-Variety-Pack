@@ -140,6 +140,6 @@ void BattleCupSelectPageEx::setCourse(CtrlMenuBattleCupSelectCup* cupHolder, Pus
         }
 
         // Go to the course select page
-        startReplace(Page::COURSE_SELECT_BT, button);
+        loadNextPageById(Page::COURSE_SELECT_BT, button);
     }
 }

@@ -220,6 +220,10 @@ public:
         RECORDS_WIFI,
         RECORDS_OTHER,
         PAGE_COUNT,
+
+        // Custom Pages
+        TRANSMISSION_SELECT = BT_SCORE_OVERALL,
+        TRANSMISSION_SELECT_MULTI_PLAYER = COMPETITION_LEADERBOARD,
     };
 
     enum PageState {
@@ -261,6 +265,7 @@ public:
     virtual void vf_5c();
     RUNTIME_TYPE_INFO_NODECL;
 
+    void init(u32 pageId);
     void initChildren(u32 childCount);
     void insertChild(u32 childIdx, UIControl* child, u32 drawPass);
 
