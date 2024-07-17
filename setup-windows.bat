@@ -123,7 +123,7 @@ IF NOT EXIST "CW55xx_v2_10_SE.exe" (
 
 IF NOT EXIST "isxunpack.exe" (
     curl -L -o "isxunpack.exe" "http://www.compdigitec.com/labs/files/isxunpack.exe"
-    IF NOT %ErrorLevel% EQU 1 (
+    IF NOT %ErrorLevel% EQU 0 (
         ECHO Failed to download ISXUnpack tool.
         pause
         EXIT 1
