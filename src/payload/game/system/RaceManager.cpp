@@ -17,7 +17,9 @@
 kmListHookDefCpp(RaceUpdateHook) {
     RaceManager* self = RaceManager::instance;
     RaceConfig::Settings* settings = &RaceConfig::instance->raceScenario.settings;
+
     static bool fastMusicShown = false;
+    static bool normalMusicShown = false;
 
     // If the intro camera has started playing, show the track author
     if (self->frameCounter == 1) {
@@ -26,14 +28,19 @@ kmListHookDefCpp(RaceUpdateHook) {
         msgInfo.messageIds[0] = CupData::tracks[CupManager::currentSzs].trackNameId;
         msgInfo.messageIds[1] = CupData::tracks[CupManager::currentSzs].trackAuthorId;
         MessageQueue::instance.Push(Message::Race::TRACK_PLAYING, &msgInfo);
+
+        normalMusicShown = false;
         fastMusicShown = false;
 
     // If the race has started, show the normal music author
-    } else if (self->timerManager->raceStarted && self->timerManager->raceFrameCounter == 0) {
+    } else if (RaceSoundManager::instance->currSoundType == RaceSoundManager::COURSE_BGM && !normalMusicShown) {
         MessageInfo msgInfo;
         msgInfo.messageIds[0] = CupData::tracks[CupManager::currentSzs].musicNameId;
         msgInfo.messageIds[1] = CupData::tracks[CupManager::currentSzs].musicAuthorId;
         MessageQueue::instance.Push(Message::Race::MUSIC_PLAYING, &msgInfo);
+
+        // Do not try this again
+        normalMusicShown = true;
 
     // If the fast music has started playing, show the fast music author
     } else if (RaceSoundManager::instance->currSoundType == RaceSoundManager::COURSE_BGM_FAST && !fastMusicShown) {
