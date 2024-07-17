@@ -367,7 +367,7 @@ writer.rule('kmdynamic',
             description='Link Code ($selectversion)')
 
 writer.rule('kmstatic',
-            command=[f'$kamek $in_code -static=$loadaddr -externals=$symbol_file -output-code=$out_bin -output-riiv=$out_riiv -valuefile=$out_valuefile -input-riiv=$in_xml -q',
+            command=[f'{"" if sys.platform != "win32" else "cmd /c "}$kamek $in_code -static=$loadaddr -externals=$symbol_file -output-code=$out_bin -output-riiv=$out_riiv -valuefile=$out_valuefile -input-riiv=$in_xml -q',
                     f'{sys.executable} {SIZE_CHECKER} $out_bin $size'],
             description='Link Loader')
 
@@ -389,10 +389,10 @@ writer.rule('wimgt',
 
 if sys.platform == 'win32':
     writer.rule('copy_file',
-                command='cmd /c mklink /h $out $in',
+                command='cmd /c IF NOT EXIST $out ( mklink /h $out $in )',
                 description='Copy $in_short')
     writer.rule('copy_dir',
-                command='cmd /c mklink /d $out $in_dir',
+                command='cmd /c IF NOT EXIST $out ( mklink /d $out $in_dir )',
                 description='Copy $in_short',
                 restat='1')
 else:
