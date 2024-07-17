@@ -71,7 +71,7 @@ void StoreWinningVote(VotingPage* self) {
 
     // Set the winning vote control
     u8 winningVoter = RKNetSELECTHandler::instance->getWinningVoter();
-    self->winningVote = VotingBackPage::getPage()->getVoteIdx(winningVoter, 0);
+    self->winningVote = self->votes[VotingBackPage::getPage()->getVoteIdx(winningVoter, 0)];
 
     // Start the roulette
     self->curRouletteSpeed = 0.3f;
