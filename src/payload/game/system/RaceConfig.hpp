@@ -41,6 +41,13 @@ public:
             RANK_COUNT,
         };
 
+        // Default is used for cases such as a legacy ghost
+        enum Transmission {
+            TRANSMISSION_DEFAULT,
+            TRANSMISSION_OUTSIDE,
+            TRANSMISSION_INSIDE
+        };
+
         virtual ~Player();
 
         int computeGPRank();
@@ -64,6 +71,7 @@ public:
         u8 finishPos;
         Rating rating;
         s8 _EC;
+        u8 transmission;
     };
     size_assert(Player, 0xF0);
 
@@ -184,6 +192,7 @@ public:
     public:
         virtual ~Scenario();
 
+        Scenario* copy(Scenario* rhs);
         void initCoursePositions();
 
         u8 playerCount;
@@ -199,9 +208,14 @@ public:
 
     virtual ~RaceConfig();
 
+    void init();
+    void initRace();
+    void initCredits();
+
     void reset();
     void update();
     void loadNextCourse();
+    u8 getHudSlotId(u8 playerId);
 
     Scenario raceScenario;
     Scenario menuScenario;

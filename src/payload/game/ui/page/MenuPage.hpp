@@ -43,11 +43,16 @@ public:
     virtual MessageInfo* getMsgInfo();
     virtual void initVideos();
 
-    void startReplace(u32 pageId, PushButton* button);
     void requestSectionChange(u32 sectionId, PushButton* button);
     void forceSectionChange(u32 sectionId, PushButton* button);
-
+    void loadPrevPageById(u32 pageId, PushButton& button);
+    void loadNextPageById(u32 pageId, PushButton* button);
+    void loadNextPageWithDelayById(u32 pageId, float delay);
+    void loadPrevPage(PushButton& button);
+    void loadPrevPageWithDelay(float delay);
+    void pushMessage(u32 bmgId, MessageInfo* text = nullptr);
     void loadMovies(const char** movies, u32 movieCount);
+    bool checkAllPlayersActive();
 
     MiiGroup* miiGroup;
 
@@ -87,11 +92,11 @@ public:
     MultiControlInputManager multiControlInputManager;
     u32 curChildCount;
 
-    InputHandler1<MenuPage, void, PushButton*> onBtnClick;
-    InputHandler1<MenuPage, void, PushButton*> onBtnSelect;
-    InputHandler1<MenuPage, void, PushButton*> onBtnDeselect;
-    InputHandler1<MenuPage, void, int> onBackPress;
-    InputHandler1<MenuPage, void, int> onStartPress;
+    InputHandler2<MenuPage, void, PushButton*, u32> onBtnClick;
+    InputHandler2<MenuPage, void, PushButton*, u32> onBtnSelect;
+    InputHandler2<MenuPage, void, PushButton*, u32> onBtnDeselect;
+    InputHandler1<MenuPage, void, u32> onBackPress;
+    InputHandler1<MenuPage, void, u32> onStartPress;
 
     u32 activePlayers;
     u32 activeControllers;

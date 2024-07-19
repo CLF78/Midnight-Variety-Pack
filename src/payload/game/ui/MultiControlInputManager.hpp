@@ -20,7 +20,8 @@ public:
         u32 sequenceFrames;
         bool isPointer;
         VEC2 pointerPos;
-        u8 _50[0x5c - 0x50];
+        bool enabled;
+        u8 _50[0x5c - 0x51];
     };
     size_assert(Player, 0x5C);
 

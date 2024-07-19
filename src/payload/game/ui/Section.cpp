@@ -8,6 +8,8 @@
 #include <midnight/online/WifiMenuPageEx.hpp>
 #include <midnight/online/WifiModeSelectPageEx.hpp>
 #include <midnight/online/YesNoPopupPageEx.hpp>
+#include <midnight/transmission/TransmissionSelectPage.hpp>
+#include <midnight/transmission/MultiTransmissionSelectPage.hpp>
 
 ///////////////////////////
 // Page Expansion System //
@@ -49,6 +51,14 @@ REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
         case Page::VR_SCREEN:
             return new WifiMemberConfirmPageEx();
 
+        // Inherits from DriftSelectPage: allows the player to select their transmission in SinglePlayer
+        case Page::TRANSMISSION_SELECT:
+            return new TransmissionSelectPage();
+
+        // Inherits from MultiDriftSelectPage: allows the player to select their transmission in MultiPlayer
+        case Page::TRANSMISSION_SELECT_MULTI_PLAYER:
+            return new MultiTransmissionSelectPage();
+
         // Fallback
         default:
             return REPLACED(pageId);
@@ -63,6 +73,32 @@ REPLACE void Section::addPages(SectionID sectionId) {
         // Replace save error page to prevent using the game without saving
         case SAVE_CANNOT_FLUSH:
             REPLACED(SAVE_CANNOT_READ_RFL);
+            break;
+
+        // Add transmission select to singleplayer sections
+        case MENUSINGLE_FROM_MAIN:
+        case MENUSINGLE_FROM_TT_CHANGE_CHAR:
+        case MENUSINGLE_FROM_TT_CHANGE_COURSE:
+        case MENUSINGLE_FROM_VS:
+        case MENUSINGLE_FROM_BT:
+        case MENUSINGLE_FROM_MR:
+        case MENUSINGLE_FROM_CHANNEL_CHALLENGE_GHOST:
+        case MENUSINGLE_FROM_LEADERBOARD_CHALLENGE_GHOST:
+        case MENUSINGLE_FROM_GHOSTLIST_CHALLENGE_GHOST:
+        case WIFI_MENU_1P:
+        case WIFI_MENU_1P_FROM_FROOM:
+        case WIFI_MENU_1P_FROM_FRIENDLIST:
+            addPage(Page::TRANSMISSION_SELECT);
+            REPLACED(sectionId);
+            break;
+
+        // Add transmission select to multiplayer sections
+        case MENUMULTI:
+        case WIFI_MENU_2P:
+        case WIFI_MENU_2P_FROM_FROOM:
+        case WIFI_MENU_2P_FROM_FRIENDLIST:
+            addPage(Page::TRANSMISSION_SELECT_MULTI_PLAYER);
+            REPLACED(sectionId);
             break;
 
         // Add the message popup to display the rules

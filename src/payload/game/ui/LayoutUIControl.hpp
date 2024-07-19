@@ -20,7 +20,7 @@ public:
     virtual void loadResources(const char* arcName, const char* layoutName);
 
     void setMovieCrop(const char* pane, float top, float bottom, float left, float right);
-    void setText(u32 bmgId, MessageInfo* info);
+    void setText(u32 bmgId, MessageInfo* info = nullptr);
     void setMatIcon(const char* materialName, const char* iconPaneName);
     void setMatText(const char* materialName, u32 bmgId, MessageInfo* info);
     void setPaneVisible(const char* pane, bool visible);

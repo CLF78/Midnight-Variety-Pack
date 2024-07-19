@@ -81,7 +81,7 @@ void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder,
         // If we're in TT mode, go to the ghost select screen
         u32 gameMode = RaceConfig::instance->menuScenario.settings.gameMode;
         if (gameMode == RaceConfig::Settings::GAMEMODE_TT)
-            startReplace(Page::GHOST_SELECT_TOP, button);
+            loadNextPageById(Page::GHOST_SELECT_TOP, button);
 
         // If we're in VS mode, prepare intro and generate the track order from here
         else if (gameMode == RaceConfig::Settings::GAMEMODE_VS) {

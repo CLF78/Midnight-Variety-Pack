@@ -11,6 +11,6 @@ public:
     RUNTIME_TYPENAME_INFO_NODECL;
 
     void load();
-    void setText(u32 bmgId, MessageInfo* info);
+    void setText(u32 bmgId, MessageInfo* info = nullptr);
 };
 size_assert(CtrlMenuInstructionText, sizeof(LayoutUIControl));
