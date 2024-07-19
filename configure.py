@@ -203,6 +203,8 @@ COMMON_ASSETS = {
     'CommonMKM': {
         Path(COMMON_ASSETS_DIR, 'kumo.brres'): None,
         Path(COMMON_ASSETS_DIR, 'driverParam.bin'): None,
+        Path(COMMON_ASSETS_DIR, 'itembox.brres'): None,
+        Path(COMMON_ASSETS_DIR, 'itemBoxNiseRtpa.brres'): None,
         Path(COMMON_ASSETS_DIR, 'orange.breff'): Path('Effect', 'orange.breff'),
         Path(COMMON_ASSETS_DIR, 'orange.breft'): Path('Effect', 'orange.breft'),
         Path(COMMON_ASSETS_DIR, 'purple.breff'): Path('Effect', 'purple.breff'),
