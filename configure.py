@@ -577,7 +577,7 @@ writer.build('kmstatic',
              in_xml=XML_BUILD_FILE,
              out_bin=LOADER_OUT_FILE,
              out_riiv=XML_OUT_FILE,
-             out_valuefile=f'/{LOADER_OUT_FILE.relative_to(XML_ROOT_DIR)}',
+             out_valuefile=f'/{LOADER_OUT_FILE.relative_to(XML_ROOT_DIR).as_posix()}',
              loadaddr=hex(LOADER_HOOK_ADDR),
              size=LOADER_MAX_ADDR - LOADER_HOOK_ADDR)
 
