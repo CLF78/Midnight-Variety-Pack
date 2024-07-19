@@ -201,7 +201,12 @@ for dir in INCLUDE_DIRS:
 
 COMMON_ASSETS = {
     'CommonMKM': {
-        Path(COMMON_ASSETS_DIR, 'kumo.brres'): None
+        Path(COMMON_ASSETS_DIR, 'kumo.brres'): None,
+        Path(COMMON_ASSETS_DIR, 'driverParam.bin'): None,
+        Path(COMMON_ASSETS_DIR, 'Effect', 'orange.breff'): None,
+        Path(COMMON_ASSETS_DIR, 'Effect', 'orange.breft'): None,
+        Path(COMMON_ASSETS_DIR, 'Effect', 'purple.breff'): None,
+        Path(COMMON_ASSETS_DIR, 'Effect', 'purple.breft'): None
     }
 }
 
