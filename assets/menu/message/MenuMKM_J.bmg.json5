@@ -65,4 +65,28 @@
     "20011": {
         string: "キャラクター",
     },
+    "20012": {
+        string: "Outside",
+    },
+    "20013": {
+        string: "Inside",
+    },
+    "20014": {
+        string: "Drift outside (with a turn radius).",
+    },
+    "20015": {
+        string: "Drift inside (with no turn radius).",
+    },
+    "20016": {
+        string: "Help",
+    },
+    "20017": {
+        string: "View an explanation of transmission modes.",
+    },
+    "20018": {
+        string: "■ Outside Drift ■\nYou will drift with a 45° turning radius.\n\n■ Inside Drift ■\nYou will drift with no turning radius.",
+    },
+    "20019": {
+        string: "Transmission Mode",
+    },
 }

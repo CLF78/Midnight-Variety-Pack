@@ -11,9 +11,9 @@ public:
     };
 
     enum DriftType {
-        OUTSIDE_DRIFT_KART,
-        OUTSIDE_DRIFT_BIKE,
-        INSIDE_DRIFT_BIKE,
+        KART,
+        OUTSIDE_BIKE,
+        INSIDE_BIKE,
     };
 
     enum WeightClass {

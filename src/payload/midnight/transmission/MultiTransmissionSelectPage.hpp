@@ -13,4 +13,5 @@ public:
 private:
     void onButtonClick(PushButton* button, u32 hudSlotId);
     void onBckPress(u32 hudSlotId);
+    void SetCPUVehicleType();
 };

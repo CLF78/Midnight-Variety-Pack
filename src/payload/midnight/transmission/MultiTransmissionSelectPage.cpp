@@ -3,6 +3,7 @@
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/ctrl/VehicleModelControl.hpp>
+#include <game/util/Random.hpp>
 
 static void LoadMultiTransmissionFromKart(MenuPage* menuPage, Page::PageID pageId, float delay){
     pageId = Page::TRANSMISSION_SELECT_MULTI_PLAYER;
@@ -46,6 +47,16 @@ void MultiTransmissionSelectPage::setupButton(PushButton* button){
     button->setOnDeselectHandler(&this->onBtnDeselect);
 }
 
+void MultiTransmissionSelectPage::SetCPUVehicleType(){
+    RaceConfig::Scenario* scenario = &RaceConfig::instance->menuScenario;
+    if (scenario->settings.isOnline()) return;
+    Random random;
+    u8 localPlayerCount = SectionManager::instance->globalContext->humanPlayerCount;
+    for (int i = localPlayerCount; i < 12; i++){
+        scenario->players[i].transmission = random.nextU32(2) + 1;
+    }
+}
+
 void MultiTransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotId){
     this->activePlayers += (1 << hudSlotId);
     RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[hudSlotId];
@@ -72,7 +83,10 @@ void MultiTransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotI
     }
     this->multiControlInputManager.players[hudSlotId].enabled = false;
     bool allPlayersSelected = checkAllPlayersActive();
-    if (allPlayersSelected) this->loadNextPageById(Page::DRIFT_SELECT_MULTI_PLAYER, button);
+    if (allPlayersSelected){
+        this->loadNextPageById(Page::DRIFT_SELECT_MULTI_PLAYER, button);
+        SetCPUVehicleType();
+    }
 }
 
 void MultiTransmissionSelectPage::onBckPress(u32 hudSlotId){
@@ -93,19 +107,6 @@ void MultiTransmissionSelectPage::onBckPress(u32 hudSlotId){
         this->loadPrevPageWithDelay(0.0f);
     }
 }
-
-//void MultiTransmissionSelectPage::beforeCalc(){
-//    SectionMgr* sectionMgr = SectionMgr::sInstance;
-//    Pulsar::UI::ExpCharacterSelect* charSelect = sectionMgr->curSection->Get<Pulsar::UI::ExpCharacterSelect>();
-//    if(charSelect->rouletteCounter != -1 && this->currentState == 0x4) {
-//        this->controlsManipulatorManager.inaccessible = true;
-//        for(int i = 0; i < sectionMgr->sectionParams->localPlayerCount; ++i) {
-//            Random random;
-//            PushButton* randomTransmission = this->externControls[(i * 2) + random.NextLimited(2)];
-//            randomTransmission->HandleClick(i, -1);
-//        }
-//    }
-//}
 
 void FixMultiVehicleModelTransition(VehicleModelControl* ctrl, Page::PageID id){
     if(id == Page::TRANSMISSION_SELECT_MULTI_PLAYER){

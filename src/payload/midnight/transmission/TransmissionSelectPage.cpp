@@ -2,6 +2,7 @@
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/ctrl/VehicleModelControl.hpp>
+#include <game/util/Random.hpp>
 
 void LoadTransmissionFromVehicle(MenuPage* menuPage, Page::PageID pageId, PushButton* button){
     pageId = Page::TRANSMISSION_SELECT;
@@ -32,6 +33,9 @@ TransmissionSelectPage::TransmissionSelectPage(){
 }
 
 void TransmissionSelectPage::onActivate(){
+    const char* movies[] = {"thp/button/drift_select.thp"}; //todo create custom thps
+    loadMovies(movies, ARRAY_SIZE(movies));
+
     for (int i = 0; i < this->buttonCount; i++){
         if (i == 0){
             this->buttons[i]->setText(Message::Menu::TRANSMISSION_INSIDE);
@@ -65,6 +69,15 @@ void TransmissionSelectPage::setupButton(PushButton* button){
     button->setOnDeselectHandler(&this->onBtnDeselect);
 }
 
+void TransmissionSelectPage::SetCPUVehicleType(){
+    RaceConfig::Scenario* scenario = &RaceConfig::instance->menuScenario;
+    if (scenario->settings.isOnline()) return;
+    Random random;
+    for (int i = 1; i < 12; i++){
+        scenario->players[i].transmission = random.nextU32(2) + 1;
+    }
+}
+
 void TransmissionSelectPage::onButtonClick(PushButton* button, u32){
     RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[0]; // 0 because this is SinglePlayer only
     switch (button->buttonId)
@@ -72,10 +85,12 @@ void TransmissionSelectPage::onButtonClick(PushButton* button, u32){
         case 0:
             player->transmission = RaceConfig::Player::TRANSMISSION_INSIDE;
             this->loadNextPageById(Page::DRIFT_SELECT, button);
+            SetCPUVehicleType();
             break;
         case 1:
             player->transmission = RaceConfig::Player::TRANSMISSION_OUTSIDE;
             this->loadNextPageById(Page::DRIFT_SELECT, button);
+            SetCPUVehicleType();
             break;
         case 2:
             this->pushMessage(Message::Menu::TRANSMISSION_HELP_DESC);
@@ -102,16 +117,6 @@ void TransmissionSelectPage::onButtonSelect(PushButton* button, u32 hudSlotId){
 void TransmissionSelectPage::onBckPress(u32 hudSlotId){
     this->loadPrevPageWithDelay(0.0f);
 }
-
-//void TransmissionSelectPage::beforeCalc(){
-//    Pulsar::UI::ExpCharacterSelect* charSelect = SectionMgr::sInstance->curSection->Get<Pulsar::UI::ExpCharacterSelect>();
-//    if(charSelect->rouletteCounter != -1 && this->currentState == 0x4) {
-//        this->controlsManipulatorManager.inaccessible = true;
-//        Random random;
-//        PushButton* randomTransmission = this->externControls[random.NextLimited(2)];
-//        randomTransmission->HandleClick(0, -1);
-//    }
-//}
 
 void FixVehicleModelTransition(VehicleModelControl* ctrl, Page::PageID id){ //todo use REPLACE to replace the functions hooked
     if(id == Page::TRANSMISSION_SELECT){

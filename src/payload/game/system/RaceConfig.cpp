@@ -76,3 +76,36 @@ REPLACE int RaceConfig::Player::computeGPRank() {
     // None of the thresholds were reached, the player is a failure
     return RANK_GOLDEN_CUP;
 }
+
+///////////////////////////
+// To Copy Custom Fields //
+///////////////////////////
+
+REPLACE RaceConfig::Scenario* RaceConfig::Scenario::copy(Scenario* rhs){
+    return (RaceConfig::Scenario*)__memcpy(this, rhs, sizeof(RaceConfig::Scenario));
+}
+
+// The following functions are used to copy unused bytes that don't get copied
+REPLACE void RaceConfig::init(){
+    REPLACED();
+    for (int i = 0; i < 12; i++)
+    {
+        this->raceScenario.players[i].transmission = this->menuScenario.players[i].transmission;
+    }
+}
+
+REPLACE void RaceConfig::initRace(){
+    REPLACED();
+    for (int i = 0; i < 12; i++)
+    {
+        this->raceScenario.players[i].transmission = this->menuScenario.players[i].transmission;
+    }
+}
+
+REPLACE void RaceConfig::initCredits(){
+    REPLACED();
+    for (int i = 0; i < 12; i++)
+    {
+        this->raceScenario.players[i].transmission = this->awardsScenario.players[i].transmission;
+    }
+}
