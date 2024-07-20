@@ -19,10 +19,10 @@ public:
 
     RUNTIME_TYPE_INFO_NODECL;
 
-    InputHandler1<WifiModeSelectPage, void, PushButton*> onButtonPress;
-    InputHandler1<WifiModeSelectPage, void, PushButton*> onBackButtonPress;
-    InputHandler1<WifiModeSelectPage, void, PushButton*> onButtonSelect;
-    InputHandler0<WifiModeSelectPage, void> onBack;
+    InputHandler2<WifiModeSelectPage, void, PushButton*, u32> onButtonClickHandler;
+    InputHandler2<WifiModeSelectPage, void, PushButton*, u32> onBackButtonClickHandler;
+    InputHandler2<WifiModeSelectPage, void, PushButton*, u32> onButtonSelectHandler;
+    InputHandler1<WifiModeSelectPage, void, u32> onBackHandler;
 
     CtrlMenuPageTitleText titleText;
     PushButton raceButton;

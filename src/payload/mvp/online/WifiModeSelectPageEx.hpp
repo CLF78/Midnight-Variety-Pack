@@ -10,7 +10,7 @@ public:
     virtual void onInit();
     virtual void onActivate();
 
-    void handleButtonPress(PushButton* button);
+    void onButtonClick(PushButton* button, u32 hudSlotId);
 
     int getButtonCount() {
         return 2 + ARRAY_SIZE(extraRaceButtons);

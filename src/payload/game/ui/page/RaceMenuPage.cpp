@@ -6,7 +6,7 @@
 // Custom Cup System //
 ///////////////////////
 
-// RaceMenuPage::onBtnSelect() patch
+// RaceMenuPage::onButtonSelect() patch
 // Get the next track (for VS mode)
 kmCallDefCpp(0x8085AE80, u32, int raceNum) {
     u16 track = SectionManager::instance->globalContext->trackOrder[raceNum];
@@ -14,7 +14,7 @@ kmCallDefCpp(0x8085AE80, u32, int raceNum) {
     return CupData::tracks[track].specialSlot;
 }
 
-// RaceMenuPage::onBtnSelect() patch
+// RaceMenuPage::onButtonSelect() patch
 // Get the next arena (for BT mode)
 kmCallDefCpp(0x8085AF30, u32, int raceNum) {
 

@@ -9,9 +9,8 @@
 // Custom Cup System / Custom Engine Classes //
 ///////////////////////////////////////////////
 
-// SinglePlayerMenuPage::onBtnClick() override
 // Update settings based on the selected button
-REPLACE void SinglePlayerMenuPage::onBtnClick(PushButton* button) {
+REPLACE void SinglePlayerMenuPage::onButtonClick(PushButton* button, u32 hudSlotId) {
 
     // Game mode for each menu button
     static const u32 gameModes[SinglePlayerMenuPage::BUTTON_COUNT] = {

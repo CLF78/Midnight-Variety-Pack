@@ -28,12 +28,12 @@ public:
 
     RUNTIME_TYPE_INFO_NODECL;
 
-    InputHandler1<WifiMenuPage, void, PushButton*> onWorldwideButtonPressed;
-    InputHandler1<WifiMenuPage, void, PushButton*> onRegionalButtonPressed;
-    InputHandler1<WifiMenuPage, void, PushButton*> onFriendButtonPressed;
-    InputHandler1<WifiMenuPage, void, PushButton*> onBackButtonPressed;
-    InputHandler1<WifiMenuPage, void, PushButton*> onButtonSelect;
-    InputHandler0<WifiMenuPage, void> onBack;
+    InputHandler2<WifiMenuPage, void, PushButton*, u32> onWorldwideButtonClickHandler;
+    InputHandler2<WifiMenuPage, void, PushButton*, u32> onRegionalButtonClickHandler;
+    InputHandler2<WifiMenuPage, void, PushButton*, u32> onFriendButtonClickHandler;
+    InputHandler2<WifiMenuPage, void, PushButton*, u32> onBackButtonClickHandler;
+    InputHandler2<WifiMenuPage, void, PushButton*, u32> onButtonSelectHandler;
+    InputHandler1<WifiMenuPage, void, u32> onBackHandler;
 
     CtrlMenuPageTitleText titleText;
     PushButton worldwideButton;

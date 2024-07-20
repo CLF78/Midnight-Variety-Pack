@@ -63,7 +63,7 @@ void WifiMemberConfirmPageEx::onInit() {
     // Add the OK button
     insertChild(currChildIdx++, &okButton, 0);
     okButton.load("button", "WifiMemberConfirmButton", "ButtonOK", 1, false, false);
-    okButton.setOnClickHandler(&onBtnPress, 0);
+    okButton.setOnClickHandler(&onButtonClickHandler, 0);
 
     // Add the change combo button
     // TODO add handler
@@ -73,7 +73,7 @@ void WifiMemberConfirmPageEx::onInit() {
     // Add the rule button
     insertChild(currChildIdx++, &ruleButton, 0);
     ruleButton.load("button", "WifiMemberConfirmButton", "ButtonRules", 1, false, false);
-    ruleButton.setOnClickHandler(&onRuleBtnPress, 0);
+    ruleButton.setOnClickHandler(&onRuleButtonClickHandler, 0);
 
     // Add the player entries
     for (int i = 0; i < ARRAY_SIZE(playerEntries); i++) {
@@ -144,7 +144,7 @@ void WifiMemberConfirmPageEx::onActivate() {
         for (int playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
 
             // Get the team and the entry index
-            RaceConfig::Player::Team playerTeam = (typeof(playerTeam))page->playerInfos[playerIdx].team;
+            RaceConfig::Player::Team playerTeam = page->playerInfos[playerIdx].team;
             if (playerTeam == RaceConfig::Player::TEAM_BLUE) {
                 entryIdx = blueTeamIdx;
                 blueTeamIdx += 2;
@@ -198,7 +198,7 @@ void WifiMemberConfirmPageEx::afterCalc() {
 }
 
 // Display the rule popup when the rule button is pressed
-void WifiMemberConfirmPageEx::handleRuleButtonPress(PushButton* button, u32 playerFlags) {
+void WifiMemberConfirmPageEx::onRuleButtonClick(PushButton* button, u32 playerFlags) {
     MessagePopupPage* popupPage = MessagePopupPage::getPage();
     popupPage->reset();
     popupPage->setWindowMessage(3309);

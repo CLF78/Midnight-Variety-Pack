@@ -27,9 +27,9 @@ TransmissionSelectPage::TransmissionSelectPage(){
     nextPageId = Page::DRIFT_SELECT;
     prevPageId = Page::VEHICLE_SELECT;
     if (RaceConfig::instance->menuScenario.settings.isBattle()) prevPageId = Page::VEHICLE_SELECT_BT;
-    onBtnClick.handle = (typeof(onBtnClick.handle))&onButtonClick;
-    onBtnSelect.handle = (typeof(onBtnSelect.handle))&onButtonSelect;
-    onBackPress.handle = (typeof(onBackPress.handle))&onBckPress;
+    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
+    SET_HANDLER_FUNC(onButtonSelectHandler, onButtonSelect);
+    SET_HANDLER_FUNC(onBackPressHandler, onBackPress);
 }
 
 void TransmissionSelectPage::onActivate(){
@@ -64,9 +64,9 @@ void TransmissionSelectPage::onActivate(){
 }
 
 void TransmissionSelectPage::setupButton(PushButton* button){
-    button->setOnClickHandler(&this->onBtnClick, 0);
-    button->setOnSelectHandler(&this->onBtnSelect);
-    button->setOnDeselectHandler(&this->onBtnDeselect);
+    button->setOnClickHandler(&this->onButtonClickHandler, 0);
+    button->setOnSelectHandler(&this->onButtonSelectHandler);
+    button->setOnDeselectHandler(&this->onButtonDeselectHandler);
 }
 
 void TransmissionSelectPage::SetCPUVehicleType(){
@@ -114,7 +114,7 @@ void TransmissionSelectPage::onButtonSelect(PushButton* button, u32 hudSlotId){
     }
 }
 
-void TransmissionSelectPage::onBckPress(u32 hudSlotId){
+void TransmissionSelectPage::onBackPress(u32 hudSlotId){
     this->loadPrevPageWithDelay(0.0f);
 }
 

@@ -13,8 +13,8 @@ public:
 
     void onRepickPromptPress(s32 choice, PushButton* button);
     void setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button, int unk);
-    void handleBtnClick(PushButton* button);
-    void handleBackPress(int playerId);
+    void onButtonClick(PushButton* button, u32 hudSlotId);
+    void onBackPress(u32 hudSlotId);
 
     static BattleStageSelectPageEx* getPage() {
         return (BattleStageSelectPageEx*)SectionManager::instance->curSection->pages[Page::COURSE_SELECT_BT];
@@ -33,6 +33,6 @@ public:
     }
 
     CtrlMenuBattleStageSelectCupSub cups[6];
-    InputHandler2<BattleStageSelectPageEx, void, s32, PushButton*> repickHandler;
+    InputHandler2<BattleStageSelectPageEx, void, s32, PushButton*> onRepickPromptPressHandler;
     YesNoPopupPageEx* repickPrompt;
 };

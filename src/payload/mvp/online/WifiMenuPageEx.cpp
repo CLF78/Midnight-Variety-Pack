@@ -58,8 +58,8 @@ void WifiMenuPageEx::onInit() {
     worldwideButton.buttonId = BTN_WORLDWIDE;
 
     // Replace the handler with the regional one
-    worldwideButton.setOnClickHandler(&onRegionalButtonPressed, 0);
-    worldwideButton.setOnSelectHandler(&onButtonSelect);
+    worldwideButton.setOnClickHandler(&onRegionalButtonClickHandler, 0);
+    worldwideButton.setOnSelectHandler(&onButtonSelectHandler);
 
     // Add the friends button
     insertChild(curChildIdx++, &friendButton, 0);
@@ -74,8 +74,8 @@ void WifiMenuPageEx::onInit() {
     friendButton.buttonId = BTN_FRIENDS;
 
     // Set handlers
-    friendButton.setOnClickHandler(&onFriendButtonPressed, 0);
-    friendButton.setOnSelectHandler(&onButtonSelect);
+    friendButton.setOnClickHandler(&onFriendButtonClickHandler, 0);
+    friendButton.setOnSelectHandler(&onButtonSelectHandler);
 
     // Add the back button
     insertChild(curChildIdx++, &backButton, 0);
@@ -83,9 +83,9 @@ void WifiMenuPageEx::onInit() {
     backButton.buttonId = BTN_BACK;
 
     // Set handlers
-    backButton.setOnClickHandler(&onBackButtonPressed, 0);
-    backButton.setOnSelectHandler(&onButtonSelect);
-    inputManager.setHandler(MultiControlInputManager::BACK_PRESS, &onBack, false, false);
+    backButton.setOnClickHandler(&onBackButtonClickHandler, 0);
+    backButton.setOnSelectHandler(&onButtonSelectHandler);
+    inputManager.setHandler(MultiControlInputManager::BACK_PRESS, &onBackHandler, false, false);
 
     // Add the instruction text
     insertChild(curChildIdx++, &instructionText, 0);

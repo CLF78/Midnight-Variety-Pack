@@ -3,8 +3,8 @@
 
 class RaceCupSelectArrow : public SheetSelectButton {
 public:
-    void onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId);
-    void onRightArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId);
+    void onLeft(SheetSelectControl* arrowPair, u32 localPlayerId);
+    void onRight(SheetSelectControl* arrowPair, u32 localPlayerId);
 
     void onDeselect(u32 localPlayerId);
 };

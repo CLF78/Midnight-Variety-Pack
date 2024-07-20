@@ -39,7 +39,7 @@ public:
 
     PushButton cupButtons[6];
     SheetSelectControl arrows;
-    InputHandler2<BattleCupSelectArrow, void, SheetSelectControl*, u32> leftHandler;
-    InputHandler2<BattleCupSelectArrow, void, SheetSelectControl*, u32> rightHandler;
+    InputHandler2<BattleCupSelectArrow, void, SheetSelectControl*, u32> onLeftHandler;
+    InputHandler2<BattleCupSelectArrow, void, SheetSelectControl*, u32> onRightHandler;
     s32 curPage;
 };

@@ -6,7 +6,7 @@
 #include <platform/stdio.h>
 
 WifiModeSelectPageEx::WifiModeSelectPageEx() : extraRaceButtons() {
-    onButtonPress.handle = (typeof(onButtonPress.handle))&WifiModeSelectPageEx::handleButtonPress;
+    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
 }
 
 void WifiModeSelectPageEx::onInit() {
@@ -50,8 +50,8 @@ void WifiModeSelectPageEx::onInit() {
 
         // Set button ID and handlers
         btn->buttonId = i + 1;
-        btn->setOnClickHandler(&onButtonPress, 0);
-        btn->setOnSelectHandler(&onButtonSelect);
+        btn->setOnClickHandler(&onButtonClickHandler, 0);
+        btn->setOnSelectHandler(&onButtonSelectHandler);
 
         // Set tracklist name
         u16 cupListName = CupManager::GetCupListData(i)->cupListName;
@@ -74,9 +74,9 @@ void WifiModeSelectPageEx::onInit() {
     backButton.buttonId = getButtonCount() + 1;
 
     // Set handlers
-    backButton.setOnClickHandler(&onBackButtonPress, 0);
-    backButton.setOnSelectHandler(&onButtonSelect);
-    inputManager.setHandler(MultiControlInputManager::BACK_PRESS, &onBack, false, false);
+    backButton.setOnClickHandler(&onBackButtonClickHandler, 0);
+    backButton.setOnSelectHandler(&onButtonSelectHandler);
+    inputManager.setHandler(MultiControlInputManager::BACK_PRESS, &onBackHandler, false, false);
 
     // Add the instruction text
     insertChild(curChildIdx++, &instructionText, 0);
@@ -105,7 +105,7 @@ void WifiModeSelectPageEx::onActivate() {
 }
 
 // Update the tracklist and region correctly
-void WifiModeSelectPageEx::handleButtonPress(PushButton* button) {
+void WifiModeSelectPageEx::onButtonClick(PushButton* button, u32 hudSlotId) {
 
     // Get RandomMatchingPage
     RandomMatchingPage* page = RandomMatchingPage::getPage();

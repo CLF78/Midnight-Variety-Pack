@@ -6,7 +6,7 @@
 
 class PageInputManager : public MenuInputManager {
 public:
-    InputHandler2<LayoutUIControl, void, u32, u32>* handlers[9];
+    InputHandler2<LayoutUIControl, void, u32, u32>* handlers[INPUT_COUNT];
     bool isTriggered[INPUT_COUNT];
     ButtonInfo buttoninfoArray[5];
 };

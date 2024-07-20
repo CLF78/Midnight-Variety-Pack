@@ -21,8 +21,8 @@ kmCall(0x8084b8a8, LoadMultiTransmissionFromDrift);
 MultiTransmissionSelectPage::MultiTransmissionSelectPage(){
     nextPageId = Page::DRIFT_SELECT_MULTI_PLAYER;
     prevPageId = Page::VEHICLE_SELECT_MULTI_PLAYER;
-    onBtnClick.handle = (typeof(onBtnClick.handle))&onButtonClick;
-    onBackPress.handle = (typeof(onBackPress.handle))&onBckPress;
+    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
+    SET_HANDLER_FUNC(onBackPressHandler, onBackPress);
 }
 
 void MultiTransmissionSelectPage::onActivate(){
@@ -43,8 +43,8 @@ void MultiTransmissionSelectPage::onActivate(){
 }
 
 void MultiTransmissionSelectPage::setupButton(PushButton* button){
-    button->setOnClickHandler(&this->onBtnClick, 0);
-    button->setOnDeselectHandler(&this->onBtnDeselect);
+    button->setOnClickHandler(&this->onButtonClickHandler, 0);
+    button->setOnDeselectHandler(&this->onButtonDeselectHandler);
 }
 
 void MultiTransmissionSelectPage::SetCPUVehicleType(){
@@ -89,7 +89,7 @@ void MultiTransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotI
     }
 }
 
-void MultiTransmissionSelectPage::onBckPress(u32 hudSlotId){
+void MultiTransmissionSelectPage::onBackPress(u32 hudSlotId){
     if (!this->multiControlInputManager.players[hudSlotId].enabled){
         this->multiControlInputManager.players[hudSlotId].enabled = true;
         this->buttons[hudSlotId*2]->hidden = false;

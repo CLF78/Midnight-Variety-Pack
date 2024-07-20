@@ -11,13 +11,13 @@
 // Construct the expansion data
 BattleCupSelectPageEx::BattleCupSelectPageEx() :
     cupButtons(), arrows(),
-    leftHandler((BattleCupSelectArrow*)&arrows.leftButton, &BattleCupSelectArrow::onLeftArrowPress),
-    rightHandler((BattleCupSelectArrow*)&arrows.rightButton, &BattleCupSelectArrow::onRightArrowPress),
+    onLeftHandler((BattleCupSelectArrow*)&arrows.leftButton, &BattleCupSelectArrow::onLeft),
+    onRightHandler((BattleCupSelectArrow*)&arrows.rightButton, &BattleCupSelectArrow::onRight),
     curPage(CupManager::getCupPageFromTrack(SectionManager::instance->globalContext->lastStage, true)) {
-        arrows.leftHandler = (typeof(arrows.leftHandler))&leftHandler;
-        arrows.rightHandler = (typeof(arrows.rightHandler))&rightHandler;
-        arrows.leftButton.onDeselectHandler.handle = (typeof(arrows.leftButton.onDeselectHandler.handle))&BattleCupSelectArrow::onDeselect;
-        arrows.rightButton.onDeselectHandler.handle = (typeof(arrows.rightButton.onDeselectHandler.handle))&BattleCupSelectArrow::onDeselect;
+        SET_HANDLER(arrows.onLeftHandler, onLeftHandler);
+        SET_HANDLER(arrows.onRightHandler, onRightHandler);
+        SET_HANDLER_FUNC(arrows.leftButton.onDeselectHandler, BattleCupSelectArrow::onDeselect);
+        SET_HANDLER_FUNC(arrows.rightButton.onDeselectHandler, BattleCupSelectArrow::onDeselect);
         layoutCount++;
 }
 

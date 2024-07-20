@@ -28,7 +28,7 @@ public:
 
     static CreditsType getCreditsType(u32 cupId, u32 engineClass, bool isMirror, u32 rank);
 
-    InputHandler0<AwardPage, void> onFront;
+    InputHandler0<AwardPage, void> onClickHandler;
     u32 _58;
 
     PageInputManager inputManager;

@@ -22,6 +22,6 @@ public:
     WifiDisconnectInfo disconnectInfo;
     LayoutUIControl messageBox;
     LayoutUIControl okButton;
-    InputHandler1<WifiDisconnectPage, void, PushButton*> onBtnSelect;
+    InputHandler2<WifiDisconnectPage, void, PushButton*, u32> onButtonSelectHandler;
 };
 size_assert(WifiDisconnectPage, 0x48C);

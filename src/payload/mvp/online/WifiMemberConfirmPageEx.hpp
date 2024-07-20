@@ -5,17 +5,18 @@
 class WifiMemberConfirmPageEx : public WifiMemberConfirmPage {
 public:
     WifiMemberConfirmPageEx() : ruleButton(), changeComboButton(),
-                                onRuleBtnPress(this, &handleRuleButtonPress), rulePopup(nullptr) {}
+                                onRuleButtonClickHandler(this, &onRuleButtonClick),
+                                rulePopup(nullptr) {}
     virtual ~WifiMemberConfirmPageEx() {}
 
     virtual void onInit();
     virtual void onActivate();
     virtual void afterCalc();
 
-    void handleRuleButtonPress(PushButton* button, u32 playerFlags);
+    void onRuleButtonClick(PushButton* button, u32 playerFlags);
 
     PushButton ruleButton;
     PushButton changeComboButton;
-    InputHandler2<WifiMemberConfirmPageEx, void, PushButton*, u32> onRuleBtnPress;
+    InputHandler2<WifiMemberConfirmPageEx, void, PushButton*, u32> onRuleButtonClickHandler;
     MessagePopupPage* rulePopup;
 };

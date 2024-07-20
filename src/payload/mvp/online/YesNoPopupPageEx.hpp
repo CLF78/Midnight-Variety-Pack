@@ -7,14 +7,14 @@ public:
     virtual ~YesNoPopupPageEx() {}
     virtual void reset();
 
-    void handleBackPress();
+    void onBackPress(u32 hudSlotId);
     void forcePressSelected();
 
     static YesNoPopupPageEx* getPage() {
         return (YesNoPopupPageEx*)SectionManager::instance->curSection->pages[Page::ONLINE_VOTE_PROMPT];
     }
 
-    InputHandler0<YesNoPopupPageEx, void> onBackPress;
+    InputHandler1<YesNoPopupPageEx, void, u32> onBackPressHandler;
     int onBackSelectedButton;
     bool isBackButtonEnabled;
 };

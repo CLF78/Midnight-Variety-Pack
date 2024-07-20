@@ -21,7 +21,7 @@ public:
     virtual UIControl* loadLayout(u32 layoutIdx);
     virtual void setupButton(PushButton* button);
 
-    void onBtnClick(PushButton* button);
+    void onButtonClick(PushButton* button, u32 hudSlotId);
 
     enum ButtonID {
         GP_BUTTON,

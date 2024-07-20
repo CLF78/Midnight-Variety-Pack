@@ -83,8 +83,8 @@ public:
     int nextSectionId;
     u32 _3F8;
 
-    InputHandler0<MenuPage, void> loadPrevMenuAction;
-    InputHandler0<MenuPage, void> initThpAction;
+    InputHandler1<MenuPage, void, Page*> onMessageBoxClickHandler;
+    InputHandler1<MenuPage, void, u32> onMoviePreparedHandler;
     int videoStartFrame;
     int extraChildNumber;
     bool locked;
@@ -92,11 +92,11 @@ public:
     MultiControlInputManager multiControlInputManager;
     u32 curChildCount;
 
-    InputHandler2<MenuPage, void, PushButton*, u32> onBtnClick;
-    InputHandler2<MenuPage, void, PushButton*, u32> onBtnSelect;
-    InputHandler2<MenuPage, void, PushButton*, u32> onBtnDeselect;
-    InputHandler1<MenuPage, void, u32> onBackPress;
-    InputHandler1<MenuPage, void, u32> onStartPress;
+    InputHandler2<MenuPage, void, PushButton*, u32> onButtonClickHandler;
+    InputHandler2<MenuPage, void, PushButton*, u32> onButtonSelectHandler;
+    InputHandler2<MenuPage, void, PushButton*, u32> onButtonDeselectHandler;
+    InputHandler1<MenuPage, void, u32> onBackPressHandler;
+    InputHandler1<MenuPage, void, u32> onStartPressHandler;
 
     u32 activePlayers;
     u32 activeControllers;

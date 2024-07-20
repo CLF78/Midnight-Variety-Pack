@@ -45,13 +45,13 @@ public:
     virtual void vf_44();
 
     void load(const char* dir, const char* rightFile, const char* rightVariant,
-            const char* leftFile, const char* leftVariant, u32 playerFlags, bool r10,
-            bool pointerOnly);
+              const char* leftFile, const char* leftVariant, u32 playerFlags, bool r10,
+              bool pointerOnly);
 
     void configure(bool leftEnabled, bool rightEnabled);
 
-    InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32>* rightHandler;
-    InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32>* leftHandler;
+    InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32>* onRightHandler;
+    InputHandler2<SheetSelectButton, void, SheetSelectControl*, u32>* onLeftHandler;
     u32 playerFlags;
     u32 _A4;
 

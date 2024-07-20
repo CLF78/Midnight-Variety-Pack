@@ -15,12 +15,12 @@ public:
 
     void load(u32 playerFlags, bool unk);
 
-    void onCupClick(PushButton* btn, u32 unk);
-    void onCupSelect(PushButton* btn, u32 unk);
+    void onButtonClick(PushButton* btn, u32 hudSlotId);
+    void onButtonSelect(PushButton* btn, u32 hudSlotId);
 
     PushButton cupButtons[8];
-    InputHandler2<PushButton, void, PushButton*, u32> onClickHandler;
-    InputHandler2<PushButton, void, PushButton*, u32> onSelectHandler;
+    InputHandler2<PushButton, void, PushButton*, u32> onButtonClickHandler;
+    InputHandler2<PushButton, void, PushButton*, u32> onButtonSelectHandler;
     u32 currentSelected;
     CtrlMenuMovieLayout movieLayout;
 };

@@ -27,7 +27,7 @@ public:
     }
 
     SheetSelectControl arrows;
-    InputHandler2<RaceCupSelectArrow, void, SheetSelectControl*, u32> leftHandler;
-    InputHandler2<RaceCupSelectArrow, void, SheetSelectControl*, u32> rightHandler;
+    InputHandler2<RaceCupSelectArrow, void, SheetSelectControl*, u32> onLeftHandler;
+    InputHandler2<RaceCupSelectArrow, void, SheetSelectControl*, u32> onRightHandler;
     s32 curPage;
 };

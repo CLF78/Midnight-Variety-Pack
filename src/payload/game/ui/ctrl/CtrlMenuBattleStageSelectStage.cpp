@@ -72,8 +72,8 @@ REPLACE void CtrlMenuBattleStageSelectStage::load(u32 playerFlags, bool unk) {
         // Initialize it
         button->loadWithAnims(CtrlMenuBattleStageSelectStage::buttonAnims, "button",
                               "BattleStageSelectStage", buffer, playerFlags, unk);
-        button->setOnClickHandler(&onClickHandler, 0);
-        button->setOnSelectHandler(&onSelectHandler);
+        button->setOnClickHandler(&onButtonClickHandler, 0);
+        button->setOnSelectHandler(&onButtonSelectHandler);
     }
 
     // Set first button as default selection
@@ -81,9 +81,9 @@ REPLACE void CtrlMenuBattleStageSelectStage::load(u32 playerFlags, bool unk) {
 }
 
 // Set the selected course
-REPLACE void CtrlMenuBattleStageSelectStage::onCourseClick(PushButton* btn, u32 unk) {
-    BattleStageSelectPageEx::getPage()->setCourse(this, btn, unk);
+REPLACE void CtrlMenuBattleStageSelectStage::onButtonClick(PushButton* btn, u32 hudSlotId) {
+    BattleStageSelectPageEx::getPage()->setCourse(this, btn, hudSlotId);
 }
 
 // Disable button movies
-REPLACE void CtrlMenuBattleStageSelectStage::onCourseSelect(PushButton* btn, u32 unk) {}
+REPLACE void CtrlMenuBattleStageSelectStage::onButtonSelect(PushButton* btn, u32 hudSlotId) {}

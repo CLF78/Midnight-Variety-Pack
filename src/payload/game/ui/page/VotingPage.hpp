@@ -28,7 +28,7 @@ public:
         return (VotingPage*)SectionManager::instance->curSection->pages[Page::WIFI_VOTING];
     }
 
-    InputHandler1<VotingPage, void, LayoutUIControl*> onDisconnectMsgBoxClick;
+    InputHandler1<VotingPage, void, Page*> onDisconnectMessageClickHandler;
     MenuInputManager inputManager;
     int votedCourse;
 

@@ -1,10 +1,10 @@
 #include <common/Common.hpp>
 #include <mvp/online/YesNoPopupPageEx.hpp>
 
-YesNoPopupPageEx::YesNoPopupPageEx() : onBackPress(this, &handleBackPress),
+YesNoPopupPageEx::YesNoPopupPageEx() : onBackPressHandler(this, &onBackPress),
                                        onBackSelectedButton(-1),
                                        isBackButtonEnabled(false) {
-    inputManager.setHandler(MenuInputManager::BACK_PRESS, &onBackPress, false, false);
+    inputManager.setHandler(MenuInputManager::BACK_PRESS, &onBackPressHandler, false, false);
 }
 
 void YesNoPopupPageEx::reset() {
@@ -23,14 +23,9 @@ void YesNoPopupPageEx::forcePressSelected() {
     }
 }
 
-void YesNoPopupPageEx::handleBackPress() {
-    if (isBackButtonEnabled && onBackSelectedButton != -1) {
-        for (int i = 0; i < 5; i++) {
-            if (playerFlags & (1 << i) != 0) {
-                buttons[onBackSelectedButton].selectDefault(i);
-                buttons[onBackSelectedButton].click(i);
-                break;
-            }
-        }
+void YesNoPopupPageEx::onBackPress(u32 hudSlotId) {
+    if (isBackButtonEnabled && onBackSelectedButton != -1 && (playerFlags & (1 << hudSlotId) != 0)) {
+        buttons[onBackSelectedButton].selectDefault(hudSlotId);
+        buttons[onBackSelectedButton].click(hudSlotId);
     }
 }

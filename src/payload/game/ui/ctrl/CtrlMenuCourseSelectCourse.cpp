@@ -43,9 +43,9 @@ REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
 }
 
 // Call the correct function
-REPLACE void CtrlMenuCourseSelectCourse::onCourseClick(PushButton* button, u32 unk) {
-    RaceCourseSelectPageEx::getPage()->setCourse(this, button, unk);
+REPLACE void CtrlMenuCourseSelectCourse::onButtonClick(PushButton* button, u32 hudSlotId) {
+    RaceCourseSelectPageEx::getPage()->setCourse(this, button, hudSlotId);
 }
 
 // Disable printing time trial times and updating button movies
-REPLACE void CtrlMenuCourseSelectCourse::onCourseSelect(PushButton* button, u32 unk) {}
+REPLACE void CtrlMenuCourseSelectCourse::onButtonSelect(PushButton* button, u32 hudSlotId) {}

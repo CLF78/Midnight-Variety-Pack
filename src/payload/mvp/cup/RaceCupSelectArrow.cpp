@@ -5,7 +5,7 @@
 
 
 // This function runs whenever the left arrow is selected or pressed
-void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {
+void RaceCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayerId) {
 
     // Get the parent page
     RaceCupSelectPageEx* self = RaceCupSelectPageEx::getPage();
@@ -33,7 +33,7 @@ void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 loc
 }
 
 // This function runs whenever the right arrow is selected or pressed
-void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {
+void RaceCupSelectArrow::onRight(SheetSelectControl* arrowPair, u32 localPlayerId) {
 
     // Get the parent page
     RaceCupSelectPageEx* self = RaceCupSelectPageEx::getPage();

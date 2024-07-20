@@ -14,13 +14,13 @@
 // Construct the expansion data
 RaceCupSelectPageEx::RaceCupSelectPageEx() :
     arrows(),
-    leftHandler((RaceCupSelectArrow*)&arrows.leftButton, &RaceCupSelectArrow::onLeftArrowPress),
-    rightHandler((RaceCupSelectArrow*)&arrows.rightButton, &RaceCupSelectArrow::onRightArrowPress),
+    onLeftHandler((RaceCupSelectArrow*)&arrows.leftButton, &RaceCupSelectArrow::onLeft),
+    onRightHandler((RaceCupSelectArrow*)&arrows.rightButton, &RaceCupSelectArrow::onRight),
     curPage(CupManager::getCupPageFromTrack(SectionManager::instance->globalContext->lastCourse)) {
-        arrows.leftHandler = (typeof(arrows.leftHandler))&leftHandler;
-        arrows.rightHandler = (typeof(arrows.rightHandler))&rightHandler;
-        arrows.leftButton.onDeselectHandler.handle = (typeof(arrows.leftButton.onDeselectHandler.handle))&RaceCupSelectArrow::onDeselect;
-        arrows.rightButton.onDeselectHandler.handle = (typeof(arrows.rightButton.onDeselectHandler.handle))&RaceCupSelectArrow::onDeselect;
+        SET_HANDLER(arrows.onLeftHandler, onLeftHandler);
+        SET_HANDLER(arrows.onRightHandler, onRightHandler);
+        SET_HANDLER_FUNC(arrows.leftButton.onDeselectHandler, RaceCupSelectArrow::onDeselect);
+        SET_HANDLER_FUNC(arrows.rightButton.onDeselectHandler, RaceCupSelectArrow::onDeselect);
         layoutCount++;
 }
 

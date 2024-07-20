@@ -28,8 +28,8 @@ REPLACE void CtrlMenuCupSelectCup::initSelf() {
         CupManager::updateCupButton(button, page->curPage, i);
 
         // Set button handlers
-        button->setOnClickHandler(&onClickHandler, 0);
-        button->setOnSelectHandler(&onSelectHandler);
+        button->setOnClickHandler(&onButtonClickHandler, 0);
+        button->setOnSelectHandler(&onButtonSelectHandler);
 
         // Set as selected if the button is the previously selected one
         if (i == page->selectedButtonId) {
@@ -41,13 +41,13 @@ REPLACE void CtrlMenuCupSelectCup::initSelf() {
 }
 
 // Update track names
-REPLACE void CtrlMenuCupSelectCup::onCupSelect(PushButton* button, u32 unk) {
+REPLACE void CtrlMenuCupSelectCup::onButtonSelect(PushButton* button, u32 hudSlotId) {
     currentSelected = button->buttonId;
-    RaceCupSelectPageEx::getPage()->updateTextMessages(this, unk);
+    RaceCupSelectPageEx::getPage()->updateTextMessages(this, hudSlotId);
 }
 
 // Update courses
-REPLACE void CtrlMenuCupSelectCup::onCupClick(PushButton* button, u32 unk) {
+REPLACE void CtrlMenuCupSelectCup::onButtonClick(PushButton* button, u32 hudSlotId) {
     currentSelected = button->buttonId;
     RaceCupSelectPageEx::getPage()->setCourse(this, button);
 }

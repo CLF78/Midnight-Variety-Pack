@@ -1,5 +1,11 @@
 #include <common/Common.hpp>
 
+#define SET_HANDLER(destHandler, srcHandler) \
+    destHandler = (typeof(destHandler))&srcHandler
+
+#define SET_HANDLER_FUNC(handler, func) \
+    handler.handle = (typeof(handler.handle))&func
+
 class InputHandlerBase {};
 
 template <class T, typename R>

@@ -4,7 +4,8 @@
 
 class RaceCourseSelectPageEx : public RaceCourseSelectPage {
 public:
-    RaceCourseSelectPageEx() : repickHandler(this, &onRepickPromptPress), repickPrompt(nullptr) {}
+    RaceCourseSelectPageEx() : onRepickPromptPressHandler(this, &onRepickPromptPress),
+                               repickPrompt(nullptr) {}
     virtual ~RaceCourseSelectPageEx() {}
 
     virtual void onActivate();
@@ -17,6 +18,6 @@ public:
         return (RaceCourseSelectPageEx*)SectionManager::instance->curSection->pages[Page::COURSE_SELECT];
     }
 
-    InputHandler2<RaceCourseSelectPageEx, void, s32, PushButton*> repickHandler;
+    InputHandler2<RaceCourseSelectPageEx, void, s32, PushButton*> onRepickPromptPressHandler;
     YesNoPopupPageEx* repickPrompt;
 };

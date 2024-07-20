@@ -3,6 +3,7 @@
 #include <game/ui/ControlInputManager.hpp>
 #include <game/ui/InputHandler.hpp>
 #include <game/ui/MenuInputManager.hpp>
+#include <game/ui/Page.hpp>
 #include <revolution/mtx.h>
 
 class MultiControlInputManager : public MenuInputManager {
@@ -42,9 +43,9 @@ public:
     void setHandler(int inputId, InputHandlerBase* inputHandler, bool unk, bool pointerOnly);
 
     EGG::List list;
-    InputHandler0<MultiControlInputManager, void>* handlers[MenuInputManager::INPUT_COUNT];
-    bool actionsSet[MenuInputManager::INPUT_COUNT];
-    u8 _49[MenuInputManager::INPUT_COUNT];
+    InputHandler1<Page, void, u32>* handlers[INPUT_COUNT];
+    bool actionsSet[INPUT_COUNT];
+    u8 _49[INPUT_COUNT];
 
     Player players[5];
     calcDistanceFunc distFunc;

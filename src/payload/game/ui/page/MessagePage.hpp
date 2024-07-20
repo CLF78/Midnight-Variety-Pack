@@ -21,8 +21,8 @@ public:
     void handleFront();
 
     PageInputManager inputManager;
-    InputHandler0<MessagePage, void>* onPopupFront;
-    InputHandler0<MessagePage, void> onFront;
+    InputHandler0<MessagePage, void>* onDisplayHandler;
+    InputHandler0<MessagePage, void> onClickHandler;
     u32 playerFlags;
     u32 _1A4;
 };

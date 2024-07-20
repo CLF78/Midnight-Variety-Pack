@@ -29,7 +29,7 @@ public:
     void setPlayerEntry(int entryIdx, int playerIdx, RaceConfig::Player::Team team,
                         RatingType ratingType, bool isLocalPlayer);
 
-    InputHandler1<WifiMemberConfirmPage, void, PushButton*> onBtnPress;
+    InputHandler2<WifiMemberConfirmPage, void, PushButton*, u32> onButtonClickHandler;
     MultiControlInputManager inputManager;
 
     CtrlMenuPageTitleText titleText;

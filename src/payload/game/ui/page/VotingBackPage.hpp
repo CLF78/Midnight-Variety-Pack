@@ -15,7 +15,7 @@ public:
         u8 aid;
         u8 localPlayerIdx;
         // 2 bytes padding
-        u32 team;
+        RaceConfig::Player::Team team;
         u16 vr;
         u16 br;
     };
@@ -56,7 +56,7 @@ public:
         return (VotingBackPage*)SectionManager::instance->curSection->pages[Page::TIMER];
     }
 
-    InputHandler1<VotingBackPage, void, LayoutUIControl*> onDisconnectHandler;
+    InputHandler1<VotingBackPage, void, Page*> onDisconnectMessageClickHandler;
     MenuInputManager inputManager;
     int status;
     UIControlTimer timer;

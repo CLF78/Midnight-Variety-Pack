@@ -4,7 +4,7 @@
 #include <mvp/cup/CupManager.hpp>
 
 // This function runs whenever the left arrow is selected or pressed
-void BattleCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {
+void BattleCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayerId) {
 
     // Get the parent page
     BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();
@@ -32,7 +32,7 @@ void BattleCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 l
 }
 
 // This function runs whenever the right arrow is selected or pressed
-void BattleCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 localPlayerId) {
+void BattleCupSelectArrow::onRight(SheetSelectControl* arrowPair, u32 localPlayerId) {
 
     // Get the parent page
     BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();

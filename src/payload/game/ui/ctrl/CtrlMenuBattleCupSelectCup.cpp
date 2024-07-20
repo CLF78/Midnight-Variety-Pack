@@ -61,8 +61,8 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
         CupManager::updateCupButton(button, page->curPage, i, true);
 
         // Set button handlers
-        button->setOnClickHandler(&onClickHandler, 0);
-        button->setOnSelectHandler(&onSelectHandler);
+        button->setOnClickHandler(&onButtonClickHandler, 0);
+        button->setOnSelectHandler(&onButtonSelectHandler);
     }
 
     // Set selection to first button
@@ -70,13 +70,13 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
 }
 
 // Select the cup
-REPLACE void CtrlMenuBattleCupSelectCup::onCupClick(PushButton* btn, u32 unk) {
+REPLACE void CtrlMenuBattleCupSelectCup::onButtonClick(PushButton* btn, u32 hudSlotId) {
     currentSelected = btn->buttonId;
-    BattleCupSelectPageEx::getPage()->setCourse(this, btn, unk);
+    BattleCupSelectPageEx::getPage()->setCourse(this, btn, hudSlotId);
 }
 
 // Remove movie updating code
-REPLACE void CtrlMenuBattleCupSelectCup::onCupSelect(PushButton* btn, u32 unk) {
+REPLACE void CtrlMenuBattleCupSelectCup::onButtonSelect(PushButton* btn, u32 hudSlotId) {
     currentSelected = btn->buttonId;
-    BattleCupSelectPageEx::getPage()->setCourseNames(this, btn, unk);
+    BattleCupSelectPageEx::getPage()->setCourseNames(this, btn, hudSlotId);
 }

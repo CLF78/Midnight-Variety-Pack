@@ -20,14 +20,15 @@ public:
     void configureButton(int buttonIdx, u32 msgId, MessageInfo* msgInfo, int animDirection,
                          InputHandler2<Page, void, s32, PushButton*>* handler);
 
-    InputHandler2<Page, void, s32, PushButton*>* inputHandlers[2];
+    InputHandler2<Page, void, s32, PushButton*>* onTopClickHandler;
+    InputHandler2<Page, void, s32, PushButton*>* onBottomClickHandler;
     MultiControlInputManager inputManager;
 
     int choice;
     int anims[2];
     u32 currSelected;
 
-    InputHandler1<YesNoPage, void, PushButton*> onBtnClick;
+    InputHandler2<YesNoPage, void, PushButton*, u32> onButtonClickHandler;
     PushButton buttons[2];
     LayoutUIControl messageWindow;
     u32 playerFlags;

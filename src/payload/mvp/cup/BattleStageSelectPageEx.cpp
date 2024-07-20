@@ -13,9 +13,9 @@
 ///////////////////////
 
 // Add the additional cup buttons and replace some handlers
-BattleStageSelectPageEx::BattleStageSelectPageEx() : cups(), repickHandler(this, &onRepickPromptPress) {
-    onBtnClick.handle = (typeof(onBtnClick.handle))&handleBtnClick;
-    onBackPress.handle = (typeof(onBackPress.handle))&handleBackPress;
+BattleStageSelectPageEx::BattleStageSelectPageEx() : cups(), onRepickPromptPressHandler(this, &onRepickPromptPress) {
+    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
+    SET_HANDLER_FUNC(onBackPressHandler, onBackPress);
 }
 
 void BattleStageSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button) {
@@ -59,9 +59,9 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
             popupPage->reset();
             popupPage->setWindowMessage(Message::Menu::TRACK_UNPICKABLE_PROMPT_BT);
             popupPage->configureButton(0, Message::Menu::TRACK_UNPICKABLE_VOTE_ANYWAY, nullptr, Page::ANIM_NONE,
-                                       (InputHandler2<Page, void, s32, PushButton*>*)&repickHandler);
+                                       (InputHandler2<Page, void, s32, PushButton*>*)&onRepickPromptPressHandler);
             popupPage->configureButton(1, Message::Menu::TRACK_UNPICKABLE_GO_BACK, nullptr, Page::ANIM_NONE,
-                                       (InputHandler2<Page, void, s32, PushButton*>*)&repickHandler);
+                                       (InputHandler2<Page, void, s32, PushButton*>*)&onRepickPromptPressHandler);
 
             // Default to the Go Back button and allow going back
             popupPage->currSelected = 1;
@@ -134,7 +134,7 @@ void BattleStageSelectPageEx::afterCalc() {
 }
 
 // Apply properties to the extra cups when pressing the on-screen back button
-void BattleStageSelectPageEx::handleBtnClick(PushButton* button) {
+void BattleStageSelectPageEx::onButtonClick(PushButton* button, u32 hudSlotId) {
 
     // Skip if not defocusing
     if (pageState != Page::STATE_DEFOCUSING)
@@ -156,7 +156,7 @@ void BattleStageSelectPageEx::handleBtnClick(PushButton* button) {
 }
 
 // Apply properties to the extra cups when pressing the back button
-void BattleStageSelectPageEx::handleBackPress(int playerId) {
+void BattleStageSelectPageEx::onBackPress(u32 hudSlotId) {
 
     // Skip if not defocusing
     if (pageState != Page::STATE_DEFOCUSING)

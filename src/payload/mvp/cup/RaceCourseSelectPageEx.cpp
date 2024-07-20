@@ -54,9 +54,9 @@ void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder,
             popupPage->reset();
             popupPage->setWindowMessage(Message::Menu::TRACK_UNPICKABLE_PROMPT_VS);
             popupPage->configureButton(0, Message::Menu::TRACK_UNPICKABLE_VOTE_ANYWAY, nullptr, Page::ANIM_NONE,
-                                       (InputHandler2<Page, void, s32, PushButton*>*)&repickHandler);
+                                       (InputHandler2<Page, void, s32, PushButton*>*)&onRepickPromptPressHandler);
             popupPage->configureButton(1, Message::Menu::TRACK_UNPICKABLE_GO_BACK, nullptr, Page::ANIM_NONE,
-                                       (InputHandler2<Page, void, s32, PushButton*>*)&repickHandler);
+                                       (InputHandler2<Page, void, s32, PushButton*>*)&onRepickPromptPressHandler);
 
             // Default to the Go Back button and allow going back
             popupPage->currSelected = 1;
