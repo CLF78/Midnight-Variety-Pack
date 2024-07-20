@@ -14,5 +14,5 @@ kmCallDefCpp(0x8061FE70, void, YesNoPage* self, u32 msgId, MessageInfo* msgInfo)
     msgId = (SaveManager::instance->result != NandUtil::ERROR_NONE) ?
             Message::Menu::ERROR_SAVE_CORRUPTED :
             Message::Menu::ERROR_SAVE_EXPANSION_CORRUPTED;
-    self->setWindowMessage(msgId, nullptr);
+    self->setWindowMessage(msgId);
 }

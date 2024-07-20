@@ -22,7 +22,7 @@ REPLACE void CtrlMenuCupSelectCup::initSelf() {
         // Set cup name
         u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage);
         u16 msgId = CupManager::GetCupList()[cupIdx].cupName;
-        button->setText(msgId, nullptr);
+        button->setText(msgId);
 
         // Set cup icon
         CupManager::updateCupButton(button, page->curPage, i);

@@ -85,19 +85,19 @@ void WifiModeSelectPageEx::onInit() {
     // Set the default selection
     // TODO update instruction text correctly
     getButton(0)->selectDefault(0);
-    instructionText.setText(4314, nullptr);
+    instructionText.setText(4314);
 }
 
 // Update the title and instruction text correctly
 void WifiModeSelectPageEx::onActivate() {
 
     // Fix the title text
-    titleText.setText(Message::Menu::WORLDWIDE, nullptr);
+    titleText.setText(Message::Menu::WORLDWIDE);
 
     // TODO update instruction text correctly
     if (animId == ANIM_NEXT) {
         getButton(0)->selectDefault(0);
-        instructionText.setText(4314, nullptr);
+        instructionText.setText(4314);
     }
 
     // Set replacement page to NONE

@@ -265,7 +265,7 @@ REPLACE void WifiDisconnectPage::onActivate() {
     // If the disconnection was triggered by the game, there are no error codes to display
     if (section->sectionID == Section::DC_WITHOUT_ERROR_CODE) {
         section->shutdownNet();
-        messageBox.setText(Message::Menu::ERROR_DISCONNECTED_BY_GAME, nullptr);
+        messageBox.setText(Message::Menu::ERROR_DISCONNECTED_BY_GAME);
         return;
     }
 
@@ -290,12 +290,12 @@ REPLACE void WifiDisconnectPage::onActivate() {
 
     // Mii name detected as offensive, use the dedicated message (no error codes available)
     } else if (disconnectCategory == WifiDisconnectInfo::ERROR_OFFENSIVE_MII) {
-        messageBox.setText(Message::Menu::ERROR_OFFENSIVE_MII, nullptr);
+        messageBox.setText(Message::Menu::ERROR_OFFENSIVE_MII);
         section->shutdownNet();
 
     // Generic error, unsure of use cases
     } else if (disconnectCategory == WifiDisconnectInfo::ERROR_GENERIC) {
-        messageBox.setText(Message::Menu::ERROR_DISCONNECT_GENERIC, nullptr);
+        messageBox.setText(Message::Menu::ERROR_DISCONNECT_GENERIC);
         section->shutdownNet();
 
     // There was a fatal error, prevent returning to the main menu and display the error code

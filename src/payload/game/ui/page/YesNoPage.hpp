@@ -16,7 +16,7 @@ public:
 
     virtual void reset();
 
-    void setWindowMessage(u32 msgId, MessageInfo* msgInfo);
+    void setWindowMessage(u32 msgId, MessageInfo* msgInfo = nullptr);
     void configureButton(int buttonIdx, u32 msgId, MessageInfo* msgInfo, int animDirection,
                          InputHandler2<Page, void, s32, PushButton*>* handler);
 

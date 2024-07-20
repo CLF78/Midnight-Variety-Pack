@@ -41,7 +41,7 @@ void WifiMemberConfirmPageEx::onInit() {
         case Section::WIFI_VS_2P_VOTE:
         case Section::WIFI_FROOM_1P_VS_VOTE:
         case Section::WIFI_FROOM_2P_VS_VOTE:
-            titleText.setText(Message::Menu::TITLE_TEXT_VR_SCREEN, nullptr);
+            titleText.setText(Message::Menu::TITLE_TEXT_VR_SCREEN);
             break;
 
         case Section::WIFI_BT_1P_VOTE:
@@ -52,7 +52,7 @@ void WifiMemberConfirmPageEx::onInit() {
         case Section::WIFI_FROOM_2P_BALLOON_BATTLE_VOTE:
         case Section::WIFI_FROOM_1P_COIN_RUNNERS_VOTE:
         case Section::WIFI_FROOM_2P_COIN_RUNNERS_VOTE:
-            titleText.setText(Message::Menu::TITLE_TEXT_VR_SCREEN_TEAMS, nullptr);
+            titleText.setText(Message::Menu::TITLE_TEXT_VR_SCREEN_TEAMS);
             break;
     }
 
@@ -201,7 +201,7 @@ void WifiMemberConfirmPageEx::afterCalc() {
 void WifiMemberConfirmPageEx::handleRuleButtonPress(PushButton* button, u32 playerFlags) {
     MessagePopupPage* popupPage = MessagePopupPage::getPage();
     popupPage->reset();
-    popupPage->setWindowMessage(3309, nullptr);
+    popupPage->setWindowMessage(3309);
     popupPage->playerFlags = 1;
     addPage(Page::MESSAGE_POPUP, 0);
     rulePopup = popupPage;

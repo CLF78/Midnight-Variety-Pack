@@ -21,7 +21,7 @@ void BattleCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 l
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = page->getCupButton(i);
         u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
-        cupButton->setText(CupManager::GetCupList(true)[cupIdx].cupName, nullptr);
+        cupButton->setText(CupManager::GetCupList(true)[cupIdx].cupName);
         CupManager::updateCupButton(cupButton, page->curPage, i, true);
     }
 
@@ -49,7 +49,7 @@ void BattleCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = page->getCupButton(i);
         u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
-        cupButton->setText(CupManager::GetCupList(true)[cupIdx].cupName, nullptr);
+        cupButton->setText(CupManager::GetCupList(true)[cupIdx].cupName);
         CupManager::updateCupButton(cupButton, page->curPage, i, true);
     }
 

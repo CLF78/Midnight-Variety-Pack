@@ -99,7 +99,7 @@ REPLACE PushButton* ClassSelectPage::loadButton(int buttonIdx) {
 
     // Set icon and text message
     movieBtn->setMatIcon("kinoko_set_p", btnMats[buttonIdx]);
-    movieBtn->setText(btnMsgIds[buttonIdx & 3], nullptr);
+    movieBtn->setText(btnMsgIds[buttonIdx & 3]);
     return movieBtn;
 }
 

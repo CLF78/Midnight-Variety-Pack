@@ -42,13 +42,13 @@ void WifiMenuPageEx::onInit() {
         case Section::WIFI_MENU_1P:
         case Section::WIFI_MENU_1P_FROM_DC:
         case Section::WIFI_MENU_1P_FROM_FRIENDLIST:
-            titleText.setText(Message::Menu::TITLE_TEXT_WIFI_MAIN_MENU_1P, nullptr);
+            titleText.setText(Message::Menu::TITLE_TEXT_WIFI_MAIN_MENU_1P);
             break;
 
         case Section::WIFI_MENU_2P:
         case Section::WIFI_MENU_2P_FROM_DC:
         case Section::WIFI_MENU_2P_FROM_FRIENDLIST:
-            titleText.setText(Message::Menu::TITLE_TEXT_WIFI_MAIN_MENU_2P, nullptr);
+            titleText.setText(Message::Menu::TITLE_TEXT_WIFI_MAIN_MENU_2P);
             break;
     }
 
@@ -90,7 +90,7 @@ void WifiMenuPageEx::onInit() {
     // Add the instruction text
     insertChild(curChildIdx++, &instructionText, 0);
     instructionText.load();
-    instructionText.setText(Message::Menu::INSTRUCTION_TEXT_WORLDWIDE, nullptr);
+    instructionText.setText(Message::Menu::INSTRUCTION_TEXT_WORLDWIDE);
 
     // Set the default selection
     worldwideButton.selectDefault(0);

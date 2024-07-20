@@ -57,7 +57,7 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
 
             // Reset it and update the messages
             popupPage->reset();
-            popupPage->setWindowMessage(Message::Menu::TRACK_UNPICKABLE_PROMPT_BT, nullptr);
+            popupPage->setWindowMessage(Message::Menu::TRACK_UNPICKABLE_PROMPT_BT);
             popupPage->configureButton(0, Message::Menu::TRACK_UNPICKABLE_VOTE_ANYWAY, nullptr, Page::ANIM_NONE,
                                        (InputHandler2<Page, void, s32, PushButton*>*)&repickHandler);
             popupPage->configureButton(1, Message::Menu::TRACK_UNPICKABLE_GO_BACK, nullptr, Page::ANIM_NONE,
@@ -101,7 +101,7 @@ void BattleStageSelectPageEx::onActivate() {
     u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
                 Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
                 Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
-    instructionText->setText(msgId, nullptr);
+    instructionText->setText(msgId);
 
     // Do base activation
     MenuPage::onActivate();

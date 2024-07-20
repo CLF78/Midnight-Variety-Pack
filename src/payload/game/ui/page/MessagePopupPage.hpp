@@ -14,7 +14,7 @@ public:
 
     RUNTIME_TYPE_INFO_NODECL;
     virtual void reset();
-    virtual void setWindowMessage(u32 msgId, MessageInfo* msgInfo);
+    virtual void setWindowMessage(u32 msgId, MessageInfo* msgInfo = nullptr);
     virtual void process();
 
     static MessagePopupPage* getPage() {

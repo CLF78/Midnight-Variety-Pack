@@ -55,7 +55,7 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
         // Set cup name
         u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
         u16 msgId = CupManager::GetCupList(true)[cupIdx].cupName;
-        button->setText(msgId, nullptr);
+        button->setText(msgId);
 
         // Set cup icon
         CupManager::updateCupButton(button, page->curPage, i, true);

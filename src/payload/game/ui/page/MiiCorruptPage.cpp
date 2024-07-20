@@ -24,5 +24,5 @@ kmCallDefCpp(0x806207CC, void, LayoutUIControl* self, u32 msgId, MessageInfo* ms
     }
 
     // Set the text
-    self->setText(msgId, nullptr);
+    self->setText(msgId);
 }

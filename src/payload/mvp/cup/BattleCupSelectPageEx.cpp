@@ -82,7 +82,7 @@ void BattleCupSelectPageEx::onActivate() {
     u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
                 Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
                 Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
-    instructionText->setText(msgId, nullptr);
+    instructionText->setText(msgId);
 
     // If we're offline, we're done
     if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID))
@@ -97,7 +97,7 @@ void BattleCupSelectPageEx::onActivate() {
 
     // Reset it and update the messages
     popupPage->reset();
-    popupPage->setWindowMessage(Message::Menu::VOTE_FOR_STAGE_QUESTION, nullptr);
+    popupPage->setWindowMessage(Message::Menu::VOTE_FOR_STAGE_QUESTION);
     popupPage->configureButton(0, Message::Menu::VOTE, nullptr, Page::ANIM_NONE, nullptr);
     popupPage->configureButton(1, Message::Menu::VOTE_RANDOM, nullptr, Page::ANIM_NONE, nullptr);
 

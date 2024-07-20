@@ -39,7 +39,7 @@ REPLACE void DemoPage::onInit() {
 
     // Set the course name
     u16 trackName = CupManager::getTrackName(CupManager::currentSzs);
-    courseName.setText(trackName, nullptr);
+    courseName.setText(trackName);
 
     // Initialize the top text
     insertChild(childIdx++, &topText, 0);
@@ -110,10 +110,10 @@ REPLACE void DemoPage::onInit() {
         // Set icon and top text depending on the battle mode
         if (raceSettings->battleType == RaceConfig::Settings::BATTLE_BALLOON) {
             topText.setMatIcon("cup_icon", "icon_09_balloon");
-            topText.setText(Message::Race::BALLOON_BATTLE, nullptr);
+            topText.setText(Message::Race::BALLOON_BATTLE);
         } else {
             topText.setMatIcon("cup_icon", "icon_10_coin");
-            topText.setText(Message::Race::COIN_RUNNERS, nullptr);
+            topText.setText(Message::Race::COIN_RUNNERS);
         }
 
         // Create red bubbles

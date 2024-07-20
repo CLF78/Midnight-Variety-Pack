@@ -28,7 +28,7 @@ REPLACE void CtrlMenuBattleStageSelectCup::initSelf() {
         // Set name
         u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
         u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
-        cup->setText(cupName, nullptr);
+        cup->setText(cupName);
 
         // Set icon
         CupManager::updateCupButton(cup, cupPage->curPage, i, true);
@@ -82,7 +82,7 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
         // Set cup name
         u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
         u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
-        cup->setText(cupName, nullptr);
+        cup->setText(cupName);
 
         // Set cup icon
         CupManager::updateCupButton(cup, cupPage->curPage, i, true);

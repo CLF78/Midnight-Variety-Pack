@@ -80,7 +80,7 @@ void StoreWinningVote(VotingPage* self) {
     self->voteControls[0].animator.getGroup(4)->setAnimation(1, 0.0f);
     self->voteControls[0].playSound(SE_UI_CRS_ROULETTE, -1);
     self->state = 1;
-    self->instructionText.setText(Message::Menu::VOTE_ROULETTE_DECIDING, nullptr);
+    self->instructionText.setText(Message::Menu::VOTE_ROULETTE_DECIDING);
 }
 
 // Glue code

@@ -22,7 +22,7 @@ void RaceCupSelectArrow::onLeftArrowPress(SheetSelectControl* arrowPair, u32 loc
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
         u32 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
-        cupButton->setText(CupManager::GetCupList()[cupIdx].cupName, nullptr);
+        cupButton->setText(CupManager::GetCupList()[cupIdx].cupName);
         CupManager::updateCupButton(cupButton, self->curPage, i);
     }
 
@@ -50,7 +50,7 @@ void RaceCupSelectArrow::onRightArrowPress(SheetSelectControl* arrowPair, u32 lo
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
         u32 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
-        cupButton->setText(CupManager::GetCupList()[cupIdx].cupName, nullptr);
+        cupButton->setText(CupManager::GetCupList()[cupIdx].cupName);
         CupManager::updateCupButton(cupButton, self->curPage, i);
     }
 

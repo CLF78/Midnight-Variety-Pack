@@ -176,7 +176,7 @@ void RaceCupSelectPageEx::onActivate() {
 
         // Reset it and update the messages
         popupPage->reset();
-        popupPage->setWindowMessage(Message::Menu::VOTE_FOR_COURSE_QUESTION, nullptr);
+        popupPage->setWindowMessage(Message::Menu::VOTE_FOR_COURSE_QUESTION);
         popupPage->configureButton(0, Message::Menu::VOTE, nullptr, Page::ANIM_NONE, nullptr);
         popupPage->configureButton(1, Message::Menu::VOTE_RANDOM, nullptr, Page::ANIM_NONE, nullptr);
 

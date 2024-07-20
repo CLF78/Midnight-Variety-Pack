@@ -52,7 +52,7 @@ void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder,
 
             // Reset it and update the messages
             popupPage->reset();
-            popupPage->setWindowMessage(Message::Menu::TRACK_UNPICKABLE_PROMPT_VS, nullptr);
+            popupPage->setWindowMessage(Message::Menu::TRACK_UNPICKABLE_PROMPT_VS);
             popupPage->configureButton(0, Message::Menu::TRACK_UNPICKABLE_VOTE_ANYWAY, nullptr, Page::ANIM_NONE,
                                        (InputHandler2<Page, void, s32, PushButton*>*)&repickHandler);
             popupPage->configureButton(1, Message::Menu::TRACK_UNPICKABLE_GO_BACK, nullptr, Page::ANIM_NONE,

@@ -23,7 +23,7 @@ REPLACE void CtrlMenuCourseSelectCup::initSelf() {
         // Set name
         u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage);
         u16 cupName = CupManager::GetCupList()[cupIdx].cupName;
-        cup->setText(cupName, nullptr);
+        cup->setText(cupName);
 
         // Set icon
         CupManager::updateCupButton(cup, cupPage->curPage, i);
