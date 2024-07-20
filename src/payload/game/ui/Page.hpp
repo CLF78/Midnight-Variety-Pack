@@ -228,11 +228,12 @@ public:
 
     enum PageState {
         STATE_UNLOADED,
-        STATE_LOADING,
+        STATE_DEACTIVATED,
         STATE_ACTIVATING,
-        STATE_FOCUSED,
-        STATE_DEFOCUSING,
-        STATE_UNLOADING,
+        STATE_ENTERING,
+        STATE_ACTIVE,
+        STATE_EXITING,
+        STATE_EXITED,
     };
 
     enum ReplaceAnim {

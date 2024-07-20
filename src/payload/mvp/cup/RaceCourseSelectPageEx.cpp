@@ -28,8 +28,8 @@ void RaceCourseSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button)
 // Set the selected track
 void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button, int unk) {
 
-    // Do not do anything if we're not defocusing the page
-    if (pageState != Page::STATE_DEFOCUSING)
+    // Check for active state
+    if (pageState != Page::STATE_ACTIVE)
         return;
 
     // Get selected track and set it as last course
@@ -97,8 +97,8 @@ void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder,
 // Force press the selected option on the repick prompt when the timer runs out
 void RaceCourseSelectPageEx::afterCalc() {
 
-    // Check if defocusing
-    if (pageState != Page::STATE_DEFOCUSING)
+    // Check for active state
+    if (pageState != Page::STATE_ACTIVE)
         return;
 
     // Check if we are online

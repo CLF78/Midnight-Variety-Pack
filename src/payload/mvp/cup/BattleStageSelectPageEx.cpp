@@ -33,8 +33,8 @@ void BattleStageSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button
 // Properly store/vote the selected arena
 void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button, int unk) {
 
-    // Check if the page is being defocused
-    if (pageState != Page::STATE_DEFOCUSING)
+    // Check for active state
+    if (pageState != Page::STATE_ACTIVE)
         return;
 
     // Get selected arena and set it as last stage
@@ -111,8 +111,8 @@ void BattleStageSelectPageEx::onActivate() {
 // Force press the selected option on the repick prompt when the timer runs out
 void BattleStageSelectPageEx::afterCalc() {
 
-    // Check if defocusing
-    if (pageState != Page::STATE_DEFOCUSING)
+    // Check for active state
+    if (pageState != Page::STATE_ACTIVE)
         return;
 
     // Check if we are online
@@ -136,8 +136,8 @@ void BattleStageSelectPageEx::afterCalc() {
 // Apply properties to the extra cups when pressing the on-screen back button
 void BattleStageSelectPageEx::onButtonClick(PushButton* button, u32 hudSlotId) {
 
-    // Skip if not defocusing
-    if (pageState != Page::STATE_DEFOCUSING)
+    // Check for active state
+    if (pageState != Page::STATE_ACTIVE)
         return;
 
     // Skip if the button isn't the back button
@@ -158,8 +158,8 @@ void BattleStageSelectPageEx::onButtonClick(PushButton* button, u32 hudSlotId) {
 // Apply properties to the extra cups when pressing the back button
 void BattleStageSelectPageEx::onBackPress(u32 hudSlotId) {
 
-    // Skip if not defocusing
-    if (pageState != Page::STATE_DEFOCUSING)
+    // Check for active state
+    if (pageState != Page::STATE_ACTIVE)
         return;
 
     // Apply properties

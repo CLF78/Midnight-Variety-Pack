@@ -112,8 +112,8 @@ void BattleCupSelectPageEx::onActivate() {
 // Set the selected stage when a cup is clicked
 void BattleCupSelectPageEx::setCourse(CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button, int unk) {
 
-    // Check for defocusing state
-    if (pageState == Page::STATE_DEFOCUSING) {
+    // Check for active state
+    if (pageState == Page::STATE_ACTIVE) {
 
         // Update selected button
         selectedButtonId = cupHolder->currentSelected;

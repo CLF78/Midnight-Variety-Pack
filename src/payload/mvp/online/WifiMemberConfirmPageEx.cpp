@@ -179,7 +179,7 @@ void WifiMemberConfirmPageEx::onActivate() {
 void WifiMemberConfirmPageEx::afterCalc() {
 
     // This check is necessary to ensure the procedure is not repeated twice
-    if (pageState != Page::STATE_DEFOCUSING && rulePopup == nullptr)
+    if (pageState != Page::STATE_ACTIVE && rulePopup == nullptr)
         return;
 
     if (timer == nullptr)
