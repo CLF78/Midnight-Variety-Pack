@@ -5,7 +5,7 @@
 #include <game/system/SystemManager.hpp>
 #include <game/ui/page/VotingBackPage.hpp>
 #include <game/util/Random.hpp>
-#include <midnight/cup/CupManager.hpp>
+#include <mvp/cup/CupManager.hpp>
 
 ///////////////////////
 // Always Show Timer //

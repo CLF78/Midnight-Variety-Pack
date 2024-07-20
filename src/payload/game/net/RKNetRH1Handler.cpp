@@ -3,7 +3,7 @@
 #include <game/net/RKNetRH1Handler.hpp>
 #include <game/net/packet/RKNetRH1Packet.hpp>
 #include <game/system/RaceConfig.hpp>
-#include <midnight/cup/CupCounts.h>
+#include <mvp/cup/CupCounts.h>
 #include <platform/string.h>
 
 ///////////////////////////////////////////////

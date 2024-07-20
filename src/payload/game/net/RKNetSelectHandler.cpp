@@ -4,7 +4,7 @@
 #include <game/net/RKNetSelectHandler.hpp>
 #include <game/net/RKNetUserHandler.hpp>
 #include <game/util/Random.hpp>
-#include <midnight/cup/CupManager.hpp>
+#include <mvp/cup/CupManager.hpp>
 #include <platform/string.h>
 #include <wiimmfi/RoomStall.hpp>
 

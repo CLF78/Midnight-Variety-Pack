@@ -4,8 +4,8 @@
 #include <revolution/dvd/dvd.h>
 #include <platform/stdio.h>
 #include <platform/string.h>
-#include <midnight/cup/CupManager.hpp>
-#include <midnight/SoundExpansion.hpp>
+#include <mvp/cup/CupManager.hpp>
+#include <mvp/SoundExpansion.hpp>
 
 namespace nw4r {
 namespace snd {

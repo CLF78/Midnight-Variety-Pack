@@ -1,5 +1,5 @@
-# Mario Kart Midnight 3
-Mario Kart Midnight 3 is a WIP custom track distribution created by NuoKart and CLF78.
+# Midnight x Variety Pack
+Midnight x Variety Pack (or MVP for short) is a WIP custom track distribution created by NuoKart, CLF78 and Brawlboxgaming.
 
 ## Project Setup - Automatic (Windows ONLY)
 - Clone this repository to a folder of choice (make sure the path to the folder has no spaces in it!);
@@ -76,7 +76,7 @@ The distribution can be modified for your own purposes in multiple ways.
 The cup icons/layout and the tracks within can be changed using the Cup Builder Tool.
 - Ensure the additional dependencies for the tool are installed;
 - Run `tools/cup_builder/main.py` to open the tool;
-- Open `assets/course/data.json5` to access Midnight's own track roster.
+- Open `assets/course/data.json5` to access MVP's own track roster.
 
 A few usage notes:
 - The file's validity can be checked with the corresponding menu option.
@@ -85,7 +85,7 @@ A few usage notes:
 - Ninja will re-run the cup data exporter if either the track roster file or the assets linked to it are updated. In the latter case, Ninja will only detect the change if the updated asset's modification date is newer.
 
 ### Mod Features
-The various features in the mod (including the aforementioned custom cups) can be toggled and further configured by editing `src/common/midnight/config.h`. While most features are free standing, some are dependent on others; checks are included to prevent most breakages.
+The various features in the mod (including the aforementioned custom cups) can be toggled and further configured by editing `src/common/mvp/config.h`. While most features are free standing, some are dependent on others; checks are included to prevent most breakages.
 
 ### Assets
 Most of the assets in the mod (excluding tracks and music due to file size reasons) are available in (mostly) decoded form in the `assets` folder. They can be changed, added or removed, provided the `configure.py` script is updated to match.

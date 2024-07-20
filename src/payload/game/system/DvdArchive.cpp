@@ -2,7 +2,7 @@
 #include <egg/core/eggDecomp.hpp>
 #include <game/system/DvdArchive.hpp>
 #include <game/system/RaceConfig.hpp>
-#include <midnight/cup/CupManager.hpp>
+#include <mvp/cup/CupManager.hpp>
 #include <platform/string.h>
 #include <revolution/os/OSCache.h>
 #include <revolutionex/net/NETDigest.h>

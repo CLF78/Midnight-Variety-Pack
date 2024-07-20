@@ -4,8 +4,8 @@
 #include <game/ui/page/AwardPage.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
-#include <midnight/cup/CupManager.hpp>
-#include <midnight/save/SaveExpansionCup.hpp>
+#include <mvp/cup/CupManager.hpp>
+#include <mvp/save/SaveExpansionCup.hpp>
 
 ///////////////////////
 // Custom Cup System //

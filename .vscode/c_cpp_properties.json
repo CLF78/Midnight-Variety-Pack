@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "MarioKartMidnight",
+            "name": "MVP",
             "includePath": [
                 "${workspaceFolder}/src/payload/**",
                 "${workspaceFolder}/src/loader/**",

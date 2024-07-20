@@ -1,7 +1,7 @@
 #include <common/Common.hpp>
 #include <game/ui/ctrl/CtrlMenuCupSelectCup.hpp>
-#include <midnight/cup/CupManager.hpp>
-#include <midnight/cup/RaceCupSelectPageEx.hpp>
+#include <mvp/cup/CupManager.hpp>
+#include <mvp/cup/RaceCupSelectPageEx.hpp>
 
 ///////////////////////
 // Custom Cup System //

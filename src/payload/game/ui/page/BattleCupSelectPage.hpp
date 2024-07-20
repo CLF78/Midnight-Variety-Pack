@@ -4,7 +4,7 @@
 #include <game/ui/ctrl/CtrlMenuBattleCupSelectCup.hpp>
 #include <game/ui/ctrl/CtrlMenuBattleCupSelectStage.hpp>
 #include <game/ui/ctrl/SheetSelectControl.hpp>
-#include <midnight/online/YesNoPopupPageEx.hpp>
+#include <mvp/online/YesNoPopupPageEx.hpp>
 
 class BattleCupSelectPage : public MenuPage {
 public:

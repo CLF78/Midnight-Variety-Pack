@@ -73,4 +73,4 @@ typedef void (*Func)();
 // Include other base headers
 #include <kamek/hooks.h>
 #include <kamek/gekko.h>
-#include <midnight/config.h>
+#include <mvp/config.h>

@@ -3,7 +3,7 @@
 #include <game/ui/page/MenuPage.hpp>
 #include <game/ui/ctrl/CtrlMenuCupSelectCup.hpp>
 #include <game/ui/ctrl/CtrlMenuCupSelectCourse.hpp>
-#include <midnight/online/YesNoPopupPageEx.hpp>
+#include <mvp/online/YesNoPopupPageEx.hpp>
 
 class RaceCupSelectPage : public MenuPage {
 public:

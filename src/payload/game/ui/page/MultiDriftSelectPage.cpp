@@ -1,6 +1,6 @@
 #include <common/Common.hpp>
 #include <game/ui/GlobalContext.hpp>
-#include <midnight/cup/CupManager.hpp>
+#include <mvp/cup/CupManager.hpp>
 
 ///////////////////////
 // Custom Cup System //

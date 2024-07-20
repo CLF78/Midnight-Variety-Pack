@@ -5,8 +5,8 @@
 #include <game/system/RaceConfig.hpp>
 #include <game/system/RaceManager.hpp>
 #include <game/ui/MessageInfo.hpp>
-#include <midnight/cup/CupManager.hpp>
-#include <midnight/race/MessageQueue.hpp>
+#include <mvp/cup/CupManager.hpp>
+#include <mvp/race/MessageQueue.hpp>
 #include <wiimmfi/Reporting.hpp>
 
 ///////////////////////

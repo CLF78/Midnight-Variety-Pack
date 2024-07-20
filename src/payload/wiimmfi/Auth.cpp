@@ -7,7 +7,7 @@
 #include <revolution/es/es.h>
 #include <revolution/os/OSLoMem.h>
 #include <revolution/os/OSTitle.h>
-#include <midnight/util/DolphinDevice.hpp>
+#include <mvp/util/DolphinDevice.hpp>
 #include <wiimmfi/Auth.hpp>
 #include <wiimmfi/Port.hpp>
 #include <wiimmfi/Status.hpp>
