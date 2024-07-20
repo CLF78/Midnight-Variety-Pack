@@ -1,5 +1,5 @@
 #include <common/Common.hpp>
-#include <game/ui/PushButton.hpp>
+#include <game/ui/ctrl/PushButton.hpp>
 
 class CtrlMenuBackButton : public PushButton {
 public:

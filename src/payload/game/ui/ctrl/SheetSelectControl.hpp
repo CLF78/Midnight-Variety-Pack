@@ -1,7 +1,7 @@
 #include <common/Common.hpp>
-#include <game/ui/ControlInputManager.hpp>
+#include <game/ui/input/ControlInputManager.hpp>
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/LayoutUIControl.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
 
 class SheetSelectButton : public LayoutUIControl {
 public:

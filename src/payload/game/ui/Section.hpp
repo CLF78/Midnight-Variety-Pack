@@ -1,7 +1,7 @@
 #include <common/Common.hpp>
 #include <egg/core/eggHeap.hpp>
 #include <nw4r/lyt/drawInfo.hpp>
-#include <game/ui/Page.hpp>
+#include <game/ui/page/Page.hpp>
 
 class Section {
 public:

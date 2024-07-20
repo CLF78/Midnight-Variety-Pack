@@ -1,5 +1,5 @@
 #include <common/Common.hpp>
-#include <game/ui/LayoutUIControl.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
 #include <game/ui/ctrl/CtrlMenuMovieButton.hpp>
 
 class CtrlMenuCourseSelectCourse : public LayoutUIControl {

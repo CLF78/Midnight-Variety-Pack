@@ -1,9 +1,9 @@
 #include <common/Common.hpp>
 #include <game/system/Mii.hpp>
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/LayoutUIControl.hpp>
-#include <game/ui/MenuInputManager.hpp>
-#include <game/ui/Page.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include <game/ui/input/MenuInputManager.hpp>
+#include <game/ui/page/Page.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
 #include <game/ui/ctrl/CountdownTimerControl.hpp>

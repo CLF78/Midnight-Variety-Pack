@@ -1,6 +1,6 @@
 #include <common/Common.hpp>
 #include <game/system/Mii.hpp>
-#include <game/ui/LayoutUIControl.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
 
 class VoteControl : public LayoutUIControl {
 public:

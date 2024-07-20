@@ -1,4 +1,4 @@
-#include <game/ui/LayoutUIControl.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
 
 class VehicleModelControl : public LayoutUIControl {
 public:

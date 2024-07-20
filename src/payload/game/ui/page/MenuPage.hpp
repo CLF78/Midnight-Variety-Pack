@@ -1,11 +1,11 @@
 #include <common/Common.hpp>
 #include <game/system/Mii.hpp>
-#include <game/ui/Page.hpp>
-#include <game/ui/LayoutUIControl.hpp>
+#include <game/ui/page/Page.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
 #include <game/ui/InputHandler.hpp>
 #include <game/ui/MessageInfo.hpp>
-#include <game/ui/MultiControlInputManager.hpp>
-#include <game/ui/PushButton.hpp>
+#include <game/ui/input/MultiControlInputManager.hpp>
+#include <game/ui/ctrl/PushButton.hpp>
 #include <game/ui/ctrl/CtrlMenuBackButton.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
 #include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>

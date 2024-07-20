@@ -1,8 +1,8 @@
 #include <common/Common.hpp>
 #include <game/system/Timer.hpp>
-#include <game/ui/LayoutUIControl.hpp>
-#include <game/ui/Page.hpp>
-#include <game/ui/PageInputManager.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include <game/ui/page/Page.hpp>
+#include <game/ui/input/PageInputManager.hpp>
 
 class RacePage : public Page {
 public:

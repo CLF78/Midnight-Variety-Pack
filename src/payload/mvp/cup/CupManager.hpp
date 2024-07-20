@@ -1,6 +1,6 @@
 #include <common/Common.hpp>
 #include <game/ui/GlobalContext.hpp>
-#include <game/ui/PushButton.hpp>
+#include <game/ui/ctrl/PushButton.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <game/ui/page/RaceCupSelectPage.hpp>
 #include <game/system/RaceConfig.hpp>

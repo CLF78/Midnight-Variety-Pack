@@ -1,9 +1,9 @@
 #include <common/Common.hpp>
 #include <game/net/WifiDisconnectInfo.hpp>
-#include <game/ui/LayoutUIControl.hpp>
-#include <game/ui/Page.hpp>
-#include <game/ui/PageInputManager.hpp>
-#include <game/ui/PushButton.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include <game/ui/page/Page.hpp>
+#include <game/ui/input/PageInputManager.hpp>
+#include <game/ui/ctrl/PushButton.hpp>
 
 class WifiDisconnectPage : public Page {
 public:

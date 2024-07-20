@@ -1,6 +1,6 @@
-#include <game/ui/Page.hpp>
+#include <game/ui/page/Page.hpp>
 #include <game/ui/page/MultiDriftSelectPage.hpp>
-#include <game/ui/PushButton.hpp>
+#include <game/ui/ctrl/PushButton.hpp>
 
 class MultiTransmissionSelectPage : public MultiDriftSelectPage {
 public:

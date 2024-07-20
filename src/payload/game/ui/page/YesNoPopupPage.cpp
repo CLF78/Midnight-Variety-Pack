@@ -1,5 +1,5 @@
 #include <common/Common.hpp>
-#include <game/ui/MultiControlInputManager.hpp>
+#include <game/ui/input/MultiControlInputManager.hpp>
 
 ///////////////////
 // Online Voting //

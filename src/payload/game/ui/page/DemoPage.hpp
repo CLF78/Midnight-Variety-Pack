@@ -1,6 +1,6 @@
 #include <common/Common.hpp>
-#include <game/ui/Page.hpp>
-#include <game/ui/LayoutUIControl.hpp>
+#include <game/ui/page/Page.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
 
 class DemoPage : public Page {
 public:
