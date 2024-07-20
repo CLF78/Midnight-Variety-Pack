@@ -201,6 +201,7 @@ for dir in INCLUDE_DIRS:
 
 COMMON_ASSETS = {
     'CommonMVP': {
+        Path(COMMON_ASSETS_DIR, 'driverParam.bin'): None,
         Path(COMMON_ASSETS_DIR, 'kumo.brres'): None,
         Path(COMMON_ASSETS_DIR, 'driverParam.bin'): None,
         Path(COMMON_ASSETS_DIR, 'itembox.brres'): None,
