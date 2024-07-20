@@ -66,27 +66,27 @@
         string: "Personaggio",
     },
     "20012": {
-        string: "Outside",
+        string: "Esterna",
     },
     "20013": {
-        string: "Inside",
+        string: "Interna",
     },
     "20014": {
-        string: "Drift outside (with a turn radius).",
+        string: "Derapa verso l'esterno (con angolo di sterzo).",
     },
     "20015": {
-        string: "Drift inside (with no turn radius).",
+        string: "Derapa verso l'interno (senza angolo di sterzo).",
     },
     "20016": {
-        string: "Help",
+        string: "Aiuto",
     },
     "20017": {
-        string: "View an explanation of transmission modes.",
+        string: "Consulta una descrizione delle direzioni di derapata.",
     },
     "20018": {
-        string: "■ Outside Drift ■\nYou will drift with a 45° turning radius.\n\n■ Inside Drift ■\nYou will drift with no turning radius.",
+        string: "■ Derapata Esterna ■\nDerapi con un angolo di sterzo di 45°.\n\n■ Derapata Interna ■\nDerapi senza angolo di sterzo.",
     },
     "20019": {
-        string: "Transmission Mode",
+        string: "Direzione Derapata",
     },
 }
