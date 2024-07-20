@@ -1,15 +1,15 @@
 #include <common/Common.hpp>
 #include <game/ui/Section.hpp>
-#include <midnight/cup/BattleCupSelectPageEx.hpp>
-#include <midnight/cup/BattleStageSelectPageEx.hpp>
-#include <midnight/cup/RaceCourseSelectPageEx.hpp>
-#include <midnight/cup/RaceCupSelectPageEx.hpp>
-#include <midnight/online/WifiMemberConfirmPageEx.hpp>
-#include <midnight/online/WifiMenuPageEx.hpp>
-#include <midnight/online/WifiModeSelectPageEx.hpp>
-#include <midnight/online/YesNoPopupPageEx.hpp>
-#include <midnight/transmission/TransmissionSelectPage.hpp>
-#include <midnight/transmission/MultiTransmissionSelectPage.hpp>
+#include <mvp/cup/BattleCupSelectPageEx.hpp>
+#include <mvp/cup/BattleStageSelectPageEx.hpp>
+#include <mvp/cup/RaceCourseSelectPageEx.hpp>
+#include <mvp/cup/RaceCupSelectPageEx.hpp>
+#include <mvp/online/WifiMemberConfirmPageEx.hpp>
+#include <mvp/online/WifiMenuPageEx.hpp>
+#include <mvp/online/WifiModeSelectPageEx.hpp>
+#include <mvp/online/YesNoPopupPageEx.hpp>
+#include <mvp/transmission/TransmissionSelectPage.hpp>
+#include <mvp/transmission/MultiTransmissionSelectPage.hpp>
 
 ///////////////////////////
 // Page Expansion System //

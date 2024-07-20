@@ -5,7 +5,7 @@
 #include <game/system/Mii.hpp>
 #include <game/system/RawSave.hpp>
 #include <game/system/Timer.hpp>
-#include <midnight/save/SaveExpansion.hpp>
+#include <mvp/save/SaveExpansion.hpp>
 
 class SaveManager {
 public:

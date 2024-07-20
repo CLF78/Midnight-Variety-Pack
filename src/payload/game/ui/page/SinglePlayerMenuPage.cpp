@@ -3,7 +3,7 @@
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/page/SinglePlayerMenuPage.hpp>
-#include <midnight/cup/CupManager.hpp>
+#include <mvp/cup/CupManager.hpp>
 
 ///////////////////////////////////////////////
 // Custom Cup System / Custom Engine Classes //

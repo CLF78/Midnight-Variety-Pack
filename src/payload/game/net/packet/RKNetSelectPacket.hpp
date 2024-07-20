@@ -1,8 +1,8 @@
 #include <common/Common.hpp>
 #include <game/net/packet/RKNetPacketCommon.hpp>
 #include <game/system/Identifiers.hpp>
-#include <midnight/cup/CupData.hpp>
-#include <midnight/online/RepickQueue.hpp>
+#include <mvp/cup/CupData.hpp>
+#include <mvp/online/RepickQueue.hpp>
 #pragma pack(push, 1)
 
 struct RKNetSELECTPlayer {

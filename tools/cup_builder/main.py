@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # main.py
-# This is the main executable for MKM's Cup Builder.
+# This is the main executable for MVP's Cup Builder.
 
 # Python version check
 # Since we use the Walrus Operator, force Python 3.8 or higher
@@ -69,7 +69,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(MainWidget(self))
 
         # Set window title
-        self.setWindowTitle('Mario Kart Midnight Cup Builder')
+        self.setWindowTitle('Midnight x Variety Pack Cup Builder')
 
         # Show the window
         self.show()

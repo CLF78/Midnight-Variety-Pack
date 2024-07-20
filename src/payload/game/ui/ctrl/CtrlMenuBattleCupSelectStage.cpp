@@ -1,7 +1,7 @@
 #include <common/Common.hpp>
 #include <game/ui/ControlLoader.hpp>
-#include <midnight/cup/BattleCupSelectPageEx.hpp>
-#include <midnight/cup/CupManager.hpp>
+#include <mvp/cup/BattleCupSelectPageEx.hpp>
+#include <mvp/cup/CupManager.hpp>
 #include <platform/stdio.h>
 
 ///////////////////////

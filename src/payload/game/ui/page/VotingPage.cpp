@@ -6,8 +6,8 @@
 #include <game/ui/Message.hpp>
 #include <game/ui/page/VotingBackPage.hpp>
 #include <game/ui/page/VotingPage.hpp>
-#include <midnight/cup/CupData.hpp>
-#include <midnight/cup/CupManager.hpp>
+#include <mvp/cup/CupData.hpp>
+#include <mvp/cup/CupManager.hpp>
 
 ///////////////////////
 // Custom Cup System //

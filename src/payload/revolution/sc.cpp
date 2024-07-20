@@ -1,5 +1,5 @@
 #include <common/Common.hpp>
-#include <midnight/util/DolphinDevice.hpp>
+#include <mvp/util/DolphinDevice.hpp>
 #include <revolution/sc.h>
 
 ////////////////////////////

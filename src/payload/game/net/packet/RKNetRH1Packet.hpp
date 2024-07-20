@@ -1,6 +1,6 @@
 #include <common/Common.hpp>
 #include <game/net/packet/RKNetPacketCommon.hpp>
-#include <midnight/cup/CupData.hpp>
+#include <mvp/cup/CupData.hpp>
 
 struct RKNetRH1Packet {
 

@@ -6,7 +6,7 @@
 #include <game/system/RaceConfig.hpp>
 #include <game/system/RaceManager.hpp>
 #include <game/ui/SectionManager.hpp>
-#include <midnight/cup/CupManager.hpp>
+#include <mvp/cup/CupManager.hpp>
 
 ///////////////////////////////////////////////
 // Custom Cup System / Custom Engine Classes //

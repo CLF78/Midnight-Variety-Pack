@@ -7,7 +7,7 @@
 #include <game/system/MultiDvdArchive.hpp>
 #include <game/system/ResourceManager.hpp>
 #include <platform/stdio.h>
-#include <midnight/cup/CupManager.hpp>
+#include <mvp/cup/CupManager.hpp>
 
 ///////////////////////////////////////////////
 // Custom Cup System / Custom Engine Classes //

@@ -1,5 +1,5 @@
 #include <common/Common.hpp>
-#include <midnight/SoundExpansion.hpp>
+#include <mvp/SoundExpansion.hpp>
 #include <nw4r/snd/DvdSoundArchive.hpp>
 #include <nw4r/snd/SoundArchivePlayer.hpp>
 #include <nw4r/snd/SoundStartable.hpp>

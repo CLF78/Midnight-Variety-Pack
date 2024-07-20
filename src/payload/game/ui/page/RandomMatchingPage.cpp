@@ -1,7 +1,7 @@
 #include <common/Common.hpp>
 #include <game/net/RKNetRH1Handler.hpp>
 #include <game/system/RaceConfig.hpp>
-#include <midnight/cup/CupManager.hpp>
+#include <mvp/cup/CupManager.hpp>
 
 ///////////////////////////////////////////////
 // Custom Cup System / Custom Engine Classes //

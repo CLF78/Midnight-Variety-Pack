@@ -3,7 +3,7 @@
 #include <game/system/ResourceManager.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/util/Random.hpp>
-#include <midnight/cup/CupManager.hpp>
+#include <mvp/cup/CupManager.hpp>
 
 ///////////////////////
 // Custom Cup System //
