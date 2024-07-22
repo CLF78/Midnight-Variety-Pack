@@ -4,7 +4,7 @@
 #include <game/ui/ctrl/VehicleModelControl.hpp>
 #include <game/util/Random.hpp>
 
-void LoadTransmissionFromVehicle(MenuPage* menuPage, Page::PageID pageId, PushButton* button){
+void LoadTransmissionFromVehicle(MenuPage* menuPage, Page::PageId pageId, PushButton* button){
     pageId = Page::TRANSMISSION_SELECT;
     menuPage->loadNextPageById(pageId, button);
 }
@@ -118,7 +118,7 @@ void TransmissionSelectPage::onBackPress(u32 hudSlotId){
     this->loadPrevPageWithDelay(0.0f);
 }
 
-void FixVehicleModelTransition(VehicleModelControl* ctrl, Page::PageID id){ //todo use REPLACE to replace the functions hooked
+void FixVehicleModelTransition(VehicleModelControl* ctrl, Page::PageId id){ //todo use REPLACE to replace the functions hooked
     if(id == Page::TRANSMISSION_SELECT){
         id = Page::DRIFT_SELECT;
     }

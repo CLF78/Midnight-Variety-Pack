@@ -18,7 +18,7 @@ public:
     virtual void process();
 
     static MessagePopupPage* getPage() {
-        return (MessagePopupPage*)SectionManager::instance->curSection->pages[Page::MESSAGE_POPUP];
+        return (MessagePopupPage*)SectionManager::instance->curSection->getPage(Page::MESSAGE_POPUP);
     }
 
     LayoutUIControl messageWindow;

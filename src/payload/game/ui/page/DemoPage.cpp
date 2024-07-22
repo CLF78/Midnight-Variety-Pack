@@ -17,7 +17,7 @@
 REPLACE void DemoPage::onInit() {
 
     // Get current section
-    u32 curSection = SectionManager::instance->curSection->sectionID;
+    u32 curSection = SectionManager::instance->curSection->sectionId;
     RaceConfig::Settings* raceSettings = &RaceConfig::instance->raceScenario.settings;
     GlobalContext* globalCtx = SectionManager::instance->globalContext;
 

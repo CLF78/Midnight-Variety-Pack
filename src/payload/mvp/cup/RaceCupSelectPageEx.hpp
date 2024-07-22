@@ -23,7 +23,7 @@ public:
     void updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u32 unk);
 
     static RaceCupSelectPageEx* getPage() {
-        return (RaceCupSelectPageEx*)SectionManager::instance->curSection->pages[Page::CUP_SELECT];
+        return (RaceCupSelectPageEx*)SectionManager::instance->curSection->getPage(Page::CUP_SELECT);
     }
 
     SheetSelectControl arrows;

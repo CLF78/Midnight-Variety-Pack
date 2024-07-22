@@ -38,7 +38,7 @@ void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder,
     u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[button->buttonId];
     SectionManager::instance->globalContext->lastCourse = trackIdx;
 
-    if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID)) {
+    if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
 
         // Submit the selected track
         VotingPage* votingPage = VotingPage::getPage();
@@ -102,7 +102,7 @@ void RaceCourseSelectPageEx::afterCalc() {
         return;
 
     // Check if we are online
-    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID))
+    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId))
         return;
 
     // Check if the timer is zero

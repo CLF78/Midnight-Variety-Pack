@@ -1,12 +1,13 @@
 #include <common/Common.hpp>
 #include <egg/core/eggHeap.hpp>
 #include <nw4r/lyt/drawInfo.hpp>
+#include <game/host_system/Scene.hpp>
 #include <game/ui/page/Page.hpp>
 
 class Section {
 public:
 
-    enum SectionID {
+    enum SectionId {
         NONE = -1,
 
         // System
@@ -203,26 +204,52 @@ public:
         SECTION_COUNT,
     };
 
+    Page* getPage(Page::PageId page) {
+        if (page < Page::ORIGINAL_PAGE_COUNT) {
+            return pages[page];
+        } else if (page < Page::PAGE_COUNT) {
+            return extraPages[page - Page::ORIGINAL_PAGE_COUNT];
+        } else {
+            return nullptr;
+        }
+    }
+
+    void setPage(Page::PageId pageId, Page* page) {
+        if (pageId < Page::ORIGINAL_PAGE_COUNT) {
+            pages[pageId] = page;
+        } else if (pageId < Page::PAGE_COUNT) {
+            extraPages[pageId - Page::ORIGINAL_PAGE_COUNT] = page;
+        }
+    }
+
+    Section();
+
+    static Page* createPage(Page::PageId pageId);
+    void addPage(Page::PageId pageId);
+    void addPages(SectionId sectionId);
+
+    void addActivePage(Page::PageId pageId);
+    void addActivePages(SectionId sectionId);
+    Page* activatePage(Page::PageId pageId, Page::AnimationDirection anim);
+
+    void init(SectionId sectionId);
+    void deinit();
+    void popActivePages(int pagesLeft);
+
     void loadFriendListManager();
     void loadTHPManager();
     void shutdownNet();
 
-    void addPages(SectionID section);
-    void addActivePages(SectionID section);
+    static u32 getSoundId(SectionId sectionId);
+    static Scene::SceneId getSceneId(SectionId sectionId);
 
-    void addPage(Page::PageID page);
-    static Page* createPage(Page::PageID page);
+    u32 sectionId;
+    Page::AnimationDirection animationDirection;
 
-    static u32 getSoundID(u32 sectionId);
-
-    u32 sectionID;
-    u32 openingAnimIdx;
-
-    Page* pages[Page::PAGE_COUNT];
+    Page* pages[Page::ORIGINAL_PAGE_COUNT];
     Page* activePages[10];
     u32 activePageCount;
-    Page* controllerDisconnectedPage;
-    Page* cursor;
+    void* systemPages[2];
 
     bool hideCursor;
     bool pauseGame;
@@ -238,7 +265,9 @@ public:
     float _3F0, _3F4, _3F8;
     u32 _3FC;
 
-    void* videoPlayer;
-    void* friendList;
+    void* thpManager;
+    void* friendListManager;
+
+    Page* extraPages[Page::PAGE_COUNT - Page::ORIGINAL_PAGE_COUNT];
 };
-size_assert(Section, 0x408);
+size_assert(Section, 0x408 + (sizeof(Page*) * (Page::PAGE_COUNT - Page::ORIGINAL_PAGE_COUNT)));

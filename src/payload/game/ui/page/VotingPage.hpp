@@ -25,7 +25,7 @@ public:
     void submitVote(u32 courseId);
 
     static VotingPage* getPage() {
-        return (VotingPage*)SectionManager::instance->curSection->pages[Page::WIFI_VOTING];
+        return (VotingPage*)SectionManager::instance->curSection->getPage(Page::WIFI_VOTING);
     }
 
     InputHandler1<VotingPage, void, Page*> onDisconnectMessageClickHandler;

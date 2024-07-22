@@ -25,11 +25,11 @@ public:
     void onButtonDeselect(PushButton* button, u32 hudSlotId);
     void onBckPress(u32 hudSlotId); //8084b7f4
     static MultiDriftSelectPage* getPage(){
-        return (MultiDriftSelectPage*)SectionManager::instance->curSection->pages[Page::DRIFT_SELECT_MULTI_PLAYER];
+        return (MultiDriftSelectPage*)SectionManager::instance->curSection->getPage(Page::DRIFT_SELECT_MULTI_PLAYER);
     };
 
     UIControlTimer* timer;
     void* boundingBoxes;
-    Section::SectionID nextSectionId;
+    Section::SectionId nextSectionId;
 };
 size_assert(MultiDriftSelectPage, 0x6d0);

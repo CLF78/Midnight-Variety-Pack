@@ -43,7 +43,7 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
     u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[button->buttonId];
     SectionManager::instance->globalContext->lastStage = trackIdx;
 
-    if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID)) {
+    if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
 
         // Submit the selected arena
         VotingPage* votingPage = VotingPage::getPage();
@@ -116,7 +116,7 @@ void BattleStageSelectPageEx::afterCalc() {
         return;
 
     // Check if we are online
-    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID))
+    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId))
         return;
 
     // Check if the timer is zero

@@ -13,7 +13,7 @@
 void WifiMenuPageEx::onInit() {
 
     // Initialize the input manager
-    switch (SectionManager::instance->curSection->sectionID) {
+    switch (SectionManager::instance->curSection->sectionId) {
         case Section::WIFI_MENU_2P:
         case Section::WIFI_MENU_2P_FROM_DC:
         case Section::WIFI_MENU_2P_FROM_FRIENDLIST:
@@ -38,7 +38,7 @@ void WifiMenuPageEx::onInit() {
     titleText.load(false);
 
     // Set the title text
-    switch (SectionManager::instance->curSection->sectionID) {
+    switch (SectionManager::instance->curSection->sectionId) {
         case Section::WIFI_MENU_1P:
         case Section::WIFI_MENU_1P_FROM_DC:
         case Section::WIFI_MENU_1P_FROM_FRIENDLIST:

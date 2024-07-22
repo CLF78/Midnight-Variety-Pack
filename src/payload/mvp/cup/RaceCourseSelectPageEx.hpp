@@ -15,7 +15,7 @@ public:
     void setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button, int unk);
 
     static RaceCourseSelectPageEx* getPage() {
-        return (RaceCourseSelectPageEx*)SectionManager::instance->curSection->pages[Page::COURSE_SELECT];
+        return (RaceCourseSelectPageEx*)SectionManager::instance->curSection->getPage(Page::COURSE_SELECT);
     }
 
     InputHandler2<RaceCourseSelectPageEx, void, s32, PushButton*> onRepickPromptPressHandler;

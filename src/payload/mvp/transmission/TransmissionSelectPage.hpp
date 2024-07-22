@@ -5,7 +5,7 @@
 
 class TransmissionSelectPage : public DriftSelectPage{
 public:
-    static const Page::PageID id = Page::TRANSMISSION_SELECT;
+    static const Page::PageId id = Page::TRANSMISSION_SELECT;
     TransmissionSelectPage();
     virtual ~TransmissionSelectPage(){}
     virtual void onActivate();

@@ -41,7 +41,7 @@ public:
     virtual void setupButton(PushButton* button);
 
     virtual MessageInfo* getMsgInfo();
-    virtual void initVideos();
+    virtual void initMovies();
 
     void requestSectionChange(u32 sectionId, PushButton* button);
     void forceSectionChange(u32 sectionId, PushButton* button);
@@ -65,7 +65,7 @@ public:
     CtrlMenuInstructionText* instructionText;
 
     u8 _2BC[0x50];
-    u32 videoCount;
+    u32 movieCount;
 
     MessageInfo text;
 
@@ -85,7 +85,7 @@ public:
 
     InputHandler1<MenuPage, void, Page*> onMessageBoxClickHandler;
     InputHandler1<MenuPage, void, u32> onMoviePreparedHandler;
-    int videoStartFrame;
+    int movieStartFrame;
     int extraChildNumber;
     bool locked;
 

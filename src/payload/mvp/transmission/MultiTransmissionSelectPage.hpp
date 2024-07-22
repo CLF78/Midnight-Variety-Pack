@@ -4,7 +4,7 @@
 
 class MultiTransmissionSelectPage : public MultiDriftSelectPage {
 public:
-    static const Page::PageID id = Page::TRANSMISSION_SELECT_MULTI_PLAYER;
+    static const Page::PageId id = Page::TRANSMISSION_SELECT_MULTI_PLAYER;
     MultiTransmissionSelectPage();
     virtual ~MultiTransmissionSelectPage(){};
     virtual void onActivate();

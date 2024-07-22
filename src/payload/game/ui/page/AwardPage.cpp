@@ -40,7 +40,7 @@ REPLACE_STATIC AwardPage::CreditsType AwardPage::getCreditsType(u32 cupId, u32 e
 REPLACE void AwardPage::initRank() {
 
     // Check if we're in GP mode
-    if (SectionManager::instance->curSection->sectionID != Section::AWARD_GP)
+    if (SectionManager::instance->curSection->sectionId != Section::AWARD_GP)
         return;
 
     // Obtain GP rank
@@ -83,7 +83,7 @@ REPLACE void AwardPage::initType() {
     const char* iconPane = nullptr;
 
     // Get relevant information
-    u32 curSection = SectionManager::instance->curSection->sectionID;
+    u32 curSection = SectionManager::instance->curSection->sectionId;
     RaceConfig::Settings* settings = &RaceConfig::instance->awardsScenario.settings;
 
     // Set icon and message for battle mode awards

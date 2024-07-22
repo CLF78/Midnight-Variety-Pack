@@ -11,7 +11,7 @@ public:
     void forcePressSelected();
 
     static YesNoPopupPageEx* getPage() {
-        return (YesNoPopupPageEx*)SectionManager::instance->curSection->pages[Page::ONLINE_VOTE_PROMPT];
+        return (YesNoPopupPageEx*)SectionManager::instance->curSection->getPage(Page::ONLINE_VOTE_PROMPT);
     }
 
     InputHandler1<YesNoPopupPageEx, void, u32> onBackPressHandler;

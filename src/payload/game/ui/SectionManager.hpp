@@ -3,11 +3,40 @@
 #include <game/ui/GlobalContext.hpp>
 #include <game/ui/MessageGroup.hpp>
 #include <game/ui/Section.hpp>
+#include <game/ui/SectionPad.hpp>
+#include <nw4r/ut/Color.hpp>
 
 class SectionManager {
 public:
+    enum State {
+        IDLE,
+        REINIT_REQUESTED,
+        CHANGE_REQUESTED,
+        REINIT_READY,
+        CHANGE_READY,
+        OVERRIDE_READY,
+    };
+
+    void createSection();
+
     Section* curSection;
-    u8 unk[0x8C];
+
+    Section::SectionId bootSectionId;
+    Section::SectionId forcedBootSectionId; // overrides bootSectionId if set
+    Section::SectionId nextSectionId;
+    Section::SectionId prevSectionId;
+
+    Page::AnimationDirection currentAnimDirection;
+    Page::AnimationDirection nextAnimDirection;
+    u32 animDelay;
+    bool firstLoad;
+    // 3 bytes padding
+
+    u32 statusBitfield;
+    nw4r::ut::Color fadeOutColor;
+    int someFrameCounter;
+    State state;
+    SectionPad pad;
 
     SaveGhostManager* saveGhostManager;
     MessageGroup* systemMsgGroup;

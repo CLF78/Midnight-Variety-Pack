@@ -27,7 +27,7 @@ REPLACE void ClassSelectPage::onInit() {
     multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
 
     // If we are not returning from TT mode, we don't need to set the button
-    u32 section = SectionManager::instance->curSection->sectionID;
+    u32 section = SectionManager::instance->curSection->sectionId;
     if (section != Section::MENUSINGLE_FROM_TT_CHANGE_CHAR && section != Section::MENUSINGLE_FROM_TT_CHANGE_COURSE)
         return;
 

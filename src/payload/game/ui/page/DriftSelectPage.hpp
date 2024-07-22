@@ -25,10 +25,10 @@ public:
     void onButtonDeselect(PushButton& button, u32 hudSlotId);
     void onBckPress(u32 hudSlotId);
     static DriftSelectPage* getPage(){
-        return (DriftSelectPage*)SectionManager::instance->curSection->pages[Page::DRIFT_SELECT];
+        return (DriftSelectPage*)SectionManager::instance->curSection->getPage(Page::DRIFT_SELECT);
     };
 
     UIControlTimer* timer;
-    Section::SectionID sectionId;
+    Section::SectionId sectionId;
 };
 size_assert(DriftSelectPage, 0x6CC);

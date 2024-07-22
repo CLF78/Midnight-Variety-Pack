@@ -5,7 +5,7 @@
 #include <game/ui/ctrl/VehicleModelControl.hpp>
 #include <game/util/Random.hpp>
 
-static void LoadMultiTransmissionFromKart(MenuPage* menuPage, Page::PageID pageId, float delay){
+static void LoadMultiTransmissionFromKart(MenuPage* menuPage, Page::PageId pageId, float delay){
     pageId = Page::TRANSMISSION_SELECT_MULTI_PLAYER;
     menuPage->loadNextPageWithDelayById(pageId, delay);
 }
@@ -108,7 +108,7 @@ void MultiTransmissionSelectPage::onBackPress(u32 hudSlotId){
     }
 }
 
-void FixMultiVehicleModelTransition(VehicleModelControl* ctrl, Page::PageID id){
+void FixMultiVehicleModelTransition(VehicleModelControl* ctrl, Page::PageId id){
     if(id == Page::TRANSMISSION_SELECT_MULTI_PLAYER){
         id = Page::DRIFT_SELECT_MULTI_PLAYER;
     }
