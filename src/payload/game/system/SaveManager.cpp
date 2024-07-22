@@ -4,9 +4,9 @@
 #include <game/util/NandUtil.hpp>
 #include <mvp/save/SaveExpansionManager.hpp>
 
-///////////////////////////
-// Save Expansion System //
-///////////////////////////
+///////////////////////////////
+// Savegame Expansion System //
+///////////////////////////////
 
 // Update SaveManager size and construct the expansion
 REPLACE_STATIC SaveManager* SaveManager::createStaticInstance() {
