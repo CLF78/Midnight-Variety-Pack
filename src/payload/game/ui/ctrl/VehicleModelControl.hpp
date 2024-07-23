@@ -1,10 +1,12 @@
+#include <common/Common.hpp>
 #include <game/ui/ctrl/LayoutUIControl.hpp>
+#include <game/ui/page/Page.hpp>
 
 class VehicleModelControl : public LayoutUIControl {
 public:
-    VehicleModelControl();
     virtual ~VehicleModelControl();
-    void setAnimationType(u32 id);
+    void setAnimationType(Page::PageId pageId);
+
     u8 hudSlotId;
     u32 mode;
     u8 animationType;

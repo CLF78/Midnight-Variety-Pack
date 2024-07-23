@@ -2,7 +2,6 @@
 #include <mvp/transmission/MultiTransmissionSelectPage.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
-#include <game/ui/ctrl/VehicleModelControl.hpp>
 #include <game/util/Random.hpp>
 
 static void LoadMultiTransmissionFromKart(MenuPage* menuPage, Page::PageId pageId, float delay){
@@ -107,12 +106,3 @@ void MultiTransmissionSelectPage::onBackPress(u32 hudSlotId){
         this->loadPrevPageWithDelay(0.0f);
     }
 }
-
-void FixMultiVehicleModelTransition(VehicleModelControl* ctrl, Page::PageId id){
-    if(id == Page::TRANSMISSION_SELECT_MULTI_PLAYER){
-        id = Page::DRIFT_SELECT_MULTI_PLAYER;
-    }
-    ctrl->setAnimationType(id);
-};
-kmCall(0x8084a770, FixMultiVehicleModelTransition);
-kmCall(0x8084a6dc, FixMultiVehicleModelTransition);

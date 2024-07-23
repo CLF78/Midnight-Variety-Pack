@@ -78,15 +78,12 @@
         string: "Derapa verso l'interno (senza angolo di sterzo).",
     },
     "20016": {
-        string: "Aiuto",
-    },
-    "20017": {
         string: "Consulta una descrizione delle direzioni di derapata.",
     },
-    "20018": {
+    "20017": {
         string: "■ Derapata Esterna ■\nDerapi con un angolo di sterzo di 45°.\n\n■ Derapata Interna ■\nDerapi senza angolo di sterzo.",
     },
-    "20019": {
+    "20018": {
         string: "Direzione Derapata",
     },
 }

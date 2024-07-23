@@ -51,11 +51,11 @@ REPLACE_STATIC Page* Section::createPage(Page::PageId pageId) {
         case Page::VR_SCREEN:
             return new WifiMemberConfirmPageEx();
 
-        // Inherits from DriftSelectPage: allows the player to select their transmission in SinglePlayer
+        // Allow the player to select their transmission in single player
         case Page::TRANSMISSION_SELECT:
             return new TransmissionSelectPage();
 
-        // Inherits from MultiDriftSelectPage: allows the player to select their transmission in MultiPlayer
+        // Allow the player to select their transmission in multiplayer
         case Page::TRANSMISSION_SELECT_MULTI_PLAYER:
             return new MultiTransmissionSelectPage();
 
@@ -75,7 +75,7 @@ REPLACE void Section::addPages(SectionId sectionId) {
             REPLACED(SAVE_CANNOT_READ_RFL);
             break;
 
-        // Add transmission select to singleplayer sections
+        // Add transmission select to single player sections
         case MENUSINGLE_FROM_MAIN:
         case MENUSINGLE_FROM_TT_CHANGE_CHAR:
         case MENUSINGLE_FROM_TT_CHANGE_COURSE:
@@ -125,7 +125,7 @@ REPLACE void Section::addPages(SectionId sectionId) {
     }
 }
 
-// Apply section page replacements (starting pages)
+// Apply section page replacements (initial pages)
 REPLACE void Section::addActivePages(SectionId sectionId) {
 
     switch(sectionId) {
@@ -149,7 +149,7 @@ REPLACE void Section::addPage(Page::PageId pageId) {
     page->init(pageId);
 }
 
-// Allow adding custom active pages
+// Allow adding custom initial pages
 REPLACE void Section::addActivePage(Page::PageId pageId) {
     Page::AnimationDirection direction = animationDirection;
     Page* page = getPage(pageId);

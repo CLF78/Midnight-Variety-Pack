@@ -24,9 +24,10 @@ public:
     virtual void beforeInAnim();
     virtual void beforeOutAnim();
     virtual void onRefocus();
+
     RUNTIME_TYPE_INFO_NODECL;
 
-    virtual void onSelectChange(PushButton* button, int playerId);
+    virtual void onSelectChange(PushButton* button, u32 hudSlotId);
     virtual int getActivePlayers() = 0;
     virtual int getActiveControllers() = 0;
     virtual MenuInputManager* getInputManager() = 0;
@@ -45,11 +46,15 @@ public:
 
     void requestSectionChange(u32 sectionId, PushButton* button);
     void forceSectionChange(u32 sectionId, PushButton* button);
-    void loadPrevPageById(u32 pageId, PushButton& button);
+
+    void loadPrevPageWithDelayById(u32 pageId, float delay);
+    void loadPrevPageWithDelay(float delay);
+    void loadPrevPageById(u32 pageId, PushButton* button);
+    void loadPrevPage(PushButton* button);
+
     void loadNextPageById(u32 pageId, PushButton* button);
     void loadNextPageWithDelayById(u32 pageId, float delay);
-    void loadPrevPage(PushButton& button);
-    void loadPrevPageWithDelay(float delay);
+
     void pushMessage(u32 bmgId, MessageInfo* text = nullptr);
     void loadMovies(const char** movies, u32 movieCount);
     bool checkAllPlayersActive();
