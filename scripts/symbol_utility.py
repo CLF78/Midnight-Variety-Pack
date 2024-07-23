@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-# missing_sym_detect.py
-# Given a symbol list, extracts the symbols that could not be found
+# symbol_utility.py
+# Given a symbol map, sorts the symbols contained within.
+# If also given a symbol list, checks if the symbol is in the map; if not present, asks the user for the address.
 
 from argparse import ArgumentParser
 from pathlib import Path
@@ -17,7 +18,7 @@ def request_sym_addr(sym: str) -> int:
             print('Invalid symbol address!')
 
 
-def get_missing_symbols(src: Path, sym_map: Path) -> None:
+def get_missing_symbols(sym_map: Path, src: Path) -> None:
 
     # Read symbol map
     syms = {}
@@ -27,15 +28,16 @@ def get_missing_symbols(src: Path, sym_map: Path) -> None:
             sym, addr = line.split('=')
             syms[sym] = int(addr, 16)
 
-    # Read symbol file
-    data = src.read_text(encoding='utf-8').replace('"', '').splitlines()
+    # Read symbol file, if it exists
+    if src and src.is_file():
+        data = src.read_text(encoding='utf-8').replace('"', '').splitlines()
 
-    # Ask the user for each missing symbol
-    for line in data:
-        if line and not line.startswith('@') and line not in syms:
-            new_sym_addr = request_sym_addr(line)
-            if new_sym_addr:
-                syms[line] = new_sym_addr
+        # Ask the user for each missing symbol
+        for line in data:
+            if line and not line.startswith('@') and line not in syms:
+                new_sym_addr = request_sym_addr(line)
+                if new_sym_addr:
+                    syms[line] = new_sym_addr
 
     # Sort the resulting symbol map
     sorted_syms = sorted(syms.items(), key=lambda x: x[1])
@@ -48,10 +50,10 @@ def get_missing_symbols(src: Path, sym_map: Path) -> None:
 if __name__ == '__main__':
 
     # Get arguments
-    parser = ArgumentParser(description='Missing symbol check utility')
-    parser.add_argument('source', type=Path, help='The file containing the list of new symbols')
+    parser = ArgumentParser(description='Symbol checking and reordering utility')
     parser.add_argument('map', type=Path, help='The path to the symbol map')
+    parser.add_argument('--source', type=Path, help='A file containing a list of symbols (optional)')
     args = parser.parse_args()
 
     # Start processing
-    get_missing_symbols(args.source, args.map)
+    get_missing_symbols(args.map, args.source)
