@@ -280,11 +280,11 @@ public:
     void setAnimationDirection(AnimationDirection direction);
     void setInputManager(MenuInputManager* manager);
 
-    int pageId;
-    int pageState;
+    PageId pageId;
+    PageState pageState;
     bool canProceed;
 
-    int animId;
+    AnimationDirection animId;
     float backTransitionDelay;
     float transitionDelay;
 

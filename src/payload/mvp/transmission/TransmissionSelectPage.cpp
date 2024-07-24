@@ -31,7 +31,7 @@ void TransmissionSelectPage::onActivate() {
         Message::Menu::HELP,
     };
 
-    for (int i = 0; i < ARRAY_SIZE(buttonTexts); i++){
+    for (int i = 0; i < ARRAY_SIZE(buttonTexts); i++) {
         buttons[i]->setText(buttonTexts[i]);
     }
 
@@ -100,7 +100,7 @@ void TransmissionSelectPage::setCPUTransmissions() {
     
     // Set a random transmission for every CPU
     Random random;
-    for (int i = 1; i < 12; i++){
+    for (int i = 1; i < 12; i++) {
         scenario->players[i].transmission = random.nextU32(2) + 1;
     }
 }

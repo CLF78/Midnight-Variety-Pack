@@ -47,13 +47,13 @@ public:
     void requestSectionChange(u32 sectionId, PushButton* button);
     void forceSectionChange(u32 sectionId, PushButton* button);
 
-    void loadPrevPageWithDelayById(u32 pageId, float delay);
+    void loadPrevPageWithDelayById(PageId pageId, float delay);
     void loadPrevPageWithDelay(float delay);
-    void loadPrevPageById(u32 pageId, PushButton* button);
+    void loadPrevPageById(PageId pageId, PushButton* button);
     void loadPrevPage(PushButton* button);
 
-    void loadNextPageById(u32 pageId, PushButton* button);
-    void loadNextPageWithDelayById(u32 pageId, float delay);
+    void loadNextPageById(PageId pageId, PushButton* button);
+    void loadNextPageWithDelayById(PageId pageId, float delay);
 
     void pushMessage(u32 bmgId, MessageInfo* text = nullptr);
     void loadMovies(const char** movies, u32 movieCount);
@@ -82,8 +82,8 @@ public:
     u32 _3E0;
 
     u32 titleBmgId;
-    int nextPageId;
-    int prevPageId;
+    PageId nextPageId;
+    PageId prevPageId;
     int prevSectionId;
     int nextSectionId;
     u32 _3F8;

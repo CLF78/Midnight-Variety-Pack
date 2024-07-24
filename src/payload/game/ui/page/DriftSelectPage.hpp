@@ -28,7 +28,7 @@ public:
     void onButtonDeselect(PushButton* button, u32 hudSlotId);
     void onBackPress(u32 hudSlotId);
 
-    static DriftSelectPage* getPage(){
+    static DriftSelectPage* getPage() {
         return (DriftSelectPage*)SectionManager::instance->curSection->getPage(Page::DRIFT_SELECT);
     };
 
