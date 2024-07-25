@@ -87,7 +87,7 @@ void RaceCupSelectPageEx::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u3
             msgInfo.messageIds[0] = Message::Menu::GP_RANK_NONE;
 
         // Set it
-        this->instructionText->setText(Message::Menu::INSTRUCTION_TEXT_GP_RANK, &msgInfo);
+        instructionText->setText(Message::Menu::INSTRUCTION_TEXT_GP_RANK, &msgInfo);
     }
 }
 

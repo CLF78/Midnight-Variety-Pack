@@ -1,7 +1,7 @@
 #include <common/Common.hpp>
 
 void kmListHook::execute() {
-    kmListHookNode* curr = this->head;
+    kmListHookNode* curr = head;
     while (curr != nullptr) {
         curr->func();
         curr = curr->next;

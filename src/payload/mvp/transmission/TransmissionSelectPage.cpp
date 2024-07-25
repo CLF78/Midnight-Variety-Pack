@@ -100,7 +100,7 @@ void TransmissionSelectPage::setCPUTransmissions() {
     RaceConfig::Scenario* scenario = &RaceConfig::instance->menuScenario;
     if (scenario->settings.isOnline())
         return;
-    
+
     // Set a random transmission for every CPU
     Random random;
     for (int i = 1; i < 12; i++) {

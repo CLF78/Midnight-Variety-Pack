@@ -18,8 +18,8 @@ REPLACE void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
     for (int i = 0; i < ARRAY_SIZE(courseNames); i++) {
 
         // Get button
-        LayoutUIControl* courseName = &this->courseNames[i];
-        
+        LayoutUIControl* courseName = &courseNames[i];
+
         // Play switch animation
         courseName->animator.getGroup(0)->setAnimation(0, 0.0f);
         courseName->animator.getGroup(1)->setAnimation(0, 0.0f);
