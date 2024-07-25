@@ -10,8 +10,7 @@ TransmissionSelectPage::TransmissionSelectPage() {
     SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
     SET_HANDLER_FUNC(onBackPressHandler, onBackPress);
 
-    // Set previous and next page
-    nextPageId = Page::DRIFT_SELECT;
+    // Set previous page
     prevPageId = Page::VEHICLE_SELECT;
     if (RaceConfig::instance->menuScenario.settings.isBattle())
         prevPageId = Page::VEHICLE_SELECT_BT;

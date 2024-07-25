@@ -57,7 +57,7 @@ public:
 
     void pushMessage(u32 bmgId, MessageInfo* text = nullptr);
     void loadMovies(const char** movies, u32 movieCount);
-    bool checkAllPlayersActive();
+    bool checkAllPlayersReady();
 
     MiiGroup* miiGroup;
 

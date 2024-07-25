@@ -1,17 +1,25 @@
-#include <game/ui/page/Page.hpp>
+#include <common/Common.hpp>
 #include <game/ui/page/MultiDriftSelectPage.hpp>
-#include <game/ui/ctrl/PushButton.hpp>
 
 class MultiTransmissionSelectPage : public MultiDriftSelectPage {
 public:
-    static const Page::PageId id = Page::TRANSMISSION_SELECT_MULTI_PLAYER;
+    enum ButtonId {
+        BUTTON_OUTSIDE_P1,
+        BUTTON_INSIDE_P1,
+        BUTTON_OUTSIDE_P2,
+        BUTTON_INSIDE_P2,
+        BUTTON_OUTSIDE_P3,
+        BUTTON_INSIDE_P3,
+        BUTTON_OUTSIDE_P4,
+        BUTTON_INSIDE_P4,
+        BUTTON_COUNT,
+    };
+
     MultiTransmissionSelectPage();
-    virtual ~MultiTransmissionSelectPage(){};
+    virtual ~MultiTransmissionSelectPage() {}
+
     virtual void onActivate();
-    virtual void setupButton(PushButton* pushButton);
-    //virtual void beforeCalc();
-private:
+
     void onButtonClick(PushButton* button, u32 hudSlotId);
-    void onBackPress(u32 hudSlotId);
-    void SetCPUVehicleType();
+    void setCPUTransmissions();
 };
