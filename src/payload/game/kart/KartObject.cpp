@@ -1,8 +1,16 @@
-#include <game/kart/KartObject.hpp>
+#include <common/Common.hpp>
 #include <game/kart/KartMove.hpp>
+#include <game/kart/KartObject.hpp>
 #include <game/system/RaceConfig.hpp>
 
-REPLACE_STATIC KartObject* KartObject::Create(u8 playerIdx, int kart, int character, bool isBike){
+/////////////////////////////////////////////////
+// Custom Engine Classes / Transmission Select //
+/////////////////////////////////////////////////
+
+// Apply engine class and transmission changes
+REPLACE_STATIC KartObject* KartObject::Create(u8 playerIdx, int kart, int character, bool isBike) {
+
+    // Get structures
     KartObject* object = REPLACED(playerIdx, kart, character, isBike);
     KartStats* stats = object->kartSettings->kartParam.stats;
     RaceConfig* raceConfig = RaceConfig::instance;
@@ -15,25 +23,31 @@ REPLACE_STATIC KartObject* KartObject::Create(u8 playerIdx, int kart, int charac
             stats->standard_acceleration_as[i] *= KartMove::speedModifiers[engineClass];
     }
     
-    u8 chosenTransmission = raceConfig->raceScenario.players[playerIdx].transmission;
-    switch(chosenTransmission){
+    // Apply transmission changes
+    switch(raceConfig->raceScenario.players[playerIdx].transmission) {
+
+        // If the vehicle isn't already an inside-drifting bike, buff the drift stats as well
         case RaceConfig::Player::TRANSMISSION_INSIDE:
-            // If the vehicle isn't an inside-drifting bike, give the drift a buff
-            if(stats->vehicleType != KartStats::INSIDE_BIKE){
+            if(stats->vehicleType != KartStats::INSIDE_BIKE) {
                 stats->automaticDrift += 0.002;
                 stats->manualDrift += 0.002;
             }
             stats->vehicleType = KartStats::INSIDE_BIKE;
             break;
+
+        // If the vehicle type is a bike, ensure the drift angle is set
         case RaceConfig::Player::TRANSMISSION_OUTSIDE:
-            // If the vehicle type is a Kart, these will already be set correctly
-            if (isBike){
+            if (isBike) {
                 stats->vehicleType = KartStats::OUTSIDE_BIKE;
                 stats->outsideDriftTargetAngle = 45;
             }
             break;
+
+        // Do not change the stats for the default transmission
         default:
             break;
     }
+
+    // Return object to match original function return type
     return object;
 }

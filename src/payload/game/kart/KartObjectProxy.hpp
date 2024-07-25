@@ -9,7 +9,6 @@ public:
     KartPointers* pointers;
     nw4r::ut::Link linkList;
 
-    int getKartType(KartObjectProxy* kobj);
     u8 getPlayerIdx();
     VehiclePhysics* getVehiclePhysics();
     VEC3* getPlayerPosition();
