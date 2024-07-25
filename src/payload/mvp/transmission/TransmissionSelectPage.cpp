@@ -51,6 +51,10 @@ void TransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotId) {
     RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[0];
     switch (button->buttonId) {
 
+        case BACK_BUTTON:
+            loadPrevPage(button);
+            break;
+
         case BUTTON_INSIDE:
             player->transmission = RaceConfig::Player::TRANSMISSION_INSIDE;
             loadNextPageById(Page::DRIFT_SELECT, button);
