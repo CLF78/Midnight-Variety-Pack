@@ -1,6 +1,6 @@
 #include <common/Common.hpp>
-#include <game/kart/KartSettings.hpp>
 
+class KartSettings;
 class KartState;
 class KartBody;
 class KartSuspension;

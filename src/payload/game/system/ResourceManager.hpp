@@ -42,7 +42,7 @@ public:
 
     virtual ~ResourceManager();
 
-    void* getFile(int source, const char* path, size_t* size);
+    void* getFile(int source, const char* path, size_t* size = nullptr);
     u16 getMenuArchiveCount();
 
     MultiDvdArchive* loadCourse(u32 courseId, EGG::Heap* heap, bool isSplitScreen);

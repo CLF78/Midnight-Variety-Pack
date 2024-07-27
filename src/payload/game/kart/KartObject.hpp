@@ -2,9 +2,13 @@
 #include <game/kart/KartStats.hpp>
 #include <game/kart/KartObjectProxy.hpp>
 #include <game/kart/KartParam.hpp>
+#include <game/kart/KartSettings.hpp>
 
 class KartObject : public KartObjectProxy {
 public:
+
+    u16 getDriftState() const;
+
     virtual ~KartObject();
     virtual void InitSub();
     virtual void CreateBody();
