@@ -14,4 +14,14 @@ class Disposer {
 };
 size_assert(Disposer, 0x10);
 
+template<class T>
+class TDisposer: public Disposer {
+public:
+    virtual ~TDisposer() {
+        T::sInstance = nullptr;
+        delete(t);
+        Disposer::~Disposer();
+    };
+};
+
 } // namespace EGG
