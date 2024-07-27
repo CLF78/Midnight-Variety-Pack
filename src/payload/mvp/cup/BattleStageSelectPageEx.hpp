@@ -17,7 +17,7 @@ public:
     void onBackPress(u32 hudSlotId);
 
     static BattleStageSelectPageEx* getPage() {
-        return (BattleStageSelectPageEx*)SectionManager::instance->curSection->pages[Page::COURSE_SELECT_BT];
+        return (BattleStageSelectPageEx*)SectionManager::instance->curSection->getPage(Page::COURSE_SELECT_BT);
     }
 
     static u32 getCupCount() {

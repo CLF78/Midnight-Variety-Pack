@@ -33,7 +33,7 @@ REPLACE void VotingBackPage::setupRace() {
     RaceConfig::Scenario* scenario = &rconf->menuScenario;
     RaceConfig::Settings* settings = &scenario->settings;
     GlobalContext* ctx = SectionManager::instance->globalContext;
-    u32 curSection = SectionManager::instance->curSection->sectionID;
+    u32 curSection = SectionManager::instance->curSection->sectionId;
     RKNetSELECTHandler* selectHandler = RKNetSELECTHandler::instance;
 
     // Update the AID to PID map

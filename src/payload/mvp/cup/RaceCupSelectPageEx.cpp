@@ -87,7 +87,7 @@ void RaceCupSelectPageEx::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u3
             msgInfo.messageIds[0] = Message::Menu::GP_RANK_NONE;
 
         // Set it
-        this->instructionText->setText(Message::Menu::INSTRUCTION_TEXT_GP_RANK, &msgInfo);
+        instructionText->setText(Message::Menu::INSTRUCTION_TEXT_GP_RANK, &msgInfo);
     }
 }
 
@@ -110,7 +110,7 @@ void RaceCupSelectPageEx::setCourse(CtrlMenuCupSelectCup* cupHolder, PushButton*
             SectionManager::instance->globalContext->lastStage = trackIdx;
 
         // Set the course data if offline
-        if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID)) {
+        if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
 
             // Store the cup id
             RaceConfig::instance->menuScenario.settings.cupId = cupIdx;
@@ -169,7 +169,7 @@ void RaceCupSelectPageEx::onActivate() {
     cupHolder.init();
 
     // Load the Vote/Random popup if we are in an online room
-    if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID) && animId == Page::ANIM_NEXT) {
+    if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId) && animId == Page::ANIM_NEXT) {
 
         // Get the page
         YesNoPopupPageEx* popupPage = YesNoPopupPageEx::getPage();

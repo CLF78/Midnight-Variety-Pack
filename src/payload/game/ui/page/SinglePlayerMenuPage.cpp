@@ -34,7 +34,7 @@ REPLACE void SinglePlayerMenuPage::onButtonClick(PushButton* button, u32 hudSlot
     static const u8 playerCounts[SinglePlayerMenuPage::BUTTON_COUNT] = { 12, 1, 12, 12, 1 };
 
     // Next screen for each menu button
-    static const u32 nextPages[SinglePlayerMenuPage::BUTTON_COUNT] = {
+    static const Page::PageId nextPages[SinglePlayerMenuPage::BUTTON_COUNT] = {
         Page::CHARACTER_SELECT,
         Page::GP_CLASS_SELECT,
         Page::VS_MODE_PROMPT,
@@ -58,7 +58,7 @@ REPLACE void SinglePlayerMenuPage::onButtonClick(PushButton* button, u32 hudSlot
     // If the back button was pressed, return to the main menu
     if (buttonId == MenuPage::BACK_BUTTON) {
         forceSectionChange(Section::MENU_FROM_GAME, button);
-        u32 soundId = Section::getSoundID(Section::MENU_FROM_GAME);
+        u32 soundId = Section::getSoundId(Section::MENU_FROM_GAME);
         AudioHandleHolder::instance->prepare(soundId, false);
         return;
     }

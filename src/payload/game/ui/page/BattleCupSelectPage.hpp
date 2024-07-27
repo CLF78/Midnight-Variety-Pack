@@ -21,7 +21,7 @@ public:
 
     RUNTIME_TYPE_INFO_NODECL;
 
-    virtual void onSelectChange(PushButton* button, int playerId);
+    virtual void onSelectChange(PushButton* button, u32 hudSlotId);
     virtual int getActivePlayers();
     virtual int getActiveControllers();
     virtual MenuInputManager* getInputManager();

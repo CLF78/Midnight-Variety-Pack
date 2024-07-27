@@ -85,7 +85,7 @@ void BattleCupSelectPageEx::onActivate() {
     instructionText->setText(msgId);
 
     // If we're offline, we're done
-    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID))
+    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId))
         return;
 
     // If we're entering the screen, add the Vote/Random prompt
@@ -128,7 +128,7 @@ void BattleCupSelectPageEx::setCourse(CtrlMenuBattleCupSelectCup* cupHolder, Pus
             SectionManager::instance->globalContext->lastStage = trackIdx;
 
         // Set the course data if offline
-        if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionID)) {
+        if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
 
             // Get the actual track and store it
             u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);

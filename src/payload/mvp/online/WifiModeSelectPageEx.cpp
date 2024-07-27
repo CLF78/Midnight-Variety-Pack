@@ -12,7 +12,7 @@ WifiModeSelectPageEx::WifiModeSelectPageEx() : extraRaceButtons() {
 void WifiModeSelectPageEx::onInit() {
 
     // Initialize the input manager
-    switch (SectionManager::instance->curSection->sectionID) {
+    switch (SectionManager::instance->curSection->sectionId) {
         case Section::WIFI_MENU_2P:
         case Section::WIFI_MENU_2P_FROM_DC:
         case Section::WIFI_MENU_2P_FROM_FRIENDLIST:

@@ -1,128 +1,109 @@
-#include <mvp/transmission/TransmissionSelectPage.hpp>
+#include <common/Common.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
-#include <game/ui/ctrl/VehicleModelControl.hpp>
 #include <game/util/Random.hpp>
+#include <mvp/transmission/TransmissionSelectPage.hpp>
 
-void LoadTransmissionFromVehicle(MenuPage* menuPage, Page::PageID pageId, PushButton* button){
-    pageId = Page::TRANSMISSION_SELECT;
-    menuPage->loadNextPageById(pageId, button);
-}
-//Normal
-kmCall(0x80846d2c, LoadTransmissionFromVehicle);
-kmCall(0x80846d64, LoadTransmissionFromVehicle);
-kmCall(0x80846e1c, LoadTransmissionFromVehicle);
-kmCall(0x80846e40, LoadTransmissionFromVehicle);
-//Battle
-kmCall(0x8083aa20, LoadTransmissionFromVehicle);
-kmCall(0x8083aa40, LoadTransmissionFromVehicle);
+TransmissionSelectPage::TransmissionSelectPage() {
 
-void LoadTransmissionFromDrift(MenuPage* menuPage, float delay){
-    menuPage->prevPageId = Page::TRANSMISSION_SELECT;
-    menuPage->loadPrevPageWithDelay(delay);
-}
-kmBranch(0x8084e700, LoadTransmissionFromDrift);
-
-TransmissionSelectPage::TransmissionSelectPage(){
-    nextPageId = Page::DRIFT_SELECT;
-    prevPageId = Page::VEHICLE_SELECT;
-    if (RaceConfig::instance->menuScenario.settings.isBattle()) prevPageId = Page::VEHICLE_SELECT_BT;
+    // Set handlers
     SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
-    SET_HANDLER_FUNC(onButtonSelectHandler, onButtonSelect);
     SET_HANDLER_FUNC(onBackPressHandler, onBackPress);
+
+    // Set previous page
+    prevPageId = Page::VEHICLE_SELECT;
+    if (RaceConfig::instance->menuScenario.settings.isBattle())
+        prevPageId = Page::VEHICLE_SELECT_BT;
 }
 
-void TransmissionSelectPage::onActivate(){
-    const char* movies[] = {"thp/button/drift_select.thp"}; //todo create custom thps
+void TransmissionSelectPage::onActivate() {
+
+    // Load custom movie
+    // TODO make actual custom movies
+    static const char* movies[] = {"thp/button/drift_select.thp"};
     loadMovies(movies, ARRAY_SIZE(movies));
 
-    for (int i = 0; i < this->buttonCount; i++){
-        if (i == 0){
-            this->buttons[i]->setText(Message::Menu::TRANSMISSION_INSIDE);
-        }
-        else if (i == 1){
-            this->buttons[i]->setText(Message::Menu::TRANSMISSION_OUTSIDE);
-        }
-        else if (i == 2){
-            this->buttons[i]->setText(Message::Menu::TRANSMISSION_HELP);
-        }
+    // Set button texts
+    static const u32 buttonTexts[BUTTON_COUNT] = {
+        Message::Menu::TRANSMISSION_INSIDE,
+        Message::Menu::TRANSMISSION_OUTSIDE,
+        Message::Menu::HELP,
+    };
+
+    for (int i = 0; i < ARRAY_SIZE(buttonTexts); i++) {
+        buttons[i]->setText(buttonTexts[i]);
     }
-    this->titleBmgId = Message::Menu::TRANSMISSION_TITLE;
+
+    // Set the title text and activate the page
+    titleBmgId = Message::Menu::TRANSMISSION_TITLE;
     MenuPage::onActivate();
-    PushButton* lastSelectedButton = this->buttons[0]; //todo 
-    this->setSelection(lastSelectedButton);
-    u32 buttonId = lastSelectedButton->buttonId;
-    if (buttonId == 0){
-        this->instructionText->setText(Message::Menu::TRANSMISSION_INSIDE_BOTTOM);
-    }
-    else if(buttonId == 1){
-        this->instructionText->setText(Message::Menu::TRANSMISSION_OUTSIDE_BOTTOM);
-    }
-    else if(buttonId == 2){
-        this->instructionText->setText(Message::Menu::TRANSMISSION_HELP_BOTTOM);
-    }
+
+    // Set the default selection
+    // TODO decide how to select the default button
+    PushButton* lastSelectedButton = buttons[BUTTON_INSIDE];
+    setSelection(lastSelectedButton);
 }
 
-void TransmissionSelectPage::setupButton(PushButton* button){
-    button->setOnClickHandler(&this->onButtonClickHandler, 0);
-    button->setOnSelectHandler(&this->onButtonSelectHandler);
-    button->setOnDeselectHandler(&this->onButtonDeselectHandler);
-}
+void TransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotId) {
 
-void TransmissionSelectPage::SetCPUVehicleType(){
-    RaceConfig::Scenario* scenario = &RaceConfig::instance->menuScenario;
-    if (scenario->settings.isOnline()) return;
-    Random random;
-    for (int i = 1; i < 12; i++){
-        scenario->players[i].transmission = random.nextU32(2) + 1;
-    }
-}
+    // Get the first player, as this is a single player page
+    RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[0];
+    switch (button->buttonId) {
 
-void TransmissionSelectPage::onButtonClick(PushButton* button, u32){
-    RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[0]; // 0 because this is SinglePlayer only
-    switch (button->buttonId)
-    {
-        case 0:
+        case BACK_BUTTON:
+            loadPrevPage(button);
+            break;
+
+        case BUTTON_INSIDE:
             player->transmission = RaceConfig::Player::TRANSMISSION_INSIDE;
-            this->loadNextPageById(Page::DRIFT_SELECT, button);
-            SetCPUVehicleType();
+            loadNextPageById(Page::DRIFT_SELECT, button);
+            setCPUTransmissions();
             break;
-        case 1:
+
+        case BUTTON_OUTSIDE:
             player->transmission = RaceConfig::Player::TRANSMISSION_OUTSIDE;
-            this->loadNextPageById(Page::DRIFT_SELECT, button);
-            SetCPUVehicleType();
+            loadNextPageById(Page::DRIFT_SELECT, button);
+            setCPUTransmissions();
             break;
-        case 2:
-            this->pushMessage(Message::Menu::TRANSMISSION_HELP_DESC);
+
+        case BUTTON_HELP:
+            pushMessage(Message::Menu::TRANSMISSION_HELP_DESC);
             break;
+
         default:
             break;
     }
 }
 
-void TransmissionSelectPage::onButtonSelect(PushButton* button, u32 hudSlotId){
-    u32 buttonId = button->buttonId;
-    
-    if (buttonId == 0){
-        this->instructionText->setText(Message::Menu::TRANSMISSION_INSIDE_BOTTOM);
-    }
-    else if(buttonId == 1){
-        this->instructionText->setText(Message::Menu::TRANSMISSION_OUTSIDE_BOTTOM);
-    }
-    else if(buttonId == 2){
-        this->instructionText->setText(Message::Menu::TRANSMISSION_HELP_BOTTOM);
+void TransmissionSelectPage::onBackPress(u32 hudSlotId) {
+    loadPrevPageWithDelay(0.0f);
+}
+
+void TransmissionSelectPage::onSelectChange(PushButton* button, u32 hudSlotId) {
+
+    static const u32 instructionTexts[BUTTON_COUNT] = {
+        Message::Menu::TRANSMISSION_INSIDE_BOTTOM,
+        Message::Menu::TRANSMISSION_OUTSIDE_BOTTOM,
+        Message::Menu::TRANSMISSION_HELP_BOTTOM,
+    };
+
+    if (button->buttonId == BACK_BUTTON) {
+        instructionText->setText(Message::NONE);
+    } else {
+        instructionText->setText(instructionTexts[button->buttonId]);
     }
 }
 
-void TransmissionSelectPage::onBackPress(u32 hudSlotId){
-    this->loadPrevPageWithDelay(0.0f);
-}
+void TransmissionSelectPage::setCPUTransmissions() {
 
-void FixVehicleModelTransition(VehicleModelControl* ctrl, Page::PageID id){ //todo use REPLACE to replace the functions hooked
-    if(id == Page::TRANSMISSION_SELECT){
-        id = Page::DRIFT_SELECT;
+    // Skip if online
+    RaceConfig::Scenario* scenario = &RaceConfig::instance->menuScenario;
+    if (scenario->settings.isOnline())
+        return;
+
+    // Set a random transmission for every CPU
+    Random random;
+    for (int i = 1; i < 12; i++) {
+        scenario->players[i].transmission = random.nextU32(2) + 1;
     }
-    ctrl->setAnimationType(id);
-};
-kmCall(0x80847678, FixVehicleModelTransition);
-kmCall(0x808476c8, FixVehicleModelTransition);
+}

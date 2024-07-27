@@ -51,7 +51,7 @@ public:
     }
 
     static FriendRoomJoinPage* getPage() {
-        return (FriendRoomJoinPage*)SectionManager::instance->curSection->pages[Page::FRIEND_ROOM_JOIN];
+        return (FriendRoomJoinPage*)SectionManager::instance->curSection->getPage(Page::FRIEND_ROOM_JOIN);
     }
 
     MenuInputManager inputManager;

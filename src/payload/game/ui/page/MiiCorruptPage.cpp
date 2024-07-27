@@ -13,7 +13,7 @@
 kmCallDefCpp(0x806207CC, void, LayoutUIControl* self, u32 msgId, MessageInfo* msgInfo) {
 
     // If the section is not the corrupted Mii data one, use the save message error depending on the check error
-    if (SectionManager::instance->curSection->sectionID != Section::SAVE_CANNOT_READ_RFL) {
+    if (SectionManager::instance->curSection->sectionId != Section::SAVE_CANNOT_READ_RFL) {
         int checkError = SectionManager::instance->saveGhostManager->nandManagerCheckError;
         if (checkError & NandUtil::CHECK_ERROR_BLOCKS)
             msgId = Message::Menu::ERROR_NOT_ENOUGH_MEMORY;

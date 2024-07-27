@@ -16,7 +16,7 @@
 ///////////////////////////
 
 // Apply page replacements
-REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
+REPLACE_STATIC Page* Section::createPage(Page::PageId pageId) {
     switch (pageId) {
 
         // Expand yes/no prompt to allow going back
@@ -51,11 +51,11 @@ REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
         case Page::VR_SCREEN:
             return new WifiMemberConfirmPageEx();
 
-        // Inherits from DriftSelectPage: allows the player to select their transmission in SinglePlayer
+        // Allow the player to select their transmission in single player
         case Page::TRANSMISSION_SELECT:
             return new TransmissionSelectPage();
 
-        // Inherits from MultiDriftSelectPage: allows the player to select their transmission in MultiPlayer
+        // Allow the player to select their transmission in multiplayer
         case Page::TRANSMISSION_SELECT_MULTI_PLAYER:
             return new MultiTransmissionSelectPage();
 
@@ -66,7 +66,7 @@ REPLACE_STATIC Page* Section::createPage(Page::PageID pageId) {
 }
 
 // Apply section page replacements (all pages)
-REPLACE void Section::addPages(SectionID sectionId) {
+REPLACE void Section::addPages(SectionId sectionId) {
 
     switch(sectionId) {
 
@@ -75,7 +75,7 @@ REPLACE void Section::addPages(SectionID sectionId) {
             REPLACED(SAVE_CANNOT_READ_RFL);
             break;
 
-        // Add transmission select to singleplayer sections
+        // Add transmission select to single player sections
         case MENUSINGLE_FROM_MAIN:
         case MENUSINGLE_FROM_TT_CHANGE_CHAR:
         case MENUSINGLE_FROM_TT_CHANGE_COURSE:
@@ -125,8 +125,8 @@ REPLACE void Section::addPages(SectionID sectionId) {
     }
 }
 
-// Apply section page replacements (starting pages)
-REPLACE void Section::addActivePages(SectionID sectionId) {
+// Apply section page replacements (initial pages)
+REPLACE void Section::addActivePages(SectionId sectionId) {
 
     switch(sectionId) {
 
@@ -140,4 +140,94 @@ REPLACE void Section::addActivePages(SectionID sectionId) {
             REPLACED(sectionId);
             break;
     }
+}
+
+// Allow adding custom pages
+REPLACE void Section::addPage(Page::PageId pageId) {
+    Page* page = createPage(pageId);
+    setPage(pageId, page);
+    page->init(pageId);
+}
+
+// Allow adding custom initial pages
+REPLACE void Section::addActivePage(Page::PageId pageId) {
+    Page::AnimationDirection direction = animationDirection;
+    Page* page = getPage(pageId);
+    activePages[activePageCount++] = page;
+
+    page->setAnimationDirection(direction);
+    page->activate();
+}
+
+// Allow activating custom pages
+REPLACE Page* Section::activatePage(Page::PageId pageId, Page::AnimationDirection direction) {
+    Page* prevActivePage = activePages[activePageCount];
+    Page* page = getPage(pageId);
+    activePages[activePageCount++] = page;
+
+    page->setAnimationDirection(direction);
+    page->activate();
+    return prevActivePage;
+}
+
+// Initialize custom pages
+REPLACE void Section::init(Section::SectionId sectionId) {
+    for (int i = 0; i < ARRAY_SIZE(extraPages); i++) {
+        extraPages[i] = nullptr;
+    }
+
+    REPLACED(sectionId);
+}
+
+// Deinitialize and delete custom pages
+REPLACE void Section::deinit() {
+
+    // Ensure active pages are deactivated first
+    popActivePages(0);
+
+    // Remove regular pages
+    for (int i = 0; i < ARRAY_SIZE(pages); i++) {
+        Page* page = pages[i];
+        if (page == nullptr)
+            continue;
+
+        page->onDeinit();
+        delete page;
+        pages[i] = nullptr;
+    }
+
+    // Remove custom pages
+    for (int i = 0; i < ARRAY_SIZE(extraPages); i++) {
+        Page* page = extraPages[i];
+        if (page == nullptr)
+            continue;
+
+        page->onDeinit();
+        delete page;
+        extraPages[i] = nullptr;
+    }
+
+    // Original behaviour
+    REPLACED();
+}
+
+// Section::calcActivation() patch
+// Get page from the correct array
+kmHookFn void CalcActivationFix(Section* self, Page::PageId pageId, Page::AnimationDirection animDirection) {
+    Page* replacementPage = self->getPage(pageId);
+    self->activePages[self->activePageCount++] = replacementPage;
+    replacementPage->setAnimationDirection(animDirection);
+    replacementPage->activate();
+}
+
+// Glue code
+kmBranchDefAsm(0x80623118, 0x8062316C) {
+    nofralloc
+
+    // Call C++ code
+    mr r3, r28
+    mr r4, r29
+    mr r5, r26
+    bl CalcActivationFix
+    blr
 }

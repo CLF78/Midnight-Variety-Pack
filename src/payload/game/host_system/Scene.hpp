@@ -30,13 +30,20 @@ size_assert(HeapCollection, 0xC0C);
 
 class Scene : public EGG::Scene {
 public:
-    enum SceneID {
-        GAME_START = 0,
-        MAIN_MENU  = 1,
-        RACE       = 2,
-        MULTI      = 4,
-        BOOTSTRAP  = 5,
-        FLAG_OPEN  = 12,
+    enum SceneId {
+        SCENE_ROOT,
+        SCENE_MENU,
+        SCENE_RACE,
+        SCENE_DEBUG_3,
+        SCENE_GLOBE,
+        SCENE_BOOTSTRAP,
+        SCENE_DEBUG_6,
+        SCENE_DEBUG_7,
+        SCENE_DEBUG_8,
+        SCENE_DEBUG_9,
+        SCENE_DEBUG_A,
+        SCENE_DEBUG_B,
+        SCENE_FLAG_OPEN,
     };
 
     HeapCollection heapCollection;

@@ -1,4 +1,5 @@
 #include <common/Common.hpp>
+#include <game/ui/Section.hpp>
 
 class SaveGhostManager {
 public:
@@ -48,7 +49,7 @@ public:
     };
 
     void markLicensesDirty();
-    int getErrorSection();
+    Section::SectionId getErrorSection();
 
     bool requestEraseAll;
     bool requestSaveGhost;

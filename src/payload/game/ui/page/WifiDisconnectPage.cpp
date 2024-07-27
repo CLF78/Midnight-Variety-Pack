@@ -263,14 +263,14 @@ REPLACE void WifiDisconnectPage::onActivate() {
     Section* section = SectionManager::instance->curSection;
 
     // If the disconnection was triggered by the game, there are no error codes to display
-    if (section->sectionID == Section::DC_WITHOUT_ERROR_CODE) {
+    if (section->sectionId == Section::DC_WITHOUT_ERROR_CODE) {
         section->shutdownNet();
         messageBox.setText(Message::Menu::ERROR_DISCONNECTED_BY_GAME);
         return;
     }
 
     // Get the disconnection info
-    if (section->sectionID == Section::DC_WITH_ERROR_CODE || section->sectionID == Section::UNK_98) {
+    if (section->sectionId == Section::DC_WITH_ERROR_CODE || section->sectionId == Section::UNK_98) {
         disconnectInfo = SectionManager::instance->globalContext->disconnectInfo;
         SectionManager::instance->globalContext->disconnectInfo.reset();
     } else {

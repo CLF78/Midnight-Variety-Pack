@@ -53,7 +53,7 @@ public:
     static bool teamsEnabled();
 
     static VotingBackPage* getPage() {
-        return (VotingBackPage*)SectionManager::instance->curSection->pages[Page::TIMER];
+        return (VotingBackPage*)SectionManager::instance->curSection->getPage(Page::TIMER);
     }
 
     InputHandler1<VotingBackPage, void, Page*> onDisconnectMessageClickHandler;

@@ -1,6 +1,7 @@
-# CodeWarrior files
-*.dll
+# Executables and related files
+*.config
 *.dat
+*.dll
 *.exe
 
 # Packaged assets

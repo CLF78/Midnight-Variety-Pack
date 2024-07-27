@@ -78,15 +78,12 @@
         string: "Drift inside (with no turn radius).",
     },
     "20016": {
-        string: "Help",
-    },
-    "20017": {
         string: "View an explanation of transmission modes.",
     },
-    "20018": {
+    "20017": {
         string: "■ Outside Drift ■\nYou will drift with a 45° turning radius.\n\n■ Inside Drift ■\nYou will drift with no turning radius.",
     },
-    "20019": {
+    "20018": {
         string: "Transmission Mode",
     },
 }

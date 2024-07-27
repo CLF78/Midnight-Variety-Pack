@@ -11,7 +11,7 @@
 void WifiMemberConfirmPageEx::onInit() {
 
     // Initialize input manager
-    switch (SectionManager::instance->curSection->sectionID) {
+    switch (SectionManager::instance->curSection->sectionId) {
         case Section::WIFI_VS_2P_VOTE:
         case Section::WIFI_BT_2P_VOTE:
         case Section::WIFI_FROOM_2P_VS_VOTE:
@@ -36,7 +36,7 @@ void WifiMemberConfirmPageEx::onInit() {
     titleText.load(false);
 
     // Set the message
-    switch (SectionManager::instance->curSection->sectionID) {
+    switch (SectionManager::instance->curSection->sectionId) {
         case Section::WIFI_VS_1P_VOTE:
         case Section::WIFI_VS_2P_VOTE:
         case Section::WIFI_FROOM_1P_VS_VOTE:
@@ -107,7 +107,7 @@ void WifiMemberConfirmPageEx::onActivate() {
 
     // Get rating type
     RatingType ratingType = RATING_NONE;
-    switch (SectionManager::instance->curSection->sectionID) {
+    switch (SectionManager::instance->curSection->sectionId) {
 
         case Section::WIFI_VS_1P_VOTE:
         case Section::WIFI_VS_2P_VOTE:

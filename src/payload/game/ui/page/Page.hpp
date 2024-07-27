@@ -6,7 +6,7 @@
 class Page {
 public:
 
-    enum PageID {
+    enum PageId {
         NONE = -1,
         UNK_0,
         ESRB_NOTICE,
@@ -219,11 +219,12 @@ public:
         RECORDS_FRIENDS,
         RECORDS_WIFI,
         RECORDS_OTHER,
-        PAGE_COUNT,
+        ORIGINAL_PAGE_COUNT,
 
-        // Custom Pages
-        TRANSMISSION_SELECT = BT_SCORE_OVERALL,
-        TRANSMISSION_SELECT_MULTI_PLAYER = COMPETITION_LEADERBOARD,
+        // custom pages from here onwards
+        TRANSMISSION_SELECT = ORIGINAL_PAGE_COUNT,
+        TRANSMISSION_SELECT_MULTI_PLAYER,
+        PAGE_COUNT,
     };
 
     enum PageState {
@@ -236,7 +237,7 @@ public:
         STATE_EXITED,
     };
 
-    enum ReplaceAnim {
+    enum AnimationDirection {
         ANIM_NONE = -1,
         ANIM_NEXT,
         ANIM_PREV,
@@ -267,20 +268,23 @@ public:
     RUNTIME_TYPE_INFO_NODECL;
 
     void init(u32 pageId);
+    void activate();
+
     void initChildren(u32 childCount);
     void insertChild(u32 childIdx, UIControl* child, u32 drawPass);
 
     void setAnimSfxIds(int nextAnimSoundId, int prevAnimSoundId);
     void playSound(int soundId, int param_3);
-    void replace(int animationDirection, float delay);
+    void replace(AnimationDirection Direction, float delay);
 
+    void setAnimationDirection(AnimationDirection direction);
     void setInputManager(MenuInputManager* manager);
 
-    int pageId;
-    int pageState;
+    PageId pageId;
+    PageState pageState;
     bool canProceed;
 
-    int animId;
+    AnimationDirection animId;
     float backTransitionDelay;
     float transitionDelay;
 

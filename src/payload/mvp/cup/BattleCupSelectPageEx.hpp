@@ -22,7 +22,7 @@ public:
     void setCourse(CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button, int unk);
 
     static BattleCupSelectPageEx* getPage() {
-        return (BattleCupSelectPageEx*)SectionManager::instance->curSection->pages[Page::CUP_SELECT_BT];
+        return (BattleCupSelectPageEx*)SectionManager::instance->curSection->getPage(Page::CUP_SELECT_BT);
     }
 
     static u32 getCupCount() {

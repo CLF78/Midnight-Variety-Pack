@@ -2,6 +2,7 @@
 #include <game/system/RaceConfig.hpp>
 #include <game/system/ResourceManager.hpp>
 #include <mvp/cup/CupManager.hpp>
+#include <platform/string.h>
 
 ///////////////////////
 // Custom Cup System //
@@ -77,35 +78,39 @@ REPLACE int RaceConfig::Player::computeGPRank() {
     return RANK_GOLDEN_CUP;
 }
 
-///////////////////////////
-// To Copy Custom Fields //
-///////////////////////////
+///////////////////////////////
+// Scenario Expansion System //
+///////////////////////////////
 
+// Copy extra fields from the source scenario to the destination one
 REPLACE RaceConfig::Scenario* RaceConfig::Scenario::copy(Scenario* rhs){
-    return (RaceConfig::Scenario*)__memcpy(this, rhs, sizeof(RaceConfig::Scenario));
+    return (RaceConfig::Scenario*)memcpy(this, rhs, sizeof(*rhs));
 }
 
-// The following functions are used to copy unused bytes that don't get copied
+// Initialize the extra fields
 REPLACE void RaceConfig::init(){
     REPLACED();
-    for (int i = 0; i < 12; i++)
-    {
-        this->raceScenario.players[i].transmission = this->menuScenario.players[i].transmission;
+
+    for (int i = 0; i < 12; i++) {
+        menuScenario.players[i].transmission = RaceConfig::Player::TRANSMISSION_DEFAULT;
+        raceScenario.players[i].transmission = menuScenario.players[i].transmission;
     }
 }
 
+// Copy the extra fields from the menu scenario to the race scenario
 REPLACE void RaceConfig::initRace(){
     REPLACED();
-    for (int i = 0; i < 12; i++)
-    {
-        this->raceScenario.players[i].transmission = this->menuScenario.players[i].transmission;
+
+    for (int i = 0; i < 12; i++) {
+        raceScenario.players[i].transmission = menuScenario.players[i].transmission;
     }
 }
 
+// Copy the extra fields from the menu scenario to the awards and race scenarios
 REPLACE void RaceConfig::initCredits(){
     REPLACED();
-    for (int i = 0; i < 12; i++)
-    {
-        this->raceScenario.players[i].transmission = this->awardsScenario.players[i].transmission;
+
+    for (int i = 0; i < 12; i++) {
+        raceScenario.players[i].transmission = awardsScenario.players[i].transmission;
     }
 }
