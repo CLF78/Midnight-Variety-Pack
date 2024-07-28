@@ -101,7 +101,7 @@ REPLACE void KartMove::calcMtCharge(){
     }
     this->addMtCharge(CHARGING, &this->mtCharge, 0x2, 270);
     this->addMtCharge(MT_CHARGED, &this->smtCharge, 0x2, 300);
-    if (this->pointers->kartSettings->kartParam.stats->vehicleType == KartStats::KART) {
+    if (this->pointers->kartSettings->kartParam->stats->vehicleType == KartStats::KART) {
         this->addMtCharge(SMT_CHARGED, &this->umtCharge, 0x2, 250);
     }
 }
@@ -135,7 +135,7 @@ REPLACE void KartMoveBike::calcMtCharge(){
         return;
     }
     this->addMtCharge(CHARGING, &this->mtCharge, 0x2, 270);
-    if (this->pointers->kartSettings->kartParam.stats->vehicleType == KartStats::OUTSIDE_BIKE) {
+    if (this->pointers->kartSettings->kartParam->stats->vehicleType == KartStats::OUTSIDE_BIKE) {
         this->addMtCharge(MT_CHARGED, &this->smtCharge, 0x2, 300);
     }
 }

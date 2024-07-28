@@ -12,7 +12,7 @@ REPLACE_STATIC KartObject* KartObject::Create(u8 playerIdx, int kart, int charac
 
     // Get structures
     KartObject* object = REPLACED(playerIdx, kart, character, isBike);
-    KartStats* stats = object->kartSettings->kartParam.stats;
+    KartStats* stats = object->kartSettings->kartParam->stats;
     RaceConfig* raceConfig = RaceConfig::instance;
 
     // Check if engine class is more than 150cc
