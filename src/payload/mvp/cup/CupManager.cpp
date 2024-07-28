@@ -342,12 +342,10 @@ const char* CupManager::replaceCupIcon(LayoutUIControl* element, u32 cupIdx, int
         nw4r::lyt::Pane* pane = element->pictureSourceLayout->getPaneByName(iconPane);
 
         // Get its material
-        IGNORE_ERR(144)
         nw4r::lyt::Material* mat = pane->GetMaterial();
 
         // Get the texmap entry
         nw4r::lyt::TexMap* texMap = mat->GetTexMapAry();
-        UNIGNORE_ERR(144)
 
         // Replace the texture
         texMap->ReplaceImage(cupTexture, 0);

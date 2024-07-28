@@ -8,12 +8,9 @@
 
 // Ported from GameSpy SDK
 u32 NameToIp(const char* name) {
-
-    IGNORE_ERR(144)
     SOHostEnt* hent = gethostbyname(name);
     if (!hent) return 0;
     return hent->addrList[0][0];
-    UNIGNORE_ERR(144)
 }
 
 // Ported from GameSpy SDK

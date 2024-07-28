@@ -55,19 +55,19 @@ typedef enum {
 
 inline u32 PPCGetECID_U() {
     register u32 val;
-    __asm__ (mfspr val, ECID_U);
+    __asm { mfspr val, ECID_U };
     return val;
 }
 
 inline u32 PPCGetECID_M() {
     register u32 val;
-    __asm__ (mfspr val, ECID_M);
+    __asm { mfspr val, ECID_M };
     return val;
 }
 
-inline u32 PPCGetECID_L()  {
+inline u32 PPCGetECID_L() {
     register u32 val;
-    __asm__ (mfspr val, ECID_L);
+    __asm { mfspr val, ECID_L };
     return val;
 }
 

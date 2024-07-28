@@ -17,11 +17,9 @@ char sScrambledToken[96];
 void DecodeToken(const char* encodedToken) {
 
     // Get the decoded token size
-    IGNORE_ERR(384)
     int encodedLen = strlen(encodedToken);
     int decodedLen = DWC_Base64Decode(encodedToken, encodedLen, nullptr, 0);
     sToken = new (KAMEK_HEAP, 32) char[decodedLen+1];
-    UNIGNORE_ERR(384)
 
     // Decode the token
     decodedLen = DWC_Base64Decode(encodedToken, encodedLen, sToken, decodedLen);

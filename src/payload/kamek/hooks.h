@@ -20,23 +20,21 @@ enum KamekCommandType {
 };
 
 // Base macros
-#define kmHookFn \
-    extern "C" static
 #define kmIdentifierImpl(key, counter) \
     _k##key##counter
 #define kmIdentifier(key, counter) \
     kmIdentifierImpl(key, counter)
 
-// Remove non-existent Intellisense errors
-#ifndef __INTELLISENSE__
-    #define kmSection __declspec (section ".kamek")
+// Remove non-existent Clang error
+#ifdef __CLANGD__
+    #define kmHookFn static
 #else
-    #define kmSection
+    #define kmHookFn extern "C" static
 #endif
 
 // General hook definition macros
 #define kmHookInt(counter) \
-    kmSection static const u32 kmIdentifierImpl(Hook, counter)
+    __declspec (section ".kamek") static const u32 kmIdentifierImpl(Hook, counter)
 #define kmHook0(type) \
     kmHookInt(__COUNTER__)[2] = { 0, (type) }
 #define kmHook1(type, arg0) \

@@ -14,7 +14,6 @@
 
 namespace Wiimmfi {
 namespace Natneg {
-IGNORE_ERR(144)
 
 u16 sTimers[12]; // one timer per aid
 
@@ -37,7 +36,6 @@ void ConnectToNode(int nodeIdx) {
     snprintf(buffer, sizeof(buffer), "%u%s", stpMatchCnt->profileId, "L");
 
     // Connect to the node
-    IGNORE_ERR(304)
     GT2Connection conn;
     GT2Result ret = gt2Connect(*stpMatchCnt->gt2Socket, &conn, ipAddr, buffer,
                                -1, 2000, stpMatchCnt->gt2Callbacks, 0);
@@ -46,8 +44,6 @@ void ConnectToNode(int nodeIdx) {
     // Increase value by 1 to leave 0 as sentinel value
     if (ret == GT2_RESULT_SUCCESS)
         conn->aid = aid + 1;
-
-    UNIGNORE_ERR(304)
 }
 
 void CalcTimers(bool connectedToHost) {
@@ -137,7 +133,6 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
                             const char* msg, int msgLen) {
 
     // Obtain the PID from the message
-    IGNORE_ERR(304)
     char* msgBuffer;
     u32 pid = strtoul(msg, &msgBuffer, 10);
 
@@ -220,13 +215,11 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
 
     // Store the connection and its info
     StoreConnectionAndInfo(connIdx, conn, node);
-    UNIGNORE_ERR(304)
 }
 
 void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, int msgLen) {
 
     // Check if the custom aid field was set, if not fall back to original game behaviour
-    IGNORE_ERR(304)
     if (conn->aid == 0) {
         DWCi_GT2ConnectedCallback(conn, result, msg, msgLen);
         return;
@@ -313,7 +306,6 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     node->gt2Ip = conn->ip;
     node->gt2Port = conn->port;
     StoreConnectionAndInfo(connIdx, conn, node);
-    UNIGNORE_ERR(304)
 }
 
 DWCNodeInfo* GetNextMeshMakingNode() {
@@ -463,6 +455,5 @@ void StopNATNEGAfterTime() {
         DWCi_SetMatchStatus(DWC_MATCH_STATE_CL_WAITING);
 }
 
-UNIGNORE_ERR(144)
 } // namespace Natneg
 } // namespace Wiimmfi

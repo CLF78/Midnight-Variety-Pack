@@ -1,0 +1,14 @@
+-D__CWCC__
+-D__LOG_LEVEL__=0
+-D__CODE_REGION__=0
+-D__CLANGD__
+-isystemsrc/payload
+-isystemsrc/loader
+-isystemsrc/common
+-includesrc/common/common/Clangd.h
+-fasm-blocks
+-ffreestanding
+-fdeclspec
+-fno-exceptions
+-m32
+-Wno-int-to-pointer-cast

@@ -22,15 +22,15 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-typedef unsigned long long u64;
+typedef unsigned long long u64 __attribute__ ((aligned(8))); // Ensure these are aligned correctly by Clang
 typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
-typedef signed long long s64;
+typedef signed long long s64 __attribute__ ((aligned(8))); // Ensure these are aligned correctly by Clang
 typedef float f32;
 typedef double f64;
-typedef unsigned long size_t;
 typedef unsigned long ulong;
+typedef s32 BOOL;
 typedef volatile s8 vs8;
 typedef volatile s16 vs16;
 typedef volatile s32 vs32;
@@ -43,12 +43,17 @@ typedef volatile f32 vf32;
 typedef volatile f64 vf64;
 typedef void (*Func)();
 
+#ifdef __CLANGD__
+    typedef unsigned int size_t;
+#else
+    typedef unsigned long size_t;
+#endif
+
 // Macros
+#define ALIGN(a) __attribute__ ((aligned(a)))
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define ARRAY_SIZE_STATIC(a, b) ARRAY_SIZE(((a*)NULL)->b)
-#define ALIGN(a) __attribute__ ((aligned(a)))
 #define BIT_FLAG(bit) ((bit) < 0 ? 0 : 1 << (bit))
-#define BOOL s32
 #define FORCE_SEMICOLON(x) do { x } while(0)
 #define MIN(a, b) (((b) < (a)) ? (b) : (a))
 #define MAX(a, b) (((a) < (b)) ? (b) : (a))
@@ -56,14 +61,10 @@ typedef void (*Func)();
 #define _STRINGIFY(x) #x
 #define STRINGIFY(x) _STRINGIFY(x)
 
-#ifdef __INTELLISENSE__
+#ifdef __CLANGD__
     #define AT_ADDR(addr)
-    #define IGNORE_ERR(err) _Pragma(STRINGIFY(diag_suppress err))
-    #define UNIGNORE_ERR(err) _Pragma(STRINGIFY(diag_default err))
 #else
     #define AT_ADDR(addr) : (addr);
-    #define IGNORE_ERR(err)
-    #define UNIGNORE_ERR(err)
 #endif
 
 // Include other base headers

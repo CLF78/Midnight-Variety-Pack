@@ -12,7 +12,6 @@
 
 namespace Wiimmfi {
 namespace MatchCommand {
-IGNORE_ERR(144)
 
 void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPort, DWCMatchCommandConnFailMtx* data, int dataLen) {
 
@@ -152,6 +151,5 @@ void SendConnMtxCommand(u32 aidsConnectedToMe) {
     }
 }
 
-UNIGNORE_ERR(144)
 } // namespace Natneg
 } // namespace Wiimmfi

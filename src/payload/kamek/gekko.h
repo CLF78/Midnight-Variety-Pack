@@ -2,7 +2,7 @@
 
 // Custom intrinsics
 inline void __icbi(register const void* address) {
-    __asm__ (icbi 0, address);
+    __asm { icbi 0, address };
 }
 
 // These defines allow using Gekko instructions in inline assembly
