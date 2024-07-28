@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.h>
 #include <revolution/mem/list.h>
 #include <revolution/os/OSMutex.h>

@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/system/Timer.hpp>
 #include <game/ui/ctrl/LayoutUIControl.hpp>

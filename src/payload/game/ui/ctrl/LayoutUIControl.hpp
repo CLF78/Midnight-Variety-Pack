@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/ui/ctrl/UIControl.hpp>
 #include <game/ui/UIAnimator.hpp>

@@ -168,7 +168,6 @@ CFLAGS = [
     '-nostdinc',
     '-O4',
     '-inline noauto',
-    '-once',
     '-pragma "cpp_extensions on"',
     '-pragma "cpp1x on"',
     '-pragma "gprfloatcopy on"',

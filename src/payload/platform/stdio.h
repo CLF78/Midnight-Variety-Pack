@@ -1,3 +1,4 @@
+#pragma once
 #include <platform/stdarg.h>
 
 #ifdef __cplusplus

@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.h>
 #include <revolution/os/OS.h>
 

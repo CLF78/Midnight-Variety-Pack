@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/net/packet/RKNetPacketCommon.hpp>
 #include <mvp/cup/CupData.hpp>

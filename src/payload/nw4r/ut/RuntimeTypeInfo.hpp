@@ -1,3 +1,5 @@
+#pragma once
+
 namespace nw4r {
 namespace ut {
 namespace detail {

@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/ui/MessageInfo.hpp>
 #include <mvp/race/CtrlRaceMessageDisplay.hpp>

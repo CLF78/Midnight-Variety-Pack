@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <gs/qr2/qr2.h>
 

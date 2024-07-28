@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/kart/KartCollide.hpp>
 #include <game/gfx/ModelDirector.hpp>

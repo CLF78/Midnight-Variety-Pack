@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/ui/page/RaceCourseSelectPage.hpp>
 #include <mvp/online/YesNoPopupPageEx.hpp>

@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.h>
 
 u16 RegionDetectAddr AT_ADDR(0x8000620A); // Use instruction to detect region

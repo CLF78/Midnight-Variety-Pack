@@ -1,3 +1,4 @@
+#pragma once
 #include <nw4r/snd/InstancePool.hpp>
 #include <nw4r/snd/MmlParser.hpp>
 #include <nw4r/snd/SeqTrackAllocator.hpp>

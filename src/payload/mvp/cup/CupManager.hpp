@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/ui/GlobalContext.hpp>
 #include <game/ui/ctrl/PushButton.hpp>

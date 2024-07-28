@@ -1,3 +1,5 @@
+#pragma once
+
 // Custom intrinsics
 inline void __icbi(register const void* address) {
     __asm__ (icbi 0, address);

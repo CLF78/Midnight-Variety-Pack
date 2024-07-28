@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <dwc/dwc_node.h>
 #include <egg/core/eggExpHeap.hpp>

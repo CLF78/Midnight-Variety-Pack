@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/kart/KartStats.hpp>
 #include <game/kart/KartObjectProxy.hpp>

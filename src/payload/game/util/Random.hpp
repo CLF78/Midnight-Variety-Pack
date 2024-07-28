@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 
 class Random {

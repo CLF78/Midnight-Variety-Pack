@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/ui/page/MessagePopupPage.hpp>
 #include <game/ui/page/WifiMemberConfirmPage.hpp>

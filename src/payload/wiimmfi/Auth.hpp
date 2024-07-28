@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <dwc/dwc_base64.h>
 #include <revolution/ios.h>

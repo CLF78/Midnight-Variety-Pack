@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.h>
 #include <dwc/dwc_account.h>
 #include <dwc/dwc_error.h>

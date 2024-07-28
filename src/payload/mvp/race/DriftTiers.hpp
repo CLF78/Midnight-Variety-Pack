@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/effect/PlayerEffects.hpp>
 #include <game/kart/KartObject.hpp>

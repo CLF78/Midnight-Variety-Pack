@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <nw4r/ut/FileStream.hpp>
 #include <revolution/dvd/dvd.h>

@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <revolution/os/OSCache.h>
 

@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.h>
 #include <gs/gp/gpiCallback.h>
 

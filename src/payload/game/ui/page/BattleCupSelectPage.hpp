@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/ui/UIControlTimer.hpp>
 #include <game/ui/page/MenuPage.hpp>

@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/gfx/ModelTransformator.hpp>
 #include <game/system/ResourceManager.hpp>

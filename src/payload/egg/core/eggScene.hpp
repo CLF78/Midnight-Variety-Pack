@@ -1,3 +1,4 @@
+#pragma once
 #include <egg/core/eggDisposer.hpp>
 
 namespace EGG {

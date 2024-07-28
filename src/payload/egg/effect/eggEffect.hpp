@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <nw4r/ef/Handle.hpp>
 

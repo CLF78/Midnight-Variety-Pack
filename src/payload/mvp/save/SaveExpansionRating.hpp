@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/system/SaveManager.hpp>
 #include <mvp/cup/CupManager.hpp>

@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/system/SaveGhostManager.hpp>
 #include <game/ui/GlobalContext.hpp>

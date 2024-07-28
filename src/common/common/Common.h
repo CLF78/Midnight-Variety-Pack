@@ -1,8 +1,4 @@
-/*
- * Kamek Standard Library
- * Wii game patching engine
- * (c) Treeki 2010-2018
- */
+#pragma once
 
 // Base asserts
 #ifndef __CWCC__

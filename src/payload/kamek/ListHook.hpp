@@ -1,3 +1,11 @@
+#pragma once
+
+/*
+ * Kamek Standard Library
+ * Wii game patching engine
+ * (c) Treeki 2010-2018
+ */
+
 #define kmDefineListHook(listName) \
     extern kmListHook listName
 

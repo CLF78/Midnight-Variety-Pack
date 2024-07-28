@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/ui/ctrl/PushButton.hpp>
 #include <game/ui/MenuMovie.hpp>

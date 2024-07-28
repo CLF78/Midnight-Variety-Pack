@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <revolution/dvd/dvd.h>
 #include <game/system/RKSystem.hpp>

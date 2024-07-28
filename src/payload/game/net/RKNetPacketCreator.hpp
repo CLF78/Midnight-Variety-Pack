@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/net/packet/RKNetEventPacket.hpp>
 #include <game/net/packet/RKNetRacedataPacket.hpp>

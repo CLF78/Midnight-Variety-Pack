@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/ui/page/BattleStageSelectPage.hpp>
 #include <game/ui/SectionManager.hpp>

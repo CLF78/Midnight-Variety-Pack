@@ -1,3 +1,4 @@
+#pragma once
 #include <nw4r/snd/BasicSound.hpp>
 
 namespace nw4r {

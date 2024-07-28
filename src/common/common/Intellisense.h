@@ -1,3 +1,4 @@
+#pragma once
 
 // Fixes various non-existent Intellisense errors, do not include
 #ifdef __INTELLISENSE__

@@ -179,6 +179,7 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     warningStringWrap = '/' * (len(warningString) - 2)
 
     # Write the required include
+    cupDataFile.write('#pragma once\n')
     cupDataFile.write('#include <mvp/cup/CupData.hpp>\n\n')
 
     # Write the warning string

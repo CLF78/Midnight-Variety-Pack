@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/net/WifiDisconnectInfo.hpp>
 #include <game/system/Mii.hpp>

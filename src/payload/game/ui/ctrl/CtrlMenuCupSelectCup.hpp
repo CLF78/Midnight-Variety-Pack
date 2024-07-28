@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/ui/ctrl/CtrlMenuCupSelectCourse.hpp>
 #include <game/ui/ctrl/CtrlMenuMovieLayout.hpp>

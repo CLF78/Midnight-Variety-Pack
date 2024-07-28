@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 
 #define SET_HANDLER(destHandler, srcHandler) \

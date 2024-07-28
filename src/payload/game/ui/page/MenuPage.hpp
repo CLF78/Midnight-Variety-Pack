@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.hpp>
 #include <game/system/Mii.hpp>
 #include <game/ui/page/Page.hpp>

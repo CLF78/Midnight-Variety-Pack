@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.h>
 #include <dwc/dwc_match.h>
 #include <gs/gt2/gt2Main.h>

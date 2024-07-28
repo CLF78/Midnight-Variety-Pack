@@ -1,3 +1,4 @@
+#pragma once
 #include <common/Common.h>
 #include <revolution/dvd/dvd.h>
 #include <revolution/os/OSExec.h>

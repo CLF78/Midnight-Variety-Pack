@@ -1,4 +1,4 @@
-
+#pragma once
 #include <common/Common.h>
 #include <gs/gt2/gt2.h>
 
