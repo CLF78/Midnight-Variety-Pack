@@ -49,6 +49,8 @@ BUILTIN_TYPES = {
     'unsigned long long': 'Ux',
     'float': 'f',
     'double': 'd',
+    'long double': 'r',
+    'short double': 'D',
     '...': 'e',
 }
 
