@@ -10,5 +10,9 @@
 -ffreestanding
 -fdeclspec
 -fno-exceptions
+-fsigned-char
 -m32
+-Wall
+-Wextra
 -Wno-int-to-pointer-cast
+-Wno-unused-private-field
