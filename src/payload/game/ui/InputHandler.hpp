@@ -7,7 +7,12 @@
 #define SET_HANDLER_FUNC(handler, func) \
     handler.handle = (typeof(handler.handle))&func
 
-class InputHandlerBase {};
+// This is necessary to fix size asserts in clangd
+#ifdef __CLANGD__
+    class InputHandlerBase { void* dummy; };
+#else
+    class InputHandlerBase {};
+#endif
 
 template <class T, typename R>
 class InputHandler0 : public InputHandlerBase {
