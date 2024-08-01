@@ -108,7 +108,6 @@ Diagnostics:
       readability-avoid-unconditional-preprocessor-if,
       readability-const-return-type,
       readability-convert-member-functions-to-static,
-      readability-delete-null-pointer,
       readability-duplicate-include,
       readability-else-after-return,
       readability-enum-initial-value,
