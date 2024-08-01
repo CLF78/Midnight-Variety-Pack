@@ -161,7 +161,7 @@ REPLACE void KartMove::releaseMt(bool forceOverride, u32 driftState) {
         mtLength = (short)(mtLength * 4.5f);
         boostType = KartBoost::UMT;
     }
-    KartState *state = this->pointers->kartState;
+    KartState* state = this->pointers->kartState;
     if ((state->bitfield2 & (KartState::UNK_100|KartState::HAS_STOPPED_B2|KartState::HAS_VANISHED|KartState::IN_A_BULLET)) != 0 ||
     (state->bitfield0 & KartState::BEFORE_RESPAWN) != 0 ||
     (state->bitfield4 & KartState::BATTLE_RESPAWN) != 0 ||

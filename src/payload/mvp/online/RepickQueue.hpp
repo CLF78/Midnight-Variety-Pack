@@ -12,7 +12,7 @@ public:
     struct RawQueue {
         RawQueue() { Clear(); }
 
-        bool operator==(const RawQueue &queue) const {
+        bool operator==(const RawQueue& queue) const {
             for (int i = 0; i < ARRAY_SIZE(lastPicks); i++) {
                 if (lastPicks[i] != queue.lastPicks[i])
                     return false;

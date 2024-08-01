@@ -24,7 +24,7 @@ union RKNetAidPidMap {
 
     RKNetAidPidMap() { raw[0] = 0xFFFFFFFF; raw[1] = 0xFFFFFFFF; raw[2] = 0xFFFFFFFF; }
 
-    bool operator==(const RKNetAidPidMap &map) const {
+    bool operator==(const RKNetAidPidMap& map) const {
         return raw[0] == map.raw[0] && raw[1] == map.raw[1] && raw[2] == map.raw[2];
     }
 

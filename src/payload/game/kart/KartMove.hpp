@@ -44,7 +44,7 @@ public:
     virtual void calcMtCharge();
     virtual void cancelWheelie();
 
-    bool addMtCharge(u32 currentDriftState, short *mtCharge, short baseMtCharge, u32 maxMtCharge);
+    bool addMtCharge(u32 currentDriftState, short* mtCharge, short baseMtCharge, u32 maxMtCharge);
     void calcManualDrift();
     void clearDrift();
     void releaseMt(bool unk0, u32 unk1);

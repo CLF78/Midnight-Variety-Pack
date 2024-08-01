@@ -82,7 +82,7 @@ typedef struct {
 
 s32 KPADRead(s32 controller, KPADStatus samplingBufs[], u32 controllerCount);
 
-void KPADGetUnifiedWpadStatus(s32 controller, KPADUnifiedWpadStatus *dst, u32 controllerCount);
+void KPADGetUnifiedWpadStatus(s32 controller, KPADUnifiedWpadStatus* dst, u32 controllerCount);
 
 #ifdef __cplusplus
 }

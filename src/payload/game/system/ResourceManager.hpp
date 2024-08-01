@@ -35,8 +35,8 @@ public:
         u32 resourceID;
         char filename[0x40];
 
-        EGG::Heap *archiveHeap;
-        EGG::Heap *fileHeap;
+        EGG::Heap* archiveHeap;
+        EGG::Heap* fileHeap;
     };
     size_assert(JobContext, 0x54);
 

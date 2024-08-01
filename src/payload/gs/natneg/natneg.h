@@ -123,7 +123,7 @@ typedef struct {
     u8 sendGotRemoteData;
     NegotiateProgressFunc progressCallback;
     NegotiateCompletedFunc completedCallback;
-    void *userdata;
+    void* userdata;
     int result;
     int connectedSocket;
     SOSockAddrIn remoteAddr;

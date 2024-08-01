@@ -26,7 +26,7 @@ typedef struct {
 } SCSimpleAddressData;
 
 u8 SCGetLanguage();
-const char *SCGetProductCode();
+const char* SCGetProductCode();
 
 #ifdef __cplusplus
 }

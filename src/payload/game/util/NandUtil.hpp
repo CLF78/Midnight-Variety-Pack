@@ -36,7 +36,7 @@ namespace NandUtil {
     int GetType(const char* path, u32* type);
     int GetLength(NANDFileInfo* info, u32* length);
     int Read(NANDFileInfo* info, void* buffer, int size, int offset);
-    int Write(NANDFileInfo* info, void *buffer, int size, int offset);
+    int Write(NANDFileInfo* info, void* buffer, int size, int offset);
     int Close(NANDFileInfo* info);
     int Delete(const char* path);
 
