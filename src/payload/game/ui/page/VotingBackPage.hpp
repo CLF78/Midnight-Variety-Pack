@@ -1,12 +1,13 @@
 #pragma once
-#include <game/system/Mii.hpp>
-#include <game/ui/InputHandler.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/input/MenuInputManager.hpp>
 #include "Page.hpp"
+#include <game/system/Mii.hpp>
+#include <game/system/RaceConfig.hpp>
+#include <game/ui/InputHandler.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
 #include <game/ui/ctrl/CountdownTimerControl.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include <game/ui/input/MenuInputManager.hpp>
 
 class VotingBackPage : public Page {
 public:

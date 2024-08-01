@@ -1,8 +1,8 @@
-#include <game/ui/ctrl/CtrlMenuMovieButton.hpp>
 #include "ClassSelectPage.hpp"
+#include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
-#include <game/system/RaceConfig.hpp>
+#include <game/ui/ctrl/CtrlMenuMovieButton.hpp>
 
 ///////////////////////////
 // Custom Engine Classes //

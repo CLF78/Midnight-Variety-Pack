@@ -1,7 +1,7 @@
+#include "WifiDisconnectPage.hpp"
 #include <game/net/RKNetController.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
-#include "WifiDisconnectPage.hpp"
 
 /////////////////////////////
 // Improved Error Messages //

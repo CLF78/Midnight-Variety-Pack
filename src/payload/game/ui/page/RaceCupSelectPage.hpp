@@ -1,8 +1,8 @@
 #pragma once
-#include <game/ui/UIControlTimer.hpp>
 #include "MenuPage.hpp"
-#include <game/ui/ctrl/CtrlMenuCupSelectCup.hpp>
+#include <game/ui/UIControlTimer.hpp>
 #include <game/ui/ctrl/CtrlMenuCupSelectCourse.hpp>
+#include <game/ui/ctrl/CtrlMenuCupSelectCup.hpp>
 #include <mvp/online/YesNoPopupPageEx.hpp>
 
 class RaceCupSelectPage : public MenuPage {

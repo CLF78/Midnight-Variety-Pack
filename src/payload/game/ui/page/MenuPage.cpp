@@ -1,5 +1,5 @@
-#include <game/ui/SectionManager.hpp>
 #include "MenuPage.hpp"
+#include <game/ui/SectionManager.hpp>
 
 ///////////////////////
 // Custom Cup System //

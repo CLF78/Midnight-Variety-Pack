@@ -1,5 +1,5 @@
-#include <game/ui/GlobalContext.hpp>
 #include "DriftSelectPage.hpp"
+#include <game/ui/GlobalContext.hpp>
 #include <mvp/cup/CupManager.hpp>
 
 ///////////////////////

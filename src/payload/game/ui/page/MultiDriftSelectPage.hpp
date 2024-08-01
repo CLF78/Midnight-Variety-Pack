@@ -1,7 +1,7 @@
 #pragma once
+#include "MenuPage.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
-#include "MenuPage.hpp"
 
 class MultiDriftSelectPage : public MenuPage {
 public:

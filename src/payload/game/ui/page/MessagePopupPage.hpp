@@ -1,8 +1,8 @@
 #pragma once
-#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include "MessagePage.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/ctrl/BlackBackControl.hpp>
-#include "MessagePage.hpp"
+#include <game/ui/ctrl/LayoutUIControl.hpp>
 
 class MessagePopupPage : public MessagePage {
 public:

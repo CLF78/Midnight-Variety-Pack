@@ -1,11 +1,11 @@
 #pragma once
-#include <game/ui/InputHandler.hpp>
-#include <game/ui/input/MultiControlInputManager.hpp>
 #include "Page.hpp"
-#include <game/ui/ctrl/PushButton.hpp>
+#include <game/ui/InputHandler.hpp>
 #include <game/ui/ctrl/CtrlMenuBackButton.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
 #include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>
+#include <game/ui/ctrl/PushButton.hpp>
+#include <game/ui/input/MultiControlInputManager.hpp>
 
 class WifiModeSelectPage : public Page {
 public:

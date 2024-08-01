@@ -1,12 +1,12 @@
 #pragma once
+#include "Page.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/input/MultiControlInputManager.hpp>
-#include "Page.hpp"
-#include <game/ui/ctrl/PushButton.hpp>
 #include <game/ui/UIControlTimer.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
 #include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>
+#include <game/ui/ctrl/PushButton.hpp>
+#include <game/ui/input/MultiControlInputManager.hpp>
 
 class WifiMemberConfirmPage : public Page {
 public:

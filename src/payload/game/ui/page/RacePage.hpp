@@ -1,7 +1,7 @@
 #pragma once
+#include "Page.hpp"
 #include <game/system/Timer.hpp>
 #include <game/ui/ctrl/LayoutUIControl.hpp>
-#include "Page.hpp"
 #include <game/ui/input/PageInputManager.hpp>
 
 class RacePage : public Page {

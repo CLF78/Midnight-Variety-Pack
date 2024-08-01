@@ -1,6 +1,6 @@
+#include "YesNoPage.hpp"
 #include <game/system/SaveManager.hpp>
 #include <game/ui/Message.hpp>
-#include "YesNoPage.hpp"
 #include <game/util/NandUtil.hpp>
 
 ///////////////////////////////

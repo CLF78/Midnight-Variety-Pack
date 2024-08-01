@@ -1,5 +1,5 @@
-#include <game/system/RaceConfig.hpp>
 #include "RacePage.hpp"
+#include <game/system/RaceConfig.hpp>
 #include <mvp/race/CtrlRaceMessageDisplay.hpp>
 #include <mvp/race/MessageQueue.hpp>
 #include <platform/stdio.h>

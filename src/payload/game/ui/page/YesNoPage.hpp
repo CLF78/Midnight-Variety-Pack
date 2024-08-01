@@ -1,8 +1,8 @@
 #pragma once
-#include <game/ui/InputHandler.hpp>
-#include <game/ui/input/MultiControlInputManager.hpp>
 #include "Page.hpp"
+#include <game/ui/InputHandler.hpp>
 #include <game/ui/ctrl/PushButton.hpp>
+#include <game/ui/input/MultiControlInputManager.hpp>
 
 class YesNoPage : public Page {
 public:

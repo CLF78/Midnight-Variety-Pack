@@ -2,8 +2,8 @@
 #include "MenuPage.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
-#include <game/ui/ctrl/CtrlMenuCourseSelectCup.hpp>
 #include <game/ui/ctrl/CtrlMenuCourseSelectCourse.hpp>
+#include <game/ui/ctrl/CtrlMenuCourseSelectCup.hpp>
 
 class RaceCourseSelectPage : public MenuPage {
 public:
