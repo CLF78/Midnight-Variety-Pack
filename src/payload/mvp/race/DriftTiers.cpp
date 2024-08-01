@@ -218,9 +218,9 @@ kmWrite32(0x806a3d00, 0x7FA4EB78);
 kmWrite32(0x806a3d04, 0x7FC5F378);
 void PatchBoostOnUMTSpeedBoost(EGG::Effect* boostEffect) { //have to mod loop index by 4 to get the actual index
     register u8 loopIndex;
-    asm(mr loopIndex, r29;);
+    __asm {mr loopIndex, r29 };
     register ExpPlayerEffects* effects;
-    asm(mr effects, r30;);
+    __asm {mr effects, r30 };
 
     KartMove* movement = effects->kartObject->pointers.kartMove;
     if (umtState[effects->playerId]) boostEffect = effects->rk_purpleMT[ExpPlayerEffects::rk_purpleBoost + loopIndex % 4];
@@ -235,9 +235,9 @@ void PatchBoostMatrix(EGG::Effect* boostEffect, MTX34* boostMat) {
         boostEffect->update();
     }
     register u8 loopIndex;
-    asm(mr loopIndex, r29;);
+    __asm {mr loopIndex, r29 };
     register ExpPlayerEffects* effects;
-    asm(mr effects, r30;);
+    __asm {mr effects, r30 };
     if (!effects->isBike) {
         boostEffect = effects->rk_purpleMT[ExpPlayerEffects::rk_purpleBoost + loopIndex % 4];
         if (boostEffect->effectHandle.GetPtr()) {
@@ -253,9 +253,9 @@ kmWrite32(0x8069c004, 0x60000000);
 void PatchFadeBoost(EGG::Effect* boostEffect) {
     boostEffect->followFade();
     register u8 loopIndex;
-    asm(mr loopIndex, r29;);
+    __asm {mr loopIndex, r29 };
     register ExpPlayerEffects* effects;
-    asm(mr effects, r30;);
+    __asm {mr effects, r30 };
     if (!effects->isBike) effects->rk_purpleMT[ExpPlayerEffects::rk_purpleBoost + loopIndex % 4]->followFade();
 }
 kmCall(0x8069c0a4, PatchFadeBoost);
