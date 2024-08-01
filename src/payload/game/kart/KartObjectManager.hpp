@@ -16,6 +16,6 @@ public:
     void init();
     void update();
 
-    EGG::TDisposer<KartObjectManager> disposer;
+    EGG::Disposer disposer;
     KartObject** players;
 };
