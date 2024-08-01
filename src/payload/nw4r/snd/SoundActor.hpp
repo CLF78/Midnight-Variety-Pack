@@ -9,10 +9,10 @@ namespace snd {
 class SoundArchivePlayer;
 
 class SoundActor : public SoundStartable {
-    public:
-        SoundArchivePlayer& soundArchivePlayer;
-        detail::ExternalSoundPlayer actorPlayer[4];
-        detail::SoundActorParam actorParam;
+public:
+    SoundArchivePlayer* soundArchivePlayer;
+    detail::ExternalSoundPlayer actorPlayer[4];
+    detail::SoundActorParam actorParam;
 };
 
 } // namespace snd

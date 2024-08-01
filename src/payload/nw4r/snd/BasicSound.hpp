@@ -11,33 +11,33 @@ struct SoundActorParam {
 };
 
 class BasicSound {
+public:
+
+    class AmbientParamUpdateCallback {
     public:
+        void* vtable;
+    };
 
-        class AmbientParamUpdateCallback {
-            public:
-                void* vtable;
-        };
+    class AmbientArgUpdateCallback {
+    public:
+        void* vtable;
+    };
 
-        class AmbientArgUpdateCallback {
-            public:
-                void* vtable;
-        };
+    class AmbientArgAllocaterCallback {
+    public:
+        void* vtable;
+    };
 
-        class AmbientArgAllocaterCallback {
-            public:
-                void* vtable;
-        };
+    struct AmbientInfo {
+        AmbientParamUpdateCallback* paramUpdateCallback;
+        AmbientArgUpdateCallback* argUpdateCallback;
+        AmbientArgAllocaterCallback* argAllocaterCallback;
+        void* arg;
+        size_t argSize;
+    };
 
-        struct AmbientInfo {
-            AmbientParamUpdateCallback* paramUpdateCallback;
-            AmbientArgUpdateCallback* argUpdateCallback;
-            AmbientArgAllocaterCallback* argAllocaterCallback;
-            void* arg;
-            size_t argSize;
-        };
-
-        void SetId(ulong id);
-        static s32 GetAmbientPriority(AmbientInfo* info, ulong id);
+    void SetId(ulong id);
+    static s32 GetAmbientPriority(AmbientInfo* info, ulong id);
 };
 
 } // namespace detail

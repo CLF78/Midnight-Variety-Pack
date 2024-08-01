@@ -5,8 +5,8 @@ namespace snd {
 namespace detail {
 
 class MmlParser {
-    public:
-        void* vtable;
+public:
+    void* vtable;
 };
 size_assert(MmlParser, 0x4);
 

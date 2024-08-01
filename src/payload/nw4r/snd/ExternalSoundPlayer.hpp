@@ -6,9 +6,9 @@ namespace snd {
 namespace detail {
 
 class ExternalSoundPlayer {
-    public:
-        ut::LinkListImpl soundList;
-        int playableCount;
+public:
+    ut::LinkListImpl soundList;
+    int playableCount;
 };
 
 } // namespace detail

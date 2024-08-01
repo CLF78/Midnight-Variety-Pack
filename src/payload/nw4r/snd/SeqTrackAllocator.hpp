@@ -5,8 +5,8 @@ namespace snd {
 namespace detail {
 
 class SeqTrackAllocator {
-    public:
-        void* vtable;
+public:
+    void* vtable;
 };
 size_assert(SeqTrackAllocator, 0x4);
 

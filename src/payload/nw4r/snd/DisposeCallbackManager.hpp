@@ -6,9 +6,9 @@ namespace snd {
 namespace detail {
 
 class DisposeCallback {
-    public:
-        ut::Link disposeLink;
-        void* vtable;
+public:
+    ut::Link disposeLink;
+    void* vtable;
 };
 
 } // namespace detail

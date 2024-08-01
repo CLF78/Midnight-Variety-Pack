@@ -5,8 +5,8 @@ namespace snd {
 namespace detail {
 
 class NoteOnCallback {
-    public:
-        void* vtable;
+public:
+    void* vtable;
 };
 
 } // namespace detail

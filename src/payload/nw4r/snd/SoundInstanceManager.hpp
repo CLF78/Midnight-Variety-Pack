@@ -8,10 +8,10 @@ namespace snd {
 namespace detail {
 
 class SoundInstanceManager {
-    public:
-        PoolImpl pool;
-        ut::LinkListImpl priorityList;
-        OSMutex mutex;
+public:
+    PoolImpl pool;
+    ut::LinkListImpl priorityList;
+    OSMutex mutex;
 };
 size_assert(SoundInstanceManager, 0x28);
 

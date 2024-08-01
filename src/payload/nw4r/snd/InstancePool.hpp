@@ -5,8 +5,8 @@ namespace snd {
 namespace detail {
 
 class PoolImpl {
-    public:
-        PoolImpl* next;
+public:
+    PoolImpl* next;
 };
 size_assert(PoolImpl, 0x4);
 

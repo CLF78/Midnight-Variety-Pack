@@ -4,8 +4,7 @@ namespace nw4r {
 namespace snd {
 
 class SoundStartable {
-    public:
-        void* vtable2; // using 2 due to conflicts in SoundArchivePlayer
+public:
 
     enum StartResult {
         START_SUCCESS = 0,
@@ -54,6 +53,8 @@ class SoundStartable {
         SeqSoundInfo seqSoundInfo;
     };
     size_assert(StartInfo, 0x20);
+
+    void* vtable2; // using 2 due to conflicts in SoundArchivePlayer
 };
 size_assert(SoundStartable, 0x4);
 

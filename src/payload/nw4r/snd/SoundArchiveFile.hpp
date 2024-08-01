@@ -49,21 +49,21 @@ struct SoundArchiveFile {
 };
 
 class SoundArchiveFileReader {
-    public:
-        ulong GetSoundCount() const; // custom function
+public:
+    ulong GetSoundCount() const; // custom function
 
-        SoundArchive::SoundType GetSoundType(ulong soundId) const;
-        bool ReadSoundInfo(ulong soundId, SoundArchive::SoundInfo* soundInfo) const;
-        bool ReadStrmSoundInfo(ulong soundId, SoundArchive::StrmSoundInfo* info ) const;
+    SoundArchive::SoundType GetSoundType(ulong soundId) const;
+    bool ReadSoundInfo(ulong soundId, SoundArchive::SoundInfo* soundInfo) const;
+    bool ReadStrmSoundInfo(ulong soundId, SoundArchive::StrmSoundInfo* info ) const;
 
-        SoundArchiveFile::Header header;
-        const SoundArchiveFile::Info* info;
-        const void* stringBase;
-        const detail::Util::Table<u32>* stringOffsetTable;
-        const SoundArchiveFile::StringTree* stringTreeSound;
-        const SoundArchiveFile::StringTree* stringTreePlayer;
-        const SoundArchiveFile::StringTree* stringTreeGroup;
-        const SoundArchiveFile::StringTree* stringTreeBank;
+    SoundArchiveFile::Header header;
+    const SoundArchiveFile::Info* info;
+    const void* stringBase;
+    const detail::Util::Table<u32>* stringOffsetTable;
+    const SoundArchiveFile::StringTree* stringTreeSound;
+    const SoundArchiveFile::StringTree* stringTreePlayer;
+    const SoundArchiveFile::StringTree* stringTreeGroup;
+    const SoundArchiveFile::StringTree* stringTreeBank;
 };
 size_assert(SoundArchiveFileReader, 0x44);
 

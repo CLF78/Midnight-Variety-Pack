@@ -6,8 +6,8 @@ namespace detail {
 namespace WsdPlayer { // not an actual namespace
 
 class WsdCallback {
-    public:
-        void* vtable;
+public:
+    void* vtable;
 };
 
 } // namespace WsdPlayer

@@ -7,10 +7,10 @@ namespace EGG {
 class Heap;
 
 class Disposer {
-    public:
-        virtual ~Disposer();
-        Heap* mContainHeap;
-        nw4r::ut::Link mLink;
+public:
+    virtual ~Disposer();
+    Heap* mContainHeap;
+    nw4r::ut::Link mLink;
 };
 size_assert(Disposer, 0x10);
 
