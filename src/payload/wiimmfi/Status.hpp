@@ -28,5 +28,5 @@ namespace Status {
     // The token received on login (will be deleted on network shutdown)
     extern char* sToken;
 
-} // namespace Port
+} // namespace Status
 } // namespace Wiimmfi

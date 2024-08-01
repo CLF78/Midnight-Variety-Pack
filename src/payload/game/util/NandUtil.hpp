@@ -39,4 +39,5 @@ namespace NandUtil {
     int Write(NANDFileInfo* info, void *buffer, int size, int offset);
     int Close(NANDFileInfo* info);
     int Delete(const char* path);
-};
+
+} // namespace NandUtil

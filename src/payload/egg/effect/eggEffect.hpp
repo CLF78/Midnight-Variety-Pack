@@ -19,4 +19,4 @@ public:
     nw4r::ef::HandleBase effectHandle;
 };
 
-}
+} // namespace EGG

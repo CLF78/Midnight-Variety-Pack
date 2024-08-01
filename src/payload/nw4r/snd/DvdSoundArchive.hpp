@@ -37,6 +37,5 @@ public:
 };
 size_assert(DvdSoundArchive::DvdFileStream, 0x78);
 
-
 } // namespace snd
 } // namespace nw4r
