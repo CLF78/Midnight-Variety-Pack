@@ -17,7 +17,7 @@ enum PatchCommand {
     BranchLink = 65,
 };
 
-void ApplyPatches(const u32* input, const u32* inputEnd, const u32 text);
+void ApplyPatches(const u32* input, const u32* inputEnd, u32 text);
 
 inline void CacheInvalidateAddress(const void* address, u32 size) {
     if (size <= 4) {
