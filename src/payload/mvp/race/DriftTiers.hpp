@@ -20,16 +20,16 @@ public:
     static const int UmtEffectsCount = 8;
     explicit ExpPlayerEffects(KartObject* kartObject) : PlayerEffects(kartObject) { };
     virtual ~ExpPlayerEffects() {
-        if (isBike){
+        if (isBike) {
             EGG::Effect** array = rk_orangeMT;
-            if(array != nullptr) {
+            if (array != nullptr) {
                 for(int i = 0; i < SmtEffectsCount; ++i) delete(array[i]);
                 delete[] array;
             }
         }
-        else{ 
+        else {
             EGG::Effect** array = rk_purpleMT;
-            if(array != nullptr) {
+            if (array != nullptr) {
                 for(int i = 0; i < UmtEffectsCount; ++i) delete(array[i]);
                 delete[] array;
             }

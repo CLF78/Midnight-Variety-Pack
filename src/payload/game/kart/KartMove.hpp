@@ -7,7 +7,7 @@
 class KartMove : public KartObjectProxy {
 public:
 
-    enum DriftState{
+    enum DriftState {
         NOT_DRIFTING,
         CHARGING,
         MT_CHARGED,

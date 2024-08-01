@@ -81,12 +81,12 @@ REPLACE int RaceConfig::Player::computeGPRank() {
 ///////////////////////////////
 
 // Copy extra fields from the source scenario to the destination one
-REPLACE RaceConfig::Scenario* RaceConfig::Scenario::copy(Scenario* rhs){
+REPLACE RaceConfig::Scenario* RaceConfig::Scenario::copy(Scenario* rhs) {
     return (RaceConfig::Scenario*)memcpy(this, rhs, sizeof(*rhs));
 }
 
 // Initialize the extra fields
-REPLACE void RaceConfig::init(){
+REPLACE void RaceConfig::init() {
     REPLACED();
 
     for (int i = 0; i < 12; i++) {
@@ -96,7 +96,7 @@ REPLACE void RaceConfig::init(){
 }
 
 // Copy the extra fields from the menu scenario to the race scenario
-REPLACE void RaceConfig::initRace(){
+REPLACE void RaceConfig::initRace() {
     REPLACED();
 
     for (int i = 0; i < 12; i++) {
@@ -105,7 +105,7 @@ REPLACE void RaceConfig::initRace(){
 }
 
 // Copy the extra fields from the menu scenario to the awards and race scenarios
-REPLACE void RaceConfig::initCredits(){
+REPLACE void RaceConfig::initCredits() {
     REPLACED();
 
     for (int i = 0; i < 12; i++) {

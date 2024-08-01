@@ -4,7 +4,7 @@
 
 namespace EGG {
 
-class Effect{
+class Effect {
 public:
     Effect(const char* effectName, int creatorIdx);
     virtual void create();

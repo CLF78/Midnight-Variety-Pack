@@ -91,7 +91,7 @@ kmCallDefCpp(0x805845D8, const MapdataItemPoint*, CourseMap* self, u32 id) {
 /////////////////
 
 // For karts
-REPLACE void KartMove::calcMtCharge(){
+REPLACE void KartMove::calcMtCharge() {
     if (this->driftState > SMT_CHARGED) { // Changed to 3 to accomodate new drift state
         return;
     }
@@ -106,22 +106,22 @@ REPLACE void KartMove::calcMtCharge(){
 }
 
 // The next few functions are to reset the UMT charge to 0 when necessary
-REPLACE void KartMove::init(bool unk0, bool unk1){
+REPLACE void KartMove::init(bool unk0, bool unk1) {
     REPLACED(unk0, unk1);
     this->umtCharge = 0;
 }
 
-REPLACE void KartMove::hop(){
+REPLACE void KartMove::hop() {
     REPLACED();
     this->umtCharge = 0;
 }
 
-REPLACE void KartMove::clearDrift(){
+REPLACE void KartMove::clearDrift() {
     REPLACED();
     this->umtCharge = 0;
 }
 
-REPLACE void KartMove::calcManualDrift(){
+REPLACE void KartMove::calcManualDrift() {
     REPLACED();
     if ((this->pointers->kartState->bitfield0 & KartState::DRIFT_MANUAL) == 0) { // check if we're not drifting
         this->umtCharge = 0;
@@ -129,7 +129,7 @@ REPLACE void KartMove::calcManualDrift(){
 }
 
 // For bikes
-REPLACE void KartMoveBike::calcMtCharge(){
+REPLACE void KartMoveBike::calcMtCharge() {
     if (this->driftState > MT_CHARGED) { // Changed to 2 to accomodate new drift state
         return;
     }
@@ -143,21 +143,21 @@ REPLACE void KartMoveBike::calcMtCharge(){
 // Ultra Miniturbo Boost //
 ///////////////////////////
 
-REPLACE void KartMove::releaseMt(bool forceOverride, u32 driftState){
+REPLACE void KartMove::releaseMt(bool forceOverride, u32 driftState) {
     int boostType = KartBoost::MT_OR_START;
-    if (!forceOverride){
+    if (!forceOverride) {
         driftState = this->driftState;
     }
-    if (driftState < MT_CHARGED){
+    if (driftState < MT_CHARGED) {
         this->driftState = NOT_DRIFTING;
         return;
     }
     KartStats* stats = this->getStats();
     s16 mtLength = stats->mtDuration;
-    if (driftState == SMT_CHARGED){
+    if (driftState == SMT_CHARGED) {
         mtLength *= 3;
     }
-    else if (driftState == UMT_CHARGED){
+    else if (driftState == UMT_CHARGED) {
         mtLength = (short)(mtLength * 4.5f);
         boostType = KartBoost::UMT;
     }
@@ -166,7 +166,7 @@ REPLACE void KartMove::releaseMt(bool forceOverride, u32 driftState){
     (state->bitfield0 & KartState::BEFORE_RESPAWN) != 0 ||
     (state->bitfield4 & KartState::BATTLE_RESPAWN) != 0 ||
     (state->bitfield1 & KartState::HIT_ITEM_OR_OBJ) != 0 ||
-    ((state->bitfield0 & KartState::BRAKE) != 0 && !forceOverride)){
+    ((state->bitfield0 & KartState::BRAKE) != 0 && !forceOverride)) {
         this->driftState = NOT_DRIFTING;
         return;
     }
@@ -175,7 +175,7 @@ REPLACE void KartMove::releaseMt(bool forceOverride, u32 driftState){
     this->mtBoostTimer = mtLength;
     this->activateRumble(5, true, 1.0f);
     this->playCharacterSound(CHARACTER_BOOST);
-    if ((state->bitfield4 & KartState::ONLINE_LOCAL) == 0){
+    if ((state->bitfield4 & KartState::ONLINE_LOCAL) == 0) {
         this->driftState = NOT_DRIFTING;
         return;
     }

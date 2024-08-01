@@ -3,7 +3,8 @@
 namespace EGG {
 
 class AudioTrack;
-struct AudioTrackCallback{
+
+struct AudioTrackCallback {
     void (*callbackFunc);
     AudioTrack* ptr;
 };

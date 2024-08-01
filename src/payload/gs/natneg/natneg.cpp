@@ -33,7 +33,7 @@ BOOL ResolveServers() {
 int NNStartNatDetection(NatDetectionResultsFunc resultscallback) {
 
     // Check if the backend is available
-    if(__GSIACResult != GSIAC_AVAILABLE)
+    if (__GSIACResult != GSIAC_AVAILABLE)
         return NN_SOCKET_ERROR;
 
     if (!ResolveServers())

@@ -27,7 +27,7 @@ REPLACE_STATIC KartObject* KartObject::Create(u8 playerIdx, int kart, int charac
 
         // If the vehicle isn't already an inside-drifting bike, buff the drift stats as well
         case RaceConfig::Player::TRANSMISSION_INSIDE:
-            if(stats->vehicleType != KartStats::INSIDE_BIKE) {
+            if (stats->vehicleType != KartStats::INSIDE_BIKE) {
                 stats->automaticDrift += 0.002;
                 stats->manualDrift += 0.002;
             }
