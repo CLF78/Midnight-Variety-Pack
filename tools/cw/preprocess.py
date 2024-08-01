@@ -7,6 +7,7 @@ from argparse import ArgumentParser
 from io import StringIO
 from pathlib import Path
 import mangle
+import re
 
 REPLACE_STRING = 'REPLACE'
 REPLACE_STATIC_STRING = 'REPLACE_STATIC'
@@ -15,6 +16,7 @@ BRANCH_MANGLE = 'BRANCH_CPP'
 CALL_MANGLE = 'CALL_CPP'
 MAGIC_OPWORD = '0x78787878'
 THUNK_FUNCTION_PATTERN = 'thunk_replaced'
+COMMENT_REGEX = r'(/\*[^*]*\*+(?:[^/*][^*]*\*+)*/)|(//.*)'
 
 TYPEDEFS = {
     'u8': 'unsigned char',
@@ -184,7 +186,7 @@ class _Preprocessor:
 
             # If the current characters include a header, parse it
             elif self.check_sequence(src_code, curr_pos, '#include'):
-                curr_pos = self.parse_include(src_code, curr_pos)
+                curr_pos = self.parse_include(src, src_code, curr_pos)
 
             # Else test for keywords
             else:
@@ -207,11 +209,10 @@ class _Preprocessor:
                 curr_pos += 1
 
 
-    def parse_include(self, src_code: str, curr_pos: int, write: bool = False) -> int:
+    def parse_system_include(self, src_code: str, curr_pos: int, include_start: int, line_end: int, write: bool = False) -> int:
 
-        # Isolate the path
-        include_start = src_code.index('<', curr_pos) + 1
-        include_end = src_code.index('>', include_start)
+        # Get end of include
+        include_end = src_code.index('>', include_start, line_end)
 
         # Only process C++ headers (and don't parse them multiple times)
         for dir in self.include_dirs:
@@ -224,8 +225,48 @@ class _Preprocessor:
         if write:
             self.buffer.write(src_code[curr_pos:include_end+1])
 
-        # Return end of header
+        # Return the end of the include
         return include_end + 1
+
+
+    def parse_user_include(self, src_code: str, src_file: Path, include_start: int, line_end: int, write: bool = False) -> int:
+
+        # Get end of include
+        include_end = src_code.index('"', include_start + 1, line_end)
+
+        # Only process C++ headers (and don't parse them multiple times)
+        include_path = Path(src_file.parent, src_code[include_start+1:include_end])
+        if include_path.suffix == '.hpp' and include_path not in self.visited_headers and include_path.is_file():
+            self.visited_headers.add(include_path)
+            self.process_header(include_path)
+
+        # Try converting the include to a system one
+        for dir in self.include_dirs:
+            if dir in include_path.parents:
+
+                # Copy the line if requested
+                if write:
+                    self.buffer.write(f'#include <{include_path.relative_to(dir)}>')
+
+                # Return the end of the include
+                return include_end + 1
+
+        raise SystemExit("Could not convert user include to system include!")
+
+
+    def parse_include(self, src_file: Path, src_code: str, curr_pos: int, write: bool = False) -> int:
+
+        # Get the end of the line to ensure we don't find content from other lines
+        line_end = src_code.index('\n', curr_pos)
+
+        # Check for system includes
+        include_start = src_code.find('<', curr_pos, line_end) + 1
+        if include_start > 0:
+            return self.parse_system_include(src_code, curr_pos, include_start, line_end, write)
+
+        # Check for user includes
+        include_start = src_code.index('"', curr_pos, line_end)
+        return self.parse_user_include(src_code, src_file, include_start, line_end, write)
 
 
     def split_function_signature(self, func: str) -> tuple[str, str, str, str]:
@@ -405,6 +446,9 @@ class _Preprocessor:
         func_body_start_idx = src_code.index('{', curr_pos)
         func = src_code[curr_pos:func_body_start_idx]
 
+        # Remove comments
+        func = re.sub(COMMENT_REGEX, '', func)
+
         # Split off any constructor initializer if present
         filled_func = func.split(' :')[0].strip()
 
@@ -528,11 +572,6 @@ class _Preprocessor:
         # Read the source file
         src_code = self.src.read_text(encoding='utf-8')
 
-        # If no keyword replacements were found, write the file directly and bail
-        if REPLACE_STRING not in src_code and BRANCH_MANGLE not in src_code and CALL_MANGLE not in src_code:
-            self.dest.write_text(src_code, encoding='utf-8')
-            return
-
         # Read all symbols from the map
         self.read_symbol_file()
 
@@ -558,7 +597,7 @@ class _Preprocessor:
 
             # If the current characters include a header, parse it
             elif self.check_sequence(src_code, curr_pos, '#include'):
-                curr_pos = self.parse_include(src_code, curr_pos, True)
+                curr_pos = self.parse_include(self.src, src_code, curr_pos, True)
 
             # If the current characters define a static function replacement, apply the necessary changes
             elif self.check_sequence(src_code, curr_pos, REPLACE_STATIC_STRING):
