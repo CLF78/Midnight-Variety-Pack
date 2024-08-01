@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <mvp/cup/CupManager.hpp>
+#include "CupManager.hpp"
 #include <game/system/MultiDvdArchive.hpp>
 #include <game/system/ResourceManager.hpp>
 #include <game/ui/Message.hpp>

@@ -1,10 +1,9 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/ctrl/UIControl.hpp>
-#include <game/ui/UIAnimator.hpp>
+#include "UIControl.hpp"
 #include <game/ui/Layout.hpp>
 #include <game/ui/MessageGroup.hpp>
 #include <game/ui/MessageInfo.hpp>
+#include <game/ui/UIAnimator.hpp>
 
 class LayoutUIControl : public UIControl {
 public:

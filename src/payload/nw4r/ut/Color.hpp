@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <revolution/gx/GXStruct.h>
 
 namespace nw4r {

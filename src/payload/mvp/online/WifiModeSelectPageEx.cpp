@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
+#include "WifiModeSelectPageEx.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/page/RandomMatchingPage.hpp>
-#include <mvp/online/WifiModeSelectPageEx.hpp>
 #include <mvp/save/SaveExpansionRating.hpp>
 #include <platform/stdio.h>
 

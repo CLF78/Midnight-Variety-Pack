@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 
 namespace EGG {
 namespace Decomp {

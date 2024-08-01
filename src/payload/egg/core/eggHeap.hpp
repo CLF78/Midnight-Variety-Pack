@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
-#include <egg/core/eggAllocator.hpp>
-#include <egg/core/eggDisposer.hpp>
+#include "eggAllocator.hpp"
+#include "eggDisposer.hpp"
 #include <nw4r/ut/utList.hpp>
 #include <revolution/mem/heapCommon.h>
 

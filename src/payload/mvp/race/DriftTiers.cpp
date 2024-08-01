@@ -1,14 +1,13 @@
-#include <common/Common.hpp>
-#include <mvp/race/DriftTiers.hpp>
+#include "DriftTiers.hpp"
 #include <egg/effect/eggEffectResource.hpp>
-#include <game/kart/KartMove.hpp>
-#include <game/kart/KartStats.hpp>
-#include <game/kart/KartBoost.hpp>
-#include <game/kart/KartObjectManager.hpp>
 #include <game/effect/EffectsManager.hpp>
+#include <game/kart/KartBoost.hpp>
+#include <game/kart/KartMove.hpp>
+#include <game/kart/KartObjectManager.hpp>
+#include <game/kart/KartStats.hpp>
 #include <game/sound/AudioHandleHolder.hpp>
-#include <nw4r/snd/SoundArchivePlayer.hpp>
 #include <game/system/MultiDvdArchive.hpp>
+#include <nw4r/snd/SoundArchivePlayer.hpp>
 
 static EGG::EffectResource* pulEffects = nullptr;
 static EGG::EffectResource* vpEffects = nullptr;

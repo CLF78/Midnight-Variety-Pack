@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
-#include <nw4r/ut/utList.hpp>
 #include <egg/core/eggDisposer.hpp>
+#include <nw4r/ut/utList.hpp>
 
 using namespace nw4r;
 namespace EGG {

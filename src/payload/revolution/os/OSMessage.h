@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.h>
-#include <revolution/os/OSThread.h>
+#include "OSThread.h"
 
 #ifdef __cplusplus
 extern "C" {

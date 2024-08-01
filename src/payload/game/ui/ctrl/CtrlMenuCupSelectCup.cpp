@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/CtrlMenuCupSelectCup.hpp>
+#include "CtrlMenuCupSelectCup.hpp"
 #include <mvp/cup/CupManager.hpp>
 #include <mvp/cup/RaceCupSelectPageEx.hpp>
 

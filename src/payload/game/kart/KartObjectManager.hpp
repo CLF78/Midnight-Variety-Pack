@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/kart/KartObject.hpp>
+#include "KartObject.hpp"
 #include <egg/core/eggDisposer.hpp>
 
 class KartObjectManager : public EGG::Disposer {

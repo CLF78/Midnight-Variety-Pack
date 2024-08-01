@@ -1,9 +1,8 @@
 #pragma once
-#include <common/Common.hpp>
+#include "RaceCupSelectArrow.hpp"
 #include <game/ui/SectionManager.hpp>
-#include <game/ui/page/RaceCupSelectPage.hpp>
 #include <game/ui/ctrl/SheetSelectControl.hpp>
-#include <mvp/cup/RaceCupSelectArrow.hpp>
+#include <game/ui/page/RaceCupSelectPage.hpp>
 
 class RaceCupSelectPageEx : public RaceCupSelectPage {
 public:

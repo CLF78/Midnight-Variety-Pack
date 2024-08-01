@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <nw4r/ut/IOStream.hpp>
+#include "IOStream.hpp"
 
 namespace nw4r {
 namespace ut {

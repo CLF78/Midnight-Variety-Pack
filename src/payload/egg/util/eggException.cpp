@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "eggException.hpp"
 #include <egg/core/eggThread.hpp>
-#include <egg/util/eggException.hpp>
 #include <game/system/SystemManager.hpp>
 #include <revolution/ax.h>
 #include <revolution/kpad.h>

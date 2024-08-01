@@ -1,9 +1,8 @@
-#include <common/Common.hpp>
-#include <game/kart/KartMove.hpp>
-#include <game/kart/KartState.hpp>
-#include <game/kart/KartSettings.hpp>
-#include <game/kart/RacedataFactory.hpp>
-#include <game/kart/VehiclePhysics.hpp>
+#include "KartMove.hpp"
+#include "KartSettings.hpp"
+#include "KartState.hpp"
+#include "RacedataFactory.hpp"
+#include "VehiclePhysics.hpp"
 #include <game/system/CourseMap.hpp>
 
 ///////////////////////////

@@ -1,9 +1,8 @@
 #pragma once
-#include <common/Common.h>
+#include "gt2Buffer.h"
+#include "gt2Callback.h"
 #include <gs/darray.h>
 #include <gs/hashtable.h>
-#include <gs/gt2/gt2Buffer.h>
-#include <gs/gt2/gt2Callback.h>
 
 #ifdef __cplusplus
 extern "C" {

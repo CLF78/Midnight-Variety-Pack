@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
-#include <game/net/RKNetController.hpp>
-#include <game/net/RKNetRH1Handler.hpp>
-#include <game/net/packet/RKNetRH1Packet.hpp>
+#include "RKNetController.hpp"
+#include "RKNetRH1Handler.hpp"
+#include "packet/RKNetRH1Packet.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <mvp/cup/CupCounts.h>
 #include <platform/string.h>

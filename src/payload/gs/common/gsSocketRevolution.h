@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.h>
 #include <revolutionex/so/SOBasic.h>
 
 #ifdef __cplusplus

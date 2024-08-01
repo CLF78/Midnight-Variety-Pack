@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/gfx/ModelDirector.hpp>
 #include <game/kart/KartObjectProxy.hpp>
 

@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 
 //////////////////////////////
 // Item Object Momentum Fix //

@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 
 class RaceGlobals {
 public:

@@ -1,7 +1,7 @@
 #pragma once
-#include <nw4r/snd/BasicSound.hpp>
-#include <nw4r/snd/ExternalSoundPlayer.hpp>
-#include <nw4r/snd/SoundStartable.hpp>
+#include "BasicSound.hpp"
+#include "ExternalSoundPlayer.hpp"
+#include "SoundStartable.hpp"
 
 namespace nw4r {
 namespace snd {

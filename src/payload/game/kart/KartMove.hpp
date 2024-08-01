@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/kart/KartObjectProxy.hpp>
-#include <game/kart/KartBoost.hpp>
+#include "KartObjectProxy.hpp"
+#include "KartBoost.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <revolution/mtx.h>
 

@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#include "MultiTransmissionSelectPage.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
 #include <game/util/Random.hpp>
-#include <mvp/transmission/MultiTransmissionSelectPage.hpp>
 
 MultiTransmissionSelectPage::MultiTransmissionSelectPage() {
     SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);

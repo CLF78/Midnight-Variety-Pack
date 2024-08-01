@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include "LayoutUIControl.hpp"
 #include <nw4r/lyt/pane.hpp>
 #include <revolution/mtx.h>
 

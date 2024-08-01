@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
+#include "CtrlRaceMessageDisplay.hpp"
 #include <game/ui/MessageInfo.hpp>
-#include <mvp/race/CtrlRaceMessageDisplay.hpp>
 
 class MessageQueue {
 public:

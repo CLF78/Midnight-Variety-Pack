@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/net/packet/RKNetRoomPacket.hpp>
+#include "packet/RKNetRoomPacket.hpp"
 
 class RKNetROOMHandler {
 public:

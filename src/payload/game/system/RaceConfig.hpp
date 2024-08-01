@@ -1,10 +1,9 @@
 #pragma once
-#include <common/Common.hpp>
+#include "Competition.hpp"
+#include "GhostFile.hpp"
+#include "Mii.hpp"
+#include "Rating.hpp"
 #include <game/host_system/ParameterFile.hpp>
-#include <game/system/Competition.hpp>
-#include <game/system/GhostFile.hpp>
-#include <game/system/Mii.hpp>
-#include <game/system/Rating.hpp>
 
 class RaceConfigBase {
 public:

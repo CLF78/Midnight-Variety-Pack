@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#include "Status.hpp"
 #include <dwc/dwc_base64.h>
 #include <dwc/dwc_match.h>
 #include <game/system/RKSystem.hpp>
@@ -6,7 +6,6 @@
 #include <nw4r/ut/Lock.hpp>
 #include <platform/stdio.h>
 #include <platform/string.h>
-#include <wiimmfi/Status.hpp>
 
 namespace Wiimmfi {
 namespace Status {

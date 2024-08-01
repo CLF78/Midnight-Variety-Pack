@@ -1,6 +1,4 @@
-#include <common/Common.hpp>
-#include <game/system/MultiDvdArchive.hpp>
-#include <game/system/ResourceManager.hpp>
+#include "ResourceManager.hpp"
 #include <mvp/cup/CupManager.hpp>
 #include <platform/stdio.h>
 #include <platform/string.h>

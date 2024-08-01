@@ -1,4 +1,6 @@
-#include <common/Common.hpp>
+#include "ConnectionMatrix.hpp"
+#include "Reporting.hpp"
+#include "Status.hpp"
 #include <dwc/dwc_base64.h>
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
@@ -17,9 +19,6 @@
 #include <revolution/es/es.h>
 #include <revolution/ios.h>
 #include <revolutionex/net/NETDigest.h>
-#include <wiimmfi/ConnectionMatrix.hpp>
-#include <wiimmfi/Reporting.hpp>
-#include <wiimmfi/Status.hpp>
 
 namespace Wiimmfi {
 namespace Reporting {

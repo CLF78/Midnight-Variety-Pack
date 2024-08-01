@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/util/Random.hpp>
+#include "Random.hpp"
 
 Random::Random(u32* seedValue) {
 

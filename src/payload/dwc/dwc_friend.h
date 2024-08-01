@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.h>
-#include <dwc/dwc_account.h>
+#include "dwc_account.h"
 
 #ifdef __cplusplus
 extern "C" {

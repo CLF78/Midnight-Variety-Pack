@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 
 // TODO actual structure
 struct RKNetRH2Packet {

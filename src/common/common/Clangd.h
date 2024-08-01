@@ -3,10 +3,14 @@
 // Fixes various non-existent Clangd errors, do not include
 #ifdef __CLANGD__
 
+    // Fix size asserts
+    #define wchar_t s16
+
     // Fix assembly functions
     #define asm
     #define nofralloc __asm {
     #define blr }
+    #define register
 
     // Dummy preprocessor macros
     #define REPLACE

@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <nw4r/snd/SoundArchiveFile.hpp>
+#include "SoundArchiveFile.hpp"
 
 ulong nw4r::snd::detail::SoundArchiveFileReader::GetSoundCount() const {
     u32 offset = info->soundTableRef.value;

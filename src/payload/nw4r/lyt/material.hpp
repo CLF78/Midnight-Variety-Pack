@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <nw4r/lyt/texmap.hpp>
+#include "texmap.hpp"
 
 namespace nw4r {
 namespace lyt {

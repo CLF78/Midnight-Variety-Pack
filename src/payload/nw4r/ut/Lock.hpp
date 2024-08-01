@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <revolution/os/OS.h>
 
 namespace nw4r {

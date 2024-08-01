@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <mvp/save/SaveExpansionRating.hpp>
+#include "SaveExpansionRating.hpp"
 
 void SaveExpansionRating::Init() {
 

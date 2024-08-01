@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#include "BattleCupSelectPageEx.hpp"
+#include "CupManager.hpp"
 #include <game/ui/Message.hpp>
 #include <game/ui/UIUtils.hpp>
-#include <mvp/cup/BattleCupSelectPageEx.hpp>
-#include <mvp/cup/CupManager.hpp>
 
 ///////////////////////
 // Custom Cup System //

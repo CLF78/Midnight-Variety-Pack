@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/net/packet/RKNetPacketCommon.hpp>
+#include "RKNetPacketCommon.hpp"
 
 struct RKNetRACEPacketHeader {
     u32 empty;

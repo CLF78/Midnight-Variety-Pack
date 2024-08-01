@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <egg/core/eggExpHeap.hpp>
 #include <egg/core/eggSceneManager.hpp>
 

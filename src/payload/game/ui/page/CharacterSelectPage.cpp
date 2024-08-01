@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/ui/page/Page.hpp>
+#include "Page.hpp"
 
 ///////////////////////////
 // Custom Engine Classes //

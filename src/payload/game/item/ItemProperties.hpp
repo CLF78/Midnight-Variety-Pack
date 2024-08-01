@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 
 // Forward declaration
 class ItemHolderPlayer;

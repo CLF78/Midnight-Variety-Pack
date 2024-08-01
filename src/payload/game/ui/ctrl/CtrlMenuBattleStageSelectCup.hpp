@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/ctrl/CtrlMenuBattleStageSelectCupSub.hpp>
+#include "CtrlMenuBattleStageSelectCupSub.hpp"
+#include "LayoutUIControl.hpp"
 
 class CtrlMenuBattleStageSelectCup : public LayoutUIControl {
 public:

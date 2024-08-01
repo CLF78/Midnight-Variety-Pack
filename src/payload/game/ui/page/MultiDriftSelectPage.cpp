@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 #include <game/ui/GlobalContext.hpp>
 #include <mvp/cup/CupManager.hpp>
 

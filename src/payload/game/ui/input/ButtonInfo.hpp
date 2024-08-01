@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/input/MenuInputManager.hpp>
+#include "MenuInputManager.hpp"
 
 class ButtonInfo {
 public:

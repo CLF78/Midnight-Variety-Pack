@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/sound/RaceSoundManager.hpp>
+#include "RaceSoundManager.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <mvp/cup/CupManager.hpp>
 

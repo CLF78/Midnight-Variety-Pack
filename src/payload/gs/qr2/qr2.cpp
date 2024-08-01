@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "qr2.h"
 #include <gs/common/gsSocketRevolution.h>
-#include <gs/qr2/qr2.h>
 #include <revolutionex/so/SOBasic.h>
 #include <wiimmfi/Challenge.hpp>
 

@@ -1,4 +1,5 @@
-#include <common/Common.hpp>
+#include "ConnectionMatrix.hpp"
+#include "Natneg.hpp"
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
 #include <dwc/dwc_node.h>
@@ -9,8 +10,6 @@
 #include <platform/string.h>
 #include <revolution/os/OS.h>
 #include <revolutionex/net/NETDigest.h>
-#include <wiimmfi/ConnectionMatrix.hpp>
-#include <wiimmfi/Natneg.hpp>
 
 namespace Wiimmfi {
 namespace Natneg {

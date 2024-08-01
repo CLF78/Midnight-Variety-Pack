@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <gs/gp/gp.h>
 
 namespace Wiimmfi {

@@ -1,10 +1,9 @@
 #pragma once
-#include <common/Common.hpp>
+#include "GlobalContext.hpp"
+#include "MessageGroup.hpp"
+#include "Section.hpp"
+#include "SectionPad.hpp"
 #include <game/system/SaveGhostManager.hpp>
-#include <game/ui/GlobalContext.hpp>
-#include <game/ui/MessageGroup.hpp>
-#include <game/ui/Section.hpp>
-#include <game/ui/SectionPad.hpp>
 #include <nw4r/ut/Color.hpp>
 
 class SectionManager {

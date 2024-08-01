@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <revolution/mem/allocator.h>
 
 namespace EGG {

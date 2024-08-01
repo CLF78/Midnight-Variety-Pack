@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 
 enum VehicleId {
     VEHICLE_NONE = -1,

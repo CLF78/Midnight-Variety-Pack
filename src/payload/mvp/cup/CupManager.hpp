@@ -1,12 +1,11 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/GlobalContext.hpp>
-#include <game/ui/ctrl/PushButton.hpp>
-#include <game/ui/UIUtils.hpp>
-#include <game/ui/page/RaceCupSelectPage.hpp>
+#include "CupData.hpp"
 #include <game/system/RaceConfig.hpp>
+#include <game/ui/GlobalContext.hpp>
+#include <game/ui/UIUtils.hpp>
+#include <game/ui/ctrl/PushButton.hpp>
+#include <game/ui/page/RaceCupSelectPage.hpp>
 #include <game/util/Random.hpp>
-#include <mvp/cup/CupData.hpp>
 
 // Useful Terminology:
 // - Cup Index = The index of the cup in the cup list (value 0 to CUP COUNT - 1)

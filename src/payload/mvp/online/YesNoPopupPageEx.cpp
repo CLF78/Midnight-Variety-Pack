@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <mvp/online/YesNoPopupPageEx.hpp>
+#include "YesNoPopupPageEx.hpp"
 
 YesNoPopupPageEx::YesNoPopupPageEx() : onBackPressHandler(this, &onBackPress),
                                        onBackSelectedButton(-1),

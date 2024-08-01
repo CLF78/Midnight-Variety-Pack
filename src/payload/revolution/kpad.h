@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.h>
-#include <revolution/mtx.h>
-#include <revolution/wpad.h>
+#include "mtx.h"
+#include "wpad.h"
 
 #ifdef __cplusplus
 extern "C" {

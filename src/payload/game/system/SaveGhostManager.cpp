@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
-#include <game/system/NandManager.hpp>
-#include <game/system/SaveGhostManager.hpp>
-#include <game/system/SaveManager.hpp>
+#include "NandManager.hpp"
+#include "SaveGhostManager.hpp"
+#include "SaveManager.hpp"
 #include <game/util/NandUtil.hpp>
 #include <mvp/save/SaveExpansionManager.hpp>
 

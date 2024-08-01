@@ -1,14 +1,14 @@
 #pragma once
-#include <common/Common.hpp>
+#include "ControlInputManager.hpp"
+#include "MenuInputManager.hpp"
 #include <egg/core/eggList.hpp>
-#include <game/ui/input/ControlInputManager.hpp>
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/input/MenuInputManager.hpp>
 #include <game/ui/page/Page.hpp>
 #include <revolution/mtx.h>
 
 class MultiControlInputManager : public MenuInputManager {
 public:
+
     class Player {
     public:
         ControlInputManager* manager;

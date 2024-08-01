@@ -1,10 +1,9 @@
 #pragma once
-#include <common/Common.hpp>
-#include <nw4r/ut/utList.hpp>
-#include <revolution/mtx.h>
 #include <egg/audio/eggAudioTrack.hpp>
 #include <egg/core/eggDisposer.hpp>
 #include <game/system/Timer.hpp>
+#include <nw4r/ut/utList.hpp>
+#include <revolution/mtx.h>
 
 class KartSound;
 

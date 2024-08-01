@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "SaveManager.hpp"
 #include <game/scene/InitScene.hpp>
-#include <game/system/SaveManager.hpp>
 #include <game/util/NandUtil.hpp>
 #include <mvp/save/SaveExpansionManager.hpp>
 

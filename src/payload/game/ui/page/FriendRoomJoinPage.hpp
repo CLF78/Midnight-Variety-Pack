@@ -1,8 +1,7 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/ui/ctrl/LayoutUIControl.hpp>
 #include <game/ui/input/MenuInputManager.hpp>
-#include <game/ui/page/Page.hpp>
+#include "Page.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
 #include <game/ui/ctrl/CountdownTimerControl.hpp>

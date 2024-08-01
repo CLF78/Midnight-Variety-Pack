@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <game/sound/ItemMusicManager.hpp>
-#include <game/sound/RaceSoundManager.hpp>
+#include "ItemMusicManager.hpp"
+#include "RaceSoundManager.hpp"
 
 ///////////////////////
 // Custom Cup System //

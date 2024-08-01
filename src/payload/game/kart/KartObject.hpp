@@ -1,9 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/kart/KartStats.hpp>
-#include <game/kart/KartObjectProxy.hpp>
-#include <game/kart/KartParam.hpp>
-#include <game/kart/KartSettings.hpp>
+#include "KartObjectProxy.hpp"
+#include "KartSettings.hpp"
 
 class KartObject : public KartObjectProxy {
 public:

@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "Challenge.hpp"
 #include <platform/string.h>
-#include <wiimmfi/Challenge.hpp>
 
 namespace Wiimmfi {
 namespace Challenge {

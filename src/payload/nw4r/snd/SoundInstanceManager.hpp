@@ -1,5 +1,5 @@
 #pragma once
-#include <nw4r/snd/InstancePool.hpp>
+#include "InstancePool.hpp"
 #include <nw4r/ut/utList.hpp>
 #include <revolution/os/OSMutex.h>
 

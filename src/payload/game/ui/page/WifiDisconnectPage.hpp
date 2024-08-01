@@ -1,8 +1,7 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/net/WifiDisconnectInfo.hpp>
 #include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/page/Page.hpp>
+#include "Page.hpp"
 #include <game/ui/input/PageInputManager.hpp>
 #include <game/ui/ctrl/PushButton.hpp>
 

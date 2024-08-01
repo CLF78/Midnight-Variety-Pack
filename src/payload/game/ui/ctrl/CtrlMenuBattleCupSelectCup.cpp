@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 #include <game/ui/ControlLoader.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <mvp/cup/BattleCupSelectPageEx.hpp>

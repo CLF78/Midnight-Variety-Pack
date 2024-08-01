@@ -1,9 +1,8 @@
-#include <common/Common.hpp>
+#include "CourseMap.hpp"
+#include "RaceConfig.hpp"
+#include "RaceManager.hpp"
 #include <game/race/RaceGlobals.hpp>
 #include <game/sound/RaceSoundManager.hpp>
-#include <game/system/CourseMap.hpp>
-#include <game/system/RaceConfig.hpp>
-#include <game/system/RaceManager.hpp>
 #include <game/ui/MessageInfo.hpp>
 #include <mvp/cup/CupManager.hpp>
 #include <mvp/race/MessageQueue.hpp>

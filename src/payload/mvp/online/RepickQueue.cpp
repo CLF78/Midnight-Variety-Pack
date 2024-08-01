@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "RepickQueue.hpp"
 #include <mvp/cup/CupManager.hpp>
-#include <mvp/online/RepickQueue.hpp>
 
 RepickQueue RepickQueue::instance;
 

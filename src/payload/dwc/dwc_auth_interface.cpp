@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <dwc/dwc_report.h>
+#include "dwc_report.h"
 #include <platform/stdio.h>
 #include <platform/string.h>
 #include <revolutionex/nhttp/NHTTP.h>

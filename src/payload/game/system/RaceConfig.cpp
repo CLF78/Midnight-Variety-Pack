@@ -1,6 +1,4 @@
-#include <common/Common.hpp>
-#include <game/system/RaceConfig.hpp>
-#include <game/system/ResourceManager.hpp>
+#include "RaceConfig.hpp"
 #include <mvp/cup/CupManager.hpp>
 #include <platform/string.h>
 

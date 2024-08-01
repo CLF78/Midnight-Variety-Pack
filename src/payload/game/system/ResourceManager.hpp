@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
+#include "MultiDvdArchive.hpp"
 #include <egg/core/eggTaskThread.hpp>
-#include <game/system/MultiDvdArchive.hpp>
 
 class ResourceManager {
 public:

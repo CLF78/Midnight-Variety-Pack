@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
-#include <dwc/dwc_main.h>
-#include <dwc/dwc_match.h>
-#include <dwc/dwc_report.h>
+#include "dwc_main.h"
+#include "dwc_match.h"
+#include "dwc_report.h"
 #include <platform/string.h>
 #include <wiimmfi/ConnectionMatrix.hpp>
 #include <wiimmfi/MatchCommand.hpp>

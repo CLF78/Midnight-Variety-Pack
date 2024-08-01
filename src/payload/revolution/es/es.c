@@ -1,5 +1,4 @@
-#include <common/Common.h>
-#include <revolution/es/es.h>
+#include "es.h"
 #include <revolution/ios.h>
 
 s32 ES_GetDeviceCert(u8* outBuf) {

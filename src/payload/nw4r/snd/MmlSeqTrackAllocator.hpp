@@ -1,7 +1,7 @@
 #pragma once
-#include <nw4r/snd/InstancePool.hpp>
-#include <nw4r/snd/MmlParser.hpp>
-#include <nw4r/snd/SeqTrackAllocator.hpp>
+#include "InstancePool.hpp"
+#include "MmlParser.hpp"
+#include "SeqTrackAllocator.hpp"
 
 namespace nw4r {
 namespace snd {

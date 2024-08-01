@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <nw4r/snd/DvdSoundArchive.hpp>
+#include "DvdSoundArchive.hpp"
 
 namespace nw4r {
 namespace snd {

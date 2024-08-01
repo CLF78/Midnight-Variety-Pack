@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/ui/ctrl/SheetSelectControl.hpp>
 
 class BattleCupSelectArrow : public SheetSelectButton {

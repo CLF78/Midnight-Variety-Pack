@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.h>
-#include <revolution/os/OSContext.h>
+#include "OSContext.h"
 
 #ifdef __cplusplus
 extern "C" {

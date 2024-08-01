@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 #include <game/net/RKNetRH1Handler.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <mvp/cup/CupManager.hpp>

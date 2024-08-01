@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.h>
+#include "gpiBuffer.h"
 #include <gs/darray.h>
-#include <gs/gp/gpiBuffer.h>
 
 #ifdef __cplusplus
 extern "C" {

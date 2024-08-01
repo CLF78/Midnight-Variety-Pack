@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
-#include <dwc/dwc_common.h>
-#include <dwc/dwc_main.h>
-#include <dwc/dwc_report.h>
+#include "dwc_common.h"
+#include "dwc_main.h"
+#include "dwc_report.h"
 #include <gs/gt2/gt2Main.h>
 #include <gs/gt2/gt2Utility.h>
 #include <wiimmfi/ConnectionMatrix.hpp>

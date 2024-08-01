@@ -1,11 +1,10 @@
 #pragma once
-#include <common/Common.hpp>
+#include "GhostFile.hpp"
+#include "Mii.hpp"
+#include "RawSave.hpp"
+#include "Timer.hpp"
 #include <egg/core/eggDisposer.hpp>
 #include <egg/core/eggTaskThread.hpp>
-#include <game/system/GhostFile.hpp>
-#include <game/system/Mii.hpp>
-#include <game/system/RawSave.hpp>
-#include <game/system/Timer.hpp>
 #include <mvp/save/SaveExpansion.hpp>
 
 class SaveManager {

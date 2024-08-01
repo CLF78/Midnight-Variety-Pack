@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <game/kart/KartBoost.hpp>
-#include <game/kart/KartMove.hpp>
+#include "KartBoost.hpp"
+#include "KartMove.hpp"
 #include <game/system/RaceConfig.hpp>
 
 ///////////////////////////

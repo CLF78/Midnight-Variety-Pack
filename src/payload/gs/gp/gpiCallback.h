@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.h>
-#include <gs/gp/gp.h>
+#include "gp.h"
 
 #ifdef __cplusplus
 extern "C" {

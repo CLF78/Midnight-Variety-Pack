@@ -1,8 +1,7 @@
 #pragma once
-#include <common/Common.hpp>
+#include "Message.hpp"
 #include <game/net/WifiDisconnectInfo.hpp>
 #include <game/system/Mii.hpp>
-#include <game/ui/Message.hpp>
 
 class GlobalContext {
 public:

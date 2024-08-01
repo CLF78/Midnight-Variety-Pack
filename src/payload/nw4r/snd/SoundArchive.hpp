@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <nw4r/snd/global.hpp>
+#include "global.hpp"
 #include <nw4r/ut/FileStream.hpp>
 
 namespace nw4r {

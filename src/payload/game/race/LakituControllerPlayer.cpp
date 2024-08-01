@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/race/LakituControllerPlayer.hpp>
+#include "LakituControllerPlayer.hpp"
 #include <game/system/RaceManager.hpp>
 
 //////////////////

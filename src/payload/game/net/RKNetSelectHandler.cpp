@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
-#include <game/net/RKNetController.hpp>
-#include <game/net/RKNetPacketHolder.hpp>
-#include <game/net/RKNetSelectHandler.hpp>
-#include <game/net/RKNetUserHandler.hpp>
+#include "RKNetController.hpp"
+#include "RKNetPacketHolder.hpp"
+#include "RKNetSelectHandler.hpp"
+#include "RKNetUserHandler.hpp"
 #include <game/util/Random.hpp>
 #include <mvp/cup/CupManager.hpp>
 #include <platform/string.h>

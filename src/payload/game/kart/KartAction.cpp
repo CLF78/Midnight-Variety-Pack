@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 
 /////////////////////////////////
 // Online Explosion Damage Fix //

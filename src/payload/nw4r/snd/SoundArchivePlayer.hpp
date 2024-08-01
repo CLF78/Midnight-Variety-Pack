@@ -1,21 +1,19 @@
 #pragma once
-#include <common/Common.hpp>
-#include <nw4r/snd/DisposeCallbackManager.hpp>
-#include <nw4r/snd/MmlParser.hpp>
-#include <nw4r/snd/MmlSeqTrackAllocator.hpp>
-#include <nw4r/snd/NoteOnCallback.hpp>
-#include <nw4r/snd/SeqPlayer.hpp>
-#include <nw4r/snd/SeqTrackAllocator.hpp>
-#include <nw4r/snd/SoundActor.hpp>
-#include <nw4r/snd/SoundArchive.hpp>
-#include <nw4r/snd/SoundHandle.hpp>
-#include <nw4r/snd/SoundInstanceManager.hpp>
-#include <nw4r/snd/SoundMemoryAllocatable.hpp>
-#include <nw4r/snd/SoundPlayer.hpp>
-#include <nw4r/snd/SoundStartable.hpp>
-#include <nw4r/snd/StrmChannel.hpp>
-#include <nw4r/snd/Util.hpp>
-#include <nw4r/snd/WsdPlayer.hpp>
+#include "DisposeCallbackManager.hpp"
+#include "MmlParser.hpp"
+#include "MmlSeqTrackAllocator.hpp"
+#include "NoteOnCallback.hpp"
+#include "SeqTrackAllocator.hpp"
+#include "SoundActor.hpp"
+#include "SoundArchive.hpp"
+#include "SoundHandle.hpp"
+#include "SoundInstanceManager.hpp"
+#include "SoundMemoryAllocatable.hpp"
+#include "SoundPlayer.hpp"
+#include "SoundStartable.hpp"
+#include "StrmChannel.hpp"
+#include "Util.hpp"
+#include "WsdPlayer.hpp"
 
 namespace nw4r {
 namespace snd {

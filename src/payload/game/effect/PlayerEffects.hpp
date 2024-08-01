@@ -1,12 +1,11 @@
 #pragma once
-#include <common/Common.hpp>
-#include <nw4r/ut/Color.hpp>
-#include <game/system/RaceConfig.hpp>
-#include <game/kart/KartObject.hpp>
-#include <game/kart/KartCollide.hpp>
-#include <nw4r/math/types.hpp>
-#include <game/gfx/ModelDirector.hpp>
 #include <egg/effect/eggEffect.hpp>
+#include <game/gfx/ModelDirector.hpp>
+#include <game/kart/KartCollide.hpp>
+#include <game/kart/KartObject.hpp>
+#include <game/system/RaceConfig.hpp>
+#include <nw4r/math/types.hpp>
+#include <nw4r/ut/Color.hpp>
 
 class PlayerEffects {
 public:

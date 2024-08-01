@@ -1,8 +1,6 @@
-#include <common/Common.hpp>
-#include <mvp/cup/CupManager.hpp>
-#include <mvp/cup/RaceCupSelectArrow.hpp>
-#include <mvp/cup/RaceCupSelectPageEx.hpp>
-
+#include "CupManager.hpp"
+#include "RaceCupSelectArrow.hpp"
+#include "RaceCupSelectPageEx.hpp"
 
 // This function runs whenever the left arrow is selected or pressed
 void RaceCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayerId) {

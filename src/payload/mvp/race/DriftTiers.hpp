@@ -1,8 +1,7 @@
 #pragma once
-#include <common/Common.hpp>
+#include <egg/effect/eggEffect.hpp>
 #include <game/effect/PlayerEffects.hpp>
 #include <game/kart/KartObject.hpp>
-#include <egg/effect/eggEffect.hpp>
 
 class ExpPlayerEffects : public PlayerEffects {
 public:

@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/net/RKNetStatusData.hpp>
+#include "RKNetStatusData.hpp"
 
 struct RKNetFriend {
     RKNetStatusData statusData;

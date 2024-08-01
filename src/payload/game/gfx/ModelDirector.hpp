@@ -1,8 +1,7 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/gfx/ModelTransformator.hpp>
-#include <game/system/ResourceManager.hpp>
+#include "ModelTransformator.hpp"
 #include <game/system/MultiDvdArchive.hpp>
+#include <game/system/ResourceManager.hpp>
 
 class ModelDirector {
 public:    

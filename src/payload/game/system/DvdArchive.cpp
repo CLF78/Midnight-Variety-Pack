@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
+#include "DvdArchive.hpp"
+#include "RaceConfig.hpp"
 #include <egg/core/eggDecomp.hpp>
-#include <game/system/DvdArchive.hpp>
-#include <game/system/RaceConfig.hpp>
 #include <mvp/cup/CupManager.hpp>
 #include <platform/string.h>
 #include <revolution/os/OSCache.h>

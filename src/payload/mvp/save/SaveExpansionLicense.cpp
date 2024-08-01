@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <mvp/save/SaveExpansionLicense.hpp>
+#include "SaveExpansionLicense.hpp"
 #include <revolution/os/OS.h>
 
 bool SaveExpansionLicense::Header::IsValid(u32 licenseSize) {

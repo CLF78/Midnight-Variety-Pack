@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
-#include <revolution/sc.h>
+#include "MultiDvdArchive.hpp"
 #include <platform/stdio.h>
-#include <game/system/MultiDvdArchive.hpp>
+#include <revolution/sc.h>
 
 //////////////////////////
 // Multi Archive System //

@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
-#include <nw4r/snd/SoundArchive.hpp>
-#include <nw4r/snd/Util.hpp>
+#include "SoundArchive.hpp"
+#include "Util.hpp"
 #include <nw4r/ut/BinaryFileHeader.hpp>
 
 namespace nw4r {

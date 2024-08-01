@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 
 struct PadInfo {
     enum Status {

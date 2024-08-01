@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/net/packet/RKNetPacketCommon.hpp>
+#include "RKNetPacketCommon.hpp"
 #include <game/system/Identifiers.hpp>
 #include <mvp/cup/CupData.hpp>
 #include <mvp/online/RepickQueue.hpp>

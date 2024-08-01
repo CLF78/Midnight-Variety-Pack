@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/ui/ControlGroup.hpp>
 #include <game/ui/TypeInfo.hpp>
 #include <game/ui/input/MenuInputManager.hpp>

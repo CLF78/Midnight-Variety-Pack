@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <nw4r/ut/FileStream.hpp>
+#include "FileStream.hpp"
 #include <revolution/dvd/dvd.h>
 
 namespace nw4r {

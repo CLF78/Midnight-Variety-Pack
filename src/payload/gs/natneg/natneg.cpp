@@ -1,9 +1,7 @@
-#include <common/Common.hpp>
+#include "natneg.h"
 #include <gs/common/gsAvailable.h>
 #include <gs/common/gsPlatformUtil.h>
 #include <gs/common/gsSocketRevolution.h>
-#include <gs/natneg/natneg.h>
-#include <revolutionex/so/SOBasic.h>
 #include <wiimmfi/Natify.hpp>
 
 // Ported from GameSpy SDK

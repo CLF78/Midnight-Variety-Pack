@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.h>
-#include <gs/gp/gpiCallback.h>
+#include "gpiCallback.h"
 
 #ifdef __cplusplus
 extern "C" {

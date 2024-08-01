@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <dwc/dwc_base64.h>
-#include <dwc/dwc_friend.h>
+#include "dwc_base64.h"
+#include "dwc_friend.h"
 #include <game/net/RKNetStatusData.hpp>
 #include <platform/string.h>
 #include <wiimmfi/Natify.hpp>

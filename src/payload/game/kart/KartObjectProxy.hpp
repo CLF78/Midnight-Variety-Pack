@@ -1,9 +1,8 @@
 #pragma once
-#include <common/Common.hpp>
+#include "KartPointers.hpp"
+#include "KartStats.hpp"
 #include <nw4r/math/types.hpp>
 #include <nw4r/ut/utList.hpp>
-#include <game/kart/KartPointers.hpp>
-#include <game/kart/KartStats.hpp>
 
 class KartObjectProxy {
 public:

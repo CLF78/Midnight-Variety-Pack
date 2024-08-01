@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <mvp/cup/CupCounts.h>
+#include "CupCounts.h"
 
 namespace CupData {
 

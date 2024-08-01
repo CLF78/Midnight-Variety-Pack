@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#include "TransmissionSelectPage.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
 #include <game/util/Random.hpp>
-#include <mvp/transmission/TransmissionSelectPage.hpp>
 
 TransmissionSelectPage::TransmissionSelectPage() {
 

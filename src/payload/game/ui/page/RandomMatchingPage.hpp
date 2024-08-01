@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/page/Page.hpp>
+#include "Page.hpp"
 #include <game/ui/SectionManager.hpp>
 
 class RandomMatchingPage : public Page {

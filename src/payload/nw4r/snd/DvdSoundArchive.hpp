@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <nw4r/snd/SoundArchiveFile.hpp>
+#include "SoundArchiveFile.hpp"
 #include <nw4r/ut/DvdLockedFileStream.hpp>
 #include <revolution/dvd/dvd.h>
 

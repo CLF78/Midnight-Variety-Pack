@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <egg/core/eggDisposer.hpp>
 #include <nw4r/snd/SoundHandle.hpp>
 

@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/page/Page.hpp>
+#include "Page.hpp"
 #include <game/ui/input/PageInputManager.hpp>
 
 class MessagePage : public Page {

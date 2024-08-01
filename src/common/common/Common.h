@@ -51,23 +51,43 @@ typedef void (*Func)();
 
 // Macros
 #define ALIGN(a) __attribute__ ((aligned(a)))
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 #define ARRAY_SIZE_STATIC(a, b) ARRAY_SIZE(((a*)NULL)->b)
 #define BIT_FLAG(bit) ((bit) < 0 ? 0 : 1 << (bit))
 #define FORCE_SEMICOLON(x) do { x } while(0)
 #define MIN(a, b) (((b) < (a)) ? (b) : (a))
 #define MAX(a, b) (((a) < (b)) ? (b) : (a))
 #define offsetof(a, b) ((int)(&(((a*)(0))->b)))
+#define __PAD(name, counter, bytes) u8 name##counter[bytes]
+#define _PAD(name, counter, bytes) __PAD(name, counter, bytes)
+#define PAD(bytes) _PAD(pad, __COUNTER__, bytes)
 #define _STRINGIFY(x) #x
 #define STRINGIFY(x) _STRINGIFY(x)
 
 #ifdef __CLANGD__
     #define AT_ADDR(addr)
 #else
-    #define AT_ADDR(addr) : (addr);
+    #define AT_ADDR(addr) : (addr)
 #endif
 
 // Include other base headers
-#include <kamek/hooks.h>
 #include <kamek/gekko.h>
+#include <kamek/hooks.h>
 #include <mvp/config.h>
+
+// C++ headers only
+#ifdef __cplusplus
+
+// Macros
+#ifndef __CLANGD__
+    #define static_assert(cond) __static_assert((cond), #cond)
+    #define size_assert(type, size) static_assert(sizeof(type) == (size))
+#else
+    #define size_assert(type, size) static_assert(sizeof(type) == (size))
+#endif
+
+#include <kamek/ListHook.hpp>
+#include <mvp/Log.hpp>
+#include <mvp/Region.hpp>
+#include <platform/new.hpp>
+#endif

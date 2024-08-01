@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/ui/ctrl/CtrlRaceBase.hpp>
 
 class CtrlRaceMessageDisplay : public CtrlRaceBase {

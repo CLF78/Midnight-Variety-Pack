@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/CtrlMenuCourseSelectCourse.hpp>
+#include "CtrlMenuCourseSelectCourse.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <mvp/cup/CupManager.hpp>
 #include <mvp/cup/RaceCourseSelectPageEx.hpp>

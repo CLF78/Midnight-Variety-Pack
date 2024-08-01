@@ -1,7 +1,5 @@
 #pragma once
-#include <common/Common.h>
 #include <platform/stdarg.h>
-#include <mvp/Region.hpp>
 
 class Logger {
 public:

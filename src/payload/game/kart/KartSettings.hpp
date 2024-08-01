@@ -1,6 +1,5 @@
-
+#include "KartParam.hpp"
 #include <nw4r/math/types.hpp>
-#include <game/kart/KartParam.hpp>
 
 class KartSettings {
 public:

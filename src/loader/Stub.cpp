@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#include "Loader.hpp"
+#include <platform/string.h>
 #include <revolution/base/PPCReg.h>
 #include <revolution/os/OSLoMem.h>
-#include <platform/string.h>
-#include <Loader.hpp>
 
 const Loader::Functions functions[] = {
     {(OSReport_t) 0x801A25D0,

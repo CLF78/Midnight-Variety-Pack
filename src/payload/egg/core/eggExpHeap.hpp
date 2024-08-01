@@ -1,5 +1,5 @@
 #pragma once
-#include <egg/core/eggHeap.hpp>
+#include "eggHeap.hpp"
 
 namespace EGG {
 

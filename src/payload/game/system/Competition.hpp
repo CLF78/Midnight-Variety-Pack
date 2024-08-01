@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 
 struct CharacterVehicleChoice {
     u8 characterId;

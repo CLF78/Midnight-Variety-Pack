@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <dwc/dwc_login.h>
-#include <dwc/dwc_report.h>
+#include "dwc_login.h"
+#include "dwc_report.h"
 #include <wiimmfi/Natify.hpp>
 
 /////////////////////

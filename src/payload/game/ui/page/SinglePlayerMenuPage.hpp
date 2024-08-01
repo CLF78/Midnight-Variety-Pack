@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/page/MenuPage.hpp>
+#include "MenuPage.hpp"
 
 class SinglePlayerMenuPage : public MenuPage {
 public:

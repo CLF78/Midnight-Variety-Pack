@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
-#include <mvp/cup/BattleCupSelectPageEx.hpp>
-#include <mvp/cup/BattleCupSelectArrow.hpp>
-#include <mvp/cup/CupManager.hpp>
+#include "BattleCupSelectArrow.hpp"
+#include "BattleCupSelectPageEx.hpp"
+#include "CupManager.hpp"
 
 // This function runs whenever the left arrow is selected or pressed
 void BattleCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayerId) {

@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <platform/string.h>
 
 class RepickQueue {

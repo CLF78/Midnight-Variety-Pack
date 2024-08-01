@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/ui/page/MultiDriftSelectPage.hpp>
 
 class MultiTransmissionSelectPage : public MultiDriftSelectPage {

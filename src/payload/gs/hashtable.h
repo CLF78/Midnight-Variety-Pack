@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.h>
-#include <gs/darray.h>
+#include "darray.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/ctrl/PushButton.hpp>
+#include "PushButton.hpp"
 
 class CtrlMenuBackButton : public PushButton {
 public:

@@ -1,4 +1,7 @@
-#include <common/Common.hpp>
+#include "Auth.hpp"
+#include "Port.hpp"
+#include "Status.hpp"
+#include <mvp/util/DolphinDevice.hpp>
 #include <platform/stdio.h>
 #include <platform/stdlib.h>
 #include <platform/string.h>
@@ -7,10 +10,6 @@
 #include <revolution/es/es.h>
 #include <revolution/os/OSLoMem.h>
 #include <revolution/os/OSTitle.h>
-#include <mvp/util/DolphinDevice.hpp>
-#include <wiimmfi/Auth.hpp>
-#include <wiimmfi/Port.hpp>
-#include <wiimmfi/Status.hpp>
 
 namespace Wiimmfi {
 namespace Auth {

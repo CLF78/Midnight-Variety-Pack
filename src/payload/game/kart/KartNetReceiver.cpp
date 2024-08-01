@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <game/kart/KartState.hpp>
-#include <game/kart/KartNetReceiver.hpp>
+#include "KartNetReceiver.hpp"
+#include "KartState.hpp"
 
 ///////////////////////////////
 // Online Halfpipe Trick Fix //

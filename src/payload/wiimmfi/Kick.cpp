@@ -1,9 +1,8 @@
-#include <common/Common.hpp>
+#include "Kick.hpp"
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
 #include <nw4r/ut/Lock.hpp>
 #include <platform/string.h>
-#include <wiimmfi/Kick.hpp>
 
 namespace Wiimmfi {
 namespace Kick {

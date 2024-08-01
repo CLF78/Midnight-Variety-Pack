@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <mvp/save/SaveExpansionSection.hpp>
+#include "SaveExpansionSection.hpp"
 
 class SaveExpansionLicense {
 public:

@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
+#include "LayoutUIControl.hpp"
 #include <game/system/Mii.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
 
 class VoteControl : public LayoutUIControl {
 public:

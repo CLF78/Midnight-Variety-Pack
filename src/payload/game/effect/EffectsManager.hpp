@@ -1,10 +1,9 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/kart/KartCollide.hpp>
+#include "PlayerEffects.hpp"
 #include <game/gfx/ModelDirector.hpp>
-#include <nw4r/math/types.hpp>
-#include <game/effect/PlayerEffects.hpp>
+#include <game/kart/KartCollide.hpp>
 #include <game/system/MultiDvdArchive.hpp>
+#include <nw4r/math/types.hpp>
 
 class EffectsManager {
 public:

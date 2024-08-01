@@ -1,9 +1,8 @@
 #pragma once
-#include <common/Common.hpp>
+#include "page/Page.hpp"
 #include <egg/core/eggHeap.hpp>
-#include <nw4r/lyt/drawInfo.hpp>
 #include <game/host_system/Scene.hpp>
-#include <game/ui/page/Page.hpp>
+#include <nw4r/lyt/drawInfo.hpp>
 
 class Section {
 public:

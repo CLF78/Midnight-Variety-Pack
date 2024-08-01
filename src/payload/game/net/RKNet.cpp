@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <game/net/RKNet.hpp>
-#include <game/net/RKNetController.hpp>
+#include "RKNet.hpp"
+#include "RKNetController.hpp"
 #include <game/ui/page/FriendRoomJoinPage.hpp>
 #include <nw4r/ut/Lock.hpp>
 #include <revolutionex/net/NETDigest.h>

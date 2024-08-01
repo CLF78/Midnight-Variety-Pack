@@ -1,8 +1,7 @@
 #pragma once
-#include <common/Common.hpp>
-#include <revolution/dvd/dvd.h>
 #include <game/system/RKSystem.hpp>
 #include <platform/stdarg.h>
+#include <revolution/dvd/dvd.h>
 
 typedef void (*OSReport_t) (const char* str, ...);
 typedef void (*OSFatal_t) (u32* fg, u32* bg, const char* str);

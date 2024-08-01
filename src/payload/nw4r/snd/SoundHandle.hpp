@@ -1,5 +1,5 @@
 #pragma once
-#include <nw4r/snd/BasicSound.hpp>
+#include "BasicSound.hpp"
 
 namespace nw4r {
 namespace snd {

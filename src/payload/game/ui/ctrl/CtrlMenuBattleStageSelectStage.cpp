@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "CtrlMenuBattleStageSelectStage.hpp"
 #include <game/ui/ControlLoader.hpp>
-#include <game/ui/ctrl/CtrlMenuBattleStageSelectStage.hpp>
 #include <mvp/cup/BattleCupSelectPageEx.hpp>
 #include <mvp/cup/BattleStageSelectPageEx.hpp>
 #include <mvp/cup/CupManager.hpp>

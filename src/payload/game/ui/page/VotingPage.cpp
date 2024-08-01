@@ -1,11 +1,10 @@
-#include <common/Common.hpp>
 #include <game/net/RKNetController.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
 #include <game/sound/SoundEffect.hpp>
 #include <game/system/Identifiers.hpp>
 #include <game/ui/Message.hpp>
-#include <game/ui/page/VotingBackPage.hpp>
-#include <game/ui/page/VotingPage.hpp>
+#include "VotingBackPage.hpp"
+#include "VotingPage.hpp"
 #include <mvp/cup/CupData.hpp>
 #include <mvp/cup/CupManager.hpp>
 

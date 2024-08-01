@@ -1,8 +1,7 @@
 #pragma once
-#include <common/Common.hpp>
+#include "SaveExpansionSection.hpp"
 #include <game/system/SaveManager.hpp>
 #include <mvp/cup/CupManager.hpp>
-#include <mvp/save/SaveExpansionSection.hpp>
 
 class SaveExpansionRating : public SaveExpansionSection {
 public:

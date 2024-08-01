@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
-#include <game/net/RKNetController.hpp>
-#include <game/net/RKNetPacketCreator.hpp>
-#include <game/net/RKNetUserHandler.hpp>
-#include <game/net/packet/RKNetRH1Packet.hpp>
+#include "RKNetController.hpp"
+#include "RKNetPacketCreator.hpp"
+#include "RKNetUserHandler.hpp"
+#include "packet/RKNetRH1Packet.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <game/system/RaceManager.hpp>
 #include <game/ui/SectionManager.hpp>

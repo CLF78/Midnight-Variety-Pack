@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <gs/gp/gp.h>
-#include <gs/gp/gpiBuddy.h>
+#include "gp.h"
+#include "gpiBuddy.h"
 #include <platform/string.h>
 #include <wiimmfi/Kick.hpp>
 

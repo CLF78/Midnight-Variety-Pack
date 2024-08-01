@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/system/Timer.hpp>
+#include "Timer.hpp"
 #include <game/util/Random.hpp>
 
 class TimerManager {

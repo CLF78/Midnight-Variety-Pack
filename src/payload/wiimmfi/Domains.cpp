@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 
 // Authentication server
 kmWriteArea(0x8027A428, "http://naswii.wiimmfi.de/ac");

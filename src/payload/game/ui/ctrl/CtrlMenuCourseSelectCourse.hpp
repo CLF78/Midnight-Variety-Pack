@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/ctrl/CtrlMenuMovieButton.hpp>
+#include "CtrlMenuMovieButton.hpp"
+#include "LayoutUIControl.hpp"
 
 class CtrlMenuCourseSelectCourse : public LayoutUIControl {
 public:

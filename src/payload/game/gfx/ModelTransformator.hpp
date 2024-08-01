@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/gfx/AnmHolder.hpp>
+#include "AnmHolder.hpp"
 
 class ModelTransformator {
 public:

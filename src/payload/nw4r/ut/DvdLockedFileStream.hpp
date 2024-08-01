@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <nw4r/ut/DvdFileStream.hpp>
+#include "DvdFileStream.hpp"
 #include <revolution/os/OSMutex.h>
 
 namespace nw4r {

@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#include "WifiMenuPageEx.hpp"
 #include <game/sound/SoundEffect.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/page/MessagePopupPage.hpp>
-#include <mvp/online/WifiMenuPageEx.hpp>
 #include <wiimmfi/Auth.hpp>
 #include <wiimmfi/Status.hpp>
 

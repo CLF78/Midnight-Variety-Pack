@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/system/RaceConfig.hpp>
 
 enum RKNetPacketSection {

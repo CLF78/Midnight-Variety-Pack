@@ -1,9 +1,8 @@
-#include <common/Common.hpp>
 #include <game/net/RKNetController.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
 #include <game/net/RKNetUserHandler.hpp>
 #include <game/system/SystemManager.hpp>
-#include <game/ui/page/VotingBackPage.hpp>
+#include "VotingBackPage.hpp"
 #include <game/util/Random.hpp>
 #include <mvp/cup/CupManager.hpp>
 

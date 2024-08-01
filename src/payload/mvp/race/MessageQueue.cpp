@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <mvp/race/MessageQueue.hpp>
+#include "MessageQueue.hpp"
 #include <platform/string.h>
 
 MessageQueue MessageQueue::instance;

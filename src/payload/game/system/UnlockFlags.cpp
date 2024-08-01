@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/system/UnlockFlags.hpp>
+#include "UnlockFlags.hpp"
 
 ///////////////////////
 // Unlock Everything //

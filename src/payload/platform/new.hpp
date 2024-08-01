@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.h>
 
 // Declare Heap class pre-emptively
 namespace EGG { class Heap; }

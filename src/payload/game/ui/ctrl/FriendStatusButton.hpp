@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
+#include "PushButton.hpp"
 #include <game/system/Mii.hpp>
-#include <game/ui/ctrl/PushButton.hpp>
 
 class FriendStatusButton : public PushButton {
 public:

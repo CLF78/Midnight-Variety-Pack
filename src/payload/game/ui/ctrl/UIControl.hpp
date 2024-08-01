@@ -1,8 +1,7 @@
 #pragma once
-#include <common/Common.hpp>
-#include <revolution/mtx.h>
 #include <game/ui/ControlGroup.hpp>
 #include <game/ui/TypeInfo.hpp>
+#include <revolution/mtx.h>
 
 enum ElementPosition {
     POS_PROGRAMMER_REL, // Set by the programmer

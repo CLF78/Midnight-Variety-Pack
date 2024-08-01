@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <mvp/util/DolphinDevice.hpp>
+#include "DolphinDevice.hpp"
 #include <platform/string.h>
 
 namespace DolphinDevice {

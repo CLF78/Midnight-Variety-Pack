@@ -180,7 +180,7 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
 
     # Write the required include
     cupDataFile.write('#pragma once\n')
-    cupDataFile.write('#include <mvp/cup/CupData.hpp>\n\n')
+    cupDataFile.write('#include "CupData.hpp"\n\n')
 
     # Write the warning string
     cupDataFile.write(warningStringWrap)

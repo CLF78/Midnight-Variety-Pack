@@ -1,10 +1,9 @@
-#include <common/Common.hpp>
+#include "DvdSoundArchive.hpp"
+#include "SoundArchivePlayer.hpp"
+#include "SoundStartable.hpp"
 #include <mvp/SoundExpansion.hpp>
-#include <nw4r/snd/DvdSoundArchive.hpp>
-#include <nw4r/snd/SoundArchivePlayer.hpp>
-#include <nw4r/snd/SoundStartable.hpp>
-#include <revolution/dvd/dvd.h>
 #include <platform/string.h>
+#include <revolution/dvd/dvd.h>
 
 namespace nw4r {
 namespace snd {

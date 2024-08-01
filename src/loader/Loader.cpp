@@ -1,11 +1,9 @@
-#include <common/Common.hpp>
+#include "Loader.hpp"
+#include "Patcher.hpp"
 #include <platform/string.h>
-#include <revolution/dvd/dvd.h>
 #include <revolution/os/OS.h>
 #include <revolution/os/OSCache.h>
 #include <revolution/os/OSLoMem.h>
-#include <Loader.hpp>
-#include <Patcher.hpp>
 
 namespace Loader {
 

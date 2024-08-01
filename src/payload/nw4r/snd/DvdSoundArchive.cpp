@@ -1,11 +1,10 @@
-#include <common/Common.hpp>
+#include "DvdSoundArchive.hpp"
 #include <game/sound/ItemMusicManager.hpp>
-#include <nw4r/snd/DvdSoundArchive.hpp>
-#include <revolution/dvd/dvd.h>
+#include <mvp/SoundExpansion.hpp>
+#include <mvp/cup/CupManager.hpp>
 #include <platform/stdio.h>
 #include <platform/string.h>
-#include <mvp/cup/CupManager.hpp>
-#include <mvp/SoundExpansion.hpp>
+#include <revolution/dvd/dvd.h>
 
 namespace nw4r {
 namespace snd {

@@ -1,9 +1,8 @@
 #pragma once
-#include <common/Common.h>
+#include "OSExec.h"
+#include "OSModule.h"
+#include "OSThread.h"
 #include <revolution/dvd/dvd.h>
-#include <revolution/os/OSExec.h>
-#include <revolution/os/OSModule.h>
-#include <revolution/os/OSThread.h>
 
 #ifdef __cplusplus
 extern "C" {

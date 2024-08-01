@@ -3,8 +3,8 @@
 -D__CODE_REGION__=0
 -D__CLANGD__
 -isystemsrc/payload
--isystemsrc/loader
 -isystemsrc/common
+-includesrc/common/common/Common.h
 -includesrc/common/common/Clangd.h
 -fasm-blocks
 -ffreestanding
@@ -15,4 +15,7 @@
 -Wall
 -Wextra
 -Wno-int-to-pointer-cast
+-Wno-multichar
+-Wno-pragma-pack
+-Wno-unknown-pragmas
 -Wno-unused-private-field

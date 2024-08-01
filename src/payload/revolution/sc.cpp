@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "sc.h"
 #include <mvp/util/DolphinDevice.hpp>
-#include <revolution/sc.h>
 
 ////////////////////////////
 // Wiimmfi Authentication //

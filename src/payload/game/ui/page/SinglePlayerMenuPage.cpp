@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
 #include <game/sound/AudioHandleHolder.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/SectionManager.hpp>
-#include <game/ui/page/SinglePlayerMenuPage.hpp>
+#include "SinglePlayerMenuPage.hpp"
 #include <mvp/cup/CupManager.hpp>
 
 ///////////////////////////////////////////////

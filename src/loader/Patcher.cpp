@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "Patcher.hpp"
 #include <platform/string.h>
-#include <Patcher.hpp>
 
 namespace Patcher {
 

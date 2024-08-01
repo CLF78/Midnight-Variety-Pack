@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.h>
 #include <gs/hashtable.h>
 
 #ifdef __cplusplus

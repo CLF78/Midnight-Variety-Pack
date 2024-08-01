@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #pragma pack(push, 1)
 
 struct RKNetEVENTPacket {

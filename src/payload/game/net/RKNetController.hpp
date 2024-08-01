@@ -1,14 +1,13 @@
 #pragma once
-#include <common/Common.hpp>
+#include "RKNetFriend.hpp"
+#include "RKNetMutex.hpp"
+#include "RKNetPacketHolder.hpp"
+#include "RKNetStatusData.hpp"
+#include "WifiDisconnectInfo.hpp"
+#include "packet/RKNetPacketCommon.hpp"
 #include <dwc/dwc_node.h>
 #include <egg/core/eggExpHeap.hpp>
 #include <egg/core/eggTaskThread.hpp>
-#include <game/net/RKNetFriend.hpp>
-#include <game/net/RKNetMutex.hpp>
-#include <game/net/RKNetPacketHolder.hpp>
-#include <game/net/RKNetStatusData.hpp>
-#include <game/net/WifiDisconnectInfo.hpp>
-#include <game/net/packet/RKNetPacketCommon.hpp>
 
 class RKNetController {
 public:

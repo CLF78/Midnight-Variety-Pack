@@ -1,10 +1,9 @@
-#include <common/Common.hpp>
+#include "ConnectionMatrix.hpp"
+#include "MatchCommand.hpp"
+#include "Reporting.hpp"
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
 #include <nw4r/ut/Lock.hpp>
-#include <wiimmfi/ConnectionMatrix.hpp>
-#include <wiimmfi/MatchCommand.hpp>
-#include <wiimmfi/Reporting.hpp>
 
 namespace Wiimmfi {
 namespace ConnectionMatrix {

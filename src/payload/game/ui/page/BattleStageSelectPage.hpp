@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/ui/UIControlTimer.hpp>
-#include <game/ui/page/MenuPage.hpp>
+#include "MenuPage.hpp"
 #include <game/ui/ctrl/CtrlMenuBattleStageSelectCup.hpp>
 #include <game/ui/ctrl/CtrlMenuBattleStageSelectStage.hpp>
 

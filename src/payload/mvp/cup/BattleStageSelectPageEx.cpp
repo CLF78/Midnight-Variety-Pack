@@ -1,11 +1,10 @@
-#include <common/Common.hpp>
+#include "BattleCupSelectPageEx.hpp"
+#include "BattleStageSelectPageEx.hpp"
+#include "CupManager.hpp"
 #include <game/sound/SoundEffect.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <game/ui/page/VotingPage.hpp>
-#include <mvp/cup/BattleCupSelectPageEx.hpp>
-#include <mvp/cup/BattleStageSelectPageEx.hpp>
-#include <mvp/cup/CupManager.hpp>
 #include <mvp/online/RepickQueue.hpp>
 
 ///////////////////////

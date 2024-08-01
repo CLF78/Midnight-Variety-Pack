@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <gs/gp/gp.h>
-#include <gs/gp/gpiOperation.h>
+#include "gp.h"
+#include "gpiOperation.h"
 #include <wiimmfi/Reporting.hpp>
 
 ///////////////////////

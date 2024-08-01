@@ -1,12 +1,11 @@
 #pragma once
-#include <common/Common.h>
+#include "gp.h"
+#include "gpiBuffer.h"
+#include "gpiCallback.h"
+#include "gpiOperation.h"
+#include "gpiPeer.h"
+#include "gpiProfile.h"
 #include <gs/darray.h>
-#include <gs/gp/gp.h>
-#include <gs/gp/gpiBuffer.h>
-#include <gs/gp/gpiCallback.h>
-#include <gs/gp/gpiOperation.h>
-#include <gs/gp/gpiPeer.h>
-#include <gs/gp/gpiProfile.h>
 
 #ifdef __cplusplus
 extern "C" {

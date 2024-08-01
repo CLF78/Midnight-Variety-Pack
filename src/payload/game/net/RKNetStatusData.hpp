@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 
 enum RKNetStatus {
     STATUS_INACTIVE         = 0,

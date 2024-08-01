@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
+#include "SectionManager.hpp"
 #include <game/system/SaveGhostManager.hpp>
 #include <game/system/SystemManager.hpp>
-#include <game/ui/SectionManager.hpp>
 #include <game/util/NandUtil.hpp>
 #include <mvp/save/SaveExpansionManager.hpp>
 

@@ -1,9 +1,8 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/ui/InputHandler.hpp>
 #include <game/ui/ctrl/LayoutUIControl.hpp>
 #include <game/ui/input/PageInputManager.hpp>
-#include <game/ui/page/Page.hpp>
+#include "Page.hpp"
 
 class AwardPage : public Page {
 public:

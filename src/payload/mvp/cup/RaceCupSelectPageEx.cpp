@@ -1,10 +1,9 @@
-#include <common/Common.hpp>
+#include "CupManager.hpp"
+#include "RaceCupSelectPageEx.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <game/system/SaveManager.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/UIUtils.hpp>
-#include <mvp/cup/CupManager.hpp>
-#include <mvp/cup/RaceCupSelectPageEx.hpp>
 #include <mvp/save/SaveExpansionCup.hpp>
 
 ///////////////////////

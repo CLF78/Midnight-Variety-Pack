@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.h>
-#include <revolution/base/PPCWGPipe.h>
+#include "PPCWGPipe.h"
 
 #ifdef __cplusplus
 extern "C" {

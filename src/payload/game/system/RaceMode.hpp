@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/system/RaceManager.hpp>
+#include "RaceManager.hpp"
 
 class RaceMode {
 public:

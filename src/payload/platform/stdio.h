@@ -1,5 +1,5 @@
 #pragma once
-#include <platform/stdarg.h>
+#include "stdarg.h"
 
 #ifdef __cplusplus
 extern "C" {

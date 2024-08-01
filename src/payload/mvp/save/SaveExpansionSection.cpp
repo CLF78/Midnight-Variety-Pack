@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
-#include <mvp/save/SaveExpansionSection.hpp>
-#include <mvp/save/SaveExpansionCup.hpp>
-#include <mvp/save/SaveExpansionRating.hpp>
+#include "SaveExpansionCup.hpp"
+#include "SaveExpansionRating.hpp"
+#include "SaveExpansionSection.hpp"
 
 SaveExpansionSection* SaveExpansionSection::CreateByID(u32 id) {
     switch(id) {

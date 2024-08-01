@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 
 struct TypeInfo {
     TypeInfo(TypeInfo* parent) : base(parent) {}

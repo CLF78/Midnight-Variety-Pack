@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <game/host_system/Scene.hpp>
 
 class InitScene : public Scene {

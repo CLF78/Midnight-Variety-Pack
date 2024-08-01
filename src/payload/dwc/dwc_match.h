@@ -1,8 +1,7 @@
 #pragma once
-#include <common/Common.h>
-#include <dwc/dwc_account.h>
-#include <dwc/dwc_error.h>
-#include <dwc/dwc_node.h>
+#include "dwc_account.h"
+#include "dwc_error.h"
+#include "dwc_node.h"
 #include <gs/gp/gpi.h>
 #include <gs/gt2/gt2Callback.h>
 #include <gs/gt2/gt2Main.h>

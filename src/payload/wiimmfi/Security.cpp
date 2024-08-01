@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#include "Security.hpp"
 #include <game/net/RKNetController.hpp>
 #include <game/net/packet/RKNetRoomPacket.hpp>
 #include <game/net/packet/RKNetSelectPacket.hpp>
-#include <wiimmfi/Security.hpp>
 
 namespace Wiimmfi {
 namespace Security {

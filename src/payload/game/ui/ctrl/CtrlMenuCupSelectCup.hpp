@@ -1,10 +1,8 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/ctrl/CtrlMenuCupSelectCourse.hpp>
-#include <game/ui/ctrl/CtrlMenuMovieLayout.hpp>
+#include "CtrlMenuMovieLayout.hpp"
+#include "LayoutUIControl.hpp"
+#include "PushButton.hpp"
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/ctrl/PushButton.hpp>
 
 class CtrlMenuCupSelectCup : public LayoutUIControl {
 public:

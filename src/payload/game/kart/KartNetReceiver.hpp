@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/kart/KartObjectProxy.hpp>
+#include "KartObjectProxy.hpp"
 
 class KartNetReceiver : public KartObjectProxy {
 public:

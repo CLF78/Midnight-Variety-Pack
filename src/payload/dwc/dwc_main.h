@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.h>
-#include <dwc/dwc_match.h>
+#include "dwc_match.h"
 #include <gs/gt2/gt2Main.h>
 
 #ifdef __cplusplus

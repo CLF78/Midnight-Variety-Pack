@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#include "CtrlRaceMessageDisplay.hpp"
 #include <game/system/RaceManager.hpp>
 #include <game/ui/ControlLoader.hpp>
 #include <game/ui/SectionManager.hpp>
-#include <mvp/race/CtrlRaceMessageDisplay.hpp>
 #include <platform/stdio.h>
 
 RUNTIME_TYPE_INFO_DEFINE(CtrlRaceMessageDisplay, CtrlRaceBase);

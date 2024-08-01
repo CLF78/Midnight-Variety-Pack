@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <nw4r/snd/StrmFile.hpp>
+#include "StrmFile.hpp"
 
 namespace nw4r {
 namespace snd {

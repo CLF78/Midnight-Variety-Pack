@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/kart/KartCollide.hpp>
+#include "KartCollide.hpp"
 #include <game/system/CourseMap.hpp>
 #include <game/system/RaceManager.hpp>
 

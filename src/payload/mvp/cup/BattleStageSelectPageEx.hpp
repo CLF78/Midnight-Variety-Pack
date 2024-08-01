@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/page/BattleStageSelectPage.hpp>
 #include <game/ui/SectionManager.hpp>
+#include <game/ui/page/BattleStageSelectPage.hpp>
 #include <mvp/online/YesNoPopupPageEx.hpp>
 
 class BattleStageSelectPageEx : public BattleStageSelectPage {

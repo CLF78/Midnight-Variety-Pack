@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/system/DvdArchive.hpp>
+#include "DvdArchive.hpp"
 
 class MultiDvdArchive {
 public:

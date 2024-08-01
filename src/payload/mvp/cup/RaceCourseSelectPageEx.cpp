@@ -1,12 +1,11 @@
-#include <common/Common.hpp>
+#include "CupManager.hpp"
+#include "RaceCourseSelectPageEx.hpp"
+#include "RaceCupSelectPageEx.hpp"
+#include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <game/ui/page/VotingPage.hpp>
-#include <game/system/RaceConfig.hpp>
-#include <mvp/cup/CupManager.hpp>
-#include <mvp/cup/RaceCupSelectPageEx.hpp>
-#include <mvp/cup/RaceCourseSelectPageEx.hpp>
 #include <mvp/online/RepickQueue.hpp>
 
 ///////////////////////

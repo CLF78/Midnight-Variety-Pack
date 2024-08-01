@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include "LayoutUIControl.hpp"
 
 class CtrlRaceBase : public LayoutUIControl {
 public:

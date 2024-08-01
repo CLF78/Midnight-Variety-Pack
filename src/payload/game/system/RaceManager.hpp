@@ -1,7 +1,6 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/system/Timer.hpp>
-#include <game/system/TimerManager.hpp>
+#include "Timer.hpp"
+#include "TimerManager.hpp"
 #include <game/util/Random.hpp>
 
 class RaceMode;

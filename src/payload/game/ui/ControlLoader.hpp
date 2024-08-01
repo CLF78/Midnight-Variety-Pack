@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include "ctrl/LayoutUIControl.hpp"
 
 class ControlLoader {
 public:

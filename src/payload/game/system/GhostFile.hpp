@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/system/Mii.hpp>
+#include "Mii.hpp"
 
 #pragma pack(push, 1)
 struct RawGhostFile {

@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <game/system/CourseMap.hpp>
-#include <game/system/RaceConfig.hpp>
+#include "CourseMap.hpp"
+#include "RaceConfig.hpp"
 #include <wiimmfi/Reporting.hpp>
 
 /////////////////////////////

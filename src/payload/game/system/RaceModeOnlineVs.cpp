@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
-#include <game/system/RaceConfig.hpp>
-#include <game/system/RaceManager.hpp>
-#include <game/system/RaceModeOnlineVs.hpp>
+#include "RaceConfig.hpp"
+#include "RaceManager.hpp"
+#include "RaceModeOnlineVs.hpp"
 #include <wiimmfi/Kick.hpp>
 
 ///////////////////////////////////////////

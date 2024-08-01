@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.hpp>
-#include <game/ui/page/Page.hpp>
+#include "page/Page.hpp"
 #include <nw4r/lyt/pane.hpp>
 #include <nw4r/math/types.hpp>
 

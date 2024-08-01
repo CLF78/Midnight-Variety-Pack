@@ -1,11 +1,10 @@
-#include <common/Common.hpp>
+#include "RepickQueue.hpp"
+#include "WifiMemberConfirmPageEx.hpp"
 #include <game/net/RKNetController.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
 #include <game/ui/ControlLoader.hpp>
 #include <game/ui/page/VotingBackPage.hpp>
 #include <platform/stdio.h>
-#include <mvp/online/RepickQueue.hpp>
-#include <mvp/online/WifiMemberConfirmPageEx.hpp>
 
 // Add the rule button to the page
 void WifiMemberConfirmPageEx::onInit() {

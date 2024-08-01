@@ -1,5 +1,4 @@
-#include <common/Common.h>
-#include <revolution/dvd/dvd.h>
+#include "dvd.h"
 
 typedef struct {
     BOOL isDir : 8;

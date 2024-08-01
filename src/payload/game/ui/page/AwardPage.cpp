@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <game/system/SaveManager.hpp>
-#include <game/ui/page/AwardPage.hpp>
+#include "AwardPage.hpp"
 #include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <mvp/cup/CupManager.hpp>

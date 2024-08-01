@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 #include <nw4r/lyt/pane.hpp>
 
 class Layout {

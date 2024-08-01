@@ -1,5 +1,4 @@
 #pragma once
-#include <common/Common.hpp>
 
 #define SET_HANDLER(destHandler, srcHandler) \
     destHandler = (typeof(destHandler))&srcHandler

@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/kart/KartParam.hpp>
+#include "KartParam.hpp"
 #include <game/race/RaceGlobals.hpp>
 #include <wiimmfi/Reporting.hpp>
 

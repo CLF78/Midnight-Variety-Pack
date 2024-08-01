@@ -1,6 +1,6 @@
 #pragma once
-#include <common/Common.h>
-#include <gs/natneg/natify.h>
+#include "natify.h"
+#include <revolutionex/so/SOBasic.h>
 
 #ifdef __cplusplus
 extern "C" {

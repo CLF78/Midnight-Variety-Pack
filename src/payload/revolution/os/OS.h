@@ -1,6 +1,5 @@
 #pragma once
-#include <common/Common.h>
-#include <revolution/os/OSLoMem.h>
+#include "OSLoMem.h"
 
 #ifdef __cplusplus
 extern "C" {

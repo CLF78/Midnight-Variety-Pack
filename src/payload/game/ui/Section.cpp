@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/ui/Section.hpp>
+#include "Section.hpp"
 #include <mvp/cup/BattleCupSelectPageEx.hpp>
 #include <mvp/cup/BattleStageSelectPageEx.hpp>
 #include <mvp/cup/RaceCourseSelectPageEx.hpp>
@@ -8,8 +7,8 @@
 #include <mvp/online/WifiMenuPageEx.hpp>
 #include <mvp/online/WifiModeSelectPageEx.hpp>
 #include <mvp/online/YesNoPopupPageEx.hpp>
-#include <mvp/transmission/TransmissionSelectPage.hpp>
 #include <mvp/transmission/MultiTransmissionSelectPage.hpp>
+#include <mvp/transmission/TransmissionSelectPage.hpp>
 
 ///////////////////////////
 // Page Expansion System //

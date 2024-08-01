@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#include "Kick.hpp"
+#include "RoomStall.hpp"
 #include <game/net/RKNetController.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
-#include <wiimmfi/Kick.hpp>
-#include <wiimmfi/RoomStall.hpp>
 
 namespace Wiimmfi {
 namespace RoomStall {

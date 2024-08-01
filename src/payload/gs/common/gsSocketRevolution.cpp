@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "gsSocketRevolution.h"
 #include <dwc/dwc_common.h>
-#include <gs/common/gsSocketRevolution.h>
 
 //////////////////////////
 // Wiimmfi Port Binding //
