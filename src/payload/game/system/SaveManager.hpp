@@ -23,6 +23,7 @@ public:
             u8 _68;
             u32 _6C;
         };
+        size_assert(Cup, 0x70);
 
         struct LeaderboardEntry {
             RawMii mii;
@@ -31,6 +32,7 @@ public:
             u32 vehicle;
             u32 laps;
         };
+        size_assert(LeaderboardEntry, 0x64);
 
         struct CompetitionLeaderboardEntry {
             Timer time;
@@ -39,16 +41,19 @@ public:
             u32 _14;
             u32 _18;
         };
+        size_assert(CompetitionLeaderboardEntry, 0x1C);
 
         class UnlockFlags {
             virtual ~UnlockFlags();
             u32 flags[4];
         };
+        size_assert(UnlockFlags, 0x14);
 
         class Rating {
             virtual ~Rating();
             s16 rating;
         };
+        size_assert(Rating, 0x8);
 
         wchar_t miiName[11];
         u8 miiAvatarId[4];
