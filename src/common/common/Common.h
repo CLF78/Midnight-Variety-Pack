@@ -73,7 +73,7 @@ typedef void (*Func)();
 // Include other base headers
 #include <kamek/gekko.h>
 #include <kamek/hooks.h>
-#include <mvp/config.h>
+#include <mvp/Config.h>
 
 // C++ headers only
 #ifdef __cplusplus

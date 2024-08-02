@@ -85,7 +85,7 @@ A few usage notes:
 - Ninja will re-run the cup data exporter if either the track roster file or the assets linked to it are updated. In the latter case, Ninja will only detect the change if the updated asset's modification date is newer.
 
 ### Mod Features
-The various features in the mod (including the aforementioned custom cups) can be toggled and further configured by editing `src/common/mvp/config.h`. While most features are free standing, some are dependent on others; checks are included to prevent most breakages.
+The various features in the mod (including the aforementioned custom cups) can be toggled and further configured by editing `src/common/mvp/Config.h`. While most features are free standing, some are dependent on others; checks are included to prevent most breakages.
 
 ### Assets
 Most of the assets in the mod (excluding tracks and music due to file size reasons) are available in (mostly) decoded form in the `assets` folder. They can be changed, added or removed, provided the `configure.py` script is updated to match.

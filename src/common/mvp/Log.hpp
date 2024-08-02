@@ -28,8 +28,8 @@ public:
 
 #define PASTE(a, b) a::b
 #define CONSOLE_MSG(level, msg) "[" STRINGIFY(level) "] [" __FILE__ ":" STRINGIFY(__LINE__) "] " msg "\n"
-#define USER_MSG(level, msg) EXCEPTION_HANDLER_DISTRO_NAME " (%s) - Fatal Error\n\n" msg \
-                             "\n\nIn file " __FILE__ " at line " STRINGIFY(__LINE__) "."
+#define SCREEN_MSG(level, msg) DISTRO_NAME " " DISTRO_VERSION " (%s) - Fatal Error\n\n" msg \
+                               "\n\nIn file " __FILE__ " at line " STRINGIFY(__LINE__) "."
 
 #define LOG_REPORT(level, message, ...) \
     if (__LOG_LEVEL__ <= PASTE(Logger, level)) { \
@@ -38,7 +38,7 @@ public:
 
 #define LOG_HALT(level, message, ...) \
     if (__LOG_LEVEL__ <= PASTE(Logger, level)) { \
-        Logger::Instance.HaltWrapper(USER_MSG(level, message), Region::GetIdentifier(), ##__VA_ARGS__); \
+        Logger::Instance.HaltWrapper(SCREEN_MSG(level, message), Region::GetIdentifier(), ##__VA_ARGS__); \
     }
 
 #define LOG_DEBUG(message, ...) FORCE_SEMICOLON(LOG_REPORT(DEBUG, message, ##__VA_ARGS__))

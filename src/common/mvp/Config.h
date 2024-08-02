@@ -12,6 +12,16 @@
 // Compile the code.
 // The end.
 
+//////////////////////
+// Main Information //
+//////////////////////
+
+// The distribution's name.
+#define DISTRO_NAME "Midnight x Variety Pack"
+
+// The distribution's version.
+#define DISTRO_VERSION "WIP"
+
 //////////////////
 // Kamek Loader //
 //////////////////
@@ -79,9 +89,6 @@
 // Displays debug information when the game crashes.
 // Note: The printed text is wrapped automatically, so adding newlines is not required.
 // Credits: Star, Vabold (original code), CLF78 (various updates)
-
-// The distribution's name.
-#define EXCEPTION_HANDLER_DISTRO_NAME "Midnight x Variety Pack"
 
 // The point of contact for users who encounter a crash.
 #define EXCEPTION_HANDLER_SUPPORT_ADDRESS "CLF78 on Discord"

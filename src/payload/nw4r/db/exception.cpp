@@ -181,7 +181,7 @@ REPLACE void PrintContext_(OSError error, const OSContext* context, u32 dsisr, u
 
     // Print heading
     Exception_Printf_(SEP_LINES);
-    Exception_Printf_(EXCEPTION_HANDLER_DISTRO_NAME " Exception Handler (%s)\n", Region::GetIdentifier());
+    Exception_Printf_(DISTRO_NAME " Exception Handler (%s)\n", Region::GetIdentifier());
     Exception_Printf_("Please take a picture of the information below and send it to " EXCEPTION_HANDLER_SUPPORT_ADDRESS ".");
     Exception_Printf_(" Use the D-Pad/Circle Pad to scroll through the data or press HOME/START to return to the System Menu.\n");
 
