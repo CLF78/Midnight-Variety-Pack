@@ -60,13 +60,13 @@ struct ItemProperties {
 
     bool enabled;
     bool enabledOnline;
-    // 2 bytes padding
+    PAD(2);
 
     int objectId;
     u32 limit;
     u32 severity; // unused
     bool isTimedItem; // for Golden Mushroom
-    // 3 bytes padding
+    PAD(3);
 
     int useType;
     ItemUseFunc useFunction; // item is draggable if this is null

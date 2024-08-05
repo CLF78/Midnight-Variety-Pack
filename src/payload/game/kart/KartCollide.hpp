@@ -77,6 +77,7 @@ public:
     virtual void processWheelCollision(void* collisionData, void* hitbox, void* unk, u32* kclFlags) = 0;
     virtual ~KartCollideBase() = 0;
 };
+size_assert(KartCollideBase, 0x4);
 
 class KartCollide : public KartCollideBase, KartObjectProxy {
 public:
@@ -86,8 +87,8 @@ public:
 
     void activateOob(bool unk, u32* kclFlags, bool unk2, bool unk3);
 
-    u8 unk[0x6C-0x10];
+    UNK(0x6C - 0x10);
     s16 respawnArea;
-    u8 unk2[0x74-0x6E];
+    UNK(0x74 - 0x6E);
 };
 size_assert(KartCollide, 0x74);

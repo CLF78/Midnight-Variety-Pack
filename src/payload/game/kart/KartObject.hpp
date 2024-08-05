@@ -19,3 +19,4 @@ public:
     void* driver;
     KartPointers pointers;
 };
+size_assert(KartObject, 0x80);

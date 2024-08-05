@@ -6,7 +6,7 @@ namespace detail {
 
 class SeqTrackAllocator {
 public:
-    void* vtable;
+    virtual ~SeqTrackAllocator();
 };
 size_assert(SeqTrackAllocator, 0x4);
 

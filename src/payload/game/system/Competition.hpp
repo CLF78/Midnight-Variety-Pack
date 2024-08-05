@@ -13,7 +13,7 @@ struct CompetitionSettings {
     u8 characterId;
     u8 vehicleId;
     u8 engineClass;
-    u8 _8[0x24];
+    UNK(0x24);
 
     u16 timeLimit;
     u8 _2E;
@@ -25,7 +25,7 @@ struct CompetitionSettings {
     u16 _4C;
     u16 _4E;
     u16 cannonFlag;
-    u8 _52[6];
+    UNK(6);
     u16 cpuCount;
     CharacterVehicleChoice cpuCombos[11];
 };

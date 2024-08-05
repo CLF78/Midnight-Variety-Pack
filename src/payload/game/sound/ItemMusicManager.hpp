@@ -25,4 +25,4 @@ public:
 
     static ItemMusicManager* instance;
 };
-size_assert(ItemMusicManager, 0x2c);
+size_assert(ItemMusicManager, 0x2C);

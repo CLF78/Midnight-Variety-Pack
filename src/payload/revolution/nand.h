@@ -40,7 +40,7 @@ typedef struct {
     u8 accessType;
     u8 stage;
     u8 mark;
-    u8 pad;
+    PAD(1);
 } NANDFileInfo;
 
 #ifdef __cplusplus

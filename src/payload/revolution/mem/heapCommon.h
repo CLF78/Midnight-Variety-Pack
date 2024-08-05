@@ -13,7 +13,7 @@ typedef struct {
     void* heapStart;
     void* heapEnd;
     OSMutex mutex;
-    u8 reserved[3];
+    PAD(3);
     u8 optFlag;
 } MEMiHeapHead;
 

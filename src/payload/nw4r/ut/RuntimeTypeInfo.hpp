@@ -7,6 +7,7 @@ namespace detail {
 struct RuntimeTypeInfo {
     const RuntimeTypeInfo* parentTypeInfo;
 };
+size_assert(RuntimeTypeInfo, 0x4);
 
 } // namespace detail
 } // namespace ut

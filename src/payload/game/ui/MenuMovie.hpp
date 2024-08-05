@@ -15,6 +15,8 @@ public:
     nw4r::lyt::Pane** panes;
     Page* parent;
     bool hidden;
+    PAD(3);
+
     u32 delay;
     nw4r::math::VEC2* scales;
 };

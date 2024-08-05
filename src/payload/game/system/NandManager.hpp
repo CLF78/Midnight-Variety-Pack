@@ -8,7 +8,7 @@ public:
 
     bool busy;
     bool _15;
-    // 2 bytes padding
+    PAD(2);
 
     int checkError;
     void* saveBannerTpl;

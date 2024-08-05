@@ -7,7 +7,7 @@ extern "C" {
 typedef struct {
 	char gpr;
 	char fpr;
-	char reserved[2];
+	PAD(2);
 	char* input_arg_area;
 	char* reg_save_area;
 } va_list;

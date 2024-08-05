@@ -12,6 +12,7 @@ public:
         char pathBuf[64];
         EGG::Heap* heap;
         u8 allocDirection;
+        PAD(3);
 
         u32* fileSize;
         u8* manualDestBuffer;
@@ -49,7 +50,7 @@ public:
     float frameDuration;
 
     bool isNdev;
-    // 1 byte padding
+    PAD(1);
     u16 launchCode;
 
     u32 regionId;
@@ -85,7 +86,7 @@ public:
 
     bool _F3;
     u8 _F4; // unused
-    // 2 bytes padding
+    PAD(3);
 
     SCSimpleAddressData addressData;
 

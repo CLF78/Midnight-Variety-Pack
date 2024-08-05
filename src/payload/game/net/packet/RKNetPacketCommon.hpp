@@ -19,6 +19,7 @@ union RKNetBattleTeamData {
     struct { u8 battleType : 1; u32 teams : 31; };
     u32 raw;
 };
+size_assert(RKNetBattleTeamData, 0x4);
 
 union RKNetAidPidMap {
 
@@ -31,6 +32,7 @@ union RKNetAidPidMap {
     u8 playerIds[12]; // Index is player id, value is aid
     u32 raw[3];
 };
+size_assert(RKNetAidPidMap, 0xC);
 
 union RKNetEngineClassData {
 
@@ -106,3 +108,4 @@ union RKNetEngineClassData {
     struct { bool isMirror : 1; u8 engineClass : 7; };
     u8 raw;
 };
+size_assert(RKNetEngineClassData, 0x1);

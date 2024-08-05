@@ -46,8 +46,12 @@ typedef enum {
 typedef struct {
     u32 privateIp;
     u16 privatePort;
+    PAD(2);
+
     u32 publicIp;
     u16 publicPort;
+    PAD(2);
+
 } AddressMapping;
 
 typedef struct {

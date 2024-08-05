@@ -11,9 +11,11 @@ public:
     virtual void exit();
 
     bool _C70;
+    PAD(3);
+
     u32 _C74;
     EGG::ExpHeap* _C78;
-    u8 _C7C[0xCB8 - 0xC7C];
+    UNK(0xCB8 - 0xC7C);
 
     static InitScene* instance;
 };

@@ -25,7 +25,7 @@ struct Header {
     u32 codeSize;
     u32 ctorStart;
     u32 ctorEnd;
-    u32 _pad[2];
+    PAD(8);
 };
 
 struct Functions {

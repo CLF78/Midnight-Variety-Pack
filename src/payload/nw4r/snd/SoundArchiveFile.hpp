@@ -44,6 +44,7 @@ struct SoundArchiveFile {
         u32 rootIdx;
         detail::Util::Table<StringTreeNode> nodeTable;
     };
+    size_assert(StringTree, 0x8);
 
     ulong detail_GetFileCount() const;
 };

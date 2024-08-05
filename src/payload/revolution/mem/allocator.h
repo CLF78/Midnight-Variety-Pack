@@ -8,10 +8,10 @@ typedef struct MEMAllocator MEMAllocator;
 typedef void* (*MEMFuncAllocatorAlloc) (MEMAllocator* allocator, u32 size);
 typedef void (*MEMFuncAllocatorFree) (MEMAllocator* allocator, void* memBlock);
 
-struct MEMAllocatorFunc {
+typedef struct {
     MEMFuncAllocatorAlloc alloc;
     MEMFuncAllocatorFree free;
-};
+} MEMAllocatorFunc;
 
 struct MEMAllocator {
     MEMAllocatorFunc* func;

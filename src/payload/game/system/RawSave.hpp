@@ -24,13 +24,13 @@ struct RawSave {
 
         u32 magic;
         u32 settings;
-        u8 unk[0x37FA];
+        UNK(0x37FA);
         u16 regionId;
     };
     size_assert(GlobalData, 0x3804);
 
     struct UnkBlock {
-        u8 data[0x14F0];
+        UNK(0x14F0);
     };
     size_assert(UnkBlock, 0x14F0);
 

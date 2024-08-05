@@ -23,6 +23,7 @@ struct ConsoleHead {
     u16 currLinePosX; // Current character on current line to be printed
 
     u16 ringTop;
+    PAD(2);
     s32 ringTopLineCnt;
     s32 topLineNumber; // Line number of first line displayed on screen
 
@@ -31,14 +32,13 @@ struct ConsoleHead {
     u16 displayLineCount; // Lines to display at once
     
     bool isVisible;
-    u8 pad;
-    
+    PAD(1);
+
     void* textWriter;
     ConsoleHead* next;
 };
 
 s32 Console_GetTotalLines(ConsoleHead* console);
-
 void Console_DrawDirect(ConsoleHead* console);
 
 } // namespace db

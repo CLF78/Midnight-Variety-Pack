@@ -14,6 +14,7 @@ public:
     detail::ExternalSoundPlayer actorPlayer[4];
     detail::SoundActorParam actorParam;
 };
+size_assert(SoundActor, 0x54);
 
 } // namespace snd
 } // namespace nw4r

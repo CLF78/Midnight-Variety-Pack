@@ -19,7 +19,7 @@ struct RKNetEVENTPacket {
     };
 
     EventInfo eventInfo[0x18];
-    u8 _18[0xF8 - 0x18];
+    u8 data[0xF8 - 0x18];
 };
 size_assert(RKNetEVENTPacket, 0xF8);
 #pragma pack(pop)

@@ -29,6 +29,7 @@ public:
     KartSound* kartSounds[4];
     u8 lastUsedKartSoundSlot;
     u8 totalKartSounds;
+    PAD(2);
     u32 _2C;
 
     Timer timer;
@@ -42,11 +43,14 @@ public:
     u8 localPlayerCount;
     u8 playerCount;
     u8 realPlayerCount;
+    PAD(1);
     s16 _50;
+    PAD(2);
 
     EGG::AudioTrack engineVolume;
     u8 _70;
     u8 _71;
+    PAD(2);
     s32 _74;
 
     nw4r::ut::List actorsList;

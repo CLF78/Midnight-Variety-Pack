@@ -30,7 +30,7 @@ public:
     Page::AnimationDirection nextAnimDirection;
     u32 animDelay;
     bool firstLoad;
-    // 3 bytes padding
+    PAD(3);
 
     u32 statusBitfield;
     nw4r::ut::Color fadeOutColor;

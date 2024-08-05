@@ -15,6 +15,7 @@ struct Element {
     VEC3 trans;
     VEC2 scale;
     u8 opacity;
+    PAD(3);
 };
 
 class UIControl {
@@ -53,11 +54,13 @@ public:
 
     f32 zIndex;
     bool hidden;
+    PAD(3);
+
     u32 drawPass;
-
     bool animated;
-    f32 animStartFrame;
+    PAD(3);
 
+    f32 animStartFrame;
     s32 onShowSfxId;
     s32 onHideSfxId;
 };

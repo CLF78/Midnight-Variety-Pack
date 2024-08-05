@@ -21,7 +21,7 @@ public:
     void* mParentBlock;
     Heap* mParentHeap;
     u16 mFlag;
-    // 2 bytes padding
+    PAD(2);
 
     nw4r::ut::Link mLink;
     nw4r::ut::List mChildren;

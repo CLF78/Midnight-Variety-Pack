@@ -10,6 +10,6 @@ public:
     virtual void SetUpdateRate(float rate);
     virtual bool IsLooped();
 
-    u8 unk[0x1C-0x4];
+    UNK(0x1C - 0x4);
 };
 size_assert(AnmHolder, 0x1C);

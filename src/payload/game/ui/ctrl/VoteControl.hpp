@@ -15,5 +15,6 @@ public:
     void setData(bool isRandom, u32 bmgId, MiiGroup* miiGroup, int playerIdx, bool isLocal, int team);
 
     bool isRandomVote;
+    PAD(3);
 };
 size_assert(VoteControl, 0x178);

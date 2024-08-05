@@ -8,8 +8,9 @@ namespace detail {
 class DisposeCallback {
 public:
     ut::Link disposeLink;
-    void* vtable;
+    virtual ~DisposeCallback();
 };
+size_assert(DisposeCallback, 0xC);
 
 } // namespace detail
 } // namespace snd

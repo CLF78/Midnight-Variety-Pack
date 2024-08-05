@@ -32,7 +32,7 @@ public:
 
     nw4r::lyt::Pane* pane;
     u8 localPlayerIdx;
-    // 3 bytes padding
+    PAD(3);
 
     float* currAnimFrames;
 };

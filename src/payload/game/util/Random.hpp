@@ -9,6 +9,7 @@ public:
     void initialize();
     u32 nextU32(u32 range);
 
+    PAD(4);
     u64 x;
     u64 seed;
 };

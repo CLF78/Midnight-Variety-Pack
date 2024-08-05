@@ -20,3 +20,4 @@ struct RKNetStatusData {
     u8 playerCount;
     u8 raceNumber;
 };
+size_assert(RKNetStatusData, 0x8);

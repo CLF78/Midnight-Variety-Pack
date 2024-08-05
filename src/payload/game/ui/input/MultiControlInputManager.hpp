@@ -17,13 +17,16 @@ public:
         void* vtable;
         int frames[INPUT_COUNT];
         u8 _28[INPUT_COUNT];
+        PAD(3);
 
         u32 sequenceFlags;
         u32 sequenceFrames;
         bool isPointer;
+        PAD(3);
+
         VEC2 pointerPos;
         bool enabled;
-        u8 _50[0x5c - 0x51];
+        UNK(0x5C - 0x51);
     };
     size_assert(Player, 0x5C);
 
@@ -46,7 +49,8 @@ public:
     EGG::List list;
     InputHandler1<Page, void, u32>* handlers[INPUT_COUNT];
     bool actionsSet[INPUT_COUNT];
-    u8 _49[INPUT_COUNT];
+    bool pointerEnabled[INPUT_COUNT];
+    PAD(2);
 
     Player players[5];
     calcDistanceFunc distFunc;

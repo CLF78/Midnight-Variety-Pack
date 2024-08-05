@@ -15,11 +15,12 @@ public:
     struct PlayerInfo {
         u8 aid;
         u8 localPlayerIdx;
-        // 2 bytes padding
+        PAD(2);
         RaceConfig::Player::Team team;
         u16 vr;
         u16 br;
     };
+    size_assert(PlayerInfo, 0xC);
 
     enum Status {
         WAITING = 0x2,

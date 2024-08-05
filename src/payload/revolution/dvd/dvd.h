@@ -18,7 +18,7 @@ struct DVDDiskID {
     u8 gameVersion;
     u8 streaming;
     u8 streamingBufSize;
-    u8 padding[14];
+    PAD(14);
     u32 rvlMagic;
     u32 gcMagic;
 };

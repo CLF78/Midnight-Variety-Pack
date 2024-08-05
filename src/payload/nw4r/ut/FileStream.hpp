@@ -26,7 +26,9 @@ public:
         u32 fileSize;
         u32 position;
     };
+    size_assert(FilePosition, 0x8);
 };
+size_assert(FileStream, sizeof(IOStream));
 
 } // namespace ut
 } // namespace nw4r

@@ -41,6 +41,7 @@ typedef struct {
     u8 triggerLeft, triggerRight; // 0 <= value <= 255
     u8 analogA, analogB;          // 0 <= value <= 255
     s8 error;
+    PAD(1);
 } PADStatus;
 
 u32 PADRead(PADStatus* status);

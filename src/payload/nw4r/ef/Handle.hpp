@@ -3,16 +3,15 @@
 namespace nw4r {
 namespace ef {
 
-struct HandleBase {
-    HandleBase();
-    HandleBase(const HandleBase& hnd);
+class HandleBase {
+public:
     void* GetPtr() const;
     bool IsValid() const;
-    HandleBase& operator=(const HandleBase& other);
-    HandleBase& operator=(void* obj);
+
     u32 objId;
     void* object;
 };
+size_assert(HandleBase, 0x8);
 
-}//namespace ef
-}//namespace nw4r
+} // namespace ef
+} // namespace nw4r

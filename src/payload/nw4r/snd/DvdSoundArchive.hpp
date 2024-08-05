@@ -19,6 +19,7 @@ public:
     detail::SoundArchiveFileReader reader;
     DVDFileInfo fileInfo;
     bool open;
+    PAD(3);
 };
 size_assert(DvdSoundArchive, 0x18C);
 

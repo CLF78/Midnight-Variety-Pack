@@ -10,7 +10,7 @@ public:
         int character;
         int vehicle;
         s8 starRank;
-        // 3 bytes padding
+        PAD(3);
     };
     size_assert(PlayerCombo, 0xC);
 
@@ -26,8 +26,7 @@ public:
         playerStarRanks[playerId] = (starRank < 12) ? starRank + Message::Common::STAR_RANK_MIN : 0; 
     }
 
-    u8 unk[0x60];
-
+    UNK(0x60);
     u32 currentRace;
     u32 raceCount;
     u32 redTeamVictories;
@@ -35,15 +34,17 @@ public:
     int lastVictoryTeam;
     u32 vehicleRestriction;
 
-    // Modified
+    // Modified structure
     u16* trackOrder;
-    u32 nextTracks[31]; // free for use
+    PAD(0x7C);
+    // u32 trackOrder[32];
 
     int vsRaceLimit;
 
-    // Modified
+    // Modified structure
     u16* arenaOrder;
-    u32 nextArenas[9]; // free for use
+    PAD(0x24);
+    // u32 arenaOrder[10];
 
     u32 humanPlayerCount;
     u32 _128;
@@ -53,7 +54,7 @@ public:
 
     s32 lastCourse;
     s32 lastStage;
-    u8 unk2[0x188 - 0x154];
+    UNK(0x188 - 0x154);
 
     MiiGroup playerMiis;
     PlayerCombo playerCombos[2];
@@ -61,11 +62,11 @@ public:
 
     u32 friendRoomRaceNumber;
     u32 friendRoomEngineClass;
-    u8 unk3[0x35C - 0x2D8];
+    UNK(0x35C - 0x2D8);
 
     u32 playerStarRanks[12];
     u32 playerRegions[12];
-    u8 unk4[0x4D0 - 0x3BC];
+    UNK(0x4D0 - 0x3BC);
 
     int demoCameraMode;
     int demoType;
@@ -73,10 +74,9 @@ public:
     u32 _4DC;
     int demoTrack;
     int demoArena;
-
-    u8 unk5[0x500-0x4E8];
+    UNK(0x500 - 0x4E8);
 
     WifiDisconnectInfo disconnectInfo;
-    u8 unk6[0x510-0x508];
+    UNK(0x510 - 0x508);
 };
 size_assert(GlobalContext, 0x510);

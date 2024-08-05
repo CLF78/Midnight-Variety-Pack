@@ -10,6 +10,7 @@ public:
     static Exception* sException;
     static nw4r::db::ConsoleHead* sConsoleHandle;
 };
+size_assert(Exception, 0x4);
 
 bool ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg);
 

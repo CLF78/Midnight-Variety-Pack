@@ -1,11 +1,11 @@
 #pragma once
 #include "natify.h"
 #include <revolutionex/so/SOBasic.h>
+#pragma pack(push, 1)
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-#pragma pack(push, 1)
 
 #define NATNEG_MAGIC_LEN 6
 #define NATNEG_PORT 27901
@@ -69,6 +69,7 @@ typedef struct {
     u8 porttype;
     u8 clientindex;
     u8 usegameport;
+    PAD(1);
     u32 localip;
     u16 localport;
 } InitPacket;
@@ -77,9 +78,11 @@ typedef struct {
     u8 portType;
     u8 clientindex;
     u8 negResult;
+    PAD(1);
     int natType;
     int natMappingScheme;
     char gamename[50];
+    PAD(2);
 } ReportPacket;
 
 typedef struct {

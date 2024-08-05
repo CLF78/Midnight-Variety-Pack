@@ -14,5 +14,6 @@ public:
     Heap* heap;
     s32 alignment;
 };
+size_assert(Allocator, 0x1C);
 
 } // namespace EGG

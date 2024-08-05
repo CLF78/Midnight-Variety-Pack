@@ -9,17 +9,17 @@ class Pane {
 public:
     Material* GetMaterial();
 
-    u8 unk[0x28];
+    UNK(0x28);
 
     VEC3 translation;
     VEC3 rotation;
     VEC2 scale;
     float width;
     float height;
-    u8 unk2[0xB8 - 0x50];
+    UNK(0xB8 - 0x50);
 
     u8 alpha;
-    u8 unk3[0xD8 - 0xB9];
+    UNK(0xD8 - 0xB9);
 };
 size_assert(Pane, 0xD8);
 

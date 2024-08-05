@@ -22,12 +22,11 @@ public:
 
     s16 timers[BOOST_TYPE_COUNT];
     u16 boostTypes;
-    // 2 bytes padding
+    PAD(2);
 
     float boostMultiplier;
     float boostAcceleration;
     float boostFov;
-
     float boostSpeedLimit;
 
     static float boostMultipliers[BOOST_TYPE_COUNT];
@@ -35,5 +34,4 @@ public:
     static float boostFovMultipliers[BOOST_TYPE_COUNT];
     static float boostSpeedLimits[BOOST_TYPE_COUNT];
 };
-
 size_assert(KartBoost, 0x24);

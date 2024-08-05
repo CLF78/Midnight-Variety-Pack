@@ -2,7 +2,7 @@
 #include "Competition.hpp"
 #include "GhostFile.hpp"
 #include "Mii.hpp"
-#include "Rating.hpp"
+#include "SaveManager.hpp"
 #include <game/host_system/ParameterFile.hpp>
 
 class RaceConfigBase {
@@ -55,6 +55,8 @@ public:
         u8 _4;
         s8 localPlayerNum;
         s8 playerInputIdx;
+        PAD(1);
+
         u32 vehicleId;
         u32 characterId;
         u32 playerType;
@@ -69,14 +71,16 @@ public:
         u8 gpRank;
         u8 prevFinishPos;
         u8 finishPos;
-        Rating rating;
+        PAD(1);
+
+        SaveManager::License::Rating rating;
         s8 _EC;
-        u8 transmission;
+        u8 transmission; // previously padding
+        PAD(2);
     };
     size_assert(Player, 0xF0);
 
     struct Settings {
-
         enum EngineClass {
             CC_50,
             CC_100,
@@ -182,6 +186,8 @@ public:
         u32 cupId;
         u8 raceNumber;
         u8 lapCount;
+        PAD(2);
+
         u32 modeFlags;
         u32 seed1;
         u32 seed2;

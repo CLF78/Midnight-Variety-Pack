@@ -50,6 +50,6 @@ struct RKNetRH1Packet {
     // Modified structure
     u8 reserved; // might use this in the future for game-mode stuff
     u16 course;
-    // u8 pad[3];
+    // PAD(3);
 };
 size_assert(RKNetRH1Packet, 0x28);

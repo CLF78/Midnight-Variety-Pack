@@ -24,6 +24,7 @@ public:
     int arrowSide;
     u32 playerFlags;
     bool enabled;
+    PAD(3);
 
     nw4r::lyt::Pane* fuchiPane;
     nw4r::lyt::Pane* rootPane;

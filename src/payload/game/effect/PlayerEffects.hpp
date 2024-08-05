@@ -9,10 +9,6 @@
 
 class PlayerEffects {
 public:
-
-    static RaceConfig* GetRaceData();
-    static u8* GetCourseId(RaceConfig* racedata);
-
     explicit PlayerEffects(KartObject* kartObject);
     virtual ~PlayerEffects();
 
@@ -31,15 +27,22 @@ public:
     void followFadeEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex,
         const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale);
     void killEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex);
-    
-    u8 unk1[0x118-0x4];
+
+    static RaceConfig* GetRaceData();
+    static u8* GetCourseId(RaceConfig* racedata);
+
+    UNK(0x118 - 0x4);
+
     KartObject* kartObject;
-    u8 unk2[0x124-0x11c];
+    UNK(0x124 - 0x11C);
+
     u32 isBike;
-    u8 unk3[0x12e - 0x128];
+    UNK(0x12E - 0x128);
+
     u8 playerId;
-    u8 unk4[0x134-0x12f];
+    UNK(0x134 - 0x12F);
+
     u32 playerIdPlus2;
-    u8 unk5[0xae8-0x138];
+    UNK(0xAE8 - 0x138);
 };
-size_assert(PlayerEffects, 0xae8);
+size_assert(PlayerEffects, 0xAE8);

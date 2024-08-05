@@ -63,13 +63,11 @@ public:
 
     float acceleration;
     float draftMultiplier;
+    UNK(0xCA - 0x38);
 
-    u8 unk[0xCA-0x38];
-
-    s16 umtCharge; // Custom field (using padding)
+    s16 umtCharge; // Custom field (previously padding)
     int hopStickX;
-
-    u8 unk2[0xFC - 0xD0];
+    UNK(0xFC - 0xD0);
 
     s16 driftState;
     s16 mtCharge;
@@ -78,12 +76,10 @@ public:
     float outsideDriftBonus;
 
     KartBoost boost;
-
-    u8 unk3[0x1F4-0x12C];
+    UNK(0x1F4 - 0x12C);
 
     VEC3 cannonExitDir;
-
-    u8 unk4[0x2C4 - 0x200];
+    UNK(0x2C4 - 0x200);
 
     static const float speedModifiers[RaceConfig::Settings::CC_COUNT];
     static float kartSpeedLimit;
@@ -99,3 +95,4 @@ public:
     virtual ~KartMoveBike();
     virtual void calcMtCharge();
 };
+size_assert(KartMoveBike, sizeof(KartMove));

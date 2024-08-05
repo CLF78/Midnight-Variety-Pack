@@ -31,6 +31,8 @@ public:
 
     DvdArchive* archives;
     u16 archiveCount;
+    PAD(2);
+
     u32* fileSizes;
     char** suffixes;
     void** fileStarts;

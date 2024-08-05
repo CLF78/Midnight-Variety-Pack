@@ -36,13 +36,13 @@ public:
     int messageIds[9];
     Mii* miis[9];
     u8 licenseIds[9];
-    // 3 bytes padding
+    PAD(3);
 
     int playerIds[9];
     wchar_t* strings[9];
     bool useColoredBorder;
 
     bool prependSpace; // custom field
-    // 2 bytes padding
+    PAD(2);
 };
 size_assert(MessageInfo, 0xC4);

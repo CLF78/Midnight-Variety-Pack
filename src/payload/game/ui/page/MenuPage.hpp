@@ -69,7 +69,7 @@ public:
     CtrlMenuPageTitleText* titleText;
     CtrlMenuInstructionText* instructionText;
 
-    u8 _2BC[0x50];
+    UNK(0x30C - 0x2BC);
     u32 movieCount;
 
     MessageInfo text;
@@ -93,6 +93,7 @@ public:
     int movieStartFrame;
     int extraChildNumber;
     bool locked;
+    PAD(3);
 
     MultiControlInputManager multiControlInputManager;
     u32 curChildCount;

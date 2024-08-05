@@ -3,7 +3,8 @@
 
 class VehiclePhysics {
 public:
-    u8 unk[0x14C];
+    UNK(0x14C);
     VEC3 internalVelocity;
-    u8 unk2[0x1b4 - 0x158];
+    UNK(0x1B4 - 0x158);
 };
+size_assert(VehiclePhysics, 0x1B4);

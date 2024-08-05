@@ -13,7 +13,8 @@ public:
     u16 wheelCount0;
     u16 wheelCount1;
     u8 playerIdx;
-    u8 _11[2];
+    PAD(3);
+
     KartParam* kartParam;
     int* _18;
     void* kartDriverDispEntry;
@@ -23,6 +24,6 @@ public:
     float wheelCountReciprocal;
     float wheelCountPlus1Reciprocal;
     void* gpStats;
-    u8 _38[0x3C - 0x38];
+    UNK(0x3C - 0x38);
 };
 size_assert(KartSettings, 0x3C);

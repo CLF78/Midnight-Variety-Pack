@@ -204,19 +204,19 @@ REPLACE void VotingBackPage::setupRace() {
             switch (curSection) {
                 case Section::WIFI_VS_1P_VOTE:
                 case Section::WIFI_VS_2P_VOTE:
-                    player->rating.points = playerInfo->vr;
+                    player->rating.rating = playerInfo->vr;
                     break;
 
                 case Section::WIFI_BT_1P_VOTE:
                 case Section::WIFI_BT_2P_VOTE:
-                    player->rating.points = playerInfo->br;
+                    player->rating.rating = playerInfo->br;
                     break;
             }
 
         // For guests, default to 5000
         // TODO alternate point system for guests
         } else {
-            player->rating.points = 5000;
+            player->rating.rating = 5000;
         }
 
         // Set the team (if applicable)

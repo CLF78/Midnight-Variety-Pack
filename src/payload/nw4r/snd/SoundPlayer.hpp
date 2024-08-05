@@ -17,12 +17,11 @@ public:
     float lpfFreq;
     int outputLineFlag;
     float mainOutVolume;
-    int biquadType;
-    float biquadValue;
     float remoteOutVolume[4];
     float mainSend;
     float fxSend[3];
 };
+size_assert(SoundPlayer, 0x5C);
 
 } // namespace snd
 } // namespace nw4r

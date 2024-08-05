@@ -14,7 +14,7 @@ public:
         RKNetAidPidMap aidPidMap;
         RKNetEngineClassData engineClass;
         u8 starRanks[2];
-        // 1 byte padding
+        PAD(1);
     };
     size_assert(Data, 0x30);
 
@@ -31,13 +31,13 @@ public:
 
     bool prepared;
     bool _1;
-    // 2 bytes padding
+    PAD(2);
 
     u32 availableAids;
     u32 aidsWithUpdatedRH1;
     u32 aidsWithField17At1;
     u8 lastSendAid;
-    // 7 bytes padding
+    PAD(7);
 
     s64 lastSendTime;
     Data datas[12];

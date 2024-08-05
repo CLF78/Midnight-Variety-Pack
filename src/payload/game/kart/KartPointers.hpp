@@ -48,3 +48,4 @@ public:
     void* _5C;
     KartKiller* kartKiller;
 };
+size_assert(KartPointers, 0x64);

@@ -55,6 +55,7 @@ public:
     IOStreamCallback cancelCallback;
     void* cancelArg;
     volatile bool isCanceling;
+    PAD(3);
 
     DvdFileStreamInfo fileInfo;
     s32 priority;
@@ -62,6 +63,7 @@ public:
     bool closeOnDestroyFlag;
     bool closeEnableFlag;
 };
+size_assert(DvdFileStream, 0x70);
 
 } // namespace ut
 } // namespace nw4r

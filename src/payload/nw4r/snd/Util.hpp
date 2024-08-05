@@ -10,7 +10,7 @@ public:
     struct DataRef {
         u8 refType; // 0 = address, 1 = offset
         u8 dataType;
-        u16 reserved;
+        PAD(2);
         u32 value;
     };
     size_assert(DataRef, 0x8);
@@ -18,7 +18,7 @@ public:
     template<typename T>
     struct Table {
         u32 count;
-        T items[1]; // actually multiple
+        T items[]; // actually multiple
     };
 };
 

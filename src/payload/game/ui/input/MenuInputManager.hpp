@@ -34,5 +34,6 @@ public:
     bool inaccessible;
     bool isMultiPlayer;
     u8 _E;
+    PAD(1);
 };
 size_assert(MenuInputManager, 0x10);

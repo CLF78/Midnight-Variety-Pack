@@ -12,7 +12,7 @@ struct GTI2Socket {
     int socket;
     u32 ip;
     u16 port;
-    // 2 bytes padding
+    PAD(2);
 
     HashTable connections;
     DArray closedConnections;
@@ -39,7 +39,7 @@ struct GTI2Connection {
     u32 ip;
     u16 port;
     u8 aid; // custom field
-    // 1 byte padding
+    PAD(1);
 
     GTI2Socket* socket;
     GT2SocketState state;

@@ -37,10 +37,10 @@ const char* ExpPlayerEffects::SMTNames[8] = {
 //Needed so that other players display the correct effect
 bool umtState[12]; //false = no UMT  true = UMT buff active expanding Kart::Movement just for this doesn't seem like the plan
 
-//kmWrite32(0x8057ee5c, 0x2c050004); //changes >= 3 to >= 4 for UMT
-//kmWrite32(0x8057ef30, 0x2c000001); //changes check from if != 2 to if = 1, so that when in a SMT the function keeps going
-//kmWrite32(0x8057ef38, 0x418200A4); //ensure mtSpeedMultiplier gets reset when driftState = 1, by sending to where SetKartDriftTiers hooks
-//kmWrite32(0x8057efb4, 0x48000028); //skips the SMT charge check and sends unconditionally to SetKartDriftTiers
+//kmWrite32(0x8057EE5c, 0x2C050004); //changes >= 3 to >= 4 for UMT
+//kmWrite32(0x8057EF30, 0x2C000001); //changes check from if != 2 to if = 1, so that when in a SMT the function keeps going
+//kmWrite32(0x8057EF38, 0x418200A4); //ensure mtSpeedMultiplier gets reset when driftState = 1, by sending to where SetKartDriftTiers hooks
+//kmWrite32(0x8057EFB4, 0x48000028); //skips the SMT charge check and sends unconditionally to SetKartDriftTiers
 //void SetKartDriftTiers(KartMove& movement) {
 //    int type = movement.getDriftType();
 //    const s16 smtCharge = movement.smtCharge;
@@ -50,14 +50,14 @@ bool umtState[12]; //false = no UMT  true = UMT buff active expanding Kart::Move
 //    }
 //    else if (type == KartStats::INSIDE_BIKE && smtCharge >= 300) movement.driftState = 3;
 //};
-//kmBranch(0x8057efdc, SetKartDriftTiers);
+//kmBranch(0x8057EFDC, SetKartDriftTiers);
 //
-//kmWrite32(0x80588894, 0x2c000003); //changes >= 2 to >= 3 for SMT
-//kmWrite32(0x8058889c, 0x2c000003); //changes check from if != 1 to if = 3, so that when in a MT the function keeps going
-//kmWrite32(0x805888a8, 0x418200A4); //if in charge state 2, skip to SetBikeDriftTiers
+//kmWrite32(0x80588894, 0x2C000003); //changes >= 2 to >= 3 for SMT
+//kmWrite32(0x8058889C, 0x2C000003); //changes check from if != 1 to if = 3, so that when in a MT the function keeps going
+//kmWrite32(0x805888A8, 0x418200A4); //if in charge state 2, skip to SetBikeDriftTiers
 //kmWrite32(0x80588928, 0x60000000); //removed fixed 270 write to mtCharge
-//kmWrite32(0x80588938, 0x7c040378); //setup "charged" for next function
-//kmWrite32(0x8058893c, 0x48000010); //takes MT charge check and parses it into SetBikeDriftTiers
+//kmWrite32(0x80588938, 0x7C040378); //setup "charged" for next function
+//kmWrite32(0x8058893C, 0x48000010); //takes MT charge check and parses it into SetBikeDriftTiers
 //void SetBikeDriftTiers(KartMove& movement, bool charged) {
 //    if (charged) {
 //        movement.driftState = 2;
@@ -68,7 +68,7 @@ bool umtState[12]; //false = no UMT  true = UMT buff active expanding Kart::Move
 //        }
 //    }
 //}
-//kmBranch(0x8058894c, SetBikeDriftTiers);
+//kmBranch(0x8058894C, SetBikeDriftTiers);
 
 //Buffs MTStats and updates umtState
 //int BuffUMT(KartMove& movement) {
@@ -79,9 +79,9 @@ bool umtState[12]; //false = no UMT  true = UMT buff active expanding Kart::Move
 //    if (state[idx] == true) mtStat = 3 * mtStat / 2; //50% longer
 //    return mtStat;
 //};
-//kmCall(0x80582fdc, BuffUMT);
-//kmWrite32(0x80582fe0, 0x7C601B78);
-//kmWrite32(0x80582fec, 0x4180003C); //changes !=3 to <3 for UMT
+//kmCall(0x80582FDC, BuffUMT);
+//kmWrite32(0x80582FE0, 0x7C601B78);
+//kmWrite32(0x80582FEC, 0x4180003C); //changes !=3 to <3 for UMT
 //
 ////SpeedMultiplier "perk" implementation
 //bool UpdateSpeedMultiplier(KartBoost& boost, bool* boostEnded) {
@@ -100,7 +100,7 @@ bool umtState[12]; //false = no UMT  true = UMT buff active expanding Kart::Move
 //    }
 //    return isBoosting;
 //}
-//kmCall(0x8057934c, UpdateSpeedMultiplier);
+//kmCall(0x8057934C, UpdateSpeedMultiplier);
 
 //Expanded player effect, also hijacked to add custom breff/brefts to EffectsMgr
 static void CreatePlayerEffects(EffectsManager& mgr) { //adding the resource here as all other breff have been loaded at this point
@@ -129,7 +129,7 @@ static void DeleteEffectRes(EffectsManager& mgr) {
     vpEffects = nullptr;
     mgr.Reset();
 }
-kmCall(0x8051b198, DeleteEffectRes);
+kmCall(0x8051B198, DeleteEffectRes);
 
 
 //Loads the custom effects
@@ -144,7 +144,7 @@ static void LoadCustomEffects(ExpPlayerEffects& effects) {
         effects.rk_orangeMT[i] = new(EGG::Effect)(ExpPlayerEffects::SMTNames[i], effects.playerIdPlus2);
     }
 };
-kmCall(0x8068e9c4, LoadCustomEffects);
+kmCall(0x8068E9C4, LoadCustomEffects);
 
 //Left and Right sparks when the SMT charge is over 550
 void LoadLeftPurpleSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectArray, u32 firstEffectIndex, u32 lastEffectIndex, const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale) {
@@ -156,7 +156,7 @@ void LoadLeftPurpleSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectA
     }
     else effects.createAndUpdateEffectsByIdx(effectArray, firstEffectIndex, lastEffectIndex, playerMat2, wheelPos, updateScale);
 };
-kmCall(0x80698a94, LoadLeftPurpleSparkEffects);
+kmCall(0x80698A94, LoadLeftPurpleSparkEffects);
 
 void LoadRightPurpleSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectArray, u32 firstEffectIndex, u32 lastEffectIndex, const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale) {
     int type = effects.kartObject->getDriftType();
@@ -167,7 +167,7 @@ void LoadRightPurpleSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effect
     }
     else effects.createAndUpdateEffectsByIdx(effectArray, firstEffectIndex, lastEffectIndex, playerMat2, wheelPos, updateScale);
 };
-kmCall(0x80698af0, LoadRightPurpleSparkEffects);
+kmCall(0x80698AF0, LoadRightPurpleSparkEffects);
 
 void LoadOrangeSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectArray, u32 firstEffectIndex, u32 lastEffectIndex, const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale) {
     int type = effects.kartObject->getDriftType();
@@ -178,18 +178,18 @@ void LoadOrangeSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectArray
     }
     else effects.createAndUpdateEffectsByIdx(effectArray, firstEffectIndex, lastEffectIndex, playerMat2, wheelPos, updateScale);
 };
-kmBranch(0x806a2f60, LoadOrangeSparkEffects);
-kmBranch(0x806a3004, LoadOrangeSparkEffects);
+kmBranch(0x806A2F60, LoadOrangeSparkEffects);
+kmBranch(0x806A3004, LoadOrangeSparkEffects);
 
 //Fade the sparks
 void FadeLeftPurpleSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectArray, u32 firstEffectIndex, u32 lastEffectIndex, const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale) {
     effects.followFadeEffectsByIdx(effectArray, firstEffectIndex, lastEffectIndex, playerMat2, wheelPos, updateScale);
     effects.followFadeEffectsByIdx(effects.rk_purpleMT, 0, 2, playerMat2, wheelPos, updateScale);
 };
-kmCall(0x80698dac, FadeLeftPurpleSparkEffects);
+kmCall(0x80698DAC, FadeLeftPurpleSparkEffects);
 kmCall(0x80698228, FadeLeftPurpleSparkEffects);
 kmCall(0x80698664, FadeLeftPurpleSparkEffects);
-kmCall(0x80698ab4, FadeLeftPurpleSparkEffects);
+kmCall(0x80698AB4, FadeLeftPurpleSparkEffects);
 
 void FadeRightPurpleSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectArray, u32 firstEffectIndex, u32 lastEffectIndex, const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale) {
     effects.followFadeEffectsByIdx(effectArray, firstEffectIndex, lastEffectIndex, playerMat2, wheelPos, updateScale);
@@ -197,25 +197,25 @@ void FadeRightPurpleSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effect
 };
 kmCall(0x80698248, FadeRightPurpleSparkEffects);
 kmCall(0x80698684, FadeRightPurpleSparkEffects);
-kmCall(0x80698b10, FadeRightPurpleSparkEffects);
-kmCall(0x80698dcc, FadeRightPurpleSparkEffects);
+kmCall(0x80698B10, FadeRightPurpleSparkEffects);
+kmCall(0x80698DCC, FadeRightPurpleSparkEffects);
 
 void FadeOrangeSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectArray, u32 firstEffectIndex, u32 lastEffectIndex, const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale) {
     effects.followFadeEffectsByIdx(effectArray, firstEffectIndex, lastEffectIndex, playerMat2, wheelPos, updateScale);
     effects.followFadeEffectsByIdx(effects.rk_orangeMT, 0, 2, playerMat2, wheelPos, updateScale);
 };
-kmBranch(0x806a31fc, FadeOrangeSparkEffects);
+kmBranch(0x806A31FC, FadeOrangeSparkEffects);
 
 int PatchDriftStateCheck(const KartObject& kartObject) {
     u32 driftState = kartObject.getDriftState();
     if (driftState == 4) driftState = 3;
     return driftState;
 };
-kmCall(0x8069807c, PatchDriftStateCheck);
+kmCall(0x8069807C, PatchDriftStateCheck);
 
 // Purple boosts
-kmWrite32(0x806a3d00, 0x7FA4EB78);
-kmWrite32(0x806a3d04, 0x7FC5F378);
+kmWrite32(0x806A3D00, 0x7FA4EB78);
+kmWrite32(0x806A3D04, 0x7FC5F378);
 void PatchBoostOnUMTSpeedBoost(EGG::Effect* boostEffect) { //have to mod loop index by 4 to get the actual index
     register u8 loopIndex;
     __asm {mr loopIndex, r29 };
@@ -226,9 +226,9 @@ void PatchBoostOnUMTSpeedBoost(EGG::Effect* boostEffect) { //have to mod loop in
     if (umtState[effects->playerId]) boostEffect = effects->rk_purpleMT[ExpPlayerEffects::rk_purpleBoost + loopIndex % 4];
     boostEffect->create();
 };
-kmCall(0x806a3d08, PatchBoostOnUMTSpeedBoost);
+kmCall(0x806A3D08, PatchBoostOnUMTSpeedBoost);
 
-kmWrite32(0x8069bfa0, 0x60000000);
+kmWrite32(0x8069BFA0, 0x60000000);
 void PatchBoostMatrix(EGG::Effect* boostEffect, MTX34* boostMat) {
     if (boostEffect->effectHandle.GetPtr()) {
         boostEffect->setMtx(boostMat);
@@ -246,8 +246,8 @@ void PatchBoostMatrix(EGG::Effect* boostEffect, MTX34* boostMat) {
         }
     }
 }
-kmCall(0x8069bff0, PatchBoostMatrix);
-kmWrite32(0x8069c004, 0x60000000);
+kmCall(0x8069BFF0, PatchBoostMatrix);
+kmWrite32(0x8069C004, 0x60000000);
 
 
 void PatchFadeBoost(EGG::Effect* boostEffect) {
@@ -258,7 +258,7 @@ void PatchFadeBoost(EGG::Effect* boostEffect) {
     __asm {mr effects, r30 };
     if (!effects->isBike) effects->rk_purpleMT[ExpPlayerEffects::rk_purpleBoost + loopIndex % 4]->followFade();
 }
-kmCall(0x8069c0a4, PatchFadeBoost);
+kmCall(0x8069C0A4, PatchFadeBoost);
 
 //nw4r::snd::SoundStartable::StartResult PlayExtBRSEQ(nw4r::snd::SoundStartable& startable, void* handle, const char* fileName, const char* labelName, bool hold) {
 //    nw4r::snd::SoundStartable::StartInfo startInfo;
@@ -268,13 +268,13 @@ kmCall(0x8069c0a4, PatchFadeBoost);
 //    void* file = ResourceManager::instance->getFile(MultiDvdArchive::COMMON, fileName);
 //    if (file != nullptr) {
 //        startInfo.seqSoundInfo.seqDataAddress = file;
-//        if (hold) return startable.detail_HoldSound(&handle, 0x19a, &startInfo); //SOUND_ID_MINITURBO
-//        else return startable.detail_StartSound(&handle, 0x19a, &startInfo);
+//        if (hold) return startable.detail_HoldSound(&handle, 0x19A, &startInfo); //SOUND_ID_MINITURBO
+//        else return startable.detail_StartSound(&handle, 0x19A, &startInfo);
 //    }
 //    return nw4r::snd::SoundStartable::START_ERR_USER;
 //}
 
-//kmWrite32(0x807095b8, 0x40A00028); //changes beq to bge for UMT
+//kmWrite32(0x807095B8, 0x40A00028); //changes beq to bge for UMT
 //void PatchUMTSound(AudioHandleHolder& sound, u32 soundId, void* handle) {
 //    if (sound.driftState == 4) {
 //        const char* seqName = "purpleMT.brseq";
@@ -285,4 +285,4 @@ kmCall(0x8069c0a4, PatchFadeBoost);
 //    sound.instance->prepare(soundId, &handle);
 //
 //};
-//kmCall(0x807095f8, PatchUMTSound);
+//kmCall(0x807095F8, PatchUMTSound);

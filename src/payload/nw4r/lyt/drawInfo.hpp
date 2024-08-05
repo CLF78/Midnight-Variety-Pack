@@ -14,7 +14,9 @@ public:
     math::VEC2 mLocationAdjustScale;
     f32 mGlobalAlpha;
     u8 mFlag;
+    PAD(3);
 };
+size_assert(DrawInfo, 0x54);
 
 } // namespace lyt
 } // namespace nw4r

@@ -34,5 +34,6 @@ public:
     CtrlMenuBattleStageSelectCup cupHolder;
     CtrlMenuBattleStageSelectStage courseHolder;
     bool stageSelected;
+    PAD(3);
 };
 size_assert(BattleStageSelectPage, 0x1A84);

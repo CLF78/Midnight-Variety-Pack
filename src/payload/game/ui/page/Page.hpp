@@ -283,6 +283,7 @@ public:
     PageId pageId;
     PageState pageState;
     bool canProceed;
+    PAD(3);
 
     AnimationDirection animId;
     float backTransitionDelay;

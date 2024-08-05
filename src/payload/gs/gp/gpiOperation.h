@@ -25,6 +25,7 @@ typedef struct {
     char authtoken[256];
     char partnerchallenge[256];
     char cdkey[65];
+    PAD(3);
     BOOL newuser;
 } GPIConnectData;
 

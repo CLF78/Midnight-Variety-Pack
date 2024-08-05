@@ -126,7 +126,7 @@ typedef struct {
     GT2Callbacks* gt2Callbacks;
     u8 gt2ConnectCount;
     u8 connectedOnceBefore;
-    // 2 bytes padding
+    PAD(2);
 
     void* qr2; // TODO header
     u8 qr2MatchType;
@@ -134,16 +134,14 @@ typedef struct {
     u8 hostState;
     u8 qr2NumEntry;
     u8 qr2IsReserved;
-    u8 pad;
-    // 2 bytes padding
+    PAD(3);
 
     u32 suspendMatchBitmap;
     s64 suspendRequestTick;
     int suspendMatch;
     u8 suspend;
     u8 suspendServerResponse;
-    u8 pad2;
-    // 1 byte padding
+    PAD(2);
 
     DWCNodeInfoList nodeInfoList;
     DWCNodeInfo tempNewNodeInfo;
@@ -153,13 +151,13 @@ typedef struct {
     DWCNodeInfo tempNodeInfoBeforeStopMeshMaking;
 
     u16 qr2Port;
-    // 2 bytes padding
+    PAD(2);
     u32 qr2IP;
     int qr2Reservation;
 
     void* serverBrowser; // TODO header
     int serverBrowserUpdateFlag;
-    // 4 bytes padding
+    PAD(4);
     s64 serverBrowserUpdateTick;
     s64 serverBrowserUpdateRequestTick;
 
@@ -179,17 +177,17 @@ typedef struct {
     u8 synResendCount;
     u8 cancelSynResendCount;
     u8 clWaitTimeoutCount;
-    u8 _727[3]; // padding
+    PAD(3);
 
     u16 baseLatency;
     u16 cancelBaseLatency;
-    // 2 bytes padding
+    PAD(2);
     u32 natnegResvCheckValue;
 
     int cmdResendFlag;
     s64 cmdResendTick;
     u32 cmdTimeoutTime;
-    // 4 bytes padding
+    PAD(4);
     s64 cmdTimeoutStartTick;
 
     u32 synAckBit;
@@ -228,16 +226,15 @@ typedef struct {
     u8 serverDownNakCount;
     s64 serverPollingTime;
 
-    u8 _8A0;
-    u8 _8A1;
-    // 2 bytes padding
+    UNK(2);
+    PAD(2);
 
     DWCConnectAttemptCallback connectAttemptCallback;
     u8 connUserData[4];
     void* connectAttemptParam;
 
     u32 serverPollingUID;
-    // 4 bytes padding
+    PAD(4);
     s64 suspendWaitTime;
 } DWCMatchControl;
 

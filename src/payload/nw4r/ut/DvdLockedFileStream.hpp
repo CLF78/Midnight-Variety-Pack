@@ -36,6 +36,7 @@ public:
 
     volatile bool cancelFlag;
 };
+size_assert(DvdLockedFileStream, 0x70);
 
 } // namespace ut
 } // namespace nw4r

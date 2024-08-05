@@ -55,6 +55,7 @@ struct NHTTPReq {
     char proxyAddr[256];
     int proxyPort;
     char proxyUsernamePassword[90];
+    PAD(2);
     int proxyUsernamePasswordLen;
 
     u32 soRecvSize;

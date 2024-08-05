@@ -25,8 +25,9 @@ public:
         u8 hostAid;
         DWCConnectionUserData connectionUserDatas[12]; // 1 per aid
         bool matchingSuspended;
-        // 4 bytes padding
+        PAD(4);
     };
+    size_assert(Sub, 0x58);
 
     enum ConnectionState {
         STATE_SHUTDOWN,
@@ -93,7 +94,7 @@ public:
 
     ConnectionState connState;
     WifiDisconnectInfo disconnectInfo;
-    // 4 bytes padding
+    PAD(4);
 
     Sub subs[2];
     SearchType searchType;
@@ -110,9 +111,11 @@ public:
     u8 lastRACESendAid; // The last aid a packet was sent to
 
     // Modified structure
-    // 3 bytes padding
+    PAD(3);
     u8* fullRecvRACEPackets[12];
-    u8 unused[0x25E4 - 0x394];
+    PAD(0x25E4 - 0x394);
+    // u8 fullRecvRACEPackets[12][736];
+    // PAD(3);
 
     RKNetStatusData ownStatus;
     RKNetFriend friendStatus[30];
@@ -122,7 +125,7 @@ public:
     bool _2757; // Something with disc errors
 
     bool profanityCheckFailed;
-    // 3 bytes padding
+    PAD(3);
     int badWordsNum;
 
     // Used for matchmaking
@@ -141,11 +144,11 @@ public:
     // Used for matchmaking
     u16 maxVrGaps[10];
     u16 maxBrGaps[10];
-    // 4 bytes padding
+    PAD(4);
 
     s64 countdownTimers[12]; // Used in RACEHEADER_1
     u32 _29C0; // Another timer
-    // 4 bytes padding
+    PAD(4);
 
     static RKNetController* instance;
     static u32 packetBufferSizes[RKNET_SECTION_COUNT];

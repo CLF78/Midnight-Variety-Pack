@@ -1,7 +1,7 @@
 #pragma once
 #pragma pack(push, 1)
 
-struct RKNetROOMPacket {
+union RKNetROOMPacket {
 
     // TODO expand this so we can send setting updates live
     enum MessageType {
@@ -23,18 +23,16 @@ struct RKNetROOMPacket {
         EVENT_COIN_BT,
     };
 
-    u8 msgType;
-    u16 param1;
-    u8 param2;
-};
-size_assert(RKNetROOMPacket, 0x4);
+    RKNetROOMPacket(u32 data) : raw(data) {}
 
-// TODO remove this if we expand the packet
-union RKNetROOMPacketRaw {
-    RKNetROOMPacketRaw(u32 data) : raw(data) {}
+    struct {
+        u8 msgType;
+        u16 param1;
+        u8 param2;
+    };
 
-    RKNetROOMPacket packet;
     u32 raw;
 };
+size_assert(RKNetROOMPacket, 0x4);
 
 #pragma pack(pop)

@@ -12,5 +12,6 @@ public:
     u8 _56;
     u8 startBoostIdx;
     u8 driftState;
+    PAD(3);
 };
-size_assert(RacedataFactory, 0x5c);
+size_assert(RacedataFactory, 0x5C);

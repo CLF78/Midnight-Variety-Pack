@@ -6,8 +6,9 @@ namespace detail {
 
 class NoteOnCallback {
 public:
-    void* vtable;
+    virtual ~NoteOnCallback();
 };
+size_assert(NoteOnCallback, 0x4);
 
 } // namespace detail
 } // namespace snd

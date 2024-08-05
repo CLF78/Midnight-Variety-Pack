@@ -20,5 +20,6 @@ public:
     VEC3 somePos;
     bool selected;
     u8 fadeDirection; // 0 = entering, 1 = exiting
+    PAD(2);
 };
 size_assert(CtrlMenuCourseSelectCupSub, 0x18C);

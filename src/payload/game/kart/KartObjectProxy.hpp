@@ -45,3 +45,4 @@ public:
 
     void FUN_80591050(int, bool, bool);
 };
+size_assert(KartObjectProxy, 0xC);

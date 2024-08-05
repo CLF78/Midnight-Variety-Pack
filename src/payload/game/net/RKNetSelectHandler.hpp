@@ -65,12 +65,12 @@ public:
     static void getStaticInstance();
 
     int mode;
-    u32 reserved; // previously padding
+    PAD(4);
 
     RKNetSELECTPacket sendPacket;
     RKNetSELECTPacket recvPackets[12];
     u8 lastSentToAid;
-    // 7 bytes padding
+    PAD(7);
 
     s64 lastSentTime;
     s64 lastRecvTimes[12];
@@ -83,7 +83,7 @@ public:
     u32 aidsWithNewRaceSettings;
     u32 aidsWithVoteData;
     u32 aidsThatHaveVoted;
-    u32 reserved2; // previously padding
+    PAD(4);
 
     // Custom data
     RKNetSELECTHandlerEx expansion;

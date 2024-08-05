@@ -59,17 +59,19 @@ public:
 
     JobContext jobContexts[7];
     EGG::TaskThread* taskThread;
-    u8 unused[0x24]; // previously CourseCache
+    PAD(0x24); // previously CourseCache
 
     MenuKartArchive allKartArchives[4];
     bool isGlobeLoadingBusy;
     bool _60D;
+    PAD(2);
 
     EGG::Heap* menuManagerHeap;
     EGG::Heap* globeHeap;
 
     bool requestPending;
     bool requestsEnabled;
+    PAD(2);
 
     static const char* courseNames[67];
     static ResourceManager* instance;

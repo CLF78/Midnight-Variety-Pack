@@ -135,7 +135,7 @@ public:
 
     s32 oobWipeState;
     s16 oobWipeFrame;
-    // 2 bytes padding
+    PAD(2);
 
     float _98;
     float startBoostCharge;
@@ -147,3 +147,4 @@ public:
     VEC3 _A8;
     VEC3 _B4;
 };
+size_assert(KartState, 0xC0);

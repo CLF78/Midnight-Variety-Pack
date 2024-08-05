@@ -16,3 +16,4 @@ struct WifiDisconnectInfo {
     s32 errorCategory;
     s32 errorCode;
 };
+size_assert(WifiDisconnectInfo, 0x8);

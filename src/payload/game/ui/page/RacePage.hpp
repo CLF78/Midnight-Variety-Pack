@@ -54,7 +54,7 @@ public:
 
     Timer timer;
     u8 countdownSeconds;
-    // 3 bytes padding
+    PAD(3);
 
     void* raceCounts; // TODO header
     LayoutUIControl* ghostMessage;
@@ -62,7 +62,7 @@ public:
     bool hasHudPlayer[4];
     u32 spectatedPlayerId;
     bool spectatedPlayerIdChangeRequested;
-    // 3 bytes padding
+    PAD(3);
 
     u32 _6C; // something with ghost races
     void** wifiStartMessages; // TODO header

@@ -15,8 +15,10 @@ public:
     char name[0x20];
     int creatorIdx;
     u32 bitfield;
-    u8 _2C[0x74-0x2c];
+    UNK(0x74 - 0x2C);
+
     nw4r::ef::HandleBase effectHandle;
 };
+size_assert(Effect, 0x7C);
 
 } // namespace EGG

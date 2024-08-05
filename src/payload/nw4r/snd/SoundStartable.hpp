@@ -7,7 +7,7 @@ class SoundStartable {
 public:
 
     enum StartResult {
-        START_SUCCESS = 0,
+        START_SUCCESS,
         START_ERR_LOW_PRIORITY,
         START_ERR_INVALID_LABEL_STRING,
         START_ERR_INVALID_SOUNDID,
@@ -54,7 +54,7 @@ public:
     };
     size_assert(StartInfo, 0x20);
 
-    void* vtable2; // using 2 due to conflicts in SoundArchivePlayer
+    virtual ~SoundStartable();
 };
 size_assert(SoundStartable, 0x4);
 

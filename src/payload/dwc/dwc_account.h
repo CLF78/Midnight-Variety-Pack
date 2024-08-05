@@ -12,7 +12,7 @@ extern "C" {
 
 typedef struct {
     u32 flags;
-    u32 reserved[2];
+    PAD(8);
 } DWCAccFlag;
 
 typedef struct {
@@ -29,7 +29,7 @@ typedef struct {
 typedef struct {
     u32 id_data;
     int id;
-    u32 reserved;
+    PAD(4);
 } DWCGsProfileId;
 
 typedef union {
@@ -54,7 +54,7 @@ typedef struct {
     int gs_profile_id;
     int flag;
     u32 gamecode;
-    int reserved[5];
+    PAD(20);
     u32 crc32;
 } DWCUserData;
 

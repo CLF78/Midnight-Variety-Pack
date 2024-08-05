@@ -31,12 +31,14 @@ typedef struct {
     void* http;
     u64 startTick;
     u32 connectFlag;
+    PAD(4);
+
     u64 connectTick;
     DWCLoginId tempLoginId;
     char authToken[256];
     char partnerChallenge[256];
     char username[21];
-    u8 unk2[7];
+    PAD(7);
 } DWCLoginControl;
 
 extern DWCLoginControl* stpLoginCnt;

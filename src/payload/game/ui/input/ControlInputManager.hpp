@@ -2,8 +2,8 @@
 
 class ControlInputManager {
 public:
-    u8 unk[0x75];
+    UNK(0x75);
     bool unselectable;
-    u8 unk2[0xE];
+    UNK(0x84 - 0x76);
 };
 size_assert(ControlInputManager, 0x84);

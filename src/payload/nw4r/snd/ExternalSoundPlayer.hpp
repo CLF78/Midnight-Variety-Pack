@@ -10,6 +10,7 @@ public:
     ut::LinkListImpl soundList;
     int playableCount;
 };
+size_assert(ExternalSoundPlayer, 0x10);
 
 } // namespace detail
 } // namespace snd

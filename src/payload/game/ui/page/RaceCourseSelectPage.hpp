@@ -36,5 +36,6 @@ public:
     CtrlMenuCourseSelectCup cupHolder;
     CtrlMenuCourseSelectCourse courseHolder;
     bool courseSelected;
+    PAD(3);
 };
 size_assert(RaceCourseSelectPage, 0x2160);

@@ -11,17 +11,19 @@ typedef struct {
     GT2Callbacks gt2Callbacks;
     int gt2SendBufSize;
     int gt2RecvBufSize;
-    u8 unk[0x88 - 0x1C];
+    UNK(0x88 - 0x1C);
+
     DWCMatchedCallback userMatchedCallback;
     void* userMatchedCallbackParam;
-    u8 unk2[0x360 - 0x90];
+    UNK(0x360 - 0x90);
+
     DWCMatchControl matchControl;
 } DWCControl; // TODO finish header
 
 typedef struct {
     u8 index;
     u8 aid;
-    u16 pad;
+    PAD(2);
     u32 profileId;
 } DWCConnectionInfo;
 

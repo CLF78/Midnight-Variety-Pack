@@ -63,6 +63,7 @@ typedef void (*Func)();
 #define PAD(bytes) _PAD(pad, __COUNTER__, bytes)
 #define _STRINGIFY(x) #x
 #define STRINGIFY(x) _STRINGIFY(x)
+#define UNK(bytes) _PAD(unk, __COUNTER__, bytes)
 
 #ifdef __CLANGD__
     #define AT_ADDR(addr)

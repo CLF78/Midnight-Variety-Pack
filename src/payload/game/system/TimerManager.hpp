@@ -14,10 +14,10 @@ public:
     bool raceTimeout;
     bool raceStarted;
     bool timerReversed;
-    // 1 byte padding
+    PAD(1);
 
     u32 raceDurationMillis;
     s32 raceFrameCounter;
-    u32 _4C; // unused
+    PAD(4);
 };
 size_assert(TimerManager, 0x50);

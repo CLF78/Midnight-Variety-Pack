@@ -47,6 +47,6 @@ public:
     };
 
     HeapCollection heapCollection;
-    u8 _C3C[0xC70 - 0xC3C]; // unused
+    PAD(0xC70 - 0xC3C);
 };
 size_assert(Scene, 0xC70);

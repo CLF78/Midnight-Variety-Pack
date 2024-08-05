@@ -62,6 +62,7 @@ public:
     int playerState;
     int friendToJoin;
     u8 localPlayerCount;
+    PAD(3);
 
     int playerRoomState;
     int nextPage;

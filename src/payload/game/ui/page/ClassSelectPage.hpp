@@ -24,6 +24,7 @@ public:
     virtual void setupButton(PushButton* button);
 
     bool switchModeOff;
+    PAD(3);
     LayoutUIControl switchButton;
 
     static u32 engineClasses[6];

@@ -69,7 +69,7 @@ typedef struct {
     s16 y; // 0 <= value <= 768
     u16 size;
     u8 traceId;
-    // 1 byte padding
+    PAD(1);
 } DPDObject;
 
 typedef struct {
@@ -79,6 +79,7 @@ typedef struct {
 
     u8 deviceType;
     s8 errorCode;
+    PAD(2);
 } WPADStatus;
 
 typedef struct {
@@ -91,6 +92,7 @@ typedef struct {
 
     s16 nunchukAccelX, nunchukAccelY, nunchukAccelZ; // -512 <= value <= 512
     s8 stickX, stickY;                               // -128 <= value <= 128
+    PAD(2);
 } WPADFSStatus;
 
 typedef struct {
@@ -105,6 +107,7 @@ typedef struct {
     s16 leftStickX, leftStickY;   // -512 <= value <= 512
     s16 rightStickX, rightStickY; // -512 <= value <= 512
     u8 leftTrigger, rightTrigger; // always zero
+    PAD(2);
 } WPADCLStatus;
 
 s32 WPADProbe(s32 chan, u32* type);

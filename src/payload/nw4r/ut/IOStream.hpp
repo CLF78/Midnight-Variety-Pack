@@ -24,6 +24,8 @@ public:
     virtual u32 GetBufferAlign() const = 0;
 
     bool available;
+    PAD(3);
+
     s32 asyncResult;
     IOStreamCallback callback;
     void* arg;

@@ -3,14 +3,17 @@
 namespace nw4r {
 namespace snd {
 namespace detail {
-namespace WsdPlayer { // not an actual namespace
 
-class WsdCallback {
+class WsdPlayer {
 public:
-    void* vtable;
+
+    class WsdCallback {
+    public:
+        virtual ~WsdCallback();
+    };
+    size_assert(WsdCallback, 0x4);
 };
 
-} // namespace WsdPlayer
 } // namespace detail
 } // namespace snd
 } // namespace nw4r

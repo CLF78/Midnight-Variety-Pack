@@ -77,7 +77,7 @@ typedef struct {
         WPADCLStatus cl;
     } u;
     u8 fmt;
-    u8 padding;
+    PAD(1);
 } KPADUnifiedWpadStatus;
 
 s32 KPADRead(s32 controller, KPADStatus samplingBufs[], u32 controllerCount);

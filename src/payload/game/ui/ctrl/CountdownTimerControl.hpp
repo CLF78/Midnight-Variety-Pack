@@ -14,5 +14,6 @@ public:
 
     UIControlTimer* timer;
     bool _178;
+    PAD(3);
 };
 size_assert(CountdownTimerControl, 0x17C);

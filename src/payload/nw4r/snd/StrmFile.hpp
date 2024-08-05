@@ -10,6 +10,7 @@ public:
     struct StrmTrackInfo {
         u8 volume;
         u8 pan;
+        PAD(2);
         int channelCount;
         u8 channelIndexTable[32];
     };

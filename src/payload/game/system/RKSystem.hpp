@@ -30,6 +30,7 @@ public:
     void* heapSystemThread;
     u32 _2C;
     u32 _30;
+
     u32 sysHeapSize;
     u32 gxFifoBufSize;
     void* renderMode;
@@ -41,6 +42,7 @@ public:
     EGG::SceneManager* sceneManager;
     EGG::ExpHeap* kpadWorkHeap;
     u32 _5C;
+
     EGG::ExpHeap* relLinkHeap;
     EGG::ExpHeap* heapSystem2;
     u8 frameClock;
@@ -48,6 +50,8 @@ public:
     bool drawFrame;
     u8 _6B;
     u8 _6C;
+    PAD(3);
+
     u32 _70;
 
     static RKSystem instance;
