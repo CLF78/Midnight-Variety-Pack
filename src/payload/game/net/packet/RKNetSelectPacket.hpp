@@ -64,9 +64,7 @@ struct RKNetSELECTPacket {
 };
 size_assert(RKNetSELECTPacket, 0x38);
 
-// TODO add whatever else we might need in the future
 struct RKNetSELECTPacketExpansion {
-
     RKNetSELECTPacketExpansion() :
         courseVote(CupData::UNDECIDED_TRACK_VOTE),
         winningCourse(CupData::NO_TRACK),

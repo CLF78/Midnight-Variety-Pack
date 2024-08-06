@@ -40,7 +40,6 @@ kmWrite32(0x8084E5AC, 0x60000000);
 /////////////////////////
 
 // Go to transmission select instead of vehicle select when pressing back
-// TODO use loadPrevPageWithDelayById when the MenuPage functions are fixed
 REPLACE void DriftSelectPage::onBackPress(u32 hudSlotId) {
     loadPrevPageWithDelayById(Page::TRANSMISSION_SELECT, 0.0f);
 }

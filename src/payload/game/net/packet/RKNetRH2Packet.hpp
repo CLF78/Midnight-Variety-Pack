@@ -1,6 +1,5 @@
 #pragma once
 
-// TODO actual structure
 struct RKNetRH2Packet {
     u8 data[0x28];
 };
