@@ -32,7 +32,7 @@ void ShowMainInfo_(OSError error, const OSContext* context, u32 dsisr, u32 dar) 
         case OS_ERROR_DSI:
             Exception_Printf_("Invalid access at address %08X", context->srr0);
             break;
-    
+
         case OS_ERROR_ISI:
             Exception_Printf_("Jump to invalid address %08X", context->srr0);
             break;
@@ -83,9 +83,9 @@ void ShowMainInfo_(OSError error, const OSContext* context, u32 dsisr, u32 dar) 
             } else if (fpscr & FPSCR_OX)
                 Exception_Printf_("Overflow");
             else if (fpscr & FPSCR_UX)
-                Exception_Printf_("Underflow"); 
+                Exception_Printf_("Underflow");
             else if (fpscr & FPSCR_ZX)
-                Exception_Printf_("Division by zero"); 
+                Exception_Printf_("Division by zero");
             else if (fpscr & FPSCR_XX)
                 Exception_Printf_("Inexact result");
 

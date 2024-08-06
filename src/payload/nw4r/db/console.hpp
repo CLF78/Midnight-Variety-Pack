@@ -30,7 +30,7 @@ struct ConsoleHead {
     s16 displayPosX;
     s16 displayPosY;
     u16 displayLineCount; // Lines to display at once
-    
+
     bool isVisible;
     PAD(1);
 

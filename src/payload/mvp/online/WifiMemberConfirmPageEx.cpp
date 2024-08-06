@@ -186,7 +186,7 @@ void WifiMemberConfirmPageEx::afterCalc() {
 
     if (timer->value > 0.0f)
         return;
-    
+
     // Ensure the pointer is nulled to prevent running this twice
     if (rulePopup) {
         rulePopup->handleFront();

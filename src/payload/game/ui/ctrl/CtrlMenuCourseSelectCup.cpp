@@ -18,7 +18,7 @@ REPLACE void CtrlMenuCourseSelectCup::initSelf() {
 
         // Get cup
         CtrlMenuCourseSelectCupSub* cup = &cups[i];
-        
+
         // Set name
         u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage);
         u16 cupName = CupManager::GetCupList()[cupIdx].cupName;

@@ -4,7 +4,7 @@
 #include <game/system/ResourceManager.hpp>
 
 class ModelDirector {
-public:    
+public:
     static void bindBRRES(void* file, MultiDvdArchive::Type type, const char* brresName);
     static void bindBRRESFallback(void* file, MultiDvdArchive::Type type, const char* brresName, const void* fallbackFile);
     static void bindBRRESImpl(void* file, const char* name, const void* fallbackFile, u32 unused);

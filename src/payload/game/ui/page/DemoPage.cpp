@@ -60,7 +60,7 @@ REPLACE void DemoPage::onInit() {
 
         // Set the text depending on the race number
         topText.setText(Message::Race::GP_RACE_1 + raceSettings->raceNumber, &msgInfo);
-    
+
     } else if (curSection == Section::DEMO_VS) {
 
         // Set the VS flag as the icon
@@ -100,7 +100,7 @@ REPLACE void DemoPage::onInit() {
                     Message::Race::VS;
 
         topText.setText(msgId, &msgInfo);
-    
+
     } else if (curSection == Section::DEMO_BT) {
 
         // Update race number
@@ -128,7 +128,7 @@ REPLACE void DemoPage::onInit() {
             insertChild(childIdx++, blueBubble, 0);
             blueBubble->load(true, i);
         }
-    
+
     // On other modes, hide the top text altogether
     } else {
         topText.hidden = true;

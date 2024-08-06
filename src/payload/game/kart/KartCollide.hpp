@@ -33,7 +33,7 @@ enum KCLTypes {
     KCL_HALFPIPE_INVIS_WALL,
     KCL_ROULETTE_MOVING_ROAD,
     KCL_SPECIAL_WALL,
-    KCL_WALL5                   
+    KCL_WALL5
 };
 
 enum KCLBitfield {

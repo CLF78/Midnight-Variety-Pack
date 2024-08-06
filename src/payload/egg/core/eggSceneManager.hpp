@@ -1,7 +1,7 @@
 #pragma once
 
 namespace EGG {
-    
+
 class ColorFader;
 class Scene;
 

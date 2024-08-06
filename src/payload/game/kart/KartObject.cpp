@@ -21,7 +21,7 @@ REPLACE_STATIC KartObject* KartObject::Create(u8 playerIdx, int kart, int charac
         for (int i = 0; i < ARRAY_SIZE(stats->standard_acceleration_as); i++)
             stats->standard_acceleration_as[i] *= KartMove::speedModifiers[engineClass];
     }
-    
+
     // Apply transmission changes
     switch(raceConfig->raceScenario.players[playerIdx].transmission) {
 
