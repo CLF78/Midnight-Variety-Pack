@@ -1,7 +1,7 @@
 #include "SaveExpansionLicense.hpp"
 #include <revolution/os/OS.h>
 
-bool SaveExpansionLicense::Header::IsValid(u32 licenseSize) {
+bool SaveExpansionLicense::Header::IsValid(u32 licenseSize) const {
 
     // Check magic
     if (magic != SAVEEX_LICENSE_MAGIC)
@@ -12,7 +12,7 @@ bool SaveExpansionLicense::Header::IsValid(u32 licenseSize) {
         return false;
 
     // Ensure each section offset is in the license
-    u32* sectionOffsData = &sectionOffsets[0];
+    const u32* sectionOffsData = &sectionOffsets[0];
     for (int i = 0; i < sectionCount; i++) {
         if (sectionOffsData[i] > licenseSize)
             return false;
@@ -30,7 +30,7 @@ SaveExpansionLicense::SaveExpansionLicense() {
     }
 }
 
-u32 SaveExpansionLicense::GetRequiredSpace() {
+u32 SaveExpansionLicense::GetRequiredSpace() const {
 
     // Get the base header size
     u32 requiredSpace = offsetof(SaveExpansionLicense::Header, sectionOffsets);

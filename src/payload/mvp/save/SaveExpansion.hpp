@@ -6,7 +6,7 @@ public:
 
     struct Header {
 
-        bool IsValid(u32 fileSize);
+        bool IsValid(u32 fileSize) const;
 
         u32 magic;
         u32 revision;
@@ -17,7 +17,7 @@ public:
     };
 
     SaveExpansion();
-    u32 GetRequiredSpace();
+    u32 GetRequiredSpace() const;
     void Init();
     bool Read(u8* buffer, u32 bufferSize);
     void Write();

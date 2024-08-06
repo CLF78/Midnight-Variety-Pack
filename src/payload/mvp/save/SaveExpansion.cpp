@@ -4,7 +4,7 @@
 #include <revolution/os/OS.h>
 #include <revolutionex/net/NETDigest.h>
 
-bool SaveExpansion::Header::IsValid(u32 fileSize) {
+bool SaveExpansion::Header::IsValid(u32 fileSize) const {
 
     // Check magic
     if (magic != SAVEEX_MAGIC)
@@ -23,7 +23,7 @@ bool SaveExpansion::Header::IsValid(u32 fileSize) {
         return false;
 
     // Ensure each license offset is in the file
-    u32* licenseOffsData = &licenseOffsets[0];
+    const u32* licenseOffsData = &licenseOffsets[0];
     for (int i = 0; i < licenseCount; i++) {
         if (licenseOffsData[i] > fileSize)
             return false;
@@ -44,7 +44,7 @@ SaveExpansion::SaveExpansion() : mWriteBufferSize(GetRequiredSpace()) {
     Write();
 }
 
-u32 SaveExpansion::GetRequiredSpace() {
+u32 SaveExpansion::GetRequiredSpace() const {
 
     // Get the base header size
     u32 requiredSpace = offsetof(SaveExpansion::Header, licenseOffsets);

@@ -20,7 +20,7 @@ public:
 
     virtual void process();
     virtual void updatePausePosition(float delta);
-    virtual nw4r::lyt::Pane* getPane();
+    virtual nw4r::lyt::Pane* getPane() const;
 
     virtual bool shouldHide();
     virtual bool shouldActivate();

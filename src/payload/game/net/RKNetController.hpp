@@ -49,30 +49,30 @@ public:
         SEARCH_BT_REG,
     };
 
-    Sub* getCurrentSub() {
+    const Sub* getCurrentSub() const {
         return &subs[currentSub];
     }
 
-    RKNetPacketHolder* getPacketSendBuffer(u8 aid, u8 section) {
+    RKNetPacketHolder* getPacketSendBuffer(u8 aid, u8 section) const {
         return splitSendRACEPackets[lastSendBufferUsed[aid]][aid]->sections[section];
     }
 
-    RKNetPacketHolder* getPacketRecvBuffer(u8 aid, u8 section) {
+    RKNetPacketHolder* getPacketRecvBuffer(u8 aid, u8 section) const {
         return splitRecvRACEPackets[lastRecvBufferUsed[aid][section]][aid]->sections[section];
     }
 
-    bool isPlayerHost() {
-        Sub* sub = getCurrentSub();
+    bool isPlayerHost() const {
+        const Sub* sub = getCurrentSub();
         return sub->myAid == sub->hostAid;
     }
 
-    bool isLocalPlayer(u8 aid) {
-        Sub* sub = getCurrentSub();
+    bool isLocalPlayer(u8 aid) const {
+        const Sub* sub = getCurrentSub();
         return aid == sub->myAid;
     }
 
-    bool isConnectedPlayer(u8 aid) {
-        Sub* sub = getCurrentSub();
+    bool isConnectedPlayer(u8 aid) const {
+        const Sub* sub = getCurrentSub();
         if (isLocalPlayer(aid)) return false;
         return (1 << aid) & sub->availableAids;
     }

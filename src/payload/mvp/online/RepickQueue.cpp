@@ -21,7 +21,7 @@ void RepickQueue::RawQueue::Push(u16 track) {
     }
 }
 
-u8 RepickQueue::RawQueue::GetQueuePosition(u16 track) {
+u8 RepickQueue::RawQueue::GetQueuePosition(u16 track) const {
 
     // Treat random track votes as a track not in the queue
     if (track == CupData::RANDOM_TRACK_VOTE) return NOT_IN_QUEUE;
@@ -50,7 +50,7 @@ void RepickQueue::AddVote(u8 aid, u16 vote) {
     }
 }
 
-RepickQueue::Vote RepickQueue::GetWinningVote() {
+RepickQueue::Vote RepickQueue::GetWinningVote() const {
 
     // Get the maximum queue position and the amount of votes with said queue position
     u8 maxPos = 0;

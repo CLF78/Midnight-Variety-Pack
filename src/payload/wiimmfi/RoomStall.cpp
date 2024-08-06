@@ -26,7 +26,7 @@ void Update() {
     sKickTimer = 0;
 
     // Get the full aid map
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
     RKNetSELECTHandler* sel = RKNetSELECTHandler::instance;
     u32 aidMap = sub->availableAids | (1 << sub->myAid);
 

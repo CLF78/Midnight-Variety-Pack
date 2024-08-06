@@ -41,7 +41,7 @@ REPLACE void RKNetPacketCreator::createRH1Racer() {
         packet.aidPidMap = RKNetController::instance->aidPidMap;
 
         // All the following data is not sent in the spectator version of the function
-        RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+        const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
         if ((1 << sub->myAid) & sub->availableAids)
             packet.lagFrames = lagFrames;
 

@@ -204,7 +204,7 @@ public:
         SECTION_COUNT,
     };
 
-    Page* getPage(Page::PageId page) {
+    Page* getPage(Page::PageId page) const {
         if (page < Page::ORIGINAL_PAGE_COUNT) {
             return pages[page];
         } else if (page < Page::PAGE_COUNT) {

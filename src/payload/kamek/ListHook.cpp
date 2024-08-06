@@ -1,5 +1,5 @@
 
-void kmListHook::execute() {
+void kmListHook::execute() const {
     kmListHookNode* curr = head;
     while (curr != nullptr) {
         curr->func();

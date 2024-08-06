@@ -38,9 +38,9 @@ public:
     void decideTrack();
     void copyRepickQueue() { expansion.sendPacketEx.repickQueue = RepickQueue::instance.queue; }
 
-    bool raceSettingsDetermined() { return sendPacket.battleTeamData.raw != 0; }
-    bool trackVoted() { return expansion.sendPacketEx.courseVote != CupData::UNDECIDED_TRACK_VOTE; }
-    bool voteDetermined() { return expansion.sendPacketEx.winningCourse != CupData::NO_TRACK; }
+    bool raceSettingsDetermined() const { return sendPacket.battleTeamData.raw != 0; }
+    bool trackVoted() const { return expansion.sendPacketEx.courseVote != CupData::UNDECIDED_TRACK_VOTE; }
+    bool voteDetermined() const { return expansion.sendPacketEx.winningCourse != CupData::NO_TRACK; }
 
     void storeUpdatedRaceSettings(u8 aid);
     bool checkUpdatedRaceSettings(u8 aid);

@@ -92,7 +92,7 @@ bool RKNetSELECTHandler::checkUpdatedRaceSettingsAll() {
         return false;
 
     // If i am host and the settings have been determined, add me to the list of updated AIDs
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
     if (raceSettingsDetermined())
         aidsWithNewRaceSettings |= 1 << sub->myAid;
 
@@ -118,7 +118,7 @@ bool RKNetSELECTHandler::checkVoteAll() {
         return false;
 
     // If i am host and i have voted, add me to the list
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
     if (trackVoted())
         aidsThatHaveVoted |= 1 << sub->myAid;
 
@@ -143,7 +143,7 @@ bool RKNetSELECTHandler::checkUpdatedVoteDataAll() {
         return false;
 
     // If i am host and the vote result has been determined, add me to the list of updated AIDs
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
     if (voteDetermined())
         aidsWithVoteData |= 1 << sub->myAid;
 
@@ -158,7 +158,7 @@ REPLACE void RKNetSELECTHandler::calcPhase() {
         return;
 
     // Get current sub and outgoing packet expansion
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
     RKNetSELECTPacketExpansion* sendPacketEx = &expansion.sendPacketEx;
 
     // Parse each received packet
@@ -386,7 +386,7 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
     bool isBattle = (mode == MODE_PRIVATE_BATTLE || mode == MODE_PUBLIC_BATTLE);
 
     // Bail if no one is connected
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
     if (sub->playerCount <= sub->localPlayerCount) return;
 
     // Collect every player's vote

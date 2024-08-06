@@ -15,7 +15,7 @@ void MessageQueue::Clear() {
     queueEnabled = false;
 }
 
-int MessageQueue::GetMessageCount(u32 localPlayerCount) {
+int MessageQueue::GetMessageCount(u32 localPlayerCount) const {
     switch (localPlayerCount) {
         case 1:
             return ARRAY_SIZE(entries[0]);

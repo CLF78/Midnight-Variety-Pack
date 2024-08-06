@@ -12,8 +12,8 @@ public:
 
     void onButtonClick(PushButton* button, u32 hudSlotId);
 
-    int getButtonCount() {
-        return 2 + ARRAY_SIZE(extraRaceButtons);
+    static int getButtonCount() {
+        return 2 + ARRAY_SIZE_STATIC(WifiModeSelectPageEx, extraRaceButtons);
     }
 
     PushButton* getButton(int idx) {

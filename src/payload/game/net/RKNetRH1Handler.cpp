@@ -71,7 +71,7 @@ REPLACE bool RKNetRH1Handler::isTrackAvailable() {
         return false;
 
     // Everyone must have updated RH1, if not bail
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
     u32 mask = sub->availableAids & (aidsWithUpdatedRH1 | (1 << sub->myAid));
     if (sub->availableAids != mask)
         return false;

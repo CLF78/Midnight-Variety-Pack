@@ -50,7 +50,7 @@ union RKNetEngineClassData {
     RKNetEngineClassData() : raw(0) {}
     explicit RKNetEngineClassData(u8 data) : raw(data) {}
 
-    int getEngineClass() {
+    int getEngineClass() const {
         switch(engineClass) {
             case CLASS_100CC:
                 return RaceConfig::Settings::CC_100;
@@ -96,7 +96,7 @@ union RKNetEngineClassData {
         }
     }
 
-    int getIsMirrorFlag() {
+    int getIsMirrorFlag() const {
         if (engineClass == CLASS_150CC_MIRROR) return RaceConfig::Settings::FLAG_MIRROR;
         return isMirror ? RaceConfig::Settings::FLAG_MIRROR : RaceConfig::Settings::FLAG_NONE;
     }

@@ -1,6 +1,6 @@
 #include "Random.hpp"
 
-Random::Random(u32* seedValue) {
+Random::Random(const u32* seedValue) {
 
     // Replace the seed if provided
     if (seedValue) {

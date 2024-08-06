@@ -2,7 +2,7 @@
 
 Logger Logger::Instance;
 
-void Logger::HaltWrapper(const char* fmt, ...) {
+void Logger::HaltWrapper(const char* fmt, ...) const {
 
     // Set up buffer and va_list
     char buffer[512];
