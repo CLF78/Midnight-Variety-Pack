@@ -15,8 +15,6 @@
 // Show the author display for the current track
 kmListHookDefCpp(RaceUpdateHook) {
     RaceManager* self = RaceManager::instance;
-    RaceConfig::Settings* settings = &RaceConfig::instance->raceScenario.settings;
-
     static bool fastMusicShown = false;
     static bool normalMusicShown = false;
 

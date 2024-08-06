@@ -23,7 +23,8 @@ public:
     void copyPlayerMiis();
 
     void setPlayerStarRank(u32 playerId, u8 starRank) {
-        playerStarRanks[playerId] = (starRank < 12) ? starRank + Message::Common::STAR_RANK_MIN : 0; 
+        bool valid = starRank <= (Message::Common::STAR_RANK_MAX - Message::Common::STAR_RANK_MIN);
+        playerStarRanks[playerId] = valid ? starRank + Message::Common::STAR_RANK_MIN : Message::NONE;
     }
 
     UNK(0x60);

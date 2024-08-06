@@ -1,12 +1,13 @@
 #pragma once
 #include "KartObjectProxy.hpp"
+#include <game/net/packet/RKNetRacedataPacket.hpp>
 
 class RacedataFactory : public KartObjectProxy {
 public:
     virtual ~RacedataFactory();
 
     void* flags;
-    u8 packet[0x40];
+    RKNetRACEDATAPacket packet;
     u8 trickType;
     u8 trickWheelieInput;
     u8 _56;

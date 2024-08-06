@@ -32,7 +32,7 @@ typedef enum {
     DWC_REPORT_ALL             = 0xFFFFFFFF,
 } DWCReportFlag;
 
-void DWC_Printf(DWCReportFlag level, const char* fmt, ...);
+void DWC_Printf(DWCReportFlag flag, const char* fmt, ...);
 
 #ifdef  __cplusplus
 }

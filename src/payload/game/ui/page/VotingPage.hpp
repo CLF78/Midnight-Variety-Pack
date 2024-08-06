@@ -1,6 +1,7 @@
 #pragma once
 #include "Page.hpp"
 #include <game/ui/InputHandler.hpp>
+#include <game/ui/SectionManager.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
 #include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>
 #include <game/ui/ctrl/LayoutUIControl.hpp>

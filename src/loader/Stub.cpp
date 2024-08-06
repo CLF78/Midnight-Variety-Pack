@@ -73,12 +73,13 @@ kmCallDefCpp(0x800060BC, void) {
 
 // __start() patch
 // Initial hook for patches that need to be applied at game boot (replaces __get_debug_bba)
-kmCallDefCpp(0x800061EC, u32) {
+kmCallDefCpp(0x800061EC, BOOL) {
 
     // Disable the codehandler by BLRing the first instruction
     // This is not tamper-proof but it should be enough to deter any idiot that would cheat...
-    if (__LOG_LEVEL__ != Logger::DEBUG) __CodeHandlerStart = 0x4E800020;
+    if (__LOG_LEVEL__ != Logger::DEBUG)
+        __CodeHandlerStart = 0x4E800020;
 
-    // Return 0 to match original call
-    return 0;
+    // Return original value
+    return FALSE;
 }

@@ -25,7 +25,8 @@ struct CompetitionSettings {
     u16 _4C;
     u16 _4E;
     u16 cannonFlag;
-    UNK(6);
+    UNK(0x58 - 0x52);
+
     u16 cpuCount;
     CharacterVehicleChoice cpuCombos[11];
 };

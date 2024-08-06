@@ -5,20 +5,21 @@ public:
 
     enum BoostType {
         MT_OR_START,
-        UMT, // unused - was STAR
+        UMT, // Custom value, previously STAR
         MUSHROOM_OR_BOOST_PANEL,
-        BULLET_BILL, // unused
+        BULLET_BILL, // Unused
         TRICK_OR_ZIPPER,
-        MEGA_MUSHROOM, // unused
+        MEGA_MUSHROOM, // Unused
         BOOST_TYPE_COUNT,
     };
+
     KartBoost();
+    virtual ~KartBoost();
+
     void reset();
     void activate(u32 type, s16 frames);
-    void cancelAll(); 
+    void cancelAll();
     bool calc(bool* noBoost);
-
-    virtual ~KartBoost();
 
     s16 timers[BOOST_TYPE_COUNT];
     u16 boostTypes;

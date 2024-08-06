@@ -4,8 +4,7 @@
 extern "C" {
 #endif
 
-#define DWC_ACC_MASKBITS(bits) (((1 << bits) - 1))
-
+#define DWC_ACC_MASKBITS(bits) (((1 << (bits)) - 1))
 #define DWC_ACC_FLAGS_SHIFT 11
 #define DWC_ACC_FLAGS_BITS 21
 #define DWC_ACC_FLAGS_MASK DWC_ACC_MASKBITS(DWC_ACC_FLAGS_BITS)

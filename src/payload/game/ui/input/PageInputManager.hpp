@@ -6,6 +6,15 @@
 
 class PageInputManager : public MenuInputManager {
 public:
+    RUNTIME_TYPE_INFO_NODECL;
+    virtual ~PageInputManager();
+
+    virtual void init(u32 playerFlags, bool isMultiPlayer);
+    virtual void checkActions();
+    virtual void activate(u32 hudSlotId, u32 localPlayerBitfield2, bool isMultiplayer);
+    virtual void onReset();
+    virtual void onActivate(bool isMultiPlayer);
+
     InputHandler2<LayoutUIControl, void, u32, u32>* handlers[INPUT_COUNT];
     bool isTriggered[INPUT_COUNT];
     PAD(3);

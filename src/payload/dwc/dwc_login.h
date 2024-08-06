@@ -1,6 +1,7 @@
 #pragma once
 #include "dwc_account.h"
 #include "dwc_error.h"
+#include <gs/gp/gp.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,7 +20,7 @@ typedef enum {
 typedef void (*DWCLoginCallback)(DWCError error, int profileID, void* param);
 
 typedef struct {
-    void* gpConnection;
+    GPConnection gpConnection;
     DWCLoginState state;
     int productID;
     u32 gamecode;

@@ -19,15 +19,15 @@ public:
     RUNTIME_TYPE_INFO_NODECL;
     virtual ~MenuInputManager();
     virtual void init(u32 playerFlags, bool isMultiPlayer);
-    virtual void vf_14();
-    virtual void vf_18();
-    virtual void vf_1c();
+    virtual void* getHolderList() const;
+    virtual void checkActions();
+    virtual void activate(u32 hudSlotId, u32 localPlayerBitfield2, bool isMultiplayer);
+    virtual void onDeactivate(bool isMultiplayer);
+    virtual void onReset();
     virtual void onActivate(bool isMultiPlayer);
-    virtual void vf_24();
-    virtual void vf_28();
-    virtual void vf_2c();
-    virtual void vf_30();
-    virtual void vf_34();
+    virtual void update();
+    virtual bool isPointerEnabled();
+    virtual bool checkPlayerPointer();
 
     u32 playerFlags;
     u32 playerEnabledFlags; // (1 << player) to enable inputs for player X

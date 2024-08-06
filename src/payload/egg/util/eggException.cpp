@@ -90,7 +90,7 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
         if (OSGetCurrentThread()) {
             if (wiimoteStatus.buttonsHeld & WPAD_BUTTON_HOME ||
                 gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_START ||
-                (isClassic && unifiedStatus.u.cl.buttons & WPAD_CL_BUTTON_HOME)) {
+                (isClassic && unifiedStatus.cl.buttons & WPAD_CL_BUTTON_HOME)) {
                     SystemManager::ReturnToMenu();
             }
         }
@@ -102,8 +102,8 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
                    !!(gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_UP));
 
         if (isClassic) {
-            up |= !!(unifiedStatus.u.cl.buttons & WPAD_CL_BUTTON_UP);
-            down |= !!(unifiedStatus.u.cl.buttons & WPAD_CL_BUTTON_DOWN);
+            up |= !!(unifiedStatus.cl.buttons & WPAD_CL_BUTTON_UP);
+            down |= !!(unifiedStatus.cl.buttons & WPAD_CL_BUTTON_DOWN);
         }
 
         // Check Gamecube Controller stick
@@ -115,8 +115,8 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
         }
 
         // Check Classic Controller left stick
-        if (isClassic && CheckCLStickThreshold(unifiedStatus.u.cl.leftStickY)) {
-            if (unifiedStatus.u.cl.leftStickY < 0)
+        if (isClassic && CheckCLStickThreshold(unifiedStatus.cl.leftStickY)) {
+            if (unifiedStatus.cl.leftStickY < 0)
                 down = true;
             else
                 up = true;

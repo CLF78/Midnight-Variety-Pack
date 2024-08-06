@@ -39,8 +39,16 @@ public:
 
     RUNTIME_TYPE_INFO_NODECL;
     virtual ~MultiControlInputManager();
-
     virtual void init(u32 playerFlags, bool isMultiplayer);
+    virtual void* getHolderList() const;
+    virtual void checkActions();
+    virtual void activate(u32 hudSlotId, u32 localPlayerBitfield2, bool isMultiplayer);
+    virtual void onDeactivate(bool isMultiplayer);
+    virtual void onReset();
+    virtual void onActivate(bool isMultiPlayer);
+    virtual void update();
+    virtual bool isPointerEnabled();
+    virtual bool checkPlayerPointer();
 
     typedef int (*calcDistanceFunc)(Player* src, Player* dest, u32 direction);
     void setDistanceFunc(int wrapType);
