@@ -12,9 +12,10 @@
 ///////////////////////
 
 // Add the additional cup buttons and replace some handlers
-BattleStageSelectPageEx::BattleStageSelectPageEx() : cups(), onRepickPromptPressHandler(this, &onRepickPromptPress) {
-    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
-    SET_HANDLER_FUNC(onBackPressHandler, onBackPress);
+BattleStageSelectPageEx::BattleStageSelectPageEx() :
+    onRepickPromptPressHandler(this, &onRepickPromptPress) {
+        SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
+        SET_HANDLER_FUNC(onBackPressHandler, onBackPress);
 }
 
 void BattleStageSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button) {

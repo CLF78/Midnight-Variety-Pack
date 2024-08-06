@@ -18,7 +18,7 @@ public:
         Data mData[];
     };
 
-    SaveExpansionRating() { mData = new Data[GetEntryCount()]; }
+    SaveExpansionRating() : mData(new Data[GetEntryCount()]) {  }
     virtual u32 GetMagic() { return 'RTNG'; }
     virtual u32 GetRequiredSpace() { return offsetof(RawData, mData) + sizeof(Data) * GetEntryCount(); }
 

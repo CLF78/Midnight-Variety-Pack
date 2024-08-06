@@ -4,8 +4,7 @@
 
 class WifiMemberConfirmPageEx : public WifiMemberConfirmPage {
 public:
-    WifiMemberConfirmPageEx() : ruleButton(), changeComboButton(),
-                                onRuleButtonClickHandler(this, &onRuleButtonClick),
+    WifiMemberConfirmPageEx() : onRuleButtonClickHandler(this, &onRuleButtonClick),
                                 rulePopup(nullptr) {}
     virtual ~WifiMemberConfirmPageEx() {}
 

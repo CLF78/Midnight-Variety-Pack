@@ -19,14 +19,10 @@ struct RKNetRH1Packet {
     explicit RKNetRH1Packet(u8 plrType) :
         frameCount(0),
         randomSeed(0),
-        battleTeamData(),
         lagFrames(0),
-        playerCombos(),
         countdownTime(0),
         vanillaCourse(CupData::VANILLA_NO_TRACK),
         playerType(plrType),
-        aidPidMap(),
-        engineClass(),
         reserved(0),
         course(CupData::NO_TRACK) { starRanks[0] = 0; starRanks[1] = 0; }
 

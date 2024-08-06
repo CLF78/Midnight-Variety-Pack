@@ -5,7 +5,7 @@
 
 class RKNetSELECTHandlerEx {
 public:
-    RKNetSELECTHandlerEx() : sendPacketEx(), recvPacketsEx() {}
+    RKNetSELECTHandlerEx() {}
     static RKNetSELECTHandlerEx* construct(void* buffer) { return new(buffer) RKNetSELECTHandlerEx; }
 
     RKNetSELECTPacketExpansion sendPacketEx;

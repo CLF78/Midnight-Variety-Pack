@@ -4,7 +4,7 @@
 #include <mvp/save/SaveExpansionRating.hpp>
 #include <platform/stdio.h>
 
-WifiModeSelectPageEx::WifiModeSelectPageEx() : extraRaceButtons() {
+WifiModeSelectPageEx::WifiModeSelectPageEx() {
     SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
 }
 

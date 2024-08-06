@@ -9,7 +9,6 @@
 
 // Construct the expansion data
 BattleCupSelectPageEx::BattleCupSelectPageEx() :
-    cupButtons(), arrows(),
     onLeftHandler((BattleCupSelectArrow*)&arrows.leftButton, &BattleCupSelectArrow::onLeft),
     onRightHandler((BattleCupSelectArrow*)&arrows.rightButton, &BattleCupSelectArrow::onRight),
     curPage(CupManager::getCupPageFromTrack(SectionManager::instance->globalContext->lastStage, true)) {

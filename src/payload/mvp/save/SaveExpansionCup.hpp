@@ -19,7 +19,7 @@ public:
         Data mData[];
     };
 
-    SaveExpansionCup() { mData = new Data[GetCupCount()]; }
+    SaveExpansionCup() : mData(new Data[GetCupCount()]) {}
     virtual u32 GetMagic() { return 'CUPC'; }
     virtual u32 GetRequiredSpace() { return offsetof(RawData, mData) + sizeof(Data) * GetCupCount(); }
 

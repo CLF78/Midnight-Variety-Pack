@@ -12,7 +12,6 @@
 
 // Construct the expansion data
 RaceCupSelectPageEx::RaceCupSelectPageEx() :
-    arrows(),
     onLeftHandler((RaceCupSelectArrow*)&arrows.leftButton, &RaceCupSelectArrow::onLeft),
     onRightHandler((RaceCupSelectArrow*)&arrows.rightButton, &RaceCupSelectArrow::onRight),
     curPage(CupManager::getCupPageFromTrack(SectionManager::instance->globalContext->lastCourse)) {

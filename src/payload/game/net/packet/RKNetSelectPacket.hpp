@@ -39,10 +39,7 @@ struct RKNetSELECTPacket {
     RKNetSELECTPacket() :
         timeSender(0),
         timeReceived(0),
-        playerData(),
         selectId(0),
-        battleTeamData(),
-        aidPidMap(),
         vanillaWinningCourse(CupData::VANILLA_NO_TRACK),
         phase(PREPARE),
         winningVoterAid(0xFF) {}
@@ -65,10 +62,8 @@ struct RKNetSELECTPacket {
 size_assert(RKNetSELECTPacket, 0x38);
 
 struct RKNetSELECTPacketExpansion {
-    RKNetSELECTPacketExpansion() :
-        courseVote(CupData::UNDECIDED_TRACK_VOTE),
-        winningCourse(CupData::NO_TRACK),
-        repickQueue() {}
+    RKNetSELECTPacketExpansion() : courseVote(CupData::UNDECIDED_TRACK_VOTE),
+                                   winningCourse(CupData::NO_TRACK) {}
 
     u16 courseVote;
     u16 winningCourse;

@@ -14,8 +14,8 @@ public:
 
 class NANDFileBuffer {
 public:
-    NANDFileBuffer(u32 size, EGG::Heap* heap) { mBuffer = new (heap, 32) u8[size]; }
-    ~NANDFileBuffer() { if (mBuffer) delete mBuffer; }
+    NANDFileBuffer(u32 size, EGG::Heap* heap) : mBuffer(new (heap, 32) u8[size]) {  }
+    ~NANDFileBuffer() { if (mBuffer) delete[] mBuffer; }
 
     u8* mBuffer;
 };
