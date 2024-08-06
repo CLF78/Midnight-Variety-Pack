@@ -16,7 +16,7 @@ struct RKNetRH1Packet {
         u16 raw;
     };
 
-    RKNetRH1Packet(u8 plrType) :
+    explicit RKNetRH1Packet(u8 plrType) :
         frameCount(0),
         randomSeed(0),
         battleTeamData(),

@@ -48,7 +48,7 @@ union RKNetEngineClassData {
     };
 
     RKNetEngineClassData() : raw(0) {}
-    RKNetEngineClassData(u8 data) : raw(data) {}
+    explicit RKNetEngineClassData(u8 data) : raw(data) {}
 
     int getEngineClass() {
         switch(engineClass) {

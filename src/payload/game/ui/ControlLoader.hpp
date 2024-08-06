@@ -3,7 +3,7 @@
 
 class ControlLoader {
 public:
-    ControlLoader(LayoutUIControl* control);
+    explicit ControlLoader(LayoutUIControl* control);
     ~ControlLoader();
 
     void load(const char* dirname, const char* filename, const char* variant, const char** anims);

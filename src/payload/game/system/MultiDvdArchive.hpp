@@ -21,7 +21,7 @@ public:
         CACHED      = BIT_FLAG(2),
     };
 
-    MultiDvdArchive(u16 archiveCount = 1);
+    explicit MultiDvdArchive(u16 archiveCount = 1);
     virtual ~MultiDvdArchive();
     virtual void init();
 

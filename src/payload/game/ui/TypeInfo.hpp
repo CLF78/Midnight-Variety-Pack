@@ -1,7 +1,7 @@
 #pragma once
 
 struct TypeInfo {
-    TypeInfo(TypeInfo* parent) : base(parent) {}
+    explicit TypeInfo(TypeInfo* parent) : base(parent) {}
     TypeInfo* base;
 };
 size_assert(TypeInfo, 0x4);

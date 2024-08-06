@@ -23,7 +23,7 @@ union RKNetROOMPacket {
         EVENT_COIN_BT,
     };
 
-    RKNetROOMPacket(u32 data) : raw(data) {}
+    explicit RKNetROOMPacket(u32 data) : raw(data) {}
 
     struct {
         u8 msgType;

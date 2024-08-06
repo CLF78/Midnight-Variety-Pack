@@ -77,7 +77,7 @@ public:
         return (1 << aid) & sub->availableAids;
     }
 
-    RKNetController(EGG::Heap* heap);
+    explicit RKNetController(EGG::Heap* heap);
     virtual ~RKNetController();
 
     bool isConnectedToAnyone();

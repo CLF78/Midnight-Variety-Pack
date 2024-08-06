@@ -3,7 +3,7 @@
 class Random {
 public:
     Random();
-    Random(u32* seedValue); // custom constructor
+    explicit Random(u32* seedValue); // custom constructor
     virtual ~Random();
 
     void initialize();
