@@ -11,6 +11,7 @@ typedef struct {
     int len;
     int pos;
 } GPIBuffer;
+size_cassert(GPIBuffer, 0x10);
 
 GPResult gpiAppendStringToBuffer(GPConnection connection, GPIBuffer* outputBuffer, const char* buffer);
 

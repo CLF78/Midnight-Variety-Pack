@@ -11,6 +11,7 @@ struct OSMutex {
     s32 count;
     OSMutexLink link;
 };
+size_cassert(OSMutex, 0x18);
 
 void OSLockMutex(OSMutex* mutex);
 void OSUnlockMutex(OSMutex* mutex);

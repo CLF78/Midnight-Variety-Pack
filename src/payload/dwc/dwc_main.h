@@ -18,7 +18,9 @@ typedef struct {
     UNK(0x360 - 0x90);
 
     DWCMatchControl matchControl;
+    UNK(0x1438 - 0xC20);
 } DWCControl; // TODO finish header
+size_cassert(DWCControl, 0x1438);
 
 typedef struct {
     u8 index;
@@ -26,6 +28,7 @@ typedef struct {
     PAD(2);
     u32 profileId;
 } DWCConnectionInfo;
+size_cassert(DWCConnectionInfo, 0x8);
 
 BOOL DWC_IsServerMyself();
 int DWC_CloseAllConnectionsHard();

@@ -16,6 +16,7 @@ typedef struct {
     PAD(3);
     u8 optFlag;
 } MEMiHeapHead;
+size_cassert(MEMiHeapHead, 0x3C);
 
 #ifdef __cplusplus
 }

@@ -34,9 +34,8 @@ typedef union {
         float leftTrigger; // always 0
         float rightTrigger; // always 0
     } classic;
-
-    // ignoring Balance Board stuff
 } KPADEXStatus;
+size_cassert(KPADEXStatus, 0x24); // ignoring Balance Board stuff
 
 typedef struct {
     u32 buttonsHeld;
@@ -67,18 +66,19 @@ typedef struct {
     u8 dataFormat;
 
     KPADEXStatus exStatus;
-
 } KPADStatus;
+size_cassert(KPADStatus, 0x84);
 
 typedef struct {
     union {
         WPADStatus core;
         WPADFSStatus fs;
         WPADCLStatus cl;
-    } u;
+    };
     u8 fmt;
-    PAD(1);
+    PAD(3);
 } KPADUnifiedWpadStatus;
+size_cassert(KPADUnifiedWpadStatus, 0x3C);
 
 s32 KPADRead(s32 controller, KPADStatus samplingBufs[], u32 controllerCount);
 

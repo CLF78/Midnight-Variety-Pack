@@ -69,21 +69,20 @@ typedef struct {
     u8 porttype;
     u8 clientindex;
     u8 usegameport;
-    PAD(1);
     u32 localip;
     u16 localport;
 } InitPacket;
+size_cassert(InitPacket, 0x9);
 
 typedef struct {
     u8 portType;
     u8 clientindex;
     u8 negResult;
-    PAD(1);
     int natType;
     int natMappingScheme;
     char gamename[50];
-    PAD(2);
 } ReportPacket;
+size_cassert(ReportPacket, 0x3D);
 
 typedef struct {
     u32 remoteIP;
@@ -91,6 +90,7 @@ typedef struct {
     u8 gotData;
     u8 finished;
 } ConnectPacket;
+size_cassert(ConnectPacket, 0x8);
 
 typedef struct {
     u8 magic[NATNEG_MAGIC_LEN];
@@ -105,6 +105,7 @@ typedef struct {
     } data;
 
 } NATNEGPacket;
+size_cassert(NATNEGPacket, 0x49);
 
 typedef void (*NegotiateProgressFunc)(int state, void* userData);
 typedef void (*NegotiateCompletedFunc)(int result, int gamesocket, SOSockAddrIn* remoteAddr, void* userData);
@@ -131,6 +132,7 @@ typedef struct {
     int connectedSocket;
     SOSockAddrIn remoteAddr;
 } NATNegotiator;
+size_cassert(NATNegotiator, 0x54);
 
 void NegotiateThink(NATNegotiator* neg);
 int NNStartNatDetection(NatDetectionResultsFunc resultscallback); // reimplemented

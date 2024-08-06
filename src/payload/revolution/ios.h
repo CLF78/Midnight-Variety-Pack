@@ -28,6 +28,7 @@ typedef struct {
     void* data;
     u32 size;
 } IOSIoVector;
+size_cassert(IOSIoVector, 0x8);
 
 s32 IOS_Open(const char* path, u32 flags);
 s32 IOS_Ioctlv(s32 fd, s32 cmd, u32 inputCount, u32 outputCount, IOSIoVector* vector);

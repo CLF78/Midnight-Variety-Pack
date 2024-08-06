@@ -10,6 +10,7 @@ typedef struct {
     int num;
     int numBuddies;
 } GPIProfileList;
+size_cassert(GPIProfileList, 0xC);
 
 #ifdef __cplusplus
 }

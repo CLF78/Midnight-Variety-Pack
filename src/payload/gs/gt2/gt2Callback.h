@@ -22,6 +22,7 @@ typedef struct {
     GT2ClosedCallback closeCb;
     GT2PingCallback pingCb;
 } GT2Callbacks;
+size_cassert(GT2Callbacks, 0x10);
 
 #ifdef __cplusplus
 }

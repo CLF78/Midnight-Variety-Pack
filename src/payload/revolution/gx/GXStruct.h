@@ -7,6 +7,7 @@ extern "C" {
 typedef struct {
     u8 r, g, b, a;
 } GXColor;
+size_cassert(GXColor, 0x4);
 
 #ifdef __cplusplus
 }

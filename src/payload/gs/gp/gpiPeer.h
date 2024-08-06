@@ -20,6 +20,7 @@ struct GPIPeer {
     DArray messages;
     GPIPeer* next;
 };
+size_cassert(GPIPeer, 0x40);
 
 #ifdef __cplusplus
 }

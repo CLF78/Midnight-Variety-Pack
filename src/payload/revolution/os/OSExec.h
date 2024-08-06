@@ -13,6 +13,7 @@ typedef struct {
     u32 argsUseDefault;
     void* args;
 } OSExecParams;
+size_cassert(OSExecParams, 0x1C);
 
 #ifdef __cplusplus
 }

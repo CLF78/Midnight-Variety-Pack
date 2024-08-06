@@ -67,8 +67,12 @@ typedef void (*Func)();
 
 #ifdef __CLANGD__
     #define AT_ADDR(addr)
+    #define static_cassert(assert) _Static_assert(assert, #assert)
+    #define size_cassert(type, size) static_cassert(sizeof(type) == (size))
 #else
     #define AT_ADDR(addr) : (addr)
+    #define static_cassert(assert) struct { u8 test [((assert) == 1) - 1]; }
+    #define size_cassert(type, size) static_cassert(sizeof(type) == (size))
 #endif
 
 // Include other base headers

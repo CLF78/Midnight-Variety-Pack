@@ -14,6 +14,7 @@ typedef struct {
     ArrayFreeFunc elemFreeFunc;
     void* list;
 } DArrayImplementation;
+size_cassert(DArrayImplementation, 0x18);
 
 typedef DArrayImplementation* DArray;
 

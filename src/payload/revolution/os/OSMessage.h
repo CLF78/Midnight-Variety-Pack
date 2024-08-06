@@ -13,6 +13,7 @@ typedef struct {
     int firstIndex;
     int usedCount;
 } OSMessageQueue;
+size_cassert(OSMessageQueue, 0x20);
 
 #ifdef __cplusplus
 }

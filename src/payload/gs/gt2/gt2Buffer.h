@@ -9,6 +9,7 @@ typedef struct {
     int size;
     int len;
 } GTI2Buffer;
+size_cassert(GTI2Buffer, 0xC);
 
 #ifdef __cplusplus
 }

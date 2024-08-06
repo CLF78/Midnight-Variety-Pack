@@ -12,6 +12,7 @@ typedef struct {
     MEMFuncAllocatorAlloc alloc;
     MEMFuncAllocatorFree free;
 } MEMAllocatorFunc;
+size_cassert(MEMAllocatorFunc, 0x8);
 
 struct MEMAllocator {
     MEMAllocatorFunc* func;
@@ -19,6 +20,7 @@ struct MEMAllocator {
     u32 heapParam1;
     u32 heapParam2;
 };
+size_cassert(MEMAllocator, 0x10);
 
 #ifdef __cplusplus
 }

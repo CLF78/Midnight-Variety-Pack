@@ -40,6 +40,7 @@ typedef struct {
     char username[21];
     PAD(7);
 } DWCLoginControl;
+size_cassert(DWCLoginControl, 0x268);
 
 extern DWCLoginControl* stpLoginCnt;
 

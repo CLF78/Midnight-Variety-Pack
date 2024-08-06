@@ -16,6 +16,7 @@ typedef struct {
     TableHashFunc hashFunc;
     TableCompareFunc compareFunc;
 } HashImplementation;
+size_cassert(HashImplementation, 0x14);
 
 typedef HashImplementation* HashTable;
 

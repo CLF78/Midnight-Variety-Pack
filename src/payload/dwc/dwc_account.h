@@ -14,23 +14,27 @@ typedef struct {
     u32 flags;
     PAD(8);
 } DWCAccFlag;
+size_cassert(DWCAccFlag, 0xC);
 
 typedef struct {
     u32 id_data;
     u32 userId;
     u32 playerId;
 } DWCLoginId;
+size_cassert(DWCLoginId, 0xC);
 
 typedef struct {
     u32 id_data;
     u32 friendkey[2];
 } DWCFriendKey;
+size_cassert(DWCFriendKey, 0xC);
 
 typedef struct {
     u32 id_data;
     int id;
     PAD(4);
 } DWCGsProfileId;
+size_cassert(DWCGsProfileId, 0xC);
 
 typedef union {
     DWCAccFlag flags;
@@ -38,6 +42,7 @@ typedef union {
     DWCFriendKey friend_key;
     DWCGsProfileId gs_profile_id;
 } DWCFriendData;
+size_cassert(DWCFriendData, 0xC);
 
 typedef enum {
     DWC_FRIENDDATA_NODATA,
@@ -57,6 +62,7 @@ typedef struct {
     PAD(20);
     u32 crc32;
 } DWCUserData;
+size_cassert(DWCUserData, 0x40);
 
 typedef enum {
     DWC_USER_DATA_FLAG_DIRTY = BIT_FLAG(0),

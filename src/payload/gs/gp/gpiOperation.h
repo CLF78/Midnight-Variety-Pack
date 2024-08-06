@@ -17,6 +17,7 @@ struct GPIOperation {
     int result;
     GPIOperation* next;
 };
+size_cassert(GPIOperation, 0x24);
 
 typedef struct {
     char serverChallenge[128];
@@ -25,9 +26,11 @@ typedef struct {
     char authtoken[256];
     char partnerchallenge[256];
     char cdkey[65];
-    PAD(3);
+    PAD(1);
     BOOL newuser;
 } GPIConnectData;
+size_cassert(GPIConnectData, 0x308);
+
 
 #ifdef __cplusplus
 }

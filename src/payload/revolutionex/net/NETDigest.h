@@ -29,6 +29,7 @@ typedef struct {
     u32 blocks_low; // total blocks in bytes
     u32 blocks_high;
 } NETSHA1Context;
+size_cassert(NETSHA1Context, 0x60);
 
 void NETSHA1Init(NETSHA1Context* context);
 void NETSHA1Update(NETSHA1Context* context, const void* input, u32 length);

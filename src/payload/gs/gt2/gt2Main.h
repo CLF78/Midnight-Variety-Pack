@@ -34,6 +34,7 @@ struct GTI2Socket {
     int protocolOffset;
     int broadcastEnabled;
 };
+size_cassert(GTI2Socket, 0x4C);
 
 struct GTI2Connection {
     u32 ip;
@@ -67,6 +68,7 @@ struct GTI2Connection {
     DArray sendFilters;
     DArray receiveFilters;
 };
+size_cassert(GTI2Connection, 0xA0);
 
 GT2Result gt2Connect(GT2Socket socket, GT2Connection* connection, const char* remoteAddress,
                      const char* msg, int msgLen, int timeout, GT2Callbacks* callbacks, int blocking);

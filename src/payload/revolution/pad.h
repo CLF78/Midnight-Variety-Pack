@@ -43,6 +43,7 @@ typedef struct {
     s8 error;
     PAD(1);
 } PADStatus;
+size_cassert(PADStatus, 0xC);
 
 u32 PADRead(PADStatus* status);
 void PADClampCircle(PADStatus* status);

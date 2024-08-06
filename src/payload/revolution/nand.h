@@ -42,6 +42,7 @@ typedef struct {
     u8 mark;
     PAD(1);
 } NANDFileInfo;
+size_cassert(NANDFileInfo, 0x8C);
 
 #ifdef __cplusplus
 }

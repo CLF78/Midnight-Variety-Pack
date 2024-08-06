@@ -8,6 +8,7 @@ typedef struct {
     u8 playersAtConsole;
     PAD(3);
 } DWCConnectionUserData;
+size_cassert(DWCConnectionUserData, 0x4);
 
 typedef struct {
     int profileId;
@@ -27,12 +28,14 @@ typedef struct {
     DWCConnectionUserData connectionUserData;
     PAD(4);
 } DWCNodeInfo;
+size_cassert(DWCNodeInfo, 0x30);
 
 typedef struct {
     int nodeCount;
     PAD(4);
     DWCNodeInfo nodeInfos[32];
 } DWCNodeInfoList;
+size_cassert(DWCNodeInfoList, 0x608);
 
 DWCNodeInfo* DWCi_NodeInfoList_GetServerNodeInfo();
 DWCNodeInfo* DWCi_NodeInfoList_GetNodeInfoForProfileId(int pid);

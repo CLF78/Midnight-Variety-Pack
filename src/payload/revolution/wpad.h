@@ -71,6 +71,7 @@ typedef struct {
     u8 traceId;
     PAD(1);
 } DPDObject;
+size_cassert(DPDObject, 0x8);
 
 typedef struct {
     u16 buttons;
@@ -81,6 +82,7 @@ typedef struct {
     s8 errorCode;
     PAD(2);
 } WPADStatus;
+size_cassert(WPADStatus, 0x2C);
 
 typedef struct {
     u16 buttons;
@@ -94,6 +96,7 @@ typedef struct {
     s8 stickX, stickY;                               // -128 <= value <= 128
     PAD(2);
 } WPADFSStatus;
+size_cassert(WPADFSStatus, 0x34);
 
 typedef struct {
     u16 buttons;
@@ -109,6 +112,7 @@ typedef struct {
     u8 leftTrigger, rightTrigger; // always zero
     PAD(2);
 } WPADCLStatus;
+size_cassert(WPADCLStatus, 0x38);
 
 s32 WPADProbe(s32 chan, u32* type);
 

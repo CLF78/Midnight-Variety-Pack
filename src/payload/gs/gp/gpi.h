@@ -79,6 +79,7 @@ struct GPIConnection {
     int quietModeFlags;
     int kaTransfer;
 };
+size_cassert(GPIConnection, 0x634);
 
 #ifdef __cplusplus
 }

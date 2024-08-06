@@ -21,6 +21,7 @@ typedef struct {
     u32 psf_pad;
     f64 psf[32];
 } OSContext;
+size_cassert(OSContext, 0x2C8);
 
 #ifdef __cplusplus
 }

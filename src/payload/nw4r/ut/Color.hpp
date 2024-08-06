@@ -5,7 +5,7 @@ namespace nw4r {
 namespace ut {
 
 struct Color : public GXColor {};
-size_assert(Color, 0x4);
+size_assert(Color, sizeof(GXColor));
 
 } // namespace ut
 } // namespace nw4r

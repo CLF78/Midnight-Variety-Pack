@@ -17,21 +17,25 @@ struct OSThreadQueue {
     OSThread* head;
     OSThread* tail;
 };
+size_cassert(OSThreadQueue, 0x8);
 
 struct OSThreadLink {
     OSThread* next;
     OSThread* prev;
 };
+size_cassert(OSThreadLink, 0x8);
 
 struct OSMutexQueue {
     OSMutex* head;
     OSMutex* tail;
 };
+size_cassert(OSMutexQueue, 0x8);
 
 struct OSMutexLink {
     OSMutex* next;
     OSMutex* prev;
 };
+size_cassert(OSMutexLink, 0x8);
 
 struct OSThread {
     OSContext context;
@@ -52,6 +56,7 @@ struct OSThread {
     s32 error;
     void* specificData[2];
 };
+size_cassert(OSThread, 0x318);
 
 OSThread* OSGetCurrentThread();
 

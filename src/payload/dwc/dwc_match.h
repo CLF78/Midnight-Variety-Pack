@@ -100,6 +100,7 @@ typedef struct {
     u32 pid; // endian-swapped
     u32 aid; // endian-swapped
 } DWCMatchCommandNewPidAid;
+size_cassert(DWCMatchCommandNewPidAid, 0x8);
 
 typedef struct {
     u8 command;
@@ -111,6 +112,7 @@ typedef struct {
     int len;
     s64 sendTime;
 } DWCMatchCommandControl;
+size_cassert(DWCMatchCommandControl, 0x98);
 
 typedef struct {
     u8 isQr2;
@@ -119,6 +121,7 @@ typedef struct {
     u32 ip;
     int cookie;
 } DWCNNInfo;
+size_cassert(DWCNNInfo, 0xC);
 
 typedef struct {
     GPConnection gpConnection;
@@ -226,7 +229,7 @@ typedef struct {
     u8 serverDownNakCount;
     s64 serverPollingTime;
 
-    UNK(2);
+    UNK(0x8A2 - 0x8A0);
     PAD(2);
 
     DWCConnectAttemptCallback connectAttemptCallback;
@@ -237,6 +240,7 @@ typedef struct {
     PAD(4);
     s64 suspendWaitTime;
 } DWCMatchControl;
+size_cassert(DWCMatchControl, 0x8C0);
 
 void DWCi_GT2ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 port, int latency,
                                     const char* msg, int msgLen);
