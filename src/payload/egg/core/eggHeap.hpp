@@ -9,7 +9,7 @@ namespace EGG {
 class Heap : public Disposer {
 public:
     virtual ~Heap();
-    virtual int getKind() = 0;
+    virtual int getHeapKind() = 0;
     virtual void initAllocator(Allocator* allocator, s32 alignment) = 0;
     virtual void* alloc(size_t size, s32 alignment) = 0;
     virtual void free(void* buffer) = 0;
