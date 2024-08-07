@@ -2,42 +2,19 @@
     "version": "2.0.0",
     "tasks": [
       {
-        "label": "Run Configure Script",
-        "command": "python",
-        "args": [
-          "configure.py",
-          "--loglevel=${input:loglevel}"
-        ],
-        "options": {
-          "cwd": "${workspaceFolder}"
-        }
-      },
-      {
-        "label": "Run Configure Script and Clean",
-        "command": "python",
-        "args": [
-          "configure.py",
-          "--loglevel=${input:loglevel}",
-          "--clean"
-        ],
-        "options": {
-          "cwd": "${workspaceFolder}"
-        }
-      },
-      {
-        "label": "Run Ninja",
-        "command": "ninja",
+        "label": "Build",
+        "type": "shell",
+        "command": "python configure.py --loglevel=${input:loglevel} && ninja",
         "options": {
           "cwd": "${workspaceFolder}"
         },
-      },
-      {
-        "label": "Build",
-        "dependsOrder": "sequence",
-        "dependsOn": [
-          "Run Configure Script",
-          "Run Ninja"
-        ],
+        "presentation": {
+          "focus": true,
+          "clear": true
+        },
+        "runOptions": {
+          "reevaluateOnRerun": false
+        },
         "group": {
           "kind": "build",
           "isDefault": true
@@ -45,11 +22,18 @@
       },
       {
         "label": "Build Clean",
-        "dependsOrder": "sequence",
-        "dependsOn": [
-          "Run Configure Script and Clean",
-          "Run Ninja"
-        ],
+        "type": "shell",
+        "command": "python configure.py --loglevel=${input:loglevel} --clean && ninja",
+        "options": {
+          "cwd": "${workspaceFolder}"
+        },
+        "presentation": {
+          "focus": true,
+          "clear": true
+        },
+        "runOptions": {
+          "reevaluateOnRerun": false
+        },
         "group": "build"
       }
     ],
