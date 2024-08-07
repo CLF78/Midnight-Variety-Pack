@@ -1,0 +1,82 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Run Configure Script",
+        "command": "python",
+        "args": [
+          "configure.py",
+          "--loglevel=${input:loglevel}"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}"
+        }
+      },
+      {
+        "label": "Run Configure Script and Clean",
+        "command": "python",
+        "args": [
+          "configure.py",
+          "--loglevel=${input:loglevel}",
+          "--clean"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}"
+        }
+      },
+      {
+        "label": "Run Ninja",
+        "command": "ninja",
+        "options": {
+          "cwd": "${workspaceFolder}"
+        },
+      },
+      {
+        "label": "Build",
+        "dependsOrder": "sequence",
+        "dependsOn": [
+          "Run Configure Script",
+          "Run Ninja"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      },
+      {
+        "label": "Build Clean",
+        "dependsOrder": "sequence",
+        "dependsOn": [
+          "Run Configure Script and Clean",
+          "Run Ninja"
+        ],
+        "group": "build"
+      }
+    ],
+    "inputs": [
+        {
+          "id": "loglevel",
+          "type": "pickString",
+          "description": "The log level to be used.",
+          "default": "DEBUG",
+          "options": [
+            {
+              "label": "Debug",
+              "value": "DEBUG",
+            },
+            {
+              "label": "Warning",
+              "value": "WARN",
+            },
+            {
+              "label": "Error",
+              "value": "ERROR",
+            },
+            {
+              "label": "Fatal",
+              "value": "FATAL",
+            },
+          ]
+        }
+      ]
+}

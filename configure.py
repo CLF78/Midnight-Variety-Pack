@@ -329,8 +329,8 @@ UI_ASSETS = {
 
 parser = argparse.ArgumentParser(description='Ninja Configurator Script')
 parser.add_argument('--clean', action='store_true', help='specify to remove all build outputs')
-parser.add_argument('--loglevel', choices=LOG_LEVELS._member_names_, default="ERROR",
-                    help='specify the log level to be used (default: "ERROR")')
+parser.add_argument('--loglevel', choices=LOG_LEVELS._member_names_, default="WARN",
+                    help='specify the log level to be used (default: "WARN")')
 args = parser.parse_args()
 
 LOG_LEVEL = LOG_LEVELS[args.loglevel].value
