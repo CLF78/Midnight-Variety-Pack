@@ -65,7 +65,7 @@ REPLACE_STATIC Page* Section::createPage(Page::PageId pageId) {
 }
 
 // Apply section page replacements (all pages)
-REPLACE void Section::addPages(SectionId sectionId) {
+REPLACE void Section::addPages(Section::SectionId sectionId) {
 
     switch(sectionId) {
 
@@ -125,7 +125,7 @@ REPLACE void Section::addPages(SectionId sectionId) {
 }
 
 // Apply section page replacements (initial pages)
-REPLACE void Section::addActivePages(SectionId sectionId) {
+REPLACE void Section::addActivePages(Section::SectionId sectionId) {
 
     switch(sectionId) {
 
