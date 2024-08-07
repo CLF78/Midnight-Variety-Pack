@@ -75,6 +75,9 @@ typedef void (*Func)();
     #define size_cassert(type, size) static_cassert(sizeof(type) == (size))
 #endif
 
+// Pragmas
+#pragma warning off (10211) // Disable switch case variable initialization warning
+
 // Include other base headers
 #include <kamek/gekko.h>
 #include <kamek/hooks.h>
