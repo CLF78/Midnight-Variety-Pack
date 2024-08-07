@@ -18,4 +18,5 @@
 -Wno-multichar
 -Wno-pragma-pack
 -Wno-unknown-pragmas
+-Wno-unused-const-variable
 -Wno-unused-private-field

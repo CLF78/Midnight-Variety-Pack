@@ -130,8 +130,7 @@ Checks:          'bugprone-argument-comment,
                   readability-static-definition-in-anonymous-namespace,
                   readability-suspicious-call-argument,
                   readability-uppercase-literal-suffix,
-                  clang-analyzer-*,
-                  clang-diagnostic-*'
+                  clang-analyzer-*'
 CheckOptions:
   bugprone-argument-comment.StrictMode: "true"
   bugprone-not-null-terminated-result.WantToUseSafeFunctions: false

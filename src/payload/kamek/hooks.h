@@ -28,13 +28,15 @@ enum KamekCommandType {
 // Remove non-existent Clang error
 #ifdef __CLANGD__
     #define kmHookFn static
+    #define kmSection
 #else
     #define kmHookFn extern "C" static
+    #define kmSection __declspec (section ".kamek")
 #endif
 
 // General hook definition macros
 #define kmHookInt(counter) \
-    __declspec (section ".kamek") static const u32 kmIdentifierImpl(Hook, counter)
+    kmSection static const u32 kmIdentifierImpl(Hook, counter)
 #define kmHook0(type) \
     kmHookInt(__COUNTER__)[2] = { 0, (type) }
 #define kmHook1(type, arg0) \
