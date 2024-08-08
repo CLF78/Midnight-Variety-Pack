@@ -1,90 +1,118 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "Build",
-        "type": "shell",
-        "command": "python configure.py --loglevel=${input:loglevel} && ninja",
-        "options": {
-          "cwd": "${workspaceFolder}"
-        },
-        "presentation": {
-          "focus": true,
-          "clear": true
-        },
-        "runOptions": {
-          "reevaluateOnRerun": false
-        },
-        "group": {
-          "kind": "build",
-          "isDefault": true
-        }
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "python configure.py --loglevel=${input:loglevel} && ninja",
+      "options": {
+        "cwd": "${workspaceFolder}"
       },
-      {
-        "label": "Build Clean",
-        "type": "shell",
-        "command": "python configure.py --loglevel=${input:loglevel} --clean && ninja",
-        "options": {
-          "cwd": "${workspaceFolder}"
-        },
-        "presentation": {
-          "focus": true,
-          "clear": true
-        },
-        "runOptions": {
-          "reevaluateOnRerun": false
-        },
-        "group": "build"
+      "presentation": {
+        "focus": true,
+        "clear": true
       },
-      {
-        "label": "Check Code with Clang-Tidy",
-        "command": "python",
-        "args": ["scripts/run_tidy.py"],
-        "problemMatcher": [
-          {
-            "owner": "gcc-problem-matcher",
-            "fileLocation": "absolute",
-            "pattern": [
-                {
-                    "regexp": "^(.*?):(\\d+):(\\d*):?\\s+(?:fatal\\s+)?(warning|error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
+      "runOptions": {
+        "reevaluateOnRerun": false
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "windows": {
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": [
+              "/c"
             ]
           }
-        ],
-        "options": {
-          "cwd": "${workspaceFolder}"
-        },
+        }
+      }
+    },
+    {
+      "label": "Build Clean",
+      "type": "shell",
+      "command": "python configure.py --loglevel=${input:loglevel} --clean && ninja",
+      "options": {
+        "cwd": "${workspaceFolder}"
       },
-    ],
-    "inputs": [
+      "presentation": {
+        "focus": true,
+        "clear": true
+      },
+      "runOptions": {
+        "reevaluateOnRerun": false
+      },
+      "group": "build",
+      "windows": {
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": [
+              "/c"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "label": "Check Code with Clang-Tidy",
+      "command": "python",
+      "args": [
+        "scripts/run_tidy.py"
+      ],
+      "problemMatcher": [
         {
-          "id": "loglevel",
-          "type": "pickString",
-          "description": "The log level to be used.",
-          "default": "DEBUG",
-          "options": [
+          "owner": "gcc-problem-matcher",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": [
             {
-              "label": "Debug",
-              "value": "DEBUG",
-            },
-            {
-              "label": "Warning",
-              "value": "WARN",
-            },
-            {
-              "label": "Error",
-              "value": "ERROR",
-            },
-            {
-              "label": "Fatal",
-              "value": "FATAL",
-            },
+              "regexp": "^(.*?):(\\d+):(\\d*):?\\s+(?:fatal\\s+)?(warning|error):\\s+(.*)$",
+              "file": 1,
+              "line": 2,
+              "column": 3,
+              "severity": 4,
+              "message": 5
+            }
           ]
         }
+      ],
+      "presentation": {
+        "clear": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+    },
+  ],
+  "inputs": [
+    {
+      "id": "loglevel",
+      "type": "pickString",
+      "description": "The log level to be used.",
+      "default": "DEBUG",
+      "options": [
+        {
+          "label": "Debug",
+          "value": "DEBUG",
+        },
+        {
+          "label": "Warning",
+          "value": "WARN",
+        },
+        {
+          "label": "Error",
+          "value": "ERROR",
+        },
+        {
+          "label": "Fatal",
+          "value": "FATAL",
+        },
       ]
+    }
+  ]
 }

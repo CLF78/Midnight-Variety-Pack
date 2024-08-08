@@ -1,5 +1,4 @@
 #pragma once
-#pragma pack(push, 1)
 
 struct RKNetEVENTPacket {
     struct EventInfo {
@@ -17,9 +16,9 @@ struct RKNetEVENTPacket {
         u8 eventType : 3;
         u8 itemObject : 5;
     };
+    size_assert(EventInfo, 0x1);
 
     EventInfo eventInfo[0x18];
     u8 data[0xF8 - 0x18];
 };
 size_assert(RKNetEVENTPacket, 0xF8);
-#pragma pack(pop)

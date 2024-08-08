@@ -35,6 +35,7 @@ struct NHTTPReq {
     char tagPost[20];
 
     char basicUsernamePassword[90];
+    PAD(2);
     int basicUsernamePasswordLen;
 
     int sslId;

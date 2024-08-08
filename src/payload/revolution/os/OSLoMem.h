@@ -73,6 +73,7 @@ typedef struct {
     u32 bootromTarget;
     u32 apploaderTarget;
     u16 bootProgramVersion;
+    u16 reserved3;
     u32 syncAHBPI;
     u32 shutdown;
 } OSLoMem;

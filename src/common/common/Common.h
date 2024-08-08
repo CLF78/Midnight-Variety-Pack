@@ -22,11 +22,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-typedef unsigned long long u64 __attribute__ ((aligned(8))); // Ensure these are aligned correctly by Clang
+typedef unsigned long long u64;
 typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
-typedef signed long long s64 __attribute__ ((aligned(8))); // Ensure these are aligned correctly by Clang
+typedef signed long long s64;
 typedef float f32;
 typedef double f64;
 typedef unsigned long ulong;
@@ -67,35 +67,23 @@ typedef void (*Func)();
 
 #ifdef __CLANGD__
     #define AT_ADDR(addr)
-    #define static_cassert(assert) _Static_assert(assert, #assert)
-    #define size_cassert(type, size) static_cassert(sizeof(type) == (size))
 #else
     #define AT_ADDR(addr) : (addr)
-    #define static_cassert(assert) struct { u8 test [((assert) == 1) - 1]; }
-    #define size_cassert(type, size) static_cassert(sizeof(type) == (size))
 #endif
 
 // Pragmas
 #pragma warning off (10211) // Disable switch case variable initialization warning
 
 // Include other base headers
+#include "Assert.h"
 #include <kamek/gekko.h>
 #include <kamek/hooks.h>
 #include <mvp/Config.h>
 
 // C++ headers only
 #ifdef __cplusplus
-
-// Macros
-#ifndef __CLANGD__
-    #define static_assert(cond) __static_assert((cond), #cond)
-    #define size_assert(type, size) static_assert(sizeof(type) == (size))
-#else
-    #define size_assert(type, size) static_assert(sizeof(type) == (size))
-#endif
-
-#include <kamek/ListHook.hpp>
-#include <mvp/Log.hpp>
-#include <mvp/Region.hpp>
-#include <platform/new.hpp>
+    #include <kamek/ListHook.hpp>
+    #include <mvp/Log.hpp>
+    #include <mvp/Region.hpp>
+    #include <platform/new.hpp>
 #endif

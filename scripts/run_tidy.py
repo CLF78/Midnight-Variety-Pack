@@ -4,6 +4,8 @@
 # Runs clang-tidy on each source and header file
 
 from pathlib import Path
+import os
+import re
 import subprocess
 import shutil
 import sys
@@ -19,6 +21,10 @@ CLANG_FLAGS_FILE = Path(ROOT_DIR, 'compile_flags.txt')
 
 # Tools
 CLANG_TIDY = shutil.which('clang-tidy')
+
+# Output filters
+ASM_LABEL_REGEX = re.compile("\\b.*label '[rf]\\d+'.*\\n.*\\n.*\\n")
+ASM_TOKEN_REGEX = re.compile("\\b.*unknown token in expression.*\\n.*\\n.*\\n")
 
 # Ensure clang-tidy is available
 if not CLANG_TIDY:
@@ -37,5 +43,16 @@ for directory in directories:
 
 # Run clang-tidy on the detected files
 args = [CLANG_TIDY, *files, '-header-filter=.*', '-system-headers', '--', *flags]
-result = subprocess.run(args, stdout=sys.stdout, stderr=sys.stderr, cwd=ROOT_DIR)
-exit(result.returncode)
+result = subprocess.run(args, capture_output=True, text=True, cwd=ROOT_DIR)
+
+# Process the output to remove nonexistant errors caused by inline assembly
+report = result.stdout
+patterns = [ASM_LABEL_REGEX, ASM_TOKEN_REGEX]
+for pattern in patterns:
+    report = re.sub(pattern, '', report)
+
+# Remove the root directory of the project from the filenames since clang-tidy isn't consistent
+report = report.replace(f'{ROOT_DIR}{os.sep}', '')
+
+# Print the filtered data
+print(report)

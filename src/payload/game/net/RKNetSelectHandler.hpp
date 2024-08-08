@@ -89,5 +89,5 @@ public:
     RKNetSELECTHandlerEx expansion;
 
     static RKNetSELECTHandler* instance;
-};
+} ALIGN(8);
 size_assert(RKNetSELECTHandler, OSRoundUp(0x3F8 + sizeof(RKNetSELECTHandlerEx), 8));

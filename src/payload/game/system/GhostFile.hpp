@@ -43,7 +43,7 @@ union RawGhostFile {
         u32 _38;
         RawMii mii;
     };
-    size_assert(Header, 0x88);
+    size_assert_bitfield(Header, 0x88);
 
     u8 buffer[0x2800];
 };

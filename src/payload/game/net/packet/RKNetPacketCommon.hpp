@@ -16,8 +16,13 @@ enum RKNetPacketSection {
 union RKNetBattleTeamData {
 
     RKNetBattleTeamData() : raw(0) {}
-    struct { u8 battleType : 1; u32 teams : 31; };
     u32 raw;
+
+    #if (defined(__CLANGD__) && defined(_WIN32))
+        struct { u16 battleType; u16 teams; }; // Necessary workaround to fix more Windows bitfield incompetence
+    #else
+        struct { u8 battleType : 1; u32 teams : 31; };
+    #endif
 };
 size_assert(RKNetBattleTeamData, 0x4);
 

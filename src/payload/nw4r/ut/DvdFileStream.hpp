@@ -1,6 +1,7 @@
 #pragma once
 #include "FileStream.hpp"
 #include <revolution/dvd/dvd.h>
+#pragma pack(push, 1)
 
 namespace nw4r {
 namespace ut {
@@ -63,7 +64,8 @@ public:
     bool closeOnDestroyFlag;
     bool closeEnableFlag;
 };
-size_assert(DvdFileStream, 0x70);
+size_assert(DvdFileStream, 0x6F);
+#pragma pack(pop)
 
 } // namespace ut
 } // namespace nw4r

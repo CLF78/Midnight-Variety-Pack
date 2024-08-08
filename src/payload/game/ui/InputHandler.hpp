@@ -7,7 +7,9 @@
     handler.handle = (typeof(handler.handle))&func
 
 // This is necessary to fix size asserts in clangd
-#ifdef __CLANGD__
+#if (defined(__CLANGD__) && defined(_WIN32))
+    class InputHandlerBase { void* dummy; void* dummy2; };
+#elif defined(__CLANGD__)
     class InputHandlerBase { void* dummy; };
 #else
     class InputHandlerBase {};
