@@ -18,7 +18,7 @@ LOADER_CODE_DIR = Path(SRC_DIR, 'loader')
 CLANG_FLAGS_FILE = Path(ROOT_DIR, 'compile_flags.txt')
 
 # Tools
-CLANG_TIDY = Path(shutil.which('clang-tidy'))
+CLANG_TIDY = shutil.which('clang-tidy')
 
 # Ensure clang-tidy is available
 if not CLANG_TIDY:
