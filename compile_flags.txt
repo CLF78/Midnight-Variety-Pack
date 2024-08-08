@@ -11,6 +11,7 @@
 -fdeclspec
 -fno-exceptions
 -fsigned-char
+-nostdinc
 -m32
 -Wall
 -Wextra
