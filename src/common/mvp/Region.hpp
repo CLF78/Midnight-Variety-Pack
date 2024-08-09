@@ -1,6 +1,7 @@
 #pragma once
 
-u16 RegionDetectAddr AT_ADDR(0x8000620A); // Use instruction to detect region
+// Use instruction to detect region
+u16 RegionDetectAddr AT_ADDR(0x8000620A); // NOLINT(misc-definitions-in-headers)
 
 namespace Region {
 

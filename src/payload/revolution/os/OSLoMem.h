@@ -79,6 +79,9 @@ typedef struct {
 } OSLoMem;
 size_cassert(OSLoMem, 0x70);
 
+// Disable ODR warnings
+// NOLINTBEGIN(misc-definitions-in-headers)
+
 // 0x80000000 MEM1 start
 volatile OSBootInfo __OSBootInfo AT_ADDR(0x80000000);
 volatile DBInterface __DBInterface AT_ADDR(0x80000040);
@@ -163,6 +166,7 @@ vu8 __OSProductInfo[0x100] AT_ADDR(0x80003800);
 
 // 0x80003900 - 0x80003EFF free area
 // 0x80003F00 start of working area
+// NOLINTEND(misc-definitions-in-headers)
 
 #ifdef __cplusplus
 }
