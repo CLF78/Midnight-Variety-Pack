@@ -4,7 +4,7 @@
 #include <game/util/Random.hpp>
 
 MultiTransmissionSelectPage::MultiTransmissionSelectPage() {
-    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
+    SET_HANDLER_FUNC(onButtonClickHandler, MultiTransmissionSelectPage::onButtonClick);
     prevPageId = Page::VEHICLE_SELECT_MULTI_PLAYER;
 }
 

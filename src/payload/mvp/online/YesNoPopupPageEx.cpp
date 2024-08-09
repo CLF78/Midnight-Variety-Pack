@@ -1,6 +1,6 @@
 #include "YesNoPopupPageEx.hpp"
 
-YesNoPopupPageEx::YesNoPopupPageEx() : onBackPressHandler(this, &onBackPress),
+YesNoPopupPageEx::YesNoPopupPageEx() : onBackPressHandler(this, &YesNoPopupPageEx::onBackPress),
                                        onBackSelectedButton(-1),
                                        isBackButtonEnabled(false) {
     inputManager.setHandler(MenuInputManager::BACK_PRESS, &onBackPressHandler, false, false);

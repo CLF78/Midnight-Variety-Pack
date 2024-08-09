@@ -4,7 +4,7 @@
 
 class RaceCourseSelectPageEx : public RaceCourseSelectPage {
 public:
-    RaceCourseSelectPageEx() : onRepickPromptPressHandler(this, &onRepickPromptPress),
+    RaceCourseSelectPageEx() : onRepickPromptPressHandler(this, &RaceCourseSelectPageEx::onRepickPromptPress),
                                repickPrompt(nullptr) {}
     virtual ~RaceCourseSelectPageEx() {}
 

@@ -6,8 +6,8 @@
 TransmissionSelectPage::TransmissionSelectPage() {
 
     // Set handlers
-    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
-    SET_HANDLER_FUNC(onBackPressHandler, onBackPress);
+    SET_HANDLER_FUNC(onButtonClickHandler, TransmissionSelectPage::onButtonClick);
+    SET_HANDLER_FUNC(onBackPressHandler, TransmissionSelectPage::onBackPress);
 
     // Set previous page
     prevPageId = Page::VEHICLE_SELECT;

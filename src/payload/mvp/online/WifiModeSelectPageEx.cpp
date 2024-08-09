@@ -5,7 +5,7 @@
 #include <platform/stdio.h>
 
 WifiModeSelectPageEx::WifiModeSelectPageEx() {
-    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
+    SET_HANDLER_FUNC(onButtonClickHandler, WifiModeSelectPageEx::onButtonClick);
 }
 
 void WifiModeSelectPageEx::onInit() {
