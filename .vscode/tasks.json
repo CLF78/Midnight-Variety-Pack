@@ -57,7 +57,41 @@
       }
     },
     {
-      "label": "Check Code with Clang-Tidy",
+      "label": "Check Current File with Clang-Tidy",
+      "command": "python",
+      "args": [
+        "scripts/run_tidy.py",
+        "-file",
+        "${file}",
+      ],
+      "problemMatcher": [
+        {
+          "owner": "gcc-problem-matcher",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": [
+            {
+              "regexp": "^(.*?):(\\d+):(\\d*):?\\s+(?:fatal\\s+)?(warning|error):\\s+(.*)$",
+              "file": 1,
+              "line": 2,
+              "column": 3,
+              "severity": 4,
+              "message": 5
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "clear": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+    },
+    {
+      "label": "Check Entire Project with Clang-Tidy",
       "command": "python",
       "args": [
         "scripts/run_tidy.py"
