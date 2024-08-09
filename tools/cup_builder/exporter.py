@@ -179,7 +179,6 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     warningStringWrap = '/' * (len(warningString) - 2)
 
     # Write the required include
-    cupDataFile.write('#pragma once\n')
     cupDataFile.write('#include "CupData.hpp"\n\n')
 
     # Write the warning string
@@ -191,7 +190,7 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     cupDataFile.write('\n\nCupData::Track CupData::tracks[] = {\n')
     for track in tracks:
         songData = brstmMng.savedSongs[track.musicFile]
-        newline = '    {%d, %d, %d, %d, %d, %d, %d, %d, %d},\n' % (
+        newline = '    {%d, %d, %d, %d, %d, %d, %d, %d, %d, {0, 0, 0, 0, 0}},\n' % (
                 track.specialSlot.value,
                 track.musicSlot.value,
                 bmgMng.usedIds[track.names[0]],
@@ -245,6 +244,7 @@ def main(jsonFile: str, bmgFolder: str, szsFolder: str, brstmFolder: str, cupFol
     cupDataFile.write('};\n')
 
     # Write the warning in the cup count file
+    cupCountFile.write('#pragma once\n\n')
     cupCountFile.write(warningStringWrap)
     cupCountFile.write(warningString)
     cupCountFile.write(warningStringWrap)
