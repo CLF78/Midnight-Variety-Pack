@@ -12,7 +12,7 @@ Midnight x Variety Pack (or MVP for short) is a WIP custom track distribution cr
 - [CodeWarrior for MPC55xx/MPC56xx v2.10 Special Edition](https://nxp.com/lgfiles/devsuites/PowerPC/CW55xx_v2_10_SE.exe) ([mirror](https://cache.nxp.com/lgfiles/devsuites/PowerPC/CW55xx_v2_10_SE.exe))
 - [Kamek](https://github.com/Treeki/Kamek/releases) (use the latest build as it introduces/fixes features that the mod depends on)
 - [.NET Core](https://dotnet.microsoft.com/en-us/download/dotnet) (version 6.0 or later)
-- [Python](https://www.python.org/downloads/) (version 3.8 or later)
+- [Python](https://www.python.org/downloads/) (version 3.9 or later)
 - [Wiimm's SZS Tools](https://szs.wiimm.de/download.html)
 - [wuj5](https://github.com/stblr/wuj5)
 

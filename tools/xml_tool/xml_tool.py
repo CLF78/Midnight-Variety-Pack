@@ -6,7 +6,6 @@
 import argparse
 import re
 import xml.etree.ElementTree as ET
-import xml.dom.minidom
 
 PATCH_END_PATTERN = r'^(\s*)<\/patch>'
 
@@ -33,9 +32,8 @@ def create_xml(file_name: str, gameId: str, patchName: str, patchId: str, patche
             patch.set(attr, value)
 
     # Prettify the XML
-    # TODO change this to use etree.indent and remove the extra dependency (Python 3.9+)
-    xml_string = ET.tostring(root, encoding='utf-8')
-    pretty_xml = xml.dom.minidom.parseString(xml_string).toprettyxml(indent='	')
+    ET.indent(root, '	')
+    pretty_xml = ET.tostring(root, encoding='unicode')
 
     # Insert the Kamek placeholder at the end of the patch list
     pretty_xml = re.sub(PATCH_END_PATTERN, '\g<1>\g<1>$KF$\n\g<0>', pretty_xml, flags=re.MULTILINE)
