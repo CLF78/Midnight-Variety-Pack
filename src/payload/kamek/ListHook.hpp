@@ -11,10 +11,10 @@
 
 #define kmCreateListHook(listName, addr) \
     kmListHook listName = kmListHook(); \
-    kmBranchDefCpp(addr, NULL, void) { listName.execute(); }
+    kmBranchDefCpp(addr, NULL, void) { (listName).execute(); }
 
 #define kmListHookAdd(listName, func) \
-static kmListHookNode kmIdentifier(List, __COUNTER__) = kmListHookNode((kmListHook*)&listName, (Func)&(func))
+static kmListHookNode kmIdentifier(List, __COUNTER__) = kmListHookNode((kmListHook*)&(listName), (Func)&(func))
 
 #define kmListHookDefInt(counter, listName) \
     static void kmIdentifier(ListFunc, counter) (); \

@@ -4,7 +4,7 @@
     destHandler = (typeof(destHandler))&srcHandler
 
 #define SET_HANDLER_FUNC(handler, func) \
-    handler.handle = (typeof(handler.handle))&func
+    handler.handle = ((typeof((handler).handle))&(func))
 
 // This is necessary to fix size asserts in clangd
 #if (defined(__CLANGD__) && defined(_WIN32))

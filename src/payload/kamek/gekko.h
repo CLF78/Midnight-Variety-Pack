@@ -1,4 +1,5 @@
 #pragma once
+// NOLINTBEGIN(bugprone-macro-parentheses)
 
 // Custom intrinsics
 inline void __icbi(register const void* address) {
@@ -119,3 +120,5 @@ opword 0x10000014 | ((fD) & 0x1F) << 21 | ((fA) & 0x1F) << 16 | ((fB) & 0x1F) <<
 
 #define ps_sum1(fD, fA, fC, fB, Rc) \
 opword 0x10000016 | ((fD) & 0x1F) << 21 | ((fA) & 0x1F) << 16 | ((fB) & 0x1F) << 11 | ((fC) & 0x1F) << 6 | ((Rc) & 1)
+
+// NOLINTEND(bugprone-macro-parentheses)
