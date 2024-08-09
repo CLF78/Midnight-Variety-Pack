@@ -29,7 +29,7 @@ These additional packages are required for running the Cup Builder tool:
 - [qtpy](https://pypi.org/project/QtPy/)
 
 The following dependencies are additionally required on Linux:
-- [cabextract](https://www.cabextract.org.uk/)
+- [7-Zip](https://www.7-zip.org/) (or any equivalent package that provides the `7z` tool)
 - [WINE](https://wiki.winehq.org/Download)
 
 #### Installation - Windows
@@ -66,6 +66,7 @@ I'm not covering this. Figure it out yourself.
     - The script accepts a `--clean` argument to remove the existing `build` and `out` folders;
     - This needs to be run every time a source code/asset file is added/removed.
 - Run `ninja` to build the distribution.
+    - Ninja needs to be run as administrator on Windows to ensure successful compilation.
     - The output will be placed in the `out` folder.
     - This needs to be run every time a source code/asset file is added/updated/removed. Ninja will not re-run build steps unaffected by the changes.
 
