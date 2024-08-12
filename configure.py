@@ -140,6 +140,9 @@ XML_ROOT_DIR = OUT_DIR.parent
 XML_BUILD_FILE = Path(BUILD_DIR, f'{XML_PATCH_ID}.xml')
 XML_OUT_FILE = Path(XML_ROOT_DIR, 'riivolution', f'{XML_PATCH_ID}.xml')
 
+# Auto-generated Dolphin Preset
+JSON_OUT_FILE = Path(XML_ROOT_DIR, f'{XML_PATCH_ID}.json')
+
 #########
 # Tools #
 #########
@@ -149,11 +152,12 @@ CC = Path(file) if (file := shutil.which('mwcceppc.exe')) else Path(TOOL_DIR, 'c
 CUP_BUILDER = Path(TOOL_DIR, 'cup_builder', 'exporter.py')
 CW_WRAPPER = Path(TOOL_DIR, 'cw', 'mwcceppc_wine_wrapper.py')
 CW_WRAPPER_WIN = Path(TOOL_DIR, 'cw', 'mwcceppc_windows_wrapper.py')
+JSON_PATCH_GENERATOR = Path(TOOL_DIR, 'patch_gen', 'json_patch_gen.py')
 KAMEK = Path(file) if (file := shutil.which('Kamek')) else Path(TOOL_DIR, 'kamek', f'Kamek{".exe" if sys.platform == "win32" else ""}')
 PREPROCESSOR = Path(TOOL_DIR, 'cw', 'preprocess.py')
 SIZE_CHECKER = Path(TOOL_DIR, 'utils', 'check_file_size.py')
 WUJ5 = Path(TOOL_DIR, 'wuj5', 'wuj5.py')
-XML_TOOL = Path(TOOL_DIR, 'xml_tool', 'xml_tool.py')
+XML_PATCH_GENERATOR = Path(TOOL_DIR, 'patch_gen', 'xml_patch_gen.py')
 
 ##################
 # Compiler Flags #
@@ -328,9 +332,10 @@ UI_ASSETS = {
 ###################
 
 parser = argparse.ArgumentParser(description='Ninja Configurator Script')
-parser.add_argument('--clean', action='store_true', help='specify to remove all build outputs')
-parser.add_argument('--loglevel', choices=LOG_LEVELS._member_names_, default="WARN",
-                    help='specify the log level to be used (default: "WARN")')
+parser.add_argument('-c', '--clean', action='store_true', help='specify to remove all existing build outputs')
+parser.add_argument('-l', '--loglevel', choices=LOG_LEVELS._member_names_, default="WARN",
+                    help='specify the log level to be used by the mod (default: "WARN")')
+parser.add_argument('-g', '--game-path', type=Path, help='path to a Mario Kart Wii copy, to generate a game mod preset for Dolphin Emulator')
 args = parser.parse_args()
 
 LOG_LEVEL = LOG_LEVELS[args.loglevel].value
@@ -421,8 +426,12 @@ writer.rule('wszst',
             command='wszst c -q -D $out -o --pt-dir --links --compr $compress $in_dir',
             description='Pack $in_short with wszst')
 
-writer.rule('xml_tool',
-            command=f'{sys.executable} {XML_TOOL} $out $gameid $modname $patchid $patches $externals',
+writer.rule('json_patch_gen',
+            command=f'{sys.executable} {JSON_PATCH_GENERATOR} $out $in $game_file $modname',
+            description='Generate Dolphin Mod Preset')
+
+writer.rule('xml_patch_gen',
+            command=f'{sys.executable} {XML_PATCH_GENERATOR} $out $gameid $modname $patchid $patches $externals',
             description='Generate Riivolution XML')
 
 ########################
@@ -474,6 +483,14 @@ patchManager.addPatch('folder',
 
 # Write the command out
 patchManager.writeCommand()
+
+# If a Mario Kart Wii copy was passed, generate a Dolphin preset as well
+if args.game_path:
+    writer.build('json_patch_gen',
+                 JSON_OUT_FILE,
+                 XML_OUT_FILE,
+                 game_file=args.game_path,
+                 modname=f'"{XML_PATCH_NAME}"')
 
 # Scan for shared C/C++ files
 commonInputs = set((COMMON_CODE_DIR.rglob('*.cpp')))

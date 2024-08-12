@@ -35,7 +35,7 @@ class RiivoPatchManager():
             patchString += f'--patch {skd} '
 
         # Write the command
-        self.writer.build('xml_tool',
+        self.writer.build('xml_patch_gen',
                           self.xmlFile,
                           [],
                           gameid=self.gameId,

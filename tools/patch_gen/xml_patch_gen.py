@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# xml_tool.py
+# xml_patch_gen.py
 # Generates a Riivolution XML from the given directives.
 
 import argparse
