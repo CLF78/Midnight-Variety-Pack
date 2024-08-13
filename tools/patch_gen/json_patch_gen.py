@@ -23,6 +23,7 @@ def create_json(json_file: Path, xml_file: Path, game_dump: Path, patch_name: st
 
     json_data = {
         "base-file": convert_path(game_dump),
+        "display-name": patch_name,
         "riivolution": {
             "patches": [
                 {
