@@ -22,7 +22,7 @@ def convert_path(path: Path) -> str:
 def create_json(json_file: Path, xml_file: Path, game_dump: Path, patch_name: str):
 
     json_data = {
-        "base_file": convert_path(game_dump),
+        "base-file": convert_path(game_dump),
         "riivolution": {
             "patches": [
                 {
@@ -43,7 +43,7 @@ def create_json(json_file: Path, xml_file: Path, game_dump: Path, patch_name: st
     }
 
     # Dump data to string first because we need to replace an escape sequence
-    data = json5.dumps(json_data, ensure_ascii=False, indent=4, trailing_commas=False, quote_keys=True).replace('/', '\\/')
+    data = json5.dumps(json_data, ensure_ascii=False, indent=2, trailing_commas=False, quote_keys=True).replace('/', '\\/')
     json_file.write_text(data, 'utf-8')
 
 
