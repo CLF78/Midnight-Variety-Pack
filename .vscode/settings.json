@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
         "./tools/utils"
-    ]
+    ],
+    "commandvariable.remember.persistent.file": "${workspaceFolder}${pathSeparator}.vscode${pathSeparator}task_settings.json"
 }

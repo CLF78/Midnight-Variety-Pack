@@ -4,7 +4,7 @@
     {
       "label": "Build",
       "type": "shell",
-      "command": "python configure.py --loglevel=${input:loglevel} && ninja",
+      "command": "python configure.py ${input:clean} --loglevel=${input:loglevel} ${input:game_file_wanted} && ninja",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -31,38 +31,12 @@
       }
     },
     {
-      "label": "Build Clean",
-      "type": "shell",
-      "command": "python configure.py --loglevel=${input:loglevel} --clean && ninja",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "presentation": {
-        "focus": true,
-        "clear": true
-      },
-      "runOptions": {
-        "reevaluateOnRerun": false
-      },
-      "group": "build",
-      "windows": {
-        "options": {
-          "shell": {
-            "executable": "cmd.exe",
-            "args": [
-              "/c"
-            ]
-          }
-        }
-      }
-    },
-    {
       "label": "Check Current File with Clang-Tidy",
       "command": "python",
       "args": [
         "scripts/run_tidy.py",
         "-file",
-        "${file}",
+        "${file}"
       ],
       "problemMatcher": [
         {
@@ -88,7 +62,7 @@
       },
       "options": {
         "cwd": "${workspaceFolder}"
-      },
+      }
     },
     {
       "label": "Check Entire Project with Clang-Tidy",
@@ -120,14 +94,14 @@
       },
       "options": {
         "cwd": "${workspaceFolder}"
-      },
-    },
+      }
+    }
   ],
   "inputs": [
     {
       "id": "loglevel",
       "type": "pickString",
-      "description": "The log level to be used.",
+      "description": "What log levels should be enabled?",
       "default": "DEBUG",
       "options": [
         {
@@ -147,6 +121,56 @@
           "value": "FATAL",
         },
       ]
+    },
+    {
+      "id": "clean",
+      "type": "pickString",
+      "description": "Should the output be cleaned first?",
+      "default": "",
+      "options": [
+        {
+          "label": "No",
+          "value": "",
+        },
+        {
+          "label": "Yes",
+          "value": "--clean",
+        }
+      ]
+    },
+    {
+      "id": "game_file_wanted",
+      "type": "command",
+      "command": "extension.commandvariable.pickStringRemember",
+      "args": {
+        "description": "Do you want to locate a copy of Mario Kart Wii to generate a quick launch preset?",
+        "default": "",
+        "options": [
+          ["No", ""],
+          ["Use previously selected file", "${remember:game_file}"],
+          ["Open game file", "${openDialog:pick_game_file}"]
+        ],
+        "rememberTransformed": true,
+        "key": "game_file",
+        "openDialog": {
+          "pick_game_file": {
+            "defaultUri": "${workspaceFolder}",
+            "filters": {
+              "Wii Game": [
+                "iso",
+                "ciso",
+                "wbfs",
+                "rvz",
+                "wia"
+              ],
+            },
+            "title": "Choose a copy of Mario Kart Wii",
+            "transform": {
+              "text": "--game-path=${file}",
+            }
+          }
+        }
+      }
     }
   ]
 }

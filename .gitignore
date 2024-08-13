@@ -19,3 +19,6 @@ src/payload/mvp/cup/CupCounts.h
 __pycache__/
 *.py[cod]
 *$py.class
+
+# User-specific Settings
+.vscode/task_settings.json
