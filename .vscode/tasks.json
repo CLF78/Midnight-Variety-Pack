@@ -31,6 +31,22 @@
       }
     },
     {
+      "label": "Launch Mod on Dolphin",
+      "type": "shell",
+      "command": "scripts/launch_dolphin.sh",
+      "args": [
+        "${input:dolphin_emulator}",
+        "${workspaceFolder}/out/mvp.json"
+      ],
+      "runOptions": {
+        "reevaluateOnRerun": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Check Current File with Clang-Tidy",
       "command": "python",
       "args": [
@@ -168,6 +184,33 @@
             "transform": {
               "text": "--game-path=${file}",
             }
+          }
+        }
+      }
+    },
+    {
+      "id": "dolphin_emulator",
+      "type": "command",
+      "command": "extension.commandvariable.pickStringRemember",
+      "args": {
+        "description": "Select the Dolphin Emulator executable",
+        "default": "",
+        "options": [
+          [
+            "Use previously selected file",
+            "${remember:dolphin_emu}"
+          ],
+          [
+            "Select Dolphin Emulator executable",
+            "${openDialog:pick_dolphin_emu}"
+          ]
+        ],
+        "rememberTransformed": true,
+        "key": "dolphin_emu",
+        "openDialog": {
+          "pick_dolphin_emu": {
+            "defaultUri": "${workspaceFolder}",
+            "title": "Choose a copy of Dolphin Emulator",
           }
         }
       }
