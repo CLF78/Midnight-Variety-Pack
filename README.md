@@ -1,6 +1,23 @@
 # Midnight x Variety Pack
 Midnight x Variety Pack (or MVP for short) is a WIP custom track distribution created by NuoKart, CLF78 and Brawlboxgaming.
 
+## Table of Contents
+- [Project Setup - Automatic (Windows ONLY)](#project-setup---automatic-windows-only)
+- [Project Setup - Manual](#project-setup---manual)
+    - [Required Tools and Dependencies](#required-tools-and-dependencies)
+    - [Installation - Windows](#installation---windows)
+    - [Installation - Mac](#installation---mac)
+    - [Installation - Linux](#installation---linux)
+- [Building](#building)
+- [Customization](#customization)
+  - [Cup Layout](#cup-layout)
+  - [Mod Features](#mod-features)
+  - [Assets](#assets)
+- [Contributing](#contributing)
+  - [Setting up the Development Environment](#setting-up-the-development-environment)
+  - [Visual Studio Code-Specific Features](#visual-studio-code-specific-features)
+
+
 ## Project Setup - Automatic (Windows ONLY)
 - Clone this repository to a folder of choice (make sure the path to the folder has no spaces in it!);
 - Run `setup-windows.bat` **as administrator** (this will download and install all the project's required dependencies, so an internet connection is required)
@@ -31,12 +48,6 @@ These additional packages are required for running the Cup Builder tool:
 The following dependencies are additionally required on Linux:
 - [7-Zip](https://www.7-zip.org/) (or any equivalent package that provides the `7z` tool)
 - [WINE](https://wiki.winehq.org/Download)
-
-The following Python packages are highly recommended if contributing code to the project:
-- [clang-tidy](https://pypi.org/project/clang-tidy/)
-- See [Development Environment](#development-environment) for more details.
-
-*Note: These tools may already be installed by other means.*
 
 #### Installation - Windows
 - Clone this repository to a folder of choice (make sure the path to the folder has no spaces in it!);
@@ -99,7 +110,19 @@ The various features in the mod (including the aforementioned custom cups) can b
 ### Assets
 Most of the assets in the mod (excluding tracks and music due to file size reasons) are available in (mostly) decoded form in the `assets` folder. They can be changed, added or removed, provided the `configure.py` script is updated to match.
 
-### Development Environment
-The authors use [Visual Studio Code](https://code.visualstudio.com/) to work on the project. As such, various features are included to improve the development experience with said program:
-- Several [tasks](https://code.visualstudio.com/Docs/editor/tasks) are provided to build the project, run checks on the code and launch Dolphin Emulator automatically. This requires the [Command Variable](https://marketplace.visualstudio.com/items?itemName=rioj7.command-variable) extension to work correctly;
-- The [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) extension is used to detect and fix code issues on the fly.
+## Contributing
+Thanks for considering contributing to the project! The development team currently employs a specific set of tools to ensure consistency and cross-platform support.
+
+### Setting up the Development Environment
+The following dependencies are not strictly necessary, but will be used to analyze any contributed code, therefore their installation is recommended:
+- [clang-tidy](https://pypi.org/project/clang-tidy/) to detect bugs and ensure code cleanliness;
+- [clang-format](https://pypi.org/project/clang-format/) to ensure consistent code formatting.
+
+These tools are part of the [LLVM](https://llvm.org/) project. If you'd rather avoid bloating your system with the full installation, the tools can be installed individually using the linked Python packages.
+
+### Visual Studio Code-Specific Features
+Since the authors work on the project using [Visual Studio Code](https://code.visualstudio.com/), various dedicated integrations are included to improve the development experience:
+- Several [tasks](https://code.visualstudio.com/Docs/editor/tasks) are provided to build the project, perform code checks and launch Dolphin Emulator automatically. These require the [Command Variable](https://marketplace.visualstudio.com/items?itemName=rioj7.command-variable) extension to work correctly;
+- The [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) extension is used for code completion (Intellisense) and to run `clang-tidy` in the background. Various definitions have been added to the code to avoid tripping `clangd` on nonexistent errors.
+    - [Microsoft's C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) must be disabled to avoid Intellisense conflicts.
+- The [clang-format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format) extension is used to call `clang-format` automatically whenever a code file is saved.
