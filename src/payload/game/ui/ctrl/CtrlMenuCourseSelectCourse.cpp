@@ -13,8 +13,8 @@ REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
 
     RaceCupSelectPageEx* cupPage = RaceCupSelectPageEx::getPage();
     RaceCourseSelectPageEx* coursePage = RaceCourseSelectPageEx::getPage();
-    u32 selectedCup = cupPage->selectedButtonId;
-    u32 lastCourse = SectionManager::instance->globalContext->lastCourse;
+    const u32 selectedCup = cupPage->selectedButtonId;
+    const u32 lastCourse = SectionManager::instance->globalContext->lastCourse;
     int selected = -1;
 
     for (int i = 0; i < ARRAY_SIZE(courseButtons); i++) {
@@ -23,8 +23,8 @@ REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
         PushButton* trackButton = &courseButtons[i];
 
         // Set name
-        u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->curPage);
-        u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[i];
+        const u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->curPage);
+        const u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[i];
         CupManager::setTrackName(trackButton, trackIdx);
 
         // Set button id

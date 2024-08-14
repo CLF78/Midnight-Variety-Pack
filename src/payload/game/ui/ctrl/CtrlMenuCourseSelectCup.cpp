@@ -11,7 +11,7 @@ REPLACE void CtrlMenuCourseSelectCup::initSelf() {
 
     // Get page and selected cup
     RaceCupSelectPageEx* cupPage = RaceCupSelectPageEx::getPage();
-    u32 selectedCup = cupPage->selectedButtonId;
+    const u32 selectedCup = cupPage->selectedButtonId;
 
     // Update each cup
     for (int i = 0; i < ARRAY_SIZE(cups); i++) {
@@ -20,8 +20,8 @@ REPLACE void CtrlMenuCourseSelectCup::initSelf() {
         CtrlMenuCourseSelectCupSub* cup = &cups[i];
 
         // Set name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage);
-        u16 cupName = CupManager::GetCupList()[cupIdx].cupName;
+        const u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage);
+        const u16 cupName = CupManager::GetCupList()[cupIdx].cupName;
         cup->setText(cupName);
 
         // Set icon

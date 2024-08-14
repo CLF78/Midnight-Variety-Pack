@@ -26,12 +26,12 @@ void Update() {
         return;
 
     // Lock interrupts to avoid potential disconnections while this function is executing
-    nw4r::ut::AutoInterruptLock lock;
+    const nw4r::ut::AutoInterruptLock lock;
 
     // Compute the connection matrix
     u32 aidsConnectedToMe = 0;
     for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
-        u32 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
+        const u32 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
         if (DWCi_GetGT2Connection(aid))
             aidsConnectedToMe |= (1 << i);
     }

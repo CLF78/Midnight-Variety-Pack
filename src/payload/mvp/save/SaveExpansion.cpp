@@ -77,16 +77,16 @@ bool SaveExpansion::Read(u8* buffer, u32 bufferSize) {
         return false;
 
     // Ensure the checksum matches
-    u32 checksum = header->checksum;
+    const u32 checksum = header->checksum;
     header->checksum = 0;
-    u32 checksumRecalc = NETCalcCRC32(buffer, bufferSize);
+    const u32 checksumRecalc = NETCalcCRC32(buffer, bufferSize);
     if (checksum != checksumRecalc)
         return false;
 
     // Parse each license
     for (int i = 0; i < header->licenseCount && i < ARRAY_SIZE(mLicenses); i++) {
         u8* license = buffer + header->headerSize + header->licenseOffsets[i];
-        u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1 ) ? bufferSize - header->licenseOffsets[i]
+        const u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1 ) ? bufferSize - header->licenseOffsets[i]
                                                             : header->licenseOffsets[i+1] - header->licenseOffsets[i];
 
         // If one of the license headers is invalid, bail
@@ -108,7 +108,7 @@ void SaveExpansion::Write() {
     header->licenseCount = ARRAY_SIZE(mLicenses);
 
     // Get the space per license
-    u32 spacePerLicense = mLicenses[0].GetRequiredSpace();
+    const u32 spacePerLicense = mLicenses[0].GetRequiredSpace();
 
     // Write each license
     u8* saveStart = (u8*)header + header->headerSize;

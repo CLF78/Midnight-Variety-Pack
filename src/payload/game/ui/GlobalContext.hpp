@@ -23,7 +23,7 @@ public:
     void copyPlayerMiis();
 
     void setPlayerStarRank(u32 playerId, u8 starRank) {
-        bool valid = starRank <= (Message::Common::STAR_RANK_MAX - Message::Common::STAR_RANK_MIN);
+        const bool valid = starRank <= (Message::Common::STAR_RANK_MAX - Message::Common::STAR_RANK_MIN);
         playerStarRanks[playerId] = valid ? starRank + Message::Common::STAR_RANK_MIN : Message::NONE;
     }
 

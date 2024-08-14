@@ -102,7 +102,7 @@ void WifiMemberConfirmPageEx::onActivate() {
 
     // Set up loop
     VotingBackPage* page = VotingBackPage::getPage();
-    bool teamsEnabled = VotingBackPage::teamsEnabled();
+    const bool teamsEnabled = VotingBackPage::teamsEnabled();
 
     // Get rating type
     RatingType ratingType = RATING_NONE;
@@ -143,7 +143,7 @@ void WifiMemberConfirmPageEx::onActivate() {
         for (int playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
 
             // Get the team and the entry index
-            RaceConfig::Player::Team playerTeam = page->playerInfos[playerIdx].team;
+            const RaceConfig::Player::Team playerTeam = page->playerInfos[playerIdx].team;
             if (playerTeam == RaceConfig::Player::TEAM_BLUE) {
                 entryIdx = blueTeamIdx;
                 blueTeamIdx += 2;

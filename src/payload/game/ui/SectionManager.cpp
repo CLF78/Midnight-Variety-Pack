@@ -23,7 +23,7 @@ REPLACE void SectionManager::createSection() {
     someFrameCounter = -1;
     state = IDLE;
 
-    Scene::SceneId sceneId = Section::getSceneId(sectionId);
+    const Scene::SceneId sceneId = Section::getSceneId(sectionId);
     pad.resetStatus(sceneId != Scene::SCENE_RACE);
 
     Section* section = new Section();

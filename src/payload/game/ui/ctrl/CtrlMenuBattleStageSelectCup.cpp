@@ -16,7 +16,7 @@ REPLACE void CtrlMenuBattleStageSelectCup::initSelf() {
     // Get pages and selected cup
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
     BattleStageSelectPageEx* coursePage = BattleStageSelectPageEx::getPage();
-    u32 selectedCup = cupPage->selectedButtonId;
+    const u32 selectedCup = cupPage->selectedButtonId;
 
     // Update each cup
     for (int i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
@@ -25,8 +25,8 @@ REPLACE void CtrlMenuBattleStageSelectCup::initSelf() {
         CtrlMenuBattleStageSelectCupSub* cup = coursePage->getCupButton(i);
 
         // Set name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
-        u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
+        const u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
+        const u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
         cup->setText(cupName);
 
         // Set icon
@@ -55,7 +55,7 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
 
     // Load the main controller
-    u8 playerCount = UIUtils::getPlayerCount();
+    const u8 playerCount = UIUtils::getPlayerCount();
     const char* mainCtr = (playerCount <= 2) ? "CupSelectCupNULL" : "CupSelectCupNULL_4";
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
@@ -79,8 +79,8 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
                           CtrlMenuBattleStageSelectCup::cupAnimNames);
 
         // Set cup name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
-        u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
+        const u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
+        const u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
         cup->setText(cupName);
 
         // Set cup icon

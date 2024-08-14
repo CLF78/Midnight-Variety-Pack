@@ -65,7 +65,7 @@ REPLACE SoundStartable::StartResult SoundArchivePlayer::PrepareStrmImpl(
 
     // Obtain the sound id from the file id and replace the latter with a pointer to the custom stream
     if (sndInfo->fileId > soundArchive->detail_GetFileCount()) {
-        u32 soundId = sndInfo->fileId - soundArchive->detail_GetFileCount();
+        const u32 soundId = sndInfo->fileId - soundArchive->detail_GetFileCount();
         sndInfo->fileId = (u32)(soundStreams()[soundId]);
     }
 

@@ -148,8 +148,8 @@ kmCall(0x8068E9C4, LoadCustomEffects);
 
 //Left and Right sparks when the SMT charge is over 550
 void LoadLeftPurpleSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectArray, u32 firstEffectIndex, u32 lastEffectIndex, const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale) {
-    int type = effects.kartObject->getDriftType();
-    u32 umtCharge = effects.kartObject->pointers.kartMove->umtCharge;
+    const int type = effects.kartObject->getDriftType();
+    const u32 umtCharge = effects.kartObject->pointers.kartMove->umtCharge;
     if (umtCharge >= 250 && type == KartStats::KART) {
         effects.createAndUpdateEffectsByIdx(effects.rk_purpleMT, 0, 2, playerMat2, wheelPos, updateScale);
         effects.followFadeEffectsByIdx(effectArray, firstEffectIndex, lastEffectIndex, playerMat2, wheelPos, updateScale);
@@ -159,8 +159,8 @@ void LoadLeftPurpleSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectA
 kmCall(0x80698A94, LoadLeftPurpleSparkEffects);
 
 void LoadRightPurpleSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectArray, u32 firstEffectIndex, u32 lastEffectIndex, const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale) {
-    int type = effects.kartObject->getDriftType();
-    u32 umtCharge = effects.kartObject->pointers.kartMove->umtCharge;
+    const int type = effects.kartObject->getDriftType();
+    const u32 umtCharge = effects.kartObject->pointers.kartMove->umtCharge;
     if (umtCharge >= 250 && type == KartStats::KART) {
         effects.createAndUpdateEffectsByIdx(effects.rk_purpleMT, 2, 4, playerMat2, wheelPos, updateScale);
         effects.followFadeEffectsByIdx(effectArray, firstEffectIndex, lastEffectIndex, playerMat2, wheelPos, updateScale);
@@ -170,8 +170,8 @@ void LoadRightPurpleSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effect
 kmCall(0x80698AF0, LoadRightPurpleSparkEffects);
 
 void LoadOrangeSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectArray, u32 firstEffectIndex, u32 lastEffectIndex, const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale) {
-    int type = effects.kartObject->getDriftType();
-    u32 smtCharge = effects.kartObject->pointers.kartMove->smtCharge;
+    const int type = effects.kartObject->getDriftType();
+    const u32 smtCharge = effects.kartObject->pointers.kartMove->smtCharge;
     if (smtCharge >= 300 && type == KartStats::OUTSIDE_BIKE) {
         effects.createAndUpdateEffectsByIdx(effects.rk_orangeMT, 0, 2, playerMat2, wheelPos, updateScale);
         effects.followFadeEffectsByIdx(effectArray, firstEffectIndex, lastEffectIndex, playerMat2, wheelPos, updateScale);

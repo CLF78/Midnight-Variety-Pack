@@ -30,16 +30,16 @@ REPLACE bool VotingPage::setPlayerVote(u32 playerIdx) {
         return false;
 
     // Get aid and local player index
-    u8 aid = page->playerInfos[playerIdx].aid;
-    u8 localPlayerIdx = page->playerInfos[playerIdx].localPlayerIdx;
+    const u8 aid = page->playerInfos[playerIdx].aid;
+    const u8 localPlayerIdx = page->playerInfos[playerIdx].localPlayerIdx;
 
     // If the character is invalid, bail
     if (RKNetSELECTHandler::instance->getPlayerCharacter(aid, localPlayerIdx) == CHARACTER_COUNT)
         return false;
 
     // Get the voted track and the corresponding message
-    u16 track = RKNetSELECTHandler::instance->getPlayerVote(aid);
-    u16 bmgId = CupManager::getTrackName(track);
+    const u16 track = RKNetSELECTHandler::instance->getPlayerVote(aid);
+    const u16 bmgId = CupManager::getTrackName(track);
 
     // Set the vote
     LOG_DEBUG("Setting vote for player %d to %d...", playerIdx, track);
@@ -58,7 +58,7 @@ REPLACE bool VotingPage::setPlayerVote(u32 playerIdx) {
 void StoreWinningVote(VotingPage* self) {
 
     // Get the winning track and bail if we have not yet obtained it
-    u32 trackIdx = RKNetSELECTHandler::instance->getWinningTrack();
+    const u32 trackIdx = RKNetSELECTHandler::instance->getWinningTrack();
     if (trackIdx == CupData::NO_TRACK) {
         LOG_DEBUG("Not yet in phase 2. Retrying later...");
         return;
@@ -69,7 +69,7 @@ void StoreWinningVote(VotingPage* self) {
     LOG_DEBUG("Winning track: %d, BMG: %d", trackIdx, self->winningTrackBmgId);
 
     // Set the winning vote control
-    u8 winningVoter = RKNetSELECTHandler::instance->getWinningVoter();
+    const u8 winningVoter = RKNetSELECTHandler::instance->getWinningVoter();
     self->winningVote = self->votes[VotingBackPage::getPage()->getVoteIdx(winningVoter, 0)];
 
     // Start the roulette

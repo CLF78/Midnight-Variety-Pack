@@ -78,13 +78,13 @@ public:
 
     // Gets the cup icon directory for the current cup list
     static const char* GetCupIconDir(bool isBattle = false) {
-        u32 cupList = GetCurrentTracklist(isBattle);
+        const u32 cupList = GetCurrentTracklist(isBattle);
         return GetCupListData(cupList)->cupIconDir;
     }
 
     // Gets the cup count for the current cup list
     static u32 GetCupCount(bool isBattle = false) {
-        u32 cupList = GetCurrentTracklist(isBattle);
+        const u32 cupList = GetCurrentTracklist(isBattle);
         return GetCupListData(cupList)->cupCount;
     }
 
@@ -95,7 +95,7 @@ public:
 
     // Gets the current cup list
     static const CupData::Cup* GetCupList(bool isBattle = false) {
-        u32 cupList = GetCurrentTracklist(isBattle);
+        const u32 cupList = GetCurrentTracklist(isBattle);
         return GetCupListData(cupList)->cups;
     }
 

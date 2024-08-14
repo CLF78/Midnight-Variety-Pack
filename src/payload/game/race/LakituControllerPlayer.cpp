@@ -9,11 +9,11 @@
 kmHookFn void SetLapBoardFrame(LakituControllerPlayer* self) {
 
     // Get player id and their max lap
-    u8 playerIdx = self->mpProxy->getPlayerIdx();
-    u8 lap = RaceManager::instance->players[playerIdx]->maxLap;
+    const u8 playerIdx = self->mpProxy->getPlayerIdx();
+    const u8 lap = RaceManager::instance->players[playerIdx]->maxLap;
 
     // Get the frame and set it
-    float frame = (lap < 2) ? 0.0f : lap - 2;
+    const float frame = (lap < 2) ? 0.0f : lap - 2;
     AnmHolder* lapAnim = self->lapModel->modelTransformator->GetAnmHolder(3);
     lapAnim->UpdateRateAndSetFrame(frame);
 }

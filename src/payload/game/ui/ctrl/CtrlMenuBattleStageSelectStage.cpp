@@ -14,8 +14,8 @@ REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
 
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
     BattleStageSelectPageEx* coursePage = BattleStageSelectPageEx::getPage();
-    u32 selectedCup = cupPage->selectedButtonId;
-    u32 lastStage = SectionManager::instance->globalContext->lastStage;
+    const u32 selectedCup = cupPage->selectedButtonId;
+    const u32 lastStage = SectionManager::instance->globalContext->lastStage;
     int selected = -1;
 
     for (int i = 0; i < ARRAY_SIZE(courseButtons); i++) {
@@ -24,8 +24,8 @@ REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
         PushButton* trackButton = &courseButtons[i];
 
         // Set name
-        u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->curPage, true);
-        u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[i];
+        const u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->curPage, true);
+        const u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[i];
         CupManager::setTrackName(trackButton, trackIdx);
 
         // Set button id
@@ -52,7 +52,7 @@ REPLACE void CtrlMenuBattleStageSelectStage::load(u32 playerFlags, bool unk) {
     ControlLoader loader(this);
 
     // Load the main controller
-    u8 playerCount = UIUtils::getPlayerCount();
+    const u8 playerCount = UIUtils::getPlayerCount();
     const char* mainCtr = (playerCount <= 2) ? "CupSelectCourseNULL" : "CupSelectCourseNULL_4";
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 

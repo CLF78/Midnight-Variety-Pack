@@ -60,7 +60,7 @@ UIControl* RaceCupSelectPageEx::loadLayout(u32 layoutIdx) {
 void RaceCupSelectPageEx::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u32 unk) {
 
     // Update course names
-    u32 cupButtonId = cupHolder->currentSelected;
+    const u32 cupButtonId = cupHolder->currentSelected;
     courseHolder.setCourseNames(cupButtonId);
 
     // If game mode is Grand Prix, update the message at the bottom with the cup rank
@@ -75,7 +75,7 @@ void RaceCupSelectPageEx::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u3
             return;
 
         // Get the cup entry
-        u32 cupId = CupManager::getCupIdxFromButton(cupButtonId, curPage);
+        const u32 cupId = CupManager::getCupIdxFromButton(cupButtonId, curPage);
         SaveExpansionCup::Data* cupData = SaveExpansionCup::GetSection()->GetData(cupId);
 
         // Get the message ID
@@ -99,11 +99,11 @@ void RaceCupSelectPageEx::setCourse(CtrlMenuCupSelectCup* cupHolder, PushButton*
         selectedButtonId = cupHolder->currentSelected;
 
         // Get the cup and its first track
-        u32 cupIdx = CupManager::getCupIdxFromButton(selectedButtonId, curPage);
-        u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[0];
+        const u32 cupIdx = CupManager::getCupIdxFromButton(selectedButtonId, curPage);
+        const u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[0];
 
         // Get the previous cup, and update the last selected stage if it differs
-        u32 prevCupIdx = CupManager::getCupIdxFromTrack(SectionManager::instance->globalContext->lastStage);
+        const u32 prevCupIdx = CupManager::getCupIdxFromTrack(SectionManager::instance->globalContext->lastStage);
         if (cupIdx != prevCupIdx)
             SectionManager::instance->globalContext->lastStage = trackIdx;
 
@@ -114,7 +114,7 @@ void RaceCupSelectPageEx::setCourse(CtrlMenuCupSelectCup* cupHolder, PushButton*
             RaceConfig::instance->menuScenario.settings.cupId = cupIdx;
 
             // Get the actual track and store it
-            u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+            const u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
             CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
 
             // If in GP mode, go straight to the OK button instead of the course selection
@@ -147,7 +147,7 @@ void RaceCupSelectPageEx::onActivate() {
 
     // Set default cup button to the cup the previously selected track belongs to
     if (animId == Page::ANIM_NEXT) {
-        u32 lastTrack = SectionManager::instance->globalContext->lastCourse;
+        const u32 lastTrack = SectionManager::instance->globalContext->lastCourse;
         selectedButtonId = CupManager::getCupButtonFromTrack(lastTrack, curPage);
     }
 
@@ -156,8 +156,8 @@ void RaceCupSelectPageEx::onActivate() {
 
     // Adjust X wrapping and arrow display by setting the distance function appropriately
     // 0 wraps on the X and Y axis, 1 wraps on Y axis only
-    bool arrowsEnabled = CupManager::GetCupArrowsEnabled();
-    int wrapType = (CupManager::GetCupCount() == 2 || arrowsEnabled);
+    const bool arrowsEnabled = CupManager::GetCupArrowsEnabled();
+    const int wrapType = (CupManager::GetCupCount() == 2 || arrowsEnabled);
     multiControlInputManager.setDistanceFunc(wrapType);
 
     // Disable the arrows if not required

@@ -44,7 +44,7 @@ REPLACE void AwardPage::initRank() {
 
     // Obtain GP rank
     RaceConfig* rconfig = RaceConfig::instance;
-    int gpRank = rconfig->awardsScenario.players[0].computeGPRank();
+    const int gpRank = rconfig->awardsScenario.players[0].computeGPRank();
 
     // Get current license, bail if invalid
     SaveManager* save = SaveManager::instance;
@@ -52,7 +52,7 @@ REPLACE void AwardPage::initRank() {
         return;
 
     // Check if the new rank is better than the existing one
-    u32 cupId = rconfig->awardsScenario.settings.cupId;
+    const u32 cupId = rconfig->awardsScenario.settings.cupId;
     SaveExpansionCup::Data* cupData = SaveExpansionCup::GetSection()->GetData(cupId);
     if (cupData->mRank <= gpRank)
         return;
@@ -82,12 +82,12 @@ REPLACE void AwardPage::initType() {
     const char* iconPane = nullptr;
 
     // Get relevant information
-    u32 curSection = SectionManager::instance->curSection->sectionId;
+    const u32 curSection = SectionManager::instance->curSection->sectionId;
     RaceConfig::Settings* settings = &RaceConfig::instance->awardsScenario.settings;
 
     // Set icon and message for battle mode awards
     if (curSection == Section::AWARD_BT) {
-        u32 battleType = settings->battleType;
+        const u32 battleType = settings->battleType;
         if (battleType == RaceConfig::Settings::BATTLE_BALLOON) {
             msgId = Message::Race::BALLOON_BATTLE;
             iconPane = "icon_09_balloon";
@@ -112,7 +112,7 @@ REPLACE void AwardPage::initType() {
                 Message::Race::AWARD_VS;
 
         // Set the CC
-        u32 engineClass = settings->engineClass;
+        const u32 engineClass = settings->engineClass;
         switch (engineClass) {
             case RaceConfig::Settings::CC_50:
                 msgInfo.messageIds[0] = Message::Race::CC_50;

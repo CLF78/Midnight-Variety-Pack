@@ -16,7 +16,7 @@ REPLACE_STATIC KartObject* KartObject::Create(u8 playerIdx, int kart, int charac
 
     // Check if engine class is more than 150cc
     // Multiply all standard acceleration stages if so
-    u32 engineClass = raceConfig->raceScenario.settings.engineClass;
+    const u32 engineClass = raceConfig->raceScenario.settings.engineClass;
     if (engineClass <= RaceConfig::Settings::CC_150) {
         for (int i = 0; i < ARRAY_SIZE(stats->standard_acceleration_as); i++)
             stats->standard_acceleration_as[i] *= KartMove::speedModifiers[engineClass];

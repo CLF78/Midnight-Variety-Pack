@@ -13,7 +13,7 @@ u32 GetTime() {
 
     // If we are on Dolphin, use the IOCTL
     if (DolphinDevice::IsOpen()) {
-        u32 time = DolphinDevice::GetElapsedTime();
+        const u32 time = DolphinDevice::GetElapsedTime();
         return (time != 0) ? time : current_time();
     }
 
@@ -39,12 +39,12 @@ void Calc(u32 frameCount) {
         sMatchStartTime = GetTime();
 
     // Calculate the total frames elapsed since race start
-    u32 timeElapsed = GetTime() - sMatchStartTime;
-    float framesElapsed = timeElapsed / (1000.0f / 60.0f);
-    u32 framesElapsed32 = (u32)framesElapsed;
+    const u32 timeElapsed = GetTime() - sMatchStartTime;
+    const float framesElapsed = timeElapsed / (1000.0f / 60.0f);
+    const u32 framesElapsed32 = (u32)framesElapsed;
 
     // Calculate the delay
-    int delay = framesElapsed32 - frameCount - sCumulativeDelay;
+    const int delay = framesElapsed32 - frameCount - sCumulativeDelay;
     if (delay > 0) {
         sCurrentDelay = delay;
         LOG_WARN("Detected delay of %d frames", delay);
@@ -54,7 +54,7 @@ void Calc(u32 frameCount) {
 u32 Apply(u32 timer) {
 
     // Get the current delay and transfer it to the cumulative delay
-    int currDelay = sCurrentDelay;
+    const int currDelay = sCurrentDelay;
     sCumulativeDelay += currDelay;
 
     // Reset the current delay and return the updated timer

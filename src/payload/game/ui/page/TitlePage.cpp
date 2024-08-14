@@ -13,7 +13,7 @@
 kmBranchDefCpp(0x8063B1FC, 0x8063B338, void, Random* randomizer) {
 
     // Obtain the track we want to play and ensure it's not the same as the previous track
-    u32 prevTrackIdx = SectionManager::instance->globalContext->demoTrack;
+    const u32 prevTrackIdx = SectionManager::instance->globalContext->demoTrack;
     u32 trackIdx = prevTrackIdx;
 
     do {
@@ -31,7 +31,7 @@ kmBranchDefCpp(0x8063B1FC, 0x8063B338, void, Random* randomizer) {
 kmBranchDefCpp(0x8063B2F4, 0x8063B338, void, Random* randomizer) {
 
     // Obtain the arena we want to play and ensure it's not the same as the previous one
-    u32 prevTrackIdx = SectionManager::instance->globalContext->demoArena;
+    const u32 prevTrackIdx = SectionManager::instance->globalContext->demoArena;
     u32 trackIdx = prevTrackIdx;
 
     do {

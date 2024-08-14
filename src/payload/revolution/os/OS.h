@@ -34,7 +34,7 @@ u32 OSGetTick();
 s64 OSGetTime();
 
 inline void OSWait(u32 ticks) {
-    u32 tick0 = OSGetTick();
+    const u32 tick0 = OSGetTick();
     u32 tick1;
     do {
         tick1 = OSGetTick();

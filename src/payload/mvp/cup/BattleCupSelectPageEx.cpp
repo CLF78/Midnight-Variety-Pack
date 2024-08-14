@@ -55,7 +55,7 @@ UIControl* BattleCupSelectPageEx::loadLayout(u32 layoutIdx) {
 void BattleCupSelectPageEx::onActivate() {
 
     // Set the starting button
-    u32 lastStage = SectionManager::instance->globalContext->lastStage;
+    const u32 lastStage = SectionManager::instance->globalContext->lastStage;
     selectedButtonId = CupManager::getCupButtonFromTrack(lastStage, curPage, true);
 
     // Do backend initialization
@@ -63,8 +63,8 @@ void BattleCupSelectPageEx::onActivate() {
 
     // Adjust X wrapping by setting the correct distance function
     // 0 wraps on the X and Y axis, 1 wraps on Y axis only
-    bool arrowsEnabled = CupManager::GetCupArrowsEnabled(true);
-    int wrapType = (CupManager::GetCupCount(true) == 2 || arrowsEnabled) ?
+    const bool arrowsEnabled = CupManager::GetCupArrowsEnabled(true);
+    const int wrapType = (CupManager::GetCupCount(true) == 2 || arrowsEnabled) ?
                     MultiControlInputManager::Y_WRAP :
                     MultiControlInputManager::XY_WRAP;
     multiControlInputManager.setDistanceFunc(wrapType);
@@ -76,8 +76,8 @@ void BattleCupSelectPageEx::onActivate() {
     cupHolder.init();
 
     // Set the instruction text according to the battle type
-    u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
-    u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
+    const u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
+    const u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
                 Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
                 Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
     instructionText->setText(msgId);
@@ -117,11 +117,11 @@ void BattleCupSelectPageEx::setCourse(CtrlMenuBattleCupSelectCup* cupHolder, Pus
         selectedButtonId = cupHolder->currentSelected;
 
         // Get the cup and its first track
-        u32 cupIdx = CupManager::getCupIdxFromButton(selectedButtonId, curPage, true);
-        u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[0];
+        const u32 cupIdx = CupManager::getCupIdxFromButton(selectedButtonId, curPage, true);
+        const u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[0];
 
         // Get the previous cup, and update the last selected stage if it differs
-        u32 prevCupIdx = CupManager::getCupIdxFromTrack(SectionManager::instance->globalContext->lastStage, true);
+        const u32 prevCupIdx = CupManager::getCupIdxFromTrack(SectionManager::instance->globalContext->lastStage, true);
         if (cupIdx != prevCupIdx)
             SectionManager::instance->globalContext->lastStage = trackIdx;
 
@@ -129,7 +129,7 @@ void BattleCupSelectPageEx::setCourse(CtrlMenuBattleCupSelectCup* cupHolder, Pus
         if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
 
             // Get the actual track and store it
-            u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+            const u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
             CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
 
         // Else wait for the course voting page to be loaded (is this even needed?)

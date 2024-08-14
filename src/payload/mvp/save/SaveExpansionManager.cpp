@@ -39,8 +39,8 @@ int Read() {
 
     // Try to allocate a read buffer
     LOG_DEBUG("File length is %d bytes.", expansionLength);
-    u32 bufferLen = OSRoundUp32(expansionLength);
-    NANDFileBuffer buffer(bufferLen, KAMEK_HEAP);
+    const u32 bufferLen = OSRoundUp32(expansionLength);
+    const NANDFileBuffer buffer(bufferLen, KAMEK_HEAP);
 
     // If it fails, bail with a generic error
     if (!buffer.mBuffer) {

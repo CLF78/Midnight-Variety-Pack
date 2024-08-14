@@ -13,10 +13,10 @@ REPLACE void RaceConfig::Scenario::initCoursePositions() {
         settings.cameraMode != Settings::CAMERA_MODE_REPLAY) {
 
         // Get the next track in the cup
-        u32 trackIdx = CupManager::GetCupList()[settings.cupId].entryId[settings.raceNumber];
+        const u32 trackIdx = CupManager::GetCupList()[settings.cupId].entryId[settings.raceNumber];
 
         // Get the track and store it
-        u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+        const u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
         CupManager::SetCourse(&settings, actualTrackIdx);
     }
 

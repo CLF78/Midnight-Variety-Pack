@@ -16,7 +16,7 @@
 REPLACE void DvdArchive::decompress(const char* path, EGG::Heap* heap) {
 
     // Get decompressed size
-    u32 decompressedSize = EGG::Decomp::getExpandSize(fileBuffer);
+    const u32 decompressedSize = EGG::Decomp::getExpandSize(fileBuffer);
 
     // Allocate the buffer and decode the file in it
     void* buffer = heap->alloc(decompressedSize, 0x20);

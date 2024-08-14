@@ -38,7 +38,7 @@ void CalcKick() {
 
     // Lock interrupts
     LOG_DEBUG("Executing kick task on AID map %08X...", sAidsToBeKicked);
-    nw4r::ut::AutoInterruptLock lock;
+    const nw4r::ut::AutoInterruptLock lock;
 
     // If the bitfield is full, close all connections immediately
     if (sAidsToBeKicked == 0xFFFFFFFF)
@@ -70,7 +70,7 @@ int ParseKickMessage(GPConnection conn, char* data) {
 
     // Obtain the kick type
     strshift(kickCmd, KICK_MSG);
-    u32 kickType = strtoul(kickCmd, nullptr, 10);
+    const u32 kickType = strtoul(kickCmd, nullptr, 10);
 
     // Act based on the kick type
     switch (kickType) {
@@ -115,7 +115,7 @@ int ParseKickMessage(GPConnection conn, char* data) {
 
             // Shift the string and read the pid to an integer
             strshift(pidKickParam, KICK_MSG_PARAM_PID);
-            u32 pidToKick = strtoul(pidKickParam, nullptr, 10);
+            const u32 pidToKick = strtoul(pidKickParam, nullptr, 10);
 
             // Get the node info
             // If it exists, kick the corresponding aid

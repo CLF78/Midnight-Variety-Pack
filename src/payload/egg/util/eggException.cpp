@@ -61,8 +61,8 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
     OSEnableInterrupts();
 
     // Subtract displayed line count to avoid scrolling into nothingness
-    s32 lineCount = console->ringTopLineCnt;
-    s32 totalLines = nw4r::db::Console_GetTotalLines(console) - console->displayLineCount;
+    const s32 lineCount = console->ringTopLineCnt;
+    const s32 totalLines = nw4r::db::Console_GetTotalLines(console) - console->displayLineCount;
 
     // Initial console draw
     console->isVisible = true;
@@ -71,8 +71,8 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
 
     // Get controller type
     u32 controllerType;
-    s32 err = WPADProbe(0, &controllerType);
-    bool isClassic = (err == WPAD_ERR_NONE && controllerType == WPAD_TYPE_CLASSIC);
+    const s32 err = WPADProbe(0, &controllerType);
+    const bool isClassic = (err == WPAD_ERR_NONE && controllerType == WPAD_TYPE_CLASSIC);
 
     while (true) {
         KPADStatus wiimoteStatus;
@@ -127,7 +127,7 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
 
         // Scroll in the desired direction (but not if we are at the top/bottom)
         s32 currentTopLine = console->topLineNumber;
-        s32 prevTopLine = currentTopLine;
+        const s32 prevTopLine = currentTopLine;
 
         if (down)
             currentTopLine = MIN(currentTopLine + 1, totalLines);

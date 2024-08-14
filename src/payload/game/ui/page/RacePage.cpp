@@ -59,7 +59,7 @@ REPLACE u8 RacePage::getControlCount(Controls controls) {
 
     // Add the message queue if enabled
     if (controls & MESSAGE_QUEUE) {
-        u32 localPlayerCount = RaceConfig::instance->raceScenario.localPlayerCount;
+        const u32 localPlayerCount = RaceConfig::instance->raceScenario.localPlayerCount;
         count += MessageQueue::instance.GetMessageCount(localPlayerCount) * localPlayerCount;
     }
 
@@ -90,7 +90,7 @@ REPLACE void RacePage::initControls(Controls controls) {
     if (controls & MESSAGE_QUEUE) {
 
         // Set the local player count and enable the queue
-        u32 localPlayerCount = RaceConfig::instance->raceScenario.localPlayerCount;
+        const u32 localPlayerCount = RaceConfig::instance->raceScenario.localPlayerCount;
         MessageQueue::instance.localPlayerCount = localPlayerCount;
         MessageQueue::instance.queueEnabled = true;
 
@@ -113,6 +113,6 @@ REPLACE void RacePage::initControls(Controls controls) {
 // RacePage::initControls() patch
 // Change the timer BRCTR variant depending on VS/Battle mode
 kmCallDefCpp(0x80858178, void, char* buffer, int bufferSize, const char* fmt, u32 localPlayerCount) {
-    bool isBattle = RaceConfig::instance->raceScenario.settings.isBattle();
+    const bool isBattle = RaceConfig::instance->raceScenario.settings.isBattle();
     snprintf(buffer, bufferSize, "CtrlRaceTime%s_%d", isBattle ? "BT" : "", localPlayerCount);
 }

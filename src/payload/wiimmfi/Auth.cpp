@@ -27,7 +27,7 @@ u32 GetConsoleType() {
     }
 
     // Test for Wii Mini by opening /title/00000001/00000002/data/macaddr.bin
-    int macAddrFd = IOS_Open("/title/00000001/00000002/data/macaddr.bin", IPC_OPEN_READ);
+    const int macAddrFd = IOS_Open("/title/00000001/00000002/data/macaddr.bin", IPC_OPEN_READ);
     if (macAddrFd >= 0) {
         IOS_Close(macAddrFd); // Close the file back
         LOG_DEBUG("Detected console type: Wii Mini");
@@ -58,7 +58,7 @@ void AppendAuthParameters(NHTTPReq* req) {
 
     if (!sCertObtained) {
         ALIGN(32) char certBuf[IOSECCCertSize]; // IOS requires the output to be aligned by 32
-        s32 result = ES_GetDeviceCert((u8*)certBuf);
+        const s32 result = ES_GetDeviceCert((u8*)certBuf);
 
         // If IOS call fails, bail
         if (result != ES_ERR_OK) {
@@ -67,7 +67,7 @@ void AppendAuthParameters(NHTTPReq* req) {
         }
 
         // Encode it
-        int len = DWC_Base64Encode(certBuf, sizeof(certBuf), sConsoleCert, sizeof(sConsoleCert));
+        const int len = DWC_Base64Encode(certBuf, sizeof(certBuf), sConsoleCert, sizeof(sConsoleCert));
         sConsoleCert[len] = '\0';
 
         // Mark data as obtained successfully
@@ -129,7 +129,7 @@ void AppendAuthParameters(NHTTPReq* req) {
 
         // Encode to Base64
         char b64UserPort[DWC_Base64GetEncodedSize(sizeof(portBuffer))+1];
-        int len = DWC_Base64Encode(portBuffer, sizeof(portBuffer), b64UserPort, sizeof(b64UserPort));
+        const int len = DWC_Base64Encode(portBuffer, sizeof(portBuffer), b64UserPort, sizeof(b64UserPort));
         b64UserPort[len] = '\0';
 
         // Send it
@@ -159,7 +159,7 @@ void ParseAuthResponse(const char* response) {
 
         // Get encoded and decoded message length
         // If it doesn't fit the buffer, bail
-        int encodedLen = strlen(response);
+        const int encodedLen = strlen(response);
         int decodedLen = DWC_Base64Decode(response, encodedLen, nullptr, 0);
         if (decodedLen > sizeof(sConsoleAssignMessageBuffer) - sizeof(wchar_t)) {
             LOG_ERROR("Message exceeds buffer size, discarding...");

@@ -19,7 +19,7 @@ void RaceCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayerId
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
+        const u32 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
         cupButton->setText(CupManager::GetCupList()[cupIdx].cupName);
         CupManager::updateCupButton(cupButton, self->curPage, i);
     }
@@ -47,7 +47,7 @@ void RaceCupSelectArrow::onRight(SheetSelectControl* arrowPair, u32 localPlayerI
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
+        const u32 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
         cupButton->setText(CupManager::GetCupList()[cupIdx].cupName);
         CupManager::updateCupButton(cupButton, self->curPage, i);
     }
@@ -65,7 +65,7 @@ void RaceCupSelectArrow::onDeselect(u32 localPlayerId) {
 
     // Force select the previous selected cup
     RaceCupSelectPageEx* page = RaceCupSelectPageEx::getPage();
-    u32 curSelected = page->cupHolder.currentSelected;
+    const u32 curSelected = page->cupHolder.currentSelected;
     LOG_DEBUG("Restoring selected button to %d...", curSelected);
     page->cupHolder.cupButtons[curSelected].select(localPlayerId);
 }

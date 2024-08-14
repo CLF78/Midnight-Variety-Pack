@@ -102,8 +102,8 @@ bool RKNetSELECTHandler::checkUpdatedRaceSettingsAll() {
 void RKNetSELECTHandler::storeVote(u8 aid) {
 
     // Override the winning AID's voted track with the one determined by the host
-    u8 winningVoter = recvPackets[aid].winningVoterAid;
-    u16 winningCourse = expansion.recvPacketsEx[aid].winningCourse;
+    const u8 winningVoter = recvPackets[aid].winningVoterAid;
+    const u16 winningCourse = expansion.recvPacketsEx[aid].winningCourse;
     if ((RKNetController::instance->getCurrentSub()->availableAids & (1 << winningVoter)) &&
         winningCourse != CupData::NO_TRACK)
         expansion.recvPacketsEx[winningVoter].winningCourse = winningCourse;
@@ -169,7 +169,7 @@ REPLACE void RKNetSELECTHandler::calcPhase() {
             continue;
 
         // Get incoming packet
-        u32 aidMask = 1 << aid;
+        const u32 aidMask = 1 << aid;
         RKNetSELECTPacket* recvPacket = &recvPackets[aid];
 
         // Update phase for host
@@ -285,7 +285,7 @@ REPLACE void RKNetSELECTHandler::importNewPackets() {
 REPLACE void RKNetSELECTHandler::setSendPacket() {
 
     // Check that at least 170 milliseconds have passed
-    s64 currTime = OSGetTime();
+    const s64 currTime = OSGetTime();
     if (OSTicksToMilliseconds(currTime - lastSentTime) < 170)
         return;
 
@@ -383,7 +383,7 @@ REPLACE void RKNetSELECTHandler::decideEngineClass() {
 REPLACE void RKNetSELECTHandler::decideTrack() {
 
     // Check if battle
-    bool isBattle = (mode == MODE_PRIVATE_BATTLE || mode == MODE_PUBLIC_BATTLE);
+    const bool isBattle = (mode == MODE_PRIVATE_BATTLE || mode == MODE_PUBLIC_BATTLE);
 
     // Bail if no one is connected
     const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
@@ -397,7 +397,7 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
 
             // Get the vote and ensure it is valid
             u16 track = getPlayerVote(i);
-            u32 trackCount = CupManager::GetTrackCount(isBattle);
+            const u32 trackCount = CupManager::GetTrackCount(isBattle);
             track = (track < trackCount) ? track : CupData::RANDOM_TRACK_VOTE;
 
             // Add it to the repick manager
@@ -406,7 +406,7 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
     }
 
     // Get the winning vote
-    RepickQueue::Vote vote = RepickQueue::instance.GetWinningVote();
+    const RepickQueue::Vote vote = RepickQueue::instance.GetWinningVote();
 
     // Get the track, and if it's random then pick a random track
     u16 track = vote.track;
@@ -444,7 +444,7 @@ REPLACE void RKNetSELECTHandler::prepareSendPacket(u8 aid, s64 sendTime) {
 
     // Update the timers (replicated code)
     sendPacket.timeSender = OSTicksToMilliseconds(sendTime);
-    s64 timeSent = recvPackets[aid].timeSender;
+    const s64 timeSent = recvPackets[aid].timeSender;
     if (timeSent == 0) {
         sendPacket.timeReceived = 0;
     } else {

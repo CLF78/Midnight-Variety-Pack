@@ -32,7 +32,7 @@ REPLACE void VotingBackPage::setupRace() {
     RaceConfig::Scenario* scenario = &rconf->menuScenario;
     RaceConfig::Settings* settings = &scenario->settings;
     GlobalContext* ctx = SectionManager::instance->globalContext;
-    u32 curSection = SectionManager::instance->curSection->sectionId;
+    const u32 curSection = SectionManager::instance->curSection->sectionId;
     RKNetSELECTHandler* selectHandler = RKNetSELECTHandler::instance;
 
     // Update the AID to PID map
@@ -51,7 +51,7 @@ REPLACE void VotingBackPage::setupRace() {
 
     // Set the track
     // If random, pick a variant using the shared seed
-    u32 actualTrackIdx = CupManager::getTrackFile(selectHandler->getWinningTrack(), &settings->seed1);
+    const u32 actualTrackIdx = CupManager::getTrackFile(selectHandler->getWinningTrack(), &settings->seed1);
     CupManager::SetCourse(settings, actualTrackIdx);
 
     // Set game mode depending on the current menu
@@ -103,7 +103,7 @@ REPLACE void VotingBackPage::setupRace() {
     }
 
     // Set engine class and the mirror flag
-    RKNetEngineClassData engineClassData(engineClass);
+    const RKNetEngineClassData engineClassData(engineClass);
     settings->engineClass = engineClassData.getEngineClass();
     settings->modeFlags |= engineClassData.getIsMirrorFlag();
 
@@ -129,8 +129,8 @@ REPLACE void VotingBackPage::setupRace() {
     for (int playerId = 0; playerId < 12; playerId++) {
 
         // Get the aid of the player
-        u8 aid = RKNetController::instance->aidPidMap.playerIds[playerId];
-        bool isLocal = aid == RKNetController::instance->getCurrentSub()->myAid;
+        const u8 aid = RKNetController::instance->aidPidMap.playerIds[playerId];
+        const bool isLocal = aid == RKNetController::instance->getCurrentSub()->myAid;
         RaceConfig::Player* player = &scenario->players[playerId];
 
         // If the aid is not valid, remove the player

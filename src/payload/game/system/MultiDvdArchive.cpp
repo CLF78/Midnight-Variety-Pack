@@ -11,7 +11,7 @@
 const char* getLanguageCode() {
 
     // Get language code
-    u8 lang = SCGetLanguage();
+    const u8 lang = SCGetLanguage();
 
     // PAL
     if (__CODE_REGION__ == Region::REGION_P) {

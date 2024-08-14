@@ -155,7 +155,7 @@ void ShowStackTrace_(u32* sp) {
         }
 
         // Get the address
-        u32 addr = sp[1] - 4;
+        const u32 addr = sp[1] - 4;
 
         // Add an arrow between addresses
         if (i % 4 != 0)

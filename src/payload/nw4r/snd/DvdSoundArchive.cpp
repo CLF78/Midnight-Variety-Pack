@@ -16,38 +16,38 @@ namespace snd {
 int GetExtStreamEntryNum(const char* path) {
 
     // Get the path length and fail if it's outside of our working range
-    size_t pathLen = strlen(path);
+    const size_t pathLen = strlen(path);
     if (pathLen < sizeof(BRSTM_PREFIX))
         return -1;
 
     // Check if the track name begins with "n", "r" or "S" (track music)
-    char start = path[strlenc(BRSTM_PREFIX)];
+    const char start = path[strlenc(BRSTM_PREFIX)];
     if (start == 'n' || start == 'r' || start == 'S') {
 
         // Reset the speed up value in ItemMusicManager
         ItemMusicManager::instance->speedUp = false;
 
         // Get the current music if so
-        u16 musicFile = CupData::tracks[CupManager::currentSzs].musicFileId;
+        const u16 musicFile = CupData::tracks[CupManager::currentSzs].musicFileId;
 
         // Initialize buffer
         char buffer[32];
 
         // Get the final character to see if it's the final lap music
-        char end = path[pathLen-sizeof(BRSTM_SUFFIX)];
-        bool isFinalLap = (end == 'f' || end == 'F');
+        const char end = path[pathLen-sizeof(BRSTM_SUFFIX)];
+        const bool isFinalLap = (end == 'f' || end == 'F');
 
         // Try to get the custom final lap music
         if (isFinalLap) {
             snprintf(buffer, sizeof(buffer), BRSTM_PREFIX "%d_F" BRSTM_SUFFIX, musicFile);
-            int ret = DVDConvertPathToEntrynum(buffer);
+            const int ret = DVDConvertPathToEntrynum(buffer);
             if (ret != -1)
                 return ret;
         }
 
         // Else fall back to the regular custom music
         snprintf(buffer, sizeof(buffer), BRSTM_PREFIX "%d" BRSTM_SUFFIX, musicFile);
-        int ret = DVDConvertPathToEntrynum(buffer);
+        const int ret = DVDConvertPathToEntrynum(buffer);
 
         // If found, store isFinalLap to pitch the music appropriately
         if (ret != -1) {
@@ -73,7 +73,7 @@ REPLACE ut::FileStream* DvdSoundArchive::OpenExtStream(void* buffer, int size, c
         return nullptr;
 
     // Get the entry num from our custom function
-    s32 entryNum = GetExtStreamEntryNum(extFilePath);
+    const s32 entryNum = GetExtStreamEntryNum(extFilePath);
     if (entryNum < 0)
         return nullptr;
 

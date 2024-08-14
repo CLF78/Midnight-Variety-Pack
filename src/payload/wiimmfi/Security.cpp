@@ -13,7 +13,7 @@ bool IsPacketSectionSizeValid(int section, u32 sectionSize) {
         return true;
 
     // The check depends on each section
-    u32 destSize = RKNetController::packetBufferSizes[section];
+    const u32 destSize = RKNetController::packetBufferSizes[section];
     switch (section) {
 
         // For EVENT packets, ensure the size fits the buffer as it is variable

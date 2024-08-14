@@ -47,7 +47,7 @@ REPLACE MapdataStageAccessor* CourseMap::parseStageInformation(u32 magic) {
     MapdataStageAccessor* stgi = REPLACED(magic);
 
     // Check if lap count is less than 10
-    u8 lapCount = stgi->entries[0]->mpData->mLapCount;
+    const u8 lapCount = stgi->entries[0]->mpData->mLapCount;
     if (lapCount < 10)
         RaceConfig::instance->raceScenario.settings.lapCount = lapCount;
 

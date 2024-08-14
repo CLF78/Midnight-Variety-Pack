@@ -39,8 +39,8 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
 
     // Get selected arena and set it as last stage
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->curPage, true);
-    u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[button->buttonId];
+    const u32 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->curPage, true);
+    const u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[button->buttonId];
     SectionManager::instance->globalContext->lastStage = trackIdx;
 
     if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
@@ -79,7 +79,7 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
     } else {
 
         // Get the actual arena to be played and store it
-        u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+        const u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
         CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
 
         // Prepare intro
@@ -97,8 +97,8 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
 void BattleStageSelectPageEx::onActivate() {
 
     // Set the instruction text according to the battle type
-    u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
-    u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
+    const u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
+    const u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
                 Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
                 Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
     instructionText->setText(msgId);

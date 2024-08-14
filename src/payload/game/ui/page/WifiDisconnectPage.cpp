@@ -277,13 +277,13 @@ REPLACE void WifiDisconnectPage::onActivate() {
     }
 
     // Setup message info with category and error code (not used by every message)
-    u32 disconnectCategory = disconnectInfo.errorCategory;
+    const u32 disconnectCategory = disconnectInfo.errorCategory;
     MessageInfo msgInfo;
     msgInfo.intVals[0] = disconnectInfo.errorCode;
 
     // Various errors, display a different message depending on the error code
     if (disconnectCategory == WifiDisconnectInfo::ERROR_WITH_CODE) {
-        u32 errorMsg = GetErrorMessage(disconnectInfo.errorCode, &msgInfo);
+        const u32 errorMsg = GetErrorMessage(disconnectInfo.errorCode, &msgInfo);
         messageBox.setText(errorMsg, &msgInfo);
         section->shutdownNet();
 

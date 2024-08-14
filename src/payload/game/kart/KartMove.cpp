@@ -37,7 +37,7 @@ kmListHookDefCpp(RaceStartHook) {
     KartMove::bulletSpeedLimit = 145.0f;
     KartMove::minimumDriftThreshold = 0.55f;
 
-    u32 engineClass = RaceConfig::instance->raceScenario.settings.engineClass;
+    const u32 engineClass = RaceConfig::instance->raceScenario.settings.engineClass;
     if (engineClass > RaceConfig::Settings::CC_150) {
         KartMove::kartSpeedLimit *= KartMove::speedModifiers[engineClass];
         KartMove::bulletSpeedLimit *= KartMove::speedModifiers[engineClass];
@@ -55,7 +55,7 @@ kmBranchDefCpp(0x80584F6C, 0x80584FF8, void, KartMove* self, KartState* state) {
     state->bitfield3 |= KartState::UNK_40;
 
     // Divide speed by the multiplier for CCs higher than 150cc
-    u32 engineClass = RaceConfig::instance->raceScenario.settings.engineClass;
+    const u32 engineClass = RaceConfig::instance->raceScenario.settings.engineClass;
     if (engineClass > RaceConfig::Settings::CC_150)
         self->speed /= self->speedMultiplier;
 

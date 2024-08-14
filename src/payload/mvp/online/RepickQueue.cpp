@@ -57,7 +57,7 @@ RepickQueue::Vote RepickQueue::GetWinningVote() const {
     u8 maxPosCount = 0;
     for (int i = 0; i < voteCount; i++) {
 
-        u8 queuePos = votes[i].queuePos;
+        const u8 queuePos = votes[i].queuePos;
         if (queuePos > maxPos) {
             maxPos = votes[i].queuePos;
             maxPosCount = 1;

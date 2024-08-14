@@ -72,7 +72,7 @@ REPLACE bool RKNetRH1Handler::isTrackAvailable() {
 
     // Everyone must have updated RH1, if not bail
     const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
-    u32 mask = sub->availableAids & (aidsWithUpdatedRH1 | (1 << sub->myAid));
+    const u32 mask = sub->availableAids & (aidsWithUpdatedRH1 | (1 << sub->myAid));
     if (sub->availableAids != mask)
         return false;
 
@@ -101,7 +101,7 @@ REPLACE void RKNetRH1Handler::importRecvData() {
             continue;
 
         // Mark AID as available
-        u32 aidMask = 1 << aid;
+        const u32 aidMask = 1 << aid;
         availableAids |= aidMask;
 
         // If the packet size doesn't match a RH1 packet, skip

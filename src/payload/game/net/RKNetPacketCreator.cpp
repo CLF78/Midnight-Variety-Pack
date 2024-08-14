@@ -48,7 +48,7 @@ REPLACE void RKNetPacketCreator::createRH1Racer() {
         packet.countdownTime = countdownTimer - RKNetController::instance->countdownTimers[aid];
 
         for (int i = 0; i < sub->localPlayerCount; i++) {
-            u32 playerIdx = RKNetController::instance->getLocalPlayerIdx(i);
+            const u32 playerIdx = RKNetController::instance->getLocalPlayerIdx(i);
             packet.playerCombos[i].character = scenario->players[playerIdx].characterId;
             packet.playerCombos[i].vehicle = scenario->players[playerIdx].vehicleId;
             packet.starRanks[i] = SectionManager::instance->globalContext->playerCombos[i].starRank;

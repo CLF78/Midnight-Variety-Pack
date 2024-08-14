@@ -20,7 +20,7 @@ u32 GetElapsedTime() {
     // Do IOS call
     u32 milliseconds = 0;
     IOSIoVector vec = {&milliseconds, sizeof(milliseconds)};
-    s32 result = IOS_Ioctlv(sDevDolphin, GET_ELAPSED_TIME, 0, 1, &vec);
+    const s32 result = IOS_Ioctlv(sDevDolphin, GET_ELAPSED_TIME, 0, 1, &vec);
 
     // Bail on failure
     if (result != IPC_OK)
@@ -43,7 +43,7 @@ const char* GetVersion() {
 
     // Do IOS call
     IOSIoVector vec = {sVersionBuffer, sizeof(sVersionBuffer)};
-    s32 result = IOS_Ioctlv(sDevDolphin, GET_VERSION, 0, 1, &vec);
+    const s32 result = IOS_Ioctlv(sDevDolphin, GET_VERSION, 0, 1, &vec);
 
     // Bail on failure
     if (result != IPC_OK)
@@ -70,7 +70,7 @@ const char* GetRealProductCode() {
 
     // Do IOS call
     IOSIoVector vec = {sProdCodeBuffer, sizeof(sProdCodeBuffer)};
-    s32 result = IOS_Ioctlv(sDevDolphin, GET_REAL_PRODUCT_CODE, 0, 1, &vec);
+    const s32 result = IOS_Ioctlv(sDevDolphin, GET_REAL_PRODUCT_CODE, 0, 1, &vec);
 
     // Bail on failure
     if (result != IPC_OK)

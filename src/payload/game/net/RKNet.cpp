@@ -21,16 +21,16 @@ REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
         return;
 
     // Get the PID of the AID that sent the packet
-    u32 pid = -1;
+    const u32 pid = -1;
     if (DWCNodeInfo* info = DWCi_NodeInfoList_GetNodeInfoForAid(aid))
-        u32 pid = info->profileId;
+        const u32 pid = info->profileId;
 
     // Verify the checksum
     // The game already does this later, but we shouldn't disconnect a player because a packet got corrupted
     RKNetRACEPacketHeader* header = (RKNetRACEPacketHeader*)data;
-    u32 savedChecksum = header->checksum;
+    const u32 savedChecksum = header->checksum;
     header->checksum = 0;
-    u32 realChecksum = NETCalcCRC32(data, dataLength);
+    const u32 realChecksum = NETCalcCRC32(data, dataLength);
     header->checksum = savedChecksum;
     if (realChecksum != savedChecksum) {
         LOG_WARN("Detected corrupted packet from PID %d", pid);
@@ -44,7 +44,7 @@ REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
     }
 
     // Lock interrupts
-    nw4r::ut::AutoInterruptLock lock;
+    const nw4r::ut::AutoInterruptLock lock;
     LOG_WARN("Detected malicious packet from PID %d", pid);
 
     // Kick the offending player if we're host

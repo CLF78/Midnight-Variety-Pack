@@ -14,7 +14,7 @@ kmCallDefCpp(0x8084E5C4, void, GlobalContext* self) {
     CupManager::generateRandomCourseOrder();
 
     // Store the first track properly
-    u16 firstTrack = self->trackOrder[0];
+    const u16 firstTrack = self->trackOrder[0];
     CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, firstTrack);
 }
 
@@ -26,7 +26,7 @@ kmCallDefCpp(0x8084E58C, void, GlobalContext* self) {
     CupManager::generateRandomCourseOrder(nullptr, true);
 
     // Store the first track properly
-    u16 firstTrack = self->arenaOrder[0];
+    const u16 firstTrack = self->arenaOrder[0];
     CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, firstTrack);
 }
 

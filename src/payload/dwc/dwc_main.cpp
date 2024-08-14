@@ -42,15 +42,15 @@ REPLACE GT2Result DWCi_GT2Startup() {
     }
 
     // Get the port
-    u16 port = (Wiimmfi::Port::sPort) ? Wiimmfi::Port::sPort : (u16)(0xC000 + DWCi_GetMathRand32(0x4000));
+    const u16 port = (Wiimmfi::Port::sPort) ? Wiimmfi::Port::sPort : (u16)(0xC000 + DWCi_GetMathRand32(0x4000));
     DWC_Printf(DWC_REPORT_MATCH_NN, "Got private port %d\n", port);
 
     // Create the socket
-    GT2Result gt2Result = gt2CreateSocket(&stpDwcCnt->gt2Socket,
-                                          gt2AddressToString(0, port, nullptr),
-                                          stpDwcCnt->gt2SendBufSize,
-                                          stpDwcCnt->gt2RecvBufSize,
-                                          DWCi_GT2SocketErrorCallback);
+    const GT2Result gt2Result = gt2CreateSocket(&stpDwcCnt->gt2Socket,
+                                                gt2AddressToString(0, port, nullptr),
+                                                stpDwcCnt->gt2SendBufSize,
+                                                stpDwcCnt->gt2RecvBufSize,
+                                                DWCi_GT2SocketErrorCallback);
 
     // Set error code if necessary
     if (DWCi_HandleGT2Error(gt2Result))

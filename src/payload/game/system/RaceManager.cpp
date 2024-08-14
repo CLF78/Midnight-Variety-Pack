@@ -129,7 +129,7 @@ kmListHookDefCpp(RaceUpdateHook) {
         return;
 
     // Check if the race is finished
-    u32 raceStage = RaceManager::instance->raceStage;
+    const u32 raceStage = RaceManager::instance->raceStage;
     if (raceStage != RaceManager::STAGE_FINISH_ALL)
         return;
 

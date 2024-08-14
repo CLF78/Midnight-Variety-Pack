@@ -52,7 +52,7 @@ char path[] = KAMEK_FILE_PATH "X.bin";
 kmBranchDefCpp(0x800074D4, NULL, void) {
 
     // Detect region, stall game on failure
-    Region::Value region = Region::Detect();
+    const Region::Value region = Region::Detect();
     if (region == Region::REGION_UNK)
         for (;;);
 

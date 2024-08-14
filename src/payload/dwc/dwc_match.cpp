@@ -82,11 +82,11 @@ kmCallDefAsm(0x800D9754) {
 kmBranchDefCpp(0x800DA7D4, 0x800DA81C, void, u32 aidsConnectedToHost) {
 
     // Get the AIDs connected to me and send the custom command
-    u32 aidsConnectedToMe = DWC_GetAIDBitmap();
+    const u32 aidsConnectedToMe = DWC_GetAIDBitmap();
     Wiimmfi::MatchCommand::SendConnFailMtxCommand(aidsConnectedToHost, aidsConnectedToMe);
 
     // Get the dead AID bitmap, if empty return early
-    u32 deadAidBitmap = aidsConnectedToMe & ~aidsConnectedToHost;
+    const u32 deadAidBitmap = aidsConnectedToMe & ~aidsConnectedToHost;
     if (deadAidBitmap == 0)
         return;
 
@@ -101,7 +101,7 @@ kmBranchDefCpp(0x800DA7D4, 0x800DA81C, void, u32 aidsConnectedToHost) {
 // Try to recover from a SYN-ACK timeout (i think)
 // Credits: Wiimmfi
 REPLACE BOOL DWCi_ProcessMatchSynTimeout() {
-    BOOL ret = REPLACED();
+    const BOOL ret = REPLACED();
     Wiimmfi::Natneg::RecoverSynAckTimeout();
     return ret;
 }
@@ -207,7 +207,7 @@ REPLACE int DWCi_SendMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publi
                                   int dataLen) {
 
     // Call original function
-    int ret = REPLACED(cmd, profileId, publicIp, publicPort, cmdData, dataLen);
+    const int ret = REPLACED(cmd, profileId, publicIp, publicPort, cmdData, dataLen);
 
     // Report to the server if it's a SVDOWN command
     switch (cmd) {

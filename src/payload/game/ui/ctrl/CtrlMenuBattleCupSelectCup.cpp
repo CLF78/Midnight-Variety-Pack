@@ -33,7 +33,7 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
     currentSelected = 0;
 
     // Load the main controller
-    u8 playerCount = UIUtils::getPlayerCount();
+    const u8 playerCount = UIUtils::getPlayerCount();
     const char* mainCtr = (playerCount <= 2) ? "CupSelectCupNULL" : "CupSelectCupNULL_4";
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
@@ -52,8 +52,8 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
         button->buttonId = i;
 
         // Set cup name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
-        u16 msgId = CupManager::GetCupList(true)[cupIdx].cupName;
+        const u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
+        const u16 msgId = CupManager::GetCupList(true)[cupIdx].cupName;
         button->setText(msgId);
 
         // Set cup icon

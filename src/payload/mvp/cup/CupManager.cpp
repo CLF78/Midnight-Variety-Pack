@@ -23,7 +23,7 @@ u16 CupManager::arenaOrder[];
 ////////////////////
 
 u32 CupManager::getCupButtonFromTrack(s32 track, u32 curPage, bool isBattle) {
-    u32 cupIdx = getCupIdxFromTrack(track, isBattle);
+    const u32 cupIdx = getCupIdxFromTrack(track, isBattle);
     return getCupButtonFromIdx(cupIdx, curPage, isBattle);
 }
 
@@ -32,7 +32,7 @@ u32 CupManager::getCupButtonFromPosition(u32 pos) {
 }
 
 u32 CupManager::getCupButtonFromIdx(u32 idx, u32 page, bool isBattle) {
-    u32 cupPos = getCupPositionFromIdx(idx, page, isBattle);
+    const u32 cupPos = getCupPositionFromIdx(idx, page, isBattle);
     return getCupButtonFromPosition(cupPos);
 }
 
@@ -41,7 +41,7 @@ u32 CupManager::getCupButtonFromIdx(u32 idx, u32 page, bool isBattle) {
 //////////////////////
 
 u32 CupManager::getCupPositionFromTrack(s32 track, u32 curPage, bool isBattle) {
-    u32 cupIdx = getCupIdxFromTrack(track, isBattle);
+    const u32 cupIdx = getCupIdxFromTrack(track, isBattle);
     return getCupPositionFromIdx(cupIdx, curPage, isBattle);
 }
 
@@ -56,7 +56,7 @@ u32 CupManager::getCupPositionFromIdx(u32 idx, u32 page, bool isBattle) {
         return idx;
 
     // Get the first cup displayed in the page
-    u32 minCupIdx = page * 2;
+    const u32 minCupIdx = page * 2;
 
     // If the cup index is less than the minimum, we have wrapped around
     // Get the first column and add the index to it
@@ -91,7 +91,7 @@ u32 CupManager::getCupIdxFromTrack(s32 track, bool isBattle) {
 }
 
 u32 CupManager::getCupIdxFromButton(u32 button, u32 page, bool isBattle) {
-    u32 cupPos = getCupPositionFromButton(button);
+    const u32 cupPos = getCupPositionFromButton(button);
     return getCupIdxFromPosition(cupPos, page, isBattle);
 }
 
@@ -102,10 +102,10 @@ u32 CupManager::getCupIdxFromPosition(u32 pos, u32 page, bool isBattle) {
         return pos;
 
     // Get the first cup displayed in the page
-    u32 minCupIdx = page * 2;
+    const u32 minCupIdx = page * 2;
 
     // If the cup exceeds the maximum position, account for wrap-around
-    u32 maxPos = GetCupCount(isBattle) - minCupIdx;
+    const u32 maxPos = GetCupCount(isBattle) - minCupIdx;
     if (pos >= maxPos)
         return pos - maxPos;
 
@@ -124,7 +124,7 @@ u32 CupManager::getCupPageFromTrack(s32 track, bool isBattle) {
 
     // Get the maximum page
     // If there is only one page, use it
-    u32 maxCupPage = CupManager::getMaxCupPage(isBattle);
+    const u32 maxCupPage = CupManager::getMaxCupPage(isBattle);
     if (maxCupPage == 0)
         return maxCupPage;
 
@@ -153,7 +153,7 @@ u16 CupManager::getTrackName(u32 trackIdx) {
         return Message::Menu::VOTE_RANDOM_TRACK;
 
     // Get the random flag and turn it off
-    bool isRegular = (trackIdx & CupData::IS_RANDOM) == 0;
+    const bool isRegular = (trackIdx & CupData::IS_RANDOM) == 0;
     trackIdx &= ~CupData::IS_RANDOM;
 
     // Get the name
@@ -187,7 +187,7 @@ void CupManager::setTrackName(LayoutUIControl* ctrl, u32 trackIdx) {
 s32 CupManager::getTrackFile(u32 trackIdx, u32* seed) {
 
     // Get the random flag and remove it from the index value
-    bool isRegular = (trackIdx & CupData::IS_RANDOM) == 0;
+    const bool isRegular = (trackIdx & CupData::IS_RANDOM) == 0;
     trackIdx &= ~CupData::IS_RANDOM;
 
     // Get the file ID
@@ -219,7 +219,7 @@ s32 CupManager::getRandomTrackFile(u16 trackEntry, u32* seedValue) {
     Random randomizer = Random(seedValue);
 
     // Get a number between 0 and 255, and check in which chance range it lands
-    u32 chanceVal = randomizer.nextU32(256);
+    const u32 chanceVal = randomizer.nextU32(256);
     u32 currChance = 0;
     for (int i = 0; i < holder->count; i++) {
         currChance += holder->chanceIndexes[i];
@@ -267,7 +267,7 @@ u32 CupManager::generateCourseOrder(u32 cupIdx, u32 track, bool isBattle) {
 u32 CupManager::generateRandomCourseOrder(u32* seed, bool isBattle) {
 
     // Generate a starting order
-    u32 raceCount = generateCourseOrder(0, 0, isBattle);
+    const u32 raceCount = generateCourseOrder(0, 0, isBattle);
 
     // Get the context, the randomizer and the order array
     GlobalContext* context = SectionManager::instance->globalContext;
@@ -276,10 +276,10 @@ u32 CupManager::generateRandomCourseOrder(u32* seed, bool isBattle) {
 
     // Randomize the tracklist raceCount times
     for (int i = 0; i < raceCount; i++) {
-        u32 idx = randomizer.nextU32(raceCount);
+        const u32 idx = randomizer.nextU32(raceCount);
 
         // Swap the first track with the random index
-        u32 tmp = orderArray[0];
+        const u32 tmp = orderArray[0];
         orderArray[0] = orderArray[idx];
         orderArray[idx] = tmp;
     }
@@ -294,10 +294,10 @@ u32 CupManager::generateRandomCourseOrder(u32* seed, bool isBattle) {
 bool CupManager::updateCupButton(LayoutUIControl* button, u32 curPage, int buttonId, bool isBattle) {
 
     // Get the cup index
-    u32 cupIdx = getCupIdxFromButton(buttonId, curPage, isBattle);
+    const u32 cupIdx = getCupIdxFromButton(buttonId, curPage, isBattle);
 
     // Instead of replacing the texture, hide the cup entirely if it exceeds the maximum index
-    bool hide = (cupIdx >= GetCupCount(isBattle));
+    const bool hide = (cupIdx >= GetCupCount(isBattle));
     button->hidden = hide;
 
     // Set the pane if visible
@@ -314,7 +314,7 @@ bool CupManager::updateCupButton(LayoutUIControl* button, u32 curPage, int butto
 bool CupManager::updateCupButton(PushButton* button, u32 curPage, int buttonId, bool isBattle) {
 
     // Do all regular behaviour
-    bool hide = updateCupButton((LayoutUIControl*)button, curPage, buttonId, isBattle);
+    const bool hide = updateCupButton((LayoutUIControl*)button, curPage, buttonId, isBattle);
 
     // Make button unselectable and return value
     button->inputManager.unselectable = hide;

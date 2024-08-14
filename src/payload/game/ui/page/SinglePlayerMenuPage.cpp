@@ -52,12 +52,12 @@ REPLACE void SinglePlayerMenuPage::onButtonClick(PushButton* button, u32 hudSlot
     scenario->settings.itemMode = RaceConfig::Settings::ITEMS_BALANCED;
 
     // Get the selected button's ID
-    u32 buttonId = button->buttonId;
+    const u32 buttonId = button->buttonId;
 
     // If the back button was pressed, return to the main menu
     if (buttonId == MenuPage::BACK_BUTTON) {
         forceSectionChange(Section::MENU_FROM_GAME, button);
-        u32 soundId = Section::getSoundId(Section::MENU_FROM_GAME);
+        const u32 soundId = Section::getSoundId(Section::MENU_FROM_GAME);
         AudioHandleHolder::instance->prepare(soundId, false);
         return;
     }
@@ -100,7 +100,7 @@ REPLACE void SinglePlayerMenuPage::onButtonClick(PushButton* button, u32 hudSlot
     scenario->settings.cameraMode = cameraModes[buttonId];
 
     // Set the appropriate player types based on total player count
-    u8 playerCount = playerCounts[buttonId];
+    const u8 playerCount = playerCounts[buttonId];
     for (int i = 0; i < playerCount; i++) {
         scenario->players[i].playerType = (i == 0) ? RaceConfig::Player::TYPE_LOCAL
                                                    : RaceConfig::Player::TYPE_CPU;

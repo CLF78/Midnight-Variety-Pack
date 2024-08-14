@@ -16,7 +16,7 @@ char sScrambledToken[96];
 void DecodeToken(const char* encodedToken) {
 
     // Get the decoded token size
-    int encodedLen = strlen(encodedToken);
+    const int encodedLen = strlen(encodedToken);
     int decodedLen = DWC_Base64Decode(encodedToken, encodedLen, nullptr, 0);
     sToken = new (KAMEK_HEAP, 32) char[decodedLen+1];
 
@@ -36,8 +36,8 @@ void DecodeToken(const char* encodedToken) {
         // Run ASCII substitution
         static const char key[] = "0123456789,abcdefghijklmnopqrstuvwxyz|=+-_";
         for (int i = 0; i < decodedLen && i < strlenc(key); i++) {
-            char c = sToken[i];
-            char pos = key[i];
+            const char c = sToken[i];
+            const char pos = key[i];
             sScrambledToken[pos - ' '] = c;
         }
     }
@@ -45,7 +45,7 @@ void DecodeToken(const char* encodedToken) {
 
 void ScrambleMessage(char* msg, int msgLen) {
     for (int i = 0; i < msgLen; i++) {
-        u8 c = msg[i] - ' ';
+        const u8 c = msg[i] - ' ';
         if (c < strlenc(sScrambledToken))
             msg[i] = sScrambledToken[c];
     }
@@ -69,7 +69,7 @@ void SendMessage(const char* key, const char* value, int integerValue) {
 
     // Print the message to the buffer
     char buffer[599];
-    int len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\",
+    const int len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\",
                        key, integerValue, value);
 
     // If the printed string did not fit in the buffer, bail
@@ -84,7 +84,7 @@ void SendMessage(const char* key, const char* value, int integerValue) {
 
     // Lock interrupts and append message
     {
-        nw4r::ut::AutoInterruptLock lock;
+        const nw4r::ut::AutoInterruptLock lock;
         gpiAppendStringToBuffer(conn, &(*conn)->outputBuffer, buffer);
     }
 }

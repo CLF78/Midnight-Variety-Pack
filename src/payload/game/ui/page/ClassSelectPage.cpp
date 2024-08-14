@@ -26,21 +26,21 @@ REPLACE void ClassSelectPage::onInit() {
     multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
 
     // If we are not returning from TT mode, we don't need to set the button
-    u32 section = SectionManager::instance->curSection->sectionId;
+    const u32 section = SectionManager::instance->curSection->sectionId;
     if (section != Section::MENUSINGLE_FROM_TT_CHANGE_CHAR && section != Section::MENUSINGLE_FROM_TT_CHANGE_COURSE)
         return;
 
     // Get each button id
     for (int i = 0; i < buttonCount; i++) {
         PushButton* btn = buttons[i];
-        int buttonId = btn->buttonId;
+        const int buttonId = btn->buttonId;
 
         // Skip all irrelevant buttons
         if (buttonId < 0 || buttonId > 2)
             continue;
 
         // If the engine class matches the current button's, set the button and return
-        u32 engineClass = ClassSelectPage::engineClasses[buttonId];
+        const u32 engineClass = ClassSelectPage::engineClasses[buttonId];
         if (RaceConfig::instance->menuScenario.settings.engineClass == engineClass) {
             btn->selectDefault(0);
             return;
@@ -92,7 +92,7 @@ REPLACE PushButton* ClassSelectPage::loadButton(int buttonIdx) {
     movieBtn->load("button", "ClassSelect", btnVariants[buttonIdx], activePlayers, false, false);
 
     // Crop the movie correctly
-    u32 cropTop = (buttonIdx > 1) ? buttonIdx : buttonIdx + 4;
+    const u32 cropTop = (buttonIdx > 1) ? buttonIdx : buttonIdx + 4;
     const float totalBtns = 1.0f / 6.0f;
     movieBtn->setMovieCrop("black_base", cropTop * totalBtns, (cropTop + 1) * totalBtns, 0.0f, 1.0f);
 

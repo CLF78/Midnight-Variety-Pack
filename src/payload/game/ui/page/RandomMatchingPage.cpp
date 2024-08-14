@@ -16,7 +16,7 @@ kmBranchDefCpp(0x80609EF0, 0x80609FA4, void) {
     settings->modeFlags &= ~RaceConfig::Settings::FLAG_TEAMS;
 
     // Store custom engine class data
-    RKNetEngineClassData data(RKNetRH1Handler::instance->getEngineClass());
+    const RKNetEngineClassData data(RKNetRH1Handler::instance->getEngineClass());
     settings->engineClass = data.getEngineClass();
     settings->modeFlags |= data.getIsMirrorFlag();
 
@@ -35,7 +35,7 @@ kmBranchDefCpp(0x80609FE0, 0x8060A038, void) {
     settings->modeFlags |= RaceConfig::Settings::FLAG_TEAMS;
 
     // Store custom engine class data
-    RKNetEngineClassData data(RKNetRH1Handler::instance->getEngineClass());
+    const RKNetEngineClassData data(RKNetRH1Handler::instance->getEngineClass());
     settings->engineClass = RaceConfig::Settings::CC_50;
     settings->modeFlags |= data.getIsMirrorFlag();
 

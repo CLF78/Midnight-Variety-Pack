@@ -9,10 +9,10 @@ void ApplyPatches(const u32* input, const u32* inputEnd, const u32 text) {
     while (input < inputEnd) {
 
         // Get command header
-        u32 cmdHeader = *input++;
+        const u32 cmdHeader = *input++;
 
         // Get command
-        u8 cmd = cmdHeader >> 24;
+        const u8 cmd = cmdHeader >> 24;
 
         // Get address
         u32 address = cmdHeader & 0xFFFFFF;

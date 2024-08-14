@@ -14,15 +14,15 @@ REPLACE DWCFriendStatus DWC_GetFriendStatusData(DWCFriendData* friendData, char*
 
     // Get the communication status
     char statusString[256];
-    DWCFriendStatus ret = DWC_GetFriendStatusSC(friendData, nullptr, nullptr, statusString);
+    const DWCFriendStatus ret = DWC_GetFriendStatusSC(friendData, nullptr, nullptr, statusString);
     if (ret == DWC_STATUS_OFFLINE) {
         *size = -1;
         return ret;
     }
 
     // Get decoded size
-    size_t statusLen = strlen(statusString);
-    int decodedLen = DWC_Base64Decode(statusString, statusLen, nullptr, 0);
+    const size_t statusLen = strlen(statusString);
+    const int decodedLen = DWC_Base64Decode(statusString, statusLen, nullptr, 0);
     *size = decodedLen;
 
     // Try decoding

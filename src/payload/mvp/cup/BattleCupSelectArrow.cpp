@@ -19,7 +19,7 @@ void BattleCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayer
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = page->getCupButton(i);
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
+        const u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
         cupButton->setText(CupManager::GetCupList(true)[cupIdx].cupName);
         CupManager::updateCupButton(cupButton, page->curPage, i, true);
     }
@@ -47,7 +47,7 @@ void BattleCupSelectArrow::onRight(SheetSelectControl* arrowPair, u32 localPlaye
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = page->getCupButton(i);
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
+        const u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
         cupButton->setText(CupManager::GetCupList(true)[cupIdx].cupName);
         CupManager::updateCupButton(cupButton, page->curPage, i, true);
     }
@@ -65,7 +65,7 @@ void BattleCupSelectArrow::onDeselect(u32 localPlayerId) {
 
     // Force select the previous selected cup
     BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();
-    u32 curSelected = page->cupHolder.currentSelected;
+    const u32 curSelected = page->cupHolder.currentSelected;
     LOG_DEBUG("Restoring selected button to %d...", curSelected);
     page->getCupButton(curSelected)->select(localPlayerId);
 }

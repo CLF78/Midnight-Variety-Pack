@@ -18,7 +18,7 @@ REPLACE void CtrlMenuBattleCupSelectStage::load() {
 
     // Load the main controller
     ControlLoader loader(this);
-    u8 playerCount = UIUtils::getPlayerCount();
+    const u8 playerCount = UIUtils::getPlayerCount();
     const char* mainCtr = (playerCount <= 2) ? "CupSelectCourseNULL" : "CupSelectCourseNULL_4";
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
@@ -46,7 +46,7 @@ REPLACE void CtrlMenuBattleCupSelectStage::setCourseNames(u32 cupButtonId) {
 
     // Get cup index from page
     BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->curPage, true);
+    const u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->curPage, true);
 
     // Update each track name
     for (int i = 0; i < ARRAY_SIZE(courseNames); i++) {
@@ -61,7 +61,7 @@ REPLACE void CtrlMenuBattleCupSelectStage::setCourseNames(u32 cupButtonId) {
         courseName->animator.getGroup(3)->setAnimation(1, 0.0f);
 
         // Get the track name and set it
-        u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[i];
+        const u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[i];
         CupManager::setTrackName(courseName, trackIdx);
 
         // Hide some pane thingy

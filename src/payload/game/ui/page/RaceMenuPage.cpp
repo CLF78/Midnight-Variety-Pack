@@ -8,7 +8,7 @@
 // RaceMenuPage::onButtonSelect() patch
 // Get the next track (for VS mode)
 kmCallDefCpp(0x8085AE80, u32, int raceNum) {
-    u16 track = SectionManager::instance->globalContext->trackOrder[raceNum];
+    const u16 track = SectionManager::instance->globalContext->trackOrder[raceNum];
     CupManager::currentSzs = track;
     return CupData::tracks[track].specialSlot;
 }
@@ -21,7 +21,7 @@ kmCallDefCpp(0x8085AF30, u32, int raceNum) {
     raceNum = raceNum % CupManager::GetTrackCount(true);
 
     // Regular code
-    u16 track = SectionManager::instance->globalContext->arenaOrder[raceNum];
+    const u16 track = SectionManager::instance->globalContext->arenaOrder[raceNum];
     CupManager::currentSzs = track;
     return CupData::tracks[track].specialSlot;
 }

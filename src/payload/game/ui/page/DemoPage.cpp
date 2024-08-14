@@ -16,7 +16,7 @@
 REPLACE void DemoPage::onInit() {
 
     // Get current section
-    u32 curSection = SectionManager::instance->curSection->sectionId;
+    const u32 curSection = SectionManager::instance->curSection->sectionId;
     RaceConfig::Settings* raceSettings = &RaceConfig::instance->raceScenario.settings;
     GlobalContext* globalCtx = SectionManager::instance->globalContext;
 
@@ -37,7 +37,7 @@ REPLACE void DemoPage::onInit() {
     courseDisplayLoader.load("demo", "course_name", "course_name", nullptr);
 
     // Set the course name
-    u16 trackName = CupManager::getTrackName(CupManager::currentSzs);
+    const u16 trackName = CupManager::getTrackName(CupManager::currentSzs);
     courseName.setText(trackName);
 
     // Initialize the top text
@@ -51,7 +51,7 @@ REPLACE void DemoPage::onInit() {
     if (curSection == Section::DEMO_GP) {
 
         // Replace the cup icon
-        u32 cupIdx = raceSettings->cupId;
+        const u32 cupIdx = raceSettings->cupId;
         const char* cupIcon = CupManager::replaceCupIcon(&topText, cupIdx);
         topText.setMatIcon("cup_icon", cupIcon);
 
@@ -95,7 +95,7 @@ REPLACE void DemoPage::onInit() {
         msgInfo.intVals[1] = globalCtx->raceCount;
 
         // Set the message number
-        u32 msgId = (raceSettings->modeFlags & RaceConfig::Settings::FLAG_TEAMS) ?
+        const u32 msgId = (raceSettings->modeFlags & RaceConfig::Settings::FLAG_TEAMS) ?
                     Message::Race::TEAM_VS :
                     Message::Race::VS;
 

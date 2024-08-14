@@ -20,8 +20,8 @@ void ConnectToNode(int nodeIdx) {
 
     // Get the corresponding node info
     DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[nodeIdx];
-    u8 aid = node->aid;
-    int pid = node->profileId;
+    const u8 aid = node->aid;
+    const int pid = node->profileId;
 
     // Convert the IP and port to a string
     const char* ipAddr = gt2AddressToString(node->publicip, node->publicport, nullptr);
@@ -36,7 +36,7 @@ void ConnectToNode(int nodeIdx) {
 
     // Connect to the node
     GT2Connection conn;
-    GT2Result ret = gt2Connect(*stpMatchCnt->gt2Socket, &conn, ipAddr, buffer,
+    const GT2Result ret = gt2Connect(*stpMatchCnt->gt2Socket, &conn, ipAddr, buffer,
                                -1, 2000, stpMatchCnt->gt2Callbacks, 0);
 
     // If it was successful, store the AID in the custom field
@@ -48,7 +48,7 @@ void ConnectToNode(int nodeIdx) {
 void CalcTimers(bool connectedToHost) {
 
     // Get node count with failsafe
-    u32 nodeCount = stpMatchCnt->nodeInfoList.nodeCount;
+    const u32 nodeCount = stpMatchCnt->nodeInfoList.nodeCount;
     if (nodeCount < 1)
         return;
 
@@ -56,7 +56,7 @@ void CalcTimers(bool connectedToHost) {
     for (int i = 0; i < nodeCount; i++) {
 
         // Get the aid
-        u8 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
+        const u8 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
 
         // If i am host, do not use fast NATNEG
         if (DWC_IsServerMyself()) {
@@ -85,12 +85,12 @@ void CalcTimers(bool connectedToHost) {
             continue;
 
         // Check for empty PID or my own PID
-        u32 pid = stpMatchCnt->nodeInfoList.nodeInfos[i].profileId;
+        const u32 pid = stpMatchCnt->nodeInfoList.nodeInfos[i].profileId;
         if (pid == 0 || pid == stpMatchCnt->profileId)
             continue;
 
         // If we are not in the following forbidden states, try to connect
-        u32 matchState = stpMatchCnt->state;
+        const u32 matchState = stpMatchCnt->state;
         if (matchState != DWC_MATCH_STATE_CL_WAIT_RESV &&
             matchState != DWC_MATCH_STATE_CL_NN &&
             matchState != DWC_MATCH_STATE_CL_GT2 &&
@@ -133,7 +133,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
 
     // Obtain the PID from the message
     char* msgBuffer;
-    u32 pid = strtoul(msg, &msgBuffer, 10);
+    const u32 pid = strtoul(msg, &msgBuffer, 10);
 
     // If the message was not generated from our ConnectToNode function, fall back to original game behaviour
     if (*msgBuffer != 'L') {
@@ -194,7 +194,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     }
 
     // If the server is full, bail
-    int connIdx = DWCi_GT2GetConnectionListIdx();
+    const int connIdx = DWCi_GT2GetConnectionListIdx();
     if (connIdx == -1) {
         LOG_DEBUG("Connection failed with PID %d (server full)", pid);
         return;
@@ -225,7 +225,7 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     }
 
     // Get the actual aid
-    u8 aid = conn->aid - 1;
+    const u8 aid = conn->aid - 1;
 
     // If the connection attempt resulted into a NATNEG error try again in 150 frames
     // Only do so on one side of the connection by comparing the PIDs
@@ -295,7 +295,7 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     }
 
     // If the server is full, bail (the game will close all connections in this case, so we avoid it)
-    int connIdx = DWCi_GT2GetConnectionListIdx();
+    const int connIdx = DWCi_GT2GetConnectionListIdx();
     if (connIdx == -1) {
         LOG_DEBUG("Connection failed with AID %d (server full)", node->aid);
         return;
@@ -388,7 +388,7 @@ void RecoverSynAckTimeout() {
         return;
 
     // If no nodes are connected, bail
-    u32 nodeCount = stpMatchCnt->nodeInfoList.nodeCount;
+    const u32 nodeCount = stpMatchCnt->nodeInfoList.nodeCount;
     if (nodeCount == 0)
         return;
 
@@ -420,7 +420,7 @@ void RecoverSynAckTimeout() {
     }
 
     // Send a SYN command periodically, but save the last send time first
-    s64 lastSendTime = stpMatchCnt->lastSynSent;
+    const s64 lastSendTime = stpMatchCnt->lastSynSent;
     for (int i = 0; i < nodeCount; i++) {
         if (noSynAckAids >> i & 1)
             DWCi_SendMatchSynPacket(i, DWC_MATCH_SYN_CMD_SYN);
@@ -441,14 +441,14 @@ void StopNATNEGAfterTime() {
         return;
 
     // If we are not in a NATNEG state, bail
-    int state = stpMatchCnt->state;
+    const int state = stpMatchCnt->state;
     if (state != DWC_MATCH_STATE_CL_WAIT_RESV &&
         state != DWC_MATCH_STATE_CL_NN &&
         state != DWC_MATCH_STATE_CL_GT2)
             return;
 
     // Stop NATNEG and change state if necessary
-    BOOL ret = DWCi_StopMeshMaking();
+    const BOOL ret = DWCi_StopMeshMaking();
     LOG_DEBUG("Stopped mesh making with result %d", ret);
     if (ret)
         DWCi_SetMatchStatus(DWC_MATCH_STATE_CL_WAITING);

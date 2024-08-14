@@ -57,7 +57,7 @@ void* GetSubfileHash(const char* path, int src, char* hash) {
 void ReportAIDPIDMap() {
 
     // If we are not in a match, bail
-    int state = RKNetController::instance->connState;
+    const int state = RKNetController::instance->connState;
     if (state != RKNetController::STATE_UNK_5 && state != RKNetController::STATE_MATCHING)
         return;
 
@@ -76,7 +76,7 @@ void ReportAIDPIDMap() {
 
         // Get the node info, print it and update the offset
         DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];
-        int len = sprintf(mapPtr, "%d=%d,", node->aid, node->profileId);
+        const int len = sprintf(mapPtr, "%d=%d,", node->aid, node->profileId);
         mapPtr += len;
     }
 
@@ -156,8 +156,8 @@ void ReportCourseSubfiles() {
             break;
 
         // Else reset the fields to the default values and hash the file again
-        u8 lapCount = section->mLapCount;
-        u16 speedMod = section->mSpeedMod;
+        const u8 lapCount = section->mLapCount;
+        const u16 speedMod = section->mSpeedMod;
         section->mLapCount = 3;
         section->mSpeedMod = 0;
         GetSubfileHash("course.kmp", MultiDvdArchive::COURSE, buffers[1]);
@@ -214,7 +214,7 @@ void ReportFinishTime(u8 playerIdx, Timer* finishTime) {
     // Use interrupts to get a more accurate value
     u32 timer;
     {
-        nw4r::ut::AutoInterruptLock lock;
+        const nw4r::ut::AutoInterruptLock lock;
         timer = RaceManager::instance->frameCounter;
     }
 
@@ -242,7 +242,7 @@ void ReportFrameCount(u32 frameCount) {
         return;
 
     // Get the host's PID
-    int hostPid = stpMatchCnt->nodeInfoList.nodeInfos[0].profileId;
+    const int hostPid = stpMatchCnt->nodeInfoList.nodeInfos[0].profileId;
 
     // If the target frame is zero this is the first frame, send a message and repeat when countdown ends
     if (sTargetFrameCount == 0) {
@@ -266,7 +266,7 @@ void ReportHostSlotChange() {
 
     // Get the two AID values to compare
     static u8 sHostAid = -1;
-    u8 hostAid = DWC_GetServerAID();
+    const u8 hostAid = DWC_GetServerAID();
 
     // If it has changed, report it
     if (sHostAid != hostAid)
@@ -305,7 +305,7 @@ void ReportMatchStateChange() {
     };
 
     // If the state has not changed, bail
-    int matchState = stpMatchCnt->state;
+    const int matchState = stpMatchCnt->state;
     if (matchState == sMatchState)
         return;
 
@@ -338,7 +338,7 @@ void ReportRegionChange() {
     static u32 sHostPid;
 
     // If the PID hasn't changed, bail
-    u32 hostPid = stpMatchCnt->nodeInfoList.nodeInfos[0].profileId;
+    const u32 hostPid = stpMatchCnt->nodeInfoList.nodeInfos[0].profileId;
     if (hostPid == sHostPid)
         return;
 
@@ -403,7 +403,7 @@ void ReportServerDown(u32 cmd, u32 pid, u32* data) {
 
     // Else send the data both in decimal and hexadecimal form (??)
     else {
-        u32 cmdData = NETReadSwappedBytes32(data);
+        const u32 cmdData = NETReadSwappedBytes32(data);
         snprintf(buffer, sizeof(buffer), "%d|%d|%08x", pid, cmdData, cmdData);
     }
 
@@ -416,10 +416,10 @@ void ReportSignatureAndCert() {
     ALIGN(32) char cert[IOSECCCertSize];
     ALIGN(32) char signature[IOSECCSigSize];
     ALIGN(32) char b64Signature[DWC_Base64GetEncodedSize(sizeof(signature))+1];
-    int tokenLength = Status::sToken ? strlen(Status::sToken) : 0;
+    const int tokenLength = Status::sToken ? strlen(Status::sToken) : 0;
 
     // Get the certificate
-    s32 ret = ES_Sign((u8*)Status::sToken, tokenLength, (u8*)signature, (u8*)cert);
+    const s32 ret = ES_Sign((u8*)Status::sToken, tokenLength, (u8*)signature, (u8*)cert);
     if (ret == ES_ERR_OK) {
 
         // Encode and send the signature
@@ -448,7 +448,7 @@ void ReportSuspendUpdate() {
 
     // Get suspend mask
     static u32 sSuspendMask;
-    u32 suspendMask = stpMatchCnt->suspendMatchBitmap;
+    const u32 suspendMask = stpMatchCnt->suspendMatchBitmap;
 
     // If the suspend mask or the node count haven't been updated, bail
     if (suspendMask == sSuspendMask && sNodeCount == stpMatchCnt->nodeInfoList.nodeCount)

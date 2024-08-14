@@ -150,7 +150,7 @@ REPLACE void Section::addPage(Page::PageId pageId) {
 
 // Allow adding custom initial pages
 REPLACE void Section::addActivePage(Page::PageId pageId) {
-    Page::AnimationDirection direction = animationDirection;
+    const Page::AnimationDirection direction = animationDirection;
     Page* page = getPage(pageId);
     activePages[activePageCount++] = page;
 

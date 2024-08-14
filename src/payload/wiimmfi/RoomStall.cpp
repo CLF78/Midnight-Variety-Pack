@@ -28,7 +28,7 @@ void Update() {
     // Get the full aid map
     const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
     RKNetSELECTHandler* sel = RKNetSELECTHandler::instance;
-    u32 aidMap = sub->availableAids | (1 << sub->myAid);
+    const u32 aidMap = sub->availableAids | (1 << sub->myAid);
 
     // Get the list of aids that have not completed the loading procedure, depending on the phase
     u32 incompleteAids = 0;

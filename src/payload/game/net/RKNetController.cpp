@@ -95,7 +95,7 @@ kmCallDefCpp(0x806579B0, void) {
 
     // Only run the tasks if we are online
     if (stpMatchCnt) {
-        nw4r::ut::AutoInterruptLock lock;
+        const nw4r::ut::AutoInterruptLock lock;
 
         // Only run matching tasks if we are in a matching state
         if (RKNetController::instance->connState == RKNetController::STATE_MATCHING)

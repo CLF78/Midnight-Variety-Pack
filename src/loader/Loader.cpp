@@ -23,17 +23,17 @@ void Load(const Functions* funcs, u32 binary, u32 binaryLength) {
     }
 
     // Read header data
-    u32 codeSize = header->codeSize;
-    u32 bssSize = header->bssSize;
-    u32 ctorStart = header->ctorStart;
-    u32 ctorEnd = header->ctorEnd;
-    u32 textSize = codeSize + bssSize;
+    const u32 codeSize = header->codeSize;
+    const u32 bssSize = header->bssSize;
+    const u32 ctorStart = header->ctorStart;
+    const u32 ctorEnd = header->ctorEnd;
+    const u32 textSize = codeSize + bssSize;
     LOG_DEBUG("Payload Size: %#x (Code: %#x, Constructors: %#x-%#x, BSS: %#x)",
               textSize, codeSize, ctorStart, ctorEnd, bssSize);
 
     // Allocate text + bss section buffer, bail on failure
     LOG_DEBUG("Allocating payload buffer...");
-    u32 text = (u32)(funcs->RKSystem->EGGSystem->alloc(textSize, 0x20));
+    const u32 text = (u32)(funcs->RKSystem->EGGSystem->alloc(textSize, 0x20));
     if (!text) {
         LOG_FATAL("Failed to allocate payload buffer for Kamek binary.");
     }
@@ -73,7 +73,7 @@ void LoadFromDisc(const Functions* funcs, const char* path) {
     LOG_DEBUG("Loading Kamek binary from '%s'...", path);
 
     // Locate file
-    int entrynum = funcs->DVDConvertPathToEntrynum(path);
+    const int entrynum = funcs->DVDConvertPathToEntrynum(path);
     if (entrynum < 0) {
         LOG_FATAL("Failed to locate Kamek binary.\nExpected path: " KAMEK_ROOT_DIR "%s", path);
     }
@@ -88,7 +88,7 @@ void LoadFromDisc(const Functions* funcs, const char* path) {
     LOG_DEBUG("File located. Start Address: %p, File Size: %#x", fileInfo.startAddr, fileInfo.length);
 
     // Round up the file length to 32 bytes
-    u32 roundedLength = OSRoundUp32(fileInfo.length);
+    const u32 roundedLength = OSRoundUp32(fileInfo.length);
     LOG_DEBUG("Allocating file buffer...");
 
     // Allocate the buffer
@@ -99,7 +99,7 @@ void LoadFromDisc(const Functions* funcs, const char* path) {
 
     // Read the file
     LOG_DEBUG("Memory allocated successfully at %#x. Reading data...",  buffer);
-    int readSize = funcs->DVDReadPrio(&fileInfo, buffer, roundedLength, 0, 2);
+    const int readSize = funcs->DVDReadPrio(&fileInfo, buffer, roundedLength, 0, 2);
     if (readSize < 0) {
         LOG_FATAL("Failed to read Kamek binary into memory.\nResult code: %d", readSize);
     }
