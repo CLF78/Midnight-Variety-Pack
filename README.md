@@ -120,7 +120,7 @@ These tools are part of the [LLVM](https://llvm.org/) project. If you'd rather a
 
 ### Visual Studio Code-Specific Features
 Since the authors work on the project using [Visual Studio Code](https://code.visualstudio.com/), various dedicated integrations are included to improve the development experience:
-- Several [tasks](https://code.visualstudio.com/Docs/editor/tasks) are provided to build the project, and perform code checks. These require the [Command Variable](https://marketplace.visualstudio.com/items?itemName=rioj7.command-variable) extension to work correctly;
+- Several [tasks](https://code.visualstudio.com/Docs/editor/tasks) are provided to build the project and perform code checks. These require the [Command Variable](https://marketplace.visualstudio.com/items?itemName=rioj7.command-variable) extension to work correctly;
 - The [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) extension is used for code completion (Intellisense) and to run `clang-tidy` in the background. Various definitions have been added to the code to avoid tripping `clangd` on nonexistent errors.
     - [Microsoft's C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) must be disabled to avoid Intellisense conflicts.
 - The [clang-format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format) extension is used to call `clang-format` automatically whenever a code file is saved.

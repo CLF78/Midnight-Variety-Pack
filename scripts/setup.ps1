@@ -1,4 +1,4 @@
-﻿
+
 function DownloadFile([string]$Url, [string]$Dest, [string]$Name) {
 
     # Download the file
@@ -56,21 +56,7 @@ function HasValidDotnetVersion() {
 if ([Environment]::OSVersion.Platform -ne "Win32NT") {
     Write-Host "This script can only be run on Windows. Exiting..."
     Pause
-    Exit
-}
-
-# Check for Windows Vista or later
-if ((Get-CimInstance -Class Win32_OperatingSystem).BuildNumber -ge 6000) {
-    Write-Host "This script requires Windows Vista or later. Exiting..."
-    Pause
-    Exit
-}
-
-# Self-elevate the script
-if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
-    $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments
-    Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
-    Exit
+    Exit 1
 }
 
 # Set project root directory as current directory
@@ -175,7 +161,7 @@ if (!$? -and !(Test-Path "..\tools\cw\mwcceppc.exe")) {
     DownloadFile -Url "http://www.compdigitec.com/labs/files/isxunpack.exe" -Dest "isxunpack.exe" -Name "ISXUnpack tool"
 
     Write-Host "Unpacking CodeWarrior files..."
-    .\isxunpack.exe CW55xx_v2_10_SE.exe | Out-Null
+    Write-Output "" | .\isxunpack.exe CW55xx_v2_10_SE.exe | Out-Null
 
     # Extract the files
     New-Item out -ItemType Directory -Force

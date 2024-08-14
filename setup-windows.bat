@@ -1,1 +1,1 @@
-powershell -ExecutionPolicy Bypass -File .\scripts\setup.ps1
+powershell "Start-Process powershell -Verb RunAs -ArgumentList '-ExecutionPolicy Bypass -File "%~dp0\scripts\setup.ps1"'"
