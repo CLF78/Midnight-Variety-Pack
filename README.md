@@ -2,7 +2,7 @@
 Midnight x Variety Pack (or MVP for short) is a WIP custom track distribution created by NuoKart, CLF78 and Brawlboxgaming.
 
 ## Table of Contents
-- [Project Setup - Automatic (Windows ONLY)](#project-setup---automatic-windows-only)
+- [Project Setup - Automatic (Windows Only)](#project-setup---automatic-windows-only)
 - [Project Setup - Manual](#project-setup---manual)
     - [Required Tools and Dependencies](#required-tools-and-dependencies)
     - [Installation - Windows](#installation---windows)
@@ -17,12 +17,10 @@ Midnight x Variety Pack (or MVP for short) is a WIP custom track distribution cr
   - [Setting up the Development Environment](#setting-up-the-development-environment)
   - [Visual Studio Code-Specific Features](#visual-studio-code-specific-features)
 
-
-## Project Setup - Automatic (Windows ONLY)
+## Project Setup - Automatic (Windows Only)
 - Clone this repository to a folder of choice (make sure the path to the folder has no spaces in it!);
-- Run `setup-windows.bat` **as administrator** (this will download and install all the project's required dependencies, so an internet connection is required)
-    - If the script errors with `cURL is not installed on this version of Windows` it means your version of Windows is too old and manual set up is required.
-    - If the script errors with `.NET Core 6.0 or higher is required to run Kamek` it means that .NET is not installed or is outdated. Go [here](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to download the installer.
+- Run `setup-windows.bat` (this will download and install all the project's required dependencies, so an internet connection is required)
+- The script will automatically log out of the current session to refresh the environment variables. You can run it again to continue the installation process.
 
 ## Project Setup - Manual
 ### Required Tools and Dependencies
