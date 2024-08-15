@@ -26,7 +26,7 @@ void DecodeToken(const char* encodedToken) {
 
     // Scramble the token
     // Start by filling an ASCII table
-    for (int i = 0; i < strlenc(sScrambledToken); i++) {
+    for (u32 i = 0; i < strlenc(sScrambledToken); i++) {
         sScrambledToken[i] = i + ' ';
     }
 

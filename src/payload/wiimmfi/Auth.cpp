@@ -159,7 +159,7 @@ void ParseAuthResponse(const char* response) {
 
         // Get encoded and decoded message length
         // If it doesn't fit the buffer, bail
-        const int encodedLen = strlen(response);
+        const size_t encodedLen = strlen(response);
         int decodedLen = DWC_Base64Decode(response, encodedLen, nullptr, 0);
         if (decodedLen > sizeof(sConsoleAssignMessageBuffer) - sizeof(wchar_t)) {
             LOG_ERROR("Message exceeds buffer size, discarding...");
