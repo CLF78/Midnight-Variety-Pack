@@ -25,8 +25,8 @@ REPLACE void CtrlMenuBattleStageSelectCup::initSelf() {
         CtrlMenuBattleStageSelectCupSub* cup = coursePage->getCupButton(i);
 
         // Set name
-        const u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
-        const u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
+        const u16 cupName = CupManager::GetCup(cupIdx, true)->cupName;
         cup->setText(cupName);
 
         // Set icon
@@ -79,8 +79,8 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
                           CtrlMenuBattleStageSelectCup::cupAnimNames);
 
         // Set cup name
-        const u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
-        const u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
+        const u16 cupName = CupManager::GetCup(cupIdx, true)->cupName;
         cup->setText(cupName);
 
         // Set cup icon

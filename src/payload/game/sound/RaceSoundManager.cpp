@@ -11,9 +11,9 @@ REPLACE void RaceSoundManager::init() {
 
     // Get the slot and apply it
     u32 originalSlot = RaceConfig::instance->raceScenario.settings.courseId;
-    const u32 slot = CupManager::IsSystemCourse(originalSlot) ? originalSlot
-                                                        : CupData::tracks[CupManager::currentSzs].musicSlot;
-    courseId = slot;
+    courseId = CupManager::IsSystemCourse(originalSlot)
+                ? originalSlot
+                : CupData::tracks[CupManager::currentSzs].musicSlot;
 
     // Call the original function
     REPLACED();

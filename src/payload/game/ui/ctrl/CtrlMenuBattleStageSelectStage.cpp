@@ -24,8 +24,8 @@ REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
         PushButton* trackButton = &courseButtons[i];
 
         // Set name
-        const u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->curPage, true);
-        const u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[i];
+        const u16 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->curPage, true);
+        const u16 trackIdx = CupManager::GetCup(cupIdx, true)->entryId[i];
         CupManager::setTrackName(trackButton, trackIdx);
 
         // Set button id

@@ -33,8 +33,8 @@ void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder,
 
     // Get selected track and set it as last course
     RaceCupSelectPageEx* cupPage = RaceCupSelectPageEx::getPage();
-    const u32 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->curPage);
-    const u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[button->buttonId];
+    const u16 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->curPage);
+    const u16 trackIdx = CupManager::GetCup(cupIdx)->entryId[button->buttonId];
     SectionManager::instance->globalContext->lastCourse = trackIdx;
 
     if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
@@ -74,7 +74,7 @@ void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder,
     } else {
 
         // Get the actual track to be played and store it
-        const u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+        const u16 actualTrackIdx = CupManager::getTrackFile(trackIdx);
         CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
 
         // If we're in TT mode, go to the ghost select screen

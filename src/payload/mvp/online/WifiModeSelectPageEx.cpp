@@ -53,7 +53,7 @@ void WifiModeSelectPageEx::onInit() {
         btn->setOnSelectHandler(&onButtonSelectHandler);
 
         // Set tracklist name
-        const u16 cupListName = CupManager::GetCupListData(i)->cupListName;
+        const u16 cupListName = CupManager::GetCupList(i)->cupListName;
         btn->setMatText("text", cupListName, nullptr);
         btn->setMatText("text_light_01", cupListName, nullptr);
         btn->setMatText("text_light_02", cupListName, nullptr);
@@ -108,10 +108,10 @@ void WifiModeSelectPageEx::onButtonClick(PushButton* button, u32 hudSlotId) {
 
     // Get RandomMatchingPage
     RandomMatchingPage* page = RandomMatchingPage::getPage();
-    const u32 cupList = button->buttonId - 1;
+    const u8 cupList = button->buttonId - 1;
 
     // Set the online region, cup list and RaceConfig game mode accordingly
-    CupManager::currentOnlineRegion = CupManager::GetCupListData(cupList)->onlineRegion;
+    CupManager::currentOnlineRegion = CupManager::GetCupList(cupList)->onlineRegion;
     if (cupList >= CupManager::TRACKS_VS_COUNT) {
         CupManager::currentBattleCupList = cupList;
         page->setupGameMode(true);

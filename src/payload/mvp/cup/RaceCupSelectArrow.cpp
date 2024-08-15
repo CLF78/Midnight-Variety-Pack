@@ -19,8 +19,8 @@ void RaceCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayerId
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
-        const u32 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
-        cupButton->setText(CupManager::GetCupList()[cupIdx].cupName);
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
+        cupButton->setText(CupManager::GetCup(cupIdx)->cupName);
         CupManager::updateCupButton(cupButton, self->curPage, i);
     }
 
@@ -47,8 +47,8 @@ void RaceCupSelectArrow::onRight(SheetSelectControl* arrowPair, u32 localPlayerI
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
-        const u32 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
-        cupButton->setText(CupManager::GetCupList()[cupIdx].cupName);
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
+        cupButton->setText(CupManager::GetCup(cupIdx)->cupName);
         CupManager::updateCupButton(cupButton, self->curPage, i);
     }
 

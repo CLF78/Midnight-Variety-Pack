@@ -75,8 +75,8 @@ void RaceCupSelectPageEx::updateTextMessages(CtrlMenuCupSelectCup* cupHolder, u3
             return;
 
         // Get the cup entry
-        const u32 cupId = CupManager::getCupIdxFromButton(cupButtonId, curPage);
-        SaveExpansionCup::Data* cupData = SaveExpansionCup::GetSection()->GetData(cupId);
+        const u16 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, curPage);
+        SaveExpansionCup::Data* cupData = SaveExpansionCup::GetSection()->GetData(cupIdx);
 
         // Get the message ID
         if (cupData->mCompleted)
@@ -99,11 +99,11 @@ void RaceCupSelectPageEx::setCourse(CtrlMenuCupSelectCup* cupHolder, PushButton*
         selectedButtonId = cupHolder->currentSelected;
 
         // Get the cup and its first track
-        const u32 cupIdx = CupManager::getCupIdxFromButton(selectedButtonId, curPage);
-        const u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[0];
+        const u16 cupIdx = CupManager::getCupIdxFromButton(selectedButtonId, curPage);
+        const u16 trackIdx = CupManager::GetCup(cupIdx)->entryId[0];
 
         // Get the previous cup, and update the last selected stage if it differs
-        const u32 prevCupIdx = CupManager::getCupIdxFromTrack(SectionManager::instance->globalContext->lastStage);
+        const u16 prevCupIdx = CupManager::getCupIdxFromTrack(SectionManager::instance->globalContext->lastStage);
         if (cupIdx != prevCupIdx)
             SectionManager::instance->globalContext->lastStage = trackIdx;
 
@@ -114,7 +114,7 @@ void RaceCupSelectPageEx::setCourse(CtrlMenuCupSelectCup* cupHolder, PushButton*
             RaceConfig::instance->menuScenario.settings.cupId = cupIdx;
 
             // Get the actual track and store it
-            const u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+            const u16 actualTrackIdx = CupManager::getTrackFile(trackIdx);
             CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
 
             // If in GP mode, go straight to the OK button instead of the course selection

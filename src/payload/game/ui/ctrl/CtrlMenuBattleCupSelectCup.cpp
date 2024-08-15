@@ -52,8 +52,8 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
         button->buttonId = i;
 
         // Set cup name
-        const u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
-        const u16 msgId = CupManager::GetCupList(true)[cupIdx].cupName;
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
+        const u16 msgId = CupManager::GetCup(cupIdx, true)->cupName;
         button->setText(msgId);
 
         // Set cup icon

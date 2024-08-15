@@ -8,18 +8,17 @@ namespace CupData {
     };
 
     enum Placeholders {
-        VANILLA_UNDECIDED_TRACK_VOTE = 0x43, // Original placeholder for track not voted
-        VANILLA_RANDOM_TRACK_VOTE = 0xFF, // Original placeholder for random track vote
-        VANILLA_NO_PLAYER = 0x43, // Original placeholder for missing guest
-        VANILLA_NO_TRACK = 0xFF, // Original placeholder for empty track
+        UNDECIDED_TRACK_VOTE = -2 & 0xFFFF, // Placeholder for track not voted
+        RANDOM_TRACK_VOTE = -1 & 0xFFFF, // Placeholder for random track vote
+        NO_TRACK = -1 & 0xFFFF, // Placeholder for empty track (winning course and similar)
 
-        UNDECIDED_TRACK_VOTE = 0xFFFE, // Placeholder for track not voted
-        RANDOM_TRACK_VOTE = 0xFFFF, // Placeholder for random track vote
-        NO_PLAYER = 0xFFFE, // Placeholder for missing guest
-        NO_TRACK = 0xFFFF, // Placeholder for empty track
+        // Original placeholders
+        VANILLA_UNDECIDED_TRACK_VOTE = 0x43,
+        VANILLA_RANDOM_TRACK_VOTE = RANDOM_TRACK_VOTE & 0xFF,
+        VANILLA_NO_TRACK = NO_TRACK & 0xFF,
     };
 
-    // Structure for each individual track (battle or arena)
+    // Structure for each individual track (or arena)
     // The file id is inferred from the entry index
     struct Track {
         u8 specialSlot; // The behaviour slot, to be partially replaced by extended LEX

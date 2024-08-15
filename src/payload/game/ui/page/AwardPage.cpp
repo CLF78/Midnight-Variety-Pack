@@ -137,7 +137,7 @@ REPLACE void AwardPage::initType() {
 
         // Set the cup name/mirror
         if (curSection == Section::AWARD_GP)
-            msgInfo.messageIds[0] = CupManager::GetCupList()[settings->cupId].cupName;
+            msgInfo.messageIds[0] = CupManager::GetCup(settings->cupId)->cupName;
         else
             msgInfo.setCondMessageValue(0, settings->modeFlags & RaceConfig::Settings::FLAG_MIRROR != 0, true);
     }

@@ -20,8 +20,8 @@ REPLACE void CtrlMenuCourseSelectCup::initSelf() {
         CtrlMenuCourseSelectCupSub* cup = &cups[i];
 
         // Set name
-        const u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage);
-        const u16 cupName = CupManager::GetCupList()[cupIdx].cupName;
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage);
+        const u16 cupName = CupManager::GetCup(cupIdx)->cupName;
         cup->setText(cupName);
 
         // Set icon

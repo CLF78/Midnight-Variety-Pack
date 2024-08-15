@@ -39,8 +39,8 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
 
     // Get selected arena and set it as last stage
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
-    const u32 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->curPage, true);
-    const u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[button->buttonId];
+    const u16 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->curPage, true);
+    const u16 trackIdx = CupManager::GetCup(cupIdx, true)->entryId[button->buttonId];
     SectionManager::instance->globalContext->lastStage = trackIdx;
 
     if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
@@ -79,7 +79,7 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
     } else {
 
         // Get the actual arena to be played and store it
-        const u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+        const u16 actualTrackIdx = CupManager::getTrackFile(trackIdx);
         CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
 
         // Prepare intro

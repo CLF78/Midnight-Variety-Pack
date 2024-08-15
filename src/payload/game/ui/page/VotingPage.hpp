@@ -45,7 +45,7 @@ public:
     int localPlayerCount;
     int curSelectedVote;
     int winningVote;
-    int winningTrackBmgId;
+    u32 winningTrackBmgId;
 
     float curRouletteSpeed;
     float curAnimPos;

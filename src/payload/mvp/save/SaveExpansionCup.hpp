@@ -27,7 +27,7 @@ public:
     virtual void Read(u8* buffer);
     virtual void Write(u8* buffer);
 
-    static u32 GetEntryCount() { return CupManager::GetCupListData(CupManager::TRACKS_GP)->cupCount; }
+    static u32 GetEntryCount() { return CupManager::GetCupList(CupManager::TRACKS_GP)->cupCount; }
     Data* GetData(u32 cupIdx) const { return &mData[cupIdx]; }
 
     static SaveExpansionCup* GetSection() {

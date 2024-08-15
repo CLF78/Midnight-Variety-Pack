@@ -51,7 +51,7 @@ REPLACE void VotingBackPage::setupRace() {
 
     // Set the track
     // If random, pick a variant using the shared seed
-    const u32 actualTrackIdx = CupManager::getTrackFile(selectHandler->getWinningTrack(), &settings->seed1);
+    const u16 actualTrackIdx = CupManager::getTrackFile(selectHandler->getWinningTrack(), &settings->seed1);
     CupManager::SetCourse(settings, actualTrackIdx);
 
     // Set game mode depending on the current menu

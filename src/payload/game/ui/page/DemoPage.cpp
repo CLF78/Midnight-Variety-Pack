@@ -56,7 +56,7 @@ REPLACE void DemoPage::onInit() {
         topText.setMatIcon("cup_icon", cupIcon);
 
         // Set the cup name in the message info
-        msgInfo.messageIds[0] = CupManager::GetCupList()[cupIdx].cupName;
+        msgInfo.messageIds[0] = CupManager::GetCup(cupIdx)->cupName;
 
         // Set the text depending on the race number
         topText.setText(Message::Race::GP_RACE_1 + raceSettings->raceNumber, &msgInfo);

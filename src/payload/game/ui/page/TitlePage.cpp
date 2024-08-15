@@ -15,9 +15,11 @@ kmBranchDefCpp(0x8063B1FC, 0x8063B338, void, Random* randomizer) {
     // Obtain the track we want to play and ensure it's not the same as the previous track
     const u32 prevTrackIdx = SectionManager::instance->globalContext->demoTrack;
     u32 trackIdx = prevTrackIdx;
+    const CupData::CupList* cupList = CupManager::GetCupList(CupManager::TRACKS_DEMO);
 
     do {
-        trackIdx = randomizer->nextU32(CupManager::GetCupListData(CupManager::TRACKS_DEMO)->cupCount * 4);
+        u32 rand = randomizer->nextU32(cupList->cupCount * 4);
+        trackIdx = cupList->cups[rand / 4].entryId[rand % 4];
     } while (trackIdx == prevTrackIdx);
 
     // Get the track and set it as the demo one
@@ -33,9 +35,11 @@ kmBranchDefCpp(0x8063B2F4, 0x8063B338, void, Random* randomizer) {
     // Obtain the arena we want to play and ensure it's not the same as the previous one
     const u32 prevTrackIdx = SectionManager::instance->globalContext->demoArena;
     u32 trackIdx = prevTrackIdx;
+    const CupData::CupList* cupList = CupManager::GetCupList(CupManager::TRACKS_DEMO_BT);
 
     do {
-        trackIdx = randomizer->nextU32(CupData::cupLists[CupManager::TRACKS_DEMO_BT].cupCount * 4);
+        u32 rand = randomizer->nextU32(cupList->cupCount * 4);
+        trackIdx = cupList->cups[rand / 4].entryId[rand % 4];
     } while (trackIdx == prevTrackIdx);
 
     // Get the arena and set it as the demo one

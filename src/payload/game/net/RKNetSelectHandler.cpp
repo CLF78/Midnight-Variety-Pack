@@ -397,7 +397,7 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
 
             // Get the vote and ensure it is valid
             u16 track = getPlayerVote(i);
-            const u32 trackCount = CupManager::GetTrackCount(isBattle);
+            const u16 trackCount = CupManager::GetTrackCount(isBattle);
             track = (track < trackCount) ? track : CupData::RANDOM_TRACK_VOTE;
 
             // Add it to the repick manager
@@ -414,7 +414,7 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
 
         // Initialize loop
         Random randomizer;
-        const CupData::CupList* cupList = CupManager::GetCupListData(CupManager::GetCurrentTracklist(isBattle));
+        const CupData::CupList* cupList = CupManager::GetCurrentCupList(isBattle);
         LOG_DEBUG("Player voted random, picking a track...");
 
         // Ensure the random track isn't in the repick queue

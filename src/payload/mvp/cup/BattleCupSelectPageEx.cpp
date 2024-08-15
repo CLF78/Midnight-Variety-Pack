@@ -117,11 +117,11 @@ void BattleCupSelectPageEx::setCourse(CtrlMenuBattleCupSelectCup* cupHolder, Pus
         selectedButtonId = cupHolder->currentSelected;
 
         // Get the cup and its first track
-        const u32 cupIdx = CupManager::getCupIdxFromButton(selectedButtonId, curPage, true);
-        const u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[0];
+        const u16 cupIdx = CupManager::getCupIdxFromButton(selectedButtonId, curPage, true);
+        const u16 trackIdx = CupManager::GetCup(cupIdx, true)->entryId[0];
 
         // Get the previous cup, and update the last selected stage if it differs
-        const u32 prevCupIdx = CupManager::getCupIdxFromTrack(SectionManager::instance->globalContext->lastStage, true);
+        const u16 prevCupIdx = CupManager::getCupIdxFromTrack(SectionManager::instance->globalContext->lastStage, true);
         if (cupIdx != prevCupIdx)
             SectionManager::instance->globalContext->lastStage = trackIdx;
 
@@ -129,7 +129,7 @@ void BattleCupSelectPageEx::setCourse(CtrlMenuBattleCupSelectCup* cupHolder, Pus
         if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
 
             // Get the actual track and store it
-            const u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+            const u16 actualTrackIdx = CupManager::getTrackFile(trackIdx);
             CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
 
         // Else wait for the course voting page to be loaded (is this even needed?)

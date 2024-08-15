@@ -19,8 +19,8 @@ REPLACE void CtrlMenuCupSelectCup::initSelf() {
         PushButton* button = &cupButtons[i];
 
         // Set cup name
-        const u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage);
-        const u16 msgId = CupManager::GetCupList()[cupIdx].cupName;
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage);
+        const u16 msgId = CupManager::GetCup(cupIdx)->cupName;
         button->setText(msgId);
 
         // Set cup icon

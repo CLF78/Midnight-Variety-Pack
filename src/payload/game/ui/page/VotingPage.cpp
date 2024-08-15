@@ -58,7 +58,7 @@ REPLACE bool VotingPage::setPlayerVote(u32 playerIdx) {
 void StoreWinningVote(VotingPage* self) {
 
     // Get the winning track and bail if we have not yet obtained it
-    const u32 trackIdx = RKNetSELECTHandler::instance->getWinningTrack();
+    const u16 trackIdx = RKNetSELECTHandler::instance->getWinningTrack();
     if (trackIdx == CupData::NO_TRACK) {
         LOG_DEBUG("Not yet in phase 2. Retrying later...");
         return;
