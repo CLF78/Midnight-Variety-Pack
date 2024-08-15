@@ -13,7 +13,7 @@ public:
         RawQueue() { Clear(); }
 
         bool operator==(const RawQueue& queue) const {
-            for (int i = 0; i < ARRAY_SIZE(lastPicks); i++) {
+            for (u32 i = 0; i < ARRAY_SIZE(lastPicks); i++) {
                 if (lastPicks[i] != queue.lastPicks[i])
                     return false;
             }

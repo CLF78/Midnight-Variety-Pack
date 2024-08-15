@@ -5,8 +5,8 @@ MessageQueue MessageQueue::instance;
 
 void MessageQueue::Clear() {
 
-    for (int i = 0; i < ARRAY_SIZE(entries); i++) {
-        for (int j = 0; j < ARRAY_SIZE(entries[0]); j++) {
+    for (u32 i = 0; i < ARRAY_SIZE(entries); i++) {
+        for (u32 j = 0; j < ARRAY_SIZE(entries[0]); j++) {
             entries[i][j].Clear();
         }
     }

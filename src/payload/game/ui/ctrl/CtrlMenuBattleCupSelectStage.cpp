@@ -24,7 +24,7 @@ REPLACE void CtrlMenuBattleCupSelectStage::load() {
 
     // Initialize children
     initChildren(ARRAY_SIZE(courseNames));
-    for (int i = 0; i < ARRAY_SIZE(courseNames); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(courseNames); i++) {
 
         // Get button variant
         char buffer[20];
@@ -49,7 +49,7 @@ REPLACE void CtrlMenuBattleCupSelectStage::setCourseNames(u32 cupButtonId) {
     const u16 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->curPage, true);
 
     // Update each track name
-    for (int i = 0; i < ARRAY_SIZE(courseNames); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(courseNames); i++) {
 
         // Get button
         LayoutUIControl* courseName = &courseNames[i];

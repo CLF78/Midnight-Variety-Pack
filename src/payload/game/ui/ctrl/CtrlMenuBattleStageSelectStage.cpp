@@ -18,7 +18,7 @@ REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
     const u32 lastStage = SectionManager::instance->globalContext->lastStage;
     int selected = -1;
 
-    for (int i = 0; i < ARRAY_SIZE(courseButtons); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(courseButtons); i++) {
 
         // Get button
         PushButton* trackButton = &courseButtons[i];
@@ -58,7 +58,7 @@ REPLACE void CtrlMenuBattleStageSelectStage::load(u32 playerFlags, bool unk) {
 
     // Initialize children
     initChildren(ARRAY_SIZE(courseButtons));
-    for (int i = 0; i < ARRAY_SIZE(courseButtons); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(courseButtons); i++) {
 
         // Get button and its variant
         CtrlMenuMovieButton* button = &courseButtons[i];

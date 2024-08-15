@@ -19,7 +19,7 @@ public:
     }
 
     void reset() {
-        for (int i = 0; i < ARRAY_SIZE(intVals); i++) {
+        for (u32 i = 0; i < ARRAY_SIZE(intVals); i++) {
             intVals[i] = 0;
             messageIds[i] = 0;
             miis[i] = nullptr;

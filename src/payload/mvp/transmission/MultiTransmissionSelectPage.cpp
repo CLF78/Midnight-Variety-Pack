@@ -82,7 +82,7 @@ void MultiTransmissionSelectPage::setCPUTransmissions() {
 
     // Set a random transmission for every CPU
     Random random;
-    for (int i = SectionManager::instance->globalContext->humanPlayerCount; i < 12; i++) {
+    for (u32 i = SectionManager::instance->globalContext->humanPlayerCount; i < 12; i++) {
         scenario->players[i].transmission = random.nextU32(2) + 1;
     }
 }

@@ -14,7 +14,7 @@ void YesNoPopupPageEx::reset() {
 }
 
 void YesNoPopupPageEx::forcePressSelected() {
-    for (int i = 0; i < ARRAY_SIZE(buttons); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(buttons); i++) {
         if (buttons[i].isSelected()) {
             buttons[i].click(0);
             break;

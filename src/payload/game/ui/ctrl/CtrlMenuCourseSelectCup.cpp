@@ -14,7 +14,7 @@ REPLACE void CtrlMenuCourseSelectCup::initSelf() {
     const u32 selectedCup = cupPage->selectedButtonId;
 
     // Update each cup
-    for (int i = 0; i < ARRAY_SIZE(cups); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(cups); i++) {
 
         // Get cup
         CtrlMenuCourseSelectCupSub* cup = &cups[i];

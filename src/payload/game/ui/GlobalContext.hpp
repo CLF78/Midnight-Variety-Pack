@@ -53,8 +53,8 @@ public:
     int playerCharacters[4];
     int playerVehicles[4];
 
-    s32 lastCourse;
-    s32 lastStage;
+    u32 lastCourse;
+    u32 lastStage;
     UNK(0x188 - 0x154);
 
     MiiGroup playerMiis;
@@ -73,8 +73,8 @@ public:
     int demoType;
     int demoBattleType;
     u32 _4DC;
-    int demoTrack;
-    int demoArena;
+    u32 demoTrack;
+    u32 demoArena;
     UNK(0x500 - 0x4E8);
 
     WifiDisconnectInfo disconnectInfo;

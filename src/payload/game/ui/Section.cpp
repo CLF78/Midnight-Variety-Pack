@@ -171,7 +171,7 @@ REPLACE Page* Section::activatePage(Page::PageId pageId, Page::AnimationDirectio
 
 // Initialize custom pages
 REPLACE void Section::init(Section::SectionId sectionId) {
-    for (int i = 0; i < ARRAY_SIZE(extraPages); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(extraPages); i++) {
         extraPages[i] = nullptr;
     }
 
@@ -185,7 +185,7 @@ REPLACE void Section::deinit() {
     popActivePages(0);
 
     // Remove regular pages
-    for (int i = 0; i < ARRAY_SIZE(pages); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(pages); i++) {
         Page* page = pages[i];
         if (page == nullptr)
             continue;
@@ -196,7 +196,7 @@ REPLACE void Section::deinit() {
     }
 
     // Remove custom pages
-    for (int i = 0; i < ARRAY_SIZE(extraPages); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(extraPages); i++) {
         Page* page = extraPages[i];
         if (page == nullptr)
             continue;

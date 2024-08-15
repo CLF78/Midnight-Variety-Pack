@@ -50,7 +50,7 @@ public:
 
         virtual ~Player();
 
-        int computeGPRank();
+        u32 computeGPRank();
 
         u8 _4;
         s8 localPlayerNum;

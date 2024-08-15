@@ -359,7 +359,7 @@ bool PreventRepeatNATNEGFail(u32 failedPid) {
         return false;
 
     // If the PID is already in the list, do not count the failed attempt
-    for (int i = 0; i < ARRAY_SIZE(sFailedPids); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(sFailedPids); i++) {
         if (sFailedPids[i] == failedPid) {
             LOG_DEBUG("Detected repeated NATNEG fail with PID %d", failedPid);
             return false;
@@ -410,7 +410,7 @@ void RecoverSynAckTimeout() {
         NETWriteSwappedBytes32(&cmd.aid, stpMatchCnt->tempNewNodeInfo.aid);
 
         // Send it
-        for (int i = 0; i < nodeCount; i++) {
+        for (u32 i = 0; i < nodeCount; i++) {
             if (noSynAckAids >> i & 1) {
                 DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];
                 DWCi_SendMatchCommand(DWC_MATCH_CMD_NEW_PID_AID, node->profileId, node->publicip,

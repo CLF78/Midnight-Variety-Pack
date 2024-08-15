@@ -75,7 +75,7 @@ void WifiMemberConfirmPageEx::onInit() {
     ruleButton.setOnClickHandler(&onRuleButtonClickHandler, 0);
 
     // Add the player entries
-    for (int i = 0; i < ARRAY_SIZE(playerEntries); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(playerEntries); i++) {
 
         // Insert the entry
         LayoutUIControl* entry = &playerEntries[i];
@@ -128,7 +128,7 @@ void WifiMemberConfirmPageEx::onActivate() {
     }
 
     // Hide all player entries by default
-    for (int i = 0; i < ARRAY_SIZE(playerEntries); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(playerEntries); i++) {
         playerEntries[i].hidden = true;
     }
 

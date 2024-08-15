@@ -17,8 +17,8 @@ public:
         u8 localPlayerIdx;
         PAD(2);
         RaceConfig::Player::Team team;
-        u16 vr;
-        u16 br;
+        s16 vr;
+        s16 br;
     };
     size_assert(PlayerInfo, 0xC);
 

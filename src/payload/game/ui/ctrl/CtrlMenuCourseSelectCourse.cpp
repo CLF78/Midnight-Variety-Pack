@@ -17,7 +17,7 @@ REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
     const u32 lastCourse = SectionManager::instance->globalContext->lastCourse;
     int selected = -1;
 
-    for (int i = 0; i < ARRAY_SIZE(courseButtons); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(courseButtons); i++) {
 
         // Get button
         PushButton* trackButton = &courseButtons[i];

@@ -11,7 +11,7 @@
 
 // Replace the course check to get the map from the correct player
 REPLACE u8* RKNetRH1Handler::getAidPidMap() {
-    for (int i = 0; i < ARRAY_SIZE(datas); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(datas); i++) {
         if (datas[i].trackId < TRACK_COUNT)
             return datas[i].aidPidMap.playerIds;
     }
@@ -21,7 +21,7 @@ REPLACE u8* RKNetRH1Handler::getAidPidMap() {
 
 // Replace the course check to get the battle type from the correct player
 REPLACE u8 RKNetRH1Handler::getBattleType() {
-    for (int i = 0; i < ARRAY_SIZE(datas); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(datas); i++) {
         if (datas[i].trackId < TRACK_COUNT)
             return datas[i].battleTeamData.battleType;
     }
@@ -31,7 +31,7 @@ REPLACE u8 RKNetRH1Handler::getBattleType() {
 
 // Replace the course check to get the engine class from the correct player
 REPLACE u8 RKNetRH1Handler::getEngineClass() {
-    for (int i = 0; i < ARRAY_SIZE(datas); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(datas); i++) {
         if (datas[i].trackId < TRACK_COUNT)
             return datas[i].engineClass.raw;
     }
@@ -41,7 +41,7 @@ REPLACE u8 RKNetRH1Handler::getEngineClass() {
 
 // Replace the course check to get the random seed from the correct player
 REPLACE u32 RKNetRH1Handler::getRandomSeed() {
-    for (int i = 0; i < ARRAY_SIZE(datas); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(datas); i++) {
         if (datas[i].trackId < TRACK_COUNT)
             return datas[i].randomSeed;
     }
@@ -51,7 +51,7 @@ REPLACE u32 RKNetRH1Handler::getRandomSeed() {
 
 // Replace the course check to get the track id from the correct player
 REPLACE u32 RKNetRH1Handler::getTrackId() {
-    for (int i = 0; i < ARRAY_SIZE(datas); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(datas); i++) {
         if (datas[i].timer != 0 && datas[i].trackId < TRACK_COUNT)
             return datas[i].trackId;
     }
@@ -77,7 +77,7 @@ REPLACE bool RKNetRH1Handler::isTrackAvailable() {
         return false;
 
     // Check each data
-    for (int i = 0; i < ARRAY_SIZE(datas); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(datas); i++) {
         if (datas[i].timer != 0 && datas[i].trackId < TRACK_COUNT)
             return true;
     }
@@ -88,7 +88,7 @@ REPLACE bool RKNetRH1Handler::isTrackAvailable() {
 
 // Read the correct information from the packet
 REPLACE void RKNetRH1Handler::importRecvData() {
-    for (int aid = 0; aid < ARRAY_SIZE(datas); aid++) {
+    for (u32 aid = 0; aid < ARRAY_SIZE(datas); aid++) {
 
         // Skip invalid AIDs
         if (!RKNetController::instance->isConnectedPlayer(aid))

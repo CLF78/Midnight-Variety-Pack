@@ -25,14 +25,14 @@ REPLACE void RaceConfig::Scenario::initCoursePositions() {
 
         // Initialize position array using the player ID
         u8 startPositions[ARRAY_SIZE(players)];
-        for (int i = 0; i < ARRAY_SIZE(players); i++) {
+        for (u32 i = 0; i < ARRAY_SIZE(players); i++) {
             startPositions[i] = i + 1;
         }
 
         // Update existing player positions to account for gaps
         u8 currPos = 1;
-        for (int pos = 1; pos < ARRAY_SIZE(players) + 1; pos++) {
-            for (int i = 0; i < ARRAY_SIZE(players); i++) {
+        for (u32 pos = 1; pos < ARRAY_SIZE(players) + 1; pos++) {
+            for (u32 i = 0; i < ARRAY_SIZE(players); i++) {
                 if (players[i].playerType != Player::TYPE_NONE && players[i].prevFinishPos == pos) {
                     startPositions[i] = currPos++;
                     break;
@@ -41,13 +41,13 @@ REPLACE void RaceConfig::Scenario::initCoursePositions() {
         }
 
         // Insert new players at the end of the starting grid
-        for (int i = 0; i < ARRAY_SIZE(players); i++) {
+        for (u32 i = 0; i < ARRAY_SIZE(players); i++) {
             if (players[i].playerType != Player::TYPE_NONE && players[i].prevFinishPos == 0)
                 startPositions[i] = currPos++;
         }
 
         // Copy the calculated positions (includes non-existant players)
-        for (int i = 0; i < ARRAY_SIZE(players); i++) {
+        for (u32 i = 0; i < ARRAY_SIZE(players); i++) {
             players[i].prevFinishPos = startPositions[i];
         }
     }
@@ -61,13 +61,13 @@ REPLACE void RaceConfig::loadNextCourse() {}
 /////////////////////
 
 // Compute GP rank based on score only
-REPLACE int RaceConfig::Player::computeGPRank() {
+REPLACE u32 RaceConfig::Player::computeGPRank() {
 
     // Initialize score thresholds
     static const u8 scores[RANK_COUNT-1] = {GP_SCORE_3_STARS, GP_SCORE_2_STARS, GP_SCORE_1_STAR};
 
     // Calculate the score
-    for (int i = 0; i < ARRAY_SIZE(scores); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(scores); i++) {
         if (gpScore >= scores[i])
             return i;
     }

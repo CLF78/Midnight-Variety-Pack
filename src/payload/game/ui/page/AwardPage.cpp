@@ -44,7 +44,7 @@ REPLACE void AwardPage::initRank() {
 
     // Obtain GP rank
     RaceConfig* rconfig = RaceConfig::instance;
-    const int gpRank = rconfig->awardsScenario.players[0].computeGPRank();
+    const u32 gpRank = rconfig->awardsScenario.players[0].computeGPRank();
 
     // Get current license, bail if invalid
     SaveManager* save = SaveManager::instance;

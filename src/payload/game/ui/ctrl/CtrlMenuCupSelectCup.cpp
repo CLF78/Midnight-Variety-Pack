@@ -13,7 +13,7 @@ REPLACE void CtrlMenuCupSelectCup::initSelf() {
     RaceCupSelectPageEx* page = RaceCupSelectPageEx::getPage();
 
     // Update children
-    for (int i = 0; i < ARRAY_SIZE(cupButtons); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(cupButtons); i++) {
 
         // Get the button
         PushButton* button = &cupButtons[i];

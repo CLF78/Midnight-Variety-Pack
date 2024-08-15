@@ -12,7 +12,7 @@ public:
     RUNTIME_TYPE_INFO_NODECL;
     RUNTIME_TYPENAME_INFO_NODECL;
 
-    void setData(bool isRandom, u32 bmgId, MiiGroup* miiGroup, int playerIdx, bool isLocal, int team);
+    void setData(bool isRandom, u32 bmgId, MiiGroup* miiGroup, u32 playerIdx, bool isLocal, int team);
 
     bool isRandomVote;
     PAD(3);

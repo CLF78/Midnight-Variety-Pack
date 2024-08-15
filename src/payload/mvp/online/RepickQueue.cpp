@@ -4,7 +4,7 @@
 RepickQueue RepickQueue::instance;
 
 void RepickQueue::RawQueue::Clear() {
-    for (int i = 0; i < ARRAY_SIZE(lastPicks); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(lastPicks); i++) {
         lastPicks[i] = NO_PICK;
     }
 }
@@ -27,7 +27,7 @@ u8 RepickQueue::RawQueue::GetQueuePosition(u16 track) const {
     if (track == CupData::RANDOM_TRACK_VOTE) return NOT_IN_QUEUE;
 
     // Get the queue position
-    for (int i = 0; i < ARRAY_SIZE(lastPicks); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(lastPicks); i++) {
         if (lastPicks[i] == track) return i;
     }
 
@@ -36,7 +36,7 @@ u8 RepickQueue::RawQueue::GetQueuePosition(u16 track) const {
 }
 
 void RepickQueue::ClearVotes() {
-    for (int i = 0; i < ARRAY_SIZE(votes); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(votes); i++) {
         votes[i].Clear();
     }
 

@@ -14,7 +14,7 @@ REPLACE void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
     const u16 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->curPage);
 
     // Update each track name
-    for (int i = 0; i < ARRAY_SIZE(courseNames); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(courseNames); i++) {
 
         // Get button
         LayoutUIControl* courseName = &courseNames[i];

@@ -60,7 +60,7 @@ u32 SaveExpansion::GetRequiredSpace() const {
 }
 
 void SaveExpansion::Init() {
-    for (int i = 0; i < ARRAY_SIZE(mLicenses); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(mLicenses); i++) {
         mLicenses[i].Init();
     }
 }
@@ -113,7 +113,7 @@ void SaveExpansion::Write() {
     // Write each license
     u8* saveStart = (u8*)header + header->headerSize;
     u8* currLicensePtr = saveStart;
-    for (int i = 0; i < ARRAY_SIZE(mLicenses); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(mLicenses); i++) {
 
         // Write the license and its offset
         mLicenses[i].Write(currLicensePtr);

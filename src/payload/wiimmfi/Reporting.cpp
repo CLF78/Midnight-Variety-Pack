@@ -416,7 +416,7 @@ void ReportSignatureAndCert() {
     ALIGN(32) char cert[IOSECCCertSize];
     ALIGN(32) char signature[IOSECCSigSize];
     ALIGN(32) char b64Signature[DWC_Base64GetEncodedSize(sizeof(signature))+1];
-    const int tokenLength = Status::sToken ? strlen(Status::sToken) : 0;
+    const size_t tokenLength = Status::sToken ? strlen(Status::sToken) : 0;
 
     // Get the certificate
     const s32 ret = ES_Sign((u8*)Status::sToken, tokenLength, (u8*)signature, (u8*)cert);
@@ -460,7 +460,7 @@ void ReportSuspendUpdate() {
 
     // For each aid, set 1 if suspended, 0 if it isn't suspended and the node exists, else "-"
     char buffer[] = "------------";
-    for (int i = 0; i < strlenc(buffer); i++) {
+    for (u32 i = 0; i < strlenc(buffer); i++) {
         if (suspendMask & (1 << i))
             buffer[i] = '1';
         else if (DWCi_NodeInfoList_GetNodeInfoForAid(i))

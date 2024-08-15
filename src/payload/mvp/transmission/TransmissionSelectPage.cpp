@@ -29,7 +29,7 @@ void TransmissionSelectPage::onActivate() {
         Message::Menu::HELP,
     };
 
-    for (int i = 0; i < ARRAY_SIZE(buttonTexts); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(buttonTexts); i++) {
         buttons[i]->setText(buttonTexts[i]);
     }
 

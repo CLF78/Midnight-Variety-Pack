@@ -15,14 +15,14 @@ kmListHookDefCpp(RaceStartHook) {
     sMustEndRace = false;
 }
 
-void ScheduleForAID(int aid) {
+void ScheduleForAID(u32 aid) {
     LOG_DEBUG("Scheduled kick for AID %d.", aid);
     sAidsToBeKicked |= (1 << aid);
 }
 
-void ScheduleForAIDs(u32 aids) {
-    LOG_DEBUG("Scheduled kick for AIDs %08X.", aids);
-    sAidsToBeKicked |= aids;
+void ScheduleForAIDs(u32 aidMask) {
+    LOG_DEBUG("Scheduled kick for AIDs %08X.", aidMask);
+    sAidsToBeKicked |= aidMask;
 }
 
 void ScheduleForEveryone() {

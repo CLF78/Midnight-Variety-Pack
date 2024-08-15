@@ -25,7 +25,7 @@ void RaceCourseSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button)
 }
 
 // Set the selected track
-void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button, int unk) {
+void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button, u32 hudSlotId) {
 
     // Check for active state
     if (pageState != Page::STATE_ACTIVE)

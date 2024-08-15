@@ -31,7 +31,7 @@ typedef struct {
 size_cassert(DWCNodeInfo, 0x30);
 
 typedef struct {
-    int nodeCount;
+    u32 nodeCount;
     PAD(4);
     DWCNodeInfo nodeInfos[32];
 } DWCNodeInfoList;

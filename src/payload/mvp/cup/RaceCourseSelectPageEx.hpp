@@ -12,7 +12,7 @@ public:
     virtual void afterCalc();
 
     void onRepickPromptPress(s32 choice, PushButton* button); // custom function
-    void setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button, int unk);
+    void setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button, u32 hudSlotId);
 
     static RaceCourseSelectPageEx* getPage() {
         return (RaceCourseSelectPageEx*)SectionManager::instance->curSection->getPage(Page::COURSE_SELECT);
