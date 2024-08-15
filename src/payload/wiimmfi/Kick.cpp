@@ -115,7 +115,7 @@ int ParseKickMessage(GPConnection conn, char* data) {
 
             // Shift the string and read the pid to an integer
             strshift(pidKickParam, KICK_MSG_PARAM_PID);
-            const u32 pidToKick = strtoul(pidKickParam, nullptr, 10);
+            const int pidToKick = strtol(pidKickParam, nullptr, 10);
 
             // Get the node info
             // If it exists, kick the corresponding aid

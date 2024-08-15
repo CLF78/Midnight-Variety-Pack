@@ -85,7 +85,7 @@ void CalcTimers(bool connectedToHost) {
             continue;
 
         // Check for empty PID or my own PID
-        const u32 pid = stpMatchCnt->nodeInfoList.nodeInfos[i].profileId;
+        const int pid = stpMatchCnt->nodeInfoList.nodeInfos[i].profileId;
         if (pid == 0 || pid == stpMatchCnt->profileId)
             continue;
 
@@ -133,7 +133,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
 
     // Obtain the PID from the message
     char* msgBuffer;
-    const u32 pid = strtoul(msg, &msgBuffer, 10);
+    const int pid = strtol(msg, &msgBuffer, 10);
 
     // If the message was not generated from our ConnectToNode function, fall back to original game behaviour
     if (*msgBuffer != 'L') {

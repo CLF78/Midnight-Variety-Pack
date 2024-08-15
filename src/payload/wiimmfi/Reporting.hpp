@@ -58,7 +58,7 @@ namespace Reporting {
     void ReportSELECTInfo();
 
     // Reports host disconnections
-    void ReportServerDown(u32 cmd, u32 pid, u32* data);
+    void ReportServerDown(u32 cmd, int pid, u32* data);
 
     // Reports the console signature and certificate
     void ReportSignatureAndCert();

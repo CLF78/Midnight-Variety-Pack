@@ -17,7 +17,7 @@ typedef enum {
     DWC_LOGIN_STATE_COUNT,
 } DWCLoginState;
 
-typedef void (*DWCLoginCallback)(DWCError error, int profileID, void* param);
+typedef void (*DWCLoginCallback)(DWCError error, int profileId, void* param);
 
 typedef struct {
     GPConnection gpConnection;

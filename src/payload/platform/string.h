@@ -14,6 +14,7 @@ char* strcpy(char* destination, const char* source);
 char* strncpy(char* destination, const char* source, size_t num);
 char* strstr(char* str1, const char* str2);
 size_t strlen(const char* str);
+s32 strtol(const char* str, char** endptr, int base);
 u32 strtoul(const char* str, char** endptr, int base);
 
 #define strlenc(str) (sizeof((str)) - 1)

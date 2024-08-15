@@ -26,7 +26,7 @@ typedef struct {
     u8 index;
     u8 aid;
     PAD(2);
-    u32 profileId;
+    int profileId;
 } DWCConnectionInfo;
 size_cassert(DWCConnectionInfo, 0x8);
 

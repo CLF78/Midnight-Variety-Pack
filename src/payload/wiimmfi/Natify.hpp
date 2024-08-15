@@ -10,7 +10,7 @@ namespace Natify {
 
     // The data saved on NATify success
     struct NatifyData {
-        u32 profileId;
+        int profileId;
         bool portRestricted;
         bool ipRestricted;
         u8 natPromiscuity;

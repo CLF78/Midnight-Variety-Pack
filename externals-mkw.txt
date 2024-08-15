@@ -14,6 +14,7 @@ strcmp=0x8001329C
 strncmp=0x800133B8
 strstr=0x800135F0
 strtoul=0x800152A8
+strtol=0x80015350
 atoi=0x8001543C
 __construct_new_array=0x80020E34
 __construct_array=0x80020FF4

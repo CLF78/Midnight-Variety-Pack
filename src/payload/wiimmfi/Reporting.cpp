@@ -394,7 +394,7 @@ void ReportSELECTInfo() {
     ConnectionMatrix::Update();
 }
 
-void ReportServerDown(u32 cmd, u32 pid, u32* data) {
+void ReportServerDown(u32 cmd, int pid, u32* data) {
 
     // If the packet has no extra data, just send the PID
     char buffer[40];

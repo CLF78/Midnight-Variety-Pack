@@ -21,9 +21,9 @@ REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
         return;
 
     // Get the PID of the AID that sent the packet
-    const u32 pid = -1;
+    int pid = -1;
     if (DWCNodeInfo* info = DWCi_NodeInfoList_GetNodeInfoForAid(aid))
-        const u32 pid = info->profileId;
+        pid = info->profileId;
 
     // Verify the checksum
     // The game already does this later, but we shouldn't disconnect a player because a packet got corrupted
