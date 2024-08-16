@@ -1,9 +1,6 @@
 #include "DemoPage.hpp"
-#include <game/system/MultiDvdArchive.hpp>
-#include <game/system/ResourceManager.hpp>
 #include <game/ui/ControlLoader.hpp>
 #include <game/ui/Message.hpp>
-#include <game/ui/UIUtils.hpp>
 #include <game/ui/ctrl/CtrlRaceBattleSetPoint.hpp>
 #include <mvp/cup/CupManager.hpp>
 #include <platform/stdio.h>

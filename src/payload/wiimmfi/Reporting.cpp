@@ -9,7 +9,6 @@
 #include <game/net/packet/RKNetRoomPacket.hpp>
 #include <game/system/CourseMap.hpp>
 #include <game/system/MultiDvdArchive.hpp>
-#include <game/system/RaceConfig.hpp>
 #include <game/system/RaceManager.hpp>
 #include <game/system/ResourceManager.hpp>
 #include <mvp/cup/CupManager.hpp>

@@ -1,5 +1,6 @@
 #include "RepickQueue.hpp"
-#include <mvp/cup/CupManager.hpp>
+#include <game/util/Random.hpp>
+#include <mvp/cup/CupData.hpp>
 
 RepickQueue RepickQueue::instance;
 

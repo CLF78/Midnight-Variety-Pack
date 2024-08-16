@@ -1,8 +1,5 @@
 #include "Natify.hpp"
 #include <dwc/dwc_match.h>
-#include <gs/common/gsAvailable.h>
-#include <gs/common/gsPlatformUtil.h>
-#include <gs/common/gsSocketRevolution.h>
 #include <gs/natneg/natify.h>
 #include <gs/natneg/natneg.h>
 #include <platform/string.h>

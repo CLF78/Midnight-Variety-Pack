@@ -1,5 +1,4 @@
 #include <game/system/RaceConfig.hpp>
-#include <game/system/ResourceManager.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/util/Random.hpp>
 #include <mvp/cup/CupManager.hpp>

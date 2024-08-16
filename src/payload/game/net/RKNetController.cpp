@@ -12,7 +12,6 @@
 #include <dwc/dwc_transport.h>
 #include <game/race/RaceGlobals.hpp>
 #include <game/system/RaceManager.hpp>
-#include <game/ui/SectionManager.hpp>
 #include <nw4r/ut/Lock.hpp>
 #include <platform/string.h>
 #include <revolution/vi.h>
@@ -20,7 +19,6 @@
 #include <wiimmfi/Kick.hpp>
 #include <wiimmfi/Natneg.hpp>
 #include <wiimmfi/Reporting.hpp>
-#include <wiimmfi/Status.hpp>
 
 ////////////////////////////////
 // Network Protocol Expansion //

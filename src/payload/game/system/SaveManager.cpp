@@ -1,5 +1,4 @@
 #include "SaveManager.hpp"
-#include <game/scene/InitScene.hpp>
 #include <game/util/NandUtil.hpp>
 #include <mvp/save/SaveExpansionManager.hpp>
 

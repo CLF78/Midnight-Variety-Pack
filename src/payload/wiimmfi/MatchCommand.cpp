@@ -1,10 +1,7 @@
 #include "ConnectionMatrix.hpp"
 #include "MatchCommand.hpp"
-#include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
 #include <dwc/dwc_node.h>
-#include <gs/gt2/gt2Main.h>
-#include <gs/gt2/gt2Utility.h>
 #include <platform/stdio.h>
 #include <platform/string.h>
 #include <revolutionex/net/NETDigest.h>

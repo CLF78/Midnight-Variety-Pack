@@ -3,7 +3,6 @@
 #include <game/net/RKNetSelectHandler.hpp>
 #include <game/net/RKNetUserHandler.hpp>
 #include <game/system/SystemManager.hpp>
-#include <game/util/Random.hpp>
 #include <mvp/cup/CupManager.hpp>
 
 ///////////////////////

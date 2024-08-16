@@ -1,5 +1,4 @@
 #include "CtrlRaceMessageDisplay.hpp"
-#include <game/system/RaceManager.hpp>
 #include <game/ui/ControlLoader.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <platform/stdio.h>
