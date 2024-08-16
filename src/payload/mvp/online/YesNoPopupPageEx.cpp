@@ -23,7 +23,7 @@ void YesNoPopupPageEx::forcePressSelected() {
 }
 
 void YesNoPopupPageEx::onBackPress(u32 hudSlotId) {
-    if (isBackButtonEnabled && onBackSelectedButton != -1 && (playerFlags & (1 << hudSlotId) != 0)) {
+    if (isBackButtonEnabled && onBackSelectedButton != -1 && (playerFlags & (1 << hudSlotId)) != 0) {
         buttons[onBackSelectedButton].selectDefault(hudSlotId);
         buttons[onBackSelectedButton].click(hudSlotId);
     }

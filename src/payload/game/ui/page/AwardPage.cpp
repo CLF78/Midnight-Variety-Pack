@@ -139,7 +139,7 @@ REPLACE void AwardPage::initType() {
         if (curSection == Section::AWARD_GP)
             msgInfo.messageIds[0] = CupManager::GetCup(settings->cupId)->cupName;
         else
-            msgInfo.setCondMessageValue(0, settings->modeFlags & RaceConfig::Settings::FLAG_MIRROR != 0, true);
+            msgInfo.setCondMessageValue(0, (settings->modeFlags & RaceConfig::Settings::FLAG_MIRROR) != 0, true);
     }
 
     // Apply changes

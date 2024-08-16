@@ -172,6 +172,6 @@ void RaceCourseSelectPageEx::onActivate() {
     }
 
     // Set mirror argument and apply message
-    msgInfo.setCondMessageValue(0, RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_MIRROR != 0, true);
+    msgInfo.setCondMessageValue(0, (RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_MIRROR) != 0, true);
     instructionText->setText(msgId, &msgInfo);
 }

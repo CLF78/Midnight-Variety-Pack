@@ -90,7 +90,7 @@ REPLACE void DemoPage::onInit() {
         }
 
         // Update the race number and insert it into the message together with race count and mirror word
-        msgInfo.setCondMessageValue(2, raceSettings->modeFlags & RaceConfig::Settings::FLAG_MIRROR != 0, true);
+        msgInfo.setCondMessageValue(2, (raceSettings->modeFlags & RaceConfig::Settings::FLAG_MIRROR) != 0, true);
         msgInfo.intVals[0] = ++globalCtx->currentRace;
         msgInfo.intVals[1] = globalCtx->raceCount;
 
