@@ -27,7 +27,6 @@ Checks:          'bugprone-argument-comment,
                   bugprone-non-zero-enum-to-bool-conversion,
                   bugprone-not-null-terminated-result,
                   bugprone-return-const-ref-from-parameter,
-                  bugprone-parent-virtual-call,
                   bugprone-pointer-arithmetic-on-polymorphic-object,
                   bugprone-redundant-branch-condition,
                   bugprone-signed-char-misuse,
@@ -132,6 +131,7 @@ CheckOptions:
   bugprone-argument-comment.StrictMode: "true"
   bugprone-not-null-terminated-result.WantToUseSafeFunctions: false
   bugprone-suspicious-enum-usage.StrictMode: true
+  cppcoreguidelines-narrowing-conversions.WarnOnIntegerToFloatingPointNarrowingConversion: false
   misc-unused-parameters.IgnoreVirtual: true
   readability-magic-numbers.IgnoredIntegerValues: '0;1'
   readability-redundant-access-specifiers.CheckFirstDeclaration: true
