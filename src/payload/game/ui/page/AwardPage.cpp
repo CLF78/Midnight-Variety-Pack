@@ -26,7 +26,7 @@ REPLACE_STATIC AwardPage::CreditsType AwardPage::getCreditsType(u32 cupId, u32 e
 
     // Check that each cup is completed
     SaveExpansionCup* cups = SaveExpansionCup::GetSection();
-    for (int i = 0; i < SaveExpansionCup::GetEntryCount(); i++) {
+    for (u32 i = 0; i < SaveExpansionCup::GetEntryCount(); i++) {
         if (!cups->GetData(i)->mCompleted)
             return AwardPage::CREDITS_NONE;
     }

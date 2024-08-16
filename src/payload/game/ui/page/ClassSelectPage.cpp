@@ -31,7 +31,7 @@ REPLACE void ClassSelectPage::onInit() {
         return;
 
     // Get each button id
-    for (int i = 0; i < buttonCount; i++) {
+    for (u32 i = 0; i < buttonCount; i++) {
         PushButton* btn = buttons[i];
         const int buttonId = btn->buttonId;
 

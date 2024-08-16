@@ -95,8 +95,8 @@ REPLACE void RacePage::initControls(Controls controls) {
         MessageQueue::instance.queueEnabled = true;
 
         // Initialize the messages
-        for (int i = 0; i < localPlayerCount; i++) {
-            for (int j = 0; j < MessageQueue::instance.GetMessageCount(localPlayerCount); j++) {
+        for (u32 i = 0; i < localPlayerCount; i++) {
+            for (u32 j = 0; j < MessageQueue::instance.GetMessageCount(localPlayerCount); j++) {
 
                 // Insert the display
                 CtrlRaceMessageDisplay* display = new CtrlRaceMessageDisplay();

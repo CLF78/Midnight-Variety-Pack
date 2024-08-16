@@ -15,7 +15,7 @@ void MultiTransmissionSelectPage::onActivate() {
     MenuPage::onActivate();
 
     // For each active player, enable the buttons and set their text
-    for (int i = 0; i < SectionManager::instance->globalContext->humanPlayerCount; i++) {
+    for (u32 i = 0; i < SectionManager::instance->globalContext->humanPlayerCount; i++) {
         multiControlInputManager.players[i].enabled = true;
 
         buttons[i*2]->setText(Message::Menu::TRANSMISSION_OUTSIDE);

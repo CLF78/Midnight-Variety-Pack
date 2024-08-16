@@ -26,7 +26,7 @@ public:
     MessageQueue() { Clear(); }
     void Clear();
     void Push(u32 msgId, MessageInfo* msgInfo, u32 playerFlags = 0xFFFFFFFF);
-    int GetMessageCount(u32 localPlayerCount) const;
+    u32 GetMessageCount(u32 localPlayerCount) const;
 
     Entry entries[4][6]; // 6 per player at most
     u32 localPlayerCount;

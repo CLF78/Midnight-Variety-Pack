@@ -24,7 +24,7 @@ bool SaveExpansion::Header::IsValid(u32 fileSize) const {
 
     // Ensure each license offset is in the file
     const u32* licenseOffsData = &licenseOffsets[0];
-    for (int i = 0; i < licenseCount; i++) {
+    for (u32 i = 0; i < licenseCount; i++) {
         if (licenseOffsData[i] > fileSize)
             return false;
     }
@@ -84,7 +84,7 @@ bool SaveExpansion::Read(u8* buffer, u32 bufferSize) {
         return false;
 
     // Parse each license
-    for (int i = 0; i < header->licenseCount && i < ARRAY_SIZE(mLicenses); i++) {
+    for (u32 i = 0; i < header->licenseCount && i < ARRAY_SIZE(mLicenses); i++) {
         u8* license = buffer + header->headerSize + header->licenseOffsets[i];
         const u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1 ) ? bufferSize - header->licenseOffsets[i]
                                                             : header->licenseOffsets[i+1] - header->licenseOffsets[i];

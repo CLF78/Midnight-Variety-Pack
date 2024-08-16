@@ -30,7 +30,7 @@ void Update() {
 
     // Compute the connection matrix
     u32 aidsConnectedToMe = 0;
-    for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
+    for (u32 i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
         const u32 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
         if (DWCi_GetGT2Connection(aid))
             aidsConnectedToMe |= (1 << i);

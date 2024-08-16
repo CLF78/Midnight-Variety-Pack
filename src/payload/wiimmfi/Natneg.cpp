@@ -53,7 +53,7 @@ void CalcTimers(bool connectedToHost) {
         return;
 
     // Try to connect to each node
-    for (int i = 0; i < nodeCount; i++) {
+    for (u32 i = 0; i < nodeCount; i++) {
 
         // Get the aid
         const u8 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
@@ -314,7 +314,7 @@ DWCNodeInfo* GetNextMeshMakingNode() {
     DWCNodeInfo* minNextTryTimeNode = nullptr;
 
     // Get each node
-    for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
+    for (u32 i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
         DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];
 
         // Skip my own node
@@ -421,7 +421,7 @@ void RecoverSynAckTimeout() {
 
     // Send a SYN command periodically, but save the last send time first
     const s64 lastSendTime = stpMatchCnt->lastSynSent;
-    for (int i = 0; i < nodeCount; i++) {
+    for (u32 i = 0; i < nodeCount; i++) {
         if (noSynAckAids >> i & 1)
             DWCi_SendMatchSynPacket(i, DWC_MATCH_SYN_CMD_SYN);
     }

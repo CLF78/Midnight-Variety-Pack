@@ -72,7 +72,7 @@ void ReportAIDPIDMap() {
 
     // Create the data string
     char* mapPtr = aidPidMap;
-    for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
+    for (u32 i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
 
         // Get the node info, print it and update the offset
         DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];

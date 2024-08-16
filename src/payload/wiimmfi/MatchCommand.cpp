@@ -137,7 +137,7 @@ void SendConnMtxCommand(u32 aidsConnectedToMe) {
     LOG_DEBUG("Sending CONN_FAIL_MTX command with data %08X", aidsConnectedToMe);
 
     // Send the command to every node
-    for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
+    for (u32 i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
 
         // Get the node and check that it isn't me
         DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];

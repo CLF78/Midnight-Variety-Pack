@@ -52,7 +52,7 @@ REPLACE void SinglePlayerMenuPage::onButtonClick(PushButton* button, u32 hudSlot
     scenario->settings.itemMode = RaceConfig::Settings::ITEMS_BALANCED;
 
     // Get the selected button's ID
-    const u32 buttonId = button->buttonId;
+    const int buttonId = button->buttonId;
 
     // If the back button was pressed, return to the main menu
     if (buttonId == MenuPage::BACK_BUTTON) {

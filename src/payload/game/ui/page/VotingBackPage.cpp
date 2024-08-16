@@ -148,7 +148,7 @@ REPLACE void VotingBackPage::setupRace() {
 
         // Get the player info using the obtained data
         PlayerInfo* playerInfo = nullptr;
-        for (int i = 0; i < playerCount; i++) {
+        for (u32 i = 0; i < playerCount; i++) {
             if (playerInfos[i].aid == aid && playerInfos[i].localPlayerIdx == localPlayerId) {
                 playerInfo = &playerInfos[i];
                 break;

@@ -13,7 +13,7 @@ bool SaveExpansionLicense::Header::IsValid(u32 licenseSize) const {
 
     // Ensure each section offset is in the license
     const u32* sectionOffsData = &sectionOffsets[0];
-    for (int i = 0; i < sectionCount; i++) {
+    for (u32 i = 0; i < sectionCount; i++) {
         if (sectionOffsData[i] > licenseSize)
             return false;
     }
@@ -62,7 +62,7 @@ bool SaveExpansionLicense::Read(u8* buffer, u32 bufferSize) {
 
     // Parse each section
     // Do not mark save as corrupted on invalid section/section data
-    for (int i = 0; i < header->sectionCount; i++) {
+    for (u32 i = 0; i < header->sectionCount; i++) {
 
         // Get the section pointer
         SaveExpansionSection::RawData* rawSection = (SaveExpansionSection::RawData*)(buffer +
