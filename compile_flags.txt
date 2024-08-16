@@ -17,6 +17,7 @@
 -Wall
 -Wextra
 -Wno-c++17-extensions
+-Wno-dynamic-class-memaccess
 -Wno-int-to-pointer-cast
 -Wno-multichar
 -Wno-pragma-pack

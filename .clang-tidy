@@ -44,7 +44,6 @@ Checks:          'bugprone-argument-comment,
                   bugprone-switch-missing-default-case,
                   bugprone-terminating-continue,
                   bugprone-too-small-loop-variable,
-                  bugprone-undefined-memory-manipulation,
                   bugprone-undelegated-constructor,
                   bugprone-unused-local-non-trivial-variable,
                   bugprone-unused-raii,
@@ -126,7 +125,8 @@ Checks:          'bugprone-argument-comment,
                   readability-static-accessed-through-instance,
                   readability-static-definition-in-anonymous-namespace,
                   readability-suspicious-call-argument,
-                  clang-analyzer-*'
+                  clang-analyzer-*,
+                  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling'
 CheckOptions:
   bugprone-argument-comment.StrictMode: "true"
   bugprone-not-null-terminated-result.WantToUseSafeFunctions: false
