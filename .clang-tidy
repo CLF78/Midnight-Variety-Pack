@@ -126,6 +126,7 @@ Checks:          'bugprone-argument-comment,
                   readability-static-definition-in-anonymous-namespace,
                   readability-suspicious-call-argument,
                   clang-analyzer-*,
+                  -clang-analyzer-optin.cplusplus.VirtualCall,
                   -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling'
 CheckOptions:
   bugprone-argument-comment.StrictMode: "true"

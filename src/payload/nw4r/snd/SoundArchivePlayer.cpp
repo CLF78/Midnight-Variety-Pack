@@ -104,7 +104,7 @@ REPLACE bool SoundArchivePlayer::LoadGroup(ulong groupId, SoundMemoryAllocatable
                 continue;
 
             // If the file does not end in BRSTM, bail
-            if (strcmp(cs, BRSTM_SUFFIX))
+            if (strcmp(cs, BRSTM_SUFFIX) != 0)
                 continue;
 
             // Ignore BRSTM sound type

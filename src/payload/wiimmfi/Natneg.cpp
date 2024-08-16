@@ -6,6 +6,7 @@
 #include <dwc/dwc_transport.h>
 #include <gs/gt2/gt2Main.h>
 #include <gs/gt2/gt2Utility.h>
+#include <platform/limits.h>
 #include <platform/stdio.h>
 #include <platform/string.h>
 #include <revolution/os/OS.h>
@@ -310,7 +311,7 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
 DWCNodeInfo* GetNextMeshMakingNode() {
 
     // Initialize variables
-    s64 minNextTryTime = (1 << 63) - 1;
+    s64 minNextTryTime = LLONG_MAX;
     DWCNodeInfo* minNextTryTimeNode = nullptr;
 
     // Get each node
