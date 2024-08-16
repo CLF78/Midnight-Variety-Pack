@@ -56,7 +56,7 @@ public:
                                         bool holdFlag,
                                         const StartInfo* startInfo);
 
-    bool LoadGroup(ulong groupId, SoundMemoryAllocatable* allocater, ulong loadBlockSize = 0);
+    bool LoadGroup(ulong groupId, SoundMemoryAllocatable* allocator, ulong loadBlockSize = 0);
 
     const void* detail_GetFileAddress(u32 fileId) const;
     const void* detail_GetFileWaveDataAddress(u32 fileId) const;
@@ -71,7 +71,7 @@ public:
 
     bool SetupMram(const SoundArchive* archive, void* buffer, size_t size);
 
-    ut::FileStream** soundStreams(); // custom function
+    ut::FileStream** soundStreams() const; // custom function
 
     const SoundArchive* soundArchive;
     detail::Util::Table<GroupAddress>* groupTable;

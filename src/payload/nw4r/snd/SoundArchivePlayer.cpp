@@ -14,7 +14,7 @@ namespace snd {
 
 // Custom function to obtain the custom sound stream array
 // Credits: stebler
-ut::FileStream** SoundArchivePlayer::soundStreams() {
+ut::FileStream** SoundArchivePlayer::soundStreams() const {
     u8* end = (u8*)(setupBufferAddress) + setupBufferSize;
     return (ut::FileStream**)(end) - soundArchive->GetSoundCount();
 }

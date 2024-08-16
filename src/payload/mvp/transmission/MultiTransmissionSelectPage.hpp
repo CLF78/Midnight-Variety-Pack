@@ -21,5 +21,5 @@ public:
     virtual void onActivate();
 
     void onButtonClick(PushButton* button, u32 hudSlotId);
-    void setCPUTransmissions();
+    static void setCPUTransmissions();
 };

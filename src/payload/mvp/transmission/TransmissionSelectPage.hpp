@@ -19,5 +19,5 @@ public:
     void onButtonClick(PushButton* button, u32 hudSlotId);
     void onBackPress(u32 hudSlotId);
 
-    void setCPUTransmissions();
+    static void setCPUTransmissions();
 };
