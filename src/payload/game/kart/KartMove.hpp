@@ -1,6 +1,6 @@
 #pragma once
-#include "KartObjectProxy.hpp"
 #include "KartBoost.hpp"
+#include "KartObjectProxy.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <revolution/mtx.h>
 
@@ -47,7 +47,7 @@ public:
     bool addMtCharge(u32 currentDriftState, short* mtCharge, short baseMtCharge, u32 maxMtCharge);
     void calcManualDrift();
     void clearDrift();
-    void releaseMt(bool unk0, u32 unk1);
+    void releaseMt(bool forceOverride, u32 driftState);
     void activateBoost(u32 type, u32 duration);
 
     float speedMultiplier;

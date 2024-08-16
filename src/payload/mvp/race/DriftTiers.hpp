@@ -6,19 +6,17 @@
 class ExpPlayerEffects : public PlayerEffects {
 public:
     enum UMTeffects {
-    rk_driftSpark3L_Spark00,
-    rk_driftSpark3L_Spark01,
-    rk_driftSpark3R_Spark00,
-    rk_driftSpark3R_Spark01,
-    rk_purpleBoost,
-    rk_purpleBoost_2,
-    rk_purpleBoost_3,
-    rk_purpleBoost_4
-};
+        rk_driftSpark3L_Spark00,
+        rk_driftSpark3L_Spark01,
+        rk_driftSpark3R_Spark00,
+        rk_driftSpark3R_Spark01,
+        rk_purpleBoost,
+        rk_purpleBoost_2,
+        rk_purpleBoost_3,
+        rk_purpleBoost_4
+    };
 
-    static const int SmtEffectsCount = 8;
-    static const int UmtEffectsCount = 8;
-    explicit ExpPlayerEffects(KartObject* kartObject) : PlayerEffects(kartObject) { };
+    explicit ExpPlayerEffects(KartObject* kartObject) : PlayerEffects(kartObject) {}
     virtual ~ExpPlayerEffects() {
         if (isBike) {
             EGG::Effect** array = rk_orangeMT;
@@ -35,8 +33,12 @@ public:
             }
         }
     }
+
     EGG::Effect** rk_purpleMT;
     EGG::Effect** rk_orangeMT;
-    static const char* UMTNames[8];
-    static const char* SMTNames[8];
+
+    static const int SmtEffectsCount = 8;
+    static const int UmtEffectsCount = 8;
+    static const char* UMTNames[SmtEffectsCount];
+    static const char* SMTNames[SmtEffectsCount];
 };

@@ -11,8 +11,8 @@ public:
     RUNTIME_TYPE_INFO_NODECL;
     RUNTIME_TYPENAME_INFO_NODECL;
 
-    void onButtonClick(PushButton* btn, u32 hudSlotId);
-    void onButtonSelect(PushButton* btn, u32 hudSlotId);
+    void onButtonClick(PushButton* button, u32 hudSlotId);
+    void onButtonSelect(PushButton* button, u32 hudSlotId);
 
     CtrlMenuMovieButton courseButtons[4];
     LayoutUIControl _B24;

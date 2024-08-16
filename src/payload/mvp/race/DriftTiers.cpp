@@ -105,13 +105,13 @@ bool umtState[12]; //false = no UMT  true = UMT buff active expanding Kart::Move
 //Expanded player effect, also hijacked to add custom breff/brefts to EffectsMgr
 static void CreatePlayerEffects(EffectsManager& mgr) { //adding the resource here as all other breff have been loaded at this point
     ResourceManager* root = ResourceManager::instance;
-    void* breff = root->getFile(MultiDvdArchive::COMMON, "/Effect/purple.breff", 0);
-    void* breft = root->getFile(MultiDvdArchive::COMMON, "/Effect/purple.breft", 0);
+    void* breff = root->getFile(MultiDvdArchive::COMMON, "/Effect/purple.breff", nullptr);
+    void* breft = root->getFile(MultiDvdArchive::COMMON, "/Effect/purple.breft", nullptr);
     EGG::EffectResource* res = new EGG::EffectResource(breff, breft);
     if (mgr.resCount != 9) mgr.resources[mgr.resCount] = res;
     else pulEffects = res;
-    breff = root->getFile(MultiDvdArchive::COMMON, "/Effect/orange.breff", 0);
-    breft = root->getFile(MultiDvdArchive::COMMON, "/Effect/orange.breft", 0);
+    breff = root->getFile(MultiDvdArchive::COMMON, "/Effect/orange.breff", nullptr);
+    breft = root->getFile(MultiDvdArchive::COMMON, "/Effect/orange.breft", nullptr);
     res = new EGG::EffectResource(breff, breft);
     if (mgr.resCount != 9) mgr.resources[mgr.resCount] = res;
     else vpEffects = res;

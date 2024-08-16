@@ -150,5 +150,5 @@ void SendConnMtxCommand(u32 aidsConnectedToMe) {
     }
 }
 
-} // namespace Natneg
+} // namespace MatchCommand
 } // namespace Wiimmfi

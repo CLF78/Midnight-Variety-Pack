@@ -66,7 +66,7 @@ kmBranchDefCpp(0x80584F6C, 0x80584FF8, void, KartMove* self, KartState* state) {
     physics->internalVelocity.z = self->cannonExitDir.z * self->speed;
 
     // More replicated code
-    self->FUN_80591050(0, 0, 1);
+    self->FUN_80591050(0, false, true);
 }
 
 /////////////////////////////
