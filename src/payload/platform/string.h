@@ -12,6 +12,7 @@ int strcmp(const char* str1, const char* str2);
 int strncmp(const char* str1, const char* str2, size_t num);
 char* strcpy(char* destination, const char* source);
 char* strncpy(char* destination, const char* source, size_t num);
+size_t strlcpy(char *dst, const char *src, size_t size); // actually NWC24iStrLCpy
 char* strstr(char* str1, const char* str2);
 size_t strlen(const char* str);
 s32 strtol(const char* str, char** endptr, int base);

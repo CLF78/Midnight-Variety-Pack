@@ -85,7 +85,7 @@ void ReportAIDPIDMap() {
         Status::SendMessage("slot_pid_matrix", aidPidMap, stpMatchCnt->nodeInfoList.nodeCount);
 
     // Copy the updated data
-    strcpy(sAidPidMap, aidPidMap);
+    strlcpy(sAidPidMap, aidPidMap, sizeof(sAidPidMap));
 }
 
 void ReportConnectionMatrix(u32 aidsConnectedToMe) {

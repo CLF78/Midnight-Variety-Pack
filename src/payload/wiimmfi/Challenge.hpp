@@ -4,6 +4,12 @@
 namespace Wiimmfi {
 namespace Challenge {
 
+    // The challenge size (including the null character)
+    static const int CHALLENGE_SIZE = 9;
+
+    // The key used to send the challenge
+    static const char CHALLENGE_KEY[] = "challenge";
+
     // Saves the received challenge
     void Save(const char* challenge);
 

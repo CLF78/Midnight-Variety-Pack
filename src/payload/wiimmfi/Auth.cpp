@@ -3,7 +3,6 @@
 #include "Status.hpp"
 #include <mvp/util/DolphinDevice.hpp>
 #include <platform/stdio.h>
-#include <platform/stdlib.h>
 #include <platform/string.h>
 #include <revolution/base/PPCArch.h>
 #include <revolution/base/PPCReg.h>
@@ -148,7 +147,7 @@ void ParseAuthResponse(const char* response) {
     if (strstart(response, RESPONSE_P2PPORT)) {
         strshift(response, RESPONSE_P2PPORT);
         LOG_DEBUG("Received Wiimmfi P2P port: %s", response);
-        Wiimmfi::Port::sPort = atoi(response);
+        Wiimmfi::Port::sPort = strtoul(response, nullptr, 10);
     }
 
     // Response type: console assignment message
