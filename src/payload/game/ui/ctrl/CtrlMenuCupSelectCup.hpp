@@ -14,8 +14,8 @@ public:
 
     void load(u32 playerFlags, bool unk);
 
-    void onButtonClick(PushButton* btn, u32 hudSlotId);
-    void onButtonSelect(PushButton* btn, u32 hudSlotId);
+    void onButtonClick(PushButton* button, u32 hudSlotId);
+    void onButtonSelect(PushButton* button, u32 hudSlotId);
 
     PushButton cupButtons[8];
     InputHandler2<PushButton, void, PushButton*, u32> onButtonClickHandler;

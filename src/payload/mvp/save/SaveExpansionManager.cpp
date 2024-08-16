@@ -68,7 +68,7 @@ int Read() {
     return NandUtil::ERROR_NONE;
 }
 
-int SaveExpansionManager::Create() {
+int Create() {
 
     // Reset the check error
     sCheckError = NandUtil::CHECK_ERROR_NONE;
@@ -112,7 +112,7 @@ int SaveExpansionManager::Create() {
     return result;
 }
 
-int SaveExpansionManager::Write() {
+int Write() {
 
     // Check if the file exists
     u32 fileType;

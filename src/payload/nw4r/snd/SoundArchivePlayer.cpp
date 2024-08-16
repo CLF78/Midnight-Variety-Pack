@@ -48,7 +48,7 @@ REPLACE SoundStartable::StartResult SoundArchivePlayer::detail_SetupSoundImpl(
     if (soundStreams()[soundId])
         soundId |= SASR_BIT;
 
-    return REPLACED(handle, soundId, ambientArgInfo, actor, holdFlag, startInfo);
+    return (SoundStartable::StartResult)REPLACED(handle, soundId, ambientArgInfo, actor, holdFlag, startInfo);
 }
 
 // Pass the file stream pointer instead of the file ID to PrepareStrmImpl if the sound was replaced
@@ -70,7 +70,7 @@ REPLACE SoundStartable::StartResult SoundArchivePlayer::PrepareStrmImpl(
     }
 
     // Original call
-    return REPLACED(sound, commonInfo, info, startOffsetType, startOffset);
+    return (SoundStartable::StartResult)REPLACED(sound, commonInfo, info, startOffsetType, startOffset);
 }
 
 // Scan for external SFX replacements

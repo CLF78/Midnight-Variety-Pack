@@ -221,7 +221,7 @@ REPLACE void RKNetSELECTHandler::calcPhase() {
                     // When the host goes to the next phase, add the winning course to the repick
                     // queue as well
                     if (recvPacket->phase > RKNetSELECTPacket::VOTING) {
-                        RepickQueue::instance.Push(expansion.sendPacketEx.winningCourse);
+                        RepickQueue::instance.Push(sendPacketEx->winningCourse);
                         sendPacket.phase = RKNetSELECTPacket::LOTTERY;
                     }
 

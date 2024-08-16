@@ -36,7 +36,7 @@ void MessageQueue::Push(u32 msgId, MessageInfo* msgInfo, u32 playerFlags) {
 
     // Parse each player
     LOG_DEBUG("Pushing message %d to the queue...", msgId);
-    for (int i = 0; i < localPlayerCount; i++) {
+    for (u32 i = 0; i < localPlayerCount; i++) {
 
         // Skip players who are not affected
         if (playerFlags & (1 << i)) {

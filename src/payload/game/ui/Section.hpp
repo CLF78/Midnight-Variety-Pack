@@ -228,7 +228,7 @@ public:
 
     void addActivePage(Page::PageId pageId);
     void addActivePages(SectionId sectionId);
-    Page* activatePage(Page::PageId pageId, Page::AnimationDirection anim);
+    Page* activatePage(Page::PageId pageId, Page::AnimationDirection direction);
 
     void init(SectionId sectionId);
     void deinit();

@@ -1,5 +1,6 @@
 #pragma once
 
+// NOLINTBEGIN
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -73,3 +74,4 @@ inline u32 PPCGetECID_L() {
 #ifdef __cplusplus
 }
 #endif
+// NOLINTEND

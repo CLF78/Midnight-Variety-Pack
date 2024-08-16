@@ -78,9 +78,6 @@ REPLACE_STATIC MultiDvdArchive* MultiDvdArchive::create(int type) {
 // Reverse the archive check loop to match ResourceManager's behaviour
 REPLACE void* MultiDvdArchive::getFile(const char* path, u32* size) {
 
-    // Default to null
-    void* file = nullptr;
-
     // Parse each archive
     for (int i = 0; i < archiveCount; i++) {
         DvdArchive* archive = &archives[i];
@@ -90,12 +87,12 @@ REPLACE void* MultiDvdArchive::getFile(const char* path, u32* size) {
             continue;
 
         // Get the file, if found exit the loop
-        if (file = archive->getFile(path, size))
-            break;
+        if (void* file = archive->getFile(path, size))
+            return file;
     }
 
-    // Return the file
-    return file;
+    // Return null if not found
+    return nullptr;
 }
 
 // Update archive count
