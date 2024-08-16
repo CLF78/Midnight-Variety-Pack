@@ -205,13 +205,11 @@ public:
     };
 
     Page* getPage(Page::PageId page) const {
-        if (page < Page::ORIGINAL_PAGE_COUNT) {
+        if (page < Page::ORIGINAL_PAGE_COUNT)
             return pages[page];
-        } else if (page < Page::PAGE_COUNT) {
+        if (page < Page::PAGE_COUNT)
             return extraPages[page - Page::ORIGINAL_PAGE_COUNT];
-        } else {
-            return nullptr;
-        }
+        return nullptr;
     }
 
     void setPage(Page::PageId pageId, Page* page) {

@@ -27,7 +27,7 @@ public:
     CtrlMenuBattleStageSelectCupSub* getCupButton(u32 idx) {
         if (idx < 2)
             return &cupHolder.cups[idx];
-        else if (idx < getCupCount())
+        if (idx < getCupCount())
             return &cups[idx-2];
         return nullptr;
     }

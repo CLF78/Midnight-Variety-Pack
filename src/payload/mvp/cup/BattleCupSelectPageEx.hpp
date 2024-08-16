@@ -32,7 +32,7 @@ public:
     PushButton* getCupButton(u32 idx) {
         if (idx < 2)
             return &cupHolder.cupButtons[idx];
-        else if (idx < getCupCount())
+        if (idx < getCupCount())
             return &cupButtons[idx-2];
         return nullptr;
     }
