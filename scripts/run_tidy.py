@@ -26,7 +26,8 @@ CLANG_TIDY = shutil.which('clang-tidy')
 # Output filters
 ASM_LABEL_REGEX = re.compile("\\b.*label '[rf]\\d+'.*\\n.*\\n.*\\n")
 ASM_TOKEN_REGEX = re.compile("\\b.*unknown token in expression.*\\n.*\\n.*\\n")
-OUTPUT_FILTERS = [ASM_LABEL_REGEX, ASM_TOKEN_REGEX]
+ASM_REGISTER_REGEX = re.compile("\\b.*register %[rf]\\d+ is not available.*\\n.*\\n.*\\n")
+OUTPUT_FILTERS = [ASM_LABEL_REGEX, ASM_TOKEN_REGEX, ASM_REGISTER_REGEX]
 
 
 def run_tidy(file: Path = None):
