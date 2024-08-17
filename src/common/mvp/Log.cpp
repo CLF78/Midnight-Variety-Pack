@@ -14,7 +14,8 @@ void Logger::HaltWrapper(const char* fmt, ...) const {
     va_end(args);
 
     // Halt the game
-    unsigned int fg = 0xFFFFFFFF, bg = 0;
+    unsigned int fg = 0xFFFFFFFF;
+    unsigned int bg = 0;
     mHaltFn(&fg, &bg, buffer);
 }
 

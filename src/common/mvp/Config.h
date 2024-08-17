@@ -148,4 +148,4 @@
 // Credits: Chadderz (original code), CLF78 (various updates)
 
 // The default time limit
-#define DEFAULT_ONLINE_TIME_LIMIT 5 * 60 * 1000
+#define DEFAULT_ONLINE_TIME_LIMIT (5 * 60 * 1000)

@@ -80,7 +80,7 @@ void ReportAIDPIDMap() {
     }
 
     // If the data differs, send an update to the server
-    if (strcmp(sAidPidMap, aidPidMap))
+    if (strcmp(sAidPidMap, aidPidMap) != 0)
         Status::SendMessage("slot_pid_matrix", aidPidMap, stpMatchCnt->nodeInfoList.nodeCount);
 
     // Copy the updated data
@@ -334,10 +334,10 @@ void ReportRaceStage(u32 stage) {
 void ReportRegionChange() {
 
     // Use the host profile ID to detect changes
-    static u32 sHostPid;
+    static int sHostPid;
 
     // If the PID hasn't changed, bail
-    const u32 hostPid = stpMatchCnt->nodeInfoList.nodeInfos[0].profileId;
+    const int hostPid = stpMatchCnt->nodeInfoList.nodeInfos[0].profileId;
     if (hostPid == sHostPid)
         return;
 

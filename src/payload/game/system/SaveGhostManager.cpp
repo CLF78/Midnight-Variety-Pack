@@ -12,7 +12,7 @@
 REPLACE Section::SectionId SaveGhostManager::getErrorSection() {
 
     // Original call
-    Section::SectionId section = REPLACED();
+    Section::SectionId section = (Section::SectionId)REPLACED();
 
     // If there was an error with the original save, just go to the indicated section
     if (section != Section::NONE)

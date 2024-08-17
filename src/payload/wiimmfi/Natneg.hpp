@@ -22,7 +22,7 @@ namespace Natneg {
     // Checks NATNEG attempts to prevent the host from disconnecting due to repeated NATNEG failures
     // with the same client
     // Returns true if the attempt should count toward the Error 86420 threshold
-    bool PreventRepeatNATNEGFail(u32 failedPid);
+    bool PreventRepeatNATNEGFail(int failedPid);
 
     // Attempt to recover from a SYN-ACK timeout (i think)
     void RecoverSynAckTimeout();

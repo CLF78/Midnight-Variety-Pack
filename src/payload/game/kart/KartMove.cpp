@@ -153,7 +153,7 @@ REPLACE void KartMove::releaseMt(bool forceOverride, u32 driftState) {
         return;
     }
     KartStats* stats = this->getStats();
-    s16 mtLength = stats->mtDuration;
+    s16 mtLength = (s16)stats->mtDuration;
     if (driftState == SMT_CHARGED) {
         mtLength *= 3;
     }

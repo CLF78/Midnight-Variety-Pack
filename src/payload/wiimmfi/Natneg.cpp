@@ -346,10 +346,11 @@ DWCNodeInfo* GetNextMeshMakingNode() {
     return minNextTryTimeNode;
 }
 
-bool PreventRepeatNATNEGFail(u32 failedPid) {
+bool PreventRepeatNATNEGFail(int failedPid) {
 
     // Define an array to store the PIDs who have already failed NATNEG
-    static u32 sFailedPids[10], sFailedPidsIdx;
+    static int sFailedPids[10];
+    static u32 sFailedPidsIdx;
 
     // Only run the check for the host
     if (!DWC_IsServerMyself())
