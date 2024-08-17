@@ -31,7 +31,7 @@ void BattleStageSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button
 }
 
 // Properly store/vote the selected arena
-void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button, int unk) {
+void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button, u32 hudSlotId) {
 
     // Check for active state
     if (pageState != Page::STATE_ACTIVE)
@@ -145,7 +145,7 @@ void BattleStageSelectPageEx::onButtonClick(PushButton* button, u32 hudSlotId) {
         return;
 
     // Apply properties
-    for (int i = 0; i < getCupCount(); i++) {
+    for (u32 i = 0; i < getCupCount(); i++) {
         CtrlMenuBattleStageSelectCupSub* cupButton = getCupButton(i);
         cupButton->alpha = 300.0f;
         cupButton->fadeDirection = 1;
@@ -163,7 +163,7 @@ void BattleStageSelectPageEx::onBackPress(u32 hudSlotId) {
         return;
 
     // Apply properties
-    for (int i = 0; i < getCupCount(); i++) {
+    for (u32 i = 0; i < getCupCount(); i++) {
         CtrlMenuBattleStageSelectCupSub* cupButton = getCupButton(i);
         cupButton->alpha = 300.0f;
         cupButton->fadeDirection = 1;

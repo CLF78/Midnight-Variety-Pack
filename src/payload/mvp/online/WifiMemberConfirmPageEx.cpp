@@ -136,11 +136,11 @@ void WifiMemberConfirmPageEx::onActivate() {
     if (teamsEnabled) {
 
         // Set up filling loop
-        int redTeamIdx = 0;
-        int blueTeamIdx = 1;
-        int entryIdx;
+        u32 redTeamIdx = 0;
+        u32 blueTeamIdx = 1;
+        u32 entryIdx;
 
-        for (int playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
+        for (u32 playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
 
             // Get the team and the entry index
             const RaceConfig::Player::Team playerTeam = page->playerInfos[playerIdx].team;
@@ -159,7 +159,7 @@ void WifiMemberConfirmPageEx::onActivate() {
 
     // If teams are disabled, just set the players in order
     } else {
-        for (int playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
+        for (u32 playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
             setPlayerEntry(playerIdx, playerIdx, RaceConfig::Player::TEAM_NONE,
                            ratingType, RKNetController::instance->isLocalPlayer(playerIdx));
         }

@@ -44,7 +44,7 @@ void Calc(u32 frameCount) {
     const u32 framesElapsed32 = (u32)framesElapsed;
 
     // Calculate the delay
-    const int delay = framesElapsed32 - frameCount - sCumulativeDelay;
+    const int delay = (int)(framesElapsed32 - frameCount - sCumulativeDelay);
     if (delay > 0) {
         sCurrentDelay = delay;
         LOG_WARN("Detected delay of %d frames", delay);
@@ -54,7 +54,7 @@ void Calc(u32 frameCount) {
 u32 Apply(u32 timer) {
 
     // Get the current delay and transfer it to the cumulative delay
-    const int currDelay = sCurrentDelay;
+    const u32 currDelay = sCurrentDelay;
     sCumulativeDelay += currDelay;
 
     // Reset the current delay and return the updated timer

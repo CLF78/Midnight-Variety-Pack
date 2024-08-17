@@ -30,7 +30,7 @@ public:
     virtual UIControl* loadLayout(u32 layoutIdx);
     virtual void setupButton(PushButton* button);
 
-    void setCourseNames(CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button, int unk);
+    void setCourseNames(CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button, u32 hudSlotId);
 
     CtrlMenuBattleCupSelectCup cupHolder;
     CtrlMenuBattleCupSelectStage stageHolder;

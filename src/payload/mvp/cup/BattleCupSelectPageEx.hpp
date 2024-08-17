@@ -19,7 +19,7 @@ public:
     virtual void onActivate();
     virtual UIControl* loadLayout(u32 layoutIdx);
 
-    void setCourse(CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button, int unk);
+    void setCourse(CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button, u32 hudSlotId);
 
     static BattleCupSelectPageEx* getPage() {
         return (BattleCupSelectPageEx*)SectionManager::instance->curSection->getPage(Page::CUP_SELECT_BT);

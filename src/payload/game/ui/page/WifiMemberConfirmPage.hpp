@@ -26,7 +26,7 @@ public:
 
     RUNTIME_TYPE_INFO_NODECL;
 
-    void setPlayerEntry(int entryIdx, int playerIdx, RaceConfig::Player::Team team,
+    void setPlayerEntry(u32 entryIdx, u32 playerIdx, RaceConfig::Player::Team team,
                         RatingType ratingType, bool isLocalPlayer);
 
     InputHandler2<WifiMemberConfirmPage, void, PushButton*, u32> onButtonClickHandler;

@@ -12,7 +12,7 @@ public:
     virtual void afterCalc();
 
     void onRepickPromptPress(s32 choice, PushButton* button);
-    void setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button, int unk);
+    void setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button, u32 hudSlotId);
     void onButtonClick(PushButton* button, u32 hudSlotId);
     void onBackPress(u32 hudSlotId);
 
