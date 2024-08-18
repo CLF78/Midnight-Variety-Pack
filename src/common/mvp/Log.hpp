@@ -13,10 +13,10 @@ public:
     };
 
     typedef void (*Report_t) (const char* str, ...);
-    typedef void (*Halt_t) (unsigned int* fg, unsigned int* bg, const char* str);
+    typedef NORETURN void (*Halt_t) (unsigned int* fg, unsigned int* bg, const char* str);
     typedef int (*Print_t) (char* buf, size_t bufSize, const char* format, va_list args);
 
-    void HaltWrapper(const char* fmt, ...) const;
+    NORETURN void HaltWrapper(const char* fmt, ...) const;
     static void CreateInstance(Report_t reportFn, Halt_t haltFn, Print_t printFn);
 
     Report_t mReportFn;

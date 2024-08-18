@@ -4,7 +4,7 @@
 #include <revolution/dvd/dvd.h>
 
 typedef void (*OSReport_t) (const char* str, ...);
-typedef void (*OSFatal_t) (u32* fg, u32* bg, const char* str);
+typedef NORETURN void (*OSFatal_t) (u32* fg, u32* bg, const char* str);
 typedef int (*DVDConvertPathToEntrynum_t) (const char* path);
 typedef bool (*DVDFastOpen_t) (int entrynum, DVDFileInfo* fileInfo);
 typedef int (*DVDReadPrio_t) (DVDFileInfo* fileInfo, void* buffer, int length, int offset, int prio);

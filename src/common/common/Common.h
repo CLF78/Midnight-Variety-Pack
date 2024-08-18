@@ -67,8 +67,10 @@ typedef void (*Func)();
 
 #ifdef __CLANGD__
     #define AT_ADDR(addr)
+    #define NORETURN __attribute__((__noreturn__))
 #else
     #define AT_ADDR(addr) : (addr)
+    #define NORETURN
 #endif
 
 // Pragmas
