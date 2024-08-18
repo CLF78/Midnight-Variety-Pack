@@ -28,7 +28,7 @@ int Read() {
     }
 
     // Get the file's length
-    u32 expansionLength;
+    u32 expansionLength = 0;
     result = NandUtil::GetLength(&fileHandler.mInfo, &expansionLength);
 
     // If there was an error, close the file and bail
@@ -74,7 +74,7 @@ int Create() {
     sCheckError = NandUtil::CHECK_ERROR_NONE;
 
     // Check that the file can be created, if not bail
-    u32 answer;
+    u32 answer = 0;
     int result = NandUtil::Check(NANDBytesToBlocks(SaveManager::instance->expansion.mWriteBufferSize), 1, &answer);
 
     // If the procedure failed, bail
@@ -115,7 +115,7 @@ int Create() {
 int Write() {
 
     // Check if the file exists
-    u32 fileType;
+    u32 fileType = NandUtil::TYPE_NONE;
     int result = NandUtil::GetType(SAVEEX_FILENAME, &fileType);
 
     // If there was an error, bail

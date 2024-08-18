@@ -138,7 +138,7 @@ void WifiMemberConfirmPageEx::onActivate() {
         // Set up filling loop
         u32 redTeamIdx = 0;
         u32 blueTeamIdx = 1;
-        u32 entryIdx;
+        u32 entryIdx = 0;
 
         for (u32 playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
 
@@ -150,6 +150,8 @@ void WifiMemberConfirmPageEx::onActivate() {
             } else if (playerTeam == RaceConfig::Player::TEAM_RED) {
                 entryIdx = redTeamIdx;
                 redTeamIdx += 2;
+            } else {
+                entryIdx = playerIdx;
             }
 
             // Set the entry

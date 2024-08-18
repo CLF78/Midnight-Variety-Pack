@@ -34,7 +34,7 @@ kmListHookDefCpp(RaceStartHook) {
 void* GetSubfileHash(const char* path, int src, char* hash) {
 
     // Get the file and its size
-    size_t fileSize;
+    size_t fileSize = 0;
     void* file = ResourceManager::instance->getFile(src, path, &fileSize);
 
     // If it doesn't exist, set the hash to zero

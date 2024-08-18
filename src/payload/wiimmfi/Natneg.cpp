@@ -36,7 +36,7 @@ void ConnectToNode(int nodeIdx) {
     snprintf(buffer, sizeof(buffer), "%u%s", stpMatchCnt->profileId, "L");
 
     // Connect to the node
-    GT2Connection conn;
+    GT2Connection conn = nullptr;
     const GT2Result ret = gt2Connect(*stpMatchCnt->gt2Socket, &conn, ipAddr, buffer,
                                -1, 2000, stpMatchCnt->gt2Callbacks, 0);
 
