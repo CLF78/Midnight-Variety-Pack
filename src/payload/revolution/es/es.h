@@ -114,7 +114,7 @@ typedef enum {
     ES_CMD_DELETE_CONTENT,
 } ESCommand;
 
-s32 ES_GetDeviceCert(u8* outBuf);
+s32 ES_GetDeviceCert(const u8* outBuf);
 s32 ES_Sign(u8* source, u32 size, u8* sig, u8* cert);
 
 extern int __esFd;

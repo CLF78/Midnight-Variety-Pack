@@ -7,7 +7,7 @@
 
 namespace Loader {
 
-void Load(const Functions* funcs, u32 binary, u32 binaryLength) {
+void Load(const Functions* funcs, const u8* binary, u32 binaryLength) {
     LOG_DEBUG("Parsing Kamek binary...");
     const Header* header = (const Header*)binary;
 
@@ -108,7 +108,7 @@ void LoadFromDisc(const Functions* funcs, const char* path) {
     funcs->DVDClose(&fileInfo);
 
     // Parse the binary
-    Load(funcs, (u32)buffer, fileInfo.length);
+    Load(funcs, (u8*)buffer, fileInfo.length);
 
     // Free buffer and return
     LOG_DEBUG("Freeing file buffer...");

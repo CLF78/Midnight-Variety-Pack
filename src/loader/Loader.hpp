@@ -40,7 +40,7 @@ struct Functions {
     char identifier;
 };
 
-void Load(const Functions* funcs, u32 binary, u32 binaryLength);
+void Load(const Functions* funcs, const u8* binary, u32 binaryLength);
 void LoadFromDisc(const Functions* funcs, const char* path);
 
 } // namespace Loader
