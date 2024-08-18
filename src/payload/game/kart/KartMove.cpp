@@ -174,7 +174,7 @@ REPLACE void KartMove::releaseMt(bool forceOverride, u32 driftState) {
     state->bitfield1 |= KartState::MT_BOOST;
     this->mtBoostTimer = mtLength;
     this->activateRumble(5, true, 1.0f);
-    this->playCharacterSound(CHARACTER_BOOST);
+    this->playCharacterSound(DriverSound::BOOST);
     if ((state->bitfield4 & KartState::ONLINE_LOCAL) == 0) {
         this->driftState = NOT_DRIFTING;
         return;

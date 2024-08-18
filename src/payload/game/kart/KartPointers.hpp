@@ -7,7 +7,7 @@ class KartSuspension;
 class KartTire;
 class PlayerModel;
 class KartSub;
-class PlayerSound;
+class KartActor;
 class KartMove;
 class KartAction;
 class KartCollide;
@@ -21,7 +21,6 @@ class VehiclePhysics;
 
 class KartPointers {
 public:
-
     KartSettings* kartSettings;
     KartState* kartState;
     KartBody* kartBody;
@@ -29,7 +28,7 @@ public:
     KartTire** kartTires;
     PlayerModel* playerModel;
     KartSub* kartSub;
-    PlayerSound* playerSound;
+    KartActor* kartActor;
     void* kartShadowMaybe;
     void* kartCamera;
     KartMove* kartMove;
