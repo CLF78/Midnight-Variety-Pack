@@ -71,8 +71,7 @@ REPLACE ut::FileStream* SoundArchive::detail_OpenFileStream(ulong fileId, void* 
             return nullptr;
 
         // Construct the stream
-        stream = new (buffer) DvdSoundArchive::DvdFileStream(&stream->fileInfo.dvdInfo, 0, 0x7FFFFFFF);
-        return (ut::FileStream*)stream;
+        return new (buffer) DvdSoundArchive::DvdFileStream(&stream->fileInfo.dvdInfo, 0, 0x7FFFFFFF);
     }
 
     // If the fileId is valid, proceed to the original call

@@ -40,10 +40,10 @@ public:
     RUNTIME_TYPE_INFO_NODECL;
     RUNTIME_TYPENAME_INFO_NODECL;
 
-    virtual void vf_38();
+    virtual void onLoad();
     virtual void onRightSelected();
     virtual void onLeftSelected();
-    virtual void vf_44();
+    virtual bool isFade();
 
     void load(const char* dir, const char* rightFile, const char* rightVariant,
               const char* leftFile, const char* leftVariant, u32 playerFlags, bool r10,

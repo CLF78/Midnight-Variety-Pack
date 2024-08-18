@@ -21,14 +21,14 @@ public:
         if (isBike) {
             EGG::Effect** array = rk_orangeMT;
             if (array != nullptr) {
-                for(int i = 0; i < SmtEffectsCount; ++i) delete(array[i]);
+                for (int i = 0; i < SmtEffectsCount; ++i) delete(array[i]);
                 delete[] array;
             }
         }
         else {
             EGG::Effect** array = rk_purpleMT;
             if (array != nullptr) {
-                for(int i = 0; i < UmtEffectsCount; ++i) delete(array[i]);
+                for (int i = 0; i < UmtEffectsCount; ++i) delete(array[i]);
                 delete[] array;
             }
         }

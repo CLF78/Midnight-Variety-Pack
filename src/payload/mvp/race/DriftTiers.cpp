@@ -116,7 +116,7 @@ static void CreatePlayerEffects(EffectsManager& mgr) { //adding the resource her
     if (mgr.resCount != 9) mgr.resources[mgr.resCount] = res;
     else vpEffects = res;
 
-    for(int i = 0; i < RaceConfig::instance->raceScenario.playerCount; ++i) {
+    for (int i = 0; i < RaceConfig::instance->raceScenario.playerCount; ++i) {
         mgr.players[i] = new(ExpPlayerEffects)(KartObjectManager::instance->getKartObject(i));
     }
 }
@@ -136,11 +136,11 @@ kmCall(0x8051B198, DeleteEffectRes);
 static void LoadCustomEffects(ExpPlayerEffects& effects) {
     effects.loadEffects();
     effects.rk_purpleMT = new EGG::Effect * [ExpPlayerEffects::UmtEffectsCount];
-    for(int i = 0; i < ExpPlayerEffects::UmtEffectsCount; ++i) {
+    for (int i = 0; i < ExpPlayerEffects::UmtEffectsCount; ++i) {
         effects.rk_purpleMT[i] = new(EGG::Effect)(ExpPlayerEffects::UMTNames[i], effects.playerIdPlus2);
     }
     effects.rk_orangeMT = new EGG::Effect * [ExpPlayerEffects::SmtEffectsCount];
-    for(int i = 0; i < ExpPlayerEffects::SmtEffectsCount; ++i) {
+    for (int i = 0; i < ExpPlayerEffects::SmtEffectsCount; ++i) {
         effects.rk_orangeMT[i] = new(EGG::Effect)(ExpPlayerEffects::SMTNames[i], effects.playerIdPlus2);
     }
 };
