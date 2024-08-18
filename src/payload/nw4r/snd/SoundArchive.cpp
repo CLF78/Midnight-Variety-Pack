@@ -62,7 +62,7 @@ REPLACE ut::FileStream* SoundArchive::detail_OpenFileStream(ulong fileId, void* 
     if (fileId & 0x80000000) {
 
         // Ensure the stream fits the buffer
-        if (size < sizeof(DvdSoundArchive::DvdFileStream))
+        if ((u32)size < sizeof(DvdSoundArchive::DvdFileStream))
             return nullptr;
 
         // Get the stream, faked as the file ID

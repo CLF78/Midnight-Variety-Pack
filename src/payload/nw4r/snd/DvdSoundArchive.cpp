@@ -69,7 +69,7 @@ REPLACE ut::FileStream* DvdSoundArchive::OpenExtStream(void* buffer, int size, c
         return nullptr;
 
     // Ensure the buffer can contain the file stream
-    if (size < sizeof(DvdFileStream))
+    if ((u32)size < sizeof(DvdFileStream))
         return nullptr;
 
     // Get the entry num from our custom function

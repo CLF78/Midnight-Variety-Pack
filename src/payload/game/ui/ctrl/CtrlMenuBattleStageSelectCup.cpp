@@ -19,7 +19,7 @@ REPLACE void CtrlMenuBattleStageSelectCup::initSelf() {
     const u32 selectedCup = cupPage->selectedButtonId;
 
     // Update each cup
-    for (int i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
+    for (u32 i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
 
         // Get cup
         CtrlMenuBattleStageSelectCupSub* cup = coursePage->getCupButton(i);
@@ -61,7 +61,7 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
 
     // Initialize children
     initChildren(BattleCupSelectPageEx::getCupCount());
-    for (int i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
+    for (u32 i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
 
         // Get button variant
         char buffer[20];

@@ -39,7 +39,7 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
 
     // Initialize children
     initChildren(BattleCupSelectPageEx::getCupCount());
-    for (int i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
+    for (u32 i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
 
         // Get button control variant
         char buffer[20];
@@ -49,7 +49,7 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
         PushButton* button = page->getCupButton(i);
         insertChild(i, button);
         button->load("button", "CupSelectCup", buffer, playerFlags, unk, false);
-        button->buttonId = i;
+        button->buttonId = (int)i;
 
         // Set cup name
         const u16 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);

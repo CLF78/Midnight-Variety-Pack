@@ -17,7 +17,7 @@ void DecodeToken(const char* encodedToken) {
 
     // Get the decoded token size
     const size_t encodedLen = strlen(encodedToken);
-    int decodedLen = DWC_Base64Decode(encodedToken, encodedLen, nullptr, 0);
+    u32 decodedLen = DWC_Base64Decode(encodedToken, encodedLen, nullptr, 0);
     sToken = new (KAMEK_HEAP, 32) char[decodedLen+1];
 
     // Decode the token
@@ -35,7 +35,7 @@ void DecodeToken(const char* encodedToken) {
 
         // Run ASCII substitution
         static const char key[] = "0123456789,abcdefghijklmnopqrstuvwxyz|=+-_";
-        for (int i = 0; i < decodedLen && i < strlenc(key); i++) {
+        for (u32 i = 0; i < decodedLen && i < strlenc(key); i++) {
             const char c = sToken[i];
             const char pos = key[i];
             sScrambledToken[pos - ' '] = c;
@@ -69,7 +69,7 @@ void SendMessage(const char* key, const char* value, u32 integerValue) {
 
     // Print the message to the buffer
     char buffer[599];
-    const int len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\",
+    const u32 len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\",
                              key, integerValue, value);
 
     // If the printed string did not fit in the buffer, bail

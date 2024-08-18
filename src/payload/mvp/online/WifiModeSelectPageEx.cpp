@@ -36,7 +36,7 @@ void WifiModeSelectPageEx::onInit() {
     titleText.load(false);
 
     // Add each button
-    for (int i = 0; i < getButtonCount(); i++) {
+    for (u32 i = 0; i < getButtonCount(); i++) {
 
         // Get the button and insert it
         PushButton* btn = getButton(i);
@@ -48,7 +48,7 @@ void WifiModeSelectPageEx::onInit() {
         btn->load("button", "WifiMenuModeSelect", buffer, 1, false, false);
 
         // Set button ID and handlers
-        btn->buttonId = i + 1;
+        btn->buttonId = (int)(i + 1);
         btn->setOnClickHandler(&onButtonClickHandler, 0);
         btn->setOnSelectHandler(&onButtonSelectHandler);
 
@@ -70,7 +70,7 @@ void WifiModeSelectPageEx::onInit() {
     // Add the back button
     insertChild(curChildIdx++, &backButton, 0);
     backButton.load("button", "Back", "ButtonBack", 1, false, true);
-    backButton.buttonId = getButtonCount() + 1;
+    backButton.buttonId = (int)(getButtonCount() + 1);
 
     // Set handlers
     backButton.setOnClickHandler(&onBackButtonClickHandler, 0);
