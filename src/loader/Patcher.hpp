@@ -20,7 +20,7 @@ enum PatchCommand {
 void ApplyPatches(const u32* input, const u32* inputEnd, u32 text);
 
 inline void CacheInvalidateAddress(const void* address, u32 size) {
-    if (size <= 4) {
+    if (size <= sizeof(u32)) {
         __dcbst(address, 0);
         __sync();
         __icbi(address);
