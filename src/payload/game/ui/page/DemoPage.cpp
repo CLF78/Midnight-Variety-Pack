@@ -113,14 +113,14 @@ REPLACE void DemoPage::onInit() {
         }
 
         // Create red bubbles
-        for (u32 i = 0; i < globalCtx->raceCount; i++) {
+        for (int i = 0; i < globalCtx->raceCount; i++) {
             CtrlRaceBattleSetPoint* redBubble = new CtrlRaceBattleSetPoint();
             insertChild(childIdx++, redBubble, 0);
             redBubble->load(false, i);
         }
 
         // Create blue bubbles
-        for (u32 i = 0; i < globalCtx->raceCount; i++) {
+        for (int i = 0; i < globalCtx->raceCount; i++) {
             CtrlRaceBattleSetPoint* blueBubble = new CtrlRaceBattleSetPoint();
             insertChild(childIdx++, blueBubble, 0);
             blueBubble->load(true, i);

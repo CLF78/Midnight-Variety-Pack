@@ -28,12 +28,12 @@ REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
         CupManager::setTrackName(trackButton, trackIdx);
 
         // Set button id
-        trackButton->buttonId = i;
+        trackButton->buttonId = (int)i;
 
         // Select the button if the track matches
         if (lastCourse == trackIdx) {
             coursePage->setSelection(trackButton);
-            selected = i;
+            selected = (int)i;
         }
     }
 

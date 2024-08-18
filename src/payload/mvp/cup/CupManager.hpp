@@ -218,10 +218,10 @@ public:
     //////////////////
 
     // Replaces a cup button's icon with a custom one, given the button ID and the current page
-    static bool updateCupButton(PushButton* button, u16 page, int buttonId, bool isBattle = false);
+    static bool updateCupButton(PushButton* button, u16 page, u8 buttonId, bool isBattle = false);
 
     // Replaces a cup button's icon with a custom one, given the button ID and the current page
-    static bool updateCupButton(LayoutUIControl* button, u16 page, int buttonId, bool isBattle = false);
+    static bool updateCupButton(LayoutUIControl* button, u16 page, u8 buttonId, bool isBattle = false);
 
     // Replaces a cup texture with a custom one, given the icon ID and the cup index
     static const char* replaceCupIcon(LayoutUIControl* element, u16 cupIdx, int iconId = 0, bool isBattle = false);

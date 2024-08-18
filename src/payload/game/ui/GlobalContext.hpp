@@ -28,8 +28,8 @@ public:
     }
 
     UNK(0x60);
-    u32 currentRace;
-    u32 raceCount;
+    int currentRace;
+    int raceCount;
     u32 redTeamVictories;
     u32 blueTeamVictories;
     int lastVictoryTeam;

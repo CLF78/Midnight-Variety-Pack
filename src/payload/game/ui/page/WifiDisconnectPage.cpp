@@ -8,12 +8,12 @@
 /////////////////////////////
 
 // Inline helper
-inline bool IsErrorInRange(u32 errorCode, u32 min, u32 max) {
+inline bool IsErrorInRange(int errorCode, int min, int max) {
     return errorCode >= min && errorCode < max;
 }
 
 // Customize the error message based on the error code
-u32 GetErrorMessage(u32 errorCode, MessageInfo* extraInfo) {
+u32 GetErrorMessage(int errorCode, MessageInfo* extraInfo) {
 
     // 20XXX - Nintendo NASWII error codes
     if (IsErrorInRange(errorCode, 20000, 21000)) {

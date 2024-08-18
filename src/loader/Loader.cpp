@@ -99,7 +99,7 @@ void LoadFromDisc(const Functions* funcs, const char* path) {
 
     // Read the file
     LOG_DEBUG("Memory allocated successfully at %#x. Reading data...",  buffer);
-    const int readSize = funcs->DVDReadPrio(&fileInfo, buffer, roundedLength, 0, 2);
+    const int readSize = funcs->DVDReadPrio(&fileInfo, buffer, (int)roundedLength, 0, 2);
     if (readSize < 0) {
         LOG_FATAL("Failed to read Kamek binary into memory.\nResult code: %d", readSize);
     }

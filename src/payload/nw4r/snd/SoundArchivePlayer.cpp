@@ -141,9 +141,9 @@ REPLACE bool SoundArchivePlayer::LoadGroup(ulong groupId, SoundMemoryAllocatable
 
                 // Open it and allocate the custom stream
                 DVDFileInfo fileInfo;
-                if (DVDFastOpen(curEntry.entryNum, &fileInfo)) {
+                if (DVDFastOpen((int)curEntry.entryNum, &fileInfo)) {
                     void* buffer = allocator->Alloc(sizeof(DvdSoundArchive::DvdFileStream));
-                    DvdSoundArchive::DvdFileStream* stream = new (buffer) DvdSoundArchive::DvdFileStream(curEntry.entryNum, 0, 0x7FFFFFFF);
+                    DvdSoundArchive::DvdFileStream* stream = new (buffer) DvdSoundArchive::DvdFileStream((int)curEntry.entryNum, 0, 0x7FFFFFFF);
                     soundStreams()[soundId] = stream;
 
                     LOG_DEBUG("Found music file %s", curEntry.name);

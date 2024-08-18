@@ -17,7 +17,7 @@ namespace Natneg {
 
 u16 sTimers[12]; // one timer per aid
 
-void ConnectToNode(int nodeIdx) {
+void ConnectToNode(u32 nodeIdx) {
 
     // Get the corresponding node info
     DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[nodeIdx];

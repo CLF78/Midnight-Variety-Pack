@@ -11,7 +11,7 @@ public:
     RUNTIME_TYPE_INFO_NODECL;
     RUNTIME_TYPENAME_INFO_NODECL;
 
-    void load(bool isBlue, u32 bubbleIdx);
+    void load(bool isBlue, int bubbleIdx);
 
     u32 isBlue;
     u32 _178; // unused?

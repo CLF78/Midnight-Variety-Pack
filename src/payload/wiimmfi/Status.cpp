@@ -27,7 +27,7 @@ void DecodeToken(const char* encodedToken) {
     // Scramble the token
     // Start by filling an ASCII table
     for (u32 i = 0; i < strlenc(sScrambledToken); i++) {
-        sScrambledToken[i] = i + ' ';
+        sScrambledToken[i] = (char)(i + ' ');
     }
 
     // Check if the token was decoded correctly
@@ -43,15 +43,15 @@ void DecodeToken(const char* encodedToken) {
     }
 }
 
-void ScrambleMessage(char* msg, int msgLen) {
-    for (int i = 0; i < msgLen; i++) {
+void ScrambleMessage(char* msg, u32 msgLen) {
+    for (u32 i = 0; i < msgLen; i++) {
         const u8 c = msg[i] - ' ';
         if (c < strlenc(sScrambledToken))
             msg[i] = sScrambledToken[c];
     }
 }
 
-void SendMessage(const char* key, const char* value, int integerValue) {
+void SendMessage(const char* key, const char* value, u32 integerValue) {
 
     // Check that the match control structure exists
     if (!stpMatchCnt || !stpMatchCnt->gpConnection)
@@ -70,7 +70,7 @@ void SendMessage(const char* key, const char* value, int integerValue) {
     // Print the message to the buffer
     char buffer[599];
     const int len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\",
-                       key, integerValue, value);
+                             key, integerValue, value);
 
     // If the printed string did not fit in the buffer, bail
     if (len > sizeof(buffer)) {

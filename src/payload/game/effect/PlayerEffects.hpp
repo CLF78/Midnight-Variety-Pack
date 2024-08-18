@@ -42,7 +42,7 @@ public:
     u8 playerId;
     UNK(0x134 - 0x12F);
 
-    u32 playerIdPlus2;
+    int playerIdPlus2;
     UNK(0xAE8 - 0x138);
 };
 size_assert(PlayerEffects, 0xAE8);

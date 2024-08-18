@@ -10,7 +10,7 @@ public:
     virtual void InitWheels(void* brresHandle);
     virtual void CreateSound();
 
-    u16 getDriftState() const;
+    s16 getDriftState() const;
 
     static KartObject* Create(u8 playerIdx, int kart, int character, bool isBike);
 

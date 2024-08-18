@@ -19,7 +19,7 @@ namespace Status {
     void DecodeToken(const char* encodedToken);
 
     // Sends a status message to the server
-    void SendMessage(const char* key, const char* value, int integerValue = -1);
+    void SendMessage(const char* key, const char* value, u32 integerValue = -1);
 
     ///////////////
     // Variables //

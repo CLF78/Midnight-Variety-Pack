@@ -29,7 +29,7 @@ REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
         CupManager::setTrackName(trackButton, trackIdx);
 
         // Set button id
-        trackButton->buttonId = i;
+        trackButton->buttonId = (int)i;
 
         // Play animation
         trackButton->animator.getGroup(4)->setAnimation(0, 0.0f);
@@ -37,7 +37,7 @@ REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
         // Select the button if the track matches
         if (lastStage == trackIdx) {
             coursePage->setSelection(trackButton);
-            selected = i;
+            selected = (int)i;
         }
     }
 

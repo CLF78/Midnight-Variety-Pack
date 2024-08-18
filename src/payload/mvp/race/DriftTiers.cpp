@@ -206,8 +206,8 @@ void FadeOrangeSparkEffects(ExpPlayerEffects& effects, EGG::Effect** effectArray
 };
 kmBranch(0x806A31FC, FadeOrangeSparkEffects);
 
-int PatchDriftStateCheck(const KartObject& kartObject) {
-    u32 driftState = kartObject.getDriftState();
+s16 PatchDriftStateCheck(const KartObject& kartObject) {
+    s16 driftState = kartObject.getDriftState();
     if (driftState == 4) driftState = 3;
     return driftState;
 };

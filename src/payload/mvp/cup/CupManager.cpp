@@ -286,7 +286,7 @@ u16 CupManager::generateRandomCourseOrder(u32* seed, bool isBattle) {
 // Cup Icon API //
 //////////////////
 
-bool CupManager::updateCupButton(LayoutUIControl* button, u16 page, int buttonId, bool isBattle) {
+bool CupManager::updateCupButton(LayoutUIControl* button, u16 page, u8 buttonId, bool isBattle) {
 
     // Get the cup index
     const u16 cupIdx = getCupIdxFromButton(buttonId, page, isBattle);
@@ -306,7 +306,7 @@ bool CupManager::updateCupButton(LayoutUIControl* button, u16 page, int buttonId
     return hide;
 }
 
-bool CupManager::updateCupButton(PushButton* button, u16 page, int buttonId, bool isBattle) {
+bool CupManager::updateCupButton(PushButton* button, u16 page, u8 buttonId, bool isBattle) {
 
     // Do all regular behaviour
     const bool hide = updateCupButton((LayoutUIControl*)button, page, buttonId, isBattle);
