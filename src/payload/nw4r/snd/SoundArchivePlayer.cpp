@@ -33,7 +33,7 @@ REPLACE bool SoundArchivePlayer::SetupMram(const SoundArchive* archive, void* bu
     if (!REPLACED(archive, buffer, bufferSize))
         return false;
 
-    memset(soundStreams(), 0, archive->GetSoundCount() * sizeof(ut::FileStream*));
+    memset((void*)soundStreams(), 0, archive->GetSoundCount() * sizeof(ut::FileStream*));
     return true;
 }
 
