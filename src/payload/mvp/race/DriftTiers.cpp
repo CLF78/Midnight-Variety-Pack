@@ -12,95 +12,86 @@
 static EGG::EffectResource* pulEffects = nullptr;
 static EGG::EffectResource* vpEffects = nullptr;
 
-const char* ExpPlayerEffects::UMTNames[8] = {
-    "rk_driftSpark3L_Spark00",
-    "rk_driftSpark3L_Spark01",
-    "rk_driftSpark3R_Spark00",
-    "rk_driftSpark3R_Spark01",
-    "rk_purpleTurbo",
-    "rk_purpleTurbo",
-    "rk_purpleTurbo",
-    "rk_purpleTurbo"
+const char* ExpPlayerEffects::UMTNames[8] = {"rk_driftSpark3L_Spark00", "rk_driftSpark3L_Spark01",
+                                             "rk_driftSpark3R_Spark00", "rk_driftSpark3R_Spark01",
+                                             "rk_purpleTurbo",          "rk_purpleTurbo",
+                                             "rk_purpleTurbo",          "rk_purpleTurbo"};
+
+const char* ExpPlayerEffects::SMTNames[8] = {"rk_driftSpark2L_Spark00", "rk_driftSpark2L_Spark01",
+                                             "rk_driftSpark2R_Spark00", "rk_driftSpark2R_Spark01",
+                                             "rk_orangeTurbo",          "rk_orangeTurbo",
+                                             "rk_orangeTurbo",          "rk_orangeTurbo"};
+
+// Needed so that other players display the correct effect
+bool umtState[12]; // false = no UMT  true = UMT buff active expanding Kart::Movement just for this doesn't
+                   // seem like the plan
+
+// clang-format off
+/*
+kmWrite32(0x8057EE5c, 0x2C050004); //changes >= 3 to >= 4 for UMT
+kmWrite32(0x8057EF30, 0x2C000001); //changes check from if != 2 to if = 1, so that when in a SMT the function keeps going
+kmWrite32(0x8057EF38, 0x418200A4); //ensure mtSpeedMultiplier gets reset when driftState = 1, by sending to where SetKartDriftTiers hooks
+kmWrite32(0x8057EFB4, 0x48000028); //skips the SMT charge check and sends unconditionally to SetKartDriftTiers
+void SetKartDriftTiers(KartMove& movement) {
+    int type = movement.getDriftType();
+    const s16 smtCharge = movement.smtCharge;
+    if (type == KartStats::KART) {
+        if (smtCharge >= 550) movement.driftState = 4;
+        else if (smtCharge >= 300) movement.driftState = 3;
+    }
+    else if (type == KartStats::INSIDE_BIKE && smtCharge >= 300) movement.driftState = 3;
 };
+kmBranch(0x8057EFDC, SetKartDriftTiers);
 
-const char* ExpPlayerEffects::SMTNames[8] = {
-    "rk_driftSpark2L_Spark00",
-    "rk_driftSpark2L_Spark01",
-    "rk_driftSpark2R_Spark00",
-    "rk_driftSpark2R_Spark01",
-    "rk_orangeTurbo",
-    "rk_orangeTurbo",
-    "rk_orangeTurbo",
-    "rk_orangeTurbo"
-};
-
-//Needed so that other players display the correct effect
-bool umtState[12]; //false = no UMT  true = UMT buff active expanding Kart::Movement just for this doesn't seem like the plan
-
-//kmWrite32(0x8057EE5c, 0x2C050004); //changes >= 3 to >= 4 for UMT
-//kmWrite32(0x8057EF30, 0x2C000001); //changes check from if != 2 to if = 1, so that when in a SMT the function keeps going
-//kmWrite32(0x8057EF38, 0x418200A4); //ensure mtSpeedMultiplier gets reset when driftState = 1, by sending to where SetKartDriftTiers hooks
-//kmWrite32(0x8057EFB4, 0x48000028); //skips the SMT charge check and sends unconditionally to SetKartDriftTiers
-//void SetKartDriftTiers(KartMove& movement) {
-//    int type = movement.getDriftType();
-//    const s16 smtCharge = movement.smtCharge;
-//    if (type == KartStats::KART) {
-//        if (smtCharge >= 550) movement.driftState = 4;
-//        else if (smtCharge >= 300) movement.driftState = 3;
-//    }
-//    else if (type == KartStats::INSIDE_BIKE && smtCharge >= 300) movement.driftState = 3;
-//};
-//kmBranch(0x8057EFDC, SetKartDriftTiers);
-//
-//kmWrite32(0x80588894, 0x2C000003); //changes >= 2 to >= 3 for SMT
-//kmWrite32(0x8058889C, 0x2C000003); //changes check from if != 1 to if = 3, so that when in a MT the function keeps going
-//kmWrite32(0x805888A8, 0x418200A4); //if in charge state 2, skip to SetBikeDriftTiers
-//kmWrite32(0x80588928, 0x60000000); //removed fixed 270 write to mtCharge
-//kmWrite32(0x80588938, 0x7C040378); //setup "charged" for next function
-//kmWrite32(0x8058893C, 0x48000010); //takes MT charge check and parses it into SetBikeDriftTiers
-//void SetBikeDriftTiers(KartMove& movement, bool charged) {
-//    if (charged) {
-//        movement.driftState = 2;
-//        int type = movement.getDriftType();
-//        const s16 mtCharge = movement.mtCharge;
-//        if (type == KartStats::OUTSIDE_BIKE) {
-//            if (mtCharge >= 570) movement.driftState = 3;
-//        }
-//    }
-//}
-//kmBranch(0x8058894C, SetBikeDriftTiers);
+kmWrite32(0x80588894, 0x2C000003); //changes >= 2 to >= 3 for SMT
+kmWrite32(0x8058889C, 0x2C000003); //changes check from if != 1 to if = 3, so that when in a MT the function keeps going
+kmWrite32(0x805888A8, 0x418200A4); //if in charge state 2, skip to SetBikeDriftTiers
+kmWrite32(0x80588928, 0x60000000); //removed fixed 270 write to mtCharge
+kmWrite32(0x80588938, 0x7C040378); //setup "charged" for next function
+kmWrite32(0x8058893C, 0x48000010); //takes MT charge check and parses it into SetBikeDriftTiers
+void SetBikeDriftTiers(KartMove& movement, bool charged) {
+    if (charged) {
+        movement.driftState = 2;
+        int type = movement.getDriftType();
+        const s16 mtCharge = movement.mtCharge;
+        if (type == KartStats::OUTSIDE_BIKE) {
+            if (mtCharge >= 570) movement.driftState = 3;
+        }
+    }
+}
+kmBranch(0x8058894C, SetBikeDriftTiers);
 
 //Buffs MTStats and updates umtState
-//int BuffUMT(KartMove& movement) {
-//    u8 idx = movement.getPlayerIdx();
-//    u32 mtStat = movement.getStats().mtDuration;
-//    bool* state = umtState;
-//    if (movement.driftState == 4) state[idx] = true;
-//    if (state[idx] == true) mtStat = 3 * mtStat / 2; //50% longer
-//    return mtStat;
-//};
-//kmCall(0x80582FDC, BuffUMT);
-//kmWrite32(0x80582FE0, 0x7C601B78);
-//kmWrite32(0x80582FEC, 0x4180003C); //changes !=3 to <3 for UMT
-//
-////SpeedMultiplier "perk" implementation
-//bool UpdateSpeedMultiplier(KartBoost& boost, bool* boostEnded) {
-//    const bool isBoosting = boost.calc(boostEnded);
-//    register KartMove* movement;
-//    asm(mr movement, r28;);
-//    const u8 id = movement->getPlayerIdx();
-//    bool* state = umtState;
-//    const float umtMultiplier = 1.32f; //10% faster
-//    const float defaultMTMultiplier = 1.2f;
-//
-//    if (!isBoosting) state[id] = false;
-//    if (boost.boostMultiplier == defaultMTMultiplier || boost.boostMultiplier == umtMultiplier) {
-//        if (state[id]) boost.boostMultiplier = umtMultiplier;
-//        else boost.boostMultiplier = defaultMTMultiplier;
-//    }
-//    return isBoosting;
-//}
-//kmCall(0x8057934C, UpdateSpeedMultiplier);
+int BuffUMT(KartMove& movement) {
+    u8 idx = movement.getPlayerIdx();
+    u32 mtStat = movement.getStats().mtDuration;
+    bool* state = umtState;
+    if (movement.driftState == 4) state[idx] = true;
+    if (state[idx] == true) mtStat = 3 * mtStat / 2; //50% longer
+    return mtStat;
+};
+kmCall(0x80582FDC, BuffUMT);
+kmWrite32(0x80582FE0, 0x7C601B78);
+kmWrite32(0x80582FEC, 0x4180003C); //changes !=3 to <3 for UMT
+
+//SpeedMultiplier "perk" implementation
+bool UpdateSpeedMultiplier(KartBoost& boost, bool* boostEnded) {
+    const bool isBoosting = boost.calc(boostEnded);
+    register KartMove* movement;
+    asm(mr movement, r28;);
+    const u8 id = movement->getPlayerIdx();
+    bool* state = umtState;
+    const float umtMultiplier = 1.32f; //10% faster
+    const float defaultMTMultiplier = 1.2f;
+
+    if (!isBoosting) state[id] = false;
+    if (boost.boostMultiplier == defaultMTMultiplier || boost.boostMultiplier == umtMultiplier) {
+        if (state[id]) boost.boostMultiplier = umtMultiplier;
+        else boost.boostMultiplier = defaultMTMultiplier;
+    }
+    return isBoosting;
+}
+kmCall(0x8057934C, UpdateSpeedMultiplier);
 
 //Expanded player effect, also hijacked to add custom breff/brefts to EffectsMgr
 static void CreatePlayerEffects(EffectsManager& mgr) { //adding the resource here as all other breff have been loaded at this point
@@ -130,7 +121,6 @@ static void DeleteEffectRes(EffectsManager& mgr) {
     mgr.Reset();
 }
 kmCall(0x8051B198, DeleteEffectRes);
-
 
 //Loads the custom effects
 static void LoadCustomEffects(ExpPlayerEffects& effects) {
@@ -260,29 +250,30 @@ void PatchFadeBoost(EGG::Effect* boostEffect) {
 }
 kmCall(0x8069C0A4, PatchFadeBoost);
 
-//nw4r::snd::SoundStartable::StartResult PlayExtBRSEQ(nw4r::snd::SoundStartable& startable, void* handle, const char* fileName, const char* labelName, bool hold) {
-//    nw4r::snd::SoundStartable::StartInfo startInfo;
-//    startInfo.seqSoundInfo.startLocationLabel = labelName;
-//    startInfo.enableFlag |= nw4r::snd::SoundStartable::StartInfo::ENABLE_SEQ_SOUND_INFO;
-//
-//    void* file = ResourceManager::instance->getFile(MultiDvdArchive::COMMON, fileName);
-//    if (file != nullptr) {
-//        startInfo.seqSoundInfo.seqDataAddress = file;
-//        if (hold) return startable.detail_HoldSound(&handle, 0x19A, &startInfo); //SOUND_ID_MINITURBO
-//        else return startable.detail_StartSound(&handle, 0x19A, &startInfo);
-//    }
-//    return nw4r::snd::SoundStartable::START_ERR_USER;
-//}
+nw4r::snd::SoundStartable::StartResult PlayExtBRSEQ(nw4r::snd::SoundStartable& startable, void* handle, const char* fileName, const char* labelName, bool hold) {
+    nw4r::snd::SoundStartable::StartInfo startInfo;
+    startInfo.seqSoundInfo.startLocationLabel = labelName;
+    startInfo.enableFlag |= nw4r::snd::SoundStartable::StartInfo::ENABLE_SEQ_SOUND_INFO;
 
-//kmWrite32(0x807095B8, 0x40A00028); //changes beq to bge for UMT
-//void PatchUMTSound(AudioHandleHolder& sound, u32 soundId, void* handle) {
-//    if (sound.driftState == 4) {
-//        const char* seqName = "purpleMT.brseq";
-//        const char* labelName = "b";
-//        nw4r::snd::SoundStartable::StartResult ret = PlayExtBRSEQ(reinterpret_cast<nw4r::snd::SoundStartable&>(sound), handle, seqName, labelName, true);
-//        if (ret == snd::SoundStartable::START_SUCCESS) return;
-//    }
-//    sound.instance->prepare(soundId, &handle);
-//
-//};
-//kmCall(0x807095F8, PatchUMTSound);
+    void* file = ResourceManager::instance->getFile(MultiDvdArchive::COMMON, fileName);
+    if (file != nullptr) {
+        startInfo.seqSoundInfo.seqDataAddress = file;
+        if (hold) return startable.detail_HoldSound(&handle, 0x19A, &startInfo); //SOUND_ID_MINITURBO
+        else return startable.detail_StartSound(&handle, 0x19A, &startInfo);
+    }
+    return nw4r::snd::SoundStartable::START_ERR_USER;
+}
+
+kmWrite32(0x807095B8, 0x40A00028); //changes beq to bge for UMT
+void PatchUMTSound(AudioHandleHolder& sound, u32 soundId, void* handle) {
+    if (sound.driftState == 4) {
+        const char* seqName = "purpleMT.brseq";
+        const char* labelName = "b";
+        nw4r::snd::SoundStartable::StartResult ret = PlayExtBRSEQ(reinterpret_cast<nw4r::snd::SoundStartable&>(sound), handle, seqName, labelName, true);
+        if (ret == snd::SoundStartable::START_SUCCESS) return;
+    }
+    sound.instance->prepare(soundId, &handle);
+
+};
+kmCall(0x807095F8, PatchUMTSound);
+*/
