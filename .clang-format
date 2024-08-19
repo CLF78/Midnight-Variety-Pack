@@ -58,8 +58,7 @@ BreakBeforeBraces: Custom
 BreakBeforeInlineASMColon: Never
 BreakBeforeTernaryOperators: false
 BreakConstructorInitializers: AfterColon
-BreakInheritanceList: AfterComma
-ColumnLimit: 100
+ColumnLimit: 110
 CompactNamespaces: false
 EmptyLineAfterAccessModifier: Never
 EmptyLineBeforeAccessModifier: LogicalBlock
@@ -100,7 +99,7 @@ ReferenceAlignment: Pointer
 ReflowComments: true
 RemoveBracesLLVM: false
 RemoveSemicolon: true
-SeparateDefinitionBlocks: Always
+SeparateDefinitionBlocks: Leave
 ShortNamespaceLines: 1
 SortIncludes: CaseSensitive
 SortUsingDeclarations: LexicographicNumeric
