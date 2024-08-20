@@ -2,18 +2,10 @@
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
 AlignArrayOfStructures: Right
-AlignConsecutiveAssignments:
-  Enabled: false
-AlignConsecutiveBitFields:
-  Enabled: false
-AlignConsecutiveDeclarations:
-  Enabled: false
-AlignConsecutiveMacros:
-  AcrossComments: false
-  AcrossEmptyLines: false
-  AlignCompound: false
-  Enabled: true
-  PadOperators: false
+AlignConsecutiveAssignments: None
+AlignConsecutiveBitFields: None
+AlignConsecutiveDeclarations: None
+AlignConsecutiveMacros: Consecutive
 AlignEscapedNewlines: DontAlign
 AlignOperands: AlignAfterOperator
 AlignTrailingComments:
@@ -93,6 +85,8 @@ Language: Cpp
 LineEnding: LF
 MaxEmptyLinesToKeep: 2
 NamespaceIndentation: None
+PenaltyBreakAssignment: 1000000
+PenaltyBreakOpenParenthesis: 1000000
 PointerAlignment: Left
 QualifierAlignment: Leave
 ReferenceAlignment: Pointer
@@ -101,6 +95,7 @@ RemoveBracesLLVM: false
 RemoveSemicolon: true
 SeparateDefinitionBlocks: Leave
 ShortNamespaceLines: 1
+SkipMacroDefinitionBody: true
 SortIncludes: CaseSensitive
 SortUsingDeclarations: LexicographicNumeric
 SpaceAfterCStyleCast: false
