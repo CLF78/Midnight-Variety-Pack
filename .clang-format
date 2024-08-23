@@ -44,7 +44,6 @@ BraceWrapping:
   SplitEmptyNamespace: false
   SplitEmptyRecord: false
 BreakAfterAttributes: Never
-BreakArrays: false
 BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Custom
 BreakBeforeInlineASMColon: Never
@@ -52,6 +51,7 @@ BreakBeforeTernaryOperators: false
 BreakConstructorInitializers: AfterColon
 ColumnLimit: 110
 CompactNamespaces: false
+Cpp11BracedListStyle: false
 EmptyLineAfterAccessModifier: Never
 EmptyLineBeforeAccessModifier: LogicalBlock
 FixNamespaceComments: true
