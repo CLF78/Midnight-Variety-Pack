@@ -18,27 +18,23 @@ public:
 
     explicit ExpPlayerEffects(KartObject* kartObject) : PlayerEffects(kartObject) {}
     virtual ~ExpPlayerEffects() {
-        if (isBike) {
-            EGG::Effect** array = rk_orangeMT;
-            if (array != nullptr) {
-                for (int i = 0; i < SmtEffectsCount; ++i) delete(array[i]);
-                delete[] array;
+
+        EGG::Effect** array = isBike ? rk_orangeMT : rk_purpleMT;
+        const u32 effCount = isBike ? SmtEffectsCount : UmtEffectsCount;
+
+        if (array != nullptr) {
+            for (u32 i = 0; i < effCount; ++i) {
+                delete (array[i]);
             }
-        }
-        else {
-            EGG::Effect** array = rk_purpleMT;
-            if (array != nullptr) {
-                for (int i = 0; i < UmtEffectsCount; ++i) delete(array[i]);
-                delete[] array;
-            }
+            delete[] array;
         }
     }
 
     EGG::Effect** rk_purpleMT;
     EGG::Effect** rk_orangeMT;
 
-    static const int SmtEffectsCount = 8;
-    static const int UmtEffectsCount = 8;
+    static const u32 SmtEffectsCount = 8;
+    static const u32 UmtEffectsCount = 8;
     static const char* UMTNames[SmtEffectsCount];
     static const char* SMTNames[SmtEffectsCount];
 };
