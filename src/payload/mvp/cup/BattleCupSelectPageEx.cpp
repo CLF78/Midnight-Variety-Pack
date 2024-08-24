@@ -12,11 +12,12 @@ BattleCupSelectPageEx::BattleCupSelectPageEx() :
     onLeftHandler((BattleCupSelectArrow*)&arrows.leftButton, &BattleCupSelectArrow::onLeft),
     onRightHandler((BattleCupSelectArrow*)&arrows.rightButton, &BattleCupSelectArrow::onRight),
     curPage(CupManager::getCupPageFromTrack(SectionManager::instance->globalContext->lastStage, true)) {
-        SET_HANDLER(arrows.onLeftHandler, onLeftHandler);
-        SET_HANDLER(arrows.onRightHandler, onRightHandler);
-        SET_HANDLER_FUNC(arrows.leftButton.onDeselectHandler, BattleCupSelectArrow::onDeselect);
-        SET_HANDLER_FUNC(arrows.rightButton.onDeselectHandler, BattleCupSelectArrow::onDeselect);
-        layoutCount++;
+
+    SET_HANDLER(arrows.onLeftHandler, onLeftHandler);
+    SET_HANDLER(arrows.onRightHandler, onRightHandler);
+    SET_HANDLER_FUNC(arrows.leftButton.onDeselectHandler, BattleCupSelectArrow::onDeselect);
+    SET_HANDLER_FUNC(arrows.rightButton.onDeselectHandler, BattleCupSelectArrow::onDeselect);
+    layoutCount++;
 }
 
 // Load the external layouts
@@ -65,8 +66,8 @@ void BattleCupSelectPageEx::onActivate() {
     // 0 wraps on the X and Y axis, 1 wraps on Y axis only
     const bool arrowsEnabled = CupManager::GetCupArrowsEnabled(true);
     const int wrapType = (CupManager::GetCupCount(true) == 2 || arrowsEnabled) ?
-                    MultiControlInputManager::Y_WRAP :
-                    MultiControlInputManager::XY_WRAP;
+                             MultiControlInputManager::Y_WRAP :
+                             MultiControlInputManager::XY_WRAP;
     multiControlInputManager.setDistanceFunc(wrapType);
 
     // Disable the arrows if not required
@@ -78,17 +79,19 @@ void BattleCupSelectPageEx::onActivate() {
     // Set the instruction text according to the battle type
     const u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
     const u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
-                Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
-                Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
+                          Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
+                          Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
     instructionText->setText(msgId);
 
     // If we're offline, we're done
-    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId))
+    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
         return;
+    }
 
     // If we're entering the screen, add the Vote/Random prompt
-    if (animId != Page::ANIM_NEXT)
+    if (animId != Page::ANIM_NEXT) {
         return;
+    }
 
     // Get the popup page
     YesNoPopupPageEx* popupPage = YesNoPopupPageEx::getPage();
@@ -108,8 +111,8 @@ void BattleCupSelectPageEx::onActivate() {
 }
 
 // Set the selected stage when a cup is clicked
-void BattleCupSelectPageEx::setCourse(CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button, u32 hudSlotId) {
-
+void BattleCupSelectPageEx::setCourse(CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button,
+                                      u32 hudSlotId) {
     // Check for active state
     if (pageState == Page::STATE_ACTIVE) {
 
@@ -121,19 +124,20 @@ void BattleCupSelectPageEx::setCourse(CtrlMenuBattleCupSelectCup* cupHolder, Pus
         const u16 trackIdx = CupManager::GetCup(cupIdx, true)->entryId[0];
 
         // Get the previous cup, and update the last selected stage if it differs
-        const u16 prevCupIdx = CupManager::getCupIdxFromTrack(SectionManager::instance->globalContext->lastStage, true);
-        if (cupIdx != prevCupIdx)
-            SectionManager::instance->globalContext->lastStage = trackIdx;
+        GlobalContext* ctx = SectionManager::instance->globalContext;
+        const u16 prevCupIdx = CupManager::getCupIdxFromTrack(ctx->lastStage, true);
+        if (cupIdx != prevCupIdx) {
+            ctx->lastStage = trackIdx;
+        }
 
         // Set the course data if offline
         if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
-
-            // Get the actual track and store it
             const u16 actualTrackIdx = CupManager::getTrackFile(trackIdx);
             CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
+        }
 
         // Else wait for the course voting page to be loaded (is this even needed?)
-        } else {
+        else {
             while (SectionManager::instance->curSection->pages[Page::WIFI_VOTING] == nullptr) {}
         }
 

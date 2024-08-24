@@ -39,8 +39,9 @@ void Start() {
 }
 
 void Update() {
-    if (sDoingNatify)
+    if (sDoingNatify) {
         NegotiateThink(nullptr);
+    }
 }
 
 } // namespace Natify

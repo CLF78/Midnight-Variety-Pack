@@ -135,7 +135,7 @@ typedef struct {
 size_cassert(NATNegotiator, 0x54);
 
 void NegotiateThink(NATNegotiator* neg);
-int NNStartNatDetection(NatDetectionResultsFunc resultscallback); // reimplemented
+int NNStartNatDetection(NatDetectionResultsFunc resultsCallback); // reimplemented
 
 extern char Matchup1Hostname[], Matchup2Hostname[], Matchup3Hostname[];
 extern u32 matchup1ip, matchup2ip, matchup3ip;

@@ -6,26 +6,31 @@
 bool SaveExpansion::Header::IsValid(u32 fileSize) const {
 
     // Check magic
-    if (magic != SAVEEX_MAGIC)
+    if (magic != SAVEEX_MAGIC) {
         return false;
+    }
 
     // Check version number
-    if (revision > SAVEEX_VERSION_NUMBER)
+    if (revision > SAVEEX_VERSION_NUMBER) {
         return false;
+    }
 
     // Ensure the file at least has a full header
-    if (headerSize > fileSize)
+    if (headerSize > fileSize) {
         return false;
+    }
 
     // Ensure the header contains one license offset per license
-    if (offsetof(SaveExpansion::Header, licenseOffsets) + licenseCount * sizeof(u32) != headerSize)
+    if (offsetof(SaveExpansion::Header, licenseOffsets) + licenseCount * sizeof(u32) != headerSize) {
         return false;
+    }
 
     // Ensure each license offset is in the file
     const u32* licenseOffsData = &licenseOffsets[0];
     for (u32 i = 0; i < licenseCount; i++) {
-        if (licenseOffsData[i] > fileSize)
+        if (licenseOffsData[i] > fileSize) {
             return false;
+        }
     }
 
     // All checks passed!
@@ -67,30 +72,35 @@ void SaveExpansion::Init() {
 bool SaveExpansion::Read(u8* buffer, u32 bufferSize) {
 
     // If buffer is null, bail
-    if (!buffer)
+    if (!buffer) {
         return true;
+    }
 
     // If the header is not valid, bail
     Header* header = (Header*)buffer;
-    if (!header->IsValid(bufferSize))
+    if (!header->IsValid(bufferSize)) {
         return false;
+    }
 
     // Ensure the checksum matches
     const u32 checksum = header->checksum;
     header->checksum = 0;
     const u32 checksumRecalc = NETCalcCRC32(buffer, bufferSize);
-    if (checksum != checksumRecalc)
+    if (checksum != checksumRecalc) {
         return false;
+    }
 
     // Parse each license
     for (u32 i = 0; i < header->licenseCount && i < ARRAY_SIZE(mLicenses); i++) {
         u8* license = buffer + header->headerSize + header->licenseOffsets[i];
-        const u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1 ) ? bufferSize - header->licenseOffsets[i]
-                                                            : header->licenseOffsets[i+1] - header->licenseOffsets[i];
+        const u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1) ?
+                                    bufferSize - header->licenseOffsets[i] :
+                                    header->licenseOffsets[i + 1] - header->licenseOffsets[i];
 
         // If one of the license headers is invalid, bail
-        if (!mLicenses[i].Read(license, licenseSize))
+        if (!mLicenses[i].Read(license, licenseSize)) {
             return false;
+        }
     }
 
     return true;

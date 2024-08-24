@@ -82,8 +82,9 @@ REPLACE void RacePage::initControls(Controls controls) {
     }
 
     // If no child is found, bail
-    if (currChildIdx == 0)
+    if (currChildIdx == 0) {
         return;
+    }
 
     // Initialize the message queue
     MessageQueue::instance.Clear();

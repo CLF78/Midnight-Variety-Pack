@@ -18,7 +18,7 @@ void DecodeToken(const char* encodedToken) {
     // Get the decoded token size
     const size_t encodedLen = strlen(encodedToken);
     u32 decodedLen = DWC_Base64Decode(encodedToken, encodedLen, nullptr, 0);
-    sToken = new (KAMEK_HEAP, 32) char[decodedLen+1];
+    sToken = new (KAMEK_HEAP, 32) char[decodedLen + 1];
 
     // Decode the token
     decodedLen = DWC_Base64Decode(encodedToken, encodedLen, sToken, decodedLen);
@@ -46,16 +46,18 @@ void DecodeToken(const char* encodedToken) {
 void ScrambleMessage(char* msg, u32 msgLen) {
     for (u32 i = 0; i < msgLen; i++) {
         const u8 c = msg[i] - ' ';
-        if (c < strlenc(sScrambledToken))
+        if (c < strlenc(sScrambledToken)) {
             msg[i] = sScrambledToken[c];
+        }
     }
 }
 
 void SendMessage(const char* key, const char* value, u32 integerValue) {
 
     // Check that the match control structure exists
-    if (!stpMatchCnt || !stpMatchCnt->gpConnection)
+    if (!stpMatchCnt || !stpMatchCnt->gpConnection) {
         return;
+    }
 
     // Log entry
     LOG_DEBUG("Sending report message %s=%s,%d", key, value, integerValue);
@@ -69,8 +71,8 @@ void SendMessage(const char* key, const char* value, u32 integerValue) {
 
     // Print the message to the buffer
     char buffer[599];
-    const u32 len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\",
-                             key, integerValue, value);
+    const u32 len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\", key,
+                             integerValue, value);
 
     // If the printed string did not fit in the buffer, bail
     if (len > sizeof(buffer)) {

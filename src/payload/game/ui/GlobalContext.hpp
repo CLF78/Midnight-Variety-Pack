@@ -5,7 +5,6 @@
 
 class GlobalContext {
 public:
-
     struct PlayerCombo {
         int character;
         int vehicle;

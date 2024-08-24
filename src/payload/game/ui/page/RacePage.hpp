@@ -64,8 +64,8 @@ public:
     bool spectatedPlayerIdChangeRequested;
     PAD(3);
 
-    u32 _6C; // something with ghost races
-    void** wifiStartMessages; // TODO header
+    u32 _6C;                   // something with ghost races
+    void** wifiStartMessages;  // TODO header
     void** wifiFinishMessages; // TODO header
     u32 framesAfterFinish;
 
@@ -76,9 +76,9 @@ public:
     InputHandler1<RacePage, void, u32>* onNextPlayerSwitchHandler;
     InputHandler1<RacePage, void, u32>* onPrevPlayerSwitchHandler;
 
-    void* nameBalloons; // TODO header
+    void* nameBalloons;     // TODO header
     void** balloonManagers; // TODO header
-    void* itemBalloons; // TODO header
+    void* itemBalloons;     // TODO header
 };
 size_assert(RacePage, 0x1DC);
 

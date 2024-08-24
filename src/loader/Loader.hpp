@@ -3,13 +3,13 @@
 #include <platform/stdarg.h>
 #include <revolution/dvd/dvd.h>
 
-typedef void (*OSReport_t) (const char* str, ...);
-typedef NORETURN void (*OSFatal_t) (u32* fg, u32* bg, const char* str);
-typedef int (*DVDConvertPathToEntrynum_t) (const char* path);
-typedef bool (*DVDFastOpen_t) (int entrynum, DVDFileInfo* fileInfo);
-typedef int (*DVDReadPrio_t) (DVDFileInfo* fileInfo, void* buffer, int length, int offset, int prio);
-typedef bool (*DVDClose_t) (DVDFileInfo* fileInfo);
-typedef int (*vsnprintf_t) (char* buf, size_t bufSize, const char* format, va_list args);
+typedef void (*OSReport_t)(const char* str, ...);
+typedef NORETURN void (*OSFatal_t)(u32* fg, u32* bg, const char* str);
+typedef int (*DVDConvertPathToEntrynum_t)(const char* path);
+typedef bool (*DVDFastOpen_t)(int entrynum, DVDFileInfo* fileInfo);
+typedef int (*DVDReadPrio_t)(DVDFileInfo* fileInfo, void* buffer, int length, int offset, int prio);
+typedef bool (*DVDClose_t)(DVDFileInfo* fileInfo);
+typedef int (*vsnprintf_t)(char* buf, size_t bufSize, const char* format, va_list args);
 
 namespace Loader {
 

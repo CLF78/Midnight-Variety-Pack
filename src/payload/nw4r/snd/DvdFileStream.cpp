@@ -3,20 +3,16 @@
 namespace nw4r {
 namespace snd {
 
-DvdSoundArchive::DvdFileStream::DvdFileStream(s32 entryNum, u32 offset, s32 size):
-    ut::DvdLockedFileStream(entryNum),
-    offset((int)offset),
-    size(size) {
+DvdSoundArchive::DvdFileStream::DvdFileStream(s32 entryNum, u32 offset, s32 size) :
+    DvdLockedFileStream(entryNum), offset((int)offset), size(size) {
 
-    ut::DvdLockedFileStream::Seek(this->offset, ut::FILE_STREAM_SEEK_BEGIN);
+    DvdLockedFileStream::Seek(this->offset, ut::FILE_STREAM_SEEK_BEGIN);
 }
 
-DvdSoundArchive::DvdFileStream::DvdFileStream(const DVDFileInfo* fileInfo, u32 offset, s32 size):
-    ut::DvdLockedFileStream(fileInfo, false),
-    offset((int)offset),
-    size(size) {
+DvdSoundArchive::DvdFileStream::DvdFileStream(const DVDFileInfo* fileInfo, u32 offset, s32 size) :
+    DvdLockedFileStream(fileInfo, false), offset((int)offset), size(size) {
 
-    ut::DvdLockedFileStream::Seek(this->offset, ut::FILE_STREAM_SEEK_BEGIN);
+    DvdLockedFileStream::Seek(this->offset, ut::FILE_STREAM_SEEK_BEGIN);
 }
 
 } // namespace snd

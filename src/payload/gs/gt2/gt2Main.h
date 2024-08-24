@@ -51,7 +51,7 @@ struct GTI2Connection {
     u32 timeout;
     int callbackLevel;
     GT2Callbacks callbacks;
-    char * initialMessage;
+    char* initialMessage;
     int initialMessageLen;
     void* data;
     GTI2Buffer incomingBuffer;
@@ -70,11 +70,11 @@ struct GTI2Connection {
 };
 size_cassert(GTI2Connection, 0xA0);
 
-GT2Result gt2Connect(GT2Socket socket, GT2Connection* connection, const char* remoteAddress,
-                     const char* msg, int msgLen, int timeout, GT2Callbacks* callbacks, int blocking);
+GT2Result gt2Connect(GT2Socket socket, GT2Connection* connection, const char* remoteAddress, const char* msg,
+                     int msgLen, int timeout, GT2Callbacks* callbacks, int blocking);
 
 GT2Result gt2CreateSocket(GT2Socket* socket, const char* localAddress, int outgoingBufferSize,
-                           int incomingBufferSize, GT2SocketErrorCallback callback);
+                          int incomingBufferSize, GT2SocketErrorCallback callback);
 
 BOOL gt2Accept(GT2Connection connection, GT2Callbacks* callbacks);
 void gt2Listen(GT2Socket socket, GT2ConnectAttemptCallback callback);

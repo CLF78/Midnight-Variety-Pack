@@ -36,8 +36,7 @@ REPLACE void CtrlMenuBattleCupSelectStage::load() {
 
         // Initialize it
         ControlLoader buttonLoader(button);
-        buttonLoader.load("control", "BattleCupSelectStage", buffer,
-                          CtrlMenuBattleCupSelectStage::animNames);
+        buttonLoader.load("control", "BattleCupSelectStage", buffer, animNames);
     }
 }
 

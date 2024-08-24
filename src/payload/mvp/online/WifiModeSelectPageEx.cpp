@@ -61,9 +61,8 @@ void WifiModeSelectPageEx::onInit() {
         // Set rating message
         MessageInfo msgInfo;
         msgInfo.intVals[0] = SaveExpansionRating::GetSection()->GetData(i)->mRating;
-        const int msgId = (i >= CupManager::TRACKS_VS_COUNT) ?
-                    Message::Menu::BATTLE_RATING :
-                    Message::Menu::RACE_RATING;
+        const u32 msgId = (i >= CupManager::TRACKS_VS_COUNT) ? Message::Menu::BATTLE_RATING :
+                                                               Message::Menu::RACE_RATING;
         btn->setMatText("go", msgId, &msgInfo);
     }
 
@@ -115,7 +114,8 @@ void WifiModeSelectPageEx::onButtonClick(PushButton* button, u32 hudSlotId) {
     if (cupList >= CupManager::TRACKS_VS_COUNT) {
         CupManager::currentBattleCupList = cupList;
         page->setupGameMode(true);
-    } else {
+    }
+    else {
         CupManager::currentCupList = cupList;
         page->setupGameMode(false);
     }

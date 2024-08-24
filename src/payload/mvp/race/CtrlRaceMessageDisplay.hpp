@@ -3,7 +3,6 @@
 
 class CtrlRaceMessageDisplay : public CtrlRaceBase {
 public:
-
     enum State {
         INVISIBLE,
         VISIBLE,

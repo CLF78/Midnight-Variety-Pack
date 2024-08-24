@@ -13,8 +13,8 @@ typedef enum {
 } GT2CloseReason;
 
 typedef enum {
-    GT2_PROTOCOL_UDP   = 0,
-    GT2_PROTOCOL_VDP   = 2,
+    GT2_PROTOCOL_UDP = 0,
+    GT2_PROTOCOL_VDP = 2,
     GT2_PROTOCOL_ADHOC = 3,
 } GT2Protocol;
 

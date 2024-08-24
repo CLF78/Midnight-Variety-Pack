@@ -1,5 +1,5 @@
-#include "dwc_main.h"
 #include "dwc_match.h"
+#include "dwc_main.h"
 #include "dwc_report.h"
 #include <platform/string.h>
 #include <wiimmfi/ConnectionMatrix.hpp>
@@ -13,12 +13,14 @@
 
 // Parse custom match commands
 // Credits: Wiimmfi
-REPLACE BOOL DWCi_ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort,
-                                          void* cmdData, int dataLen) {
+REPLACE BOOL DWCi_ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData,
+                                          int dataLen) {
 
     // Check if the Wiimmfi payload can parse the command
-    if (Wiimmfi::MatchCommand::ProcessRecvMatchCommand(cmd, profileId, publicIp, publicPort, cmdData, dataLen))
+    if (Wiimmfi::MatchCommand::ProcessRecvMatchCommand(cmd, profileId, publicIp, publicPort, cmdData,
+                                                       dataLen)) {
         return FALSE;
+    }
 
     // Fall back to game code
     // TODO insert our custom command parsing here once we need it
@@ -36,8 +38,9 @@ kmBranchDefCpp(0x800D80D0, 0x800D8360, void) {
 
     // Get the next node with the custom algorithm, bail if none was found
     DWCNodeInfo* meshMakeNode = Wiimmfi::Natneg::GetNextMeshMakingNode();
-    if (!meshMakeNode)
+    if (!meshMakeNode) {
         return;
+    }
 
     // Copy node
     DWC_Printf(DWC_REPORT_MATCH_NN, "Try matchmaking with AID %d\n", meshMakeNode->aid);
@@ -48,7 +51,8 @@ kmBranchDefCpp(0x800D80D0, 0x800D8360, void) {
     int ret = DWCi_SendResvCommand(meshMakeNode->profileId, 0);
 
     // Check for errors
-    ret = (stpMatchCnt->qr2MatchTypeExt == 0) ? DWCi_HandleSBError((SBError)ret) : DWCi_HandleGPError((GPResult)ret);
+    ret = (stpMatchCnt->qr2MatchTypeExt == 0) ? DWCi_HandleSBError((SBError)ret) :
+                                                DWCi_HandleGPError((GPResult)ret);
     if (ret != 0) {
         memset(&stpMatchCnt->tempNewNodeInfo, 0, sizeof(DWCNodeInfo));
         return;
@@ -61,6 +65,7 @@ kmBranchDefCpp(0x800D80D0, 0x800D8360, void) {
     DWCi_SetMatchStatus(DWC_MATCH_STATE_CL_WAIT_RESV);
 }
 
+// clang-format off
 // DWCi_ProcessMatchSynPacket() patch
 // Parse SYN packets in more states than normally allowed
 // Credits: Wiimmfi
@@ -76,6 +81,7 @@ kmCallDefAsm(0x800D9754) {
     blr
 }
 
+// clang-format on
 // DWCi_ProcessMatchPollingPacket() patch
 // Send DWC_CMD_CONN_FAIL_MTX command to speed up NATNEG
 // Credits: Wiimmfi
@@ -87,14 +93,16 @@ kmBranchDefCpp(0x800DA7D4, 0x800DA81C, void, u32 aidsConnectedToHost) {
 
     // Get the dead AID bitmap, if empty return early
     const u32 deadAidBitmap = aidsConnectedToMe & ~aidsConnectedToHost;
-    if (deadAidBitmap == 0)
+    if (deadAidBitmap == 0) {
         return;
+    }
 
     // Disconnect all AIDs marked as dead
     DWC_Printf(DWC_REPORT_RECV_INFO, "Disconnecting dead AIDs (bitmap: %08X)\n", deadAidBitmap);
     for (int aid = 0; aid < 32; aid++) {
-        if (deadAidBitmap & (1 << aid))
+        if (deadAidBitmap & (1 << aid)) {
             DWC_CloseConnectionHard(aid);
+        }
     }
 }
 
@@ -115,8 +123,9 @@ kmWrite32(0x800E1A58, 0x38C00000 | 7000);
 // Do not count repeated NATNEG failures between the host and a client towards the Error 86420 counter
 // Credits: Wiimmfi
 kmBranchDefCpp(0x800E6778, 0x800E67AC, void) {
-    if (Wiimmfi::Natneg::PreventRepeatNATNEGFail(stpMatchCnt->tempNewNodeInfo.profileId))
+    if (Wiimmfi::Natneg::PreventRepeatNATNEGFail(stpMatchCnt->tempNewNodeInfo.profileId)) {
         DWC_Printf(DWC_REPORT_MATCH_NN, "NATNEG failure %d/5.\n", ++stpMatchCnt->natnegFailureCount);
+    }
 }
 
 /////////////////////////////////////
@@ -134,6 +143,7 @@ REPLACE void DWCi_PostProcessConnection(DWCPostProcessConnectionType type) {
 // Match Command Buffer Overflow Fix //
 ///////////////////////////////////////
 
+// clang-format off
 // DWCi_HandleGT2UnreliableMatchCommandMessage() patch
 // Ignore match commands coming from another client bigger than 0x80 bytes
 // Credits: WiiLink24
@@ -201,6 +211,7 @@ kmCallDefAsm(0x800E77F4) {
 // Wiimmfi Telemetry //
 ///////////////////////
 
+// clang-format on
 // Report host disconnections to the server
 // Credits: Wiimmfi
 REPLACE int DWCi_SendMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData,

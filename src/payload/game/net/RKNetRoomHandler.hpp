@@ -3,7 +3,6 @@
 
 class RKNetROOMHandler {
 public:
-
     enum ROOMRole {
         ROOM_HOST,
         ROOM_GUEST,

@@ -6,7 +6,6 @@
 
 class Section {
 public:
-
     enum SectionId {
         NONE = -1,
 
@@ -205,17 +204,20 @@ public:
     };
 
     Page* getPage(Page::PageId page) const {
-        if (page < Page::ORIGINAL_PAGE_COUNT)
+        if (page < Page::ORIGINAL_PAGE_COUNT) {
             return pages[page];
-        if (page < Page::PAGE_COUNT)
+        }
+        if (page < Page::PAGE_COUNT) {
             return extraPages[page - Page::ORIGINAL_PAGE_COUNT];
+        }
         return nullptr;
     }
 
     void setPage(Page::PageId pageId, Page* page) {
         if (pageId < Page::ORIGINAL_PAGE_COUNT) {
             pages[pageId] = page;
-        } else if (pageId < Page::PAGE_COUNT) {
+        }
+        else if (pageId < Page::PAGE_COUNT) {
             extraPages[pageId - Page::ORIGINAL_PAGE_COUNT] = page;
         }
     }

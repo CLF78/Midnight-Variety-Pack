@@ -3,7 +3,6 @@
 
 class RKNetRH1Handler {
 public:
-
     struct Data {
         u32 timer;
         int vehicles[2];

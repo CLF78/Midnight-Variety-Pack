@@ -11,8 +11,9 @@ REPLACE const char* SCGetProductCode() {
 
     // Check if we're on Dolphin and use the dedicated IOCTL if so
     if (DolphinDevice::IsOpen()) {
-        if (const char* prodCode = DolphinDevice::GetRealProductCode())
+        if (const char* prodCode = DolphinDevice::GetRealProductCode()) {
             return prodCode;
+        }
     }
 
     // Else use the original function

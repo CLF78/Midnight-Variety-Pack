@@ -5,8 +5,8 @@ extern "C" {
 #endif
 
 typedef struct MEMAllocator MEMAllocator;
-typedef void* (*MEMFuncAllocatorAlloc) (MEMAllocator* allocator, u32 size);
-typedef void (*MEMFuncAllocatorFree) (MEMAllocator* allocator, void* memBlock);
+typedef void* (*MEMFuncAllocatorAlloc)(MEMAllocator* allocator, u32 size);
+typedef void (*MEMFuncAllocatorFree)(MEMAllocator* allocator, void* memBlock);
 
 typedef struct {
     MEMFuncAllocatorAlloc alloc;

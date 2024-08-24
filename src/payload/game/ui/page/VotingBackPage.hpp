@@ -11,7 +11,6 @@
 
 class VotingBackPage : public Page {
 public:
-
     struct PlayerInfo {
         u8 aid;
         u8 localPlayerIdx;

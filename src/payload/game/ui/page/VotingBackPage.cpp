@@ -40,7 +40,8 @@ REPLACE void VotingBackPage::setupRace() {
     // Initialize the race scenario
     if (ctx->friendRoomRaceNumber >= 1) {
         rconf->update();
-    } else {
+    }
+    else {
         rconf->reset();
     }
 
@@ -142,8 +143,9 @@ REPLACE void VotingBackPage::setupRace() {
 
         // Get the local player index by checking if the previous player's aid is identical
         u32 localPlayerId = 0;
-        if (playerId > 0)
+        if (playerId > 0) {
             localPlayerId = RKNetController::instance->aidPidMap.playerIds[playerId - 1] == aid;
+        }
 
         // Get the player info using the obtained data
         PlayerInfo* playerInfo = nullptr;
@@ -155,17 +157,18 @@ REPLACE void VotingBackPage::setupRace() {
         }
 
         // If the player info is not found (should not happen), bail
-        if (!playerInfo)
+        if (!playerInfo) {
             continue;
+        }
 
         // Set the player type
-        player->playerType = isLocal ? RaceConfig::Player::TYPE_LOCAL
-                                     : RaceConfig::Player::TYPE_ONLINE;
+        player->playerType = isLocal ? RaceConfig::Player::TYPE_LOCAL : RaceConfig::Player::TYPE_ONLINE;
 
         // Set the Mii
         if (isLocal) {
             ctx->playerMiis.copyFrom(&ctx->localPlayerMiis, localPlayerId, playerId);
-        } else {
+        }
+        else {
             ctx->playerMiis.copyFromManager(playerId, aid, localPlayerId);
         }
 
@@ -174,12 +177,14 @@ REPLACE void VotingBackPage::setupRace() {
 
         // Set character and vehicle (with failsaves)
         u8 character = selectPlayer->character;
-        if (character >= CHARACTER_COUNT)
+        if (character >= CHARACTER_COUNT) {
             character = MARIO;
+        }
 
         u8 vehicle = selectPlayer->vehicle;
-        if (vehicle >= VEHICLE_COUNT)
+        if (vehicle >= VEHICLE_COUNT) {
             vehicle = STANDARD_BIKE_M;
+        }
 
         player->characterId = character;
         player->vehicleId = vehicle;
@@ -192,7 +197,8 @@ REPLACE void VotingBackPage::setupRace() {
         // Set the region id
         if (isLocal) {
             ctx->playerRegions[playerId] = SystemManager::instance->regionId;
-        } else {
+        }
+        else {
             ctx->playerRegions[playerId] = RKNetUSERHandler::instance->recvPackets[aid].region;
         }
 
@@ -211,17 +217,16 @@ REPLACE void VotingBackPage::setupRace() {
                     player->rating.rating = playerInfo->br;
                     break;
             }
+        }
 
         // For guests, default to 5000
         // TODO alternate point system for guests
-        } else {
+        else {
             player->rating.rating = 5000;
         }
 
         // Set the team (if applicable)
-        player->team = (settings->modeFlags & RaceConfig::Settings::FLAG_TEAMS)
-                        ? playerInfo->team
-                        : RaceConfig::Player::TEAM_NONE;
+        player->team = settings->isTeams() ? playerInfo->team : RaceConfig::Player::TEAM_NONE;
     }
 
     // Set up all the copied Miis

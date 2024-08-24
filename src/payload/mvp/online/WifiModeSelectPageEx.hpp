@@ -12,17 +12,18 @@ public:
 
     void onButtonClick(PushButton* button, u32 hudSlotId);
 
-    static u32 getButtonCount() {
-        return 2 + ARRAY_SIZE_STATIC(WifiModeSelectPageEx, extraRaceButtons);
-    }
+    static u32 getButtonCount() { return 2 + ARRAY_SIZE_STATIC(WifiModeSelectPageEx, extraRaceButtons); }
 
     PushButton* getButton(u32 idx) {
-        if (idx == 0)
+        if (idx == 0) {
             return &raceButton;
-        if (idx == 1)
+        }
+        if (idx == 1) {
             return &battleButton;
-        if (idx - 2 < ARRAY_SIZE(extraRaceButtons))
+        }
+        if (idx - 2 < ARRAY_SIZE(extraRaceButtons)) {
             return &extraRaceButtons[idx - 2];
+        }
         return nullptr;
     }
 

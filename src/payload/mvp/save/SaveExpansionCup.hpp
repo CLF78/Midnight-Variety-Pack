@@ -5,10 +5,17 @@
 
 class SaveExpansionCup : public SaveExpansionSection {
 public:
-
     struct Data {
-        void Init() { mCompleted = false; mRank = 0xFF;}
-        void Set(bool completed, u8 rank) { mCompleted = completed; mRank = rank; }
+
+        void Init() {
+            mCompleted = false;
+            mRank = 0xFF;
+        }
+
+        void Set(bool completed, u8 rank) {
+            mCompleted = completed;
+            mRank = rank;
+        }
 
         bool mCompleted;
         u8 mRank;

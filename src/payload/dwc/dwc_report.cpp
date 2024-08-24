@@ -22,7 +22,7 @@ REPLACE void DWC_Printf(DWCReportFlag flag, const char* fmt, ...) {
         "Transport",
         "QR2",
         "Server Browser",
-        nullptr,
+        nullptr, // Empty for fields that do not exist
         nullptr,
         nullptr,
         nullptr,
@@ -42,7 +42,7 @@ REPLACE void DWC_Printf(DWCReportFlag flag, const char* fmt, ...) {
         "CF",
         "Connection Test",
         nullptr,
-        nullptr
+        nullptr,
     };
 
     // Only print messages at the DEBUG level

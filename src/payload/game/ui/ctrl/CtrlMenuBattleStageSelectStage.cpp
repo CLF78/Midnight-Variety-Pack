@@ -41,8 +41,9 @@ REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
         }
     }
 
-    if (selected == -1)
+    if (selected == -1) {
         coursePage->setSelection(&courseButtons[0]);
+    }
 }
 
 // Replace the BRCTR and update the child count
@@ -69,8 +70,7 @@ REPLACE void CtrlMenuBattleStageSelectStage::load(u32 playerFlags, bool unk) {
         insertChild(i, button);
 
         // Initialize it
-        button->loadWithAnims(CtrlMenuBattleStageSelectStage::buttonAnims, "button",
-                              "BattleStageSelectStage", buffer, playerFlags, unk);
+        button->loadWithAnims(buttonAnims, "button", "BattleStageSelectStage", buffer, playerFlags, unk);
         button->setOnClickHandler(&onButtonClickHandler, 0);
         button->setOnSelectHandler(&onButtonSelectHandler);
     }

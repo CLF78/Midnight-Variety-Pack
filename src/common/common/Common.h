@@ -2,21 +2,21 @@
 
 // Base asserts
 #ifndef __CWCC__
-#error "Kamek requires the CodeWarrior compiler!"
+    #error "Kamek requires the CodeWarrior compiler!"
 #endif
 
 #ifndef __CODE_REGION__
-#error "Missing region specifier!"
+    #error "Missing region specifier!"
 #endif
 
 #ifndef __LOG_LEVEL__
-#error "Missing log level specifier!"
+    #error "Missing log level specifier!"
 #endif
 
 // Defines
-#define NULL 0
+#define NULL  0
 #define FALSE 0
-#define TRUE 1
+#define TRUE  1
 
 // Base types
 typedef unsigned char u8;
@@ -44,9 +44,9 @@ typedef volatile f64 vf64;
 typedef void (*Func)();
 
 #ifdef __CLANGD__
-    typedef unsigned int size_t;
+typedef unsigned int size_t;
 #else
-    typedef unsigned long size_t;
+typedef unsigned long size_t;
 #endif
 
 // Macros
@@ -74,7 +74,7 @@ typedef void (*Func)();
 #endif
 
 // Pragmas
-#pragma warning off (10211) // Disable switch case variable initialization warning
+#pragma warning off(10211) // Disable switch case variable initialization warning
 
 // Include other base headers
 #include "Assert.h"

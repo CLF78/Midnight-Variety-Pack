@@ -19,13 +19,16 @@ public:
     void update();
     void updateValues();
 
-    void createAndUpdateEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex,
-        const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale);
     void createEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex);
+    void createAndUpdateEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex,
+                                     const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale);
+
     void updateEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex,
-        const MTX34& playerMat2, const VEC3& wheelPos, bool r9);
+                            const MTX34& playerMat2, const VEC3& wheelPos, bool r9);
+
     void followFadeEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex,
-        const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale);
+                                const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale);
+
     void killEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex);
 
     static RaceConfig* GetRaceData();

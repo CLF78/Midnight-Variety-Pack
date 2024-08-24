@@ -6,7 +6,6 @@ namespace detail {
 
 class WsdPlayer {
 public:
-
     class WsdCallback {
     public:
         virtual ~WsdCallback();

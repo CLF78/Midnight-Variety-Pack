@@ -3,7 +3,6 @@
 
 class SaveExpansionLicense {
 public:
-
     struct Header {
         bool IsValid(u32 licenseSize) const;
 

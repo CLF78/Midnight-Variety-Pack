@@ -6,7 +6,8 @@ Random::Random(const u32* seedValue) {
     if (seedValue) {
         x = *seedValue;
         seed = *seedValue;
-    } else {
+    }
+    else {
         initialize();
     }
 }

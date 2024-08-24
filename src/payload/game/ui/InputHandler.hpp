@@ -6,6 +6,7 @@
 #define SET_HANDLER_FUNC(handler, func) \
     handler.handle = (typeof(handler.handle))&func // NOLINT(bugprone-macro-parentheses)
 
+// clang-format off
 // This is necessary to fix size asserts in clangd
 #if (defined(__CLANGD__) && defined(_WIN32))
     class InputHandlerBase { void* dummy; void* dummy2; };
@@ -15,6 +16,7 @@
     class InputHandlerBase {};
 #endif
 
+// clang-format on
 template <class T, typename R>
 class InputHandler0 : public InputHandlerBase {
 public:

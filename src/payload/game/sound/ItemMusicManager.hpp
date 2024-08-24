@@ -4,7 +4,6 @@
 
 class ItemMusicManager : public EGG::Disposer {
 public:
-
     enum State {
         KINOKO_BIG,
         STAR,

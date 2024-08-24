@@ -30,7 +30,7 @@ public:
 
     static DriftSelectPage* getPage() {
         return (DriftSelectPage*)SectionManager::instance->curSection->getPage(Page::DRIFT_SELECT);
-    };
+    }
 
     UIControlTimer* timer;
     Section::SectionId sectionId;

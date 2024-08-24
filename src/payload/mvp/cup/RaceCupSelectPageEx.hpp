@@ -6,7 +6,6 @@
 
 class RaceCupSelectPageEx : public RaceCupSelectPage {
 public:
-
     enum LayoutIdx {
         LYT_CUP_SELECT_CUP,
         LYT_CUP_SELECT_COURSE,

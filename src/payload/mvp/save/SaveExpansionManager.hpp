@@ -2,12 +2,12 @@
 
 namespace SaveExpansionManager {
 
-    int Read();
-    int Create();
-    int Write();
-    int Delete();
+int Read();
+int Create();
+int Write();
+int Delete();
 
-    extern int sError;
-    extern int sCheckError;
+extern int sError;
+extern int sCheckError;
 
 } // namespace SaveExpansionManager

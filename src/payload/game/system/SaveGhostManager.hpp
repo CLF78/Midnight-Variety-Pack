@@ -3,7 +3,6 @@
 
 class SaveGhostManager {
 public:
-
     enum RequestType {
         REQ_NONE = -1,
         REQ_ERASE_ALL,

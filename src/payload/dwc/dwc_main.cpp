@@ -1,5 +1,5 @@
-#include "dwc_common.h"
 #include "dwc_main.h"
+#include "dwc_common.h"
 #include "dwc_report.h"
 #include <gs/gt2/gt2Main.h>
 #include <gs/gt2/gt2Utility.h>
@@ -16,13 +16,15 @@
 REPLACE void DWC_InitFriendsMatch(void* unused, DWCUserData* userdata, int productID, const char* gameName,
                                   const char* secretKey, int sendBufSize, int recvBufSize,
                                   DWCFriendData* friendList, int friendListLen) {
-    REPLACED(unused, userdata, productID, gameName, secretKey, sendBufSize, recvBufSize, friendList, friendListLen);
+    REPLACED(unused, userdata, productID, gameName, secretKey, sendBufSize, recvBufSize, friendList,
+             friendListLen);
     stpDwcCnt->gt2Callbacks.connectedCb = &Wiimmfi::Natneg::ConnectedCallback;
 }
 
 // Update NATNEG timers
 // Credits: Wiimmfi
-REPLACE void DWCi_MatchedCallback(DWCError error, BOOL cancel, BOOL self, BOOL isServer, int index, void* param) {
+REPLACE void DWCi_MatchedCallback(DWCError error, BOOL cancel, BOOL self, BOOL isServer, int index,
+                                  void* param) {
     REPLACED(error, cancel, self, isServer, index, param);
     Wiimmfi::Natneg::CalcTimers(self);
 }
@@ -42,19 +44,23 @@ REPLACE GT2Result DWCi_GT2Startup() {
     }
 
     // Get the port
-    const u16 port = (Wiimmfi::Port::sPort) ? Wiimmfi::Port::sPort : (u16)(0xC000 + DWCi_GetMathRand32(0x4000));
+    u16 port = (u16)(0xC000 + DWCi_GetMathRand32(0x4000));
+    if (Wiimmfi::Port::sPort) {
+        port = Wiimmfi::Port::sPort;
+    }
+
+    // Log the port
     DWC_Printf(DWC_REPORT_MATCH_NN, "Got private port %d\n", port);
 
     // Create the socket
-    const GT2Result gt2Result = gt2CreateSocket(&stpDwcCnt->gt2Socket,
-                                                gt2AddressToString(0, port, nullptr),
-                                                stpDwcCnt->gt2SendBufSize,
-                                                stpDwcCnt->gt2RecvBufSize,
+    const GT2Result gt2Result = gt2CreateSocket(&stpDwcCnt->gt2Socket, gt2AddressToString(0, port, nullptr),
+                                                stpDwcCnt->gt2SendBufSize, stpDwcCnt->gt2RecvBufSize,
                                                 DWCi_GT2SocketErrorCallback);
 
     // Set error code if necessary
-    if (DWCi_HandleGT2Error(gt2Result))
+    if (DWCi_HandleGT2Error(gt2Result)) {
         return gt2Result;
+    }
 
     // Set callbacks
     gt2Listen(stpDwcCnt->gt2Socket, Wiimmfi::Natneg::ConnectAttemptCallback);
@@ -68,7 +74,8 @@ REPLACE GT2Result DWCi_GT2Startup() {
 
 // Update the connection matrix when a connection is closed
 // Credits: Wiimmfi
-REPLACE void DWCi_GT2ClosedProcess(GT2Connection connection, GT2CloseReason reason, BOOL isPseudClose, u8 closeAid) {
+REPLACE void DWCi_GT2ClosedProcess(GT2Connection connection, GT2CloseReason reason, BOOL isPseudClose,
+                                   u8 closeAid) {
     REPLACED(connection, reason, isPseudClose, closeAid);
     Wiimmfi::ConnectionMatrix::Update();
 }

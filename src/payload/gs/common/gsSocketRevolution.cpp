@@ -11,8 +11,9 @@ REPLACE int bind(int sock, SOSockAddrIn* addr, int len) {
 
     // Try binding to the given port
     int ret = REPLACED(sock, addr, sizeof(*addr));
-    if (ret >= 0)
+    if (ret >= 0) {
         return ret;
+    }
 
     // If binding fails, try on a different random port up to 10 times
     LOG_WARN("Bind failed on port %d.", addr->port);

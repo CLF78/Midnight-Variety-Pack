@@ -1,5 +1,5 @@
-#include "VotingBackPage.hpp"
 #include "VotingPage.hpp"
+#include "VotingBackPage.hpp"
 #include <game/net/RKNetController.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
 #include <game/sound/SoundEffect.hpp>
@@ -18,24 +18,28 @@ REPLACE bool VotingPage::setPlayerVote(u32 playerIdx) {
 
     // Get VotingBackPage, bail if it doesn't exist
     VotingBackPage* page = VotingBackPage::getPage();
-    if (!page)
+    if (!page) {
         return false;
+    }
 
     // If the player index is not valid, bail
-    if (playerIdx >= page->playerCount)
+    if (playerIdx >= page->playerCount) {
         return false;
+    }
 
     // If the vote has already been set, bail
-    if (votes[playerIdx] != -1)
+    if (votes[playerIdx] != -1) {
         return false;
+    }
 
     // Get aid and local player index
     const u8 aid = page->playerInfos[playerIdx].aid;
     const u8 localPlayerIdx = page->playerInfos[playerIdx].localPlayerIdx;
 
     // If the character is invalid, bail
-    if (RKNetSELECTHandler::instance->getPlayerCharacter(aid, localPlayerIdx) == CHARACTER_COUNT)
+    if (RKNetSELECTHandler::instance->getPlayerCharacter(aid, localPlayerIdx) == CHARACTER_COUNT) {
         return false;
+    }
 
     // Get the voted track and the corresponding message
     const u16 track = RKNetSELECTHandler::instance->getPlayerVote(aid);
@@ -43,8 +47,8 @@ REPLACE bool VotingPage::setPlayerVote(u32 playerIdx) {
 
     // Set the vote
     LOG_DEBUG("Setting vote for player %d to %d...", playerIdx, track);
-    voteControls[voteCount].setData(track == CupData::RANDOM_TRACK_VOTE, bmgId, &page->miiGroup,
-                                    playerIdx, RKNetController::instance->isLocalPlayer(aid),
+    voteControls[voteCount].setData(track == CupData::RANDOM_TRACK_VOTE, bmgId, &page->miiGroup, playerIdx,
+                                    RKNetController::instance->isLocalPlayer(aid),
                                     page->playerInfos[playerIdx].team);
 
     // Update the vote index and count
@@ -82,6 +86,7 @@ void StoreWinningVote(VotingPage* self) {
     self->instructionText.setText(Message::Menu::VOTE_ROULETTE_DECIDING);
 }
 
+// clang-format off
 // Glue code
 kmBranchDefAsm(0x80644310, 0x80644418) {
     nofralloc

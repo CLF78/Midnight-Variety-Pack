@@ -37,8 +37,9 @@ REPLACE void CtrlMenuCourseSelectCourse::initSelf() {
         }
     }
 
-    if (selected == -1)
+    if (selected == -1) {
         coursePage->setSelection(&courseButtons[0]);
+    }
 }
 
 // Call the correct function

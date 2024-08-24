@@ -75,7 +75,8 @@ int Create() {
 
     // Check that the file can be created, if not bail
     u32 answer = 0;
-    int result = NandUtil::Check(NANDBytesToBlocks(SaveManager::instance->expansion.mWriteBufferSize), 1, &answer);
+    int result = NandUtil::Check(NANDBytesToBlocks(SaveManager::instance->expansion.mWriteBufferSize), 1,
+                                 &answer);
 
     // If the procedure failed, bail
     if (result != NandUtil::ERROR_NONE) {
@@ -88,24 +89,26 @@ int Create() {
     if (answer != 0) {
         LOG_ERROR("Cannot fit save in NAND! Error Code: %x", answer);
 
-        if (answer & (NAND_CHECK_HOME_NO_SPACE | NAND_CHECK_SYS_NO_SPACE))
+        if (answer & (NAND_CHECK_HOME_NO_SPACE | NAND_CHECK_SYS_NO_SPACE)) {
             sCheckError |= NandUtil::CHECK_ERROR_BLOCKS;
+        }
 
-        if (answer & (NAND_CHECK_HOME_NO_INODES | NAND_CHECK_SYS_NO_INODES))
+        if (answer & (NAND_CHECK_HOME_NO_INODES | NAND_CHECK_SYS_NO_INODES)) {
             sCheckError |= NandUtil::CHECK_ERROR_INODES;
+        }
 
         return NandUtil::ERROR_SPACE;
     }
 
     // Try creating the file
-    result = NandUtil::Create(SAVEEX_FILENAME, NAND_PERM_OTHER_READ |
-                                               NAND_PERM_GROUP_READ |
-                                               NAND_PERM_OWNER_RW);
+    result = NandUtil::Create(SAVEEX_FILENAME,
+                              NAND_PERM_OTHER_READ | NAND_PERM_GROUP_READ | NAND_PERM_OWNER_RW);
 
     // Return the error code
     if (result != NandUtil::ERROR_NONE) {
         LOG_ERROR("Create returned error %d", result);
-    } else {
+    }
+    else {
         LOG_DEBUG("Creation successful!");
     }
 
@@ -128,8 +131,9 @@ int Write() {
     // If it fails, bail
     if (fileType == NandUtil::TYPE_NONE) {
         result = Create();
-        if (result != NandUtil::ERROR_NONE)
+        if (result != NandUtil::ERROR_NONE) {
             return result;
+        }
     }
 
     // Try opening the new file
@@ -157,7 +161,7 @@ int Write() {
 
 int Delete() {
 
-    // NANDUtil already deals with the file not existing, so we are relatively safe
+    // NandUtil already deals with the file not existing, so we are relatively safe
     LOG_DEBUG("Deleting save expansion data...");
     return NandUtil::Delete(SAVEEX_FILENAME);
 }

@@ -14,10 +14,10 @@ REPLACE void SinglePlayerMenuPage::onButtonClick(PushButton* button, u32 hudSlot
     // Game mode for each menu button
     static const u32 gameModes[SinglePlayerMenuPage::BUTTON_COUNT] = {
         RaceConfig::Settings::GAMEMODE_GP,
-        RaceConfig::Settings::GAMEMODE_TT,
+        RaceConfig::Settings::GAMEMODE_TT, //
         RaceConfig::Settings::GAMEMODE_VS,
-        RaceConfig::Settings::GAMEMODE_BT,
-        RaceConfig::Settings::GAMEMODE_MR
+        RaceConfig::Settings::GAMEMODE_BT, //
+        RaceConfig::Settings::GAMEMODE_MR,
     };
 
     // Camera mode for each menu button
@@ -26,19 +26,21 @@ REPLACE void SinglePlayerMenuPage::onButtonClick(PushButton* button, u32 hudSlot
         RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO,
         RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_INTRO,
         RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_INTRO,
-        RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO
+        RaceConfig::Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO,
     };
 
     // Player count for each menu button
-    static const u8 playerCounts[SinglePlayerMenuPage::BUTTON_COUNT] = { 12, 1, 12, 12, 1 };
+    static const u8 playerCounts[SinglePlayerMenuPage::BUTTON_COUNT] = {
+        12, 1, 12, 12, 1,
+    };
 
     // Next screen for each menu button
     static const Page::PageId nextPages[SinglePlayerMenuPage::BUTTON_COUNT] = {
-        Page::CHARACTER_SELECT,
+        Page::CHARACTER_SELECT, //
         Page::GP_CLASS_SELECT,
-        Page::VS_MODE_PROMPT,
+        Page::VS_MODE_PROMPT, //
         Page::BT_MODE_PROMPT,
-        Page::LEVEL_SELECT_MR
+        Page::LEVEL_SELECT_MR, //
     };
 
     // Get menu scenario
@@ -102,8 +104,8 @@ REPLACE void SinglePlayerMenuPage::onButtonClick(PushButton* button, u32 hudSlot
     // Set the appropriate player types based on total player count
     const u8 playerCount = playerCounts[buttonId];
     for (int i = 0; i < playerCount; i++) {
-        scenario->players[i].playerType = (i == 0) ? RaceConfig::Player::TYPE_LOCAL
-                                                   : RaceConfig::Player::TYPE_CPU;
+        scenario->players[i].playerType = (i == 0) ? RaceConfig::Player::TYPE_LOCAL :
+                                                     RaceConfig::Player::TYPE_CPU;
     }
 
     // Set all excluded players to NONE

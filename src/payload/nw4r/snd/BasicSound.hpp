@@ -13,7 +13,6 @@ size_assert(SoundActorParam, 0xC);
 
 class BasicSound {
 public:
-
     class AmbientParamUpdateCallback {
     public:
         virtual ~AmbientParamUpdateCallback();

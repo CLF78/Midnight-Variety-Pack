@@ -2,7 +2,6 @@
 
 class SaveExpansionSection {
 public:
-
     // The section types (must be added for the section to be parsed)
     enum SectionId {
         SECTION_CUP_COMPLETION,

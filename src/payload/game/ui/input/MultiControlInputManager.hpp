@@ -8,7 +8,6 @@
 
 class MultiControlInputManager : public MenuInputManager {
 public:
-
     class Player {
     public:
         ControlInputManager* manager;

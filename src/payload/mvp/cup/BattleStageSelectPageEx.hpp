@@ -17,18 +17,19 @@ public:
     void onBackPress(u32 hudSlotId);
 
     static BattleStageSelectPageEx* getPage() {
-        return (BattleStageSelectPageEx*)SectionManager::instance->curSection->getPage(Page::COURSE_SELECT_BT);
+        return (BattleStageSelectPageEx*)
+            SectionManager::instance->curSection->getPage(Page::COURSE_SELECT_BT);
     }
 
-    static u32 getCupCount() {
-        return 2 + ARRAY_SIZE_STATIC(BattleStageSelectPageEx, cups);
-    }
+    static u32 getCupCount() { return 2 + ARRAY_SIZE_STATIC(BattleStageSelectPageEx, cups); }
 
     CtrlMenuBattleStageSelectCupSub* getCupButton(u32 idx) {
-        if (idx < 2)
+        if (idx < 2) {
             return &cupHolder.cups[idx];
-        if (idx < getCupCount())
-            return &cups[idx-2];
+        }
+        if (idx < getCupCount()) {
+            return &cups[idx - 2];
+        }
         return nullptr;
     }
 

@@ -11,8 +11,9 @@ TransmissionSelectPage::TransmissionSelectPage() {
 
     // Set previous page
     prevPageId = Page::VEHICLE_SELECT;
-    if (RaceConfig::instance->menuScenario.settings.isBattle())
+    if (RaceConfig::instance->menuScenario.settings.isBattle()) {
         prevPageId = Page::VEHICLE_SELECT_BT;
+    }
 }
 
 void TransmissionSelectPage::onActivate() {
@@ -88,7 +89,8 @@ void TransmissionSelectPage::onSelectChange(PushButton* button, u32 hudSlotId) {
 
     if (button->buttonId == BACK_BUTTON) {
         instructionText->setText(Message::NONE);
-    } else {
+    }
+    else {
         instructionText->setText(instructionTexts[button->buttonId]);
     }
 }
@@ -97,8 +99,9 @@ void TransmissionSelectPage::setCPUTransmissions() {
 
     // Skip if online
     RaceConfig::Scenario* scenario = &RaceConfig::instance->menuScenario;
-    if (scenario->settings.isOnline())
+    if (scenario->settings.isOnline()) {
         return;
+    }
 
     // Set a random transmission for every CPU
     Random random;

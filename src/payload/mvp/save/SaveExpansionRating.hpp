@@ -5,7 +5,6 @@
 
 class SaveExpansionRating : public SaveExpansionSection {
 public:
-
     struct Data {
         void Init() { mRating = 1000; }
         void Set(u16 value) { mRating = value; }
@@ -18,7 +17,7 @@ public:
         Data mData[];
     };
 
-    SaveExpansionRating() : mData(new Data[GetEntryCount()]) {  }
+    SaveExpansionRating() : mData(new Data[GetEntryCount()]) {}
     virtual u32 GetMagic() const { return 'RTNG'; }
     virtual u32 GetRequiredSpace() const { return offsetof(RawData, mData) + sizeof(Data) * GetEntryCount(); }
 

@@ -3,7 +3,6 @@
 
 class DvdArchive {
 public:
-
     enum State {
         CLEARED,
         UNK_1,

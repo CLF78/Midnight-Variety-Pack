@@ -6,7 +6,6 @@ namespace ut {
 
 class AutoInterruptLock {
 public:
-
     AutoInterruptLock() : mOldState(OSDisableInterrupts()) {}
     ~AutoInterruptLock() { OSRestoreInterrupts(mOldState); }
 

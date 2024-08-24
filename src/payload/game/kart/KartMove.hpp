@@ -6,7 +6,6 @@
 
 class KartMove : public KartObjectProxy {
 public:
-
     enum DriftState {
         NOT_DRIFTING,
         CHARGING,
@@ -47,7 +46,7 @@ public:
     bool addMtCharge(u32 currentDriftState, short* mtCharge, short baseMtCharge, u32 maxMtCharge);
     void calcManualDrift();
     void clearDrift();
-    void releaseMt(bool forceOverride, u32 driftState);
+    void releaseMt(bool forceOverride, u32 forcedDriftState);
     void activateBoost(u32 type, u32 duration);
 
     float speedMultiplier;

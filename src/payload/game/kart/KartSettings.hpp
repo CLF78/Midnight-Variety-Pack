@@ -4,8 +4,8 @@
 class KartSettings {
 public:
     KartSettings(u32 playerIdx, int kart, int character, bool isBike, KartParam* kartParam, void* unknown,
-                 void* kartDriverDispEntry, void* kartPartsDispEntry,
-                 void* bikePartsDispEntry, void* driverDispEntry);
+                 void* kartDriverDispEntry, void* kartPartsDispEntry, void* bikePartsDispEntry,
+                 void* driverDispEntry);
 
     u32 isBike;
     u32 kart;

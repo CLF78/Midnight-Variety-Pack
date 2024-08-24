@@ -2,9 +2,11 @@
 #include "global.hpp"
 #include <nw4r/ut/FileStream.hpp>
 
+// clang-format off
 namespace nw4r {
 namespace snd {
 namespace detail { class SoundArchiveFileReader; }
+// clang-format on
 
 class SoundArchive {
 public:
@@ -75,7 +77,9 @@ public:
     virtual const void* detail_GetWaveDataFileAddress(ulong fileId) const = 0;
     virtual int detail_GetRequiredStreamBufferSize() const = 0;
     virtual ut::FileStream* OpenStream(void* buffer, int size, u32 begin, u32 length) const = 0;
-    virtual ut::FileStream* OpenExtStream(void* buffer, int size, const char* extFilePath, u32 begin, u32 length) const = 0;
+    virtual ut::FileStream* OpenExtStream(void* buffer, int size, const char* extFilePath, u32 begin,
+                                          u32 length) const = 0;
+
     ut::FileStream* detail_OpenFileStream(ulong fileId, void* buffer, int size) const;
 
     ulong GetSoundCount() const; // custom function

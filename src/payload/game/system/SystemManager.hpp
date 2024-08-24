@@ -7,7 +7,6 @@
 
 class SystemManager {
 public:
-
     class SystemRipper {
         char pathBuf[64];
         EGG::Heap* heap;

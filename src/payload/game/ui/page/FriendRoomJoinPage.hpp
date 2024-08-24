@@ -8,7 +8,6 @@
 
 class FriendRoomJoinPage : public Page {
 public:
-
     enum PlayerState {
         NOT_IN_ROOM = -1,
         OPENED_ROOM,
@@ -46,8 +45,9 @@ public:
     RUNTIME_TYPE_INFO_NODECL;
 
     void forceConnectionError() {
-        if (playerRoomState == JOINED_AS_GUEST)
+        if (playerRoomState == JOINED_AS_GUEST) {
             playerRoomState = CONNECTION_ERROR;
+        }
     }
 
     static FriendRoomJoinPage* getPage() {

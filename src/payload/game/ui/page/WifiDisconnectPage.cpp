@@ -17,7 +17,7 @@ u32 GetErrorMessage(int errorCode, MessageInfo* extraInfo) {
 
     // 20XXX - Nintendo NASWII error codes
     if (IsErrorInRange(errorCode, 20000, 21000)) {
-        switch(errorCode) {
+        switch (errorCode) {
 
             // Can't connect to the internet
             case 20100:
@@ -31,10 +31,11 @@ u32 GetErrorMessage(int errorCode, MessageInfo* extraInfo) {
             default:
                 return Message::Menu::ERROR_CONNECTION_GENERIC;
         }
+    }
 
     // 23XXX - Wiimmfi NASWII error codes
-    } else if (IsErrorInRange(errorCode, 23000, 24000)) {
-        switch(errorCode) {
+    else if (IsErrorInRange(errorCode, 23000, 24000)) {
+        switch (errorCode) {
 
             // 1 hour before activation
             case 23801:
@@ -122,10 +123,11 @@ u32 GetErrorMessage(int errorCode, MessageInfo* extraInfo) {
             default:
                 return Message::Menu::ERROR_CONNECTION_GENERIC;
         }
+    }
 
     // 29XXX - NAND Errors
-    } else if (IsErrorInRange(errorCode, 29000, 30000)) {
-        switch(errorCode) {
+    else if (IsErrorInRange(errorCode, 29000, 30000)) {
+        switch (errorCode) {
 
             // NAND full
             case 29000:
@@ -139,14 +141,17 @@ u32 GetErrorMessage(int errorCode, MessageInfo* extraInfo) {
             default:
                 return Message::Menu::ERROR_CONNECTION_NAND_ACCESS;
         }
+    }
 
     // 31XXX - DLS1 Errors
-    } else if (IsErrorInRange(errorCode, 31000, 32000))
+    else if (IsErrorInRange(errorCode, 31000, 32000)) {
         return Message::Menu::ERROR_DOWNLOAD;
+    }
 
     // 33XXX - Profanity Check Errors
-    else if (IsErrorInRange(errorCode, 33000, 34000))
+    else if (IsErrorInRange(errorCode, 33000, 34000)) {
         return Message::Menu::ERROR_MII_NAME_CHECK;
+    }
 
     // 5XXXX - Network Connection Errors
     else if (IsErrorInRange(errorCode, 50000, 60000)) {
@@ -187,9 +192,10 @@ u32 GetErrorMessage(int errorCode, MessageInfo* extraInfo) {
             default:
                 return Message::Menu::ERROR_NO_CONNECTION;
         }
+    }
 
     // 6XXXX - Network Errors (Login State)
-    } else if (IsErrorInRange(errorCode, 60000, 70000)) {
+    else if (IsErrorInRange(errorCode, 60000, 70000)) {
         switch (errorCode) {
 
             // Error 60000 cannot appear unless the patch was removed
@@ -200,9 +206,10 @@ u32 GetErrorMessage(int errorCode, MessageInfo* extraInfo) {
             default:
                 return Message::Menu::ERROR_DURING_LOGIN;
         }
+    }
 
     // 7XXXX - Network Errors (Friend Roster Synchronization State)
-    } else if (IsErrorInRange(errorCode, 70000, 80000)) {
+    else if (IsErrorInRange(errorCode, 70000, 80000)) {
         switch (errorCode) {
 
             // Possible kick or ban
@@ -213,9 +220,10 @@ u32 GetErrorMessage(int errorCode, MessageInfo* extraInfo) {
             default:
                 return Message::Menu::ERROR_DURING_FRIEND_PROCESS;
         }
+    }
 
     // 8XXXX - Network Errors (Matchmaking State)
-    } else if (IsErrorInRange(errorCode, 80000, 90000)) {
+    else if (IsErrorInRange(errorCode, 80000, 90000)) {
         switch (errorCode) {
 
             // Possible kick or ban
@@ -230,9 +238,10 @@ u32 GetErrorMessage(int errorCode, MessageInfo* extraInfo) {
             default:
                 return Message::Menu::ERROR_DURING_MATCHMAKING;
         }
+    }
 
     // 9XXXX - Network Errors (Other Stage)
-    } else if (IsErrorInRange(errorCode, 90000, 100000)) {
+    else if (IsErrorInRange(errorCode, 90000, 100000)) {
         switch (errorCode) {
 
             // Possible kick or ban
@@ -243,10 +252,12 @@ u32 GetErrorMessage(int errorCode, MessageInfo* extraInfo) {
             default:
                 return Message::Menu::ERROR_DURING_GAMEPLAY;
         }
+    }
 
     // 1XXXXX - WiiConnect24 Errors
-    } else if (errorCode >= 100000)
+    else if (errorCode >= 100000) {
         return Message::Menu::ERROR_COMMUNICATION;
+    }
 
     // Fallback to all the above
     return Message::Menu::ERROR_CONNECTION_UNKNOWN;
@@ -272,7 +283,8 @@ REPLACE void WifiDisconnectPage::onActivate() {
     if (section->sectionId == Section::DC_WITH_ERROR_CODE || section->sectionId == Section::UNK_98) {
         disconnectInfo = SectionManager::instance->globalContext->disconnectInfo;
         SectionManager::instance->globalContext->disconnectInfo.reset();
-    } else {
+    }
+    else {
         disconnectInfo = RKNetController::instance->getWifiDisconnectInfo();
     }
 
@@ -286,20 +298,23 @@ REPLACE void WifiDisconnectPage::onActivate() {
         const u32 errorMsg = GetErrorMessage(disconnectInfo.errorCode, &msgInfo);
         messageBox.setText(errorMsg, &msgInfo);
         section->shutdownNet();
+    }
 
     // Mii name detected as offensive, use the dedicated message (no error codes available)
-    } else if (disconnectCategory == WifiDisconnectInfo::ERROR_OFFENSIVE_MII) {
+    else if (disconnectCategory == WifiDisconnectInfo::ERROR_OFFENSIVE_MII) {
         messageBox.setText(Message::Menu::ERROR_OFFENSIVE_MII);
         section->shutdownNet();
+    }
 
     // Generic error, unsure of use cases
-    } else if (disconnectCategory == WifiDisconnectInfo::ERROR_GENERIC) {
+    else if (disconnectCategory == WifiDisconnectInfo::ERROR_GENERIC) {
         messageBox.setText(Message::Menu::ERROR_DISCONNECT_GENERIC);
         section->shutdownNet();
+    }
 
     // There was a fatal error, prevent returning to the main menu and display the error code
     // TODO allow restarting the game instead of disabling the button?
-    } else if (disconnectCategory == WifiDisconnectInfo::ERROR_UNRECOVERABLE) {
+    else if (disconnectCategory == WifiDisconnectInfo::ERROR_UNRECOVERABLE) {
         messageBox.setText(Message::Menu::ERROR_UNRECOVERABLE, &msgInfo);
         okButton.hidden = true;
         inputManager.playerEnabledFlags = 0;

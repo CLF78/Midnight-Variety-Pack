@@ -16,22 +16,11 @@ public:
     virtual ~DvdLockedFileStream();
 
     virtual void Close();
-
     virtual s32 Read(void* buf, u32 length);
+    virtual bool ReadAsync(void* buf, u32 length, IOStreamCallback callback, void* arg);
     virtual s32 Peek(void* buf, u32 length);
-
-    virtual bool ReadAsync(void* buf,
-                           u32 length,
-                           IOStreamCallback callback,
-                           void* arg);
-
-    virtual bool PeekAsync(void* buf,
-                           u32 length,
-                           IOStreamCallback callback,
-                           void* arg);
-
+    virtual bool PeekAsync(void* buf, u32 length, IOStreamCallback callback, void* arg);
     virtual void Cancel();
-
     virtual bool CanAsync() const;
 
     volatile bool cancelFlag;

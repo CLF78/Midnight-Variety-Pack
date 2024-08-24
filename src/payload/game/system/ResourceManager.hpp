@@ -4,7 +4,6 @@
 
 class ResourceManager {
 public:
-
     class MenuKartArchive {
     public:
         virtual ~MenuKartArchive();

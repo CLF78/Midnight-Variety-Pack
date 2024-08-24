@@ -3,7 +3,6 @@
 
 class Logger {
 public:
-
     // The possible log levels (must match the dictionary in configure.py)
     enum LogLevel {
         DEBUG,
@@ -12,9 +11,9 @@ public:
         FATAL,
     };
 
-    typedef void (*Report_t) (const char* str, ...);
-    typedef NORETURN void (*Halt_t) (unsigned int* fg, unsigned int* bg, const char* str);
-    typedef int (*Print_t) (char* buf, size_t bufSize, const char* format, va_list args);
+    typedef void (*Report_t)(const char* str, ...);
+    typedef NORETURN void (*Halt_t)(unsigned int* fg, unsigned int* bg, const char* str);
+    typedef int (*Print_t)(char* buf, size_t bufSize, const char* format, va_list args);
 
     NORETURN void HaltWrapper(const char* fmt, ...) const;
     static void CreateInstance(Report_t reportFn, Halt_t haltFn, Print_t printFn);
@@ -42,6 +41,6 @@ public:
     }
 
 #define LOG_DEBUG(message, ...) FORCE_SEMICOLON(LOG_REPORT(DEBUG, message, ##__VA_ARGS__))
-#define LOG_WARN(message, ...) FORCE_SEMICOLON(LOG_REPORT(WARN, message, ##__VA_ARGS__))
+#define LOG_WARN(message, ...)  FORCE_SEMICOLON(LOG_REPORT(WARN, message, ##__VA_ARGS__))
 #define LOG_ERROR(message, ...) FORCE_SEMICOLON(LOG_REPORT(ERROR, message, ##__VA_ARGS__))
 #define LOG_FATAL(message, ...) FORCE_SEMICOLON(LOG_HALT(FATAL, message, ##__VA_ARGS__))

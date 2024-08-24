@@ -11,8 +11,9 @@ namespace detail {
 // Prevent muting on missing extra music channel(s)
 // Credits: stebler
 REPLACE bool StrmFileReader::ReadStrmTrackInfo(StrmFileReader::StrmTrackInfo* info, int trackIndex) const {
-    if (REPLACED(info, trackIndex))
+    if (REPLACED(info, trackIndex)) {
         return true;
+    }
 
     return REPLACED(info, 0);
 }

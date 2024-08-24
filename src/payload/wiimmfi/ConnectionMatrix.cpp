@@ -14,16 +14,18 @@ void ResetRecv() {
 
     // Get the node info for the aid, if it's null reset the received matrix
     for (int aid = 0; aid < 12; aid++) {
-        if (!DWCi_NodeInfoList_GetNodeInfoForAid(aid))
+        if (!DWCi_NodeInfoList_GetNodeInfoForAid(aid)) {
             sRecvConnMtx[aid] = 0;
+        }
     }
 }
 
 void Update() {
 
     // Failsafe
-    if (!stpMatchCnt)
+    if (!stpMatchCnt) {
         return;
+    }
 
     // Lock interrupts to avoid potential disconnections while this function is executing
     const nw4r::ut::AutoInterruptLock lock;
@@ -32,8 +34,9 @@ void Update() {
     u32 aidsConnectedToMe = 0;
     for (u32 i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
         const u32 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
-        if (DWCi_GetGT2Connection(aid))
+        if (DWCi_GetGT2Connection(aid)) {
             aidsConnectedToMe |= (1 << i);
+        }
     }
 
     // Report it to the server and share it with the clients

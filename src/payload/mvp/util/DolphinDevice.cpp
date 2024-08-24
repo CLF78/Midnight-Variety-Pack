@@ -14,8 +14,9 @@ bool IsOpen() {
 u32 GetElapsedTime() {
 
     // Check if device is open
-    if (!IsOpen())
+    if (!IsOpen()) {
         return 0;
+    }
 
     // Do IOS call
     u32 milliseconds = 0;
@@ -23,8 +24,9 @@ u32 GetElapsedTime() {
     const s32 result = IOS_Ioctlv(sDevDolphin, GET_ELAPSED_TIME, 0, 1, &vec);
 
     // Bail on failure
-    if (result != IPC_OK)
+    if (result != IPC_OK) {
         return 0;
+    }
 
     // Return correct value
     return milliseconds;
@@ -34,20 +36,23 @@ const char* GetVersion() {
 
     // If the version was already obtained, return it directly
     static bool sVersionObtained = false;
-    if (sVersionObtained)
+    if (sVersionObtained) {
         return sVersionBuffer;
+    }
 
     // Check if device is open
-    if (!IsOpen())
+    if (!IsOpen()) {
         return nullptr;
+    }
 
     // Do IOS call
     IOSIoVector vec = {sVersionBuffer, sizeof(sVersionBuffer)};
     const s32 result = IOS_Ioctlv(sDevDolphin, GET_VERSION, 0, 1, &vec);
 
     // Bail on failure
-    if (result != IPC_OK)
+    if (result != IPC_OK) {
         return nullptr;
+    }
 
     // Ensure the string is null-terminated
     sVersionBuffer[strlenc(sVersionBuffer)] = '\0';
@@ -61,20 +66,23 @@ const char* GetRealProductCode() {
 
     // If the code was already obtained, return it directly
     static bool sProdCodeObtained = false;
-    if (sProdCodeObtained)
+    if (sProdCodeObtained) {
         return sProdCodeBuffer;
+    }
 
     // Check if device is open
-    if (!IsOpen())
+    if (!IsOpen()) {
         return nullptr;
+    }
 
     // Do IOS call
     IOSIoVector vec = {sProdCodeBuffer, sizeof(sProdCodeBuffer)};
     const s32 result = IOS_Ioctlv(sDevDolphin, GET_REAL_PRODUCT_CODE, 0, 1, &vec);
 
     // Bail on failure
-    if (result != IPC_OK)
+    if (result != IPC_OK) {
         return nullptr;
+    }
 
     // Ensure the string is null-terminated
     sProdCodeBuffer[strlenc(sProdCodeBuffer)] = '\0';

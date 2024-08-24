@@ -4,7 +4,6 @@
 MessageQueue MessageQueue::instance;
 
 void MessageQueue::Clear() {
-
     for (u32 i = 0; i < ARRAY_SIZE(entries); i++) {
         for (u32 j = 0; j < ARRAY_SIZE(entries[0]); j++) {
             entries[i][j].Clear();
@@ -19,10 +18,8 @@ u32 MessageQueue::GetMessageCount(u32 localPlayerCount) const {
     switch (localPlayerCount) {
         case 1:
             return ARRAY_SIZE(entries[0]);
-
         case 2:
             return 2;
-
         default:
             return 0;
     }
@@ -31,8 +28,9 @@ u32 MessageQueue::GetMessageCount(u32 localPlayerCount) const {
 void MessageQueue::Push(u32 msgId, MessageInfo* msgInfo, u32 playerFlags) {
 
     // If not enabled, bail
-    if (!queueEnabled)
+    if (!queueEnabled) {
         return;
+    }
 
     // Parse each player
     LOG_DEBUG("Pushing message %d to the queue...", msgId);
@@ -42,12 +40,13 @@ void MessageQueue::Push(u32 msgId, MessageInfo* msgInfo, u32 playerFlags) {
         if (playerFlags & (1 << i)) {
 
             // Push existing entries forwards
-            for (int j = GetMessageCount(localPlayerCount) - 1; j > 0; j--) {
-                Entry* src = &entries[i][j-1];
+            for (u32 j = GetMessageCount(localPlayerCount) - 1; j > 0; j--) {
+                Entry* src = &entries[i][j - 1];
                 Entry* dst = &entries[i][j];
 
-                if (src->msgId == 0)
+                if (src->msgId == 0) {
                     continue;
+                }
 
                 dst->msgId = src->msgId;
                 dst->msgInfo = src->msgInfo;
@@ -70,7 +69,8 @@ void MessageQueue::Push(u32 msgId, MessageInfo* msgInfo, u32 playerFlags) {
 
             if (msgInfo) {
                 newEntry->msgInfo = *msgInfo;
-            } else {
+            }
+            else {
                 newEntry->msgInfo.reset();
             }
 

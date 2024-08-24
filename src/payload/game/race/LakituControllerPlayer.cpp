@@ -18,6 +18,7 @@ kmHookFn void SetLapBoardFrame(LakituControllerPlayer* self) {
     lapAnim->UpdateRateAndSetFrame(frame);
 }
 
+// clang-format off
 // Glue code
 kmBranchDefAsm(0x80723D04, 0x80723D74) {
     nofralloc

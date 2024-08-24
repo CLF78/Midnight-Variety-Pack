@@ -52,16 +52,18 @@ u8 CupManager::getCupPositionFromButton(u8 button) {
 u8 CupManager::getCupPositionFromIdx(u16 idx, u16 page, bool isBattle) {
 
     // If arrows are disabled, return the index as is
-    if (!GetCupArrowsEnabled(isBattle))
+    if (!GetCupArrowsEnabled(isBattle)) {
         return idx;
+    }
 
     // Get the first cup displayed in the page
     const u16 minCupIdx = page * 2;
 
     // If the cup index is less than the minimum, we have wrapped around
     // Get the first column and add the index to it
-    if (idx < minCupIdx)
+    if (idx < minCupIdx) {
         return GetCupCount(isBattle) - minCupIdx + idx;
+    }
 
     // Else just subtract the minimum index
     return idx - minCupIdx;
@@ -74,15 +76,17 @@ u8 CupManager::getCupPositionFromIdx(u16 idx, u16 page, bool isBattle) {
 u16 CupManager::getCupIdxFromTrack(u16 track, bool isBattle) {
 
     // Always start from the top left when loading a cup selection screen for the first time
-    if (track == CupData::NO_TRACK)
+    if (track == CupData::NO_TRACK) {
         return 0;
+    }
 
     // Find the first instance of the track
     const CupData::Cup* cup = GetCups(isBattle);
     for (u32 i = 0; i < GetCupCount(isBattle); i++) {
         for (u32 j = 0; j < ARRAY_SIZE(cup->entryId); j++) {
-            if (cup[i].entryId[j] == track)
+            if (cup[i].entryId[j] == track) {
                 return i;
+            }
         }
     }
 
@@ -98,16 +102,18 @@ u16 CupManager::getCupIdxFromButton(u8 button, u16 page, bool isBattle) {
 u16 CupManager::getCupIdxFromPosition(u8 pos, u16 page, bool isBattle) {
 
     // If arrows are disabled, return the position as is
-    if (!GetCupArrowsEnabled(isBattle))
+    if (!GetCupArrowsEnabled(isBattle)) {
         return pos;
+    }
 
     // Get the first cup displayed in the page
     const u16 minCupIdx = page * 2;
 
     // If the cup exceeds the maximum position, account for wrap-around
     const u8 maxPos = GetCupCount(isBattle) - minCupIdx;
-    if (pos >= maxPos)
+    if (pos >= maxPos) {
         return pos - maxPos;
+    }
 
     return minCupIdx + pos;
 }
@@ -125,15 +131,17 @@ u16 CupManager::getCupPageFromTrack(u16 track, bool isBattle) {
     // Get the maximum page
     // If there is only one page, use it
     const u16 maxCupPage = CupManager::getMaxCupPage(isBattle);
-    if (maxCupPage == 0)
+    if (maxCupPage == 0) {
         return maxCupPage;
+    }
 
     // Get the starting page
     u16 cupPage = getCupPageFromIdx(getCupIdxFromTrack(track, isBattle), isBattle);
 
     // Fix the page number so cups don't wrap around when loading the screen for the first time
-    if (maxCupPage - cupPage < 3)
+    if (maxCupPage - cupPage < 3) {
         cupPage = maxCupPage - 3;
+    }
 
     return cupPage;
 }
@@ -149,8 +157,9 @@ u16 CupManager::getMaxCupPage(bool isBattle) {
 u16 CupManager::getTrackName(u16 trackIdx) {
 
     // Handle placeholders
-    if (trackIdx == CupData::RANDOM_TRACK_VOTE)
+    if (trackIdx == CupData::RANDOM_TRACK_VOTE) {
         return Message::Menu::VOTE_RANDOM_TRACK;
+    }
 
     // Get the random flag and turn it off
     const bool isRegular = (trackIdx & CupData::IS_RANDOM) == 0;
@@ -158,14 +167,12 @@ u16 CupManager::getTrackName(u16 trackIdx) {
 
     // Get the name
     if (isRegular) {
-        return (trackIdx < TRACK_COUNT) ?
-                CupData::tracks[trackIdx].trackNameId :
-                Message::Menu::VOTE_RANDOM_TRACK;
+        return (trackIdx < TRACK_COUNT) ? CupData::tracks[trackIdx].trackNameId :
+                                          Message::Menu::VOTE_RANDOM_TRACK;
     }
 
-    return (trackIdx < RANDOM_TRACK_COUNT) ?
-            CupData::randomTracks[trackIdx].variantNameId :
-            Message::Menu::VOTE_RANDOM_TRACK;
+    return (trackIdx < RANDOM_TRACK_COUNT) ? CupData::randomTracks[trackIdx].variantNameId :
+                                             Message::Menu::VOTE_RANDOM_TRACK;
 }
 
 void CupManager::setTrackName(LayoutUIControl* ctrl, u16 trackIdx) {
@@ -176,9 +183,10 @@ void CupManager::setTrackName(LayoutUIControl* ctrl, u16 trackIdx) {
     msgInfo.messageIds[0] = getTrackName(trackIdx);
 
     // Color the track in red if we are online and the track is in the repick queue
-    if (RaceConfig::instance->menuScenario.settings.isOnline() &&
-        RepickQueue::instance.GetQueuePosition(trackIdx) != RepickQueue::NOT_IN_QUEUE)
+    const bool isOnline = RaceConfig::instance->menuScenario.settings.isOnline();
+    if (isOnline && RepickQueue::instance.GetQueuePosition(trackIdx) != RepickQueue::NOT_IN_QUEUE) {
         fmt = Message::Menu::TRACK_UNPICKABLE_FORMATTER;
+    }
 
     // Set the message
     ctrl->setText(fmt, &msgInfo);
@@ -204,7 +212,8 @@ void CupManager::getTrackFilename(u8 slot, bool isMP) {
     if (IsSystemCourse(slot)) {
         fmtString = isMP ? "Race/Course/%s_d" : "Race/Course/%s";
         snprintf(currentSzsPath, sizeof(currentSzsPath), fmtString, ResourceManager::courseNames[slot]);
-    } else {
+    }
+    else {
         fmtString = isMP ? "Race/Course/%d_d" : "Race/Course/%d";
         snprintf(currentSzsPath, sizeof(currentSzsPath), fmtString, currentSzs);
     }
@@ -221,8 +230,9 @@ u16 CupManager::getRandomTrackFile(u16 trackEntry, u32* seedValue) {
     u32 currChance = 0;
     for (int i = 0; i < holder->count; i++) {
         currChance += holder->chanceIndexes[i];
-        if (currChance > chanceVal)
+        if (currChance > chanceVal) {
             return holder->trackIndexes[i];
+        }
     }
 
     // Failsafe that should never trigger
@@ -250,8 +260,9 @@ u16 CupManager::generateCourseOrder(u16 cupIdx, u8 track, bool isBattle) {
         // Update the track (and the cup if necessary)
         if (++track == 4) {
             track = 0;
-            if (++cupIdx == cupCount)
+            if (++cupIdx == cupCount) {
                 cupIdx = 0;
+            }
         }
     }
 

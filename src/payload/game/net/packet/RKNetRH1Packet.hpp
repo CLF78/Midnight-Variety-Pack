@@ -12,19 +12,22 @@ struct RKNetRH1Packet {
 
     union PlayerCombo {
         PlayerCombo() : raw(0xFFFF) {}
-        struct { u8 vehicle; u8 character; };
+
+        struct {
+            u8 vehicle;
+            u8 character;
+        };
+
         u16 raw;
     };
 
     explicit RKNetRH1Packet(u8 plrType) :
-        frameCount(0),
-        randomSeed(0),
-        lagFrames(0),
-        countdownTime(0),
-        vanillaCourse(CupData::VANILLA_NO_TRACK),
-        playerType(plrType),
-        reserved(0),
-        course(CupData::NO_TRACK) { starRanks[0] = 0; starRanks[1] = 0; }
+        frameCount(0), randomSeed(0), lagFrames(0), countdownTime(0),
+        vanillaCourse(CupData::VANILLA_NO_TRACK), playerType(plrType), reserved(0),
+        course(CupData::NO_TRACK) {
+        starRanks[0] = 0;
+        starRanks[1] = 0;
+    }
 
     u32 frameCount;
     u32 randomSeed;

@@ -19,7 +19,8 @@ void Load(const Functions* funcs, const u8* binary, u32 binaryLength) {
     // Check version number
     if (header->version != DEFAULT_VERSION) {
         LOG_FATAL("The Kamek binary version is incompatible with this loader.\n"
-                  "File Version: %d - Expected Version: %d", header->version, DEFAULT_VERSION);
+                  "File Version: %d - Expected Version: %d",
+                  header->version, DEFAULT_VERSION);
     }
 
     // Read header data
@@ -28,8 +29,8 @@ void Load(const Functions* funcs, const u8* binary, u32 binaryLength) {
     const u32 ctorStart = header->ctorStart;
     const u32 ctorEnd = header->ctorEnd;
     const u32 textSize = codeSize + bssSize;
-    LOG_DEBUG("Payload Size: %#x (Code: %#x, Constructors: %#x-%#x, BSS: %#x)",
-              textSize, codeSize, ctorStart, ctorEnd, bssSize);
+    LOG_DEBUG("Payload Size: %#x (Code: %#x, Constructors: %#x-%#x, BSS: %#x)", textSize, codeSize, ctorStart,
+              ctorEnd, bssSize);
 
     // Allocate text + bss section buffer, bail on failure
     LOG_DEBUG("Allocating payload buffer...");
@@ -65,8 +66,9 @@ void Load(const Functions* funcs, const u8* binary, u32 binaryLength) {
 
     // Run static initializers
     LOG_DEBUG("Running constructors...");
-    for (Func* f = (Func*)(text + ctorStart); f < (Func*)(text + ctorEnd); f++)
+    for (Func* f = (Func*)(text + ctorStart); f < (Func*)(text + ctorEnd); f++) {
         (*f)();
+    }
 }
 
 void LoadFromDisc(const Functions* funcs, const char* path) {
@@ -98,7 +100,7 @@ void LoadFromDisc(const Functions* funcs, const char* path) {
     }
 
     // Read the file
-    LOG_DEBUG("Memory allocated successfully at %#x. Reading data...",  buffer);
+    LOG_DEBUG("Memory allocated successfully at %#x. Reading data...", buffer);
     const int readSize = funcs->DVDReadPrio(&fileInfo, buffer, (int)roundedLength, 0, 2);
     if (readSize < 0) {
         LOG_FATAL("Failed to read Kamek binary into memory.\nResult code: %d", readSize);

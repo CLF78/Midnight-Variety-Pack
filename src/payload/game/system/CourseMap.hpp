@@ -294,7 +294,6 @@ size_assert(MapdataStartPoint, 0x8);
 
 class MapdataAreaBase {
 public:
-
     enum Type {
         CAMERA_LINK,
         ENV_EFFECT,
@@ -443,7 +442,8 @@ public:
 
     MapdataStageAccessor* parseStageInformation(u32 magic);
 
-    s16 getClosestAreaIdByType(VEC3* pos, s16 prevAreaId, s16 type); // prevAreaId = previous area this function returned
+    // prevAreaId = previous area this function returned
+    s16 getClosestAreaIdByType(VEC3* pos, s16 prevAreaId, s16 type);
 
     static const MapdataCannonPoint* getDummyCannonPoint();
     const MapdataCannonPoint* getCannonPoint(u32 id);

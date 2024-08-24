@@ -9,12 +9,14 @@
 // Pitch the last lap music automatically
 // Credits: stebler
 kmHookFn float ApplyPitch(ItemMusicManager* self) {
-    if (RaceSoundManager::instance->currSoundType != RaceSoundManager::COURSE_BGM_FAST || !self->speedUp)
+    if (RaceSoundManager::instance->currSoundType != RaceSoundManager::COURSE_BGM_FAST || !self->speedUp) {
         return self->pitch;
+    }
 
     return self->pitch * FINAL_LAP_MUSIC_PITCH_MULTIPLIER;
 }
 
+// clang-format off
 // Glue code
 kmBranchDefAsm(0x8070FE84, 0x8070FE8C) {
     nofralloc

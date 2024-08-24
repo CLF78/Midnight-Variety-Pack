@@ -33,22 +33,25 @@ void ScheduleForEveryone() {
 void CalcKick() {
 
     // If the aid bitfield is empty, bail
-    if (!sAidsToBeKicked)
+    if (!sAidsToBeKicked) {
         return;
+    }
 
     // Lock interrupts
     LOG_DEBUG("Executing kick task on AID map %08X...", sAidsToBeKicked);
     const nw4r::ut::AutoInterruptLock lock;
 
     // If the bitfield is full, close all connections immediately
-    if (sAidsToBeKicked == 0xFFFFFFFF)
+    if (sAidsToBeKicked == 0xFFFFFFFF) {
         DWC_CloseAllConnectionsHard();
+    }
 
     // Otherwise kick each aid separately
     else {
         for (int i = 0; i < 12; i++) {
-            if (sAidsToBeKicked >> i & 1)
+            if (sAidsToBeKicked >> i & 1) {
                 DWC_CloseConnectionHard(i);
+            }
         }
     }
 
@@ -60,13 +63,15 @@ void CalcKick() {
 int ParseKickMessage(GPConnection conn, char* data) {
 
     // Ignore kick commands if we don't have the necessary structures
-    if (!stpMatchCnt || stpMatchCnt->nodeInfoList.nodeCount > 1)
+    if (!stpMatchCnt || stpMatchCnt->nodeInfoList.nodeCount > 1) {
         return GP_ERROR_NONE;
+    }
 
     // If the kick command isn't found, bail
     char* kickCmd = strstr(data, KICK_MSG);
-    if (!kickCmd)
+    if (!kickCmd) {
         return GP_ERROR_NONE;
+    }
 
     // Obtain the kick type
     strshift(kickCmd, KICK_MSG);

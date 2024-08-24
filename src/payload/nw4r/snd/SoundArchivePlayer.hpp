@@ -20,7 +20,6 @@ namespace snd {
 
 class SoundArchivePlayer : public detail::DisposeCallback, public SoundStartable {
 public:
-
     class SeqNoteOnCallback : public detail::NoteOnCallback {
     public:
         SoundArchivePlayer* mSoundArchivePlayer;
@@ -45,31 +44,22 @@ public:
     };
     size_assert(FileAddress, 0x8);
 
-    ulong GetRequiredMemSize(const SoundArchive* archive);
-
     bool IsAvailable() const;
-
-    StartResult detail_SetupSoundImpl(SoundHandle* handle,
-                                        ulong soundId,
-                                        detail::BasicSound::AmbientInfo* ambientArgInfo,
-                                        SoundActor* actor,
-                                        bool holdFlag,
-                                        const StartInfo* startInfo);
-
     bool LoadGroup(ulong groupId, SoundMemoryAllocatable* allocator, ulong loadBlockSize = 0);
+    StartResult detail_SetupSoundImpl(SoundHandle* handle, ulong soundId,
+                                      detail::BasicSound::AmbientInfo* ambientArgInfo, SoundActor* actor,
+                                      bool holdFlag, const StartInfo* startInfo);
 
     const void* detail_GetFileAddress(u32 fileId) const;
     const void* detail_GetFileWaveDataAddress(u32 fileId) const;
 
+    ulong GetRequiredMemSize(const SoundArchive* archive);
+    bool SetupMram(const SoundArchive* archive, void* buffer, size_t size);
     void InvalidateData(const void* start, const void* end);
 
-    StartResult PrepareStrmImpl(detail::BasicSound* sound,
-                                const SoundArchive::SoundInfo* commonInfo,
+    StartResult PrepareStrmImpl(detail::BasicSound* sound, const SoundArchive::SoundInfo* commonInfo,
                                 const SoundArchive::StrmSoundInfo* info,
-                                SoundStartable::StartInfo::StartOffsetType startOffsetType,
-                                int startOffset);
-
-    bool SetupMram(const SoundArchive* archive, void* buffer, size_t size);
+                                SoundStartable::StartInfo::StartOffsetType startOffsetType, int startOffset);
 
     ut::FileStream** soundStreams() const; // custom function
 
@@ -77,7 +67,7 @@ public:
     detail::Util::Table<GroupAddress>* groupTable;
     detail::Util::Table<FileAddress>* fileTable;
 
-    // Callback
+    // Callbacks
     SeqNoteOnCallback seqCallback;
     WsdCallback wsdCallback;
     detail::SeqTrackAllocator* seqTrackAllocator;

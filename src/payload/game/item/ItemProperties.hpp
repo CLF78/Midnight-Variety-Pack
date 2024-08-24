@@ -57,7 +57,7 @@ struct ItemProperties {
         ITEMUSE_CIRCLE,
     };
 
-    typedef void (*ItemUseFunc) (ItemHolderPlayer* player);
+    typedef void (*ItemUseFunc)(ItemHolderPlayer* player);
 
     bool enabled;
     bool enabledOnline;
@@ -65,7 +65,7 @@ struct ItemProperties {
 
     int objectId;
     u32 limit;
-    u32 severity; // unused
+    u32 severity;     // unused
     bool isTimedItem; // for Golden Mushroom
     PAD(3);
 

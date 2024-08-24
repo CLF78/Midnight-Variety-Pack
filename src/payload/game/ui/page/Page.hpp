@@ -5,7 +5,6 @@
 
 class Page {
 public:
-
     enum PageId {
         NONE = -1,
         UNK_0,

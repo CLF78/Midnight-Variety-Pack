@@ -3,6 +3,7 @@
 // Exception Handler //
 ///////////////////////
 
+// clang-format off
 // nw4r::db::PrintToBuffer_() patch
 // Prettify text wrapping in the console by stripping spaces at line start
 kmCallDefAsm(0x80022BA8) {

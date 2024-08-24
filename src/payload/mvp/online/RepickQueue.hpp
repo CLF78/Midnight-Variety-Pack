@@ -3,7 +3,6 @@
 
 class RepickQueue {
 public:
-
     enum {
         NOT_IN_QUEUE = 0xFF,
         NO_PICK = 0xFFFF,
@@ -14,8 +13,9 @@ public:
 
         bool operator==(const RawQueue& queue) const {
             for (u32 i = 0; i < ARRAY_SIZE(lastPicks); i++) {
-                if (lastPicks[i] != queue.lastPicks[i])
+                if (lastPicks[i] != queue.lastPicks[i]) {
                     return false;
+                }
             }
 
             return true;
@@ -47,7 +47,10 @@ public:
         u8 queuePos;
     };
 
-    void Clear() { queue.Clear(); ClearVotes(); }
+    void Clear() {
+        queue.Clear();
+        ClearVotes();
+    }
 
     void Push(u16 track) { queue.Push(track); }
     u8 GetQueuePosition(u16 track) const { return queue.GetQueuePosition(track); }

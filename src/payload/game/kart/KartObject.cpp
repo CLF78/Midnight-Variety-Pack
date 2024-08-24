@@ -1,5 +1,5 @@
-#include "KartMove.hpp"
 #include "KartObject.hpp"
+#include "KartMove.hpp"
 #include <game/system/RaceConfig.hpp>
 
 /////////////////////////////////////////////////
@@ -18,12 +18,13 @@ REPLACE_STATIC KartObject* KartObject::Create(u8 playerIdx, int kart, int charac
     // Multiply all standard acceleration stages if so
     const u32 engineClass = raceConfig->raceScenario.settings.engineClass;
     if (engineClass <= RaceConfig::Settings::CC_150) {
-        for (u32 i = 0; i < ARRAY_SIZE(stats->standard_acceleration_as); i++)
+        for (u32 i = 0; i < ARRAY_SIZE(stats->standard_acceleration_as); i++) {
             stats->standard_acceleration_as[i] *= KartMove::speedModifiers[engineClass];
+        }
     }
 
     // Apply transmission changes
-    switch(raceConfig->raceScenario.players[playerIdx].transmission) {
+    switch (raceConfig->raceScenario.players[playerIdx].transmission) {
 
         // If the vehicle isn't already an inside-drifting bike, buff the drift stats as well
         case RaceConfig::Player::TRANSMISSION_INSIDE:

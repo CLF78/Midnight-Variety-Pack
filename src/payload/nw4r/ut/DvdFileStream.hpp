@@ -8,8 +8,7 @@ namespace ut {
 
 class DvdFileStream : public FileStream {
 public:
-
-    struct DvdFileStreamInfo  {
+    struct DvdFileStreamInfo {
         DVDFileInfo dvdInfo;
         DvdFileStream* stream;
     };
@@ -20,18 +19,9 @@ public:
     virtual void Close();
 
     virtual s32 Read(void* buf, u32 length);
-
-    virtual bool ReadAsync(void* buffer,
-                           u32 length,
-                           IOStreamCallback callback,
-                           void* arg);
-
+    virtual bool ReadAsync(void* buffer, u32 length, IOStreamCallback callback, void* arg);
     virtual s32 Peek(void* buf, u32 length);
-
-    virtual bool PeekAsync(void* buffer,
-                           u32 length,
-                           IOStreamCallback callback,
-                           void* arg);
+    virtual bool PeekAsync(void* buffer, u32 length, IOStreamCallback callback, void* arg);
 
     virtual bool IsBusy() const;
 

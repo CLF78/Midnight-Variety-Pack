@@ -5,7 +5,6 @@ namespace snd {
 
 class SoundStartable {
 public:
-
     enum StartResult {
         START_SUCCESS,
         START_ERR_LOW_PRIORITY,
@@ -25,11 +24,11 @@ public:
 
     struct StartInfo {
         enum EnableFlagBit {
-            ENABLE_START_OFFSET    = BIT_FLAG(0),
-            ENABLE_PLAYER_ID       = BIT_FLAG(1),
+            ENABLE_START_OFFSET = BIT_FLAG(0),
+            ENABLE_PLAYER_ID = BIT_FLAG(1),
             ENABLE_PLAYER_PRIORITY = BIT_FLAG(2),
             ENABLE_ACTOR_PLAYER_ID = BIT_FLAG(3),
-            ENABLE_SEQ_SOUND_INFO  = BIT_FLAG(4),
+            ENABLE_SEQ_SOUND_INFO = BIT_FLAG(4),
         };
 
         enum StartOffsetType {

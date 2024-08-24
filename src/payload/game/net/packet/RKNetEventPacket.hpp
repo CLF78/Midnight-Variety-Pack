@@ -1,6 +1,7 @@
 #pragma once
 
 struct RKNetEVENTPacket {
+
     struct EventInfo {
         enum EventType {
             EVENT_TYPE_NONE,

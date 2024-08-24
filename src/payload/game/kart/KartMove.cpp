@@ -11,11 +11,11 @@
 
 // TODO make this array a define
 const float KartMove::speedModifiers[] = {
-    CC_50_SPEED_MODIFIER,
+    CC_50_SPEED_MODIFIER, //
     CC_100_SPEED_MODIFIER,
-    CC_150_SPEED_MODIFIER,
+    CC_150_SPEED_MODIFIER, //
     CC_200_SPEED_MODIFIER,
-    CC_500_SPEED_MODIFIER,
+    CC_500_SPEED_MODIFIER, //
 };
 
 // Apply the speed multiplier
@@ -26,8 +26,9 @@ REPLACE KartMove::KartMove() {
 
     // Apply the multiplier
     speedMultiplier = speedModifiers[RaceConfig::instance->raceScenario.settings.engineClass];
-    if (RaceConfig::instance->raceScenario.settings.isBattle())
+    if (RaceConfig::instance->raceScenario.settings.isBattle()) {
         speedMultiplier = CC_BATTLE_SPEED_MODIFIER;
+    }
 }
 
 // Replace the hard speed limits and the minimum drift threshold
@@ -56,8 +57,9 @@ kmBranchDefCpp(0x80584F6C, 0x80584FF8, void, KartMove* self, KartState* state) {
 
     // Divide speed by the multiplier for CCs higher than 150cc
     const u32 engineClass = RaceConfig::instance->raceScenario.settings.engineClass;
-    if (engineClass > RaceConfig::Settings::CC_150)
+    if (engineClass > RaceConfig::Settings::CC_150) {
         self->speed /= self->speedMultiplier;
+    }
 
     // Get physics and apply result
     VehiclePhysics* physics = self->getVehiclePhysics();
@@ -80,8 +82,9 @@ kmCallDefCpp(0x805845D8, const MapdataItemPoint*, CourseMap* self, u32 id) {
     const MapdataItemPoint* point = self->getItemPoint(id);
 
     // If the function returned the dummy point, restore original behaviour and return null
-    if (point == CourseMap::getDummyItemPoint())
+    if (point == CourseMap::getDummyItemPoint()) {
         return nullptr;
+    }
 
     return point;
 }
@@ -90,70 +93,93 @@ kmCallDefCpp(0x805845D8, const MapdataItemPoint*, CourseMap* self, u32 id) {
 // Drift Tiers //
 /////////////////
 
-// For karts
+// Apply drift tiers to karts
 REPLACE void KartMove::calcMtCharge() {
-    if (this->driftState > SMT_CHARGED) { // Changed to 3 to accomodate new drift state
+
+    // If we're already in the maximum possible drift state, bail
+    if (driftState > SMT_CHARGED) {
         return;
     }
-    if ((this->pointers->kartState->bitfield4 & KartState::ONLINE_REMOTE) != 0) {
+
+    // If we're an online player, bail
+    if ((pointers->kartState->bitfield4 & KartState::ONLINE_REMOTE) != 0) {
         return;
     }
-    this->addMtCharge(CHARGING, &this->mtCharge, 0x2, 270);
-    this->addMtCharge(MT_CHARGED, &this->smtCharge, 0x2, 300);
-    if (this->pointers->kartSettings->kartParam->stats->vehicleType == KartStats::KART) {
-        this->addMtCharge(SMT_CHARGED, &this->umtCharge, 0x2, 250);
+
+    // Add the regular MT and SMT charges
+    addMtCharge(CHARGING, &mtCharge, 0x2, 270);
+    addMtCharge(MT_CHARGED, &smtCharge, 0x2, 300);
+
+    // Add the UMT charge if on a kart
+    if (pointers->kartSettings->kartParam->stats->vehicleType == KartStats::KART) {
+        addMtCharge(SMT_CHARGED, &umtCharge, 0x2, 250);
     }
 }
 
-// The next few functions are to reset the UMT charge to 0 when necessary
+// Apply drift tiers to bikes
+REPLACE void KartMoveBike::calcMtCharge() {
+
+    // If we're already in the maximum possible drift state, bail
+    if (driftState > MT_CHARGED) {
+        return;
+    }
+
+    // Add the regular MT charge
+    addMtCharge(CHARGING, &mtCharge, 0x2, 270);
+
+    // Add the SMT charge if on an outside drift bike
+    if (pointers->kartSettings->kartParam->stats->vehicleType == KartStats::OUTSIDE_BIKE) {
+        addMtCharge(MT_CHARGED, &smtCharge, 0x2, 300);
+    }
+}
+
+// Reset the UMT charge
 REPLACE void KartMove::init(bool unk0, bool unk1) {
     REPLACED(unk0, unk1);
-    this->umtCharge = 0;
+    umtCharge = 0;
 }
 
+// Reset the UMT charge
 REPLACE void KartMove::hop() {
     REPLACED();
-    this->umtCharge = 0;
+    umtCharge = 0;
 }
 
+// Reset the UMT charge
 REPLACE void KartMove::clearDrift() {
     REPLACED();
-    this->umtCharge = 0;
+    umtCharge = 0;
 }
 
+// Reset the UMT charge
 REPLACE void KartMove::calcManualDrift() {
     REPLACED();
-    if ((this->pointers->kartState->bitfield0 & KartState::DRIFT_MANUAL) == 0) { // check if we're not drifting
-        this->umtCharge = 0;
+
+    // Reset if we're not drifting
+    if ((pointers->kartState->bitfield0 & KartState::DRIFT_MANUAL) == 0) {
+        umtCharge = 0;
     }
 }
 
-// For bikes
-REPLACE void KartMoveBike::calcMtCharge() {
-    if (this->driftState > MT_CHARGED) { // Changed to 2 to accomodate new drift state
-        return;
-    }
-    this->addMtCharge(CHARGING, &this->mtCharge, 0x2, 270);
-    if (this->pointers->kartSettings->kartParam->stats->vehicleType == KartStats::OUTSIDE_BIKE) {
-        this->addMtCharge(MT_CHARGED, &this->smtCharge, 0x2, 300);
-    }
-}
+/////////////////////
+// Ultra Miniturbo //
+/////////////////////
 
-///////////////////////////
-// Ultra Miniturbo Boost //
-///////////////////////////
+// Apply the Ultra Miniturbo
+REPLACE void KartMove::releaseMt(bool forceOverride, u32 forcedDriftState) {
 
-REPLACE void KartMove::releaseMt(bool forceOverride, u32 driftState) {
-    int boostType = KartBoost::MT_OR_START;
-    if (!forceOverride) {
-        driftState = this->driftState;
-    }
+    // Use the forced state for online players
+    const u32 driftState = forceOverride ? forcedDriftState : this->driftState;
+
+    // If no MT is charged, bail
     if (driftState < MT_CHARGED) {
         this->driftState = NOT_DRIFTING;
         return;
     }
-    KartStats* stats = this->getStats();
-    s16 mtLength = (s16)stats->mtDuration;
+
+    // Get the MT length and boost type depending on the drift state
+    s16 mtLength = (s16)(getStats()->mtDuration);
+    int boostType = KartBoost::MT_OR_START;
     if (driftState == SMT_CHARGED) {
         mtLength *= 3;
     }
@@ -161,23 +187,31 @@ REPLACE void KartMove::releaseMt(bool forceOverride, u32 driftState) {
         mtLength = (short)(mtLength * 4.5f);
         boostType = KartBoost::UMT;
     }
-    KartState* state = this->pointers->kartState;
-    if ((state->bitfield2 & (KartState::UNK_100|KartState::HAS_STOPPED_B2|KartState::HAS_VANISHED|KartState::IN_A_BULLET)) != 0 ||
-    (state->bitfield0 & KartState::BEFORE_RESPAWN) != 0 ||
-    (state->bitfield4 & KartState::BATTLE_RESPAWN) != 0 ||
-    (state->bitfield1 & KartState::HIT_ITEM_OR_OBJ) != 0 ||
-    ((state->bitfield0 & KartState::BRAKE) != 0 && !forceOverride)) {
+
+    // Check if the MT can be applied
+    KartState* state = pointers->kartState;
+    if (!state->isVehicleInRace() || (state->bitfield0 & KartState::BEFORE_RESPAWN) != 0
+        || (state->bitfield4 & KartState::BATTLE_RESPAWN) != 0
+        || (state->bitfield1 & KartState::HIT_ITEM_OR_OBJ) != 0 || state->isBraking(forceOverride)) {
         this->driftState = NOT_DRIFTING;
         return;
     }
-    this->activateBoost(boostType, mtLength);
+
+    // Activate boost
+    activateBoost(boostType, mtLength);
     state->bitfield1 |= KartState::MT_BOOST;
-    this->mtBoostTimer = mtLength;
-    this->activateRumble(5, true, 1.0f);
-    this->playCharacterSound(DriverSound::BOOST);
+    mtBoostTimer = mtLength;
+
+    // Activate rumble and play character sound
+    activateRumble(5, true, 1.0f);
+    playCharacterSound(DriverSound::BOOST);
+
+    // Reset value if not online
     if ((state->bitfield4 & KartState::ONLINE_LOCAL) == 0) {
         this->driftState = NOT_DRIFTING;
         return;
     }
-    this->pointers->racedataFactory->driftState = this->driftState;
+
+    // Update the drift state in RacedataFactory
+    pointers->racedataFactory->driftState = driftState;
 }

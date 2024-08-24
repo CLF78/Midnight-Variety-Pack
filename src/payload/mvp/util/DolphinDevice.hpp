@@ -18,7 +18,7 @@ enum Ioctlv {
     // 5.0-17155 and onwards
     DISCORD_SET_CLIENT = 7,   // In = char[], Out = None
     DISCORD_SET_PRESENCE = 8, // In = (char[], char[], char[], char[], char[], s64, s64, u32, u32), Out = None
-    DISCORD_RESET = 9, // In = None, Out = None
+    DISCORD_RESET = 9,        // In = None, Out = None
 
     // 5.0-17856 and onwards
     GET_SYSTEM_TIME = 10, // In = None, Out = u64

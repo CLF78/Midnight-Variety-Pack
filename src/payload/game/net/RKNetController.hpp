@@ -11,12 +11,11 @@
 
 class RKNetController {
 public:
-
     struct Sub {
         s64 _0; // A timer
         u32 connectionCount;
         u32 playerCount;
-        u32 availableAids; // Bitfield
+        u32 availableAids;       // Bitfield
         u32 directConnectedAids; // Bitfield
         u32 groupId;
         u32 friendToJoin;
@@ -49,9 +48,7 @@ public:
         SEARCH_BT_REG,
     };
 
-    const Sub* getCurrentSub() const {
-        return &subs[currentSub];
-    }
+    const Sub* getCurrentSub() const { return &subs[currentSub]; }
 
     RKNetPacketHolder* getPacketSendBuffer(u8 aid, u8 section) const {
         return splitSendRACEPackets[lastSendBufferUsed[aid]][aid]->sections[section];
@@ -66,15 +63,21 @@ public:
         return sub->myAid == sub->hostAid;
     }
 
+    bool isPlayerConnected(u8 aid) const {
+        const Sub* sub = getCurrentSub();
+        return (1 << aid) & sub->availableAids;
+    }
+
     bool isLocalPlayer(u8 aid) const {
         const Sub* sub = getCurrentSub();
         return aid == sub->myAid;
     }
 
-    bool isConnectedPlayer(u8 aid) const {
-        const Sub* sub = getCurrentSub();
-        if (isLocalPlayer(aid)) return false;
-        return (1 << aid) & sub->availableAids;
+    bool isRemotePlayer(u8 aid) const {
+        if (isLocalPlayer(aid)) {
+            return false;
+        }
+        return isPlayerConnected(aid);
     }
 
     explicit RKNetController(EGG::Heap* heap);
@@ -102,13 +105,13 @@ public:
 
     RKNetRACEPacketHolder* splitSendRACEPackets[2][12]; // Double buffered, 1 per aid
     RKNetRACEPacketHolder* splitRecvRACEPackets[2][12]; // Double buffered, 1 per aid
-    RKNetPacketHolder* fullSendRACEPackets[12]; // 1 per aid
+    RKNetPacketHolder* fullSendRACEPackets[12];         // 1 per aid
 
-    s64 lastRACESendTimes[12]; // Time since a packet was last sent to each aid
-    s64 lastRACERecvTimes[12]; // Time since a packet was last received from each aid
+    s64 lastRACESendTimes[12];  // Time since a packet was last sent to each aid
+    s64 lastRACERecvTimes[12];  // Time since a packet was last received from each aid
     s64 RACESendTimesTaken[12]; // Time between the last two packets sent to each aid
     s64 RACERecvTimesTaken[12]; // Time between the last two packets received from each aid
-    u8 lastRACESendAid; // The last aid a packet was sent to
+    u8 lastRACESendAid;         // The last aid a packet was sent to
 
     // Modified structure
     PAD(3);
@@ -134,11 +137,11 @@ public:
     int vr;
     int br;
 
-    int lastSendBufferUsed[12]; // 1 per aid
+    int lastSendBufferUsed[12];                      // 1 per aid
     int lastRecvBufferUsed[12][RKNET_SECTION_COUNT]; // 1 per packet section per aid
     int currentSub;
     RKNetAidPidMap aidPidMap;
-    u32 disconnectedAids; // Bitfield
+    u32 disconnectedAids;      // Bitfield
     u32 disconnectedPlayerIds; // Bitfield
 
     // Used for matchmaking
@@ -147,7 +150,7 @@ public:
     PAD(4);
 
     s64 countdownTimers[12]; // Used in RACEHEADER_1
-    u32 _29C0; // Another timer
+    u32 _29C0;               // Another timer
     PAD(4);
 
     static RKNetController* instance;

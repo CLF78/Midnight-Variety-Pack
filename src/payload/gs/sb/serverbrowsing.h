@@ -5,7 +5,7 @@ extern "C" {
 #endif
 
 typedef enum {
-	SB_ERROR_NONE,
+    SB_ERROR_NONE,
     SB_ERROR_SOCKET,
     SB_ERROR_DNS,
     SB_ERROR_CONNECT,

@@ -45,9 +45,8 @@ public:
     virtual void onLeftSelected();
     virtual bool isFade();
 
-    void load(const char* dir, const char* rightFile, const char* rightVariant,
-              const char* leftFile, const char* leftVariant, u32 playerFlags, bool r10,
-              bool pointerOnly);
+    void load(const char* dir, const char* rightFile, const char* rightVariant, const char* leftFile,
+              const char* leftVariant, u32 playerFlags, bool r10, bool pointerOnly);
 
     void configure(bool leftEnabled, bool rightEnabled);
 

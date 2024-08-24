@@ -18,7 +18,6 @@
 
 class CupManager {
 public:
-
     enum Cuplist {
         TRACKS_MIDNIGHT,
         TRACKS_NOSTALGIA,
@@ -67,9 +66,7 @@ public:
     /////////////////
 
     // Gets a specific cup list
-    static const CupData::CupList* GetCupList(u8 idx) {
-        return &CupData::cupLists[idx];
-    }
+    static const CupData::CupList* GetCupList(u8 idx) { return &CupData::cupLists[idx]; }
 
     // Gets the current cup list number depending on the mode
     static u8 GetCurrentTracklist(bool isBattle = false) {
@@ -88,19 +85,13 @@ public:
     }
 
     // Gets the cup count for the current cup list
-    static u16 GetCupCount(bool isBattle = false) {
-        return GetCurrentCupList(isBattle)->cupCount;
-    }
+    static u16 GetCupCount(bool isBattle = false) { return GetCurrentCupList(isBattle)->cupCount; }
 
     // Gets the track count for the current cup list
-    static u16 GetTrackCount(bool isBattle = false) {
-        return GetCupCount(isBattle) * 4;
-    }
+    static u16 GetTrackCount(bool isBattle = false) { return GetCupCount(isBattle) * 4; }
 
     // Gets the current cups
-    static const CupData::Cup* GetCups(bool isBattle = false) {
-        return GetCurrentCupList(isBattle)->cups;
-    }
+    static const CupData::Cup* GetCups(bool isBattle = false) { return GetCurrentCupList(isBattle)->cups; }
 
     // Gets a specific cup from the current tracklist
     static const CupData::Cup* GetCup(u16 cupIdx, bool isBattle = false) {
@@ -109,14 +100,10 @@ public:
     }
 
     // Checks if the cup arrows should be enabled for the current cup list
-    static bool GetCupArrowsEnabled(bool isBattle = false) {
-        return GetCupCount(isBattle) > 8;
-    }
+    static bool GetCupArrowsEnabled(bool isBattle = false) { return GetCupCount(isBattle) > 8; }
 
     // Checks if the course is a demo/award track
-    static bool IsSystemCourse(u32 slot) {
-        return slot > 0x36;
-    }
+    static bool IsSystemCourse(u32 slot) { return slot > 0x36; }
 
     // Sets the current course and its slot id
     static void SetCourse(RaceConfig::Settings* settings, u16 actualTrackIdx) {
@@ -224,5 +211,6 @@ public:
     static bool updateCupButton(LayoutUIControl* button, u16 page, u8 buttonId, bool isBattle = false);
 
     // Replaces a cup texture with a custom one, given the icon ID and the cup index
-    static const char* replaceCupIcon(LayoutUIControl* element, u16 cupIdx, int iconId = 0, bool isBattle = false);
+    static const char* replaceCupIcon(LayoutUIControl* element, u16 cupIdx, int iconId = 0,
+                                      bool isBattle = false);
 };

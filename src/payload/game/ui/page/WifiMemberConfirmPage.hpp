@@ -10,7 +10,6 @@
 
 class WifiMemberConfirmPage : public Page {
 public:
-
     enum RatingType {
         RATING_NONE,
         RATING_VS,
@@ -26,8 +25,8 @@ public:
 
     RUNTIME_TYPE_INFO_NODECL;
 
-    void setPlayerEntry(u32 entryIdx, u32 playerIdx, RaceConfig::Player::Team team,
-                        RatingType ratingType, bool isLocalPlayer);
+    void setPlayerEntry(u32 entryIdx, u32 playerIdx, RaceConfig::Player::Team team, RatingType ratingType,
+                        bool isLocalPlayer);
 
     InputHandler2<WifiMemberConfirmPage, void, PushButton*, u32> onButtonClickHandler;
     MultiControlInputManager inputManager;

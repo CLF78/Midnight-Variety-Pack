@@ -15,8 +15,9 @@ ulong SoundArchive::GetSoundCount() const {
 // Force BRSTM sound type for replaced sound IDs
 // Credits: stebler
 REPLACE SoundArchive::SoundType SoundArchive::GetSoundType(ulong soundId) const {
-    if (soundId & SASR_BIT)
+    if (soundId & SASR_BIT) {
         return SoundArchive::SOUND_TYPE_STRM;
+    }
 
     return fileReader->GetSoundType(soundId);
 }
@@ -24,11 +25,13 @@ REPLACE SoundArchive::SoundType SoundArchive::GetSoundType(ulong soundId) const 
 // Replace the file ID with the replacement BRSTM's ID
 // Credits: stebler
 REPLACE bool SoundArchive::ReadSoundInfo(ulong soundId, SoundInfo* soundInfo) const {
-    if (!fileReader->ReadSoundInfo(soundId & ~SASR_BIT, soundInfo))
+    if (!fileReader->ReadSoundInfo(soundId & ~SASR_BIT, soundInfo)) {
         return false;
+    }
 
-    if (soundId & SASR_BIT)
+    if (soundId & SASR_BIT) {
         soundInfo->fileId = detail_GetFileCount() + (soundId & ~SASR_BIT);
+    }
 
     return true;
 }
@@ -38,19 +41,20 @@ REPLACE bool SoundArchive::ReadSoundInfo(ulong soundId, SoundInfo* soundInfo) co
 REPLACE bool SoundArchive::detail_ReadStrmSoundInfo(ulong soundId, StrmSoundInfo* strmSoundInfo) const {
 
     // If the sound was not replaced, do the original call
-    if (!(soundId & SASR_BIT))
+    if (!(soundId & SASR_BIT)) {
         return fileReader->ReadStrmSoundInfo(soundId, strmSoundInfo);
+    }
 
     // Update some flags to avoid broken defaults
     switch (GetSoundType(soundId & ~SASR_BIT)) {
-    case SoundArchive::SOUND_TYPE_SEQ:
-    case SoundArchive::SOUND_TYPE_WAVE:
-        strmSoundInfo->startPosition = 0;
-        strmSoundInfo->allocChannelCount = 0; // Use the channel count from the BRSTM header
-        strmSoundInfo->allocTrackFlag = 0x1;
-        return true;
-    default:
-        return false;
+        case SoundArchive::SOUND_TYPE_SEQ:
+        case SoundArchive::SOUND_TYPE_WAVE:
+            strmSoundInfo->startPosition = 0;
+            strmSoundInfo->allocChannelCount = 0; // Use the channel count from the BRSTM header
+            strmSoundInfo->allocTrackFlag = 0x1;
+            return true;
+        default:
+            return false;
     }
 }
 
@@ -62,13 +66,15 @@ REPLACE ut::FileStream* SoundArchive::detail_OpenFileStream(ulong fileId, void* 
     if (fileId & 0x80000000) {
 
         // Ensure the stream fits the buffer
-        if ((u32)size < sizeof(DvdSoundArchive::DvdFileStream))
+        if ((u32)size < sizeof(DvdSoundArchive::DvdFileStream)) {
             return nullptr;
+        }
 
         // Get the stream, faked as the file ID
         DvdSoundArchive::DvdFileStream* stream = (DvdSoundArchive::DvdFileStream*)fileId;
-        if (!stream)
+        if (!stream) {
             return nullptr;
+        }
 
         // Construct the stream
         return new (buffer) DvdSoundArchive::DvdFileStream(&stream->fileInfo.dvdInfo, 0, 0x7FFFFFFF);

@@ -7,7 +7,6 @@ class RaceMode;
 
 class RaceManager {
 public:
-
     enum RaceStage {
         STAGE_INTRO,
         STAGE_COUNTDOWN,
@@ -18,7 +17,6 @@ public:
 
     class Player {
     public:
-
         // TODO add custom reasons maybe?
         enum EndReason {
             REASON_NONE,

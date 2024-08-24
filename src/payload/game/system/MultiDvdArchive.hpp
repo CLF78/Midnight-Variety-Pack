@@ -17,8 +17,8 @@ public:
 
     enum KindFlag {
         SUFFIX_ONLY = BIT_FLAG(-1),
-        FULL_NAME   = BIT_FLAG(0),
-        CACHED      = BIT_FLAG(2),
+        FULL_NAME = BIT_FLAG(0),
+        CACHED = BIT_FLAG(2),
     };
 
     explicit MultiDvdArchive(u16 archiveCount = 1);

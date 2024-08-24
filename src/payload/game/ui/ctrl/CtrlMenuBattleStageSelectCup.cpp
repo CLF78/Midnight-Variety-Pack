@@ -73,10 +73,7 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
 
         // Initialize it
         ControlLoader buttonLoader(cup);
-        buttonLoader.load("control",
-                          "CourseSelectCup",
-                          buffer,
-                          CtrlMenuBattleStageSelectCup::cupAnimNames);
+        buttonLoader.load("control", "CourseSelectCup", buffer, cupAnimNames);
 
         // Set cup name
         const u16 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);

@@ -1,5 +1,5 @@
-#include "dwc_base64.h"
 #include "dwc_friend.h"
+#include "dwc_base64.h"
 #include <game/net/RKNetStatusData.hpp>
 #include <platform/string.h>
 #include <wiimmfi/Natify.hpp>
@@ -26,8 +26,9 @@ REPLACE DWCFriendStatus DWC_GetFriendStatusData(DWCFriendData* friendData, char*
     *size = decodedLen;
 
     // Try decoding
-    if (statusData && decodedLen != -1)
+    if (statusData && decodedLen != -1) {
         DWC_Base64Decode(statusString, statusLen, statusData, sizeof(RKNetStatusData[2]));
+    }
 
     return ret;
 }

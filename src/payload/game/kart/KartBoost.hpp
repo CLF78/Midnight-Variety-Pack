@@ -2,7 +2,6 @@
 
 class KartBoost {
 public:
-
     enum BoostType {
         MT_OR_START,
         UMT, // Custom value, previously STAR

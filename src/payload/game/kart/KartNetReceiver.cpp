@@ -15,19 +15,23 @@ kmCallDefCpp(0x80589ACC, u8, KartNetReceiver* self) {
     if (state->bitfield1 & KartState::OVER_ZIPPER) {
 
         // If the timer is zero, initialize it
-        if (self->halfpipeTimer == 0)
+        if (self->halfpipeTimer == 0) {
             self->halfpipeTimer = 210 + 1;
+        }
 
         // Update it
         self->halfpipeTimer--;
 
         // If it reaches zero, toggle the halfpipe bit
-        if (self->halfpipeTimer == 0)
+        if (self->halfpipeTimer == 0) {
             state->bitfield1 &= ~KartState::OVER_ZIPPER;
+        }
+    }
 
     // If it's not set, reset the timer in case the halfpipe state lasted less than the timer
-    } else
+    else {
         self->halfpipeTimer = 0;
+    }
 
     // Original call
     return self->getPlayerIdx();

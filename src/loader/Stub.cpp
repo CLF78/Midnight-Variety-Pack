@@ -4,45 +4,49 @@
 #include <revolution/os/OSLoMem.h>
 
 const Loader::Functions functions[] = {
-    {(OSReport_t) 0x801A25D0,
-    (OSFatal_t) 0x801A4EC4,
-    (DVDConvertPathToEntrynum_t) 0x8015DF4C,
-    (DVDFastOpen_t) 0x8015E254,
-    (DVDReadPrio_t) 0x8015E834,
-    (DVDClose_t) 0x8015E568,
-    (vsnprintf_t) 0x8001182C,
-    (RKSystem*) 0x802A4080,
-    'P'},
+    {
+     (OSReport_t)0x801A25D0,
+     (OSFatal_t)0x801A4EC4,
+     (DVDConvertPathToEntrynum_t)0x8015DF4C,
+     (DVDFastOpen_t)0x8015E254,
+     (DVDReadPrio_t)0x8015E834,
+     (DVDClose_t)0x8015E568,
+     (vsnprintf_t)0x8001182C,
+     (RKSystem*)0x802A4080,
+     'P', },
 
-    {(OSReport_t) 0x801A2530,
-    (OSFatal_t) 0x801A4E24,
-    (DVDConvertPathToEntrynum_t) 0x8015DEAC,
-    (DVDFastOpen_t) 0x8015E1B4,
-    (DVDReadPrio_t) 0x8015E794,
-    (DVDClose_t) 0x8015E4C8,
-    (vsnprintf_t) 0x80010CCC,
-    (RKSystem*) 0x8029FD00,
-    'E'},
+    {
+     (OSReport_t)0x801A2530,
+     (OSFatal_t)0x801A4E24,
+     (DVDConvertPathToEntrynum_t)0x8015DEAC,
+     (DVDFastOpen_t)0x8015E1B4,
+     (DVDReadPrio_t)0x8015E794,
+     (DVDClose_t)0x8015E4C8,
+     (vsnprintf_t)0x80010CCC,
+     (RKSystem*)0x8029FD00,
+     'E', },
 
-    {(OSReport_t) 0x801A24F0,
-    (OSFatal_t) 0x801A4DE4,
-    (DVDConvertPathToEntrynum_t) 0x8015DE6C,
-    (DVDFastOpen_t) 0x8015E174,
-    (DVDReadPrio_t) 0x8015E754,
-    (DVDClose_t) 0x8015E488,
-    (vsnprintf_t) 0x80011750,
-    (RKSystem*) 0x802A3A00,
-    'J'},
+    {
+     (OSReport_t)0x801A24F0,
+     (OSFatal_t)0x801A4DE4,
+     (DVDConvertPathToEntrynum_t)0x8015DE6C,
+     (DVDFastOpen_t)0x8015E174,
+     (DVDReadPrio_t)0x8015E754,
+     (DVDClose_t)0x8015E488,
+     (vsnprintf_t)0x80011750,
+     (RKSystem*)0x802A3A00,
+     'J', },
 
-    {(OSReport_t) 0x801A292C,
-    (OSFatal_t) 0x801A5220,
-    (DVDConvertPathToEntrynum_t) 0x8015DFC4,
-    (DVDFastOpen_t) 0x8015E2CC,
-    (DVDReadPrio_t) 0x8015E8AC,
-    (DVDClose_t) 0x8015E5E0,
-    (vsnprintf_t) 0x80011894,
-    (RKSystem*) 0x80292080,
-    'K'},
+    {
+     (OSReport_t)0x801A292C,
+     (OSFatal_t)0x801A5220,
+     (DVDConvertPathToEntrynum_t)0x8015DFC4,
+     (DVDFastOpen_t)0x8015E2CC,
+     (DVDReadPrio_t)0x8015E8AC,
+     (DVDClose_t)0x8015E5E0,
+     (vsnprintf_t)0x80011894,
+     (RKSystem*)0x80292080,
+     'K', },
 };
 
 char path[] = KAMEK_FILE_PATH "X.bin";
@@ -53,8 +57,9 @@ kmBranchDefCpp(0x800074D4, NULL, void) {
 
     // Detect region, stall game on failure
     const Region::Value region = Region::Detect();
-    if (region == Region::REGION_UNK)
-        for (;;);
+    if (region == Region::REGION_UNK) {
+        while (true) {}
+    }
 
     // Get the functions and set up logging
     const Loader::Functions* funcs = &functions[region];
@@ -77,8 +82,9 @@ kmCallDefCpp(0x800061EC, BOOL) {
 
     // Disable the codehandler by BLRing the first instruction
     // This is not tamper-proof but it should be enough to deter any idiot that would cheat...
-    if (__LOG_LEVEL__ != Logger::DEBUG)
+    if (__LOG_LEVEL__ != Logger::DEBUG) {
         __CodeHandlerStart = 0x4E800020;
+    }
 
     // Return original value
     return FALSE;

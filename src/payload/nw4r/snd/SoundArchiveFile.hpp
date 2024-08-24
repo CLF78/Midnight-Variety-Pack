@@ -55,7 +55,7 @@ public:
 
     SoundArchive::SoundType GetSoundType(ulong soundId) const;
     bool ReadSoundInfo(ulong soundId, SoundArchive::SoundInfo* soundInfo) const;
-    bool ReadStrmSoundInfo(ulong soundId, SoundArchive::StrmSoundInfo* info ) const;
+    bool ReadStrmSoundInfo(ulong soundId, SoundArchive::StrmSoundInfo* info) const;
 
     SoundArchiveFile::Header header;
     const SoundArchiveFile::Info* info;

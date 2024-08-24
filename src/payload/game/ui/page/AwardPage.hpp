@@ -6,7 +6,6 @@
 
 class AwardPage : public Page {
 public:
-
     enum CreditsType {
         CREDITS_NONE,
         CREDITS_NORMAL,
@@ -35,7 +34,7 @@ public:
     LayoutUIControl cupDisplay;
     LayoutUIControl rankDisplay;
     LayoutUIControl congratulations; // AwardDemoCongratulations
-    LayoutUIControl items[12]; // AwardDemoResultItem
+    LayoutUIControl items[12];       // AwardDemoResultItem
 
     bool isTeams;
     u8 bestRank;

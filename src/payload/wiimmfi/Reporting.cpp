@@ -1,5 +1,5 @@
-#include "ConnectionMatrix.hpp"
 #include "Reporting.hpp"
+#include "ConnectionMatrix.hpp"
 #include "Status.hpp"
 #include <dwc/dwc_base64.h>
 #include <dwc/dwc_main.h>
@@ -24,7 +24,7 @@ namespace Reporting {
 
 u32 sNodeCount;
 u32 sTargetFrameCount;
-char sConsoleCert[DWC_Base64GetEncodedSize(IOSECCCertSize)+1];
+char sConsoleCert[DWC_Base64GetEncodedSize(IOSECCCertSize) + 1];
 
 // Reset the target frame count value
 kmListHookDefCpp(RaceStartHook) {
@@ -41,9 +41,10 @@ void* GetSubfileHash(const char* path, int src, char* hash) {
     if (!file) {
         hash[0] = '0';
         hash[1] = '\0';
+    }
 
     // Else hash it and print it in the buffer
-    } else {
+    else {
         u32 digest[5];
         NETCalcSHA1(digest, file, fileSize);
         sprintf(hash, HASH_STRING_FMT, digest[0], digest[1], digest[2], digest[3], digest[4]);
@@ -57,8 +58,9 @@ void ReportAIDPIDMap() {
 
     // If we are not in a match, bail
     const int state = RKNetController::instance->connState;
-    if (state != RKNetController::STATE_UNK_5 && state != RKNetController::STATE_MATCHING)
+    if (state != RKNetController::STATE_UNK_5 && state != RKNetController::STATE_MATCHING) {
         return;
+    }
 
     // Allocate the buffers and set them to the default base value
     const int BUFFER_SIZE = sizeof("12=4294967295,") * 12 + 1;
@@ -66,8 +68,9 @@ void ReportAIDPIDMap() {
     char aidPidMap[BUFFER_SIZE];
 
     // Insert a single comma if there are no nodes
-    if (stpMatchCnt->nodeInfoList.nodeCount == 0)
+    if (stpMatchCnt->nodeInfoList.nodeCount == 0) {
         strcpy(aidPidMap, ",");
+    }
 
     // Create the data string
     char* mapPtr = aidPidMap;
@@ -80,8 +83,9 @@ void ReportAIDPIDMap() {
     }
 
     // If the data differs, send an update to the server
-    if (strcmp(sAidPidMap, aidPidMap) != 0)
+    if (strcmp(sAidPidMap, aidPidMap) != 0) {
         Status::SendMessage("slot_pid_matrix", aidPidMap, stpMatchCnt->nodeInfoList.nodeCount);
+    }
 
     // Copy the updated data
     strlcpy(sAidPidMap, aidPidMap, sizeof(sAidPidMap));
@@ -109,8 +113,8 @@ void ReportCommonSubfiles() {
     GetSubfileHash("GeoHitTableItemObj.bin", MultiDvdArchive::COMMON, buffers[1]);
     GetSubfileHash("GeoHitTableKart.bin", MultiDvdArchive::COMMON, buffers[2]);
     GetSubfileHash("GeoHitTableKartObj.bin", MultiDvdArchive::COMMON, buffers[3]);
-    sprintf(statusMsgBuffer, "ghti=%s|ghtio=%s|ghtk=%s|ghtko=%s", buffers[0], buffers[1],
-            buffers[2], buffers[3]);
+    sprintf(statusMsgBuffer, "ghti=%s|ghtio=%s|ghtk=%s|ghtko=%s", buffers[0], buffers[1], buffers[2],
+            buffers[3]);
     Status::SendMessage("common_subfile_sha1", statusMsgBuffer);
 
     // Send minigame.kmg and ObjFlow hashes
@@ -127,13 +131,13 @@ void ReportCourseSubfiles() {
     char statusMsgBuffer[160];
 
     // Get the KMP and hash it
-    MapdataFileAccessor::SData* kmp = (MapdataFileAccessor::SData*)GetSubfileHash("course.kmp",
-                                                                                  MultiDvdArchive::COURSE,
-                                                                                  buffers[0]);
+    MapdataFileAccessor::SData* kmp;
+    kmp = (MapdataFileAccessor::SData*)GetSubfileHash("course.kmp", MultiDvdArchive::COURSE, buffers[0]);
 
     // If KMP is invalid bail, the game will crash later anyway
-    if (!kmp || kmp->numSections == 0)
+    if (!kmp || kmp->numSections == 0) {
         return;
+    }
 
     // Copy the cleaned kmp hash over as a failsafe for missing STGI
     *buffers[1] = *buffers[0];
@@ -145,14 +149,16 @@ void ReportCourseSubfiles() {
         KmpSectionHeader* header = (KmpSectionHeader*)((u8*)kmp + kmp->headerSize + kmp->offsets[i]);
 
         // Check for magic
-        if (header->sectionMagic != 'STGI')
+        if (header->sectionMagic != 'STGI') {
             continue;
+        }
 
         // Get section data and check for lap/speed modifications
         // If the data is unchanged, do not hash the KMP again
         MapdataStage::SData* section = (MapdataStage::SData*)(header++);
-        if (section->mLapCount == 3 && section->mSpeedMod == 0)
+        if (section->mLapCount == 3 && section->mSpeedMod == 0) {
             break;
+        }
 
         // Else reset the fields to the default values and hash the file again
         const u8 lapCount = section->mLapCount;
@@ -180,26 +186,28 @@ void ReportCourseSubfiles() {
     }
 
     // Send ItemSlotTable.slt hash, if the file exists
-    void* itemSlotFile = GetSubfileHash("ItemSlotTable/ItemSlotTable.slt", MultiDvdArchive::COURSE, buffers[0]);
-    if (itemSlotFile) {
+    void* itemSlot = GetSubfileHash("ItemSlotTable/ItemSlotTable.slt", MultiDvdArchive::COURSE, buffers[0]);
+    if (itemSlot) {
         sprintf(statusMsgBuffer, "islot=%s", buffers[0]);
         Status::SendMessage("track_subfile_sha1", statusMsgBuffer);
     }
 
     // Get course_model hash (or the _d version if it's not available)
     void* courseModelFile = GetSubfileHash("course_model.brres", MultiDvdArchive::COURSE, buffers[0]);
-    if (!courseModelFile)
+    if (!courseModelFile) {
         GetSubfileHash("course_d_model.brres", MultiDvdArchive::COURSE, buffers[0]);
+    }
 
     // Get vrcorn hash (or the _d version if it's not available)
     void* vrcornFile = GetSubfileHash("vrcorn_model.brres", MultiDvdArchive::COURSE, buffers[1]);
-    if (!vrcornFile)
+    if (!vrcornFile) {
         GetSubfileHash("vrcorn_d_model.brres", MultiDvdArchive::COURSE, buffers[1]);
+    }
 
     // Get the minimap model and send message
     GetSubfileHash("map_model.brres", MultiDvdArchive::COURSE, buffers[2]);
-    sprintf(statusMsgBuffer, "course%d=%s|vrcorn%d=%s|map=%s", courseModelFile == nullptr,
-            buffers[0], vrcornFile == nullptr, buffers[1], buffers[2]);
+    sprintf(statusMsgBuffer, "course%d=%s|vrcorn%d=%s|map=%s", courseModelFile == nullptr, buffers[0],
+            vrcornFile == nullptr, buffers[1], buffers[2]);
     Status::SendMessage("track_subfile_sha1", statusMsgBuffer);
 }
 
@@ -228,17 +236,19 @@ void _ReportFrameCount(u32 frameCount, int profileId) {
         char buffer[16];
         snprintf(buffer, sizeof(buffer), "%d", profileId);
         Status::SendMessage("frame_count", buffer, frameCount);
-
-    } else
+    }
+    else {
         Status::SendMessage("frame_count", "", frameCount);
+    }
 }
 
 void ReportFrameCount(u32 frameCount) {
 
     // NOTE: This function is implemented this way due to the frame counter sometimes being inaccurate
     // Do not send anything if the frame counter hasn't been started
-    if (frameCount == 0)
+    if (frameCount == 0) {
         return;
+    }
 
     // Get the host's PID
     const int hostPid = stpMatchCnt->nodeInfoList.nodeInfos[0].profileId;
@@ -257,8 +267,9 @@ void ReportFrameCount(u32 frameCount) {
 }
 
 void ReportFriendRoomStart(RKNetROOMPacket* packet) {
-    if (packet->msgType == RKNetROOMPacket::MSG_ROOM_START)
+    if (packet->msgType == RKNetROOMPacket::MSG_ROOM_START) {
         Status::SendMessage("friend_event_start", "3", packet->param1);
+    }
 }
 
 void ReportHostSlotChange() {
@@ -268,8 +279,9 @@ void ReportHostSlotChange() {
     const u8 hostAid = DWC_GetServerAID();
 
     // If it has changed, report it
-    if (sHostAid != hostAid)
+    if (sHostAid != hostAid) {
         Status::SendMessage("host_slot", "", hostAid);
+    }
 
     // Update the value so this doesn't run again next frame
     sHostAid = hostAid;
@@ -305,15 +317,17 @@ void ReportMatchStateChange() {
 
     // If the state has not changed, bail
     const int matchState = stpMatchCnt->state;
-    if (matchState == sMatchState)
+    if (matchState == sMatchState) {
         return;
+    }
 
     // Send message
     Status::SendMessage("dwc_match_state", sMatchStateStrings[matchState], matchState);
 
     // If we have just become the host, force a suspend update report by setting the node count to 0
-    if (sMatchState < DWC_MATCH_STATE_SV_WAITING && matchState >= DWC_MATCH_STATE_SV_WAITING)
+    if (sMatchState < DWC_MATCH_STATE_SV_WAITING && matchState >= DWC_MATCH_STATE_SV_WAITING) {
         sNodeCount = 0;
+    }
 
     // Update stored state
     sMatchState = matchState;
@@ -323,8 +337,9 @@ void ReportRaceStage(u32 stage) {
 
     // Check that the current stage isn't already the new one
     static u32 sCurrStage;
-    if (sCurrStage == stage)
+    if (sCurrStage == stage) {
         return;
+    }
 
     // Update it and report it otherwise
     sCurrStage = stage;
@@ -338,8 +353,9 @@ void ReportRegionChange() {
 
     // If the PID hasn't changed, bail
     const int hostPid = stpMatchCnt->nodeInfoList.nodeInfos[0].profileId;
-    if (hostPid == sHostPid)
+    if (hostPid == sHostPid) {
         return;
+    }
 
     // Update the stored PID
     sHostPid = hostPid;
@@ -354,15 +370,15 @@ void ReportRegionChange() {
 
     // Send the current VS and BT region
     char regionData[32];
-    snprintf(regionData, sizeof(regionData), "%d|%d",
-             CupManager::currentOnlineRegion, CupManager::currentOnlineRegion);
+    snprintf(regionData, sizeof(regionData), "%d|%d", CupManager::currentOnlineRegion,
+             CupManager::currentOnlineRegion);
     Status::SendMessage("region", regionData);
 }
 
 void ReportSELECTInfo() {
 
     // Get the outgoing packet
-    RKNetSELECTPacket* packet = &RKNetSELECTHandler::instance->sendPacket;
+    const RKNetSELECTPacket* packet = &RKNetSELECTHandler::instance->sendPacket;
 
     // Send the packet once we have voted
     // Add a bool to send the report only once
@@ -372,18 +388,17 @@ void ReportSELECTInfo() {
         return;
     }
 
-    if (sPacketSent)
+    if (sPacketSent) {
         return;
+    }
 
     // Prepare message
     char buffer[300];
-    snprintf(buffer, sizeof(buffer), "driver=%d,%d|vehicle=%d,%d|engine=%d|self=%d|slots=%08x%08x%08x|team=%u",
-             packet->playerData[0].character, packet->playerData[1].character,
-             packet->playerData[0].vehicle, packet->playerData[1].vehicle,
-             packet->engineClass.raw,
-             DWC_GetMyAID(),
-             packet->aidPidMap.raw[0], packet->aidPidMap.raw[1], packet->aidPidMap.raw[2],
-             packet->battleTeamData.raw);
+    snprintf(buffer, sizeof(buffer),
+             "driver=%d,%d|vehicle=%d,%d|engine=%d|self=%d|slots=%08x%08x%08x|team=%u",
+             packet->playerData[0].character, packet->playerData[1].character, packet->playerData[0].vehicle,
+             packet->playerData[1].vehicle, packet->engineClass.raw, DWC_GetMyAID(), packet->aidPidMap.raw[0],
+             packet->aidPidMap.raw[1], packet->aidPidMap.raw[2], packet->battleTeamData.raw);
 
     // Send it
     Status::SendMessage("select", buffer);
@@ -397,8 +412,9 @@ void ReportServerDown(u32 cmd, int pid, u32* data) {
 
     // If the packet has no extra data, just send the PID
     char buffer[40];
-    if (!data)
+    if (!data) {
         snprintf(buffer, sizeof(buffer), "%d", pid);
+    }
 
     // Else send the data both in decimal and hexadecimal form (??)
     else {
@@ -414,7 +430,7 @@ void ReportSignatureAndCert() {
 
     ALIGN(32) char cert[IOSECCCertSize];
     ALIGN(32) char signature[IOSECCSigSize];
-    ALIGN(32) char b64Signature[DWC_Base64GetEncodedSize(sizeof(signature))+1];
+    ALIGN(32) char b64Signature[DWC_Base64GetEncodedSize(sizeof(signature)) + 1];
     const size_t tokenLength = Status::sToken ? strlen(Status::sToken) : 0;
 
     // Get the certificate
@@ -430,17 +446,18 @@ void ReportSignatureAndCert() {
         len = DWC_Base64Encode(cert, sizeof(cert), sConsoleCert, sizeof(sConsoleCert));
         sConsoleCert[len] = '\0';
         Status::SendMessage("xy_ct", sConsoleCert, ret);
+    }
 
-    } else {
-
-        // Something failed, send invalid data
+    // Something failed, send invalid data
+    else {
         Status::SendMessage("xy_sg", "invalid", ret);
         Status::SendMessage("xy_ct", "invalid", ret);
     }
 
     // Delete the token from memory since we no longer need it
-    if (Status::sToken)
+    if (Status::sToken) {
         delete Status::sToken;
+    }
 }
 
 void ReportSuspendUpdate() {
@@ -450,20 +467,24 @@ void ReportSuspendUpdate() {
     const u32 suspendMask = stpMatchCnt->suspendMatchBitmap;
 
     // If the suspend mask or the node count haven't been updated, bail
-    if (suspendMask == sSuspendMask && sNodeCount == stpMatchCnt->nodeInfoList.nodeCount)
+    if (suspendMask == sSuspendMask && sNodeCount == stpMatchCnt->nodeInfoList.nodeCount) {
         return;
+    }
 
     // If we are not the host, bail
-    if (!DWC_IsServerMyself())
+    if (!DWC_IsServerMyself()) {
         return;
+    }
 
     // For each aid, set 1 if suspended, 0 if it isn't suspended and the node exists, else "-"
-    char buffer[] = "------------";
+    char buffer[13] = "------------";
     for (u32 i = 0; i < strlenc(buffer); i++) {
-        if (suspendMask & (1 << i))
+        if (suspendMask & (1 << i)) {
             buffer[i] = '1';
-        else if (DWCi_NodeInfoList_GetNodeInfoForAid(i))
+        }
+        else if (DWCi_NodeInfoList_GetNodeInfoForAid(i)) {
             buffer[i] = '0';
+        }
     }
 
     // Send report and update stored data

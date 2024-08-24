@@ -13,7 +13,7 @@
 namespace Wiimmfi {
 namespace Auth {
 
-char sConsoleCert[DWC_Base64GetEncodedSize(IOSECCCertSize)+1];
+char sConsoleCert[DWC_Base64GetEncodedSize(IOSECCCertSize) + 1];
 char sConsoleAssignMessageBuffer[796];
 wchar_t* sConsoleAssignMessage;
 
@@ -71,7 +71,8 @@ void AppendAuthParameters(NHTTPReq* req) {
 
         // Mark data as obtained successfully
         sCertObtained = true;
-    } else {
+    }
+    else {
         LOG_DEBUG("Already obtained device certificate for authentication.");
     }
 
@@ -91,7 +92,8 @@ void AppendAuthParameters(NHTTPReq* req) {
     if (!sConsoleTypeObtained) {
         sprintf(sConsoleTypeBuffer, "%04x-%c", GetConsoleType(), __OSBootInfo.diskInfo.gameName[3]);
         sConsoleTypeObtained = true;
-    } else {
+    }
+    else {
         LOG_DEBUG("Already obtained console type and region.");
     }
 
@@ -102,8 +104,7 @@ void AppendAuthParameters(NHTTPReq* req) {
     // Send the device ID XOR'd with Dolphin's default value
     char deviceIdBuffer[28];
     sprintf(deviceIdBuffer, "%08x-%08x-%08x", PPCGetECID_U() ^ DEFAULT_ECID_U,
-                                              PPCGetECID_M() ^ DEFAULT_ECID_M,
-                                              PPCGetECID_L() ^ DEFAULT_ECID_L);
+            PPCGetECID_M() ^ DEFAULT_ECID_M, PPCGetECID_L() ^ DEFAULT_ECID_L);
     LOG_DEBUG("Sending device ID: %s", deviceIdBuffer);
     NHTTPAddPostDataAscii(req, "_deviceID", deviceIdBuffer);
 
@@ -113,7 +114,8 @@ void AppendAuthParameters(NHTTPReq* req) {
         if (version) {
             LOG_DEBUG("Sending Dolphin version: %s", version);
             NHTTPAddPostDataAscii(req, "_dolphin_ver", version);
-        } else {
+        }
+        else {
             LOG_ERROR("Failed to get Dolphin version.");
         }
     }
@@ -127,13 +129,14 @@ void AppendAuthParameters(NHTTPReq* req) {
         LOG_DEBUG("Sending user port: %s", portBuffer);
 
         // Encode to Base64
-        char b64UserPort[DWC_Base64GetEncodedSize(sizeof(portBuffer))+1];
+        char b64UserPort[DWC_Base64GetEncodedSize(sizeof(portBuffer)) + 1];
         const int len = DWC_Base64Encode(portBuffer, sizeof(portBuffer), b64UserPort, sizeof(b64UserPort));
         b64UserPort[len] = '\0';
 
         // Send it
         NHTTPAddPostDataAscii(req, "_upnpport", b64UserPort);
-    } else {
+    }
+    else {
         LOG_DEBUG("No user port found. Skipping...");
     }
 
@@ -170,7 +173,7 @@ void ParseAuthResponse(const char* response) {
         decodedLen = DWC_Base64Decode(response, encodedLen, sConsoleAssignMessageBuffer,
                                       sizeof(sConsoleAssignMessageBuffer) - sizeof(wchar_t));
         sConsoleAssignMessageBuffer[decodedLen] = '\0';
-        sConsoleAssignMessageBuffer[decodedLen+1] = '\0';
+        sConsoleAssignMessageBuffer[decodedLen + 1] = '\0';
         sConsoleAssignMessage = (wchar_t*)sConsoleAssignMessageBuffer;
     }
 
@@ -182,6 +185,7 @@ void ParseAuthResponse(const char* response) {
         Status::DecodeToken(response);
     }
 
+    // Unknown response type
     else {
         LOG_WARN("Unknown response: %s", response);
     }

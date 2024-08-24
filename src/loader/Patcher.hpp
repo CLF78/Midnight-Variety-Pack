@@ -4,16 +4,16 @@
 namespace Patcher {
 
 enum PatchCommand {
-    Addr32     = 1,
-    Addr16Lo   = 4,
-    Addr16Hi   = 5,
-    Addr16Ha   = 6,
-    Rel24      = 10,
-    Write32    = 32,
-    Write16    = 33,
-    Write8     = 34,
-    WriteArea  = 35,
-    Branch     = 64,
+    Addr32 = 1,
+    Addr16Lo = 4,
+    Addr16Hi = 5,
+    Addr16Ha = 6,
+    Rel24 = 10,
+    Write32 = 32,
+    Write16 = 33,
+    Write8 = 34,
+    WriteArea = 35,
+    Branch = 64,
     BranchLink = 65,
 };
 
@@ -24,7 +24,8 @@ inline void CacheInvalidateAddress(const void* address, u32 size) {
         __dcbst(address, 0);
         __sync();
         __icbi(address);
-    } else {
+    }
+    else {
         __flush_cache((void*)address, size);
     }
 }

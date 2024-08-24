@@ -24,7 +24,12 @@
 // Network Protocol Expansion //
 ////////////////////////////////
 
-const u32 packetbufferSizes[RKNET_SECTION_COUNT] = {
+const u32 totalPacketBufSize = sizeof(RKNetRACEPacketHeader) + sizeof(RKNetRH1Packet) + sizeof(RKNetRH2Packet)
+                             + MAX(sizeof(RKNetROOMPacket), sizeof(RKNetSELECTPacketEx))
+                             + sizeof(RKNetRACEDATAPacket) * 2 + sizeof(RKNetUSERPacket)
+                             + sizeof(RKNetITEMPacket) * 2 + sizeof(RKNetEVENTPacket);
+
+const u32 packetbufferSizes[RKNET_SECTION_COUNT + 1] = {
     sizeof(RKNetRACEPacketHeader),
     sizeof(RKNetRH1Packet),
     sizeof(RKNetRH2Packet),
@@ -33,11 +38,8 @@ const u32 packetbufferSizes[RKNET_SECTION_COUNT] = {
     sizeof(RKNetUSERPacket),
     sizeof(RKNetITEMPacket) * 2,
     sizeof(RKNetEVENTPacket),
+    totalPacketBufSize // unused but let's update it just to be sure
 };
-
-const u32 totalPacketBufSize = sizeof(RKNetRACEPacketHeader) + sizeof(RKNetRH1Packet) + sizeof(RKNetRH2Packet)
-                             + MAX(sizeof(RKNetROOMPacket), sizeof(RKNetSELECTPacketEx)) + sizeof(RKNetRACEDATAPacket) * 2
-                             + sizeof(RKNetUSERPacket) + sizeof(RKNetITEMPacket) * 2 + sizeof(RKNetEVENTPacket);
 
 // Replace the individual packet section sizes
 kmWriteArea(0x8089A194, packetbufferSizes);
@@ -49,8 +51,9 @@ REPLACE RKNetController::RKNetController(EGG::Heap* heap) {
     REPLACED(heap);
 
     // Create the buffers
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < 12; i++) {
         fullRecvRACEPackets[i] = new (this->heap, 4) u8[totalPacketBufSize];
+    }
 }
 
 // RKNetController::RKNetController() patches
@@ -75,8 +78,9 @@ kmBranchDefCpp(0x80658C68, 0x80658CA4, void, DWCBuddyFriendCallback cb, RKNetCon
 // RKNetController::StartThread() patch
 // Clear the custom buffers
 kmCallDefCpp(0x8065607C, void, RKNetController* self) {
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < 12; i++) {
         memset(self->fullRecvRACEPackets[i], 0, totalPacketBufSize);
+    }
 }
 
 // Glue code
@@ -96,8 +100,9 @@ kmCallDefCpp(0x806579B0, void) {
         const nw4r::ut::AutoInterruptLock lock;
 
         // Only run matching tasks if we are in a matching state
-        if (RKNetController::instance->connState == RKNetController::STATE_MATCHING)
+        if (RKNetController::instance->connState == RKNetController::STATE_MATCHING) {
             Wiimmfi::Natneg::CalcTimers(false);
+        }
 
         // Run other tasks
         Wiimmfi::Kick::CalcKick();
@@ -115,8 +120,9 @@ kmCallDefCpp(0x806579B0, void) {
         }
 
         // Only run SELECT tasks if the handler exists
-        if (RKNetSELECTHandler::instance)
+        if (RKNetSELECTHandler::instance) {
             Wiimmfi::Reporting::ReportSELECTInfo();
+        }
     }
 
     // Original call

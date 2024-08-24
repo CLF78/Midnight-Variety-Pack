@@ -1,5 +1,5 @@
-#include "CupManager.hpp"
 #include "RaceCourseSelectPageEx.hpp"
+#include "CupManager.hpp"
 #include "RaceCupSelectPageEx.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
@@ -25,11 +25,12 @@ void RaceCourseSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button)
 }
 
 // Set the selected track
-void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button, u32 hudSlotId) {
-
+void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button,
+                                       u32 hudSlotId) {
     // Check for active state
-    if (pageState != Page::STATE_ACTIVE)
+    if (pageState != Page::STATE_ACTIVE) {
         return;
+    }
 
     // Get selected track and set it as last course
     RaceCupSelectPageEx* cupPage = RaceCupSelectPageEx::getPage();
@@ -49,13 +50,17 @@ void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder,
             // Get the popup
             YesNoPopupPageEx* popupPage = YesNoPopupPageEx::getPage();
 
-            // Reset it and update the messages
+            // Get handler
+            InputHandler2<Page, void, s32, PushButton*>* repickHandler;
+            repickHandler = SET_HANDLER(repickHandler, onRepickPromptPressHandler);
+
+            // Reset the popup and update the messages
             popupPage->reset();
             popupPage->setWindowMessage(Message::Menu::TRACK_UNPICKABLE_PROMPT_VS);
-            popupPage->configureButton(0, Message::Menu::TRACK_UNPICKABLE_VOTE_ANYWAY, nullptr, Page::ANIM_NONE,
-                                       (InputHandler2<Page, void, s32, PushButton*>*)&onRepickPromptPressHandler);
+            popupPage->configureButton(0, Message::Menu::TRACK_UNPICKABLE_VOTE_ANYWAY, nullptr,
+                                       Page::ANIM_NONE, repickHandler);
             popupPage->configureButton(1, Message::Menu::TRACK_UNPICKABLE_GO_BACK, nullptr, Page::ANIM_NONE,
-                                       (InputHandler2<Page, void, s32, PushButton*>*)&onRepickPromptPressHandler);
+                                       repickHandler);
 
             // Default to the Go Back button and allow going back
             popupPage->currSelected = 1;
@@ -64,29 +69,33 @@ void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder,
 
             // Display the page
             repickPrompt = (YesNoPopupPageEx*)addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);
+        }
 
         // Else go to the next page
-        } else {
+        else {
             nextPageId = Page::NONE;
             replace(Page::ANIM_NEXT, button->getDelay());
         }
 
-    } else {
+        // Report course as selected
+        courseSelected = true;
+        return;
+    }
 
-        // Get the actual track to be played and store it
-        const u16 actualTrackIdx = CupManager::getTrackFile(trackIdx);
-        CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
+    // Get the actual track to be played and store it
+    const u16 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+    CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
 
-        // If we're in TT mode, go to the ghost select screen
-        const u32 gameMode = RaceConfig::instance->menuScenario.settings.gameMode;
-        if (gameMode == RaceConfig::Settings::GAMEMODE_TT)
-            loadNextPageById(Page::GHOST_SELECT_TOP, button);
+    // If we're in TT mode, go to the ghost select screen
+    const u32 gameMode = RaceConfig::instance->menuScenario.settings.gameMode;
+    if (gameMode == RaceConfig::Settings::GAMEMODE_TT) {
+        loadNextPageById(Page::GHOST_SELECT_TOP, button);
+    }
 
-        // If we're in VS mode, prepare intro and generate the track order from here
-        else if (gameMode == RaceConfig::Settings::GAMEMODE_VS) {
-            requestSectionChange(Section::DEMO_VS, button);
-            CupManager::generateCourseOrder(cupIdx, button->buttonId);
-        }
+    // If we're in VS mode, prepare intro and generate the track order from here
+    else if (gameMode == RaceConfig::Settings::GAMEMODE_VS) {
+        requestSectionChange(Section::DEMO_VS, button);
+        CupManager::generateCourseOrder(cupIdx, button->buttonId);
     }
 
     // Report course as selected
@@ -97,23 +106,27 @@ void RaceCourseSelectPageEx::setCourse(CtrlMenuCourseSelectCourse* courseHolder,
 void RaceCourseSelectPageEx::afterCalc() {
 
     // Check for active state
-    if (pageState != Page::STATE_ACTIVE)
+    if (pageState != Page::STATE_ACTIVE) {
         return;
+    }
 
     // Check if we are online
-    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId))
+    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
         return;
+    }
 
     // Check if the timer is zero
-    if (timer->value > 0.0f)
+    if (timer->value > 0.0f) {
         return;
+    }
 
     // If the prompt is not enabled, vote random
     if (repickPrompt == nullptr) {
         forceRandomVote();
+    }
 
     // Else force press the selected button
-    } else {
+    else {
         repickPrompt->forcePressSelected();
     }
 }
@@ -125,22 +138,25 @@ void RaceCourseSelectPageEx::afterCalc() {
 // Update instruction text with new CCs and Mirror option
 void RaceCourseSelectPageEx::onActivate() {
 
+    // Set Y wrapping and do base activation
     multiControlInputManager.setDistanceFunc(MultiControlInputManager::Y_WRAP);
     MenuPage::onActivate();
+
+    // Get the race settings
+    RaceConfig::Settings* raceSettings = &RaceConfig::instance->menuScenario.settings;
 
     // Set the instruction text based on the game mode
     u32 msgId = Message::NONE;
     MessageInfo msgInfo;
-    switch(RaceConfig::instance->menuScenario.settings.gameMode) {
+    switch (raceSettings->gameMode) {
 
         case RaceConfig::Settings::GAMEMODE_TT:
             msgId = Message::Menu::INSTRUCTION_TEXT_TIME_TRIAL;
             break;
 
         case RaceConfig::Settings::GAMEMODE_VS:
-            msgId = (RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_TEAMS) ?
-                    Message::Menu::INSTRUCTION_TEXT_TEAM_VS :
-                    Message::Menu::INSTRUCTION_TEXT_VS;
+            msgId = raceSettings->isTeams() ? Message::Menu::INSTRUCTION_TEXT_TEAM_VS :
+                                              Message::Menu::INSTRUCTION_TEXT_VS;
             break;
 
         default:
@@ -148,7 +164,7 @@ void RaceCourseSelectPageEx::onActivate() {
     }
 
     // Set CC argument
-    switch (RaceConfig::instance->menuScenario.settings.engineClass) {
+    switch (raceSettings->engineClass) {
 
         case RaceConfig::Settings::CC_50:
             msgInfo.messageIds[0] = Message::Menu::CC_50;
@@ -172,6 +188,6 @@ void RaceCourseSelectPageEx::onActivate() {
     }
 
     // Set mirror argument and apply message
-    msgInfo.setCondMessageValue(0, (RaceConfig::instance->menuScenario.settings.modeFlags & RaceConfig::Settings::FLAG_MIRROR) != 0, true);
+    msgInfo.setCondMessageValue(0, raceSettings->isMirror(), true);
     instructionText->setText(msgId, &msgInfo);
 }

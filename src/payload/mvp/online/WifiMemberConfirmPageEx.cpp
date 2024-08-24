@@ -1,5 +1,5 @@
-#include "RepickQueue.hpp"
 #include "WifiMemberConfirmPageEx.hpp"
+#include "RepickQueue.hpp"
 #include <game/net/RKNetController.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
 #include <game/ui/ControlLoader.hpp>
@@ -147,10 +147,12 @@ void WifiMemberConfirmPageEx::onActivate() {
             if (playerTeam == RaceConfig::Player::TEAM_BLUE) {
                 entryIdx = blueTeamIdx;
                 blueTeamIdx += 2;
-            } else if (playerTeam == RaceConfig::Player::TEAM_RED) {
+            }
+            else if (playerTeam == RaceConfig::Player::TEAM_RED) {
                 entryIdx = redTeamIdx;
                 redTeamIdx += 2;
-            } else {
+            }
+            else {
                 entryIdx = playerIdx;
             }
 
@@ -158,12 +160,13 @@ void WifiMemberConfirmPageEx::onActivate() {
             setPlayerEntry(entryIdx, playerIdx, playerTeam, ratingType,
                            RKNetController::instance->isLocalPlayer(playerIdx));
         }
+    }
 
     // If teams are disabled, just set the players in order
-    } else {
+    else {
         for (u32 playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
-            setPlayerEntry(playerIdx, playerIdx, RaceConfig::Player::TEAM_NONE,
-                           ratingType, RKNetController::instance->isLocalPlayer(playerIdx));
+            setPlayerEntry(playerIdx, playerIdx, RaceConfig::Player::TEAM_NONE, ratingType,
+                           RKNetController::instance->isLocalPlayer(playerIdx));
         }
     }
 
@@ -180,14 +183,17 @@ void WifiMemberConfirmPageEx::onActivate() {
 void WifiMemberConfirmPageEx::afterCalc() {
 
     // This check is necessary to ensure the procedure is not repeated twice
-    if (pageState != Page::STATE_ACTIVE && rulePopup == nullptr)
+    if (pageState != Page::STATE_ACTIVE && rulePopup == nullptr) {
         return;
+    }
 
-    if (timer == nullptr)
+    if (timer == nullptr) {
         return;
+    }
 
-    if (timer->value > 0.0f)
+    if (timer->value > 0.0f) {
         return;
+    }
 
     // Ensure the pointer is nulled to prevent running this twice
     if (rulePopup) {

@@ -17,7 +17,8 @@ void RepickQueue::RawQueue::Push(u16 track) {
         LOG_DEBUG("Pushing track %d to the queue...", track);
         memmove(&lastPicks[1], &lastPicks, sizeof(lastPicks) - sizeof(lastPicks[0]));
         lastPicks[0] = track;
-    } else {
+    }
+    else {
         LOG_DEBUG("Track %d already in queue, not pushing.", track);
     }
 }
@@ -25,11 +26,15 @@ void RepickQueue::RawQueue::Push(u16 track) {
 u8 RepickQueue::RawQueue::GetQueuePosition(u16 track) const {
 
     // Treat random track votes as a track not in the queue
-    if (track == CupData::RANDOM_TRACK_VOTE) return NOT_IN_QUEUE;
+    if (track == CupData::RANDOM_TRACK_VOTE) {
+        return NOT_IN_QUEUE;
+    }
 
     // Get the queue position
     for (u32 i = 0; i < ARRAY_SIZE(lastPicks); i++) {
-        if (lastPicks[i] == track) return i;
+        if (lastPicks[i] == track) {
+            return i;
+        }
     }
 
     // Track isn't in the queue
@@ -62,8 +67,8 @@ RepickQueue::Vote RepickQueue::GetWinningVote() const {
         if (queuePos > maxPos) {
             maxPos = votes[i].queuePos;
             maxPosCount = 1;
-
-        } else if (queuePos == maxPos) {
+        }
+        else if (queuePos == maxPos) {
             maxPosCount++;
         }
     }
@@ -71,11 +76,12 @@ RepickQueue::Vote RepickQueue::GetWinningVote() const {
     LOG_DEBUG("Found %d votes with queue position %d", maxPosCount, maxPos);
 
     // Isolate the maximum queue position votes
-    Vote* maxVotes = (Vote*)__alloca(sizeof(Vote)* maxPosCount);
+    Vote* maxVotes = (Vote*)__alloca(sizeof(Vote) * maxPosCount);
     int copiedVotes = 0;
     for (int i = 0; i < voteCount; i++) {
-        if (votes[i].queuePos == maxPos)
+        if (votes[i].queuePos == maxPos) {
             maxVotes[copiedVotes++] = votes[i];
+        }
     }
 
     // Get a random entry from the selected votes

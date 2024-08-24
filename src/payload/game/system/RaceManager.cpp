@@ -1,6 +1,6 @@
+#include "RaceManager.hpp"
 #include "CourseMap.hpp"
 #include "RaceConfig.hpp"
-#include "RaceManager.hpp"
 #include <game/race/RaceGlobals.hpp>
 #include <game/sound/RaceSoundManager.hpp>
 #include <game/ui/MessageInfo.hpp>
@@ -17,6 +17,7 @@ kmListHookDefCpp(RaceUpdateHook) {
     RaceManager* self = RaceManager::instance;
     static bool fastMusicShown = false;
     static bool normalMusicShown = false;
+    const u32 currSoundType = RaceSoundManager::instance->currSoundType;
 
     // If the intro camera has started playing, show the track author
     if (self->frameCounter == 1) {
@@ -28,9 +29,10 @@ kmListHookDefCpp(RaceUpdateHook) {
 
         normalMusicShown = false;
         fastMusicShown = false;
+    }
 
     // If the race has started, show the normal music author
-    } else if (RaceSoundManager::instance->currSoundType == RaceSoundManager::COURSE_BGM && !normalMusicShown) {
+    else if (currSoundType == RaceSoundManager::COURSE_BGM && !normalMusicShown) {
         MessageInfo msgInfo;
         msgInfo.messageIds[0] = CupData::tracks[CupManager::currentSzs].musicNameId;
         msgInfo.messageIds[1] = CupData::tracks[CupManager::currentSzs].musicAuthorId;
@@ -38,9 +40,10 @@ kmListHookDefCpp(RaceUpdateHook) {
 
         // Do not try this again
         normalMusicShown = true;
+    }
 
     // If the fast music has started playing, show the fast music author
-    } else if (RaceSoundManager::instance->currSoundType == RaceSoundManager::COURSE_BGM_FAST && !fastMusicShown) {
+    else if (currSoundType == RaceSoundManager::COURSE_BGM_FAST && !fastMusicShown) {
 
         // Only display the fast music if it's unchanged
         if (CupData::tracks[CupManager::currentSzs].musicNameIdFast != 0) {
@@ -83,25 +86,28 @@ bool UltraUncutEnabled() {
 // Credits: Chadderz, MrBean35000vr
 kmHookFn bool UltraUncut(float requiredCompletion, MapdataCheckPoint* currCkpt, MapdataCheckPoint* nextCkpt) {
 
-	// Check if it's a start line check point
-	if (currCkpt->mpData->lapCheck == 0) {
+    // Check if it's a start line check point
+    if (currCkpt->mpData->lapCheck == 0) {
 
-		// If the previous key checkpoint is not 1 and the feature is enabled, always decrement the lap
-		if (nextCkpt->prevKcpId > 1 && UltraUncutEnabled())
-			return false;
+        // If the previous key checkpoint is not 1 and the feature is enabled, always decrement the lap
+        if (nextCkpt->prevKcpId > 1 && UltraUncutEnabled()) {
+            return false;
+        }
 
-		// Original check
-    	for (int i = 0; i < nextCkpt->nextCount; i++) {
-        	if (currCkpt->id == nextCkpt->nextCheckPoints[i].checkpoint->id)
-            	return false;
-    	}
-	}
+        // Original check
+        for (int i = 0; i < nextCkpt->nextCount; i++) {
+            if (currCkpt->id == nextCkpt->nextCheckPoints[i].checkpoint->id) {
+                return false;
+            }
+        }
+    }
 
-	// Ensure at least 5% of the lap is completed
-	return (requiredCompletion >= -0.95f);
+    // Ensure at least 5% of the lap is completed
+    return (requiredCompletion >= -0.95f);
 }
 
 // Glue code
+// clang-format off
 kmBranchDefAsm(0x805350DC, 0x80535150) {
     nofralloc
 
@@ -120,18 +126,21 @@ kmBranchDefAsm(0x805350DC, 0x80535150) {
 // Wiimmfi Telemetry //
 ///////////////////////
 
+// clang-format on
 // Report race finish
 // Credits: Wiimmfi
 kmListHookDefCpp(RaceUpdateHook) {
 
     // Check if the race is online
-    if (!RaceGlobals::isOnlineRace)
+    if (!RaceGlobals::isOnlineRace) {
         return;
+    }
 
     // Check if the race is finished
     const u32 raceStage = RaceManager::instance->raceStage;
-    if (raceStage != RaceManager::STAGE_FINISH_ALL)
+    if (raceStage != RaceManager::STAGE_FINISH_ALL) {
         return;
+    }
 
     // Report it if so
     Wiimmfi::Reporting::ReportRaceStage(raceStage);
@@ -143,12 +152,14 @@ REPLACE void RaceManager::Player::endRace(Timer* finishTime, bool isLast, u32 en
     REPLACED(finishTime, isLast, endReason);
 
     // Check if the race is online
-    if (!RaceGlobals::isOnlineRace)
+    if (!RaceGlobals::isOnlineRace) {
         return;
+    }
 
     // Check if the player is local
-    if (RaceConfig::instance->raceScenario.players[playerIdx].playerType != RaceConfig::Player::TYPE_LOCAL)
+    if (RaceConfig::instance->raceScenario.players[playerIdx].playerType != RaceConfig::Player::TYPE_LOCAL) {
         return;
+    }
 
     // Report the time
     Wiimmfi::Reporting::ReportFinishTime(playerIdx, finishTime);

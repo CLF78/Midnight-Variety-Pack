@@ -1,5 +1,5 @@
-#include "CupManager.hpp"
 #include "RaceCupSelectArrow.hpp"
+#include "CupManager.hpp"
 #include "RaceCupSelectPageEx.hpp"
 
 // This function runs whenever the left arrow is selected or pressed
@@ -10,8 +10,9 @@ void RaceCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayerId
 
     // Update the page number
     self->curPage--;
-    if (self->curPage < 0)
+    if (self->curPage < 0) {
         self->curPage = CupManager::getMaxCupPage();
+    }
 
     // Log entry
     LOG_DEBUG("Changing cup select page to %d...", self->curPage);
@@ -38,8 +39,9 @@ void RaceCupSelectArrow::onRight(SheetSelectControl* arrowPair, u32 localPlayerI
 
     // Update the page number
     self->curPage++;
-    if (self->curPage > CupManager::getMaxCupPage())
+    if (self->curPage > CupManager::getMaxCupPage()) {
         self->curPage = 0;
+    }
 
     // Log entry
     LOG_DEBUG("Changing cup select page to %d...", self->curPage);

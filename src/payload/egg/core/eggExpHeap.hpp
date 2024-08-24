@@ -5,7 +5,6 @@ namespace EGG {
 
 class ExpHeap : public Heap {
 public:
-
     struct GroupSizeRecord {
         u32 entries[256];
     };

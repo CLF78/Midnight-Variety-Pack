@@ -31,8 +31,9 @@ public:
     void onBackPress(u32 hudSlotId);
 
     static MultiDriftSelectPage* getPage() {
-        return (MultiDriftSelectPage*)SectionManager::instance->curSection->getPage(Page::DRIFT_SELECT_MULTI_PLAYER);
-    };
+        return (MultiDriftSelectPage*)
+            SectionManager::instance->curSection->getPage(Page::DRIFT_SELECT_MULTI_PLAYER);
+    }
 
     UIControlTimer* timer;
     void* boundingBoxes;

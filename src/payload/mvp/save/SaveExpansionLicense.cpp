@@ -4,18 +4,21 @@
 bool SaveExpansionLicense::Header::IsValid(u32 licenseSize) const {
 
     // Check magic
-    if (magic != SAVEEX_LICENSE_MAGIC)
+    if (magic != SAVEEX_LICENSE_MAGIC) {
         return false;
+    }
 
     // Ensure the license header contains one section offset per section
-    if (offsetof(SaveExpansionLicense::Header, sectionOffsets) + sectionCount * sizeof(u32) != headerSize)
+    if (offsetof(SaveExpansionLicense::Header, sectionOffsets) + sectionCount * sizeof(u32) != headerSize) {
         return false;
+    }
 
     // Ensure each section offset is in the license
     const u32* sectionOffsData = &sectionOffsets[0];
     for (u32 i = 0; i < sectionCount; i++) {
-        if (sectionOffsData[i] > licenseSize)
+        if (sectionOffsData[i] > licenseSize) {
             return false;
+        }
     }
 
     // All checks passed!
@@ -57,16 +60,18 @@ bool SaveExpansionLicense::Read(u8* buffer, u32 bufferSize) {
 
     // If the header for the license is not valid, bail and mark as corrupted
     Header* header = (Header*)buffer;
-    if (!header->IsValid(bufferSize))
+    if (!header->IsValid(bufferSize)) {
         return false;
+    }
 
     // Parse each section
     // Do not mark save as corrupted on invalid section/section data
     for (u32 i = 0; i < header->sectionCount; i++) {
 
         // Get the section pointer
-        SaveExpansionSection::RawData* rawSection = (SaveExpansionSection::RawData*)(buffer +
-                                                    header->headerSize + header->sectionOffsets[i]);
+        SaveExpansionSection::RawData* rawSection;
+        rawSection = (SaveExpansionSection::RawData*)(buffer + header->headerSize
+                                                      + header->sectionOffsets[i]);
 
         // Determine which section it is and parse the data using its virtual function
         for (u32 j = 0; j < ARRAY_SIZE(mSections); j++) {
@@ -96,8 +101,8 @@ void SaveExpansionLicense::Write(u8* buffer) {
 
         // Get section
         SaveExpansionSection* section = mSections[i];
-        SaveExpansionSection::RawData* rawSection = (SaveExpansionSection::RawData*)(buffer +
-                                                    header->headerSize + currOffs);
+        SaveExpansionSection::RawData* rawSection;
+        rawSection = (SaveExpansionSection::RawData*)(buffer + header->headerSize + currOffs);
 
         // Write magic
         rawSection->magic = section->GetMagic();

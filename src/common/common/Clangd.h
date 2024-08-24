@@ -1,4 +1,5 @@
 #pragma once
+// clang-format off
 
 // Fixes various non-existent Clangd errors, do not include
 #ifdef __CLANGD__

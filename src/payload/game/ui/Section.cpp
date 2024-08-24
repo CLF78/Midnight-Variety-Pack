@@ -67,7 +67,7 @@ REPLACE_STATIC Page* Section::createPage(Page::PageId pageId) {
 // Apply section page replacements (all pages)
 REPLACE void Section::addPages(Section::SectionId sectionId) {
 
-    switch(sectionId) {
+    switch (sectionId) {
 
         // Replace save error page to prevent using the game without saving
         case SAVE_CANNOT_FLUSH:
@@ -127,7 +127,7 @@ REPLACE void Section::addPages(Section::SectionId sectionId) {
 // Apply section page replacements (initial pages)
 REPLACE void Section::addActivePages(Section::SectionId sectionId) {
 
-    switch(sectionId) {
+    switch (sectionId) {
 
         // Replace save error page to prevent using the game without saving
         case SAVE_CANNOT_FLUSH:
@@ -187,8 +187,9 @@ REPLACE void Section::deinit() {
     // Remove regular pages
     for (u32 i = 0; i < ARRAY_SIZE(pages); i++) {
         Page* page = pages[i];
-        if (page == nullptr)
+        if (page == nullptr) {
             continue;
+        }
 
         page->onDeinit();
         delete page;
@@ -198,8 +199,9 @@ REPLACE void Section::deinit() {
     // Remove custom pages
     for (u32 i = 0; i < ARRAY_SIZE(extraPages); i++) {
         Page* page = extraPages[i];
-        if (page == nullptr)
+        if (page == nullptr) {
             continue;
+        }
 
         page->onDeinit();
         delete page;
@@ -219,6 +221,7 @@ kmHookFn void CalcActivationFix(Section* self, Page::PageId pageId, Page::Animat
     replacementPage->activate();
 }
 
+// clang-format off
 // Glue code
 kmBranchDefAsm(0x80623118, 0x8062316C) {
     nofralloc

@@ -8,9 +8,8 @@
 
 // Set the current track for GP mode
 REPLACE void RaceConfig::Scenario::initCoursePositions() {
-    if (settings.gameMode == Settings::GAMEMODE_GP &&
-        settings.raceNumber < 5 &&
-        settings.cameraMode != Settings::CAMERA_MODE_REPLAY) {
+    if (settings.gameMode == Settings::GAMEMODE_GP && settings.raceNumber < 5
+        && settings.cameraMode != Settings::CAMERA_MODE_REPLAY) {
 
         // Get the next track in the cup
         const u16 trackIdx = CupManager::GetCup(settings.cupId)->entryId[settings.raceNumber];
@@ -42,8 +41,9 @@ REPLACE void RaceConfig::Scenario::initCoursePositions() {
 
         // Insert new players at the end of the starting grid
         for (u32 i = 0; i < ARRAY_SIZE(players); i++) {
-            if (players[i].playerType != Player::TYPE_NONE && players[i].prevFinishPos == 0)
+            if (players[i].playerType != Player::TYPE_NONE && players[i].prevFinishPos == 0) {
                 startPositions[i] = currPos++;
+            }
         }
 
         // Copy the calculated positions (includes non-existant players)
@@ -64,12 +64,13 @@ REPLACE void RaceConfig::loadNextCourse() {}
 REPLACE u32 RaceConfig::Player::computeGPRank() {
 
     // Initialize score thresholds
-    static const u8 scores[RANK_COUNT-1] = {GP_SCORE_3_STARS, GP_SCORE_2_STARS, GP_SCORE_1_STAR};
+    static const u8 scores[RANK_COUNT - 1] = { GP_SCORE_3_STARS, GP_SCORE_2_STARS, GP_SCORE_1_STAR };
 
     // Calculate the score
     for (u32 i = 0; i < ARRAY_SIZE(scores); i++) {
-        if (gpScore >= scores[i])
+        if (gpScore >= scores[i]) {
             return i;
+        }
     }
 
     // None of the thresholds were reached, the player is a failure

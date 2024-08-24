@@ -17,13 +17,15 @@ namespace RKNet {
 REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
 
     // Bail if the packet doesn't even include a full header
-    if (dataLength < sizeof(RKNetRACEPacketHeader))
+    if (dataLength < sizeof(RKNetRACEPacketHeader)) {
         return;
+    }
 
     // Get the PID of the AID that sent the packet
     int pid = -1;
-    if (DWCNodeInfo* info = DWCi_NodeInfoList_GetNodeInfoForAid(aid))
+    if (DWCNodeInfo* info = DWCi_NodeInfoList_GetNodeInfoForAid(aid)) {
         pid = info->profileId;
+    }
 
     // Verify the checksum
     // The game already does this later, but we shouldn't disconnect a player because a packet got corrupted
@@ -48,8 +50,9 @@ REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
     LOG_WARN("Detected malicious packet from PID %d", pid);
 
     // Kick the offending player if we're host
-    if (RKNetController::instance->isPlayerHost())
+    if (RKNetController::instance->isPlayerHost()) {
         Wiimmfi::Kick::ScheduleForAID(aid);
+    }
 
     // Warn the user if possible
     if (FriendRoomJoinPage* page = FriendRoomJoinPage::getPage()) {

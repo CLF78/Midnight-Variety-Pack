@@ -12,23 +12,26 @@
 
 // Trigger the credits if all GPs have been completed
 // TODO figure out which TU this code belongs to and move it there
-REPLACE_STATIC AwardPage::CreditsType AwardPage::getCreditsType(u32 cupId, u32 engineClass,
-                                                                bool isMirror, u32 rank) {
+REPLACE_STATIC AwardPage::CreditsType AwardPage::getCreditsType(u32 cupId, u32 engineClass, bool isMirror,
+                                                                u32 rank) {
 
     // Copied check from the original function
-    if (rank == 0 || rank > 3)
+    if (rank == 0 || rank > 3) {
         return AwardPage::CREDITS_NONE;
+    }
 
     // Get current license, bail if invalid
     SaveManager* save = SaveManager::instance;
-    if (save->currentLicenseId == -1)
+    if (save->currentLicenseId == -1) {
         return AwardPage::CREDITS_NONE;
+    }
 
     // Check that each cup is completed
     SaveExpansionCup* cups = SaveExpansionCup::GetSection();
     for (u32 i = 0; i < SaveExpansionCup::GetEntryCount(); i++) {
-        if (!cups->GetData(i)->mCompleted)
+        if (!cups->GetData(i)->mCompleted) {
             return AwardPage::CREDITS_NONE;
+        }
     }
 
     // If so go to the real credits
@@ -39,8 +42,9 @@ REPLACE_STATIC AwardPage::CreditsType AwardPage::getCreditsType(u32 cupId, u32 e
 REPLACE void AwardPage::initRank() {
 
     // Check if we're in GP mode
-    if (SectionManager::instance->curSection->sectionId != Section::AWARD_GP)
+    if (SectionManager::instance->curSection->sectionId != Section::AWARD_GP) {
         return;
+    }
 
     // Obtain GP rank
     RaceConfig* rconfig = RaceConfig::instance;
@@ -48,14 +52,16 @@ REPLACE void AwardPage::initRank() {
 
     // Get current license, bail if invalid
     SaveManager* save = SaveManager::instance;
-    if (save->currentLicenseId == -1)
+    if (save->currentLicenseId == -1) {
         return;
+    }
 
     // Check if the new rank is better than the existing one
     const u32 cupId = rconfig->awardsScenario.settings.cupId;
     SaveExpansionCup::Data* cupData = SaveExpansionCup::GetSection()->GetData(cupId);
-    if (cupData->mRank <= gpRank)
+    if (cupData->mRank <= gpRank) {
         return;
+    }
 
     // Store the data
     cupData->mCompleted = true;
@@ -96,20 +102,22 @@ REPLACE void AwardPage::initType() {
             msgId = Message::Race::COIN_RUNNERS;
             iconPane = "icon_10_coin";
         }
+    }
 
     // Set icon and message for VS and GP modes
-    } else if (curSection == Section::AWARD_GP || curSection == Section::AWARD_VS_36 || curSection == Section::AWARD_VS_37) {
+    else if (curSection == Section::AWARD_GP || curSection == Section::AWARD_VS_36
+             || curSection == Section::AWARD_VS_37) {
 
         // Get the cup icon (or the flag icon if not in GP mode)
-        if (curSection == Section::AWARD_GP)
+        if (curSection == Section::AWARD_GP) {
             iconPane = CupManager::replaceCupIcon(&cupDisplay, settings->cupId);
-        else
+        }
+        else {
             iconPane = "icon_11_flag";
+        }
 
         // Get the message depending on the mode
-        msgId = (curSection == Section::AWARD_GP) ?
-                Message::Race::AWARD_GP :
-                Message::Race::AWARD_VS;
+        msgId = (curSection == Section::AWARD_GP) ? Message::Race::AWARD_GP : Message::Race::AWARD_VS;
 
         // Set the CC
         const u32 engineClass = settings->engineClass;
@@ -136,10 +144,12 @@ REPLACE void AwardPage::initType() {
         }
 
         // Set the cup name/mirror
-        if (curSection == Section::AWARD_GP)
+        if (curSection == Section::AWARD_GP) {
             msgInfo.messageIds[0] = CupManager::GetCup(settings->cupId)->cupName;
-        else
-            msgInfo.setCondMessageValue(0, (settings->modeFlags & RaceConfig::Settings::FLAG_MIRROR) != 0, true);
+        }
+        else {
+            msgInfo.setCondMessageValue(0, settings->isMirror(), true);
+        }
     }
 
     // Apply changes

@@ -10,8 +10,9 @@ void BattleCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayer
 
     // Update the page number
     page->curPage--;
-    if (page->curPage < 0)
+    if (page->curPage < 0) {
         page->curPage = CupManager::getMaxCupPage(true);
+    }
 
     // Log entry
     LOG_DEBUG("Changing cup select page to %d...", page->curPage);
@@ -38,8 +39,9 @@ void BattleCupSelectArrow::onRight(SheetSelectControl* arrowPair, u32 localPlaye
 
     // Update the page number
     page->curPage++;
-    if (page->curPage > CupManager::getMaxCupPage(true))
+    if (page->curPage > CupManager::getMaxCupPage(true)) {
         page->curPage = 0;
+    }
 
     // Log entry
     LOG_DEBUG("Changing cup select page to %d...", page->curPage);

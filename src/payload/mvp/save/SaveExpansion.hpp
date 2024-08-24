@@ -3,9 +3,7 @@
 
 class SaveExpansion {
 public:
-
     struct Header {
-
         bool IsValid(u32 fileSize) const;
 
         u32 magic;
@@ -22,7 +20,7 @@ public:
     bool Read(u8* buffer, u32 bufferSize);
     void Write();
 
-    static SaveExpansion* construct(void* buffer) { return new(buffer) SaveExpansion(); }
+    static SaveExpansion* construct(void* buffer) { return new (buffer) SaveExpansion(); }
     SaveExpansionLicense* GetLicense(u8 idx) { return &mLicenses[idx]; }
 
     SaveExpansionLicense mLicenses[SAVEEX_LICENSE_COUNT];

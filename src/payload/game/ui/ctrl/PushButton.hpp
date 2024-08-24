@@ -19,10 +19,11 @@ public:
     virtual void onDeselect();
     virtual void onClick();
 
-    void load(const char* dirname, const char* filename, const char* variant, u32 playerFlags,
-                    bool param_6, bool inaccessible);
-    void loadWithAnims(const char** anims, const char* dirname, const char* filename,
-                       const char* variant, u32 playerFlags, bool param_6);
+    void load(const char* dirname, const char* filename, const char* variant, u32 playerFlags, bool param_6,
+              bool inaccessible);
+
+    void loadWithAnims(const char** anims, const char* dirname, const char* filename, const char* variant,
+                       u32 playerFlags, bool param_6);
 
     bool isSelected();
     void select(u32 localPlayerId);

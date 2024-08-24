@@ -83,23 +83,24 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
         KPADRead(WPAD_CONTROLLER_1, &wiimoteStatus, 1);
         PADRead(gamecubeStatus);
         PADClampCircle(gamecubeStatus);
-        if (isClassic)
+        if (isClassic) {
             KPADGetUnifiedWpadStatus(WPAD_CONTROLLER_1, &unifiedStatus, 1);
+        }
 
         // Return to the menu on HOME/START press
         if (OSGetCurrentThread()) {
-            if (wiimoteStatus.buttonsHeld & WPAD_BUTTON_HOME ||
-                gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_START ||
-                (isClassic && unifiedStatus.cl.buttons & WPAD_CL_BUTTON_HOME)) {
-                    SystemManager::ReturnToMenu();
+            if (wiimoteStatus.buttonsHeld & WPAD_BUTTON_HOME
+                || gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_START
+                || (isClassic && unifiedStatus.cl.buttons & WPAD_CL_BUTTON_HOME)) {
+                SystemManager::ReturnToMenu();
             }
         }
 
         // Check for UP/DOWN inputs
-        bool down = (!!(wiimoteStatus.buttonsHeld & WPAD_BUTTON_DOWN) ||
-                     !!(gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_DOWN));
-        bool up = (!!(wiimoteStatus.buttonsHeld & WPAD_BUTTON_UP) ||
-                   !!(gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_UP));
+        bool down = (!!(wiimoteStatus.buttonsHeld & WPAD_BUTTON_DOWN)
+                     || !!(gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_DOWN));
+        bool up = (!!(wiimoteStatus.buttonsHeld & WPAD_BUTTON_UP)
+                   || !!(gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_UP));
 
         if (isClassic) {
             up |= !!(unifiedStatus.cl.buttons & WPAD_CL_BUTTON_UP);
@@ -108,18 +109,14 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
 
         // Check Gamecube Controller stick
         if (CheckGCStickThreshold(gamecubeStatus[PAD_CONTROLLER_1].stickY)) {
-            if (gamecubeStatus[PAD_CONTROLLER_1].stickY < 0)
-                down = true;
-            else
-                up = true;
+            down = (gamecubeStatus[PAD_CONTROLLER_1].stickY < 0);
+            up = !down;
         }
 
         // Check Classic Controller left stick
         if (isClassic && CheckCLStickThreshold(unifiedStatus.cl.leftStickY)) {
-            if (unifiedStatus.cl.leftStickY < 0)
-                down = true;
-            else
-                up = true;
+            down = (unifiedStatus.cl.leftStickY < 0);
+            up = !down;
         }
 
         // Wait 100 milliseconds between inputs
@@ -129,10 +126,12 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
         s32 currentTopLine = console->topLineNumber;
         const s32 prevTopLine = currentTopLine;
 
-        if (down)
+        if (down) {
             currentTopLine = MIN(currentTopLine + 1, totalLines);
-        else if (up)
+        }
+        else if (up) {
             currentTopLine = MAX(currentTopLine - 1, lineCount);
+        }
 
         // Redraw the screen (if the contents have changed)
         if (currentTopLine != prevTopLine) {

@@ -7,12 +7,12 @@ extern "C" {
 #endif
 
 typedef enum {
-    KPAD_READ_ERR_NONE          = 0,
-    KPAD_READ_ERR_NO_DATA       = -1,
+    KPAD_READ_ERR_NONE = 0,
+    KPAD_READ_ERR_NO_DATA = -1,
     KPAD_READ_ERR_NO_CONTROLLER = -2,
-    KPAD_READ_ERR_SETUP         = -3,
-    KPAD_READ_ERR_LOCKED        = -4,
-    KPAD_READ_ERR_INIT          = -5,
+    KPAD_READ_ERR_SETUP = -3,
+    KPAD_READ_ERR_LOCKED = -4,
+    KPAD_READ_ERR_INIT = -5,
 } KPADError;
 
 typedef union {
@@ -31,7 +31,7 @@ typedef union {
         VEC2 leftStick;
         VEC2 rightStick;
 
-        float leftTrigger; // always 0
+        float leftTrigger;  // always 0
         float rightTrigger; // always 0
     } classic;
 } KPADEXStatus;

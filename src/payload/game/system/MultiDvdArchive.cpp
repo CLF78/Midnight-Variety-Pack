@@ -15,7 +15,7 @@ const char* getLanguageCode() {
 
     // PAL
     if (__CODE_REGION__ == Region::REGION_P) {
-        switch(lang) {
+        switch (lang) {
             case SC_LANG_GERMAN:
                 return "G";
             case SC_LANG_FRENCH:
@@ -31,7 +31,7 @@ const char* getLanguageCode() {
 
     // NTSC-U
     else if (__CODE_REGION__ == Region::REGION_E) {
-        switch(lang) {
+        switch (lang) {
             case SC_LANG_FRENCH:
                 return "Q";
             case SC_LANG_SPANISH:
@@ -42,12 +42,14 @@ const char* getLanguageCode() {
     }
 
     // NTSC-J
-    else if (__CODE_REGION__ == Region::REGION_J)
+    else if (__CODE_REGION__ == Region::REGION_J) {
         return "J";
+    }
 
     // NTSC-K
-    else if (__CODE_REGION__ == Region::REGION_K)
+    else if (__CODE_REGION__ == Region::REGION_K) {
         return "K";
+    }
 
     // Should never occur
     return nullptr;
@@ -83,12 +85,14 @@ REPLACE void* MultiDvdArchive::getFile(const char* path, u32* size) {
         DvdArchive* archive = &archives[i];
 
         // Check that the archive is mounted
-        if (archive->state != DvdArchive::MOUNTED && archive->state != DvdArchive::UNK_5)
+        if (archive->state != DvdArchive::MOUNTED && archive->state != DvdArchive::UNK_5) {
             continue;
+        }
 
         // Get the file, if found exit the loop
-        if (void* file = archive->getFile(path, size))
+        if (void* file = archive->getFile(path, size)) {
             return file;
+        }
     }
 
     // Return null if not found

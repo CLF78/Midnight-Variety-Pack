@@ -1,5 +1,5 @@
-#include "ConnectionMatrix.hpp"
 #include "MatchCommand.hpp"
+#include "ConnectionMatrix.hpp"
 #include <dwc/dwc_match.h>
 #include <dwc/dwc_node.h>
 #include <platform/stdio.h>
@@ -9,7 +9,8 @@
 namespace Wiimmfi {
 namespace MatchCommand {
 
-void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPort, DWCMatchCommandConnFailMtx* data, int dataLen) {
+void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPort,
+                                   DWCMatchCommandConnFailMtx* data, int dataLen) {
 
     // Only process the command if we are waiting
     // This should also act as a host check since this state cannot be in use by a client (i think)
@@ -56,8 +57,8 @@ void ProcessRecvConnFailMtxCommand(int clientAPid, u32 clientAIP, u16 clientAPor
     DWCMatchCommandNewPidAid cmd;
     NETWriteSwappedBytes32(&cmd.pid, stpMatchCnt->tempNewNodeInfo.profileId);
     NETWriteSwappedBytes32(&cmd.aid, stpMatchCnt->tempNewNodeInfo.aid);
-    DWCi_SendMatchCommand(DWC_MATCH_CMD_NEW_PID_AID, clientAPid, clientAIP, clientAPort,
-                          &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
+    DWCi_SendMatchCommand(DWC_MATCH_CMD_NEW_PID_AID, clientAPid, clientAIP, clientAPort, &cmd,
+                          DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
 
     // Send a SYN packet to client A
     DWCi_SendMatchSynPacket(clientAInfo->aid, DWC_MATCH_SYN_CMD_SYN);
@@ -76,14 +77,19 @@ void ProcessRecvConnMtxCommand(int srcPid, DWCMatchCommandConnMtx* data, int dat
 
     // If the profile id of the source client isn't found, reset the outdated matrices
     DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForProfileId(srcPid);
-    if (node) Wiimmfi::ConnectionMatrix::sRecvConnMtx[node->aid] = data->connMtx;
-    else Wiimmfi::ConnectionMatrix::ResetRecv();
+    if (node) {
+        Wiimmfi::ConnectionMatrix::sRecvConnMtx[node->aid] = data->connMtx;
+    }
+    else {
+        Wiimmfi::ConnectionMatrix::ResetRecv();
+    }
 }
 
-bool ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData, int dataLen) {
+bool ProcessRecvMatchCommand(u8 cmd, int profileId, u32 publicIp, u16 publicPort, void* cmdData,
+                             int dataLen) {
 
     // Dispatch call to different functions depending on the command
-    switch(cmd) {
+    switch (cmd) {
 
         case DWC_MATCH_CMD_CONN_FAIL_MTX:
             LOG_DEBUG("Received CONN_FAIL_MTX command.");
@@ -108,13 +114,15 @@ void SendConnFailMtxCommand(u32 aidsConnectedToHost, u32 aidsConnectedToMe) {
     cmd.connFailMtx = aidsConnectedToHost & ~aidsConnectedToMe;
 
     // If all AIDs are connected or i am waiting, bail
-    if (!cmd.connFailMtx || stpMatchCnt->state == DWC_MATCH_STATE_CL_WAITING)
+    if (!cmd.connFailMtx || stpMatchCnt->state == DWC_MATCH_STATE_CL_WAITING) {
         return;
+    }
 
     // Get the host's node info, with all the necessary failsaves
     DWCNodeInfo* hostNodeInfo = DWCi_NodeInfoList_GetServerNodeInfo();
-    if (!hostNodeInfo || hostNodeInfo->profileId == 0)
+    if (!hostNodeInfo || hostNodeInfo->profileId == 0) {
         return;
+    }
 
     // Send the command
     LOG_DEBUG("Sending CONN_MTX command with data %08X", cmd.connFailMtx);
@@ -125,8 +133,9 @@ void SendConnFailMtxCommand(u32 aidsConnectedToHost, u32 aidsConnectedToMe) {
 void SendConnMtxCommand(u32 aidsConnectedToMe) {
 
     // Failsafe
-    if (stpMatchCnt->nodeInfoList.nodeCount == 0)
+    if (stpMatchCnt->nodeInfoList.nodeCount == 0) {
         return;
+    }
 
     // Set up the command
     DWCMatchCommandConnMtx cmd;
@@ -138,12 +147,13 @@ void SendConnMtxCommand(u32 aidsConnectedToMe) {
 
         // Get the node and check that it isn't me
         DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];
-        if (node->profileId == stpMatchCnt->profileId)
+        if (node->profileId == stpMatchCnt->profileId) {
             continue;
+        }
 
         // Send the command
-        DWCi_SendMatchCommand(DWC_MATCH_CMD_CONN_MTX, node->profileId, node->publicip, node->publicport,
-                              &cmd, DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
+        DWCi_SendMatchCommand(DWC_MATCH_CMD_CONN_MTX, node->profileId, node->publicip, node->publicport, &cmd,
+                              DWC_MATCH_CMD_GET_SIZE(sizeof(cmd)));
     }
 }
 

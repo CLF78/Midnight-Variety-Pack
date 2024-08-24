@@ -11,7 +11,7 @@
 // Display a different message if only the expansion data is corrupted
 kmCallDefCpp(0x8061FE70, void, YesNoPage* self, u32 msgId, MessageInfo* msgInfo) {
     msgId = (SaveManager::instance->result != NandUtil::ERROR_NONE) ?
-            Message::Menu::ERROR_SAVE_CORRUPTED :
-            Message::Menu::ERROR_SAVE_EXPANSION_CORRUPTED;
+                Message::Menu::ERROR_SAVE_CORRUPTED :
+                Message::Menu::ERROR_SAVE_EXPANSION_CORRUPTED;
     self->setWindowMessage(msgId);
 }

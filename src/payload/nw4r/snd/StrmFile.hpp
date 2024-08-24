@@ -6,7 +6,6 @@ namespace detail {
 
 class StrmFileReader {
 public:
-
     struct StrmTrackInfo {
         u8 volume;
         u8 pan;

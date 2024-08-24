@@ -27,8 +27,10 @@ REPLACE void ClassSelectPage::onInit() {
 
     // If we are not returning from TT mode, we don't need to set the button
     const u32 section = SectionManager::instance->curSection->sectionId;
-    if (section != Section::MENUSINGLE_FROM_TT_CHANGE_CHAR && section != Section::MENUSINGLE_FROM_TT_CHANGE_COURSE)
+    if (section != Section::MENUSINGLE_FROM_TT_CHANGE_CHAR
+        && section != Section::MENUSINGLE_FROM_TT_CHANGE_COURSE) {
         return;
+    }
 
     // Get each button id
     for (u32 i = 0; i < buttonCount; i++) {
@@ -36,8 +38,9 @@ REPLACE void ClassSelectPage::onInit() {
         const int buttonId = btn->buttonId;
 
         // Skip all irrelevant buttons
-        if (buttonId < 0 || buttonId > 2)
+        if (buttonId < 0 || buttonId > 2) {
             continue;
+        }
 
         // If the engine class matches the current button's, set the button and return
         const u32 engineClass = ClassSelectPage::engineClasses[buttonId];

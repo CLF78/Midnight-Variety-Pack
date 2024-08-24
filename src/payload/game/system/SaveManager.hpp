@@ -9,7 +9,6 @@
 
 class SaveManager {
 public:
-
     struct License {
 
         struct Cup {
@@ -67,14 +66,14 @@ public:
         u8 miiClientId[4];
         PAD(2);
 
-        Cup cups[4][8]; // unused
-        LeaderboardEntry ttLeaderboards[6][32]; // unused
+        Cup cups[4][8];                                         // unused
+        LeaderboardEntry ttLeaderboards[6][32];                 // unused
         CompetitionLeaderboardEntry CompetitionLeaderboards[6]; // unused
 
         u8 friendData[0x35F0];
         u8 dwcUserData[0x40];
 
-        UnlockFlags unlockFlags; // unused
+        UnlockFlags unlockFlags;  // unused
         u32 staffGhostsBeaten[2]; // unused
 
         Rating vr; // unused
@@ -83,15 +82,15 @@ public:
         UNK(256);
         u32 driftMode;
 
-        u32 offlineEngineClass[4]; // unused
+        u32 offlineEngineClass[4];   // unused
         u32 offlineCpuDifficulty[4]; // unused
-        u32 offlineCpuVehicles[4]; // unused
-        u32 offlineCourseOrder[4]; // unused
-        u32 offlineItemSetting[4]; // unused
-        u32 offlineRaceCount[4]; // unused
+        u32 offlineCpuVehicles[4];   // unused
+        u32 offlineCourseOrder[4];   // unused
+        u32 offlineItemSetting[4];   // unused
+        u32 offlineRaceCount[4];     // unused
         UNK(0x9260 - 0x9188);
 
-        u32 pbGhostFlags; // unused
+        u32 pbGhostFlags;         // unused
         u32 downloadedGhostFlags; // unused
         bool isManualDrift;
         PAD(3);
@@ -121,9 +120,9 @@ public:
         float distanceTravelledInVS;
         u16 competitionsEntered;
         u16 racesCompletedWithCharacter[25]; // unused
-        u16 racesCompletedWithVehicle[36]; // unused
-        u16 racesCompletedOnCourse[32]; // unused
-        u16 battlesCompletedOnStage[10]; // unused
+        u16 racesCompletedWithVehicle[36];   // unused
+        u16 racesCompletedOnCourse[32];      // unused
+        u16 battlesCompletedOnStage[10];     // unused
         UNK(0x93ED - 0x9398);
 
         bool validLicense;

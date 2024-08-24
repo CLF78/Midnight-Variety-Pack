@@ -25,4 +25,3 @@ public:
     static const char* buttonAnims[6];
 };
 size_assert(CtrlMenuBattleStageSelectStage, 0xF2C);
-

@@ -31,7 +31,6 @@ typedef struct {
 } GPIConnectData;
 size_cassert(GPIConnectData, 0x308);
 
-
 #ifdef __cplusplus
 }
 #endif

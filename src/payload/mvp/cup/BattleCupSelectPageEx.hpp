@@ -6,7 +6,6 @@
 
 class BattleCupSelectPageEx : public BattleCupSelectPage {
 public:
-
     enum LayoutIdx {
         LYT_CUP_SELECT_CUP,
         LYT_CUP_SELECT_COURSE,
@@ -25,15 +24,15 @@ public:
         return (BattleCupSelectPageEx*)SectionManager::instance->curSection->getPage(Page::CUP_SELECT_BT);
     }
 
-    static u32 getCupCount() {
-        return 2 + ARRAY_SIZE_STATIC(BattleCupSelectPageEx, cupButtons);
-    }
+    static u32 getCupCount() { return 2 + ARRAY_SIZE_STATIC(BattleCupSelectPageEx, cupButtons); }
 
     PushButton* getCupButton(u32 idx) {
-        if (idx < 2)
+        if (idx < 2) {
             return &cupHolder.cupButtons[idx];
-        if (idx < getCupCount())
-            return &cupButtons[idx-2];
+        }
+        if (idx < getCupCount()) {
+            return &cupButtons[idx - 2];
+        }
         return nullptr;
     }
 

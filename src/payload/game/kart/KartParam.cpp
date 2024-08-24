@@ -10,6 +10,7 @@
 // Credits: Wiimmfi
 REPLACE_STATIC void KartParam::init() {
     REPLACED();
-    if (RaceGlobals::isOnlineRace)
+    if (RaceGlobals::isOnlineRace) {
         Wiimmfi::Reporting::ReportCommonSubfiles();
+    }
 }

@@ -69,7 +69,7 @@ typedef struct {
 size_cassert(NAT, 0xD8);
 
 BOOL DetermineNatType(NAT* nat);
-int DiscoverReachability(int sock, unsigned int ip, unsigned short port, int portType); // reimplemented
+int DiscoverReachability(int sock, unsigned int ip, unsigned short port, int portType);    // reimplemented
 int DiscoverMapping(int sock, unsigned int ip, unsigned short port, int portType, int id); // reimplemented
 
 #ifdef __cplusplus

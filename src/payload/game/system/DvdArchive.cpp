@@ -30,22 +30,26 @@ REPLACE void DvdArchive::decompress(const char* path, EGG::Heap* heap) {
     state = DvdArchive::DECOMPRESSED;
 
     // Check if it's a track file, if not bail
-    if (!strstart(path, "Race/Course/"))
+    if (!strstart(path, "Race/Course/")) {
         return;
+    }
 
     // Check if it's a custom track, if not bail
-    if (CupManager::IsSystemCourse(RaceConfig::instance->raceScenario.settings.courseId))
+    if (CupManager::IsSystemCourse(RaceConfig::instance->raceScenario.settings.courseId)) {
         return;
+    }
 
     // If the hash hasn't already been computed for this track, do so
     u32* hash = CupData::tracks[CupManager::currentSzs].sha1Hash;
-    if (!hash[0] && !hash[1] && !hash[2] && !hash[3] && !hash[4])
+    if (!hash[0] && !hash[1] && !hash[2] && !hash[3] && !hash[4]) {
         NETCalcSHA1(hash, buffer, decompressedSize);
+    }
 
     // Check if we're online, if not bail
     // We cannot use the isOnline variable since it hasn't been initialized yet
-    if (!RaceConfig::instance->raceScenario.settings.isOnline())
+    if (!RaceConfig::instance->raceScenario.settings.isOnline()) {
         return;
+    }
 
     // We're online, send the track hash to the server
     // TODO figure out what to do if we remove course slots, probably gotta talk it out with Wiimmfi devs

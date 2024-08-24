@@ -19,7 +19,8 @@ kmBranchDefCpp(0x8063B1FC, 0x8063B338, void, Random* randomizer) {
     do {
         const u32 rand = randomizer->nextU32(cupList->cupCount * 4);
         trackIdx = cupList->cups[rand / 4].entryId[rand % 4];
-    } while (trackIdx == prevTrackIdx);
+    }
+    while (trackIdx == prevTrackIdx);
 
     // Get the track and set it as the demo one
     trackIdx = CupManager::getTrackFile(trackIdx);
@@ -39,7 +40,8 @@ kmBranchDefCpp(0x8063B2F4, 0x8063B338, void, Random* randomizer) {
     do {
         const u32 rand = randomizer->nextU32(cupList->cupCount * 4);
         trackIdx = cupList->cups[rand / 4].entryId[rand % 4];
-    } while (trackIdx == prevTrackIdx);
+    }
+    while (trackIdx == prevTrackIdx);
 
     // Get the arena and set it as the demo one
     trackIdx = CupManager::getTrackFile(trackIdx);

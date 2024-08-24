@@ -3,6 +3,15 @@
 
 class SinglePlayerMenuPage : public MenuPage {
 public:
+    enum ButtonId {
+        GP_BUTTON,
+        TT_BUTTON,
+        VS_BUTTON,
+        BT_BUTTON,
+        MR_BUTTON,
+        BUTTON_COUNT,
+    };
+
     virtual ~SinglePlayerMenuPage();
 
     virtual void onInit();
@@ -22,14 +31,5 @@ public:
     virtual void setupButton(PushButton* button);
 
     void onButtonClick(PushButton* button, u32 hudSlotId);
-
-    enum ButtonID {
-        GP_BUTTON,
-        TT_BUTTON,
-        VS_BUTTON,
-        BT_BUTTON,
-        MR_BUTTON,
-        BUTTON_COUNT,
-    };
 };
 size_assert(SinglePlayerMenuPage, sizeof(MenuPage));

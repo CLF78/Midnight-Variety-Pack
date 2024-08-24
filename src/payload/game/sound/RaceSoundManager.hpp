@@ -9,7 +9,6 @@ class KartSound;
 
 class RaceSoundManager : public EGG::Disposer {
 public:
-
     enum SoundType {
         AWARD_CREDITS_BGM,
         GHOST_REPLAY_BGM,

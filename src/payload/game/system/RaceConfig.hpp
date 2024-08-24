@@ -13,7 +13,6 @@ size_assert(RaceConfigBase, 0x4);
 
 class RaceConfig : public RaceConfigBase, public ParameterFile {
 public:
-
     class Player {
     public:
         enum Type {
@@ -139,9 +138,9 @@ public:
         };
 
         enum ModeFlags {
-            FLAG_NONE        = BIT_FLAG(-1),
-            FLAG_MIRROR      = BIT_FLAG(0),
-            FLAG_TEAMS       = BIT_FLAG(1),
+            FLAG_NONE = BIT_FLAG(-1),
+            FLAG_MIRROR = BIT_FLAG(0),
+            FLAG_TEAMS = BIT_FLAG(1),
             FLAG_COMPETITION = BIT_FLAG(2),
         };
 
@@ -151,6 +150,10 @@ public:
             ITEMS_STRATEGIC,
             ITEMS_NONE,
         };
+
+        bool isMirror() const { return (modeFlags & FLAG_MIRROR) != 0; }
+
+        bool isTeams() const { return (modeFlags & FLAG_TEAMS) != 0; }
 
         bool isBattle() const {
             switch (gameMode) {
