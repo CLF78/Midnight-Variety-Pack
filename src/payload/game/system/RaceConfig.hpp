@@ -37,7 +37,9 @@ public:
 
             // Custom values here onwards
             RANK_GOLDEN_CUP,
-            RANK_COUNT,
+            RANK_SILVER_CUP,
+            RANK_BRONZE_CUP,
+            RANK_LOSER,
         };
 
         // Default is used for cases such as a legacy ghost
