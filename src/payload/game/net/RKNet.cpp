@@ -35,7 +35,7 @@ REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
     const u32 realChecksum = NETCalcCRC32(data, dataLength);
     header->checksum = savedChecksum;
     if (realChecksum != savedChecksum) {
-        LOG_WARN("Detected corrupted packet from PID %d", pid);
+        LOG_WARN("Detected corrupted packet from AID %d (PID %d)", aid, pid);
         return;
     }
 
@@ -47,7 +47,7 @@ REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
 
     // Lock interrupts
     const nw4r::ut::AutoInterruptLock lock;
-    LOG_WARN("Detected malicious packet from PID %d", pid);
+    LOG_WARN("Detected malicious packet from AID %d (PID %d)", aid, pid);
 
     // Kick the offending player if we're host
     if (RKNetController::instance->isPlayerHost()) {

@@ -33,7 +33,7 @@ void ConnectToNode(u32 nodeIdx) {
     // Set up the message buffer and write to it
     char buffer[24];
     memset(buffer, 0, sizeof(buffer));
-    snprintf(buffer, sizeof(buffer), "%u%s", stpMatchCnt->profileId, "L");
+    snprintf(buffer, sizeof(buffer), "%dL", stpMatchCnt->profileId);
 
     // Connect to the node
     GT2Connection conn = nullptr;
