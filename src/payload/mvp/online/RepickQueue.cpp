@@ -12,12 +12,24 @@ void RepickQueue::RawQueue::Clear() {
 
 void RepickQueue::RawQueue::Push(u16 track) {
 
-    // Only add the track if it's not already there
-    if (GetQueuePosition(track) == NOT_IN_QUEUE) {
+    // Get the queue position
+    const u8 queuePos = GetQueuePosition(track);
+
+    // If the track is not there, simply move every entry forward by one
+    if (queuePos == NOT_IN_QUEUE) {
         LOG_DEBUG("Pushing track %d to the queue...", track);
         memmove(&lastPicks[1], &lastPicks, sizeof(lastPicks) - sizeof(lastPicks[0]));
         lastPicks[0] = track;
     }
+
+    // If the track is already somewhere in the queue, then move every entry up to it forward
+    else if (queuePos > 0) {
+        LOG_DEBUG("Pushing track %d to the queue (already in position %d)...", track, queuePos);
+        memmove(&lastPicks[1], &lastPicks, sizeof(lastPicks[0]) * queuePos);
+        lastPicks[0] = track;
+    }
+
+    // If the track is already at the top of the queue, don't do anything
     else {
         LOG_DEBUG("Track %d already in queue, not pushing.", track);
     }
