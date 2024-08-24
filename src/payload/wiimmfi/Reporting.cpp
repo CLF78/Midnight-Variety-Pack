@@ -457,6 +457,7 @@ void ReportSignatureAndCert() {
     // Delete the token from memory since we no longer need it
     if (Status::sToken) {
         delete Status::sToken;
+        Status::sToken = nullptr;
     }
 }
 
