@@ -14,6 +14,14 @@
 
 // Show the author display for the current track
 kmListHookDefCpp(RaceUpdateHook) {
+
+    // Bail if the queue is not enabled or we are in replay mode
+    const u32 camMode = RaceConfig::instance->raceScenario.settings.cameraMode;
+    if (!MessageQueue::instance.queueEnabled || camMode == RaceConfig::Settings::CAMERA_MODE_REPLAY) {
+        return;
+    }
+
+    // Initialize variables
     RaceManager* self = RaceManager::instance;
     static bool fastMusicShown = false;
     static bool normalMusicShown = false;
