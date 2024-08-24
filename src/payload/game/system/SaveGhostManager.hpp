@@ -1,9 +1,8 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/ui/Section.hpp>
 
 class SaveGhostManager {
 public:
-
     enum RequestType {
         REQ_NONE = -1,
         REQ_ERASE_ALL,
@@ -19,34 +18,39 @@ public:
         int licenseId;
         int ghostType;
         u8 ghostIndex;
-        // 3 bytes padding
+        PAD(3);
 
         u8 ghostFile[0xD8]; // TODO GhostFile header
     };
+    size_assert(SaveGhostRequest, 0xE4);
 
     struct LoadGhostRequest {
         int licenseId;
         int ghostType;
         u8 ghostIndex;
-        // 3 bytes padding
+        PAD(3);
 
         int courseId;
         bool checkGhostValidity;
+        PAD(3);
     };
+    size_assert(LoadGhostRequest, 0x14);
 
     struct EraseGhostRequest {
         int licenseId;
         int ghostType;
         u8 ghostIndex;
-        // 3 bytes padding
+        PAD(3);
 
         int courseId;
     };
+    size_assert(EraseGhostRequest, 0x10);
 
     struct LoadAllGhostsRequest {
         int licenseId;
         void* ghostGroup; // TODO GhostGroup header
     };
+    size_assert(LoadAllGhostsRequest, 0x8);
 
     void markLicensesDirty();
     Section::SectionId getErrorSection();
@@ -57,7 +61,7 @@ public:
     bool requestEraseGhost;
     bool requestLoadGhost;
     bool requestLoadAllGhosts;
-    // 2 bytes padding
+    PAD(2);
 
     int lastRequestType;
     int saveManagerError;
@@ -66,11 +70,10 @@ public:
     bool disableSaving;
     bool displayError;
     bool dirty;
-    // 1 byte padding
+    PAD(1);
 
     SaveGhostRequest saveGhostRequest;
     LoadGhostRequest loadGhostRequest;
-    // 3 bytes padding
     EraseGhostRequest eraseGhostRequest;
     LoadAllGhostsRequest loadAllGhostsRequest;
 };

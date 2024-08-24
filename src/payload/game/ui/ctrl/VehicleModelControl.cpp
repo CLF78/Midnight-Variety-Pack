@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "VehicleModelControl.hpp"
 #include <game/ui/page/Page.hpp>
-#include <game/ui/ctrl/VehicleModelControl.hpp>
 
 /////////////////////////
 // Transmission Select //

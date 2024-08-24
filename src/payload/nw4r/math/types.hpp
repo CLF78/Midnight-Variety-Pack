@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <revolution/mtx.h>
 
 namespace nw4r {

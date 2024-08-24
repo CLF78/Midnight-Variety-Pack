@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/CtrlMenuCupSelectCup.hpp>
+#include "CtrlMenuCupSelectCup.hpp"
 #include <mvp/cup/CupManager.hpp>
 #include <mvp/cup/RaceCupSelectPageEx.hpp>
 
@@ -14,14 +13,14 @@ REPLACE void CtrlMenuCupSelectCup::initSelf() {
     RaceCupSelectPageEx* page = RaceCupSelectPageEx::getPage();
 
     // Update children
-    for (int i = 0; i < ARRAY_SIZE(cupButtons); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(cupButtons); i++) {
 
         // Get the button
         PushButton* button = &cupButtons[i];
 
         // Set cup name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage);
-        u16 msgId = CupManager::GetCupList()[cupIdx].cupName;
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage);
+        const u16 msgId = CupManager::GetCup(cupIdx)->cupName;
         button->setText(msgId);
 
         // Set cup icon

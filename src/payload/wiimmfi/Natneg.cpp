@@ -1,29 +1,28 @@
-#include <common/Common.hpp>
+#include "Natneg.hpp"
+#include "ConnectionMatrix.hpp"
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
 #include <dwc/dwc_node.h>
 #include <dwc/dwc_transport.h>
 #include <gs/gt2/gt2Main.h>
 #include <gs/gt2/gt2Utility.h>
+#include <platform/limits.h>
 #include <platform/stdio.h>
 #include <platform/string.h>
 #include <revolution/os/OS.h>
 #include <revolutionex/net/NETDigest.h>
-#include <wiimmfi/ConnectionMatrix.hpp>
-#include <wiimmfi/Natneg.hpp>
 
 namespace Wiimmfi {
 namespace Natneg {
-IGNORE_ERR(144)
 
 u16 sTimers[12]; // one timer per aid
 
-void ConnectToNode(int nodeIdx) {
+void ConnectToNode(u32 nodeIdx) {
 
     // Get the corresponding node info
     DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[nodeIdx];
-    u8 aid = node->aid;
-    int pid = node->profileId;
+    const u8 aid = node->aid;
+    const int pid = node->profileId;
 
     // Convert the IP and port to a string
     const char* ipAddr = gt2AddressToString(node->publicip, node->publicport, nullptr);
@@ -34,34 +33,33 @@ void ConnectToNode(int nodeIdx) {
     // Set up the message buffer and write to it
     char buffer[24];
     memset(buffer, 0, sizeof(buffer));
-    snprintf(buffer, sizeof(buffer), "%u%s", stpMatchCnt->profileId, "L");
+    snprintf(buffer, sizeof(buffer), "%dL", stpMatchCnt->profileId);
 
     // Connect to the node
-    IGNORE_ERR(304)
-    GT2Connection conn;
-    GT2Result ret = gt2Connect(*stpMatchCnt->gt2Socket, &conn, ipAddr, buffer,
-                               -1, 2000, stpMatchCnt->gt2Callbacks, 0);
+    GT2Connection conn = nullptr;
+    const GT2Result ret = gt2Connect(*stpMatchCnt->gt2Socket, &conn, ipAddr, buffer, -1, 2000,
+                                     stpMatchCnt->gt2Callbacks, 0);
 
     // If it was successful, store the AID in the custom field
     // Increase value by 1 to leave 0 as sentinel value
-    if (ret == GT2_RESULT_SUCCESS)
+    if (ret == GT2_RESULT_SUCCESS) {
         conn->aid = aid + 1;
-
-    UNIGNORE_ERR(304)
+    }
 }
 
 void CalcTimers(bool connectedToHost) {
 
     // Get node count with failsafe
-    u32 nodeCount = stpMatchCnt->nodeInfoList.nodeCount;
-    if (nodeCount < 1)
+    const u32 nodeCount = stpMatchCnt->nodeInfoList.nodeCount;
+    if (nodeCount < 1) {
         return;
+    }
 
     // Try to connect to each node
-    for (int i = 0; i < nodeCount; i++) {
+    for (u32 i = 0; i < nodeCount; i++) {
 
         // Get the aid
-        u8 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
+        const u8 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
 
         // If i am host, do not use fast NATNEG
         if (DWC_IsServerMyself()) {
@@ -70,8 +68,9 @@ void CalcTimers(bool connectedToHost) {
         }
 
         // Check for invalid AID
-        if (aid > 11)
+        if (aid > 11) {
             continue;
+        }
 
         // If i am connected to the host, set the initial delay to 150
         if (connectedToHost) {
@@ -86,22 +85,23 @@ void CalcTimers(bool connectedToHost) {
         }
 
         // Skip if we are already connected
-        if (DWCi_GetGT2Connection(aid))
+        if (DWCi_GetGT2Connection(aid)) {
             continue;
+        }
 
         // Check for empty PID or my own PID
-        u32 pid = stpMatchCnt->nodeInfoList.nodeInfos[i].profileId;
-        if (pid == 0 || pid == stpMatchCnt->profileId)
+        const int pid = stpMatchCnt->nodeInfoList.nodeInfos[i].profileId;
+        if (pid == 0 || pid == stpMatchCnt->profileId) {
             continue;
+        }
 
         // If we are not in the following forbidden states, try to connect
-        u32 matchState = stpMatchCnt->state;
-        if (matchState != DWC_MATCH_STATE_CL_WAIT_RESV &&
-            matchState != DWC_MATCH_STATE_CL_NN &&
-            matchState != DWC_MATCH_STATE_CL_GT2 &&
-            matchState != DWC_MATCH_STATE_SV_OWN_NN &&
-            matchState != DWC_MATCH_STATE_SV_OWN_GT2)
-                ConnectToNode(i);
+        const u32 matchState = stpMatchCnt->state;
+        if (matchState != DWC_MATCH_STATE_CL_WAIT_RESV && matchState != DWC_MATCH_STATE_CL_NN
+            && matchState != DWC_MATCH_STATE_CL_GT2 && matchState != DWC_MATCH_STATE_SV_OWN_NN
+            && matchState != DWC_MATCH_STATE_SV_OWN_GT2) {
+            ConnectToNode(i);
+        }
 
         // Reset the timer
         sTimers[aid] = 300;
@@ -137,9 +137,8 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
                             const char* msg, int msgLen) {
 
     // Obtain the PID from the message
-    IGNORE_ERR(304)
     char* msgBuffer;
-    u32 pid = strtoul(msg, &msgBuffer, 10);
+    const int pid = strtol(msg, &msgBuffer, 10);
 
     // If the message was not generated from our ConnectToNode function, fall back to original game behaviour
     if (*msgBuffer != 'L') {
@@ -148,8 +147,9 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     }
 
     // If no match control structure is present, bail
-    if (!stpMatchCnt)
+    if (!stpMatchCnt) {
         return;
+    }
 
     // If we are still in INIT state, reject the connection attempt
     if (stpMatchCnt->state == DWC_MATCH_STATE_INIT) {
@@ -173,7 +173,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     }
 
     // Stop mesh making if we are stuck doing NATNEG
-    switch(stpMatchCnt->state) {
+    switch (stpMatchCnt->state) {
 
         // Waiting for reservation response
         // Running NATNEG (both server and client)
@@ -182,8 +182,9 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
         case DWC_MATCH_STATE_CL_NN:
         case DWC_MATCH_STATE_SV_OWN_NN:
         case DWC_MATCH_STATE_SV_OWN_GT2:
-            if (pid == stpMatchCnt->tempNewNodeInfo.profileId)
+            if (pid == stpMatchCnt->tempNewNodeInfo.profileId) {
                 StopMeshMaking();
+            }
             break;
 
         // Establishing GT2 connection (client only)
@@ -200,7 +201,7 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
     }
 
     // If the server is full, bail
-    int connIdx = DWCi_GT2GetConnectionListIdx();
+    const int connIdx = DWCi_GT2GetConnectionListIdx();
     if (connIdx == -1) {
         LOG_DEBUG("Connection failed with PID %d (server full)", pid);
         return;
@@ -220,28 +221,27 @@ void ConnectAttemptCallback(GT2Socket socket, GT2Connection conn, u32 ip, u16 po
 
     // Store the connection and its info
     StoreConnectionAndInfo(connIdx, conn, node);
-    UNIGNORE_ERR(304)
 }
 
 void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, int msgLen) {
 
     // Check if the custom aid field was set, if not fall back to original game behaviour
-    IGNORE_ERR(304)
     if (conn->aid == 0) {
         DWCi_GT2ConnectedCallback(conn, result, msg, msgLen);
         return;
     }
 
     // Get the actual aid
-    u8 aid = conn->aid - 1;
+    const u8 aid = conn->aid - 1;
 
     // If the connection attempt resulted into a NATNEG error try again in 150 frames
     // Only do so on one side of the connection by comparing the PIDs
     if (result == GT2_RESULT_NEGOTIATION_ERROR) {
         LOG_DEBUG("Negotiation error with AID %d", aid);
         DWCNodeInfo* node = DWCi_NodeInfoList_GetNodeInfoForAid(aid);
-        if (node && node->profileId <= stpMatchCnt->profileId)
+        if (node && node->profileId <= stpMatchCnt->profileId) {
             sTimers[aid] = 150;
+        }
         return;
     }
 
@@ -276,7 +276,7 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     }
 
     // Stop mesh making if we are stuck doing NATNEG
-    switch(stpMatchCnt->state) {
+    switch (stpMatchCnt->state) {
 
         // Waiting for reservation response
         // Running NATNEG (both server and client)
@@ -285,8 +285,9 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
         case DWC_MATCH_STATE_CL_NN:
         case DWC_MATCH_STATE_SV_OWN_NN:
         case DWC_MATCH_STATE_SV_OWN_GT2:
-            if (node->profileId == stpMatchCnt->tempNewNodeInfo.profileId)
+            if (node->profileId == stpMatchCnt->tempNewNodeInfo.profileId) {
                 StopMeshMaking();
+            }
             break;
 
         // Establishing GT2 connection (client only)
@@ -303,7 +304,7 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     }
 
     // If the server is full, bail (the game will close all connections in this case, so we avoid it)
-    int connIdx = DWCi_GT2GetConnectionListIdx();
+    const int connIdx = DWCi_GT2GetConnectionListIdx();
     if (connIdx == -1) {
         LOG_DEBUG("Connection failed with AID %d (server full)", node->aid);
         return;
@@ -313,30 +314,32 @@ void ConnectedCallback(GT2Connection conn, GT2Result result, const char* msg, in
     node->gt2Ip = conn->ip;
     node->gt2Port = conn->port;
     StoreConnectionAndInfo(connIdx, conn, node);
-    UNIGNORE_ERR(304)
 }
 
 DWCNodeInfo* GetNextMeshMakingNode() {
 
     // Initialize variables
-    s64 minNextTryTime = (1 << 63) - 1;
+    s64 minNextTryTime = LLONG_MAX;
     DWCNodeInfo* minNextTryTimeNode = nullptr;
 
     // Get each node
-    for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
+    for (u32 i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
         DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];
 
         // Skip my own node
-        if (node->profileId == stpMatchCnt->profileId)
+        if (node->profileId == stpMatchCnt->profileId) {
             continue;
+        }
 
         // Skip nodes we are already connected to
-        if (DWCi_GetGT2Connection(node->aid))
+        if (DWCi_GetGT2Connection(node->aid)) {
             continue;
+        }
 
         // If the retry time is empty, fill it
-        if (node->nextMeshMakeTryTick == 0)
+        if (node->nextMeshMakeTryTick == 0) {
             node->nextMeshMakeTryTick = DWCi_GetNextMeshMakeTryTick();
+        }
 
         // Check that the time is less than the current minimum time
         // If so, select this node as the one to potentially do NATNEG with
@@ -347,28 +350,32 @@ DWCNodeInfo* GetNextMeshMakingNode() {
     }
 
     // Check if the minimum time has been reached
-    if (OSGetTime() <= minNextTryTime)
+    if (OSGetTime() <= minNextTryTime) {
         return nullptr;
+    }
 
     // All checks passed, return the node we have found (if any)
     return minNextTryTimeNode;
 }
 
-bool PreventRepeatNATNEGFail(u32 failedPid) {
+bool PreventRepeatNATNEGFail(int failedPid) {
 
     // Define an array to store the PIDs who have already failed NATNEG
-    static u32 sFailedPids[10], sFailedPidsIdx;
+    static int sFailedPids[10];
+    static u32 sFailedPidsIdx;
 
     // Only run the check for the host
-    if (!DWC_IsServerMyself())
+    if (!DWC_IsServerMyself()) {
         return false;
+    }
 
     // Check if the PID is valid, if not don't count the attempt
-    if (failedPid == 0)
+    if (failedPid == 0) {
         return false;
+    }
 
     // If the PID is already in the list, do not count the failed attempt
-    for (int i = 0; i < ARRAY_SIZE(sFailedPids); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(sFailedPids); i++) {
         if (sFailedPids[i] == failedPid) {
             LOG_DEBUG("Detected repeated NATNEG fail with PID %d", failedPid);
             return false;
@@ -376,7 +383,9 @@ bool PreventRepeatNATNEGFail(u32 failedPid) {
     }
 
     // Store the PID in the list through a rolling counter and count the attempt
-    if (sFailedPidsIdx == ARRAY_SIZE(sFailedPids)) { sFailedPidsIdx = 0; }
+    if (sFailedPidsIdx == ARRAY_SIZE(sFailedPids)) {
+        sFailedPidsIdx = 0;
+    }
     sFailedPids[sFailedPidsIdx++] = failedPid;
     return true;
 }
@@ -393,13 +402,15 @@ void RecoverSynAckTimeout() {
     }
 
     // Update the timer and run the code every 150 frames
-    if (++sSynAckTimer % 150)
+    if (++sSynAckTimer % 150) {
         return;
+    }
 
     // If no nodes are connected, bail
-    u32 nodeCount = stpMatchCnt->nodeInfoList.nodeCount;
-    if (nodeCount == 0)
+    const u32 nodeCount = stpMatchCnt->nodeInfoList.nodeCount;
+    if (nodeCount == 0) {
         return;
+    }
 
     // Get the connected AIDs, insert the newly connected one
     // Remove the AIDs who have completed SYN-ACK and my own
@@ -419,7 +430,7 @@ void RecoverSynAckTimeout() {
         NETWriteSwappedBytes32(&cmd.aid, stpMatchCnt->tempNewNodeInfo.aid);
 
         // Send it
-        for (int i = 0; i < nodeCount; i++) {
+        for (u32 i = 0; i < nodeCount; i++) {
             if (noSynAckAids >> i & 1) {
                 DWCNodeInfo* node = &stpMatchCnt->nodeInfoList.nodeInfos[i];
                 DWCi_SendMatchCommand(DWC_MATCH_CMD_NEW_PID_AID, node->profileId, node->publicip,
@@ -429,10 +440,11 @@ void RecoverSynAckTimeout() {
     }
 
     // Send a SYN command periodically, but save the last send time first
-    s64 lastSendTime = stpMatchCnt->lastSynSent;
-    for (int i = 0; i < nodeCount; i++) {
-        if (noSynAckAids >> i & 1)
+    const s64 lastSendTime = stpMatchCnt->lastSynSent;
+    for (u32 i = 0; i < nodeCount; i++) {
+        if (noSynAckAids >> i & 1) {
             DWCi_SendMatchSynPacket(i, DWC_MATCH_SYN_CMD_SYN);
+        }
     }
 
     // Restore the SYN send time
@@ -442,27 +454,29 @@ void RecoverSynAckTimeout() {
 void StopNATNEGAfterTime() {
 
     // If at least 11 seconds haven't passed since the last state change, bail
-    if (OSTicksToSeconds(OSGetTime() - sMatchStateTick) <= 11)
+    if (OSTicksToSeconds(OSGetTime() - sMatchStateTick) <= 11) {
         return;
+    }
 
     // If we are the host, bail
-    if (DWC_IsServerMyself())
+    if (DWC_IsServerMyself()) {
         return;
+    }
 
     // If we are not in a NATNEG state, bail
-    int state = stpMatchCnt->state;
-    if (state != DWC_MATCH_STATE_CL_WAIT_RESV &&
-        state != DWC_MATCH_STATE_CL_NN &&
-        state != DWC_MATCH_STATE_CL_GT2)
-            return;
+    const int state = stpMatchCnt->state;
+    if (state != DWC_MATCH_STATE_CL_WAIT_RESV && state != DWC_MATCH_STATE_CL_NN
+        && state != DWC_MATCH_STATE_CL_GT2) {
+        return;
+    }
 
     // Stop NATNEG and change state if necessary
-    BOOL ret = DWCi_StopMeshMaking();
+    const BOOL ret = DWCi_StopMeshMaking();
     LOG_DEBUG("Stopped mesh making with result %d", ret);
-    if (ret)
+    if (ret) {
         DWCi_SetMatchStatus(DWC_MATCH_STATE_CL_WAITING);
+    }
 }
 
-UNIGNORE_ERR(144)
 } // namespace Natneg
 } // namespace Wiimmfi

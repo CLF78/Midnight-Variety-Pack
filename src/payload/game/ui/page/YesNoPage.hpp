@@ -1,8 +1,8 @@
-#include <common/Common.hpp>
+#pragma once
+#include "Page.hpp"
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/input/MultiControlInputManager.hpp>
-#include <game/ui/page/Page.hpp>
 #include <game/ui/ctrl/PushButton.hpp>
+#include <game/ui/input/MultiControlInputManager.hpp>
 
 class YesNoPage : public Page {
 public:
@@ -32,5 +32,7 @@ public:
     PushButton buttons[2];
     LayoutUIControl messageWindow;
     u32 playerFlags;
-    bool _8B0;
+    bool _8B4;
+    PAD(3);
 };
+size_assert(YesNoPage, 0x8B8);

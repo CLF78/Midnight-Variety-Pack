@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/ui/page/WifiMenuPage.hpp>
 
 class WifiMenuPageEx : public WifiMenuPage {

@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/system/RaceConfig.hpp>
 
 enum RKNetPacketSection {
@@ -16,26 +16,44 @@ enum RKNetPacketSection {
 union RKNetBattleTeamData {
 
     RKNetBattleTeamData() : raw(0) {}
-    struct { u8 battleType : 1; u32 teams : 31; };
     u32 raw;
+
+// Necessary workaround to fix more Windows bitfield incompetence
+#if (defined(__CLANGD__) && defined(_WIN32))
+    struct {
+        u16 battleType;
+        u16 teams;
+    };
+#else
+    struct {
+        u8 battleType : 1;
+        u32 teams : 31;
+    };
+#endif
 };
+size_assert(RKNetBattleTeamData, 0x4);
 
 union RKNetAidPidMap {
 
-    RKNetAidPidMap() { raw[0] = 0xFFFFFFFF; raw[1] = 0xFFFFFFFF; raw[2] = 0xFFFFFFFF; }
+    RKNetAidPidMap() {
+        raw[0] = 0xFFFFFFFF;
+        raw[1] = 0xFFFFFFFF;
+        raw[2] = 0xFFFFFFFF;
+    }
 
-    bool operator==(const RKNetAidPidMap &map) const {
+    bool operator==(const RKNetAidPidMap& map) const {
         return raw[0] == map.raw[0] && raw[1] == map.raw[1] && raw[2] == map.raw[2];
     }
 
     u8 playerIds[12]; // Index is player id, value is aid
     u32 raw[3];
 };
+size_assert(RKNetAidPidMap, 0xC);
 
 union RKNetEngineClassData {
 
     enum Value {
-    	CLASS_BATTLE,
+        CLASS_BATTLE,
         CLASS_100CC,
         CLASS_150CC,
         CLASS_150CC_MIRROR,
@@ -46,10 +64,10 @@ union RKNetEngineClassData {
     };
 
     RKNetEngineClassData() : raw(0) {}
-    RKNetEngineClassData(u8 data) : raw(data) {}
+    explicit RKNetEngineClassData(u8 data) : raw(data) {}
 
-    int getEngineClass() {
-        switch(engineClass) {
+    u32 getEngineClass() const {
+        switch (engineClass) {
             case CLASS_100CC:
                 return RaceConfig::Settings::CC_100;
 
@@ -69,9 +87,8 @@ union RKNetEngineClassData {
         }
     }
 
-    void setEngineClass(int cls) {
-
-        switch(cls) {
+    void setEngineClass(u32 cls) {
+        switch (cls) {
             case RaceConfig::Settings::CC_100:
                 engineClass = CLASS_100CC;
                 break;
@@ -94,15 +111,18 @@ union RKNetEngineClassData {
         }
     }
 
-    int getIsMirrorFlag() {
-        if (engineClass == CLASS_150CC_MIRROR) return RaceConfig::Settings::FLAG_MIRROR;
-        return isMirror ? RaceConfig::Settings::FLAG_MIRROR : RaceConfig::Settings::FLAG_NONE;
+    u32 getIsMirrorFlag() const {
+        return (isMirror || engineClass == CLASS_150CC_MIRROR) ? RaceConfig::Settings::FLAG_MIRROR :
+                                                                 RaceConfig::Settings::FLAG_NONE;
     }
 
-    void setIsMirrorFlag(int flags) {
-        isMirror = (flags & RaceConfig::Settings::FLAG_MIRROR) != 0;
-    }
+    void setIsMirrorFlag(u32 flags) { isMirror = (flags & RaceConfig::Settings::FLAG_MIRROR) != 0; }
 
-    struct { bool isMirror : 1; u8 engineClass : 7; };
+    struct {
+        bool isMirror : 1;
+        u8 engineClass : 7;
+    };
+
     u8 raw;
 };
+size_assert(RKNetEngineClassData, 0x1);

@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <nw4r/math/types.hpp>
 #include <nw4r/ut/rect.hpp>
 
@@ -14,7 +14,9 @@ public:
     math::VEC2 mLocationAdjustScale;
     f32 mGlobalAlpha;
     u8 mFlag;
+    PAD(3);
 };
+size_assert(DrawInfo, 0x54);
 
 } // namespace lyt
 } // namespace nw4r

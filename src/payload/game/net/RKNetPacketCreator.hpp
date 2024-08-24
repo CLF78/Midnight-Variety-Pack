@@ -1,6 +1,6 @@
-#include <common/Common.hpp>
-#include <game/net/packet/RKNetEventPacket.hpp>
-#include <game/net/packet/RKNetRacedataPacket.hpp>
+#pragma once
+#include "packet/RKNetEventPacket.hpp"
+#include "packet/RKNetRacedataPacket.hpp"
 
 class RKNetPacketCreator {
 public:
@@ -9,7 +9,7 @@ public:
 
     bool isOnline;
     bool isSomeoneLagging;
-    // 2 bytes padding
+    PAD(2);
 
     u32 aidsWithSelectId;
     u32 aidsWithNewRoomOrSelect;
@@ -18,7 +18,7 @@ public:
     s16 countdownTimer;
     RKNetRACEDATAPacket sendRacedataPackets[2];
     RKNetEVENTPacket sendEventPacket;
-    // 4 bytes padding
+    PAD(4);
 
     s64 lastFriendUpdateTime;
     u32 playerRh1Timers[12];

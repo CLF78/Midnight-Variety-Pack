@@ -1,12 +1,11 @@
-#include <common/Common.hpp>
+#pragma once
+#include "Page.hpp"
 #include <game/ui/InputHandler.hpp>
 #include <game/ui/ctrl/LayoutUIControl.hpp>
 #include <game/ui/input/PageInputManager.hpp>
-#include <game/ui/page/Page.hpp>
 
 class AwardPage : public Page {
 public:
-
     enum CreditsType {
         CREDITS_NONE,
         CREDITS_NORMAL,
@@ -35,7 +34,7 @@ public:
     LayoutUIControl cupDisplay;
     LayoutUIControl rankDisplay;
     LayoutUIControl congratulations; // AwardDemoCongratulations
-    LayoutUIControl items[12]; // AwardDemoResultItem
+    LayoutUIControl items[12];       // AwardDemoResultItem
 
     bool isTeams;
     u8 bestRank;

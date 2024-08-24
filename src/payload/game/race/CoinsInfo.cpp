@@ -1,4 +1,7 @@
-#include <common/Common.hpp>
+
+///////////////////
+// Message Queue //
+///////////////////
 
 // Hide the player's HUD coin stack
 kmWrite16(0x8087BF68, 0x4800);

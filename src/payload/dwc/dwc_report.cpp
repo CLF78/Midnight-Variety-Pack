@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <dwc/dwc_report.h>
+#include "dwc_report.h"
 #include <platform/stdio.h>
 #include <revolution/os/OSLog.h>
 
@@ -23,7 +22,7 @@ REPLACE void DWC_Printf(DWCReportFlag flag, const char* fmt, ...) {
         "Transport",
         "QR2",
         "Server Browser",
-        nullptr,
+        nullptr, // Empty for fields that do not exist
         nullptr,
         nullptr,
         nullptr,
@@ -43,7 +42,7 @@ REPLACE void DWC_Printf(DWCReportFlag flag, const char* fmt, ...) {
         "CF",
         "Connection Test",
         nullptr,
-        nullptr
+        nullptr,
     };
 
     // Only print messages at the DEBUG level

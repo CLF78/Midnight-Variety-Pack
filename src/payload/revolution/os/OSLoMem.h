@@ -1,8 +1,8 @@
-#include <common/Common.h>
+#pragma once
+#include "OSExec.h"
+#include "OSModule.h"
+#include "OSThread.h"
 #include <revolution/dvd/dvd.h>
-#include <revolution/os/OSExec.h>
-#include <revolution/os/OSModule.h>
-#include <revolution/os/OSThread.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,6 +19,7 @@ typedef struct {
     u32 fstStart;
     u32 fstMaxLength;
 } OSBootInfo;
+size_cassert(OSBootInfo, 0x40);
 
 typedef struct {
     u32 debuggerPresent;
@@ -26,6 +27,7 @@ typedef struct {
     void* exceptionDestination;
     void* exceptionReturn;
 } DBInterface;
+size_cassert(DBInterface, 0x10);
 
 typedef struct {
     u32 debugMonitorSize;
@@ -42,6 +44,7 @@ typedef struct {
     u32 simulatedMem2Size;
     u32 deviceCheckCode;
 } OSDiskHeaderInfo;
+size_cassert(OSDiskHeaderInfo, 0x34);
 
 typedef struct {
     u32 MEM1Size;
@@ -70,9 +73,14 @@ typedef struct {
     u32 bootromTarget;
     u32 apploaderTarget;
     u16 bootProgramVersion;
+    u16 reserved3;
     u32 syncAHBPI;
     u32 shutdown;
 } OSLoMem;
+size_cassert(OSLoMem, 0x70);
+
+// Disable ODR warnings
+// NOLINTBEGIN(misc-definitions-in-headers)
 
 // 0x80000000 MEM1 start
 volatile OSBootInfo __OSBootInfo AT_ADDR(0x80000000);
@@ -158,6 +166,7 @@ vu8 __OSProductInfo[0x100] AT_ADDR(0x80003800);
 
 // 0x80003900 - 0x80003EFF free area
 // 0x80003F00 start of working area
+// NOLINTEND(misc-definitions-in-headers)
 
 #ifdef __cplusplus
 }

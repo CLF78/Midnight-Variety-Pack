@@ -1,9 +1,8 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/CtrlMenuCupSelectCourse.hpp>
-#include <game/ui/ctrl/CtrlMenuMovieLayout.hpp>
+#pragma once
+#include "CtrlMenuMovieLayout.hpp"
+#include "LayoutUIControl.hpp"
+#include "PushButton.hpp"
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/ctrl/PushButton.hpp>
 
 class CtrlMenuCupSelectCup : public LayoutUIControl {
 public:
@@ -15,8 +14,8 @@ public:
 
     void load(u32 playerFlags, bool unk);
 
-    void onButtonClick(PushButton* btn, u32 hudSlotId);
-    void onButtonSelect(PushButton* btn, u32 hudSlotId);
+    void onButtonClick(PushButton* button, u32 hudSlotId);
+    void onButtonSelect(PushButton* button, u32 hudSlotId);
 
     PushButton cupButtons[8];
     InputHandler2<PushButton, void, PushButton*, u32> onButtonClickHandler;

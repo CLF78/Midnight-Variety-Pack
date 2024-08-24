@@ -1,10 +1,9 @@
-#include <common/Common.hpp>
+#pragma once
+#include "MultiDvdArchive.hpp"
 #include <egg/core/eggTaskThread.hpp>
-#include <game/system/MultiDvdArchive.hpp>
 
 class ResourceManager {
 public:
-
     class MenuKartArchive {
     public:
         virtual ~MenuKartArchive();
@@ -35,8 +34,8 @@ public:
         u32 resourceID;
         char filename[0x40];
 
-        EGG::Heap *archiveHeap;
-        EGG::Heap *fileHeap;
+        EGG::Heap* archiveHeap;
+        EGG::Heap* fileHeap;
     };
     size_assert(JobContext, 0x54);
 
@@ -59,17 +58,19 @@ public:
 
     JobContext jobContexts[7];
     EGG::TaskThread* taskThread;
-    u8 unused[0x24]; // previously CourseCache
+    PAD(0x24); // previously CourseCache
 
     MenuKartArchive allKartArchives[4];
     bool isGlobeLoadingBusy;
     bool _60D;
+    PAD(2);
 
     EGG::Heap* menuManagerHeap;
     EGG::Heap* globeHeap;
 
     bool requestPending;
     bool requestsEnabled;
+    PAD(2);
 
     static const char* courseNames[67];
     static ResourceManager* instance;

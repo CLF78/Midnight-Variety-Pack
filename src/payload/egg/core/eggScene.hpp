@@ -1,6 +1,8 @@
-#include <egg/core/eggDisposer.hpp>
+#pragma once
+#include "eggDisposer.hpp"
 
 namespace EGG {
+
 class Heap;
 class SceneManager;
 

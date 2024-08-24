@@ -1,51 +1,54 @@
-#include <common/Common.hpp>
+#include "natneg.h"
 #include <gs/common/gsAvailable.h>
 #include <gs/common/gsPlatformUtil.h>
 #include <gs/common/gsSocketRevolution.h>
-#include <gs/natneg/natneg.h>
-#include <revolutionex/so/SOBasic.h>
 #include <wiimmfi/Natify.hpp>
 
 // Ported from GameSpy SDK
 u32 NameToIp(const char* name) {
-
-    IGNORE_ERR(144)
     SOHostEnt* hent = gethostbyname(name);
-    if (!hent) return 0;
+    if (!hent) {
+        return 0;
+    }
     return hent->addrList[0][0];
-    UNIGNORE_ERR(144)
 }
 
 // Ported from GameSpy SDK
 BOOL ResolveServers() {
 
-    if (matchup1ip == 0)
+    if (matchup1ip == 0) {
         matchup1ip = NameToIp(Matchup1Hostname);
+    }
 
-    if (matchup2ip == 0)
+    if (matchup2ip == 0) {
         matchup2ip = NameToIp(Matchup2Hostname);
+    }
 
-    if (matchup3ip == 0)
+    if (matchup3ip == 0) {
         matchup3ip = NameToIp(Matchup3Hostname);
+    }
 
-    if (matchup1ip == 0 || matchup2ip == 0 || matchup3ip == 0)
+    if (matchup1ip == 0 || matchup2ip == 0 || matchup3ip == 0) {
         return FALSE;
+    }
 
     return TRUE;
 }
 
 // Ported from GameSpy SDK
-int NNStartNatDetection(NatDetectionResultsFunc resultscallback) {
+int NNStartNatDetection(NatDetectionResultsFunc resultsCallback) {
 
     // Check if the backend is available
-    if(__GSIACResult != GSIAC_AVAILABLE)
+    if (__GSIACResult != GSIAC_AVAILABLE) {
         return NN_SOCKET_ERROR;
+    }
 
-    if (!ResolveServers())
+    if (!ResolveServers()) {
         return NN_DNS_ERROR;
+    }
 
     activeNatify = TRUE;
-    natifyCallback = resultscallback;
+    natifyCallback = resultsCallback;
     natifyStartTime = current_time();
 
     // Assume these for now
@@ -95,6 +98,7 @@ kmWrite16(0x8011BC3A, 0);
 // NATify Improvements //
 /////////////////////////
 
+// clang-format off
 // SendInitPackets() patch
 // Modify INIT packets to send the NATify data
 // Credits: Wiimmfi

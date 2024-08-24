@@ -1,21 +1,25 @@
-#include <common/Common.hpp>
-#include <game/kart/KartObject.hpp>
+#pragma once
+#include "KartObject.hpp"
 #include <egg/core/eggDisposer.hpp>
 
 class KartObjectManager : public EGG::Disposer {
 public:
-    static KartObjectManager* instance;
-    static KartObjectManager* CreateInstance();
-    static void DestroyInstance();
-    static nw4r::ut::List kartObjects;
-    static void* curKartClipInfo;
-
-    virtual ~KartObjectManager();
     KartObjectManager();
+    virtual ~KartObjectManager();
+
     KartObject* getKartObject(u32 idx) const;
     void init();
     void update();
 
-    EGG::TDisposer<KartObjectManager> disposer;
+    static KartObjectManager* CreateInstance();
+    static void DestroyInstance();
+
+    EGG::Disposer verifyDisposer;
     KartObject** players;
+    UNK(0x38 - 0x24);
+
+    static KartObjectManager* instance;
+    static nw4r::ut::List kartObjects;
+    static void* curKartClipInfo;
 };
+size_assert(KartObjectManager, 0x38);

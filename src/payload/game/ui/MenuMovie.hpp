@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/ui/page/Page.hpp>
+#pragma once
+#include "page/Page.hpp"
 #include <nw4r/lyt/pane.hpp>
 #include <nw4r/math/types.hpp>
 
@@ -15,6 +15,8 @@ public:
     nw4r::lyt::Pane** panes;
     Page* parent;
     bool hidden;
+    PAD(3);
+
     u32 delay;
     nw4r::math::VEC2* scales;
 };

@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
+#pragma once
+#include "LayoutUIControl.hpp"
 
 class CtrlMenuPageTitleText : public LayoutUIControl {
 public:

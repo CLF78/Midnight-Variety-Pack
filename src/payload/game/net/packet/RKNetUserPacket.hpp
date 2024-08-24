@@ -1,10 +1,10 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/system/Mii.hpp>
 
 struct RKNetUSERPacket {
     u32 recordId;
     u16 miiCount;
-    // 2 bytes padding
+    PAD(2);
 
     RawMii miis[2];
     u64 wiiFc;
@@ -18,6 +18,6 @@ struct RKNetUSERPacket {
     u16 br;
     u8 gameId;
     u8 region;
-    // 2 bytes padding
+    PAD(2);
 };
 size_assert(RKNetUSERPacket, 0xC0);

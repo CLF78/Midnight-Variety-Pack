@@ -1,7 +1,7 @@
-#include <common/Common.hpp>
-#include <game/ui/input/ControlInputManager.hpp>
+#pragma once
+#include "LayoutUIControl.hpp"
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include <game/ui/input/ControlInputManager.hpp>
 
 class SheetSelectButton : public LayoutUIControl {
 public:
@@ -24,6 +24,7 @@ public:
     int arrowSide;
     u32 playerFlags;
     bool enabled;
+    PAD(3);
 
     nw4r::lyt::Pane* fuchiPane;
     nw4r::lyt::Pane* rootPane;
@@ -39,14 +40,13 @@ public:
     RUNTIME_TYPE_INFO_NODECL;
     RUNTIME_TYPENAME_INFO_NODECL;
 
-    virtual void vf_38();
+    virtual void onLoad();
     virtual void onRightSelected();
     virtual void onLeftSelected();
-    virtual void vf_44();
+    virtual bool isFade();
 
-    void load(const char* dir, const char* rightFile, const char* rightVariant,
-              const char* leftFile, const char* leftVariant, u32 playerFlags, bool r10,
-              bool pointerOnly);
+    void load(const char* dir, const char* rightFile, const char* rightVariant, const char* leftFile,
+              const char* leftVariant, u32 playerFlags, bool r10, bool pointerOnly);
 
     void configure(bool leftEnabled, bool rightEnabled);
 

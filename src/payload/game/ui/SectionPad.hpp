@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 
 struct PadInfo {
     enum Status {
@@ -24,7 +24,7 @@ public:
 
     PadInfo padInfos[5]; // 5th player is dummy
     bool isNotRaceScene;
-    // 3 bytes padding
+    PAD(3);
     u32 localPlayerBitfield;
 };
 size_assert(SectionPad, 0x5C);

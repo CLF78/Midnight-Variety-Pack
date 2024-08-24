@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/kart/KartStats.hpp>
+#pragma once
+#include "KartStats.hpp"
 
 class KartParam {
 public:

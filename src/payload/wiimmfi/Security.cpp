@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#include "Security.hpp"
 #include <game/net/RKNetController.hpp>
 #include <game/net/packet/RKNetRoomPacket.hpp>
 #include <game/net/packet/RKNetSelectPacket.hpp>
-#include <wiimmfi/Security.hpp>
 
 namespace Wiimmfi {
 namespace Security {
@@ -10,11 +9,12 @@ namespace Security {
 bool IsPacketSectionSizeValid(int section, u32 sectionSize) {
 
     // Skip empty sections
-    if (sectionSize == 0)
+    if (sectionSize == 0) {
         return true;
+    }
 
     // The check depends on each section
-    u32 destSize = RKNetController::packetBufferSizes[section];
+    const u32 destSize = RKNetController::packetBufferSizes[section];
     switch (section) {
 
         // For EVENT packets, ensure the size fits the buffer as it is variable
@@ -49,19 +49,22 @@ bool ValidateRACEPacket(u32 aid, RKNetRACEPacketHeader* data, u32 dataLength) {
     u32 expectedPacketSize = 0;
     for (int i = 0; i < RKNET_SECTION_COUNT; i++) {
         expectedPacketSize += data->sizes[i];
-        if (!IsPacketSectionSizeValid(i, data->sizes[i]))
+        if (!IsPacketSectionSizeValid(i, data->sizes[i])) {
             return false;
+        }
     }
 
     // Ensure the declared sizes match the cumulative size
-    if (dataLength < expectedPacketSize)
+    if (dataLength < expectedPacketSize) {
         return false;
+    }
 
     // Verify each section's data is valid
     u8* packetData = (u8*)data;
     for (int i = 0; i < RKNET_SECTION_COUNT; i++) {
-        if (!IsPacketSectionDataValid(i, packetData))
+        if (!IsPacketSectionDataValid(i, packetData)) {
             return false;
+        }
 
         packetData += data->sizes[i];
     }

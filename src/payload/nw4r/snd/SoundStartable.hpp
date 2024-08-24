@@ -1,12 +1,12 @@
+#pragma once
+
 namespace nw4r {
 namespace snd {
 
 class SoundStartable {
-    public:
-        void* vtable2; // using 2 due to conflicts in SoundArchivePlayer
-
+public:
     enum StartResult {
-        START_SUCCESS = 0,
+        START_SUCCESS,
         START_ERR_LOW_PRIORITY,
         START_ERR_INVALID_LABEL_STRING,
         START_ERR_INVALID_SOUNDID,
@@ -24,11 +24,11 @@ class SoundStartable {
 
     struct StartInfo {
         enum EnableFlagBit {
-            ENABLE_START_OFFSET    = BIT_FLAG(0),
-            ENABLE_PLAYER_ID       = BIT_FLAG(1),
+            ENABLE_START_OFFSET = BIT_FLAG(0),
+            ENABLE_PLAYER_ID = BIT_FLAG(1),
             ENABLE_PLAYER_PRIORITY = BIT_FLAG(2),
             ENABLE_ACTOR_PLAYER_ID = BIT_FLAG(3),
-            ENABLE_SEQ_SOUND_INFO  = BIT_FLAG(4),
+            ENABLE_SEQ_SOUND_INFO = BIT_FLAG(4),
         };
 
         enum StartOffsetType {
@@ -52,6 +52,8 @@ class SoundStartable {
         SeqSoundInfo seqSoundInfo;
     };
     size_assert(StartInfo, 0x20);
+
+    virtual ~SoundStartable();
 };
 size_assert(SoundStartable, 0x4);
 

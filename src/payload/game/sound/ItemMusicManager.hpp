@@ -1,10 +1,9 @@
-#include <common/Common.hpp>
+#pragma once
 #include <egg/core/eggDisposer.hpp>
 #include <nw4r/snd/SoundHandle.hpp>
 
 class ItemMusicManager : public EGG::Disposer {
 public:
-
     enum State {
         KINOKO_BIG,
         STAR,
@@ -25,4 +24,4 @@ public:
 
     static ItemMusicManager* instance;
 };
-size_assert(ItemMusicManager, 0x2c);
+size_assert(ItemMusicManager, 0x2C);

@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "RacePage.hpp"
 #include <game/system/RaceConfig.hpp>
-#include <game/ui/page/RacePage.hpp>
 #include <mvp/race/CtrlRaceMessageDisplay.hpp>
 #include <mvp/race/MessageQueue.hpp>
 #include <platform/stdio.h>
@@ -60,7 +59,7 @@ REPLACE u8 RacePage::getControlCount(Controls controls) {
 
     // Add the message queue if enabled
     if (controls & MESSAGE_QUEUE) {
-        u32 localPlayerCount = RaceConfig::instance->raceScenario.localPlayerCount;
+        const u32 localPlayerCount = RaceConfig::instance->raceScenario.localPlayerCount;
         count += MessageQueue::instance.GetMessageCount(localPlayerCount) * localPlayerCount;
     }
 
@@ -83,21 +82,22 @@ REPLACE void RacePage::initControls(Controls controls) {
     }
 
     // If no child is found, bail
-    if (currChildIdx == 0)
+    if (currChildIdx == 0) {
         return;
+    }
 
     // Initialize the message queue
     MessageQueue::instance.Clear();
     if (controls & MESSAGE_QUEUE) {
 
         // Set the local player count and enable the queue
-        u32 localPlayerCount = RaceConfig::instance->raceScenario.localPlayerCount;
+        const u32 localPlayerCount = RaceConfig::instance->raceScenario.localPlayerCount;
         MessageQueue::instance.localPlayerCount = localPlayerCount;
         MessageQueue::instance.queueEnabled = true;
 
         // Initialize the messages
-        for (int i = 0; i < localPlayerCount; i++) {
-            for (int j = 0; j < MessageQueue::instance.GetMessageCount(localPlayerCount); j++) {
+        for (u32 i = 0; i < localPlayerCount; i++) {
+            for (u32 j = 0; j < MessageQueue::instance.GetMessageCount(localPlayerCount); j++) {
 
                 // Insert the display
                 CtrlRaceMessageDisplay* display = new CtrlRaceMessageDisplay();
@@ -114,6 +114,6 @@ REPLACE void RacePage::initControls(Controls controls) {
 // RacePage::initControls() patch
 // Change the timer BRCTR variant depending on VS/Battle mode
 kmCallDefCpp(0x80858178, void, char* buffer, int bufferSize, const char* fmt, u32 localPlayerCount) {
-    bool isBattle = RaceConfig::instance->raceScenario.settings.isBattle();
+    const bool isBattle = RaceConfig::instance->raceScenario.settings.isBattle();
     snprintf(buffer, bufferSize, "CtrlRaceTime%s_%d", isBattle ? "BT" : "", localPlayerCount);
 }

@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,9 +24,10 @@ typedef struct {
     u16 latitude;
     u16 longitude;
 } SCSimpleAddressData;
+size_cassert(SCSimpleAddressData, 0x1008);
 
 u8 SCGetLanguage();
-const char *SCGetProductCode();
+const char* SCGetProductCode();
 
 #ifdef __cplusplus
 }

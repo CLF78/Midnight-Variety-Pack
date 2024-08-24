@@ -1,10 +1,12 @@
+#pragma once
+
 namespace nw4r {
 namespace snd {
 namespace detail {
 
 class SeqTrackAllocator {
-    public:
-        void* vtable;
+public:
+    virtual ~SeqTrackAllocator();
 };
 size_assert(SeqTrackAllocator, 0x4);
 

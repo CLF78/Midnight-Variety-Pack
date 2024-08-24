@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
 #include <platform/stdio.h>
-#include <revolution/os/OSLog.h>
 #include <revolution/os/OSFatal.h>
+#include <revolution/os/OSLog.h>
 
 /////////////////////
 // Debug Reporting //

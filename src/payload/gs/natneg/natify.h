@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -46,9 +46,13 @@ typedef enum {
 typedef struct {
     u32 privateIp;
     u16 privatePort;
+    PAD(2);
+
     u32 publicIp;
     u16 publicPort;
+    PAD(2);
 } AddressMapping;
+size_cassert(AddressMapping, 0x10);
 
 typedef struct {
     char brand[32];
@@ -62,9 +66,10 @@ typedef struct {
     AddressMapping mappings[4];
     BOOL qr2Compatible;
 } NAT;
+size_cassert(NAT, 0xD8);
 
 BOOL DetermineNatType(NAT* nat);
-int DiscoverReachability(int sock, unsigned int ip, unsigned short port, int portType); // reimplemented
+int DiscoverReachability(int sock, unsigned int ip, unsigned short port, int portType);    // reimplemented
 int DiscoverMapping(int sock, unsigned int ip, unsigned short port, int portType, int id); // reimplemented
 
 #ifdef __cplusplus

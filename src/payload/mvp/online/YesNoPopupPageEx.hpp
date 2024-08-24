@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/ui/page/YesNoPopupPage.hpp>
 
 class YesNoPopupPageEx : public YesNoPopupPage {

@@ -1,36 +1,39 @@
-#include <common/Common.h>
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define DWC_ACC_MASKBITS(bits) (((1 << bits) - 1))
-
-#define DWC_ACC_FLAGS_SHIFT 11
-#define DWC_ACC_FLAGS_BITS 21
-#define DWC_ACC_FLAGS_MASK DWC_ACC_MASKBITS(DWC_ACC_FLAGS_BITS)
+#define DWC_ACC_MASKBITS(bits) (((1 << (bits)) - 1))
+#define DWC_ACC_FLAGS_SHIFT    11
+#define DWC_ACC_FLAGS_BITS     21
+#define DWC_ACC_FLAGS_MASK     DWC_ACC_MASKBITS(DWC_ACC_FLAGS_BITS)
 
 typedef struct {
     u32 flags;
-    u32 reserved[2];
+    PAD(8);
 } DWCAccFlag;
+size_cassert(DWCAccFlag, 0xC);
 
 typedef struct {
     u32 id_data;
     u32 userId;
     u32 playerId;
 } DWCLoginId;
+size_cassert(DWCLoginId, 0xC);
 
 typedef struct {
     u32 id_data;
     u32 friendkey[2];
 } DWCFriendKey;
+size_cassert(DWCFriendKey, 0xC);
 
 typedef struct {
     u32 id_data;
     int id;
-    u32 reserved;
+    PAD(4);
 } DWCGsProfileId;
+size_cassert(DWCGsProfileId, 0xC);
 
 typedef union {
     DWCAccFlag flags;
@@ -38,6 +41,7 @@ typedef union {
     DWCFriendKey friend_key;
     DWCGsProfileId gs_profile_id;
 } DWCFriendData;
+size_cassert(DWCFriendData, 0xC);
 
 typedef enum {
     DWC_FRIENDDATA_NODATA,
@@ -54,9 +58,10 @@ typedef struct {
     int gs_profile_id;
     int flag;
     u32 gamecode;
-    int reserved[5];
+    PAD(20);
     u32 crc32;
 } DWCUserData;
+size_cassert(DWCUserData, 0x40);
 
 typedef enum {
     DWC_USER_DATA_FLAG_DIRTY = BIT_FLAG(0),

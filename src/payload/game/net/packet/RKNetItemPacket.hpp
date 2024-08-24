@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 
 struct RKNetITEMPacket {
 
@@ -31,6 +31,6 @@ struct RKNetITEMPacket {
     u8 trailState;
     u8 ack;
     u8 ackTimer;
-    u8 pad;
+    PAD(1);
 };
 size_assert(RKNetITEMPacket, 0x8);

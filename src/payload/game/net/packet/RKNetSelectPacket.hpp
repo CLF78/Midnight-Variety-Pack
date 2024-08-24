@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/net/packet/RKNetPacketCommon.hpp>
+#pragma once
+#include "RKNetPacketCommon.hpp"
 #include <game/system/Identifiers.hpp>
 #include <mvp/cup/CupData.hpp>
 #include <mvp/online/RepickQueue.hpp>
@@ -8,12 +8,8 @@
 struct RKNetSELECTPlayer {
 
     RKNetSELECTPlayer() :
-        prevRaceRank(0),
-        sumPoints(0),
-        character(CHARACTER_COUNT),
-        vehicle(VEHICLE_COUNT),
-        vanillaCourseVote(CupData::VANILLA_UNDECIDED_TRACK_VOTE),
-        starRank(0) {}
+        prevRaceRank(0), sumPoints(0), character(CHARACTER_COUNT), vehicle(VEHICLE_COUNT),
+        vanillaCourseVote(CupData::VANILLA_UNDECIDED_TRACK_VOTE), starRank(0) {}
 
     u16 prevRaceRank;
     u16 sumPoints;
@@ -37,15 +33,8 @@ struct RKNetSELECTPacket {
     };
 
     RKNetSELECTPacket() :
-        timeSender(0),
-        timeReceived(0),
-        playerData(),
-        selectId(0),
-        battleTeamData(),
-        aidPidMap(),
-        vanillaWinningCourse(CupData::VANILLA_NO_TRACK),
-        phase(PREPARE),
-        winningVoterAid(0xFF) {}
+        timeSender(0), timeReceived(0), selectId(0), vanillaWinningCourse(CupData::VANILLA_NO_TRACK),
+        phase(PREPARE), winningVoterAid(0xFF) {}
 
     s64 timeSender;
     s64 timeReceived;
@@ -64,13 +53,9 @@ struct RKNetSELECTPacket {
 };
 size_assert(RKNetSELECTPacket, 0x38);
 
-// TODO add whatever else we might need in the future
 struct RKNetSELECTPacketExpansion {
-
     RKNetSELECTPacketExpansion() :
-        courseVote(CupData::UNDECIDED_TRACK_VOTE),
-        winningCourse(CupData::NO_TRACK),
-        repickQueue() {}
+        courseVote(CupData::UNDECIDED_TRACK_VOTE), winningCourse(CupData::NO_TRACK) {}
 
     u16 courseVote;
     u16 winningCourse;

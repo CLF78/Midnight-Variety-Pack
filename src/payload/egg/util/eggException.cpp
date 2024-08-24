@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "eggException.hpp"
 #include <egg/core/eggThread.hpp>
-#include <egg/util/eggException.hpp>
 #include <game/system/SystemManager.hpp>
 #include <revolution/ax.h>
 #include <revolution/kpad.h>
@@ -62,8 +61,8 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
     OSEnableInterrupts();
 
     // Subtract displayed line count to avoid scrolling into nothingness
-    s32 lineCount = console->ringTopLineCnt;
-    s32 totalLines = nw4r::db::Console_GetTotalLines(console) - console->displayLineCount;
+    const s32 lineCount = console->ringTopLineCnt;
+    const s32 totalLines = nw4r::db::Console_GetTotalLines(console) - console->displayLineCount;
 
     // Initial console draw
     console->isVisible = true;
@@ -72,8 +71,8 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
 
     // Get controller type
     u32 controllerType;
-    s32 err = WPADProbe(0, &controllerType);
-    bool isClassic = (err == WPAD_ERR_NONE && controllerType == WPAD_TYPE_CLASSIC);
+    const s32 err = WPADProbe(0, &controllerType);
+    const bool isClassic = (err == WPAD_ERR_NONE && controllerType == WPAD_TYPE_CLASSIC);
 
     while (true) {
         KPADStatus wiimoteStatus;
@@ -84,43 +83,40 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
         KPADRead(WPAD_CONTROLLER_1, &wiimoteStatus, 1);
         PADRead(gamecubeStatus);
         PADClampCircle(gamecubeStatus);
-        if (isClassic)
+        if (isClassic) {
             KPADGetUnifiedWpadStatus(WPAD_CONTROLLER_1, &unifiedStatus, 1);
+        }
 
         // Return to the menu on HOME/START press
         if (OSGetCurrentThread()) {
-            if (wiimoteStatus.buttonsHeld & WPAD_BUTTON_HOME ||
-                gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_START ||
-                (isClassic && unifiedStatus.u.cl.buttons & WPAD_CL_BUTTON_HOME)) {
-                    SystemManager::ReturnToMenu();
+            if (wiimoteStatus.buttonsHeld & WPAD_BUTTON_HOME
+                || gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_START
+                || (isClassic && unifiedStatus.cl.buttons & WPAD_CL_BUTTON_HOME)) {
+                SystemManager::ReturnToMenu();
             }
         }
 
         // Check for UP/DOWN inputs
-        bool down = (!!(wiimoteStatus.buttonsHeld & WPAD_BUTTON_DOWN) ||
-                     !!(gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_DOWN));
-        bool up = (!!(wiimoteStatus.buttonsHeld & WPAD_BUTTON_UP) ||
-                   !!(gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_UP));
+        bool down = (!!(wiimoteStatus.buttonsHeld & WPAD_BUTTON_DOWN)
+                     || !!(gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_DOWN));
+        bool up = (!!(wiimoteStatus.buttonsHeld & WPAD_BUTTON_UP)
+                   || !!(gamecubeStatus[PAD_CONTROLLER_1].buttons & PAD_BUTTON_UP));
 
         if (isClassic) {
-            up |= !!(unifiedStatus.u.cl.buttons & WPAD_CL_BUTTON_UP);
-            down |= !!(unifiedStatus.u.cl.buttons & WPAD_CL_BUTTON_DOWN);
+            up |= !!(unifiedStatus.cl.buttons & WPAD_CL_BUTTON_UP);
+            down |= !!(unifiedStatus.cl.buttons & WPAD_CL_BUTTON_DOWN);
         }
 
         // Check Gamecube Controller stick
         if (CheckGCStickThreshold(gamecubeStatus[PAD_CONTROLLER_1].stickY)) {
-            if (gamecubeStatus[PAD_CONTROLLER_1].stickY < 0)
-                down = true;
-            else
-                up = true;
+            down = (gamecubeStatus[PAD_CONTROLLER_1].stickY < 0);
+            up = !down;
         }
 
         // Check Classic Controller left stick
-        if (isClassic && CheckCLStickThreshold(unifiedStatus.u.cl.leftStickY)) {
-            if (unifiedStatus.u.cl.leftStickY < 0)
-                down = true;
-            else
-                up = true;
+        if (isClassic && CheckCLStickThreshold(unifiedStatus.cl.leftStickY)) {
+            down = (unifiedStatus.cl.leftStickY < 0);
+            up = !down;
         }
 
         // Wait 100 milliseconds between inputs
@@ -128,12 +124,14 @@ REPLACE bool EGG::ExceptionCallback(nw4r::db::ConsoleHead* console, void* arg) {
 
         // Scroll in the desired direction (but not if we are at the top/bottom)
         s32 currentTopLine = console->topLineNumber;
-        s32 prevTopLine = currentTopLine;
+        const s32 prevTopLine = currentTopLine;
 
-        if (down)
+        if (down) {
             currentTopLine = MIN(currentTopLine + 1, totalLines);
-        else if (up)
+        }
+        else if (up) {
             currentTopLine = MAX(currentTopLine - 1, lineCount);
+        }
 
         // Redraw the screen (if the contents have changed)
         if (currentTopLine != prevTopLine) {

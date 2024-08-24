@@ -1,3 +1,11 @@
+#pragma once
+
+/*
+ * Kamek Standard Library
+ * Wii game patching engine
+ * (c) Treeki 2010-2018
+ */
+
 // Allow Kamek hooks to be defined from C++ source files
 #pragma section ".kamek"
 
@@ -12,18 +20,18 @@ enum KamekCommandType {
 };
 
 // Base macros
-#define kmHookFn \
-    extern "C" static
 #define kmIdentifierImpl(key, counter) \
     _k##key##counter
 #define kmIdentifier(key, counter) \
     kmIdentifierImpl(key, counter)
 
-// Remove non-existent Intellisense errors
-#ifndef __INTELLISENSE__
-    #define kmSection __declspec (section ".kamek")
-#else
+// Remove non-existent Clang error
+#ifdef __CLANGD__
+    #define kmHookFn static
     #define kmSection
+#else
+    #define kmHookFn extern "C" static
+    #define kmSection __declspec (section ".kamek")
 #endif
 
 // General hook definition macros

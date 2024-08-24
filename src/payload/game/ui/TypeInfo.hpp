@@ -1,7 +1,7 @@
-#include <common/Common.hpp>
+#pragma once
 
 struct TypeInfo {
-    TypeInfo(TypeInfo* parent) : base(parent) {}
+    explicit TypeInfo(TypeInfo* parent) : base(parent) {}
     TypeInfo* base;
 };
 size_assert(TypeInfo, 0x4);
@@ -21,7 +21,7 @@ size_assert(TypeInfo, 0x4);
     virtual const char* getTypeName() const
 
 #define RUNTIME_TYPE_INFO_DEFINE(type, parentType) \
-const TypeInfo type::typeInfo = TypeInfo(parentType::typeInfo)
+    const TypeInfo type::typeInfo = TypeInfo(parentType::typeInfo)
 
 #define RUNTIME_TYPE_INFO_DEFINE_ROOT(type) \
-const TypeInfo type::typeInfo = TypeInfo(nullptr)
+    const TypeInfo type::typeInfo = TypeInfo(nullptr)

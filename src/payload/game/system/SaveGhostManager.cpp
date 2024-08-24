@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
-#include <game/system/NandManager.hpp>
-#include <game/system/SaveGhostManager.hpp>
-#include <game/system/SaveManager.hpp>
+#include "SaveGhostManager.hpp"
+#include "NandManager.hpp"
+#include "SaveManager.hpp"
 #include <game/util/NandUtil.hpp>
 #include <mvp/save/SaveExpansionManager.hpp>
 
@@ -13,11 +12,12 @@
 REPLACE Section::SectionId SaveGhostManager::getErrorSection() {
 
     // Original call
-    Section::SectionId section = REPLACED();
+    const Section::SectionId section = (Section::SectionId)REPLACED();
 
     // If there was an error with the original save, just go to the indicated section
-    if (section != Section::NONE)
+    if (section != Section::NONE) {
         return section;
+    }
 
     // Otherwise copy the savegame error from the expansion and do our own error check
     saveManagerError = SaveExpansionManager::sError;
@@ -44,17 +44,20 @@ kmHookFn void CopyExpansionError(SaveGhostManager* self) {
 
     // Copy error code either from the save or the expansion
     self->saveManagerError = SaveManager::instance->result;
-    if (self->saveManagerError == NandUtil::ERROR_NONE)
+    if (self->saveManagerError == NandUtil::ERROR_NONE) {
         self->saveManagerError = SaveExpansionManager::sError;
+    }
 
     // If the error is space-related, copy the check error either from NandManager or the expansion
     if (self->saveManagerError == NandUtil::ERROR_SPACE) {
         self->nandManagerCheckError = NandManager::instance->checkError;
-        if (self->nandManagerCheckError == NandUtil::CHECK_ERROR_NONE)
+        if (self->nandManagerCheckError == NandUtil::CHECK_ERROR_NONE) {
             self->nandManagerCheckError = SaveExpansionManager::sCheckError;
+        }
     }
 }
 
+// clang-format off
 // Glue code - we cannot use kmBranchDefCpp because CW generates bnelr instructions
 kmBranchDefAsm(0x80620E34, 0x80620E54) {
     nofralloc

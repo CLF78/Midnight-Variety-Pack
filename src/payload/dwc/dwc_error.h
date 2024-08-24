@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#pragma once
 #include <gs/gp/gp.h>
 #include <gs/sb/serverbrowsing.h>
 

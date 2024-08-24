@@ -1,12 +1,20 @@
+#pragma once
+
+/*
+ * Kamek Standard Library
+ * Wii game patching engine
+ * (c) Treeki 2010-2018
+ */
+
 #define kmDefineListHook(listName) \
     extern kmListHook listName
 
 #define kmCreateListHook(listName, addr) \
     kmListHook listName = kmListHook(); \
-    kmBranchDefCpp(addr, NULL, void) { listName.execute(); }
+    kmBranchDefCpp(addr, NULL, void) { (listName).execute(); }
 
 #define kmListHookAdd(listName, func) \
-static kmListHookNode kmIdentifier(List, __COUNTER__) = kmListHookNode((kmListHook*)&listName, (Func)&(func))
+static kmListHookNode kmIdentifier(List, __COUNTER__) = kmListHookNode((kmListHook*)&(listName), (Func)&(func))
 
 #define kmListHookDefInt(counter, listName) \
     static void kmIdentifier(ListFunc, counter) (); \
@@ -23,7 +31,7 @@ public:
     kmListHookNode* head;
 
     kmListHook() {}
-    void execute();
+    void execute() const;
 };
 
 class kmListHookNode {
@@ -31,7 +39,7 @@ public:
     kmListHookNode* next;
     Func func;
 
-    kmListHookNode(kmListHook* parent, Func function) : func(function), next(parent->head) {
+    kmListHookNode(kmListHook* parent, Func function) : next(parent->head), func(function) {
         parent->head = this;
     }
 };

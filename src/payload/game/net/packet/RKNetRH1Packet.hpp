@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/net/packet/RKNetPacketCommon.hpp>
+#pragma once
+#include "RKNetPacketCommon.hpp"
 #include <mvp/cup/CupData.hpp>
 
 struct RKNetRH1Packet {
@@ -12,23 +12,22 @@ struct RKNetRH1Packet {
 
     union PlayerCombo {
         PlayerCombo() : raw(0xFFFF) {}
-        struct { u8 vehicle; u8 character; };
+
+        struct {
+            u8 vehicle;
+            u8 character;
+        };
+
         u16 raw;
     };
 
-    RKNetRH1Packet(u8 plrType) :
-        frameCount(0),
-        randomSeed(0),
-        battleTeamData(),
-        lagFrames(0),
-        playerCombos(),
-        countdownTime(0),
-        vanillaCourse(CupData::VANILLA_NO_TRACK),
-        playerType(plrType),
-        aidPidMap(),
-        engineClass(),
-        reserved(0),
-        course(CupData::NO_TRACK) { starRanks[0] = 0; starRanks[1] = 0; }
+    explicit RKNetRH1Packet(u8 plrType) :
+        frameCount(0), randomSeed(0), lagFrames(0), countdownTime(0),
+        vanillaCourse(CupData::VANILLA_NO_TRACK), playerType(plrType), reserved(0),
+        course(CupData::NO_TRACK) {
+        starRanks[0] = 0;
+        starRanks[1] = 0;
+    }
 
     u32 frameCount;
     u32 randomSeed;
@@ -50,6 +49,6 @@ struct RKNetRH1Packet {
     // Modified structure
     u8 reserved; // might use this in the future for game-mode stuff
     u16 course;
-    // u8 pad[3];
+    // PAD(3);
 };
 size_assert(RKNetRH1Packet, 0x28);

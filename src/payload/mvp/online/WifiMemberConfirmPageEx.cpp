@@ -1,11 +1,10 @@
-#include <common/Common.hpp>
+#include "WifiMemberConfirmPageEx.hpp"
+#include "RepickQueue.hpp"
 #include <game/net/RKNetController.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
 #include <game/ui/ControlLoader.hpp>
 #include <game/ui/page/VotingBackPage.hpp>
 #include <platform/stdio.h>
-#include <mvp/online/RepickQueue.hpp>
-#include <mvp/online/WifiMemberConfirmPageEx.hpp>
 
 // Add the rule button to the page
 void WifiMemberConfirmPageEx::onInit() {
@@ -76,7 +75,7 @@ void WifiMemberConfirmPageEx::onInit() {
     ruleButton.setOnClickHandler(&onRuleButtonClickHandler, 0);
 
     // Add the player entries
-    for (int i = 0; i < ARRAY_SIZE(playerEntries); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(playerEntries); i++) {
 
         // Insert the entry
         LayoutUIControl* entry = &playerEntries[i];
@@ -103,7 +102,7 @@ void WifiMemberConfirmPageEx::onActivate() {
 
     // Set up loop
     VotingBackPage* page = VotingBackPage::getPage();
-    bool teamsEnabled = VotingBackPage::teamsEnabled();
+    const bool teamsEnabled = VotingBackPage::teamsEnabled();
 
     // Get rating type
     RatingType ratingType = RATING_NONE;
@@ -129,7 +128,7 @@ void WifiMemberConfirmPageEx::onActivate() {
     }
 
     // Hide all player entries by default
-    for (int i = 0; i < ARRAY_SIZE(playerEntries); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(playerEntries); i++) {
         playerEntries[i].hidden = true;
     }
 
@@ -137,32 +136,37 @@ void WifiMemberConfirmPageEx::onActivate() {
     if (teamsEnabled) {
 
         // Set up filling loop
-        int redTeamIdx = 0;
-        int blueTeamIdx = 1;
-        int entryIdx;
+        u32 redTeamIdx = 0;
+        u32 blueTeamIdx = 1;
+        u32 entryIdx = 0;
 
-        for (int playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
+        for (u32 playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
 
             // Get the team and the entry index
-            RaceConfig::Player::Team playerTeam = page->playerInfos[playerIdx].team;
+            const RaceConfig::Player::Team playerTeam = page->playerInfos[playerIdx].team;
             if (playerTeam == RaceConfig::Player::TEAM_BLUE) {
                 entryIdx = blueTeamIdx;
                 blueTeamIdx += 2;
-            } else if (playerTeam == RaceConfig::Player::TEAM_RED) {
+            }
+            else if (playerTeam == RaceConfig::Player::TEAM_RED) {
                 entryIdx = redTeamIdx;
                 redTeamIdx += 2;
+            }
+            else {
+                entryIdx = playerIdx;
             }
 
             // Set the entry
             setPlayerEntry(entryIdx, playerIdx, playerTeam, ratingType,
                            RKNetController::instance->isLocalPlayer(playerIdx));
         }
+    }
 
     // If teams are disabled, just set the players in order
-    } else {
-        for (int playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
-            setPlayerEntry(playerIdx, playerIdx, RaceConfig::Player::TEAM_NONE,
-                           ratingType, RKNetController::instance->isLocalPlayer(playerIdx));
+    else {
+        for (u32 playerIdx = 0; playerIdx < page->playerCount; playerIdx++) {
+            setPlayerEntry(playerIdx, playerIdx, RaceConfig::Player::TEAM_NONE, ratingType,
+                           RKNetController::instance->isLocalPlayer(playerIdx));
         }
     }
 
@@ -179,15 +183,18 @@ void WifiMemberConfirmPageEx::onActivate() {
 void WifiMemberConfirmPageEx::afterCalc() {
 
     // This check is necessary to ensure the procedure is not repeated twice
-    if (pageState != Page::STATE_ACTIVE && rulePopup == nullptr)
+    if (pageState != Page::STATE_ACTIVE && rulePopup == nullptr) {
         return;
+    }
 
-    if (timer == nullptr)
+    if (timer == nullptr) {
         return;
+    }
 
-    if (timer->value > 0.0f)
+    if (timer->value > 0.0f) {
         return;
-    
+    }
+
     // Ensure the pointer is nulled to prevent running this twice
     if (rulePopup) {
         rulePopup->handleFront();

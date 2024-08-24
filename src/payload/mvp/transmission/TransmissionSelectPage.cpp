@@ -1,19 +1,19 @@
-#include <common/Common.hpp>
+#include "TransmissionSelectPage.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
 #include <game/util/Random.hpp>
-#include <mvp/transmission/TransmissionSelectPage.hpp>
 
 TransmissionSelectPage::TransmissionSelectPage() {
 
     // Set handlers
-    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
-    SET_HANDLER_FUNC(onBackPressHandler, onBackPress);
+    SET_HANDLER_FUNC(onButtonClickHandler, TransmissionSelectPage::onButtonClick);
+    SET_HANDLER_FUNC(onBackPressHandler, TransmissionSelectPage::onBackPress);
 
     // Set previous page
     prevPageId = Page::VEHICLE_SELECT;
-    if (RaceConfig::instance->menuScenario.settings.isBattle())
+    if (RaceConfig::instance->menuScenario.settings.isBattle()) {
         prevPageId = Page::VEHICLE_SELECT_BT;
+    }
 }
 
 void TransmissionSelectPage::onActivate() {
@@ -30,7 +30,7 @@ void TransmissionSelectPage::onActivate() {
         Message::Menu::HELP,
     };
 
-    for (int i = 0; i < ARRAY_SIZE(buttonTexts); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(buttonTexts); i++) {
         buttons[i]->setText(buttonTexts[i]);
     }
 
@@ -89,7 +89,8 @@ void TransmissionSelectPage::onSelectChange(PushButton* button, u32 hudSlotId) {
 
     if (button->buttonId == BACK_BUTTON) {
         instructionText->setText(Message::NONE);
-    } else {
+    }
+    else {
         instructionText->setText(instructionTexts[button->buttonId]);
     }
 }
@@ -98,8 +99,9 @@ void TransmissionSelectPage::setCPUTransmissions() {
 
     // Skip if online
     RaceConfig::Scenario* scenario = &RaceConfig::instance->menuScenario;
-    if (scenario->settings.isOnline())
+    if (scenario->settings.isOnline()) {
         return;
+    }
 
     // Set a random transmission for every CPU
     Random random;

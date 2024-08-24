@@ -1,8 +1,8 @@
-#include <common/Common.hpp>
+#pragma once
+#include "ControlInputManager.hpp"
+#include "MenuInputManager.hpp"
 #include <egg/core/eggList.hpp>
-#include <game/ui/input/ControlInputManager.hpp>
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/input/MenuInputManager.hpp>
 #include <game/ui/page/Page.hpp>
 #include <revolution/mtx.h>
 
@@ -16,13 +16,16 @@ public:
         void* vtable;
         int frames[INPUT_COUNT];
         u8 _28[INPUT_COUNT];
+        PAD(3);
 
         u32 sequenceFlags;
         u32 sequenceFrames;
         bool isPointer;
+        PAD(3);
+
         VEC2 pointerPos;
         bool enabled;
-        u8 _50[0x5c - 0x51];
+        UNK(0x5C - 0x51);
     };
     size_assert(Player, 0x5C);
 
@@ -35,8 +38,16 @@ public:
 
     RUNTIME_TYPE_INFO_NODECL;
     virtual ~MultiControlInputManager();
-
     virtual void init(u32 playerFlags, bool isMultiplayer);
+    virtual void* getHolderList() const;
+    virtual void checkActions();
+    virtual void activate(u32 hudSlotId, u32 localPlayerBitfield2, bool isMultiplayer);
+    virtual void onDeactivate(bool isMultiplayer);
+    virtual void onReset();
+    virtual void onActivate(bool isMultiPlayer);
+    virtual void update();
+    virtual bool isPointerEnabled();
+    virtual bool checkPlayerPointer();
 
     typedef int (*calcDistanceFunc)(Player* src, Player* dest, u32 direction);
     void setDistanceFunc(int wrapType);
@@ -45,7 +56,8 @@ public:
     EGG::List list;
     InputHandler1<Page, void, u32>* handlers[INPUT_COUNT];
     bool actionsSet[INPUT_COUNT];
-    u8 _49[INPUT_COUNT];
+    bool pointerEnabled[INPUT_COUNT];
+    PAD(2);
 
     Player players[5];
     calcDistanceFunc distFunc;

@@ -1,11 +1,10 @@
-#include <common/Common.hpp>
+#include "MultiTransmissionSelectPage.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
 #include <game/util/Random.hpp>
-#include <mvp/transmission/MultiTransmissionSelectPage.hpp>
 
 MultiTransmissionSelectPage::MultiTransmissionSelectPage() {
-    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
+    SET_HANDLER_FUNC(onButtonClickHandler, MultiTransmissionSelectPage::onButtonClick);
     prevPageId = Page::VEHICLE_SELECT_MULTI_PLAYER;
 }
 
@@ -16,16 +15,16 @@ void MultiTransmissionSelectPage::onActivate() {
     MenuPage::onActivate();
 
     // For each active player, enable the buttons and set their text
-    for (int i = 0; i < SectionManager::instance->globalContext->humanPlayerCount; i++) {
+    for (u32 i = 0; i < SectionManager::instance->globalContext->humanPlayerCount; i++) {
         multiControlInputManager.players[i].enabled = true;
 
-        buttons[i*2]->setText(Message::Menu::TRANSMISSION_OUTSIDE);
-        buttons[i*2]->hidden = false;
-        buttons[i*2]->inputManager.unselectable = false;
+        buttons[i * 2]->setText(Message::Menu::TRANSMISSION_OUTSIDE);
+        buttons[i * 2]->hidden = false;
+        buttons[i * 2]->inputManager.unselectable = false;
 
-        buttons[i*2+1]->setText(Message::Menu::TRANSMISSION_INSIDE);
-        buttons[i*2+1]->hidden = false;
-        buttons[i*2+1]->inputManager.unselectable = false;
+        buttons[i * 2 + 1]->setText(Message::Menu::TRANSMISSION_INSIDE);
+        buttons[i * 2 + 1]->hidden = false;
+        buttons[i * 2 + 1]->inputManager.unselectable = false;
     }
 }
 
@@ -37,9 +36,10 @@ void MultiTransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotI
         if (hudSlotId == 0) {
             loadPrevPage(button);
         }
+    }
 
     // Regular handling
-    } else {
+    else {
         RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[hudSlotId];
         switch (button->buttonId) {
 
@@ -48,8 +48,8 @@ void MultiTransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotI
             case BUTTON_OUTSIDE_P3:
             case BUTTON_OUTSIDE_P4:
                 player->transmission = RaceConfig::Player::TRANSMISSION_OUTSIDE;
-                buttons[button->buttonId+1]->hidden = true;
-                buttons[button->buttonId+1]->inputManager.unselectable = true;
+                buttons[button->buttonId + 1]->hidden = true;
+                buttons[button->buttonId + 1]->inputManager.unselectable = true;
                 break;
 
             case BUTTON_INSIDE_P1:
@@ -57,8 +57,8 @@ void MultiTransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotI
             case BUTTON_INSIDE_P3:
             case BUTTON_INSIDE_P4:
                 player->transmission = RaceConfig::Player::TRANSMISSION_INSIDE;
-                buttons[button->buttonId-1]->hidden = true;
-                buttons[button->buttonId-1]->inputManager.unselectable = true;
+                buttons[button->buttonId - 1]->hidden = true;
+                buttons[button->buttonId - 1]->inputManager.unselectable = true;
                 break;
 
             default:
@@ -78,12 +78,13 @@ void MultiTransmissionSelectPage::setCPUTransmissions() {
 
     // Skip if online
     RaceConfig::Scenario* scenario = &RaceConfig::instance->menuScenario;
-    if (scenario->settings.isOnline())
+    if (scenario->settings.isOnline()) {
         return;
+    }
 
     // Set a random transmission for every CPU
     Random random;
-    for (int i = SectionManager::instance->globalContext->humanPlayerCount; i < 12; i++) {
+    for (u32 i = SectionManager::instance->globalContext->humanPlayerCount; i < 12; i++) {
         scenario->players[i].transmission = random.nextU32(2) + 1;
     }
 }

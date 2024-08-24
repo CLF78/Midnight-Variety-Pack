@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#pragma once
 
 class SaveExpansionSection {
 public:
-
     // The section types (must be added for the section to be parsed)
     enum SectionId {
         SECTION_CUP_COMPLETION,
@@ -17,10 +16,10 @@ public:
     };
 
     // Gets the magic of the section
-    virtual u32 GetMagic() = 0;
+    virtual u32 GetMagic() const = 0;
 
     // Gets the required space to write this section to memory, excluding the magic
-    virtual u32 GetRequiredSpace() = 0;
+    virtual u32 GetRequiredSpace() const = 0;
 
     // Initializes the section
     virtual void Init() = 0;

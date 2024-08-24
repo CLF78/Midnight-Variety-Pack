@@ -1,10 +1,11 @@
-#include <common/Common.h>
-#include <gs/natneg/natify.h>
+#pragma once
+#include "natify.h"
+#include <revolutionex/so/SOBasic.h>
+#pragma pack(push, 1)
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-#pragma pack(push, 1)
 
 #define NATNEG_MAGIC_LEN 6
 #define NATNEG_PORT 27901
@@ -71,6 +72,7 @@ typedef struct {
     u32 localip;
     u16 localport;
 } InitPacket;
+size_cassert(InitPacket, 0x9);
 
 typedef struct {
     u8 portType;
@@ -80,6 +82,7 @@ typedef struct {
     int natMappingScheme;
     char gamename[50];
 } ReportPacket;
+size_cassert(ReportPacket, 0x3D);
 
 typedef struct {
     u32 remoteIP;
@@ -87,6 +90,7 @@ typedef struct {
     u8 gotData;
     u8 finished;
 } ConnectPacket;
+size_cassert(ConnectPacket, 0x8);
 
 typedef struct {
     u8 magic[NATNEG_MAGIC_LEN];
@@ -101,6 +105,7 @@ typedef struct {
     } data;
 
 } NATNEGPacket;
+size_cassert(NATNEGPacket, 0x49);
 
 typedef void (*NegotiateProgressFunc)(int state, void* userData);
 typedef void (*NegotiateCompletedFunc)(int result, int gamesocket, SOSockAddrIn* remoteAddr, void* userData);
@@ -122,14 +127,15 @@ typedef struct {
     u8 sendGotRemoteData;
     NegotiateProgressFunc progressCallback;
     NegotiateCompletedFunc completedCallback;
-    void *userdata;
+    void* userdata;
     int result;
     int connectedSocket;
     SOSockAddrIn remoteAddr;
 } NATNegotiator;
+size_cassert(NATNegotiator, 0x54);
 
 void NegotiateThink(NATNegotiator* neg);
-int NNStartNatDetection(NatDetectionResultsFunc resultscallback); // reimplemented
+int NNStartNatDetection(NatDetectionResultsFunc resultsCallback); // reimplemented
 
 extern char Matchup1Hostname[], Matchup2Hostname[], Matchup3Hostname[];
 extern u32 matchup1ip, matchup2ip, matchup3ip;

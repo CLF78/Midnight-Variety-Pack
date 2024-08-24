@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <dwc/dwc_login.h>
-#include <dwc/dwc_report.h>
+#include "dwc_login.h"
+#include "dwc_report.h"
 #include <wiimmfi/Natify.hpp>
 
 /////////////////////
@@ -14,8 +13,9 @@ inline u32 DWCi_Acc_GetMaskBits(u32 data, u32 shift, u32 mask) {
 
 // Credits: NitroDWC
 BOOL DWCi_Acc_SetMaskBits(u32* ptr, u32 data, u32 shift, u32 mask) {
-    if ((data & ~mask) != 0)
+    if ((data & ~mask) != 0) {
         return FALSE;
+    }
 
     *ptr = (*ptr & ~(mask << shift)) | (data << shift);
     return TRUE;

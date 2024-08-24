@@ -1,18 +1,18 @@
-#include <common/Common.h>
-#include <revolution/mtx.h>
-#include <revolution/wpad.h>
+#pragma once
+#include "mtx.h"
+#include "wpad.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 typedef enum {
-    KPAD_READ_ERR_NONE          = 0,
-    KPAD_READ_ERR_NO_DATA       = -1,
+    KPAD_READ_ERR_NONE = 0,
+    KPAD_READ_ERR_NO_DATA = -1,
     KPAD_READ_ERR_NO_CONTROLLER = -2,
-    KPAD_READ_ERR_SETUP         = -3,
-    KPAD_READ_ERR_LOCKED        = -4,
-    KPAD_READ_ERR_INIT          = -5,
+    KPAD_READ_ERR_SETUP = -3,
+    KPAD_READ_ERR_LOCKED = -4,
+    KPAD_READ_ERR_INIT = -5,
 } KPADError;
 
 typedef union {
@@ -31,12 +31,11 @@ typedef union {
         VEC2 leftStick;
         VEC2 rightStick;
 
-        float leftTrigger; // always 0
+        float leftTrigger;  // always 0
         float rightTrigger; // always 0
     } classic;
-
-    // ignoring Balance Board stuff
 } KPADEXStatus;
+size_cassert(KPADEXStatus, 0x24); // ignoring Balance Board stuff
 
 typedef struct {
     u32 buttonsHeld;
@@ -67,22 +66,23 @@ typedef struct {
     u8 dataFormat;
 
     KPADEXStatus exStatus;
-
 } KPADStatus;
+size_cassert(KPADStatus, 0x84);
 
 typedef struct {
     union {
         WPADStatus core;
         WPADFSStatus fs;
         WPADCLStatus cl;
-    } u;
+    };
     u8 fmt;
-    u8 padding;
+    PAD(3);
 } KPADUnifiedWpadStatus;
+size_cassert(KPADUnifiedWpadStatus, 0x3C);
 
 s32 KPADRead(s32 controller, KPADStatus samplingBufs[], u32 controllerCount);
 
-void KPADGetUnifiedWpadStatus(s32 controller, KPADUnifiedWpadStatus *dst, u32 controllerCount);
+void KPADGetUnifiedWpadStatus(s32 controller, KPADUnifiedWpadStatus* dst, u32 controllerCount);
 
 #ifdef __cplusplus
 }

@@ -1,7 +1,7 @@
-#include <common/Common.hpp>
+#pragma once
+#include "YesNoPage.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/ctrl/BlackBackControl.hpp>
-#include <game/ui/page/YesNoPage.hpp>
 
 class YesNoPopupPage : public YesNoPage {
 public:

@@ -1,11 +1,10 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/ui/ControlGroup.hpp>
 #include <game/ui/TypeInfo.hpp>
 #include <game/ui/input/MenuInputManager.hpp>
 
 class Page {
 public:
-
     enum PageId {
         NONE = -1,
         UNK_0,
@@ -283,6 +282,7 @@ public:
     PageId pageId;
     PageState pageState;
     bool canProceed;
+    PAD(3);
 
     AnimationDirection animId;
     float backTransitionDelay;

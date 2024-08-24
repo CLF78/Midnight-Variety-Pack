@@ -1,14 +1,15 @@
-#include <common/Common.hpp>
+#pragma once
 
 namespace nw4r {
 namespace lyt {
 
 class TexMap {
 public:
-    u8 unk[0x1C];
-
     void ReplaceImage(void* image, u32 id); // Actually TPLDescriptor* but i cannot be arsed
+
+    UNK(0x1C);
 };
+size_assert(TexMap, 0x1C);
 
 } // namespace lyt
 } // namespace nw4r

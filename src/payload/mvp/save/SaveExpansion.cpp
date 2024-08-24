@@ -1,52 +1,54 @@
-#include <common/Common.hpp>
-#include <game/util/NandUtil.hpp>
-#include <mvp/save/SaveExpansion.hpp>
+#include "SaveExpansion.hpp"
 #include <platform/string.h>
 #include <revolution/os/OS.h>
 #include <revolutionex/net/NETDigest.h>
 
-bool SaveExpansion::Header::IsValid(u32 fileSize) {
+bool SaveExpansion::Header::IsValid(u32 fileSize) const {
 
     // Check magic
-    if (magic != SAVEEX_MAGIC)
+    if (magic != SAVEEX_MAGIC) {
         return false;
+    }
 
     // Check version number
-    if (revision > SAVEEX_VERSION_NUMBER)
+    if (revision > SAVEEX_VERSION_NUMBER) {
         return false;
+    }
 
     // Ensure the file at least has a full header
-    if (headerSize > fileSize)
+    if (headerSize > fileSize) {
         return false;
+    }
 
     // Ensure the header contains one license offset per license
-    if (offsetof(SaveExpansion::Header, licenseOffsets) + licenseCount * sizeof(u32) != headerSize)
+    if (offsetof(SaveExpansion::Header, licenseOffsets) + licenseCount * sizeof(u32) != headerSize) {
         return false;
+    }
 
     // Ensure each license offset is in the file
-    u32* licenseOffsData = &licenseOffsets[0];
-    for (int i = 0; i < licenseCount; i++) {
-        if (licenseOffsData[i] > fileSize)
+    const u32* licenseOffsData = &licenseOffsets[0];
+    for (u32 i = 0; i < licenseCount; i++) {
+        if (licenseOffsData[i] > fileSize) {
             return false;
+        }
     }
 
     // All checks passed!
     return true;
 }
 
-SaveExpansion::SaveExpansion() : mLicenses() {
+SaveExpansion::SaveExpansion() : mWriteBufferSize(GetRequiredSpace()) {
 
     // Initialize the save with the default values
     Init();
 
     // Create the write buffer since we know the write size
-    mWriteBufferSize = GetRequiredSpace();
     mWriteBuffer = new (32) u8[mWriteBufferSize];
     memset(mWriteBuffer, 0, mWriteBufferSize);
     Write();
 }
 
-u32 SaveExpansion::GetRequiredSpace() {
+u32 SaveExpansion::GetRequiredSpace() const {
 
     // Get the base header size
     u32 requiredSpace = offsetof(SaveExpansion::Header, licenseOffsets);
@@ -62,7 +64,7 @@ u32 SaveExpansion::GetRequiredSpace() {
 }
 
 void SaveExpansion::Init() {
-    for (int i = 0; i < ARRAY_SIZE(mLicenses); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(mLicenses); i++) {
         mLicenses[i].Init();
     }
 }
@@ -70,30 +72,35 @@ void SaveExpansion::Init() {
 bool SaveExpansion::Read(u8* buffer, u32 bufferSize) {
 
     // If buffer is null, bail
-    if (!buffer)
+    if (!buffer) {
         return true;
+    }
 
     // If the header is not valid, bail
     Header* header = (Header*)buffer;
-    if (!header->IsValid(bufferSize))
+    if (!header->IsValid(bufferSize)) {
         return false;
+    }
 
     // Ensure the checksum matches
-    u32 checksum = header->checksum;
+    const u32 checksum = header->checksum;
     header->checksum = 0;
-    u32 checksumRecalc = NETCalcCRC32(buffer, bufferSize);
-    if (checksum != checksumRecalc)
+    const u32 checksumRecalc = NETCalcCRC32(buffer, bufferSize);
+    if (checksum != checksumRecalc) {
         return false;
+    }
 
     // Parse each license
-    for (int i = 0; i < header->licenseCount && i < ARRAY_SIZE(mLicenses); i++) {
+    for (u32 i = 0; i < header->licenseCount && i < ARRAY_SIZE(mLicenses); i++) {
         u8* license = buffer + header->headerSize + header->licenseOffsets[i];
-        u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1 ) ? bufferSize - header->licenseOffsets[i]
-                                                            : header->licenseOffsets[i+1] - header->licenseOffsets[i];
+        const u32 licenseSize = (i == ARRAY_SIZE(mLicenses) - 1) ?
+                                    bufferSize - header->licenseOffsets[i] :
+                                    header->licenseOffsets[i + 1] - header->licenseOffsets[i];
 
         // If one of the license headers is invalid, bail
-        if (!mLicenses[i].Read(license, licenseSize))
+        if (!mLicenses[i].Read(license, licenseSize)) {
             return false;
+        }
     }
 
     return true;
@@ -110,12 +117,12 @@ void SaveExpansion::Write() {
     header->licenseCount = ARRAY_SIZE(mLicenses);
 
     // Get the space per license
-    u32 spacePerLicense = mLicenses[0].GetRequiredSpace();
+    const u32 spacePerLicense = mLicenses[0].GetRequiredSpace();
 
     // Write each license
     u8* saveStart = (u8*)header + header->headerSize;
     u8* currLicensePtr = saveStart;
-    for (int i = 0; i < ARRAY_SIZE(mLicenses); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(mLicenses); i++) {
 
         // Write the license and its offset
         mLicenses[i].Write(currLicensePtr);

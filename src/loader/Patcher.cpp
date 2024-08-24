@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "Patcher.hpp"
 #include <platform/string.h>
-#include <Patcher.hpp>
 
 namespace Patcher {
 
@@ -10,22 +9,24 @@ void ApplyPatches(const u32* input, const u32* inputEnd, const u32 text) {
     while (input < inputEnd) {
 
         // Get command header
-        u32 cmdHeader = *input++;
+        const u32 cmdHeader = *input++;
 
         // Get command
-        u8 cmd = cmdHeader >> 24;
+        const u8 cmd = cmdHeader >> 24;
 
         // Get address
         u32 address = cmdHeader & 0xFFFFFF;
-        if (address == 0xFFFFFE)
+        if (address == 0xFFFFFE) {
             address = *input++; // Absolute
-        else
+        }
+        else {
             address = text + address; // Relative
+        }
 
         // Apply patch
         u32 target, value, delta;
         u32 size = 0;
-        u32* placeholder, *originalInstr;
+        u32 *placeholder, *originalInstr;
         switch (cmd) {
 
             case Addr32:
@@ -49,8 +50,9 @@ void ApplyPatches(const u32* input, const u32* inputEnd, const u32 text) {
             case Addr16Ha:
                 target = ResolveAddress(text, *input++);
                 *(u16*)address = target >> 16;
-                if (target & 0x8000)
+                if (target & 0x8000) {
                     (*(u16*)address)++;
+                }
                 CacheInvalidateAddress((const void*)address, sizeof(u16));
                 break;
 

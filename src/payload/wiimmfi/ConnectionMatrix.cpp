@@ -1,10 +1,9 @@
-#include <common/Common.hpp>
+#include "ConnectionMatrix.hpp"
+#include "MatchCommand.hpp"
+#include "Reporting.hpp"
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
 #include <nw4r/ut/Lock.hpp>
-#include <wiimmfi/ConnectionMatrix.hpp>
-#include <wiimmfi/MatchCommand.hpp>
-#include <wiimmfi/Reporting.hpp>
 
 namespace Wiimmfi {
 namespace ConnectionMatrix {
@@ -15,26 +14,29 @@ void ResetRecv() {
 
     // Get the node info for the aid, if it's null reset the received matrix
     for (int aid = 0; aid < 12; aid++) {
-        if (!DWCi_NodeInfoList_GetNodeInfoForAid(aid))
+        if (!DWCi_NodeInfoList_GetNodeInfoForAid(aid)) {
             sRecvConnMtx[aid] = 0;
+        }
     }
 }
 
 void Update() {
 
     // Failsafe
-    if (!stpMatchCnt)
+    if (!stpMatchCnt) {
         return;
+    }
 
     // Lock interrupts to avoid potential disconnections while this function is executing
-    nw4r::ut::AutoInterruptLock lock;
+    const nw4r::ut::AutoInterruptLock lock;
 
     // Compute the connection matrix
     u32 aidsConnectedToMe = 0;
-    for (int i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
-        u32 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
-        if (DWCi_GetGT2Connection(aid))
+    for (u32 i = 0; i < stpMatchCnt->nodeInfoList.nodeCount; i++) {
+        const u32 aid = stpMatchCnt->nodeInfoList.nodeInfos[i].aid;
+        if (DWCi_GetGT2Connection(aid)) {
             aidsConnectedToMe |= (1 << i);
+        }
     }
 
     // Report it to the server and share it with the clients

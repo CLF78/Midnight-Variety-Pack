@@ -1,6 +1,6 @@
-#include <common/Common.hpp>
-#include <game/ui/page/BattleStageSelectPage.hpp>
+#pragma once
 #include <game/ui/SectionManager.hpp>
+#include <game/ui/page/BattleStageSelectPage.hpp>
 #include <mvp/online/YesNoPopupPageEx.hpp>
 
 class BattleStageSelectPageEx : public BattleStageSelectPage {
@@ -12,23 +12,24 @@ public:
     virtual void afterCalc();
 
     void onRepickPromptPress(s32 choice, PushButton* button);
-    void setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button, int unk);
+    void setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button, u32 hudSlotId);
     void onButtonClick(PushButton* button, u32 hudSlotId);
     void onBackPress(u32 hudSlotId);
 
     static BattleStageSelectPageEx* getPage() {
-        return (BattleStageSelectPageEx*)SectionManager::instance->curSection->getPage(Page::COURSE_SELECT_BT);
+        return (BattleStageSelectPageEx*)
+            SectionManager::instance->curSection->getPage(Page::COURSE_SELECT_BT);
     }
 
-    static u32 getCupCount() {
-        return 2 + ARRAY_SIZE_STATIC(BattleStageSelectPageEx, cups);
-    }
+    static u32 getCupCount() { return 2 + ARRAY_SIZE_STATIC(BattleStageSelectPageEx, cups); }
 
     CtrlMenuBattleStageSelectCupSub* getCupButton(u32 idx) {
-        if (idx < 2)
+        if (idx < 2) {
             return &cupHolder.cups[idx];
-        else if (idx < getCupCount())
-            return &cups[idx-2];
+        }
+        if (idx < getCupCount()) {
+            return &cups[idx - 2];
+        }
         return nullptr;
     }
 

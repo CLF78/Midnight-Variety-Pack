@@ -1,26 +1,24 @@
-#include <common/Common.hpp>
-#include <game/kart/KartCollide.hpp>
+#pragma once
+#include "PlayerEffects.hpp"
 #include <game/gfx/ModelDirector.hpp>
-#include <nw4r/math/types.hpp>
-#include <game/effect/PlayerEffects.hpp>
+#include <game/kart/KartCollide.hpp>
 #include <game/system/MultiDvdArchive.hpp>
+#include <nw4r/math/types.hpp>
 
 class EffectsManager {
 public:
     int GetRuntimeTypeInfo();
-
-    static EffectsManager* sInstance;
-    static EffectsManager* CreateInstance(void* heap);
-    static void* eggEffectMgr;
-
     void Reset();
+
+    static EffectsManager* CreateInstance(void* heap);
 
     u32 playerCount;
     u32 localPlayerCount;
-    u16 _8;
-    u8 _A[2];
+    UNK(4);
+
     u32 sceneId;
-    u8 _10[2];
+    UNK(2);
+
     u16 resCount;
     bool hasPocha;
     bool hasPochaYogan;
@@ -29,25 +27,30 @@ public:
     bool hasEnvFire;
     bool hasKareha;
     bool hasCoin;
-    u8 _1B;
+    UNK(1);
+
     float objHeight[8];
-    u32 _3C;
+    UNK(4);
+
     bool isGV;
     bool isMT;
-    u8 _42[2];
+    UNK(2);
+
     void* resources[9];
     PlayerEffects** players;
     void* menus;
     void* mgWhiteFog;
     void* items;
+    UNK(0x9D8 - 0x78);
 
-    u8 _78[0x9d8 - 0x78];
     void** sub9d8s;
     u16* objectsEffectsId;
-    u8 _9e0[4];
-    float _9e4[2];
-    u16 _9ec;
+    UNK(0x9EE - 0x9E0);
+    PAD(2);
 
     virtual ~EffectsManager();
+
+    static EffectsManager* sInstance;
+    static void* eggEffectMgr;
 };
-size_assert(EffectsManager, 0x9f4);
+size_assert(EffectsManager, 0x9F4);

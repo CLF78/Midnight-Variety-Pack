@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/system/DvdArchive.hpp>
+#pragma once
+#include "DvdArchive.hpp"
 
 class MultiDvdArchive {
 public:
@@ -17,11 +17,11 @@ public:
 
     enum KindFlag {
         SUFFIX_ONLY = BIT_FLAG(-1),
-        FULL_NAME   = BIT_FLAG(0),
-        CACHED      = BIT_FLAG(2),
+        FULL_NAME = BIT_FLAG(0),
+        CACHED = BIT_FLAG(2),
     };
 
-    MultiDvdArchive(u16 archiveCount = 1);
+    explicit MultiDvdArchive(u16 archiveCount = 1);
     virtual ~MultiDvdArchive();
     virtual void init();
 
@@ -31,6 +31,8 @@ public:
 
     DvdArchive* archives;
     u16 archiveCount;
+    PAD(2);
+
     u32* fileSizes;
     char** suffixes;
     void** fileStarts;

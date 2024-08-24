@@ -1,16 +1,15 @@
-#include <common/Common.hpp>
+#pragma once
+#include "Page.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/input/MultiControlInputManager.hpp>
-#include <game/ui/page/Page.hpp>
-#include <game/ui/ctrl/PushButton.hpp>
 #include <game/ui/UIControlTimer.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
 #include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>
+#include <game/ui/ctrl/PushButton.hpp>
+#include <game/ui/input/MultiControlInputManager.hpp>
 
 class WifiMemberConfirmPage : public Page {
 public:
-
     enum RatingType {
         RATING_NONE,
         RATING_VS,
@@ -26,8 +25,8 @@ public:
 
     RUNTIME_TYPE_INFO_NODECL;
 
-    void setPlayerEntry(int entryIdx, int playerIdx, RaceConfig::Player::Team team,
-                        RatingType ratingType, bool isLocalPlayer);
+    void setPlayerEntry(u32 entryIdx, u32 playerIdx, RaceConfig::Player::Team team, RatingType ratingType,
+                        bool isLocalPlayer);
 
     InputHandler2<WifiMemberConfirmPage, void, PushButton*, u32> onButtonClickHandler;
     MultiControlInputManager inputManager;

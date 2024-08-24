@@ -1,14 +1,14 @@
-#include <common/Common.hpp>
-#include <nw4r/ut/FileStream.hpp>
+#pragma once
+#include "FileStream.hpp"
 #include <revolution/dvd/dvd.h>
+#pragma pack(push, 1)
 
 namespace nw4r {
 namespace ut {
 
 class DvdFileStream : public FileStream {
 public:
-
-    struct DvdFileStreamInfo  {
+    struct DvdFileStreamInfo {
         DVDFileInfo dvdInfo;
         DvdFileStream* stream;
     };
@@ -19,18 +19,9 @@ public:
     virtual void Close();
 
     virtual s32 Read(void* buf, u32 length);
-
-    virtual bool ReadAsync(void* buffer,
-                           u32 length,
-                           IOStreamCallback callback,
-                           void* arg);
-
+    virtual bool ReadAsync(void* buffer, u32 length, IOStreamCallback callback, void* arg);
     virtual s32 Peek(void* buf, u32 length);
-
-    virtual bool PeekAsync(void* buffer,
-                           u32 length,
-                           IOStreamCallback callback,
-                           void* arg);
+    virtual bool PeekAsync(void* buffer, u32 length, IOStreamCallback callback, void* arg);
 
     virtual bool IsBusy() const;
 
@@ -55,6 +46,7 @@ public:
     IOStreamCallback cancelCallback;
     void* cancelArg;
     volatile bool isCanceling;
+    PAD(3);
 
     DvdFileStreamInfo fileInfo;
     s32 priority;
@@ -62,6 +54,8 @@ public:
     bool closeOnDestroyFlag;
     bool closeEnableFlag;
 };
+size_assert(DvdFileStream, 0x6F);
+#pragma pack(pop)
 
 } // namespace ut
 } // namespace nw4r

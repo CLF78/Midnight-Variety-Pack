@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 #include <game/ui/input/MultiControlInputManager.hpp>
 
 ///////////////////

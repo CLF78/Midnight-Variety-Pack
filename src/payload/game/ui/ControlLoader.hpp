@@ -1,9 +1,9 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
+#pragma once
+#include "ctrl/LayoutUIControl.hpp"
 
 class ControlLoader {
 public:
-    ControlLoader(LayoutUIControl* control);
+    explicit ControlLoader(LayoutUIControl* control);
     ~ControlLoader();
 
     void load(const char* dirname, const char* filename, const char* variant, const char** anims);

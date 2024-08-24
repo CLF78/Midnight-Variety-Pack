@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/ui/Layout.hpp>
+#pragma once
+#include "Layout.hpp"
 
 class UIAnimationGroup {
 public:

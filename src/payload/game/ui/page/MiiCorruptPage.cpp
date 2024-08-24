@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
 #include <game/util/NandUtil.hpp>
 
 ///////////////////////////////
@@ -9,18 +8,21 @@
 ///////////////////////////////
 
 // MiiCorruptPage::onActivate patch()
-// Replace message box message when a save error occurs
+// Replace message box content when a save error occurs
 kmCallDefCpp(0x806207CC, void, LayoutUIControl* self, u32 msgId, MessageInfo* msgInfo) {
 
-    // If the section is not the corrupted Mii data one, use the save message error depending on the check error
+    // If the section is not the corrupted Mii data one, use the save error msg depending on the check result
     if (SectionManager::instance->curSection->sectionId != Section::SAVE_CANNOT_READ_RFL) {
-        int checkError = SectionManager::instance->saveGhostManager->nandManagerCheckError;
-        if (checkError & NandUtil::CHECK_ERROR_BLOCKS)
+        const int checkError = SectionManager::instance->saveGhostManager->nandManagerCheckError;
+        if (checkError & NandUtil::CHECK_ERROR_BLOCKS) {
             msgId = Message::Menu::ERROR_NOT_ENOUGH_MEMORY;
-        else if (checkError & NandUtil::CHECK_ERROR_INODES)
+        }
+        else if (checkError & NandUtil::CHECK_ERROR_INODES) {
             msgId = Message::Menu::ERROR_NOT_ENOUGH_INODES;
-        else
+        }
+        else {
             msgId = Message::Menu::ERROR_COULD_NOT_READ_MEMORY;
+        }
     }
 
     // Set the text

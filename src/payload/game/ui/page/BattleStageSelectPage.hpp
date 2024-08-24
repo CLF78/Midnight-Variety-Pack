@@ -1,6 +1,6 @@
-#include <common/Common.hpp>
+#pragma once
+#include "MenuPage.hpp"
 #include <game/ui/UIControlTimer.hpp>
-#include <game/ui/page/MenuPage.hpp>
 #include <game/ui/ctrl/CtrlMenuBattleStageSelectCup.hpp>
 #include <game/ui/ctrl/CtrlMenuBattleStageSelectStage.hpp>
 
@@ -34,5 +34,6 @@ public:
     CtrlMenuBattleStageSelectCup cupHolder;
     CtrlMenuBattleStageSelectStage courseHolder;
     bool stageSelected;
+    PAD(3);
 };
 size_assert(BattleStageSelectPage, 0x1A84);

@@ -1,13 +1,13 @@
-#include <common/Common.hpp>
-#include <game/system/CourseMap.hpp>
-#include <game/system/RaceConfig.hpp>
+#include "CourseMap.hpp"
+#include "RaceConfig.hpp"
 #include <wiimmfi/Reporting.hpp>
 
 /////////////////////////////
 // Invalid KMP Point Fixes //
 /////////////////////////////
 
-// Prevent invalid item points from crashing the game
+// clang-format off
+// Custom function
 const MapdataItemPoint* CourseMap::getDummyItemPoint() {
     static const MapdataItemPoint::SData dummyPointData = {{0.0f, 0.0f, 0.0f}, 1.0f, {0, 0}};
     static const MapdataItemPoint dummyPoint = {(MapdataItemPoint::SData*)&dummyPointData };
@@ -15,14 +15,7 @@ const MapdataItemPoint* CourseMap::getDummyItemPoint() {
     return &dummyPoint;
 }
 
-REPLACE const MapdataItemPoint* CourseMap::getItemPoint(u32 id) {
-    if (!mpItemPoint || id >= mpItemPoint->numEntries)
-        return getDummyItemPoint();
-
-    return mpItemPoint->entries[id];
-}
-
-// Prevent invalid cannon points from crashing the game
+// Custom function
 const MapdataCannonPoint* CourseMap::getDummyCannonPoint() {
     static const MapdataCannonPoint::SData dummyPointData = {{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, 0, 0};
     static const MapdataCannonPoint dummyPoint = {(MapdataCannonPoint::SData*)&dummyPointData};
@@ -30,9 +23,21 @@ const MapdataCannonPoint* CourseMap::getDummyCannonPoint() {
     return &dummyPoint;
 }
 
+// clang-format on
+// Prevent invalid item points from crashing the game
+REPLACE const MapdataItemPoint* CourseMap::getItemPoint(u32 id) {
+    if (!mpItemPoint || id >= mpItemPoint->numEntries) {
+        return getDummyItemPoint();
+    }
+
+    return mpItemPoint->entries[id];
+}
+
+// Prevent invalid cannon points from crashing the game
 REPLACE const MapdataCannonPoint* CourseMap::getCannonPoint(u32 id) {
-    if (!mpCannonPoint || id >= mpCannonPoint->numEntries)
+    if (!mpCannonPoint || id >= mpCannonPoint->numEntries) {
         return getDummyCannonPoint();
+    }
 
     return mpCannonPoint->entries[id];
 }
@@ -48,9 +53,10 @@ REPLACE MapdataStageAccessor* CourseMap::parseStageInformation(u32 magic) {
     MapdataStageAccessor* stgi = REPLACED(magic);
 
     // Check if lap count is less than 10
-    u8 lapCount = stgi->entries[0]->mpData->mLapCount;
-    if (lapCount < 10)
+    const u8 lapCount = stgi->entries[0]->mpData->mLapCount;
+    if (lapCount < 10) {
         RaceConfig::instance->raceScenario.settings.lapCount = lapCount;
+    }
 
     // Return accessor
     return stgi;
@@ -66,8 +72,9 @@ REPLACE void CourseMap::init() {
 
     // If we're online, send the data
     // We cannot use the isOnline variable since it hasn't been initialized yet
-    if (RaceConfig::instance->raceScenario.settings.isOnline())
+    if (RaceConfig::instance->raceScenario.settings.isOnline()) {
         Wiimmfi::Reporting::ReportCourseSubfiles();
+    }
 
     // Original call
     REPLACED();

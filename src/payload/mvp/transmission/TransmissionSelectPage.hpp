@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/ui/page/DriftSelectPage.hpp>
 
 class TransmissionSelectPage : public DriftSelectPage {
@@ -19,5 +19,5 @@ public:
     void onButtonClick(PushButton* button, u32 hudSlotId);
     void onBackPress(u32 hudSlotId);
 
-    void setCPUTransmissions();
+    static void setCPUTransmissions();
 };

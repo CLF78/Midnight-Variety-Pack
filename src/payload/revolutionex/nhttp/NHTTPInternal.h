@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,6 +35,7 @@ struct NHTTPReq {
     char tagPost[20];
 
     char basicUsernamePassword[90];
+    PAD(2);
     int basicUsernamePasswordLen;
 
     int sslId;
@@ -55,15 +56,16 @@ struct NHTTPReq {
     char proxyAddr[256];
     int proxyPort;
     char proxyUsernamePassword[90];
+    PAD(2);
     int proxyUsernamePasswordLen;
 
     u32 soRecvSize;
 
     const char* rawPostData;
     u32 rawPostDataLen;
-
     NHTTPPostSend postSendCallback;
 };
+size_cassert(NHTTPReq, 0x254);
 
 struct NHTTPReqList {
     NHTTPReqList* prev;
@@ -72,15 +74,17 @@ struct NHTTPReqList {
     NHTTPReq* req;
     void* socket;
 };
+size_cassert(NHTTPReqList, 0x14);
 
 struct NHTTPDataList {
-    struct NHTTPDataList* prev;
-    struct NHTTPDataList* next;
+    NHTTPDataList* prev;
+    NHTTPDataList* next;
     const char* label;
     const char* value;
     u32 length;
     int isBinary;
 };
+size_cassert(NHTTPDataList, 0x18);
 
 #ifdef __cplusplus
 }

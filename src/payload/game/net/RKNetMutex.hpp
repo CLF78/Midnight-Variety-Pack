@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <revolution/os/OSMutex.h>
 
 class RKNetMutex {

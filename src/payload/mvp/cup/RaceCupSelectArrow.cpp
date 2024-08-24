@@ -1,8 +1,6 @@
-#include <common/Common.hpp>
-#include <mvp/cup/CupManager.hpp>
-#include <mvp/cup/RaceCupSelectArrow.hpp>
-#include <mvp/cup/RaceCupSelectPageEx.hpp>
-
+#include "RaceCupSelectArrow.hpp"
+#include "CupManager.hpp"
+#include "RaceCupSelectPageEx.hpp"
 
 // This function runs whenever the left arrow is selected or pressed
 void RaceCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayerId) {
@@ -12,8 +10,9 @@ void RaceCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayerId
 
     // Update the page number
     self->curPage--;
-    if (self->curPage < 0)
+    if (self->curPage < 0) {
         self->curPage = CupManager::getMaxCupPage();
+    }
 
     // Log entry
     LOG_DEBUG("Changing cup select page to %d...", self->curPage);
@@ -21,8 +20,8 @@ void RaceCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayerId
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
-        cupButton->setText(CupManager::GetCupList()[cupIdx].cupName);
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
+        cupButton->setText(CupManager::GetCup(cupIdx)->cupName);
         CupManager::updateCupButton(cupButton, self->curPage, i);
     }
 
@@ -40,8 +39,9 @@ void RaceCupSelectArrow::onRight(SheetSelectControl* arrowPair, u32 localPlayerI
 
     // Update the page number
     self->curPage++;
-    if (self->curPage > CupManager::getMaxCupPage())
+    if (self->curPage > CupManager::getMaxCupPage()) {
         self->curPage = 0;
+    }
 
     // Log entry
     LOG_DEBUG("Changing cup select page to %d...", self->curPage);
@@ -49,8 +49,8 @@ void RaceCupSelectArrow::onRight(SheetSelectControl* arrowPair, u32 localPlayerI
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = &self->cupHolder.cupButtons[i];
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
-        cupButton->setText(CupManager::GetCupList()[cupIdx].cupName);
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, self->curPage);
+        cupButton->setText(CupManager::GetCup(cupIdx)->cupName);
         CupManager::updateCupButton(cupButton, self->curPage, i);
     }
 
@@ -67,7 +67,7 @@ void RaceCupSelectArrow::onDeselect(u32 localPlayerId) {
 
     // Force select the previous selected cup
     RaceCupSelectPageEx* page = RaceCupSelectPageEx::getPage();
-    u32 curSelected = page->cupHolder.currentSelected;
+    const u32 curSelected = page->cupHolder.currentSelected;
     LOG_DEBUG("Restoring selected button to %d...", curSelected);
     page->cupHolder.cupButtons[curSelected].select(localPlayerId);
 }

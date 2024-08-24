@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/net/packet/RKNetRoomPacket.hpp>
+#pragma once
+#include "packet/RKNetRoomPacket.hpp"
 
 class RKNetROOMHandler {
 public:
@@ -12,10 +12,14 @@ public:
     void SetAllSendPackets(u32 packet);
 
     bool statusDataSet;
+    PAD(3);
+
     ROOMRole role;
     RKNetROOMPacket sendPackets[12];
     RKNetROOMPacket recvPackets[12];
     u8 lastSendAid;
+    PAD(7);
+
     s64 lastSendTimestamp;
     s64 _78; // unused
 

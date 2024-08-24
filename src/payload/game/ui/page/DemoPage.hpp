@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/ui/page/Page.hpp>
+#pragma once
+#include "Page.hpp"
 #include <game/ui/ctrl/LayoutUIControl.hpp>
 
 class DemoPage : public Page {

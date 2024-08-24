@@ -1,5 +1,4 @@
-#include <common/Common.h>
-#include <revolution/dvd/dvd.h>
+#include "dvd.h"
 
 typedef struct {
     BOOL isDir : 8;
@@ -20,15 +19,15 @@ typedef struct {
 extern FSTEntry* FstStart;
 extern char* FstStringStart;
 
-BOOL DVDIsDir(s32 entrynum) {
+BOOL DVDIsDir(u32 entrynum) {
     return FstStart[entrynum].isDir;
 }
 
-u32 DVDGetStringOffs(s32 entrynum) {
+u32 DVDGetStringOffs(u32 entrynum) {
     return FstStart[entrynum].stringOffs;
 }
 
-u32 DVDNextDir(s32 entrynum) {
+u32 DVDNextDir(u32 entrynum) {
     return FstStart[entrynum].nextEntry;
 }
 

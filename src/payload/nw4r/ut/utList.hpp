@@ -1,24 +1,27 @@
-#include <common/Common.hpp>
+#pragma once
 
 namespace nw4r {
 namespace ut {
 
-typedef struct {
+struct Link {
     void* prev;
     void* next;
-} Link;
+};
+size_assert(Link, 0x8);
 
-typedef struct {
+struct List {
     void* head;
     void* tail;
     u16 count;
     u16 offset;
-} List;
+};
+size_assert(List, 0xC);
 
-typedef struct {
+struct LinkListImpl {
     u32 count;
     Link node;
-} LinkListImpl;
+};
+size_assert(LinkListImpl, 0xC);
 
 } // namespace ut
 } // namespace nw4r

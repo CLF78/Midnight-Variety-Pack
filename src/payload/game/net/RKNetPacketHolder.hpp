@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/net/packet/RKNetPacketCommon.hpp>
+#pragma once
+#include "packet/RKNetPacketCommon.hpp"
 
 class RKNetPacketHolder {
 public:

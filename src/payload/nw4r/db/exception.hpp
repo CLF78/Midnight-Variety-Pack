@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 
 namespace nw4r {
 namespace db {

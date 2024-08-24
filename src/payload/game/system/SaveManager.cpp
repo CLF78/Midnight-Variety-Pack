@@ -1,6 +1,4 @@
-#include <common/Common.hpp>
-#include <game/scene/InitScene.hpp>
-#include <game/system/SaveManager.hpp>
+#include "SaveManager.hpp"
 #include <game/util/NandUtil.hpp>
 #include <mvp/save/SaveExpansionManager.hpp>
 
@@ -31,7 +29,8 @@ REPLACE void SaveManager::init() {
     if (result == NandUtil::ERROR_NONE) {
         LOG_DEBUG("Read original save successfully!");
         SaveExpansionManager::sError = SaveExpansionManager::Read();
-    } else {
+    }
+    else {
         LOG_ERROR("Failed to read original save with error %d", result);
     }
 
@@ -56,13 +55,15 @@ REPLACE_STATIC void SaveManager::resetTask() {
 
     // Only run save reset if the savegame threw an error
     SaveManager* mgr = SaveManager::instance;
-    if (mgr->result != NandUtil::ERROR_NONE)
+    if (mgr->result != NandUtil::ERROR_NONE) {
         mgr->reset();
+    }
 
     // Reset the expansion by deleting it and writing it back
     int result = SaveExpansionManager::Delete();
-    if (result == NandUtil::ERROR_NONE)
+    if (result == NandUtil::ERROR_NONE) {
         result = SaveExpansionManager::Write();
+    }
 
     // Store the result
     SaveExpansionManager::sError = result;
@@ -75,8 +76,9 @@ REPLACE_STATIC void SaveManager::resetTask() {
 REPLACE void SaveManager::resetAsync() {
 
     // Check for SaveManager error, if so reset the raw save (the rest will be done in a separate thread)
-    if (result != NandUtil::ERROR_NONE)
+    if (result != NandUtil::ERROR_NONE) {
         rawSave->Reset();
+    }
 
     // Reset the save expansion data
     expansion.Init();
@@ -95,8 +97,9 @@ REPLACE_STATIC void SaveManager::saveLicensesTask() {
     // Try flushing savegame to NAND
     // Only write the expansion if the original save is written successfully
     mgr->result = mgr->flushSave();
-    if (mgr->result == NandUtil::ERROR_NONE)
+    if (mgr->result == NandUtil::ERROR_NONE) {
         SaveExpansionManager::sError = SaveExpansionManager::Write();
+    }
 
     // End busy state
     mgr->busy = false;

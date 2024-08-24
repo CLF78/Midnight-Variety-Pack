@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 
 namespace EGG {
 
@@ -8,4 +8,3 @@ public:
 };
 
 } // namespace EGG
-

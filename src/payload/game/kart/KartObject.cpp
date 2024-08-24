@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <game/kart/KartMove.hpp>
-#include <game/kart/KartObject.hpp>
+#include "KartObject.hpp"
+#include "KartMove.hpp"
 #include <game/system/RaceConfig.hpp>
 
 /////////////////////////////////////////////////
@@ -12,23 +11,24 @@ REPLACE_STATIC KartObject* KartObject::Create(u8 playerIdx, int kart, int charac
 
     // Get structures
     KartObject* object = REPLACED(playerIdx, kart, character, isBike);
-    KartStats* stats = object->kartSettings->kartParam.stats;
+    KartStats* stats = object->kartSettings->kartParam->stats;
     RaceConfig* raceConfig = RaceConfig::instance;
 
     // Check if engine class is more than 150cc
     // Multiply all standard acceleration stages if so
-    u32 engineClass = raceConfig->raceScenario.settings.engineClass;
+    const u32 engineClass = raceConfig->raceScenario.settings.engineClass;
     if (engineClass <= RaceConfig::Settings::CC_150) {
-        for (int i = 0; i < ARRAY_SIZE(stats->standard_acceleration_as); i++)
+        for (u32 i = 0; i < ARRAY_SIZE(stats->standard_acceleration_as); i++) {
             stats->standard_acceleration_as[i] *= KartMove::speedModifiers[engineClass];
+        }
     }
-    
+
     // Apply transmission changes
-    switch(raceConfig->raceScenario.players[playerIdx].transmission) {
+    switch (raceConfig->raceScenario.players[playerIdx].transmission) {
 
         // If the vehicle isn't already an inside-drifting bike, buff the drift stats as well
         case RaceConfig::Player::TRANSMISSION_INSIDE:
-            if(stats->vehicleType != KartStats::INSIDE_BIKE) {
+            if (stats->vehicleType != KartStats::INSIDE_BIKE) {
                 stats->automaticDrift += 0.002;
                 stats->manualDrift += 0.002;
             }

@@ -1,6 +1,4 @@
-#include <common/Common.hpp>
-#include <game/system/RaceConfig.hpp>
-#include <game/system/ResourceManager.hpp>
+#include "RaceConfig.hpp"
 #include <mvp/cup/CupManager.hpp>
 #include <platform/string.h>
 
@@ -10,15 +8,14 @@
 
 // Set the current track for GP mode
 REPLACE void RaceConfig::Scenario::initCoursePositions() {
-    if (settings.gameMode == Settings::GAMEMODE_GP &&
-        settings.raceNumber < 5 &&
-        settings.cameraMode != Settings::CAMERA_MODE_REPLAY) {
+    if (settings.gameMode == Settings::GAMEMODE_GP && settings.raceNumber < 5
+        && settings.cameraMode != Settings::CAMERA_MODE_REPLAY) {
 
         // Get the next track in the cup
-        u32 trackIdx = CupManager::GetCupList()[settings.cupId].entryId[settings.raceNumber];
+        const u16 trackIdx = CupManager::GetCup(settings.cupId)->entryId[settings.raceNumber];
 
         // Get the track and store it
-        u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+        const u16 actualTrackIdx = CupManager::getTrackFile(trackIdx);
         CupManager::SetCourse(&settings, actualTrackIdx);
     }
 
@@ -27,14 +24,14 @@ REPLACE void RaceConfig::Scenario::initCoursePositions() {
 
         // Initialize position array using the player ID
         u8 startPositions[ARRAY_SIZE(players)];
-        for (int i = 0; i < ARRAY_SIZE(players); i++) {
+        for (u32 i = 0; i < ARRAY_SIZE(players); i++) {
             startPositions[i] = i + 1;
         }
 
         // Update existing player positions to account for gaps
         u8 currPos = 1;
-        for (int pos = 1; pos < ARRAY_SIZE(players) + 1; pos++) {
-            for (int i = 0; i < ARRAY_SIZE(players); i++) {
+        for (u32 pos = 1; pos < ARRAY_SIZE(players) + 1; pos++) {
+            for (u32 i = 0; i < ARRAY_SIZE(players); i++) {
                 if (players[i].playerType != Player::TYPE_NONE && players[i].prevFinishPos == pos) {
                     startPositions[i] = currPos++;
                     break;
@@ -43,13 +40,14 @@ REPLACE void RaceConfig::Scenario::initCoursePositions() {
         }
 
         // Insert new players at the end of the starting grid
-        for (int i = 0; i < ARRAY_SIZE(players); i++) {
-            if (players[i].playerType != Player::TYPE_NONE && players[i].prevFinishPos == 0)
+        for (u32 i = 0; i < ARRAY_SIZE(players); i++) {
+            if (players[i].playerType != Player::TYPE_NONE && players[i].prevFinishPos == 0) {
                 startPositions[i] = currPos++;
+            }
         }
 
         // Copy the calculated positions (includes non-existant players)
-        for (int i = 0; i < ARRAY_SIZE(players); i++) {
+        for (u32 i = 0; i < ARRAY_SIZE(players); i++) {
             players[i].prevFinishPos = startPositions[i];
         }
     }
@@ -63,15 +61,16 @@ REPLACE void RaceConfig::loadNextCourse() {}
 /////////////////////
 
 // Compute GP rank based on score only
-REPLACE int RaceConfig::Player::computeGPRank() {
+REPLACE u32 RaceConfig::Player::computeGPRank() {
 
     // Initialize score thresholds
-    static const u8 scores[RANK_COUNT-1] = {GP_SCORE_3_STARS, GP_SCORE_2_STARS, GP_SCORE_1_STAR};
+    static const u8 scores[RANK_COUNT - 1] = { GP_SCORE_3_STARS, GP_SCORE_2_STARS, GP_SCORE_1_STAR };
 
     // Calculate the score
-    for (int i = 0; i < ARRAY_SIZE(scores); i++) {
-        if (gpScore >= scores[i])
+    for (u32 i = 0; i < ARRAY_SIZE(scores); i++) {
+        if (gpScore >= scores[i]) {
             return i;
+        }
     }
 
     // None of the thresholds were reached, the player is a failure
@@ -83,12 +82,12 @@ REPLACE int RaceConfig::Player::computeGPRank() {
 ///////////////////////////////
 
 // Copy extra fields from the source scenario to the destination one
-REPLACE RaceConfig::Scenario* RaceConfig::Scenario::copy(Scenario* rhs){
+REPLACE RaceConfig::Scenario* RaceConfig::Scenario::copy(Scenario* rhs) {
     return (RaceConfig::Scenario*)memcpy(this, rhs, sizeof(*rhs));
 }
 
 // Initialize the extra fields
-REPLACE void RaceConfig::init(){
+REPLACE void RaceConfig::init() {
     REPLACED();
 
     for (int i = 0; i < 12; i++) {
@@ -98,7 +97,7 @@ REPLACE void RaceConfig::init(){
 }
 
 // Copy the extra fields from the menu scenario to the race scenario
-REPLACE void RaceConfig::initRace(){
+REPLACE void RaceConfig::initRace() {
     REPLACED();
 
     for (int i = 0; i < 12; i++) {
@@ -107,7 +106,7 @@ REPLACE void RaceConfig::initRace(){
 }
 
 // Copy the extra fields from the menu scenario to the awards and race scenarios
-REPLACE void RaceConfig::initCredits(){
+REPLACE void RaceConfig::initCredits() {
     REPLACED();
 
     for (int i = 0; i < 12; i++) {

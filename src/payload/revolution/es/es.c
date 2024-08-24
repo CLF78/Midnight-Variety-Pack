@@ -1,8 +1,7 @@
-#include <common/Common.h>
-#include <revolution/es/es.h>
+#include "es.h"
 #include <revolution/ios.h>
 
-s32 ES_GetDeviceCert(u8* outBuf) {
+s32 ES_GetDeviceCert(const u8* outBuf) {
 	if (__esFd < 0)
         return ES_ERR_INVALID;
 
@@ -12,7 +11,7 @@ s32 ES_GetDeviceCert(u8* outBuf) {
 	if ((u32)outBuf & 0x1F)
         return ES_ERR_INVALID;
 
-    ALIGN(32) IOSIoVector vec = {outBuf, IOSECCCertSize};
+    ALIGN(32) IOSIoVector vec = {(void*)outBuf, IOSECCCertSize};
     IOS_Ioctlv(__esFd, ES_CMD_GET_DEVICE_CERT, 0, 1, &vec);
     return ES_ERR_OK;
 }

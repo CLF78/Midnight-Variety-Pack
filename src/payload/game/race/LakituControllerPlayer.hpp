@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/gfx/ModelDirector.hpp>
 #include <game/kart/KartObjectProxy.hpp>
 
@@ -15,10 +15,9 @@ public:
     ModelDirector* flagModel;
     ModelDirector* hairModel;
     ModelDirector* lampModel;
-
-    u8 unk[0x1CC-0x28];
+    UNK(0x1CC - 0x28);
 
     KartObjectProxy* mpProxy;
-    u8 unk2[0x218-0x1D0];
+    UNK(0x218 - 0x1D0);
 };
 size_assert(LakituControllerPlayer, 0x218);

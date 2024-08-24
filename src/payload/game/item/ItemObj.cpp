@@ -1,9 +1,9 @@
-#include <common/Common.hpp>
 
 //////////////////////////////
 // Item Object Momentum Fix //
 //////////////////////////////
 
+// clang-format off
 // Ensure stationary items hitting each other have zero momentum
 // Credits: MrBean35000vr
 kmCallDefAsm(0x807A1914) {

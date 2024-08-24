@@ -1,6 +1,6 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/ctrl/CtrlMenuCourseSelectCupSub.hpp>
+#pragma once
+#include "CtrlMenuCourseSelectCupSub.hpp"
+#include "LayoutUIControl.hpp"
 
 class CtrlMenuCourseSelectCup : public LayoutUIControl {
 public:

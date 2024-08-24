@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 
 namespace EGG {
 
@@ -7,6 +7,7 @@ public:
     ListNode* prev;
     ListNode* next;
 };
+size_assert(ListNode, 0x8);
 
 class List {
 public:
@@ -15,5 +16,6 @@ public:
     ListNode* head;
     ListNode* tail;
 };
+size_assert(List, 0xC);
 
 } // namespace EGG

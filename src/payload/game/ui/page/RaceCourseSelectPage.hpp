@@ -1,9 +1,9 @@
-#include <common/Common.hpp>
-#include <game/ui/page/MenuPage.hpp>
+#pragma once
+#include "MenuPage.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
-#include <game/ui/ctrl/CtrlMenuCourseSelectCup.hpp>
 #include <game/ui/ctrl/CtrlMenuCourseSelectCourse.hpp>
+#include <game/ui/ctrl/CtrlMenuCourseSelectCup.hpp>
 
 class RaceCourseSelectPage : public MenuPage {
 public:
@@ -36,5 +36,6 @@ public:
     CtrlMenuCourseSelectCup cupHolder;
     CtrlMenuCourseSelectCourse courseHolder;
     bool courseSelected;
+    PAD(3);
 };
 size_assert(RaceCourseSelectPage, 0x2160);

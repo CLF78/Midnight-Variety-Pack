@@ -1,8 +1,8 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/CtrlMenuMovieLayout.hpp>
+#pragma once
+#include "CtrlMenuMovieLayout.hpp"
+#include "LayoutUIControl.hpp"
+#include "PushButton.hpp"
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/ctrl/PushButton.hpp>
 
 class BattleCupSelectPage;
 

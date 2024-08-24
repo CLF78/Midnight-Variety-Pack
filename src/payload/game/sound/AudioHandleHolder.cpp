@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/sound/AudioHandleHolder.hpp>
+#include "AudioHandleHolder.hpp"
 
 ///////////////////////
 // Custom Cup System //

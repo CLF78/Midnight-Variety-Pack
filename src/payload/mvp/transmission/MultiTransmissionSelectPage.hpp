@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/ui/page/MultiDriftSelectPage.hpp>
 
 class MultiTransmissionSelectPage : public MultiDriftSelectPage {
@@ -21,5 +21,5 @@ public:
     virtual void onActivate();
 
     void onButtonClick(PushButton* button, u32 hudSlotId);
-    void setCPUTransmissions();
+    static void setCPUTransmissions();
 };

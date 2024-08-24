@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/kart/KartParam.hpp>
+#include "KartParam.hpp"
 #include <game/race/RaceGlobals.hpp>
 #include <wiimmfi/Reporting.hpp>
 
@@ -11,6 +10,7 @@
 // Credits: Wiimmfi
 REPLACE_STATIC void KartParam::init() {
     REPLACED();
-    if (RaceGlobals::isOnlineRace)
+    if (RaceGlobals::isOnlineRace) {
         Wiimmfi::Reporting::ReportCommonSubfiles();
+    }
 }

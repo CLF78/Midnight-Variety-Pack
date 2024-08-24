@@ -1,5 +1,5 @@
-#include <common/Common.h>
-#include <revolution/mem/list.h>
+#pragma once
+#include "list.h"
 #include <revolution/os/OSMutex.h>
 
 #ifdef __cplusplus
@@ -13,9 +13,10 @@ typedef struct {
     void* heapStart;
     void* heapEnd;
     OSMutex mutex;
-    u8 reserved[3];
+    PAD(3);
     u8 optFlag;
 } MEMiHeapHead;
+size_cassert(MEMiHeapHead, 0x3C);
 
 #ifdef __cplusplus
 }

@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -6,8 +6,9 @@ extern "C" {
 
 typedef struct {
     u8 playersAtConsole;
-    u8 _1[3]; // unused
+    PAD(3);
 } DWCConnectionUserData;
+size_cassert(DWCConnectionUserData, 0x4);
 
 typedef struct {
     int profileId;
@@ -21,18 +22,20 @@ typedef struct {
     u8 aid;
     u8 hasPrivateAddress;
     int nnTryCount;
-    // 4 bytes padding
+    PAD(4);
 
     s64 nextMeshMakeTryTick;
     DWCConnectionUserData connectionUserData;
-    u32 pad;
+    PAD(4);
 } DWCNodeInfo;
+size_cassert(DWCNodeInfo, 0x30);
 
 typedef struct {
-    int nodeCount;
-    u32 pad;
+    u32 nodeCount;
+    PAD(4);
     DWCNodeInfo nodeInfos[32];
 } DWCNodeInfoList;
+size_cassert(DWCNodeInfoList, 0x608);
 
 DWCNodeInfo* DWCi_NodeInfoList_GetServerNodeInfo();
 DWCNodeInfo* DWCi_NodeInfoList_GetNodeInfoForProfileId(int pid);

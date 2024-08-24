@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 #include <game/ui/ControlLoader.hpp>
 #include <mvp/cup/BattleCupSelectPageEx.hpp>
 #include <mvp/cup/CupManager.hpp>
@@ -19,13 +18,13 @@ REPLACE void CtrlMenuBattleCupSelectStage::load() {
 
     // Load the main controller
     ControlLoader loader(this);
-    u8 playerCount = UIUtils::getPlayerCount();
+    const u8 playerCount = UIUtils::getPlayerCount();
     const char* mainCtr = (playerCount <= 2) ? "CupSelectCourseNULL" : "CupSelectCourseNULL_4";
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
     // Initialize children
     initChildren(ARRAY_SIZE(courseNames));
-    for (int i = 0; i < ARRAY_SIZE(courseNames); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(courseNames); i++) {
 
         // Get button variant
         char buffer[20];
@@ -37,8 +36,7 @@ REPLACE void CtrlMenuBattleCupSelectStage::load() {
 
         // Initialize it
         ControlLoader buttonLoader(button);
-        buttonLoader.load("control", "BattleCupSelectStage", buffer,
-                          CtrlMenuBattleCupSelectStage::animNames);
+        buttonLoader.load("control", "BattleCupSelectStage", buffer, animNames);
     }
 }
 
@@ -47,10 +45,10 @@ REPLACE void CtrlMenuBattleCupSelectStage::setCourseNames(u32 cupButtonId) {
 
     // Get cup index from page
     BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->curPage, true);
+    const u16 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->curPage, true);
 
     // Update each track name
-    for (int i = 0; i < ARRAY_SIZE(courseNames); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(courseNames); i++) {
 
         // Get button
         LayoutUIControl* courseName = &courseNames[i];
@@ -62,7 +60,7 @@ REPLACE void CtrlMenuBattleCupSelectStage::setCourseNames(u32 cupButtonId) {
         courseName->animator.getGroup(3)->setAnimation(1, 0.0f);
 
         // Get the track name and set it
-        u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[i];
+        const u16 trackIdx = CupManager::GetCup(cupIdx, true)->entryId[i];
         CupManager::setTrackName(courseName, trackIdx);
 
         // Hide some pane thingy

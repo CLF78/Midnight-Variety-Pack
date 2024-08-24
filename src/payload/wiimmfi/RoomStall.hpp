@@ -1,24 +1,24 @@
-#include <common/Common.hpp>
+#pragma once
 
 namespace Wiimmfi {
 namespace RoomStall {
 
-    ///////////////
-    // Constants //
-    ///////////////
+///////////////
+// Constants //
+///////////////
 
-    // The timer before stalled users are kicked
-    static const int KICK_THRESHOLD_TIME = 60 * 60;
+// The timer before stalled users are kicked
+static const int KICK_THRESHOLD_TIME = 60 * 60;
 
-    ///////////////
-    // Functions //
-    ///////////////
+///////////////
+// Functions //
+///////////////
 
-    // Initializes the room stall timer
-    void Init();
+// Initializes the room stall timer
+void Init();
 
-    // Updates the room stall timer and kicks players if necessary
-    void Update();
+// Updates the room stall timer and kicks players if necessary
+void Update();
 
 } // namespace RoomStall
 } // namespace Wiimmfi

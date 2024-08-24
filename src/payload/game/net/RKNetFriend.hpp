@@ -1,11 +1,10 @@
-#include <common/Common.hpp>
-#include <game/net/RKNetStatusData.hpp>
+#pragma once
+#include "RKNetStatusData.hpp"
 
 struct RKNetFriend {
     RKNetStatusData statusData;
     u8 status; // see DWCFriendStatus
-    u8 _9; // bit flags, 4 if room open, 1 if online
-    u8 _A;
-    u8 _B;
+    u8 flags;  // bit flags, 4 if room open, 1 if online
+    UNK(0xC - 0xA);
 };
 size_assert(RKNetFriend, 0xC);

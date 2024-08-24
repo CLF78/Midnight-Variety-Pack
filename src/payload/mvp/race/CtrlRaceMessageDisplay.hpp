@@ -1,9 +1,8 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/ui/ctrl/CtrlRaceBase.hpp>
 
 class CtrlRaceMessageDisplay : public CtrlRaceBase {
 public:
-
     enum State {
         INVISIBLE,
         VISIBLE,
@@ -15,7 +14,7 @@ public:
 
     virtual void calcSelf();
 
-    virtual nw4r::lyt::Pane* getPane() { return textBox; }
+    virtual nw4r::lyt::Pane* getPane() const { return textBox; }
     virtual bool shouldHide();
     virtual bool shouldActivate();
 

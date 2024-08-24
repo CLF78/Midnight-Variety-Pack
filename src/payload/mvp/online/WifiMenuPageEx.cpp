@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#include "WifiMenuPageEx.hpp"
 #include <game/sound/SoundEffect.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/page/MessagePopupPage.hpp>
-#include <mvp/online/WifiMenuPageEx.hpp>
 #include <wiimmfi/Auth.hpp>
 #include <wiimmfi/Status.hpp>
 
@@ -63,8 +62,8 @@ void WifiMenuPageEx::onInit() {
 
     // Add the friends button
     insertChild(curChildIdx++, &friendButton, 0);
-    friendButton.loadWithAnims(FriendStatusButton::animNames, "button",
-                               "WifiMenuSingleTopFriendButton", "ButtonFriend", 1, false);
+    friendButton.loadWithAnims(FriendStatusButton::animNames, "button", "WifiMenuSingleTopFriendButton",
+                               "ButtonFriend", 1, false);
 
     // Set animations and other things
     friendButton.animator.getGroup(4)->setAnimation(0, 0.0f);
@@ -109,12 +108,15 @@ void WifiMenuPageEx::onInit() {
 void WifiMenuPageEx::beforeCalc() {
 
     // Check if a message is available, if not bail
-    if (!Wiimmfi::Auth::sConsoleAssignMessage)
+    if (!Wiimmfi::Auth::sConsoleAssignMessage) {
         return;
+    }
 
     // Get the message popup page, if not available bail
     MessagePopupPage* page = MessagePopupPage::getPage();
-    if (!page) return;
+    if (!page) {
+        return;
+    }
 
     // Inform the server we have seen the message
     Wiimmfi::Status::SendMessage("message", "type=server");

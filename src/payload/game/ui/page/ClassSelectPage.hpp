@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/ui/page/MenuPage.hpp>
+#pragma once
+#include "MenuPage.hpp"
 
 class ClassSelectPage : public MenuPage {
 public:
@@ -24,6 +24,7 @@ public:
     virtual void setupButton(PushButton* button);
 
     bool switchModeOff;
+    PAD(3);
     LayoutUIControl switchButton;
 
     static u32 engineClasses[6];

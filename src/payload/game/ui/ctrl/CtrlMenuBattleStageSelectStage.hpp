@@ -1,6 +1,6 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/ctrl/CtrlMenuMovieButton.hpp>
+#pragma once
+#include "CtrlMenuMovieButton.hpp"
+#include "LayoutUIControl.hpp"
 
 class CtrlMenuBattleStageSelectStage : public LayoutUIControl {
 public:
@@ -25,4 +25,3 @@ public:
     static const char* buttonAnims[6];
 };
 size_assert(CtrlMenuBattleStageSelectStage, 0xF2C);
-

@@ -1,12 +1,12 @@
-#include <common/Common.hpp>
-#include <game/net/packet/RKNetSelectPacket.hpp>
+#pragma once
+#include "packet/RKNetSelectPacket.hpp"
 #include <mvp/online/RepickQueue.hpp>
 #include <revolution/os/OS.h>
 
 class RKNetSELECTHandlerEx {
 public:
-    RKNetSELECTHandlerEx() : sendPacketEx(), recvPacketsEx() {}
-    static RKNetSELECTHandlerEx* construct(void* buffer) { return new(buffer) RKNetSELECTHandlerEx; }
+    RKNetSELECTHandlerEx() {}
+    static RKNetSELECTHandlerEx* construct(void* buffer) { return new (buffer) RKNetSELECTHandlerEx; }
 
     RKNetSELECTPacketExpansion sendPacketEx;
     RKNetSELECTPacketExpansion recvPacketsEx[12];
@@ -38,9 +38,9 @@ public:
     void decideTrack();
     void copyRepickQueue() { expansion.sendPacketEx.repickQueue = RepickQueue::instance.queue; }
 
-    bool raceSettingsDetermined() { return sendPacket.battleTeamData.raw != 0; }
-    bool trackVoted() { return expansion.sendPacketEx.courseVote != CupData::UNDECIDED_TRACK_VOTE; }
-    bool voteDetermined() { return expansion.sendPacketEx.winningCourse != CupData::NO_TRACK; }
+    bool raceSettingsDetermined() const { return sendPacket.battleTeamData.raw != 0; }
+    bool trackVoted() const { return expansion.sendPacketEx.courseVote != CupData::UNDECIDED_TRACK_VOTE; }
+    bool voteDetermined() const { return expansion.sendPacketEx.winningCourse != CupData::NO_TRACK; }
 
     void storeUpdatedRaceSettings(u8 aid);
     bool checkUpdatedRaceSettings(u8 aid);
@@ -65,12 +65,12 @@ public:
     static void getStaticInstance();
 
     int mode;
-    u32 reserved; // previously padding
+    PAD(4);
 
     RKNetSELECTPacket sendPacket;
     RKNetSELECTPacket recvPackets[12];
     u8 lastSentToAid;
-    // 7 bytes padding
+    PAD(7);
 
     s64 lastSentTime;
     s64 lastRecvTimes[12];
@@ -83,11 +83,11 @@ public:
     u32 aidsWithNewRaceSettings;
     u32 aidsWithVoteData;
     u32 aidsThatHaveVoted;
-    u32 reserved2; // previously padding
+    PAD(4);
 
     // Custom data
     RKNetSELECTHandlerEx expansion;
 
     static RKNetSELECTHandler* instance;
-};
+} ALIGN(8);
 size_assert(RKNetSELECTHandler, OSRoundUp(0x3F8 + sizeof(RKNetSELECTHandlerEx), 8));

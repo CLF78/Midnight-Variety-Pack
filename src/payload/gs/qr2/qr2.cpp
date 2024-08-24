@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "qr2.h"
 #include <gs/common/gsSocketRevolution.h>
-#include <gs/qr2/qr2.h>
 #include <revolutionex/so/SOBasic.h>
 #include <wiimmfi/Challenge.hpp>
 
@@ -15,8 +14,6 @@ kmCallDefCpp(0x80111534, void, int socket, qr2_buffer* buffer, int bufferLength,
              const SOSockAddrIn* addr, u8 toLen) {
 
     // Store the challenge into the buffer and send it
-    IGNORE_ERR(167)
     Wiimmfi::Challenge::Send(buffer);
     sendto(socket, buffer->data, buffer->dataSize, flags, addr, toLen);
-    UNIGNORE_ERR(167)
 }

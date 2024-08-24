@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 
 // Authentication server
 kmWriteArea(0x8027A428, "http://naswii.wiimmfi.de/ac");
@@ -22,8 +21,12 @@ kmWriteArea(0x80279DA4, "http://%s.sake.gs.wiimmfi.de/SakeFileServer/upload.asmx
 kmWriteArea(0x80279DE4, "http://%s.sake.gs.wiimmfi.de/SakeFileServer/download.asmx");
 kmWriteArea(0x8027DEB7, "wiimmfi.de");
 kmWriteArea(0x8027E0A0, "http://%s.sake.gs.wiimmfi.de/SakeStorageServer/StorageServer.asmx");
-kmWriteArea(0x8089A6B8, "http://mariokartwii.sake.gs.wiimmfi.de/SakeFileServer/ghostdownload.aspx?gameid=1687&region=0");
+kmWriteArea(0x8089A6B8,
+            "http://mariokartwii.sake.gs.wiimmfi.de/SakeFileServer/ghostdownload.aspx?gameid=1687&region=0");
+
 kmWriteArea(0x8089ABD0, "http://mariokartwii.race.gs.wiimmfi.de/RaceService/NintendoRacingService.asmx");
 kmWriteArea(0x8089AC25, "http://mariokartwii.race.gs.wiimmfi.de/RaceService/NintendoRacingService.asmx");
-kmWriteArea(0x8089AC85, "%s://mariokartwii.sake.gs.wiimmfi.de/SakeFileServer/ghostupload.aspx?gameid=%d&regionid=%d&courseid=%d&score=%d&pid=%d&playerinfo=%s%s");
+kmWriteArea(0x8089AC85, "%s://mariokartwii.sake.gs.wiimmfi.de/SakeFileServer/"
+                        "ghostupload.aspx?gameid=%d&regionid=%d&courseid=%d&score=%d&pid=%d&playerinfo=%s%s");
+
 kmWrite8(0x8089AD16, '\0');

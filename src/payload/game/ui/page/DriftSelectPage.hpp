@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/ui/page/MenuPage.hpp>
+#pragma once
+#include "MenuPage.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
 
@@ -30,7 +30,7 @@ public:
 
     static DriftSelectPage* getPage() {
         return (DriftSelectPage*)SectionManager::instance->curSection->getPage(Page::DRIFT_SELECT);
-    };
+    }
 
     UIControlTimer* timer;
     Section::SectionId sectionId;

@@ -1,8 +1,8 @@
-#include <common/Common.h>
+#pragma once
+#include "gt2Buffer.h"
+#include "gt2Callback.h"
 #include <gs/darray.h>
 #include <gs/hashtable.h>
-#include <gs/gt2/gt2Buffer.h>
-#include <gs/gt2/gt2Callback.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -12,7 +12,7 @@ struct GTI2Socket {
     int socket;
     u32 ip;
     u16 port;
-    // 2 bytes padding
+    PAD(2);
 
     HashTable connections;
     DArray closedConnections;
@@ -34,12 +34,13 @@ struct GTI2Socket {
     int protocolOffset;
     int broadcastEnabled;
 };
+size_cassert(GTI2Socket, 0x4C);
 
 struct GTI2Connection {
     u32 ip;
     u16 port;
     u8 aid; // custom field
-    // 1 byte padding
+    PAD(1);
 
     GTI2Socket* socket;
     GT2SocketState state;
@@ -50,7 +51,7 @@ struct GTI2Connection {
     u32 timeout;
     int callbackLevel;
     GT2Callbacks callbacks;
-    char * initialMessage;
+    char* initialMessage;
     int initialMessageLen;
     void* data;
     GTI2Buffer incomingBuffer;
@@ -67,12 +68,13 @@ struct GTI2Connection {
     DArray sendFilters;
     DArray receiveFilters;
 };
+size_cassert(GTI2Connection, 0xA0);
 
-GT2Result gt2Connect(GT2Socket socket, GT2Connection* connection, const char* remoteAddress,
-                     const char* msg, int msgLen, int timeout, GT2Callbacks* callbacks, int blocking);
+GT2Result gt2Connect(GT2Socket socket, GT2Connection* connection, const char* remoteAddress, const char* msg,
+                     int msgLen, int timeout, GT2Callbacks* callbacks, int blocking);
 
 GT2Result gt2CreateSocket(GT2Socket* socket, const char* localAddress, int outgoingBufferSize,
-                           int incomingBufferSize, GT2SocketErrorCallback callback);
+                          int incomingBufferSize, GT2SocketErrorCallback callback);
 
 BOOL gt2Accept(GT2Connection connection, GT2Callbacks* callbacks);
 void gt2Listen(GT2Socket socket, GT2ConnectAttemptCallback callback);

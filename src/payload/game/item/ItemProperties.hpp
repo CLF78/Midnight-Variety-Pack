@@ -1,10 +1,9 @@
-#include <common/Common.hpp>
+#pragma once
 
 // Forward declaration
 class ItemHolderPlayer;
 
 struct ItemProperties {
-
     enum ItemId {
         ITEM_GREEN_SHELL,
         ITEM_RED_SHELL,
@@ -25,7 +24,8 @@ struct ItemProperties {
         ITEM_TRIPLE_GREEN_SHELL,
         ITEM_TRIPLE_RED_SHELL,
         ITEM_TRIPLE_BANANA,
-        ITEM_INVALID,
+        ITEM_COUNT,
+        ITEM_INVALID = ITEM_COUNT,
         ITEM_NONE,
     };
 
@@ -45,7 +45,8 @@ struct ItemProperties {
         ITEMOBJ_GOLDEN_MUSHROOM,
         ITEMOBJ_BULLET_BILL,
         ITEMOBJ_THUNDERCLOUD,
-        ITEMOBJ_INVALID,
+        ITEMOBJ_COUNT,
+        ITEMOBJ_INVALID = ITEMOBJ_COUNT,
         ITEMOBJ_NONE,
     };
 
@@ -56,21 +57,21 @@ struct ItemProperties {
         ITEMUSE_CIRCLE,
     };
 
-    typedef void (*ItemUseFunc) (ItemHolderPlayer* player);
+    typedef void (*ItemUseFunc)(ItemHolderPlayer* player);
 
     bool enabled;
     bool enabledOnline;
-    // 2 bytes padding
+    PAD(2);
 
     int objectId;
     u32 limit;
-    u32 severity; // unused
+    u32 severity;     // unused
     bool isTimedItem; // for Golden Mushroom
-    // 3 bytes padding
+    PAD(3);
 
     int useType;
     ItemUseFunc useFunction; // item is draggable if this is null
 
-    static ItemProperties itemPropertiesTable[19];
+    static ItemProperties itemPropertiesTable[ITEM_COUNT];
 };
 size_assert(ItemProperties, 0x1C);

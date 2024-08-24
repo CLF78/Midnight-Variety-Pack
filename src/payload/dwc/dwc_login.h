@@ -1,6 +1,7 @@
-#include <common/Common.h>
-#include <dwc/dwc_account.h>
-#include <dwc/dwc_error.h>
+#pragma once
+#include "dwc_account.h"
+#include "dwc_error.h"
+#include <gs/gp/gp.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -16,10 +17,10 @@ typedef enum {
     DWC_LOGIN_STATE_COUNT,
 } DWCLoginState;
 
-typedef void (*DWCLoginCallback)(DWCError error, int profileID, void* param);
+typedef void (*DWCLoginCallback)(DWCError error, int profileId, void* param);
 
 typedef struct {
-    void* gpConnection;
+    GPConnection gpConnection;
     DWCLoginState state;
     int productID;
     u32 gamecode;
@@ -31,13 +32,16 @@ typedef struct {
     void* http;
     u64 startTick;
     u32 connectFlag;
+    PAD(4);
+
     u64 connectTick;
     DWCLoginId tempLoginId;
     char authToken[256];
     char partnerChallenge[256];
     char username[21];
-    u8 unk2[7];
+    PAD(7);
 } DWCLoginControl;
+size_cassert(DWCLoginControl, 0x268);
 
 extern DWCLoginControl* stpLoginCnt;
 

@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <dwc/dwc_report.h>
+#include "dwc_report.h"
 #include <platform/stdio.h>
 #include <platform/string.h>
 #include <revolutionex/nhttp/NHTTP.h>
@@ -33,7 +32,7 @@ kmCallDefCpp(0x800EEA08, void, DWCReportFlag level, const char* fmt, const char*
 // Save the login challenge for sending later
 // Credits: Wiimmfi
 kmCallDefCpp(0x800EE74C, void, char* dest, const char* src) {
-    strcpy(dest, src); // original call
+    strlcpy(dest, src, Wiimmfi::Challenge::CHALLENGE_SIZE); // modified original call
     Wiimmfi::Challenge::Save(src);
 }
 

@@ -1,5 +1,5 @@
-#include <common/Common.h>
-#include <gs/gp/gpiCallback.h>
+#pragma once
+#include "gpiCallback.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,6 +17,7 @@ struct GPIOperation {
     int result;
     GPIOperation* next;
 };
+size_cassert(GPIOperation, 0x24);
 
 typedef struct {
     char serverChallenge[128];
@@ -25,8 +26,10 @@ typedef struct {
     char authtoken[256];
     char partnerchallenge[256];
     char cdkey[65];
+    PAD(1);
     BOOL newuser;
 } GPIConnectData;
+size_cassert(GPIConnectData, 0x308);
 
 #ifdef __cplusplus
 }

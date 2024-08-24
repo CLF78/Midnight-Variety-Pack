@@ -1,11 +1,11 @@
-#include <common/Common.h>
+#pragma once
+#include "gp.h"
+#include "gpiBuffer.h"
+#include "gpiCallback.h"
+#include "gpiOperation.h"
+#include "gpiPeer.h"
+#include "gpiProfile.h"
 #include <gs/darray.h>
-#include <gs/gp/gp.h>
-#include <gs/gp/gpiBuffer.h>
-#include <gs/gp/gpiCallback.h>
-#include <gs/gp/gpiOperation.h>
-#include <gs/gp/gpiPeer.h>
-#include <gs/gp/gpiProfile.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,7 +22,7 @@ struct GPIConnection {
     char uniqueNick[21];
     char email[51];
     char password[31];
-    // 2 bytes padding
+    PAD(2);
 
     int sessKey;
     int userId;
@@ -38,7 +38,7 @@ struct GPIConnection {
 
     char mHeader[16];
     u16 peerPort;
-    // 2 bytes padding
+    PAD(2);
 
     int nextOperationId;
     int numSearches;
@@ -54,7 +54,7 @@ struct GPIConnection {
     char gameType[33];
     char gameVariant[33];
     char gameMapName[33];
-    // 1 byte padding
+    PAD(1);
 
     DArray extendedInfoKeys;
     char lastStatusString[256];
@@ -74,11 +74,12 @@ struct GPIConnection {
     int productId;
     int namespaceId;
     char loginTicket[25];
-    // 3 bytes padding
+    PAD(3);
 
     int quietModeFlags;
     int kaTransfer;
 };
+size_cassert(GPIConnection, 0x634);
 
 #ifdef __cplusplus
 }

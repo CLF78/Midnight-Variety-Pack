@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <gs/gp/gp.h>
-#include <gs/gp/gpiBuddy.h>
+#include "gp.h"
+#include "gpiBuddy.h"
 #include <platform/string.h>
 #include <wiimmfi/Kick.hpp>
 
@@ -14,8 +13,9 @@
 kmCallDefCpp(0x800FCEE8, int, GPConnection conn, char* data) {
 
     // Reproduce skipped code
-    if (strstart(data, "\\bsi\\"))
+    if (strstart(data, "\\bsi\\")) {
         return gpiProcessRecvBuddyStatusInfo(conn, data);
+    }
 
     // Call Wiimmfi code
     return Wiimmfi::Kick::ParseKickMessage(conn, data);

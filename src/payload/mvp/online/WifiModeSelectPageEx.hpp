@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/ui/page/WifiModeSelectPage.hpp>
 #include <mvp/cup/CupManager.hpp>
 
@@ -12,17 +12,18 @@ public:
 
     void onButtonClick(PushButton* button, u32 hudSlotId);
 
-    int getButtonCount() {
-        return 2 + ARRAY_SIZE(extraRaceButtons);
-    }
+    static u32 getButtonCount() { return 2 + ARRAY_SIZE_STATIC(WifiModeSelectPageEx, extraRaceButtons); }
 
-    PushButton* getButton(int idx) {
-        if (idx == 0)
+    PushButton* getButton(u32 idx) {
+        if (idx == 0) {
             return &raceButton;
-        else if (idx == 1)
+        }
+        if (idx == 1) {
             return &battleButton;
-        else if (idx - 2 < ARRAY_SIZE(extraRaceButtons))
+        }
+        if (idx - 2 < ARRAY_SIZE(extraRaceButtons)) {
             return &extraRaceButtons[idx - 2];
+        }
         return nullptr;
     }
 

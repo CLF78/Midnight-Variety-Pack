@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -9,5 +9,3 @@ u32 DWCi_GetMathRand32(u32 max);
 #ifdef __cplusplus
 }
 #endif
-
-

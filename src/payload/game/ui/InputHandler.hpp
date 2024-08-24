@@ -1,18 +1,27 @@
-#include <common/Common.hpp>
+#pragma once
 
 #define SET_HANDLER(destHandler, srcHandler) \
     destHandler = (typeof(destHandler))&srcHandler
 
 #define SET_HANDLER_FUNC(handler, func) \
-    handler.handle = (typeof(handler.handle))&func
+    handler.handle = (typeof(handler.handle))&func // NOLINT(bugprone-macro-parentheses)
 
-class InputHandlerBase {};
+// clang-format off
+// This is necessary to fix size asserts in clangd
+#if (defined(__CLANGD__) && defined(_WIN32))
+    class InputHandlerBase { void* dummy; void* dummy2; };
+#elif defined(__CLANGD__)
+    class InputHandlerBase { void* dummy; };
+#else
+    class InputHandlerBase {};
+#endif
 
+// clang-format on
 template <class T, typename R>
 class InputHandler0 : public InputHandlerBase {
 public:
     InputHandler0(T* pOwner, R (T::*pInputFunc)()) : owner(pOwner), handle(pInputFunc) {}
-    virtual R operator()() { return (owner->*handle)(); }
+    virtual R operator()() const { return (owner->*handle)(); }
 
     T* owner;
     R (T::*handle)();
@@ -22,7 +31,7 @@ template <class T, typename R, typename A1>
 class InputHandler1 : public InputHandlerBase {
 public:
     InputHandler1(T* pOwner, R (T::*pInputFunc)(A1)) : owner(pOwner), handle(pInputFunc) {}
-    virtual R operator()(A1 arg1) { return (owner->*handle)(arg1); }
+    virtual R operator()(A1 arg1) const { return (owner->*handle)(arg1); }
 
     T* owner;
     R (T::*handle)(A1);
@@ -32,7 +41,7 @@ template <class T, typename R, typename A1, typename A2>
 class InputHandler2 : public InputHandlerBase {
 public:
     InputHandler2(T* pOwner, R (T::*pInputFunc)(A1, A2)) : owner(pOwner), handle(pInputFunc) {}
-    virtual R operator()(A1 arg1, A2 arg2) { return (owner->*handle)(arg1, arg2); }
+    virtual R operator()(A1 arg1, A2 arg2) const { return (owner->*handle)(arg1, arg2); }
 
     T* owner;
     R (T::*handle)(A1, A2);
@@ -42,7 +51,7 @@ template <class T, typename R, typename A1, typename A2, typename A3>
 class InputHandler3 : public InputHandlerBase {
 public:
     InputHandler3(T* pOwner, R (T::*pInputFunc)(A1, A2, A3)) : owner(pOwner), handle(pInputFunc) {}
-    virtual R operator()(A1 arg1, A2 arg2, A3 arg3) { return (owner->*handle)(arg1, arg2, arg3); }
+    virtual R operator()(A1 arg1, A2 arg2, A3 arg3) const { return (owner->*handle)(arg1, arg2, arg3); }
 
     T* owner;
     R (T::*handle)(A1, A2, A3);

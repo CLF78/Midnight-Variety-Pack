@@ -1,9 +1,8 @@
-#include <common/Common.hpp>
+#pragma once
 #include <egg/core/eggHeap.hpp>
 
 class DvdArchive {
 public:
-
     enum State {
         CLEARED,
         UNK_1,

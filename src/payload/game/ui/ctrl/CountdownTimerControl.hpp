@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
+#pragma once
+#include "LayoutUIControl.hpp"
 #include <game/ui/UIControlTimer.hpp>
 
 class CountdownTimerControl : public LayoutUIControl {
@@ -14,5 +14,6 @@ public:
 
     UIControlTimer* timer;
     bool _178;
+    PAD(3);
 };
 size_assert(CountdownTimerControl, 0x17C);

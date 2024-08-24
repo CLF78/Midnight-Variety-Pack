@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <egg/core/eggHeap.hpp>
 #include <nw4r/ut/utList.hpp>
 

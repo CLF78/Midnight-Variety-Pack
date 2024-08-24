@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
+#pragma once
 
 class KartStats {
 public:
-
     enum WheelCount {
         WHEELS_4,
         WHEELS_2,

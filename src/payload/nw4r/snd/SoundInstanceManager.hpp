@@ -1,4 +1,5 @@
-#include <nw4r/snd/InstancePool.hpp>
+#pragma once
+#include "InstancePool.hpp"
 #include <nw4r/ut/utList.hpp>
 #include <revolution/os/OSMutex.h>
 
@@ -7,10 +8,10 @@ namespace snd {
 namespace detail {
 
 class SoundInstanceManager {
-    public:
-        PoolImpl pool;
-        ut::LinkListImpl priorityList;
-        OSMutex mutex;
+public:
+    PoolImpl pool;
+    ut::LinkListImpl priorityList;
+    OSMutex mutex;
 };
 size_assert(SoundInstanceManager, 0x28);
 

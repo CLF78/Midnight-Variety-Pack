@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 
 ///////////////////////////////
 // Savegame Expansion System //

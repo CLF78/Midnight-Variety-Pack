@@ -1,3 +1,5 @@
+#pragma once
+
 ////////////////////////////////////////////////////
 // Configuration File for Midnight x Variety Pack //
 ////////////////////////////////////////////////////
@@ -9,6 +11,16 @@
 // Change the settings based on your needs.
 // Compile the code.
 // The end.
+
+//////////////////////
+// Main Information //
+//////////////////////
+
+// The distribution's name.
+#define DISTRO_NAME "Midnight x Variety Pack"
+
+// The distribution's version.
+#define DISTRO_VERSION "WIP"
 
 //////////////////
 // Kamek Loader //
@@ -46,17 +58,17 @@
 // Credits: CLF78 (original code), Ismy (cup button <=> cup position algorithm)
 
 // Directories holding the VS/Battle cup icons, inside the SZS file.
-#define CUP_ICON_DIR_VS_MIDNIGHT "/cups/midnight"
+#define CUP_ICON_DIR_VS_MIDNIGHT  "/cups/midnight"
 #define CUP_ICON_DIR_VS_NOSTALGIA "/cups/nostalgia"
-#define CUP_ICON_DIR_VS_FUSION "/cups/fusion"
-#define CUP_ICON_DIR_BT "/cups/battle"
+#define CUP_ICON_DIR_VS_FUSION    "/cups/fusion"
+#define CUP_ICON_DIR_BT           "/cups/battle"
 
 // Online regions for each tracklist
-#define ONLINE_REGION_VS_MIDNIGHT 609
+#define ONLINE_REGION_VS_MIDNIGHT  609
 #define ONLINE_REGION_VS_NOSTALGIA 753
-#define ONLINE_REGION_VS_FUSION 891
-#define ONLINE_REGION_BT ONLINE_REGION_VS_MIDNIGHT
-#define LOGIN_REGION ONLINE_REGION_VS_MIDNIGHT
+#define ONLINE_REGION_VS_FUSION    891
+#define ONLINE_REGION_BT           ONLINE_REGION_VS_MIDNIGHT
+#define LOGIN_REGION               ONLINE_REGION_VS_MIDNIGHT
 
 // BRCTR filenames for the custom cup selection arrows.
 #define CUP_ARROW_L_BRCTR "CupSelectCupArrowLeft"
@@ -68,7 +80,7 @@
 // The scores required for reaching 3/2/1 stars.
 #define GP_SCORE_3_STARS 60
 #define GP_SCORE_2_STARS 57
-#define GP_SCORE_1_STAR 55
+#define GP_SCORE_1_STAR  55
 
 ///////////////////////
 // Exception Handler //
@@ -77,9 +89,6 @@
 // Displays debug information when the game crashes.
 // Note: The printed text is wrapped automatically, so adding newlines is not required.
 // Credits: Star, Vabold (original code), CLF78 (various updates)
-
-// The distribution's name.
-#define EXCEPTION_HANDLER_DISTRO_NAME "Midnight x Variety Pack"
 
 // The point of contact for users who encounter a crash.
 #define EXCEPTION_HANDLER_SUPPORT_ADDRESS "CLF78 on Discord"
@@ -125,11 +134,11 @@
 
 // The battle speed modifiers
 #define CC_BATTLE_SPEED_MODIFIER 0.7f
-#define CC_50_SPEED_MODIFIER 0.8f
-#define CC_100_SPEED_MODIFIER 0.9f
-#define CC_150_SPEED_MODIFIER 1.0f
-#define CC_200_SPEED_MODIFIER 1.5f
-#define CC_500_SPEED_MODIFIER 2.0f
+#define CC_50_SPEED_MODIFIER     0.8f
+#define CC_100_SPEED_MODIFIER    0.9f
+#define CC_150_SPEED_MODIFIER    1.0f
+#define CC_200_SPEED_MODIFIER    1.5f
+#define CC_500_SPEED_MODIFIER    2.0f
 
 /////////////////////////
 // Time Limit Modifier //
@@ -139,4 +148,4 @@
 // Credits: Chadderz (original code), CLF78 (various updates)
 
 // The default time limit
-#define DEFAULT_ONLINE_TIME_LIMIT 5 * 60 * 1000
+#define DEFAULT_ONLINE_TIME_LIMIT (5 * 60 * 1000)

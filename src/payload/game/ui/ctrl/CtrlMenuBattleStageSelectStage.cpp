@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#include "CtrlMenuBattleStageSelectStage.hpp"
 #include <game/ui/ControlLoader.hpp>
-#include <game/ui/ctrl/CtrlMenuBattleStageSelectStage.hpp>
 #include <mvp/cup/BattleCupSelectPageEx.hpp>
 #include <mvp/cup/BattleStageSelectPageEx.hpp>
 #include <mvp/cup/CupManager.hpp>
@@ -15,22 +14,22 @@ REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
 
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
     BattleStageSelectPageEx* coursePage = BattleStageSelectPageEx::getPage();
-    u32 selectedCup = cupPage->selectedButtonId;
-    u32 lastStage = SectionManager::instance->globalContext->lastStage;
+    const u32 selectedCup = cupPage->selectedButtonId;
+    const u32 lastStage = SectionManager::instance->globalContext->lastStage;
     int selected = -1;
 
-    for (int i = 0; i < ARRAY_SIZE(courseButtons); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(courseButtons); i++) {
 
         // Get button
         PushButton* trackButton = &courseButtons[i];
 
         // Set name
-        u32 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->curPage, true);
-        u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[i];
+        const u16 cupIdx = CupManager::getCupIdxFromButton(selectedCup, cupPage->curPage, true);
+        const u16 trackIdx = CupManager::GetCup(cupIdx, true)->entryId[i];
         CupManager::setTrackName(trackButton, trackIdx);
 
         // Set button id
-        trackButton->buttonId = i;
+        trackButton->buttonId = (int)i;
 
         // Play animation
         trackButton->animator.getGroup(4)->setAnimation(0, 0.0f);
@@ -38,12 +37,13 @@ REPLACE void CtrlMenuBattleStageSelectStage::initSelf() {
         // Select the button if the track matches
         if (lastStage == trackIdx) {
             coursePage->setSelection(trackButton);
-            selected = i;
+            selected = (int)i;
         }
     }
 
-    if (selected == -1)
+    if (selected == -1) {
         coursePage->setSelection(&courseButtons[0]);
+    }
 }
 
 // Replace the BRCTR and update the child count
@@ -53,13 +53,13 @@ REPLACE void CtrlMenuBattleStageSelectStage::load(u32 playerFlags, bool unk) {
     ControlLoader loader(this);
 
     // Load the main controller
-    u8 playerCount = UIUtils::getPlayerCount();
+    const u8 playerCount = UIUtils::getPlayerCount();
     const char* mainCtr = (playerCount <= 2) ? "CupSelectCourseNULL" : "CupSelectCourseNULL_4";
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
     // Initialize children
     initChildren(ARRAY_SIZE(courseButtons));
-    for (int i = 0; i < ARRAY_SIZE(courseButtons); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(courseButtons); i++) {
 
         // Get button and its variant
         CtrlMenuMovieButton* button = &courseButtons[i];
@@ -70,8 +70,7 @@ REPLACE void CtrlMenuBattleStageSelectStage::load(u32 playerFlags, bool unk) {
         insertChild(i, button);
 
         // Initialize it
-        button->loadWithAnims(CtrlMenuBattleStageSelectStage::buttonAnims, "button",
-                              "BattleStageSelectStage", buffer, playerFlags, unk);
+        button->loadWithAnims(buttonAnims, "button", "BattleStageSelectStage", buffer, playerFlags, unk);
         button->setOnClickHandler(&onButtonClickHandler, 0);
         button->setOnSelectHandler(&onButtonSelectHandler);
     }

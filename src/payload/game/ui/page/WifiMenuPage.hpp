@@ -1,13 +1,13 @@
-#include <common/Common.hpp>
+#pragma once
+#include "Page.hpp"
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/input/MultiControlInputManager.hpp>
-#include <game/ui/page/Page.hpp>
-#include <game/ui/ctrl/PushButton.hpp>
 #include <game/ui/ctrl/CtrlMenuBackButton.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
 #include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>
 #include <game/ui/ctrl/FriendStatusButton.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include <game/ui/ctrl/PushButton.hpp>
+#include <game/ui/input/MultiControlInputManager.hpp>
 
 class WifiMenuPage : public Page {
 public:

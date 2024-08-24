@@ -1,12 +1,11 @@
-#include <common/Common.hpp>
+#pragma once
+#include "RaceCupSelectArrow.hpp"
 #include <game/ui/SectionManager.hpp>
-#include <game/ui/page/RaceCupSelectPage.hpp>
 #include <game/ui/ctrl/SheetSelectControl.hpp>
-#include <mvp/cup/RaceCupSelectArrow.hpp>
+#include <game/ui/page/RaceCupSelectPage.hpp>
 
 class RaceCupSelectPageEx : public RaceCupSelectPage {
 public:
-
     enum LayoutIdx {
         LYT_CUP_SELECT_CUP,
         LYT_CUP_SELECT_COURSE,

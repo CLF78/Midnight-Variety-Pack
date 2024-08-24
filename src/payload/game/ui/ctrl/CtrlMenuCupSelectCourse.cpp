@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/CtrlMenuCupSelectCourse.hpp>
+#include "CtrlMenuCupSelectCourse.hpp"
 #include <mvp/cup/CupManager.hpp>
 #include <mvp/cup/RaceCupSelectPageEx.hpp>
 
@@ -12,10 +11,10 @@ REPLACE void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
 
     // Get cup index from page
     RaceCupSelectPageEx* page = RaceCupSelectPageEx::getPage();
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->curPage);
+    const u16 cupIdx = CupManager::getCupIdxFromButton(cupButtonId, page->curPage);
 
     // Update each track name
-    for (int i = 0; i < ARRAY_SIZE(courseNames); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(courseNames); i++) {
 
         // Get button
         LayoutUIControl* courseName = &courseNames[i];
@@ -27,7 +26,7 @@ REPLACE void CtrlMenuCupSelectCourse::setCourseNames(u32 cupButtonId) {
         courseName->animator.getGroup(3)->setAnimation(1, 0.0f);
 
         // Get the track name and set it
-        u32 trackIdx = CupManager::GetCupList()[cupIdx].entryId[i];
+        const u16 trackIdx = CupManager::GetCup(cupIdx)->entryId[i];
         CupManager::setTrackName(courseName, trackIdx);
 
         // Hide some pane thingy

@@ -1,15 +1,15 @@
-#include <common/Common.hpp>
-#include <revolution/dvd/dvd.h>
+#pragma once
 #include <game/system/RKSystem.hpp>
 #include <platform/stdarg.h>
+#include <revolution/dvd/dvd.h>
 
-typedef void (*OSReport_t) (const char* str, ...);
-typedef void (*OSFatal_t) (u32* fg, u32* bg, const char* str);
-typedef int (*DVDConvertPathToEntrynum_t) (const char* path);
-typedef bool (*DVDFastOpen_t) (int entrynum, DVDFileInfo* fileInfo);
-typedef int (*DVDReadPrio_t) (DVDFileInfo* fileInfo, void* buffer, int length, int offset, int prio);
-typedef bool (*DVDClose_t) (DVDFileInfo* fileInfo);
-typedef int (*vsnprintf_t) (char* buf, size_t bufSize, const char* format, va_list args);
+typedef void (*OSReport_t)(const char* str, ...);
+typedef NORETURN void (*OSFatal_t)(u32* fg, u32* bg, const char* str);
+typedef int (*DVDConvertPathToEntrynum_t)(const char* path);
+typedef bool (*DVDFastOpen_t)(int entrynum, DVDFileInfo* fileInfo);
+typedef int (*DVDReadPrio_t)(DVDFileInfo* fileInfo, void* buffer, int length, int offset, int prio);
+typedef bool (*DVDClose_t)(DVDFileInfo* fileInfo);
+typedef int (*vsnprintf_t)(char* buf, size_t bufSize, const char* format, va_list args);
 
 namespace Loader {
 
@@ -25,7 +25,7 @@ struct Header {
     u32 codeSize;
     u32 ctorStart;
     u32 ctorEnd;
-    u32 _pad[2];
+    PAD(8);
 };
 
 struct Functions {
@@ -40,7 +40,7 @@ struct Functions {
     char identifier;
 };
 
-void Load(const Functions* funcs, u32 binary, u32 binaryLength);
+void Load(const Functions* funcs, const u8* binary, u32 binaryLength);
 void LoadFromDisc(const Functions* funcs, const char* path);
 
 } // namespace Loader

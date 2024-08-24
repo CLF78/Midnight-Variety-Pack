@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#include "Status.hpp"
 #include <dwc/dwc_base64.h>
 #include <dwc/dwc_match.h>
 #include <game/system/RKSystem.hpp>
@@ -6,7 +6,6 @@
 #include <nw4r/ut/Lock.hpp>
 #include <platform/stdio.h>
 #include <platform/string.h>
-#include <wiimmfi/Status.hpp>
 
 namespace Wiimmfi {
 namespace Status {
@@ -17,11 +16,9 @@ char sScrambledToken[96];
 void DecodeToken(const char* encodedToken) {
 
     // Get the decoded token size
-    IGNORE_ERR(384)
-    int encodedLen = strlen(encodedToken);
-    int decodedLen = DWC_Base64Decode(encodedToken, encodedLen, nullptr, 0);
-    sToken = new (KAMEK_HEAP, 32) char[decodedLen+1];
-    UNIGNORE_ERR(384)
+    const size_t encodedLen = strlen(encodedToken);
+    u32 decodedLen = DWC_Base64Decode(encodedToken, encodedLen, nullptr, 0);
+    sToken = new (KAMEK_HEAP, 32) char[decodedLen + 1];
 
     // Decode the token
     decodedLen = DWC_Base64Decode(encodedToken, encodedLen, sToken, decodedLen);
@@ -29,8 +26,8 @@ void DecodeToken(const char* encodedToken) {
 
     // Scramble the token
     // Start by filling an ASCII table
-    for (int i = 0; i < strlenc(sScrambledToken); i++) {
-        sScrambledToken[i] = i + ' ';
+    for (u32 i = 0; i < strlenc(sScrambledToken); i++) {
+        sScrambledToken[i] = (char)(i + ' ');
     }
 
     // Check if the token was decoded correctly
@@ -38,27 +35,29 @@ void DecodeToken(const char* encodedToken) {
 
         // Run ASCII substitution
         static const char key[] = "0123456789,abcdefghijklmnopqrstuvwxyz|=+-_";
-        for (int i = 0; i < decodedLen && i < strlenc(key); i++) {
-            char c = sToken[i];
-            char pos = key[i];
+        for (u32 i = 0; i < decodedLen && i < strlenc(key); i++) {
+            const char c = sToken[i];
+            const char pos = key[i];
             sScrambledToken[pos - ' '] = c;
         }
     }
 }
 
-void ScrambleMessage(char* msg, int msgLen) {
-    for (int i = 0; i < msgLen; i++) {
-        u8 c = msg[i] - ' ';
-        if (c < strlenc(sScrambledToken))
+void ScrambleMessage(char* msg, u32 msgLen) {
+    for (u32 i = 0; i < msgLen; i++) {
+        const u8 c = msg[i] - ' ';
+        if (c < strlenc(sScrambledToken)) {
             msg[i] = sScrambledToken[c];
+        }
     }
 }
 
-void SendMessage(const char* key, const char* value, int integerValue) {
+void SendMessage(const char* key, const char* value, u32 integerValue) {
 
     // Check that the match control structure exists
-    if (!stpMatchCnt || !stpMatchCnt->gpConnection)
+    if (!stpMatchCnt || !stpMatchCnt->gpConnection) {
         return;
+    }
 
     // Log entry
     LOG_DEBUG("Sending report message %s=%s,%d", key, value, integerValue);
@@ -72,8 +71,8 @@ void SendMessage(const char* key, const char* value, int integerValue) {
 
     // Print the message to the buffer
     char buffer[599];
-    int len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\",
-                       key, integerValue, value);
+    const u32 len = snprintf(buffer, sizeof(buffer), "\\xy\\%s\\v\\1\\id\\%d\\msg\\%s\\final\\", key,
+                             integerValue, value);
 
     // If the printed string did not fit in the buffer, bail
     if (len > sizeof(buffer)) {
@@ -87,7 +86,7 @@ void SendMessage(const char* key, const char* value, int integerValue) {
 
     // Lock interrupts and append message
     {
-        nw4r::ut::AutoInterruptLock lock;
+        const nw4r::ut::AutoInterruptLock lock;
         gpiAppendStringToBuffer(conn, &(*conn)->outputBuffer, buffer);
     }
 }

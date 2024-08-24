@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 #include <game/ui/ControlLoader.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <mvp/cup/BattleCupSelectPageEx.hpp>
@@ -34,13 +33,13 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
     currentSelected = 0;
 
     // Load the main controller
-    u8 playerCount = UIUtils::getPlayerCount();
+    const u8 playerCount = UIUtils::getPlayerCount();
     const char* mainCtr = (playerCount <= 2) ? "CupSelectCupNULL" : "CupSelectCupNULL_4";
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
     // Initialize children
     initChildren(BattleCupSelectPageEx::getCupCount());
-    for (int i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
+    for (u32 i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
 
         // Get button control variant
         char buffer[20];
@@ -50,11 +49,11 @@ REPLACE void CtrlMenuBattleCupSelectCup::load(u32 playerFlags, bool unk) {
         PushButton* button = page->getCupButton(i);
         insertChild(i, button);
         button->load("button", "CupSelectCup", buffer, playerFlags, unk, false);
-        button->buttonId = i;
+        button->buttonId = (int)i;
 
         // Set cup name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
-        u16 msgId = CupManager::GetCupList(true)[cupIdx].cupName;
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
+        const u16 msgId = CupManager::GetCup(cupIdx, true)->cupName;
         button->setText(msgId);
 
         // Set cup icon

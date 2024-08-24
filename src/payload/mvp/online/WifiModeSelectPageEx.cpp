@@ -1,12 +1,11 @@
-#include <common/Common.hpp>
+#include "WifiModeSelectPageEx.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/page/RandomMatchingPage.hpp>
-#include <mvp/online/WifiModeSelectPageEx.hpp>
 #include <mvp/save/SaveExpansionRating.hpp>
 #include <platform/stdio.h>
 
-WifiModeSelectPageEx::WifiModeSelectPageEx() : extraRaceButtons() {
-    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
+WifiModeSelectPageEx::WifiModeSelectPageEx() {
+    SET_HANDLER_FUNC(onButtonClickHandler, WifiModeSelectPageEx::onButtonClick);
 }
 
 void WifiModeSelectPageEx::onInit() {
@@ -37,7 +36,7 @@ void WifiModeSelectPageEx::onInit() {
     titleText.load(false);
 
     // Add each button
-    for (int i = 0; i < getButtonCount(); i++) {
+    for (u32 i = 0; i < getButtonCount(); i++) {
 
         // Get the button and insert it
         PushButton* btn = getButton(i);
@@ -49,12 +48,12 @@ void WifiModeSelectPageEx::onInit() {
         btn->load("button", "WifiMenuModeSelect", buffer, 1, false, false);
 
         // Set button ID and handlers
-        btn->buttonId = i + 1;
+        btn->buttonId = (int)(i + 1);
         btn->setOnClickHandler(&onButtonClickHandler, 0);
         btn->setOnSelectHandler(&onButtonSelectHandler);
 
         // Set tracklist name
-        u16 cupListName = CupManager::GetCupListData(i)->cupListName;
+        const u16 cupListName = CupManager::GetCupList(i)->cupListName;
         btn->setMatText("text", cupListName, nullptr);
         btn->setMatText("text_light_01", cupListName, nullptr);
         btn->setMatText("text_light_02", cupListName, nullptr);
@@ -62,16 +61,15 @@ void WifiModeSelectPageEx::onInit() {
         // Set rating message
         MessageInfo msgInfo;
         msgInfo.intVals[0] = SaveExpansionRating::GetSection()->GetData(i)->mRating;
-        int msgId = (i >= CupManager::TRACKS_VS_COUNT) ?
-                    Message::Menu::BATTLE_RATING :
-                    Message::Menu::RACE_RATING;
+        const u32 msgId = (i >= CupManager::TRACKS_VS_COUNT) ? Message::Menu::BATTLE_RATING :
+                                                               Message::Menu::RACE_RATING;
         btn->setMatText("go", msgId, &msgInfo);
     }
 
     // Add the back button
     insertChild(curChildIdx++, &backButton, 0);
     backButton.load("button", "Back", "ButtonBack", 1, false, true);
-    backButton.buttonId = getButtonCount() + 1;
+    backButton.buttonId = (int)(getButtonCount() + 1);
 
     // Set handlers
     backButton.setOnClickHandler(&onBackButtonClickHandler, 0);
@@ -109,14 +107,15 @@ void WifiModeSelectPageEx::onButtonClick(PushButton* button, u32 hudSlotId) {
 
     // Get RandomMatchingPage
     RandomMatchingPage* page = RandomMatchingPage::getPage();
-    u32 cupList = button->buttonId - 1;
+    const u8 cupList = button->buttonId - 1;
 
     // Set the online region, cup list and RaceConfig game mode accordingly
-    CupManager::currentOnlineRegion = CupManager::GetCupListData(cupList)->onlineRegion;
+    CupManager::currentOnlineRegion = CupManager::GetCupList(cupList)->onlineRegion;
     if (cupList >= CupManager::TRACKS_VS_COUNT) {
         CupManager::currentBattleCupList = cupList;
         page->setupGameMode(true);
-    } else {
+    }
+    else {
         CupManager::currentCupList = cupList;
         page->setupGameMode(false);
     }

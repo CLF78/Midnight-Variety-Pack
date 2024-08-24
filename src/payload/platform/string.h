@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -12,11 +12,13 @@ int strcmp(const char* str1, const char* str2);
 int strncmp(const char* str1, const char* str2, size_t num);
 char* strcpy(char* destination, const char* source);
 char* strncpy(char* destination, const char* source, size_t num);
+size_t strlcpy(char* dst, const char* src, size_t size); // actually NWC24iStrLCpy
 char* strstr(char* str1, const char* str2);
 size_t strlen(const char* str);
+s32 strtol(const char* str, char** endptr, int base);
 u32 strtoul(const char* str, char** endptr, int base);
 
-#define strlenc(str) (sizeof((str)) - 1)
+#define strlenc(str)        (sizeof((str)) - 1)
 #define strshift(str, str2) (str) += strlenc(str2)
 #define strstart(str, str2) (strncmp((str), (str2), strlenc(str2)) == 0)
 

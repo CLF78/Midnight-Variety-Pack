@@ -1,4 +1,5 @@
-#include <common/Common.h>
+#pragma once
+// clang-format off
 
 // Declare Heap class pre-emptively
 namespace EGG { class Heap; }

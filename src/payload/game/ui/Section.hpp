@@ -1,12 +1,11 @@
-#include <common/Common.hpp>
+#pragma once
+#include "page/Page.hpp"
 #include <egg/core/eggHeap.hpp>
-#include <nw4r/lyt/drawInfo.hpp>
 #include <game/host_system/Scene.hpp>
-#include <game/ui/page/Page.hpp>
+#include <nw4r/lyt/drawInfo.hpp>
 
 class Section {
 public:
-
     enum SectionId {
         NONE = -1,
 
@@ -204,20 +203,21 @@ public:
         SECTION_COUNT,
     };
 
-    Page* getPage(Page::PageId page) {
+    Page* getPage(Page::PageId page) const {
         if (page < Page::ORIGINAL_PAGE_COUNT) {
             return pages[page];
-        } else if (page < Page::PAGE_COUNT) {
-            return extraPages[page - Page::ORIGINAL_PAGE_COUNT];
-        } else {
-            return nullptr;
         }
+        if (page < Page::PAGE_COUNT) {
+            return extraPages[page - Page::ORIGINAL_PAGE_COUNT];
+        }
+        return nullptr;
     }
 
     void setPage(Page::PageId pageId, Page* page) {
         if (pageId < Page::ORIGINAL_PAGE_COUNT) {
             pages[pageId] = page;
-        } else if (pageId < Page::PAGE_COUNT) {
+        }
+        else if (pageId < Page::PAGE_COUNT) {
             extraPages[pageId - Page::ORIGINAL_PAGE_COUNT] = page;
         }
     }
@@ -230,7 +230,7 @@ public:
 
     void addActivePage(Page::PageId pageId);
     void addActivePages(SectionId sectionId);
-    Page* activatePage(Page::PageId pageId, Page::AnimationDirection anim);
+    Page* activatePage(Page::PageId pageId, Page::AnimationDirection direction);
 
     void init(SectionId sectionId);
     void deinit();

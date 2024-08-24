@@ -1,4 +1,4 @@
-#include <common/Common.hpp>
+#pragma once
 #include <revolution/mem/allocator.h>
 
 namespace EGG {
@@ -14,5 +14,6 @@ public:
     Heap* heap;
     s32 alignment;
 };
+size_assert(Allocator, 0x1C);
 
 } // namespace EGG

@@ -1,11 +1,10 @@
-#include <common/Common.hpp>
+#include "BattleStageSelectPageEx.hpp"
+#include "BattleCupSelectPageEx.hpp"
+#include "CupManager.hpp"
 #include <game/sound/SoundEffect.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/UIUtils.hpp>
 #include <game/ui/page/VotingPage.hpp>
-#include <mvp/cup/BattleCupSelectPageEx.hpp>
-#include <mvp/cup/BattleStageSelectPageEx.hpp>
-#include <mvp/cup/CupManager.hpp>
 #include <mvp/online/RepickQueue.hpp>
 
 ///////////////////////
@@ -13,9 +12,10 @@
 ///////////////////////
 
 // Add the additional cup buttons and replace some handlers
-BattleStageSelectPageEx::BattleStageSelectPageEx() : cups(), onRepickPromptPressHandler(this, &onRepickPromptPress) {
-    SET_HANDLER_FUNC(onButtonClickHandler, onButtonClick);
-    SET_HANDLER_FUNC(onBackPressHandler, onBackPress);
+BattleStageSelectPageEx::BattleStageSelectPageEx() :
+    onRepickPromptPressHandler(this, &BattleStageSelectPageEx::onRepickPromptPress) {
+    SET_HANDLER_FUNC(onButtonClickHandler, BattleStageSelectPageEx::onButtonClick);
+    SET_HANDLER_FUNC(onBackPressHandler, BattleStageSelectPageEx::onBackPress);
 }
 
 void BattleStageSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button) {
@@ -31,16 +31,17 @@ void BattleStageSelectPageEx::onRepickPromptPress(s32 choice, PushButton* button
 }
 
 // Properly store/vote the selected arena
-void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button, int unk) {
-
+void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHolder, PushButton* button,
+                                        u32 hudSlotId) {
     // Check for active state
-    if (pageState != Page::STATE_ACTIVE)
+    if (pageState != Page::STATE_ACTIVE) {
         return;
+    }
 
     // Get selected arena and set it as last stage
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
-    u32 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->curPage, true);
-    u32 trackIdx = CupManager::GetCupList(true)[cupIdx].entryId[button->buttonId];
+    const u16 cupIdx = CupManager::getCupIdxFromButton(cupPage->selectedButtonId, cupPage->curPage, true);
+    const u16 trackIdx = CupManager::GetCup(cupIdx, true)->entryId[button->buttonId];
     SectionManager::instance->globalContext->lastStage = trackIdx;
 
     if (UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
@@ -55,13 +56,17 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
             // Get the popup
             YesNoPopupPageEx* popupPage = YesNoPopupPageEx::getPage();
 
-            // Reset it and update the messages
+            // Get handler
+            InputHandler2<Page, void, s32, PushButton*>* repickHandler;
+            repickHandler = SET_HANDLER(repickHandler, onRepickPromptPressHandler);
+
+            // Reset the popup and update the messages
             popupPage->reset();
             popupPage->setWindowMessage(Message::Menu::TRACK_UNPICKABLE_PROMPT_BT);
-            popupPage->configureButton(0, Message::Menu::TRACK_UNPICKABLE_VOTE_ANYWAY, nullptr, Page::ANIM_NONE,
-                                       (InputHandler2<Page, void, s32, PushButton*>*)&onRepickPromptPressHandler);
+            popupPage->configureButton(0, Message::Menu::TRACK_UNPICKABLE_VOTE_ANYWAY, nullptr,
+                                       Page::ANIM_NONE, repickHandler);
             popupPage->configureButton(1, Message::Menu::TRACK_UNPICKABLE_GO_BACK, nullptr, Page::ANIM_NONE,
-                                       (InputHandler2<Page, void, s32, PushButton*>*)&onRepickPromptPressHandler);
+                                       repickHandler);
 
             // Default to the Go Back button and allow going back
             popupPage->currSelected = 1;
@@ -70,24 +75,28 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
 
             // Display the page
             repickPrompt = (YesNoPopupPageEx*)addPage(Page::ONLINE_VOTE_PROMPT, Page::ANIM_NEXT);
+        }
 
         // Else go to the next page
-        } else {
+        else {
             nextPageId = Page::NONE;
             replace(Page::ANIM_NEXT, button->getDelay());
         }
-    } else {
 
-        // Get the actual arena to be played and store it
-        u32 actualTrackIdx = CupManager::getTrackFile(trackIdx);
-        CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
-
-        // Prepare intro
-        requestSectionChange(Section::DEMO_BT, button);
-
-        // Generate arena order from the selected one
-        CupManager::generateCourseOrder(cupIdx, button->buttonId, true);
+        // Report stage as selected
+        stageSelected = true;
+        return;
     }
+
+    // Get the actual arena to be played and store it
+    const u16 actualTrackIdx = CupManager::getTrackFile(trackIdx);
+    CupManager::SetCourse(&RaceConfig::instance->menuScenario.settings, actualTrackIdx);
+
+    // Prepare intro
+    requestSectionChange(Section::DEMO_BT, button);
+
+    // Generate arena order from the selected one
+    CupManager::generateCourseOrder(cupIdx, button->buttonId, true);
 
     // Report stage as selected
     stageSelected = true;
@@ -97,10 +106,10 @@ void BattleStageSelectPageEx::setCourse(CtrlMenuBattleStageSelectStage* courseHo
 void BattleStageSelectPageEx::onActivate() {
 
     // Set the instruction text according to the battle type
-    u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
-    u32 msgId = battleType == RaceConfig::Settings::BATTLE_BALLOON ?
-                Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
-                Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
+    const u32 battleType = RaceConfig::instance->menuScenario.settings.battleType;
+    const u32 msgId = (battleType == RaceConfig::Settings::BATTLE_BALLOON) ?
+                          Message::Menu::INSTRUCTION_TEXT_BALLOON_BATTLE :
+                          Message::Menu::INSTRUCTION_TEXT_COIN_RUNNERS;
     instructionText->setText(msgId);
 
     // Do base activation
@@ -112,23 +121,27 @@ void BattleStageSelectPageEx::onActivate() {
 void BattleStageSelectPageEx::afterCalc() {
 
     // Check for active state
-    if (pageState != Page::STATE_ACTIVE)
+    if (pageState != Page::STATE_ACTIVE) {
         return;
+    }
 
     // Check if we are online
-    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId))
+    if (!UIUtils::isOnlineRoom(SectionManager::instance->curSection->sectionId)) {
         return;
+    }
 
     // Check if the timer is zero
-    if (timer->value > 0.0f)
+    if (timer->value > 0.0f) {
         return;
+    }
 
     // If the prompt is not enabled, vote random
     if (repickPrompt == nullptr) {
         forceRandomVote();
+    }
 
     // Else force press the selected button
-    } else {
+    else {
         repickPrompt->forcePressSelected();
     }
 }
@@ -137,15 +150,17 @@ void BattleStageSelectPageEx::afterCalc() {
 void BattleStageSelectPageEx::onButtonClick(PushButton* button, u32 hudSlotId) {
 
     // Check for active state
-    if (pageState != Page::STATE_ACTIVE)
+    if (pageState != Page::STATE_ACTIVE) {
         return;
+    }
 
     // Skip if the button isn't the back button
-    if (button->buttonId != MenuPage::BACK_BUTTON)
+    if (button->buttonId != MenuPage::BACK_BUTTON) {
         return;
+    }
 
     // Apply properties
-    for (int i = 0; i < getCupCount(); i++) {
+    for (u32 i = 0; i < getCupCount(); i++) {
         CtrlMenuBattleStageSelectCupSub* cupButton = getCupButton(i);
         cupButton->alpha = 300.0f;
         cupButton->fadeDirection = 1;
@@ -159,11 +174,12 @@ void BattleStageSelectPageEx::onButtonClick(PushButton* button, u32 hudSlotId) {
 void BattleStageSelectPageEx::onBackPress(u32 hudSlotId) {
 
     // Check for active state
-    if (pageState != Page::STATE_ACTIVE)
+    if (pageState != Page::STATE_ACTIVE) {
         return;
+    }
 
     // Apply properties
-    for (int i = 0; i < getCupCount(); i++) {
+    for (u32 i = 0; i < getCupCount(); i++) {
         CtrlMenuBattleStageSelectCupSub* cupButton = getCupButton(i);
         cupButton->alpha = 300.0f;
         cupButton->fadeDirection = 1;

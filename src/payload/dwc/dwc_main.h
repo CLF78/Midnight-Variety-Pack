@@ -1,5 +1,5 @@
-#include <common/Common.h>
-#include <dwc/dwc_match.h>
+#pragma once
+#include "dwc_match.h"
 #include <gs/gt2/gt2Main.h>
 
 #ifdef __cplusplus
@@ -11,19 +11,24 @@ typedef struct {
     GT2Callbacks gt2Callbacks;
     int gt2SendBufSize;
     int gt2RecvBufSize;
-    u8 unk[0x88 - 0x1C];
+    UNK(0x88 - 0x1C);
+
     DWCMatchedCallback userMatchedCallback;
     void* userMatchedCallbackParam;
-    u8 unk2[0x360 - 0x90];
+    UNK(0x360 - 0x90);
+
     DWCMatchControl matchControl;
+    UNK(0x1438 - 0xC20);
 } DWCControl; // TODO finish header
+size_cassert(DWCControl, 0x1438);
 
 typedef struct {
     u8 index;
     u8 aid;
-    u16 pad;
-    u32 profileId;
+    PAD(2);
+    int profileId;
 } DWCConnectionInfo;
+size_cassert(DWCConnectionInfo, 0x8);
 
 BOOL DWC_IsServerMyself();
 int DWC_CloseAllConnectionsHard();

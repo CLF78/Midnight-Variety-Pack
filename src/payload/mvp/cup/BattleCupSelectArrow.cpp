@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
-#include <mvp/cup/BattleCupSelectPageEx.hpp>
-#include <mvp/cup/BattleCupSelectArrow.hpp>
-#include <mvp/cup/CupManager.hpp>
+#include "BattleCupSelectArrow.hpp"
+#include "BattleCupSelectPageEx.hpp"
+#include "CupManager.hpp"
 
 // This function runs whenever the left arrow is selected or pressed
 void BattleCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayerId) {
@@ -11,8 +10,9 @@ void BattleCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayer
 
     // Update the page number
     page->curPage--;
-    if (page->curPage < 0)
+    if (page->curPage < 0) {
         page->curPage = CupManager::getMaxCupPage(true);
+    }
 
     // Log entry
     LOG_DEBUG("Changing cup select page to %d...", page->curPage);
@@ -20,8 +20,8 @@ void BattleCupSelectArrow::onLeft(SheetSelectControl* arrowPair, u32 localPlayer
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = page->getCupButton(i);
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
-        cupButton->setText(CupManager::GetCupList(true)[cupIdx].cupName);
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
+        cupButton->setText(CupManager::GetCup(cupIdx, true)->cupName);
         CupManager::updateCupButton(cupButton, page->curPage, i, true);
     }
 
@@ -39,8 +39,9 @@ void BattleCupSelectArrow::onRight(SheetSelectControl* arrowPair, u32 localPlaye
 
     // Update the page number
     page->curPage++;
-    if (page->curPage > CupManager::getMaxCupPage(true))
+    if (page->curPage > CupManager::getMaxCupPage(true)) {
         page->curPage = 0;
+    }
 
     // Log entry
     LOG_DEBUG("Changing cup select page to %d...", page->curPage);
@@ -48,8 +49,8 @@ void BattleCupSelectArrow::onRight(SheetSelectControl* arrowPair, u32 localPlaye
     // Update each cup button
     for (int i = 0; i < 8; i++) {
         PushButton* cupButton = page->getCupButton(i);
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
-        cupButton->setText(CupManager::GetCupList(true)[cupIdx].cupName);
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, page->curPage, true);
+        cupButton->setText(CupManager::GetCup(cupIdx, true)->cupName);
         CupManager::updateCupButton(cupButton, page->curPage, i, true);
     }
 
@@ -66,7 +67,7 @@ void BattleCupSelectArrow::onDeselect(u32 localPlayerId) {
 
     // Force select the previous selected cup
     BattleCupSelectPageEx* page = BattleCupSelectPageEx::getPage();
-    u32 curSelected = page->cupHolder.currentSelected;
+    const u32 curSelected = page->cupHolder.currentSelected;
     LOG_DEBUG("Restoring selected button to %d...", curSelected);
     page->getCupButton(curSelected)->select(localPlayerId);
 }

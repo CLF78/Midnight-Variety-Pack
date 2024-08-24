@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/ui/MessageInfo.hpp>
+#include "MessageInfo.hpp"
 
 //////////////////////////////
 // Conditional Text Display //

@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#pragma once
 #include <gs/hashtable.h>
 
 #ifdef __cplusplus
@@ -10,6 +10,7 @@ typedef struct {
     int num;
     int numBuddies;
 } GPIProfileList;
+size_cassert(GPIProfileList, 0xC);
 
 #ifdef __cplusplus
 }

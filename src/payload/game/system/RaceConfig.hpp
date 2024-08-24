@@ -1,9 +1,9 @@
-#include <common/Common.hpp>
+#pragma once
+#include "Competition.hpp"
+#include "GhostFile.hpp"
+#include "Mii.hpp"
+#include "SaveManager.hpp"
 #include <game/host_system/ParameterFile.hpp>
-#include <game/system/Competition.hpp>
-#include <game/system/GhostFile.hpp>
-#include <game/system/Mii.hpp>
-#include <game/system/Rating.hpp>
 
 class RaceConfigBase {
 public:
@@ -13,7 +13,6 @@ size_assert(RaceConfigBase, 0x4);
 
 class RaceConfig : public RaceConfigBase, public ParameterFile {
 public:
-
     class Player {
     public:
         enum Type {
@@ -50,11 +49,13 @@ public:
 
         virtual ~Player();
 
-        int computeGPRank();
+        u32 computeGPRank();
 
         u8 _4;
         s8 localPlayerNum;
         s8 playerInputIdx;
+        PAD(1);
+
         u32 vehicleId;
         u32 characterId;
         u32 playerType;
@@ -69,14 +70,16 @@ public:
         u8 gpRank;
         u8 prevFinishPos;
         u8 finishPos;
-        Rating rating;
+        PAD(1);
+
+        SaveManager::License::Rating rating;
         s8 _EC;
-        u8 transmission;
+        u8 transmission; // previously padding
+        PAD(2);
     };
     size_assert(Player, 0xF0);
 
     struct Settings {
-
         enum EngineClass {
             CC_50,
             CC_100,
@@ -135,9 +138,9 @@ public:
         };
 
         enum ModeFlags {
-            FLAG_NONE        = BIT_FLAG(-1),
-            FLAG_MIRROR      = BIT_FLAG(0),
-            FLAG_TEAMS       = BIT_FLAG(1),
+            FLAG_NONE = BIT_FLAG(-1),
+            FLAG_MIRROR = BIT_FLAG(0),
+            FLAG_TEAMS = BIT_FLAG(1),
             FLAG_COMPETITION = BIT_FLAG(2),
         };
 
@@ -147,6 +150,10 @@ public:
             ITEMS_STRATEGIC,
             ITEMS_NONE,
         };
+
+        bool isMirror() const { return (modeFlags & FLAG_MIRROR) != 0; }
+
+        bool isTeams() const { return (modeFlags & FLAG_TEAMS) != 0; }
 
         bool isBattle() const {
             switch (gameMode) {
@@ -182,6 +189,8 @@ public:
         u32 cupId;
         u8 raceNumber;
         u8 lapCount;
+        PAD(2);
+
         u32 modeFlags;
         u32 seed1;
         u32 seed2;

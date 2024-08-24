@@ -1,21 +1,20 @@
-#include <common/Common.hpp>
+#include "Challenge.hpp"
 #include <platform/string.h>
-#include <wiimmfi/Challenge.hpp>
 
 namespace Wiimmfi {
 namespace Challenge {
 
-char sChallenge[9];
+char sChallenge[CHALLENGE_SIZE];
 
 void Save(const char* challenge) {
     LOG_DEBUG("Received challenge: %s", challenge);
-    strcpy(sChallenge, challenge);
+    strlcpy(sChallenge, challenge, sizeof(sChallenge));
 }
 
 void Send(qr2_buffer* buffer) {
 
     // Check if the buffer has the required space for the extra key-value pair
-    const u32 requiredSpace = sizeof("challenge") + sizeof(sChallenge);
+    const u32 requiredSpace = sizeof(CHALLENGE_KEY) + sizeof(sChallenge);
     if (buffer->dataSize + requiredSpace > sizeof(buffer->data)) {
         LOG_ERROR("Not enough memory to append challenge!");
         return;
@@ -23,11 +22,11 @@ void Send(qr2_buffer* buffer) {
 
     // Copy the key
     char* dest = &buffer->data[buffer->dataSize - 1];
-    strcpy(dest, "challenge");
+    strlcpy(dest, CHALLENGE_KEY, sizeof(CHALLENGE_KEY));
 
     // Copy the challenge
-    strshift(dest, "challenge");
-    strcpy(dest, sChallenge);
+    strshift(dest, CHALLENGE_KEY);
+    strlcpy(dest, sChallenge, sizeof(sChallenge));
 
     // Update the buffer size and store the terminating null byte
     buffer->dataSize += requiredSpace;

@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/sound/RaceSoundManager.hpp>
+#include "RaceSoundManager.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <mvp/cup/CupManager.hpp>
 
@@ -11,10 +10,9 @@
 REPLACE void RaceSoundManager::init() {
 
     // Get the slot and apply it
-    u32 originalSlot = RaceConfig::instance->raceScenario.settings.courseId;
-    u32 slot = CupManager::IsSystemCourse(originalSlot) ? originalSlot
-                                                        : CupData::tracks[CupManager::currentSzs].musicSlot;
-    courseId = slot;
+    const u32 originalSlot = RaceConfig::instance->raceScenario.settings.courseId;
+    courseId = CupManager::IsSystemCourse(originalSlot) ? originalSlot :
+                                                          CupData::tracks[CupManager::currentSzs].musicSlot;
 
     // Call the original function
     REPLACED();

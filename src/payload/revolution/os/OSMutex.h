@@ -1,5 +1,5 @@
-#include <common/Common.h>
-#include <revolution/os/OSThread.h>
+#pragma once
+#include "OSThread.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -11,6 +11,7 @@ struct OSMutex {
     s32 count;
     OSMutexLink link;
 };
+size_cassert(OSMutex, 0x18);
 
 void OSLockMutex(OSMutex* mutex);
 void OSUnlockMutex(OSMutex* mutex);

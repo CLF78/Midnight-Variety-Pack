@@ -1,7 +1,7 @@
-#include <common/Common.hpp>
-#pragma pack(push, 1)
+#pragma once
 
 struct RKNetEVENTPacket {
+
     struct EventInfo {
         enum EventType {
             EVENT_TYPE_NONE,
@@ -17,9 +17,9 @@ struct RKNetEVENTPacket {
         u8 eventType : 3;
         u8 itemObject : 5;
     };
+    size_assert(EventInfo, 0x1);
 
     EventInfo eventInfo[0x18];
-    u8 _18[0xF8 - 0x18];
+    u8 data[0xF8 - 0x18];
 };
 size_assert(RKNetEVENTPacket, 0xF8);
-#pragma pack(pop)

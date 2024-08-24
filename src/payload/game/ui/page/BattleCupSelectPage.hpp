@@ -1,6 +1,6 @@
-#include <common/Common.hpp>
+#pragma once
+#include "MenuPage.hpp"
 #include <game/ui/UIControlTimer.hpp>
-#include <game/ui/page/MenuPage.hpp>
 #include <game/ui/ctrl/CtrlMenuBattleCupSelectCup.hpp>
 #include <game/ui/ctrl/CtrlMenuBattleCupSelectStage.hpp>
 #include <game/ui/ctrl/SheetSelectControl.hpp>
@@ -30,7 +30,7 @@ public:
     virtual UIControl* loadLayout(u32 layoutIdx);
     virtual void setupButton(PushButton* button);
 
-    void setCourseNames(CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button, int unk);
+    void setCourseNames(CtrlMenuBattleCupSelectCup* cupHolder, PushButton* button, u32 hudSlotId);
 
     CtrlMenuBattleCupSelectCup cupHolder;
     CtrlMenuBattleCupSelectStage stageHolder;

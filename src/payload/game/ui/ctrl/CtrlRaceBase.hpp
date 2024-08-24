@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
+#pragma once
+#include "LayoutUIControl.hpp"
 
 class CtrlRaceBase : public LayoutUIControl {
 public:
@@ -20,7 +20,7 @@ public:
 
     virtual void process();
     virtual void updatePausePosition(float delta);
-    virtual nw4r::lyt::Pane* getPane();
+    virtual nw4r::lyt::Pane* getPane() const;
 
     virtual bool shouldHide();
     virtual bool shouldActivate();
@@ -32,7 +32,7 @@ public:
 
     nw4r::lyt::Pane* pane;
     u8 localPlayerIdx;
-    // 3 bytes padding
+    PAD(3);
 
     float* currAnimFrames;
 };

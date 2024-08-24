@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
+#pragma once
 
-// TODO actual structure
 struct RKNetRACEDATAPacket {
     u8 data[0x40];
 };

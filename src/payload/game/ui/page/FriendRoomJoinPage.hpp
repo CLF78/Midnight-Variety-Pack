@@ -1,14 +1,13 @@
-#include <common/Common.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/input/MenuInputManager.hpp>
-#include <game/ui/page/Page.hpp>
+#pragma once
+#include "Page.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
 #include <game/ui/ctrl/CountdownTimerControl.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include <game/ui/input/MenuInputManager.hpp>
 
 class FriendRoomJoinPage : public Page {
 public:
-
     enum PlayerState {
         NOT_IN_ROOM = -1,
         OPENED_ROOM,
@@ -46,8 +45,9 @@ public:
     RUNTIME_TYPE_INFO_NODECL;
 
     void forceConnectionError() {
-        if (playerRoomState == JOINED_AS_GUEST)
+        if (playerRoomState == JOINED_AS_GUEST) {
             playerRoomState = CONNECTION_ERROR;
+        }
     }
 
     static FriendRoomJoinPage* getPage() {
@@ -62,6 +62,7 @@ public:
     int playerState;
     int friendToJoin;
     u8 localPlayerCount;
+    PAD(3);
 
     int playerRoomState;
     int nextPage;

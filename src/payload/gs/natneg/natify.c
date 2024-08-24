@@ -1,8 +1,7 @@
-#include <common/Common.h>
+#include "natify.h"
+#include "natneg.h"
 #include <gs/common/gsSocketRevolution.h>
-#include <gs/natneg/natify.h>
-#include <gs/natneg/natneg.h>
-#include <revolutionex/so/SOBasic.h>
+#include <platform/string.h>
 
 // Ported from GameSpy SDK
 int DiscoverReachability(int sock, u32 ip, u16 port, int portType) {

@@ -1,18 +1,20 @@
-#include <common/Common.hpp>
+#pragma once
 #include <game/ui/page/RaceCourseSelectPage.hpp>
 #include <mvp/online/YesNoPopupPageEx.hpp>
 
 class RaceCourseSelectPageEx : public RaceCourseSelectPage {
 public:
-    RaceCourseSelectPageEx() : onRepickPromptPressHandler(this, &onRepickPromptPress),
-                               repickPrompt(nullptr) {}
+    RaceCourseSelectPageEx() :
+        onRepickPromptPressHandler(this, &RaceCourseSelectPageEx::onRepickPromptPress),
+        repickPrompt(nullptr) {}
+
     virtual ~RaceCourseSelectPageEx() {}
 
     virtual void onActivate();
     virtual void afterCalc();
 
     void onRepickPromptPress(s32 choice, PushButton* button); // custom function
-    void setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button, int unk);
+    void setCourse(CtrlMenuCourseSelectCourse* courseHolder, PushButton* button, u32 hudSlotId);
 
     static RaceCourseSelectPageEx* getPage() {
         return (RaceCourseSelectPageEx*)SectionManager::instance->curSection->getPage(Page::COURSE_SELECT);

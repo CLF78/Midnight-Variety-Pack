@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/item/ItemProperties.hpp>
+#include "ItemProperties.hpp"
 
 //////////////////////////
 // Draggable Blue Shell //

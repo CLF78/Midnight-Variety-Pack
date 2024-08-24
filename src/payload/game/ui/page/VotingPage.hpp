@@ -1,11 +1,12 @@
-#include <common/Common.hpp>
+#pragma once
+#include "Page.hpp"
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/input/MenuInputManager.hpp>
-#include <game/ui/page/Page.hpp>
+#include <game/ui/SectionManager.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
 #include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
 #include <game/ui/ctrl/VoteControl.hpp>
+#include <game/ui/input/MenuInputManager.hpp>
 
 class VotingPage : public Page {
 public:
@@ -44,7 +45,7 @@ public:
     int localPlayerCount;
     int curSelectedVote;
     int winningVote;
-    int winningTrackBmgId;
+    u32 winningTrackBmgId;
 
     float curRouletteSpeed;
     float curAnimPos;

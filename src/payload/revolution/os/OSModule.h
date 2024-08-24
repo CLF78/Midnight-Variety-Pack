@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,11 +10,13 @@ typedef struct {
     OSModuleInfo* next;
     OSModuleInfo* prev;
 } OSModuleLink;
+size_cassert(OSModuleLink, 0x8);
 
 typedef struct {
     OSModuleInfo* head;
     OSModuleInfo* tail;
 } OSModuleQueue;
+size_cassert(OSModuleQueue, 0x8);
 
 struct OSModuleInfo {
     u32 id;
@@ -25,6 +27,7 @@ struct OSModuleInfo {
     u32 nameSize;
     u32 version;
 };
+size_cassert(OSModuleInfo, 0x20);
 
 #ifdef __cplusplus
 }

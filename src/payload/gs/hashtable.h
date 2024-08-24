@@ -1,5 +1,5 @@
-#include <common/Common.h>
-#include <gs/darray.h>
+#pragma once
+#include "darray.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -16,6 +16,7 @@ typedef struct {
     TableHashFunc hashFunc;
     TableCompareFunc compareFunc;
 } HashImplementation;
+size_cassert(HashImplementation, 0x14);
 
 typedef HashImplementation* HashTable;
 

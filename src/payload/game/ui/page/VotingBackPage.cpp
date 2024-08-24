@@ -1,10 +1,8 @@
-#include <common/Common.hpp>
+#include "VotingBackPage.hpp"
 #include <game/net/RKNetController.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
 #include <game/net/RKNetUserHandler.hpp>
 #include <game/system/SystemManager.hpp>
-#include <game/ui/page/VotingBackPage.hpp>
-#include <game/util/Random.hpp>
 #include <mvp/cup/CupManager.hpp>
 
 ///////////////////////
@@ -33,7 +31,7 @@ REPLACE void VotingBackPage::setupRace() {
     RaceConfig::Scenario* scenario = &rconf->menuScenario;
     RaceConfig::Settings* settings = &scenario->settings;
     GlobalContext* ctx = SectionManager::instance->globalContext;
-    u32 curSection = SectionManager::instance->curSection->sectionId;
+    const u32 curSection = SectionManager::instance->curSection->sectionId;
     RKNetSELECTHandler* selectHandler = RKNetSELECTHandler::instance;
 
     // Update the AID to PID map
@@ -42,7 +40,8 @@ REPLACE void VotingBackPage::setupRace() {
     // Initialize the race scenario
     if (ctx->friendRoomRaceNumber >= 1) {
         rconf->update();
-    } else {
+    }
+    else {
         rconf->reset();
     }
 
@@ -52,7 +51,7 @@ REPLACE void VotingBackPage::setupRace() {
 
     // Set the track
     // If random, pick a variant using the shared seed
-    u32 actualTrackIdx = CupManager::getTrackFile(selectHandler->getWinningTrack(), &settings->seed1);
+    const u16 actualTrackIdx = CupManager::getTrackFile(selectHandler->getWinningTrack(), &settings->seed1);
     CupManager::SetCourse(settings, actualTrackIdx);
 
     // Set game mode depending on the current menu
@@ -104,7 +103,7 @@ REPLACE void VotingBackPage::setupRace() {
     }
 
     // Set engine class and the mirror flag
-    RKNetEngineClassData engineClassData(engineClass);
+    const RKNetEngineClassData engineClassData(engineClass);
     settings->engineClass = engineClassData.getEngineClass();
     settings->modeFlags |= engineClassData.getIsMirrorFlag();
 
@@ -130,8 +129,8 @@ REPLACE void VotingBackPage::setupRace() {
     for (int playerId = 0; playerId < 12; playerId++) {
 
         // Get the aid of the player
-        u8 aid = RKNetController::instance->aidPidMap.playerIds[playerId];
-        bool isLocal = aid == RKNetController::instance->getCurrentSub()->myAid;
+        const u8 aid = RKNetController::instance->aidPidMap.playerIds[playerId];
+        const bool isLocal = aid == RKNetController::instance->getCurrentSub()->myAid;
         RaceConfig::Player* player = &scenario->players[playerId];
 
         // If the aid is not valid, remove the player
@@ -144,12 +143,13 @@ REPLACE void VotingBackPage::setupRace() {
 
         // Get the local player index by checking if the previous player's aid is identical
         u32 localPlayerId = 0;
-        if (playerId > 0)
+        if (playerId > 0) {
             localPlayerId = RKNetController::instance->aidPidMap.playerIds[playerId - 1] == aid;
+        }
 
         // Get the player info using the obtained data
         PlayerInfo* playerInfo = nullptr;
-        for (int i = 0; i < playerCount; i++) {
+        for (u32 i = 0; i < playerCount; i++) {
             if (playerInfos[i].aid == aid && playerInfos[i].localPlayerIdx == localPlayerId) {
                 playerInfo = &playerInfos[i];
                 break;
@@ -157,17 +157,18 @@ REPLACE void VotingBackPage::setupRace() {
         }
 
         // If the player info is not found (should not happen), bail
-        if (!playerInfo)
+        if (!playerInfo) {
             continue;
+        }
 
         // Set the player type
-        player->playerType = isLocal ? RaceConfig::Player::TYPE_LOCAL
-                                     : RaceConfig::Player::TYPE_ONLINE;
+        player->playerType = isLocal ? RaceConfig::Player::TYPE_LOCAL : RaceConfig::Player::TYPE_ONLINE;
 
         // Set the Mii
         if (isLocal) {
             ctx->playerMiis.copyFrom(&ctx->localPlayerMiis, localPlayerId, playerId);
-        } else {
+        }
+        else {
             ctx->playerMiis.copyFromManager(playerId, aid, localPlayerId);
         }
 
@@ -176,12 +177,14 @@ REPLACE void VotingBackPage::setupRace() {
 
         // Set character and vehicle (with failsaves)
         u8 character = selectPlayer->character;
-        if (character >= CHARACTER_COUNT)
+        if (character >= CHARACTER_COUNT) {
             character = MARIO;
+        }
 
         u8 vehicle = selectPlayer->vehicle;
-        if (vehicle >= VEHICLE_COUNT)
+        if (vehicle >= VEHICLE_COUNT) {
             vehicle = STANDARD_BIKE_M;
+        }
 
         player->characterId = character;
         player->vehicleId = vehicle;
@@ -194,7 +197,8 @@ REPLACE void VotingBackPage::setupRace() {
         // Set the region id
         if (isLocal) {
             ctx->playerRegions[playerId] = SystemManager::instance->regionId;
-        } else {
+        }
+        else {
             ctx->playerRegions[playerId] = RKNetUSERHandler::instance->recvPackets[aid].region;
         }
 
@@ -205,25 +209,24 @@ REPLACE void VotingBackPage::setupRace() {
             switch (curSection) {
                 case Section::WIFI_VS_1P_VOTE:
                 case Section::WIFI_VS_2P_VOTE:
-                    player->rating.points = playerInfo->vr;
+                    player->rating.rating = playerInfo->vr;
                     break;
 
                 case Section::WIFI_BT_1P_VOTE:
                 case Section::WIFI_BT_2P_VOTE:
-                    player->rating.points = playerInfo->br;
+                    player->rating.rating = playerInfo->br;
                     break;
             }
+        }
 
         // For guests, default to 5000
         // TODO alternate point system for guests
-        } else {
-            player->rating.points = 5000;
+        else {
+            player->rating.rating = 5000;
         }
 
         // Set the team (if applicable)
-        player->team = (settings->modeFlags & RaceConfig::Settings::FLAG_TEAMS)
-                        ? playerInfo->team
-                        : RaceConfig::Player::TEAM_NONE;
+        player->team = settings->isTeams() ? playerInfo->team : RaceConfig::Player::TEAM_NONE;
     }
 
     // Set up all the copied Miis

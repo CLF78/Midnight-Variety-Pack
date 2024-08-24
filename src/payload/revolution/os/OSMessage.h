@@ -1,5 +1,5 @@
-#include <common/Common.h>
-#include <revolution/os/OSThread.h>
+#pragma once
+#include "OSThread.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,6 +13,7 @@ typedef struct {
     int firstIndex;
     int usedCount;
 } OSMessageQueue;
+size_cassert(OSMessageQueue, 0x20);
 
 #ifdef __cplusplus
 }

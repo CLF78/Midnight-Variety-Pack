@@ -1,21 +1,23 @@
-#include <common/Common.hpp>
-#include <nw4r/ut/utList.hpp>
+#pragma once
 #include <egg/core/eggDisposer.hpp>
+#include <nw4r/ut/utList.hpp>
 
-using namespace nw4r;
 namespace EGG {
-class EffectResource : EGG::Disposer {
+
+class EffectResource : public Disposer {
 public:
-    static nw4r::ut::List effectResList;
     EffectResource(void* breff, void* breft);
     virtual ~EffectResource();
     virtual void setResource(void* breff, void* breft);
     virtual void resetResource();
     void initialize();
-    void* breff;
-    void* breft; 
-    ut::Link resourceLink;
 
+    void* breff;
+    void* breft;
+    nw4r::ut::Link resourceLink;
+
+    static nw4r::ut::List effectResList;
 };
-size_assert(EGG::EffectResource, 0x20);
-}
+size_assert(EffectResource, 0x20);
+
+} // namespace EGG

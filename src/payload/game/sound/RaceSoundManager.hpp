@@ -1,15 +1,14 @@
-#include <common/Common.hpp>
-#include <nw4r/ut/utList.hpp>
-#include <revolution/mtx.h>
+#pragma once
 #include <egg/audio/eggAudioTrack.hpp>
 #include <egg/core/eggDisposer.hpp>
 #include <game/system/Timer.hpp>
+#include <nw4r/ut/utList.hpp>
+#include <revolution/mtx.h>
 
 class KartSound;
 
 class RaceSoundManager : public EGG::Disposer {
 public:
-
     enum SoundType {
         AWARD_CREDITS_BGM,
         GHOST_REPLAY_BGM,
@@ -29,6 +28,7 @@ public:
     KartSound* kartSounds[4];
     u8 lastUsedKartSoundSlot;
     u8 totalKartSounds;
+    PAD(2);
     u32 _2C;
 
     Timer timer;
@@ -42,11 +42,14 @@ public:
     u8 localPlayerCount;
     u8 playerCount;
     u8 realPlayerCount;
+    PAD(1);
     s16 _50;
+    PAD(2);
 
     EGG::AudioTrack engineVolume;
     u8 _70;
     u8 _71;
+    PAD(2);
     s32 _74;
 
     nw4r::ut::List actorsList;

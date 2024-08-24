@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,10 +18,11 @@ struct DVDDiskID {
     u8 gameVersion;
     u8 streaming;
     u8 streamingBufSize;
-    u8 padding[14];
+    PAD(14);
     u32 rvlMagic;
     u32 gcMagic;
 };
+size_cassert(DVDDiskID, 0x20);
 
 struct DVDCommandBlock {
     DVDCommandBlock* next;
@@ -37,6 +38,7 @@ struct DVDCommandBlock {
     DVDCBCallback callback;
     void* userData;
 };
+size_cassert(DVDCommandBlock, 0x30);
 
 struct DVDFileInfo {
     DVDCommandBlock cb;
@@ -44,18 +46,21 @@ struct DVDFileInfo {
     u32 length;
     DVDCallback callback;
 };
+size_cassert(DVDFileInfo, 0x3C);
 
 typedef struct {
     u32 entryNum;
     u32 location;
     u32 next;
 } DVDDir;
+size_cassert(DVDDir, 0xC);
 
 typedef struct {
     u32 entryNum;
     u32 isDir;
     char* name;
 } DVDDirEntry;
+size_cassert(DVDDirEntry, 0xC);
 
 s32 DVDConvertPathToEntrynum(const char* path);
 

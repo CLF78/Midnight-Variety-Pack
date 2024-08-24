@@ -1,24 +1,25 @@
-#include <common/Common.hpp>
+#pragma once
+#include "Page.hpp"
 #include <game/system/Mii.hpp>
+#include <game/system/RaceConfig.hpp>
 #include <game/ui/InputHandler.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
-#include <game/ui/input/MenuInputManager.hpp>
-#include <game/ui/page/Page.hpp>
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
 #include <game/ui/ctrl/CountdownTimerControl.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include <game/ui/input/MenuInputManager.hpp>
 
 class VotingBackPage : public Page {
 public:
-
     struct PlayerInfo {
         u8 aid;
         u8 localPlayerIdx;
-        // 2 bytes padding
+        PAD(2);
         RaceConfig::Player::Team team;
-        u16 vr;
-        u16 br;
+        s16 vr;
+        s16 br;
     };
+    size_assert(PlayerInfo, 0xC);
 
     enum Status {
         WAITING = 0x2,

@@ -1,8 +1,7 @@
-#include <common/Common.hpp>
-#include <game/net/RKNetController.hpp>
-#include <game/net/RKNetPacketHolder.hpp>
-#include <game/net/RKNetSelectHandler.hpp>
-#include <game/net/RKNetUserHandler.hpp>
+#include "RKNetSelectHandler.hpp"
+#include "RKNetController.hpp"
+#include "RKNetPacketHolder.hpp"
+#include "RKNetUserHandler.hpp"
 #include <game/util/Random.hpp>
 #include <mvp/cup/CupManager.hpp>
 #include <platform/string.h>
@@ -31,8 +30,9 @@ REPLACE_STATIC void RKNetSELECTHandler::getStaticInstance() {
 
     // Construct expansion data
     REPLACED();
-    if (RKNetSELECTHandler* handler = RKNetSELECTHandler::instance)
+    if (RKNetSELECTHandler* handler = RKNetSELECTHandler::instance) {
         RKNetSELECTHandlerEx::construct(&handler->expansion);
+    }
 
     // Initialize Wiimmfi room stall timer
     Wiimmfi::RoomStall::Init();
@@ -42,8 +42,9 @@ REPLACE_STATIC void RKNetSELECTHandler::getStaticInstance() {
 REPLACE u16 RKNetSELECTHandler::getPlayerVote(u8 aid) {
 
     // If it's my AID, get the value from the send packet
-    if (RKNetController::instance->isLocalPlayer(aid))
+    if (RKNetController::instance->isLocalPlayer(aid)) {
         return expansion.sendPacketEx.courseVote;
+    }
 
     // Else get it from the correct received packet
     return expansion.recvPacketsEx[aid].courseVote;
@@ -53,16 +54,17 @@ REPLACE u16 RKNetSELECTHandler::getPlayerVote(u8 aid) {
 REPLACE u16 RKNetSELECTHandler::getWinningTrack() {
 
     // Do not get the track if it hasn't been decided
-    if (sendPacket.phase != RKNetSELECTPacket::LOTTERY)
+    if (sendPacket.phase != RKNetSELECTPacket::LOTTERY) {
         return CupData::NO_TRACK;
+    }
 
     // Otherwise get it from the expansion
     return expansion.sendPacketEx.winningCourse;
 }
 
 // Store the course vote in the correct field
-REPLACE void RKNetSELECTHandler::setPlayerData(int characterId, int vehicleId,
-               int courseVote, int localPlayerIdx, u8 starRank) {
+REPLACE void RKNetSELECTHandler::setPlayerData(int characterId, int vehicleId, int courseVote,
+                                               int localPlayerIdx, u8 starRank) {
 
     RKNetSELECTPlayer* player = &sendPacket.playerData[localPlayerIdx];
     player->character = characterId;
@@ -81,21 +83,22 @@ void RKNetSELECTHandler::storeUpdatedRaceSettings(u8 aid) {
 
 // TODO add custom settings
 bool RKNetSELECTHandler::checkUpdatedRaceSettings(u8 aid) {
-    return raceSettingsDetermined() &&
-           (sendPacket.battleTeamData.raw == recvPackets[aid].battleTeamData.raw) &&
-           (sendPacket.selectId == recvPackets[aid].selectId) &&
-           (sendPacket.engineClass.raw == recvPackets[aid].engineClass.raw) &&
-           (expansion.sendPacketEx.repickQueue == expansion.recvPacketsEx[aid].repickQueue);
+    return raceSettingsDetermined() && (sendPacket.battleTeamData.raw == recvPackets[aid].battleTeamData.raw)
+        && (sendPacket.selectId == recvPackets[aid].selectId)
+        && (sendPacket.engineClass.raw == recvPackets[aid].engineClass.raw)
+        && (expansion.sendPacketEx.repickQueue == expansion.recvPacketsEx[aid].repickQueue);
 }
 
 bool RKNetSELECTHandler::checkUpdatedRaceSettingsAll() {
-    if (aidsWithNewRaceSettings == 0)
+    if (aidsWithNewRaceSettings == 0) {
         return false;
+    }
 
     // If i am host and the settings have been determined, add me to the list of updated AIDs
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
-    if (raceSettingsDetermined())
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    if (raceSettingsDetermined()) {
         aidsWithNewRaceSettings |= 1 << sub->myAid;
+    }
 
     return sub->availableAids == (sub->availableAids & aidsWithNewRaceSettings);
 }
@@ -103,11 +106,11 @@ bool RKNetSELECTHandler::checkUpdatedRaceSettingsAll() {
 void RKNetSELECTHandler::storeVote(u8 aid) {
 
     // Override the winning AID's voted track with the one determined by the host
-    u8 winningVoter = recvPackets[aid].winningVoterAid;
-    u16 winningCourse = expansion.recvPacketsEx[aid].winningCourse;
-    if ((RKNetController::instance->getCurrentSub()->availableAids & (1 << winningVoter)) &&
-        winningCourse != CupData::NO_TRACK)
+    const u8 winningVoter = recvPackets[aid].winningVoterAid;
+    const u16 winningCourse = expansion.recvPacketsEx[aid].winningCourse;
+    if ((RKNetController::instance->isPlayerConnected(winningVoter)) && winningCourse != CupData::NO_TRACK) {
         expansion.recvPacketsEx[winningVoter].winningCourse = winningCourse;
+    }
 }
 
 bool RKNetSELECTHandler::checkVote(u8 aid) {
@@ -115,13 +118,15 @@ bool RKNetSELECTHandler::checkVote(u8 aid) {
 }
 
 bool RKNetSELECTHandler::checkVoteAll() {
-    if (aidsThatHaveVoted == 0)
+    if (aidsThatHaveVoted == 0) {
         return false;
+    }
 
     // If i am host and i have voted, add me to the list
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
-    if (trackVoted())
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    if (trackVoted()) {
         aidsThatHaveVoted |= 1 << sub->myAid;
+    }
 
     return sub->availableAids == (sub->availableAids & aidsThatHaveVoted);
 }
@@ -133,20 +138,22 @@ void RKNetSELECTHandler::storeUpdatedVoteData(u8 aid) {
 }
 
 bool RKNetSELECTHandler::checkUpdatedVoteData(u8 aid) {
-    return voteDetermined() &&
-           (expansion.sendPacketEx.winningCourse == expansion.recvPacketsEx[aid].winningCourse) &&
-           (sendPacket.winningVoterAid == recvPackets[aid].winningVoterAid) &&
-           (sendPacket.aidPidMap == recvPackets[aid].aidPidMap);
+    return voteDetermined()
+        && (expansion.sendPacketEx.winningCourse == expansion.recvPacketsEx[aid].winningCourse)
+        && (sendPacket.winningVoterAid == recvPackets[aid].winningVoterAid)
+        && (sendPacket.aidPidMap == recvPackets[aid].aidPidMap);
 }
 
 bool RKNetSELECTHandler::checkUpdatedVoteDataAll() {
-    if (aidsWithVoteData == 0)
+    if (aidsWithVoteData == 0) {
         return false;
+    }
 
     // If i am host and the vote result has been determined, add me to the list of updated AIDs
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
-    if (voteDetermined())
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    if (voteDetermined()) {
         aidsWithVoteData |= 1 << sub->myAid;
+    }
 
     return sub->availableAids == (sub->availableAids & aidsWithVoteData);
 }
@@ -155,22 +162,24 @@ bool RKNetSELECTHandler::checkUpdatedVoteDataAll() {
 REPLACE void RKNetSELECTHandler::calcPhase() {
 
     // Check if there are any unprocessed incoming packets, if not bail
-    if (!hasUnprocessedRecvPackets())
+    if (!hasUnprocessedRecvPackets()) {
         return;
+    }
 
     // Get current sub and outgoing packet expansion
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
     RKNetSELECTPacketExpansion* sendPacketEx = &expansion.sendPacketEx;
 
     // Parse each received packet
     for (int aid = 0; aid < 12; aid++) {
 
         // Skip invalid AIDs
-        if (!RKNetController::instance->isConnectedPlayer(aid))
+        if (!RKNetController::instance->isRemotePlayer(aid)) {
             continue;
+        }
 
         // Get incoming packet
-        u32 aidMask = 1 << aid;
+        const u32 aidMask = 1 << aid;
         RKNetSELECTPacket* recvPacket = &recvPackets[aid];
 
         // Update phase for host
@@ -179,36 +188,42 @@ REPLACE void RKNetSELECTHandler::calcPhase() {
 
                 // In the prepare phase, check that everyone has the updated race settings
                 case RKNetSELECTPacket::PREPARE:
-                    if (checkUpdatedRaceSettings(aid))
+                    if (checkUpdatedRaceSettings(aid)) {
                         aidsWithNewRaceSettings |= aidMask;
+                    }
 
-                    if (checkUpdatedRaceSettingsAll())
+                    if (checkUpdatedRaceSettingsAll()) {
                         sendPacket.phase = RKNetSELECTPacket::VOTING;
+                    }
                     break;
 
                 // In the voting phase, check that everyone has the vote result
                 case RKNetSELECTPacket::VOTING:
-                    if (checkUpdatedVoteData(aid))
+                    if (checkUpdatedVoteData(aid)) {
                         aidsWithVoteData |= aidMask;
+                    }
 
-                    if (checkUpdatedVoteDataAll())
+                    if (checkUpdatedVoteDataAll()) {
                         sendPacket.phase = RKNetSELECTPacket::LOTTERY;
+                    }
                     break;
 
                 // In the lottery phase, don't do anything
                 default:
                     break;
             }
+        }
 
         // Update phase for guest
-        } else if (aid == sub->hostAid) {
+        else if (aid == sub->hostAid) {
             switch (sendPacket.phase) {
 
                 // In the prepare phase, copy the race settings and wait for host to go to the next phase
                 case RKNetSELECTPacket::PREPARE:
                     storeUpdatedRaceSettings(aid);
-                    if (recvPacket->phase > RKNetSELECTPacket::PREPARE)
+                    if (recvPacket->phase > RKNetSELECTPacket::PREPARE) {
                         sendPacket.phase = RKNetSELECTPacket::VOTING;
+                    }
                     break;
 
                 // In the voting phase, check that everyone has voted, copy the vote data
@@ -222,7 +237,7 @@ REPLACE void RKNetSELECTHandler::calcPhase() {
                     // When the host goes to the next phase, add the winning course to the repick
                     // queue as well
                     if (recvPacket->phase > RKNetSELECTPacket::VOTING) {
-                        RepickQueue::instance.Push(expansion.sendPacketEx.winningCourse);
+                        RepickQueue::instance.Push(sendPacketEx->winningCourse);
                         sendPacket.phase = RKNetSELECTPacket::LOTTERY;
                     }
 
@@ -235,12 +250,14 @@ REPLACE void RKNetSELECTHandler::calcPhase() {
         }
 
         // Update who has voted
-        if (checkVote(aid))
+        if (checkVote(aid)) {
             aidsThatHaveVoted |= aidMask;
+        }
 
         // Something??
-        if (aidsWithNewRH1)
+        if (aidsWithNewRH1) {
             sendPacket.phase = RKNetSELECTPacket::LOTTERY;
+        }
     }
 }
 
@@ -249,11 +266,13 @@ REPLACE void RKNetSELECTHandler::importNewPackets() {
     for (int aid = 0; aid < 12; aid++) {
 
         // Skip invalid AIDs
-        if (!RKNetController::instance->isConnectedPlayer(aid))
+        if (!RKNetController::instance->isRemotePlayer(aid)) {
             continue;
+        }
 
         // Get the received packet buffer and check that it's a SELECT packet using the size
-        RKNetPacketHolder* holder = RKNetController::instance->getPacketRecvBuffer(aid, RKNET_SECTION_ROOM_SELECT);
+        RKNetPacketHolder* holder;
+        holder = RKNetController::instance->getPacketRecvBuffer(aid, RKNET_SECTION_ROOM_SELECT);
         if (holder->currentPacketSize == sizeof(RKNetSELECTPacketEx)) {
 
             // Store received time
@@ -277,8 +296,10 @@ REPLACE void RKNetSELECTHandler::importNewPackets() {
         }
 
         // Check if the AID is already in the race
-        if (hasUnprocessedRecvPackets() && RKNetController::instance->getPacketRecvBuffer(aid, RKNET_SECTION_RACEHEADER_1)->currentPacketSize)
+        holder = RKNetController::instance->getPacketRecvBuffer(aid, RKNET_SECTION_RACEHEADER_1);
+        if (hasUnprocessedRecvPackets() && holder->currentPacketSize) {
             aidsWithNewRH1 |= (1 << aid);
+        }
     }
 }
 
@@ -286,21 +307,24 @@ REPLACE void RKNetSELECTHandler::importNewPackets() {
 REPLACE void RKNetSELECTHandler::setSendPacket() {
 
     // Check that at least 170 milliseconds have passed
-    s64 currTime = OSGetTime();
-    if (OSTicksToMilliseconds(currTime - lastSentTime) < 170)
+    const s64 currTime = OSGetTime();
+    if (OSTicksToMilliseconds(currTime - lastSentTime) < 170) {
         return;
+    }
 
     // Find the next AID to send the packet to
     u8 aid = lastSentToAid;
     for (int i = 0; i < 12; i++) {
 
         // Ensure the next AID does not overflow
-        if (++aid >= 12)
+        if (++aid >= 12) {
             aid = 0;
+        }
 
         // Skip invalid AIDs
-        if (!RKNetController::instance->isConnectedPlayer(aid))
+        if (!RKNetController::instance->isRemotePlayer(aid)) {
             continue;
+        }
 
         // Schedule USER packet for sending
         RKNetUSERHandler::instance->SetSendUSERPacket(aid);
@@ -309,7 +333,8 @@ REPLACE void RKNetSELECTHandler::setSendPacket() {
         prepareSendPacket(aid, currTime);
 
         // Copy the data and the expansion to the holder
-        RKNetPacketHolder* holder = RKNetController::instance->getPacketSendBuffer(aid, RKNET_SECTION_ROOM_SELECT);
+        RKNetPacketHolder* holder;
+        holder = RKNetController::instance->getPacketSendBuffer(aid, RKNET_SECTION_ROOM_SELECT);
         holder->copyData(&sendPacket, sizeof(RKNetSELECTPacket));
         holder->appendData(&expansion.sendPacketEx, sizeof(RKNetSELECTPacketExpansion));
 
@@ -345,9 +370,8 @@ REPLACE void RKNetSELECTHandler::decideEngineClass() {
             // Chances: 99% 150cc, 1% 200cc
             case CupManager::TRACKS_NOSTALGIA:
                 randNum = rnd.nextU32(100);
-                engineClass = (randNum == 99) ?
-                              RKNetEngineClassData::CLASS_200CC :
-                              RKNetEngineClassData::CLASS_150CC;
+                engineClass = (randNum == 99) ? RKNetEngineClassData::CLASS_200CC :
+                                                RKNetEngineClassData::CLASS_150CC;
                 break;
 
             // Chances: game-mode dependent
@@ -357,9 +381,11 @@ REPLACE void RKNetSELECTHandler::decideEngineClass() {
                 randNum = rnd.nextU32(100);
                 if (randNum > 79) {
                     engineClass = RKNetEngineClassData::CLASS_500CC;
-                } else if (randNum > 39) {
+                }
+                else if (randNum > 39) {
                     engineClass = RKNetEngineClassData::CLASS_200CC;
-                } else {
+                }
+                else {
                     engineClass = RKNetEngineClassData::CLASS_150CC;
                 }
                 break;
@@ -384,11 +410,13 @@ REPLACE void RKNetSELECTHandler::decideEngineClass() {
 REPLACE void RKNetSELECTHandler::decideTrack() {
 
     // Check if battle
-    bool isBattle = (mode == MODE_PRIVATE_BATTLE || mode == MODE_PUBLIC_BATTLE);
+    const bool isBattle = (mode == MODE_PRIVATE_BATTLE || mode == MODE_PUBLIC_BATTLE);
 
     // Bail if no one is connected
-    RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
-    if (sub->playerCount <= sub->localPlayerCount) return;
+    const RKNetController::Sub* sub = RKNetController::instance->getCurrentSub();
+    if (sub->playerCount <= sub->localPlayerCount) {
+        return;
+    }
 
     // Collect every player's vote
     for (int i = 0; i < 12; i++) {
@@ -398,7 +426,7 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
 
             // Get the vote and ensure it is valid
             u16 track = getPlayerVote(i);
-            u32 trackCount = CupManager::GetTrackCount(isBattle);
+            const u16 trackCount = CupManager::GetTrackCount(isBattle);
             track = (track < trackCount) ? track : CupData::RANDOM_TRACK_VOTE;
 
             // Add it to the repick manager
@@ -407,7 +435,7 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
     }
 
     // Get the winning vote
-    RepickQueue::Vote vote = RepickQueue::instance.GetWinningVote();
+    const RepickQueue::Vote vote = RepickQueue::instance.GetWinningVote();
 
     // Get the track, and if it's random then pick a random track
     u16 track = vote.track;
@@ -415,14 +443,15 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
 
         // Initialize loop
         Random randomizer;
-        const CupData::CupList* cupList = CupManager::GetCupListData(CupManager::GetCurrentTracklist(isBattle));
+        const CupData::CupList* cupList = CupManager::GetCurrentCupList(isBattle);
         LOG_DEBUG("Player voted random, picking a track...");
 
         // Ensure the random track isn't in the repick queue
         do {
             const CupData::Cup* cup = &cupList->cups[randomizer.nextU32(cupList->cupCount)];
             track = cup->entryId[randomizer.nextU32(4)];
-        } while (RepickQueue::instance.GetQueuePosition(track) != RepickQueue::NOT_IN_QUEUE);
+        }
+        while (RepickQueue::instance.GetQueuePosition(track) != RepickQueue::NOT_IN_QUEUE);
 
         LOG_DEBUG("Got a random track, picked %d.", track);
     }
@@ -440,21 +469,24 @@ REPLACE void RKNetSELECTHandler::decideTrack() {
 REPLACE void RKNetSELECTHandler::prepareSendPacket(u8 aid, s64 sendTime) {
 
     // If there are no unprocessed packets, bail
-    if (!hasUnprocessedRecvPackets())
+    if (!hasUnprocessedRecvPackets()) {
         return;
+    }
 
     // Update the timers (replicated code)
     sendPacket.timeSender = OSTicksToMilliseconds(sendTime);
-    s64 timeSent = recvPackets[aid].timeSender;
+    const s64 timeSent = recvPackets[aid].timeSender;
     if (timeSent == 0) {
         sendPacket.timeReceived = 0;
-    } else {
+    }
+    else {
         sendPacket.timeReceived = OSTicksToMilliseconds(sendTime - lastRecvTimes[aid]) + timeSent;
     }
 
     // If we are not host, bail
-    if (!RKNetController::instance->isPlayerHost())
+    if (!RKNetController::instance->isPlayerHost()) {
         return;
+    }
 
     // If the settings have not been decided, do so
     if (!raceSettingsDetermined()) {

@@ -1,25 +1,25 @@
-#include <common/Common.hpp>
+#pragma once
 
 namespace Wiimmfi {
 namespace ConnectionMatrix {
 
-    ///////////////
-    // Functions //
-    ///////////////
+///////////////
+// Functions //
+///////////////
 
-    // Resets the received connection matrixes
-    void ResetRecv();
+// Resets the received connection matrixes
+void ResetRecv();
 
-    // Updates the connection matrix and shares it with the server and the connected clients
-    void Update();
+// Updates the connection matrix and shares it with the server and the connected clients
+void Update();
 
-    ///////////////
-    // Variables //
-    ///////////////
+///////////////
+// Variables //
+///////////////
 
-    // The other clients' received connection matrixes
-    // Currently unused
-    extern u32 sRecvConnMtx[12];
+// The other clients' received connection matrixes
+// Currently unused
+extern u32 sRecvConnMtx[12];
 
 } // namespace ConnectionMatrix
 } // namespace Wiimmfi

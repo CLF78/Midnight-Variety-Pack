@@ -1,27 +1,30 @@
+#pragma once
+// clang-format off
 
-// Fixes various non-existent Intellisense errors, do not include
-#ifdef __INTELLISENSE__
+// Fixes various non-existent Clangd errors, do not include
+#ifdef __CLANGD__
 
-    // Fix ASM hooks
+    // Fix size asserts
+    #define wchar_t s16
+
+    // Fix typeof
+    #define typeof __typeof__
+
+    // Fix assembly functions
     #define asm
-    #define nofralloc __asm__ (
-    #define blr );
-
-    // Fix varargs
-    #define __builtin_va_info
+    #define nofralloc __asm {
+    #define blr }
+    #define register
 
     // Dummy preprocessor macros
     #define REPLACE
     #define REPLACE_STATIC
     #define REPLACED(...) NULL
-    #define BRANCH_CPP(fn) ;
-    #define CALL_CPP(fn) ;
+    #define BRANCH_CPP(fn)
+    #define CALL_CPP(fn)
 
-    // Remove useless warnings
-    #pragma diag_suppress 69  // integer conversion resulted in truncation
-    #pragma diag_suppress 194 // expected string error caused by the asm block fix above
-    #pragma diag_suppress 311 // some return type overloading bullshit
-    #pragma diag_suppress 338 // more than one instance of function has C linkage
+    // Fix varargs
+    #define __builtin_va_info
 
     // Provide signatures for intrinsic functions
     void __eieio();

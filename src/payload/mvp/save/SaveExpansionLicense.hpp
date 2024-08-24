@@ -1,12 +1,10 @@
-#include <common/Common.hpp>
-#include <mvp/save/SaveExpansionSection.hpp>
+#pragma once
+#include "SaveExpansionSection.hpp"
 
 class SaveExpansionLicense {
 public:
-
     struct Header {
-
-        bool IsValid(u32 licenseSize);
+        bool IsValid(u32 licenseSize) const;
 
         u32 magic;
         u32 headerSize;
@@ -16,8 +14,8 @@ public:
 
     SaveExpansionLicense();
 
-    u32 GetRequiredSpace();
-    SaveExpansionSection* GetSection(u32 id) { return mSections[id]; }
+    u32 GetRequiredSpace() const;
+    SaveExpansionSection* GetSection(u32 id) const { return mSections[id]; }
 
     void Init();
     bool Read(u8* buffer, u32 bufferSize);

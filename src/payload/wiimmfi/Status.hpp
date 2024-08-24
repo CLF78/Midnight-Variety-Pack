@@ -1,32 +1,32 @@
-#include <common/Common.hpp>
+#pragma once
 
 namespace Wiimmfi {
 namespace Status {
 
-    ///////////////
-    // Constants //
-    ///////////////
+///////////////
+// Constants //
+///////////////
 
-    // Header and terminator string for each status report
-    static const char STATUS_HEADER[] = "\\xy\\";
-    static const char STATUS_TERMINATOR[] = "\\final\\";
+// Header and terminator string for each status report
+static const char STATUS_HEADER[] = "\\xy\\";
+static const char STATUS_TERMINATOR[] = "\\final\\";
 
-    ///////////////
-    // Functions //
-    ///////////////
+///////////////
+// Functions //
+///////////////
 
-    // Decode the token received from the server and scrambles it
-    void DecodeToken(const char* encodedToken);
+// Decode the token received from the server and scrambles it
+void DecodeToken(const char* encodedToken);
 
-    // Sends a status message to the server
-    void SendMessage(const char* key, const char* value, int integerValue = -1);
+// Sends a status message to the server
+void SendMessage(const char* key, const char* value, u32 integerValue = -1);
 
-    ///////////////
-    // Variables //
-    ///////////////
+///////////////
+// Variables //
+///////////////
 
-    // The token received on login (will be deleted on network shutdown)
-    extern char* sToken;
+// The token received on login (will be deleted on network shutdown)
+extern char* sToken;
 
-} // namespace Port
+} // namespace Status
 } // namespace Wiimmfi

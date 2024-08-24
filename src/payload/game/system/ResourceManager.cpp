@@ -1,6 +1,4 @@
-#include <common/Common.hpp>
-#include <game/system/MultiDvdArchive.hpp>
-#include <game/system/ResourceManager.hpp>
+#include "ResourceManager.hpp"
 #include <mvp/cup/CupManager.hpp>
 #include <platform/stdio.h>
 #include <platform/string.h>
@@ -24,8 +22,9 @@ REPLACE MultiDvdArchive* ResourceManager::loadCourse(u32 courseId, EGG::Heap* he
 
         // Load the correct track depending on the multiplayer bool
         CupManager::getTrackFilename(courseId, isSplitScreen);
-        if (!multiArchive->exists(CupManager::currentSzsPath) && isSplitScreen)
+        if (!multiArchive->exists(CupManager::currentSzsPath) && isSplitScreen) {
             CupManager::getTrackFilename(courseId, false);
+        }
 
         // Set up the job context
         jobContext->multiArchive = multiArchive;
@@ -42,7 +41,8 @@ REPLACE MultiDvdArchive* ResourceManager::loadCourse(u32 courseId, EGG::Heap* he
 }
 
 // Load the correct course and mission files without using the CourseCache
-REPLACE MultiDvdArchive* ResourceManager::loadMission(u32 courseId, u32 missionNum, EGG::Heap* heap, bool isSplitScreen) {
+REPLACE MultiDvdArchive* ResourceManager::loadMission(u32 courseId, u32 missionNum, EGG::Heap* heap,
+                                                      bool isSplitScreen) {
 
     // Choose the proper multi archive and job context
     MultiDvdArchive* multiArchive = multis[MultiDvdArchive::COURSE];
@@ -93,8 +93,9 @@ REPLACE u16 ResourceManager::getMenuArchiveCount() {
     // Count all the mounted archives
     u16 loadedCount = 0;
     for (u16 i = 0; i < multi->archiveCount; i++) {
-        if (multi->archives[i].state == DvdArchive::MOUNTED)
+        if (multi->archives[i].state == DvdArchive::MOUNTED) {
             loadedCount++;
+        }
     }
 
     return loadedCount;
@@ -121,8 +122,9 @@ kmHookFn void* getMenuArchive(ResourceManager* self, u32 i) {
         if (archive->archives[j].state == DvdArchive::MOUNTED) {
 
             // Ignore unloaded archives and get the buffer on a match
-            if (loadedCount++ == i)
+            if (loadedCount++ == i) {
                 return archive->archives[j].archiveBuffer;
+            }
         }
     }
 
@@ -130,6 +132,7 @@ kmHookFn void* getMenuArchive(ResourceManager* self, u32 i) {
     return nullptr;
 }
 
+// clang-format off
 // Glue code
 kmBranchDefAsm(0x80541904, 0x80541924) {
     nofralloc

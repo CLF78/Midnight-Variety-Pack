@@ -1,19 +1,17 @@
-#include <common/Common.hpp>
+#include "RKNetController.hpp"
+#include "RKNetSelectHandler.hpp"
+#include "packet/RKNetEventPacket.hpp"
+#include "packet/RKNetItemPacket.hpp"
+#include "packet/RKNetRH1Packet.hpp"
+#include "packet/RKNetRH2Packet.hpp"
+#include "packet/RKNetRacePacketHeader.hpp"
+#include "packet/RKNetRacedataPacket.hpp"
+#include "packet/RKNetUserPacket.hpp"
 #include <dwc/dwc_friend.h>
 #include <dwc/dwc_match.h>
 #include <dwc/dwc_transport.h>
-#include <game/net/packet/RKNetRacePacketHeader.hpp>
-#include <game/net/packet/RKNetEventPacket.hpp>
-#include <game/net/packet/RKNetItemPacket.hpp>
-#include <game/net/packet/RKNetRacedataPacket.hpp>
-#include <game/net/packet/RKNetRH1Packet.hpp>
-#include <game/net/packet/RKNetRH2Packet.hpp>
-#include <game/net/packet/RKNetUserPacket.hpp>
-#include <game/net/RKNetController.hpp>
-#include <game/net/RKNetSelectHandler.hpp>
 #include <game/race/RaceGlobals.hpp>
 #include <game/system/RaceManager.hpp>
-#include <game/ui/SectionManager.hpp>
 #include <nw4r/ut/Lock.hpp>
 #include <platform/string.h>
 #include <revolution/vi.h>
@@ -21,13 +19,17 @@
 #include <wiimmfi/Kick.hpp>
 #include <wiimmfi/Natneg.hpp>
 #include <wiimmfi/Reporting.hpp>
-#include <wiimmfi/Status.hpp>
 
 ////////////////////////////////
 // Network Protocol Expansion //
 ////////////////////////////////
 
-const u32 packetbufferSizes[RKNET_SECTION_COUNT] = {
+const u32 totalPacketBufSize = sizeof(RKNetRACEPacketHeader) + sizeof(RKNetRH1Packet) + sizeof(RKNetRH2Packet)
+                             + MAX(sizeof(RKNetROOMPacket), sizeof(RKNetSELECTPacketEx))
+                             + sizeof(RKNetRACEDATAPacket) * 2 + sizeof(RKNetUSERPacket)
+                             + sizeof(RKNetITEMPacket) * 2 + sizeof(RKNetEVENTPacket);
+
+const u32 packetbufferSizes[RKNET_SECTION_COUNT + 1] = {
     sizeof(RKNetRACEPacketHeader),
     sizeof(RKNetRH1Packet),
     sizeof(RKNetRH2Packet),
@@ -36,11 +38,8 @@ const u32 packetbufferSizes[RKNET_SECTION_COUNT] = {
     sizeof(RKNetUSERPacket),
     sizeof(RKNetITEMPacket) * 2,
     sizeof(RKNetEVENTPacket),
+    totalPacketBufSize // unused but let's update it just to be sure
 };
-
-const u32 totalPacketBufSize = sizeof(RKNetRACEPacketHeader) + sizeof(RKNetRH1Packet) + sizeof(RKNetRH2Packet)
-                             + MAX(sizeof(RKNetROOMPacket), sizeof(RKNetSELECTPacketEx)) + sizeof(RKNetRACEDATAPacket) * 2
-                             + sizeof(RKNetUSERPacket) + sizeof(RKNetITEMPacket) * 2 + sizeof(RKNetEVENTPacket);
 
 // Replace the individual packet section sizes
 kmWriteArea(0x8089A194, packetbufferSizes);
@@ -52,8 +51,9 @@ REPLACE RKNetController::RKNetController(EGG::Heap* heap) {
     REPLACED(heap);
 
     // Create the buffers
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < 12; i++) {
         fullRecvRACEPackets[i] = new (this->heap, 4) u8[totalPacketBufSize];
+    }
 }
 
 // RKNetController::RKNetController() patches
@@ -78,8 +78,9 @@ kmBranchDefCpp(0x80658C68, 0x80658CA4, void, DWCBuddyFriendCallback cb, RKNetCon
 // RKNetController::StartThread() patch
 // Clear the custom buffers
 kmCallDefCpp(0x8065607C, void, RKNetController* self) {
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < 12; i++) {
         memset(self->fullRecvRACEPackets[i], 0, totalPacketBufSize);
+    }
 }
 
 // Glue code
@@ -96,11 +97,12 @@ kmCallDefCpp(0x806579B0, void) {
 
     // Only run the tasks if we are online
     if (stpMatchCnt) {
-        nw4r::ut::AutoInterruptLock lock;
+        const nw4r::ut::AutoInterruptLock lock;
 
         // Only run matching tasks if we are in a matching state
-        if (RKNetController::instance->connState == RKNetController::STATE_MATCHING)
+        if (RKNetController::instance->connState == RKNetController::STATE_MATCHING) {
             Wiimmfi::Natneg::CalcTimers(false);
+        }
 
         // Run other tasks
         Wiimmfi::Kick::CalcKick();
@@ -118,8 +120,9 @@ kmCallDefCpp(0x806579B0, void) {
         }
 
         // Only run SELECT tasks if the handler exists
-        if (RKNetSELECTHandler::instance)
+        if (RKNetSELECTHandler::instance) {
             Wiimmfi::Reporting::ReportSELECTInfo();
+        }
     }
 
     // Original call

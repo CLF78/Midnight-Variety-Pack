@@ -1,9 +1,5 @@
-#include <common/Common.hpp>
-#include <game/system/SaveGhostManager.hpp>
+#include "SectionManager.hpp"
 #include <game/system/SystemManager.hpp>
-#include <game/ui/SectionManager.hpp>
-#include <game/util/NandUtil.hpp>
-#include <mvp/save/SaveExpansionManager.hpp>
 
 ///////////////////////////
 // Page Expansion System //
@@ -24,7 +20,7 @@ REPLACE void SectionManager::createSection() {
     someFrameCounter = -1;
     state = IDLE;
 
-    Scene::SceneId sceneId = Section::getSceneId(sectionId);
+    const Scene::SceneId sceneId = Section::getSceneId(sectionId);
     pad.resetStatus(sceneId != Scene::SCENE_RACE);
 
     Section* section = new Section();

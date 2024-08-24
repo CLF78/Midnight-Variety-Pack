@@ -1,13 +1,9 @@
-#include <common/Common.hpp>
+#include "DemoPage.hpp"
 #include <game/ui/ControlLoader.hpp>
 #include <game/ui/Message.hpp>
-#include <game/ui/UIUtils.hpp>
 #include <game/ui/ctrl/CtrlRaceBattleSetPoint.hpp>
-#include <game/ui/page/DemoPage.hpp>
-#include <game/system/MultiDvdArchive.hpp>
-#include <game/system/ResourceManager.hpp>
-#include <platform/stdio.h>
 #include <mvp/cup/CupManager.hpp>
+#include <platform/stdio.h>
 
 ///////////////////////////////////////////////
 // Custom Cup System / Custom Engine Classes //
@@ -16,8 +12,8 @@
 // Apply custom cup icons and cup/track names
 REPLACE void DemoPage::onInit() {
 
-    // Get current section
-    u32 curSection = SectionManager::instance->curSection->sectionId;
+    // Get some variables
+    const u32 curSection = SectionManager::instance->curSection->sectionId;
     RaceConfig::Settings* raceSettings = &RaceConfig::instance->raceScenario.settings;
     GlobalContext* globalCtx = SectionManager::instance->globalContext;
 
@@ -28,8 +24,11 @@ REPLACE void DemoPage::onInit() {
     // Initialize child count (add the bubbles if we're in battle mode)
     u32 childCount = 2;
     u32 childIdx = 0;
-    if (curSection == Section::DEMO_BT)
+    if (curSection == Section::DEMO_BT) {
         childCount += globalCtx->raceCount * 2;
+    }
+
+    // Initialize control group
     initChildren(childCount);
 
     // Initialize course name display
@@ -38,7 +37,7 @@ REPLACE void DemoPage::onInit() {
     courseDisplayLoader.load("demo", "course_name", "course_name", nullptr);
 
     // Set the course name
-    u16 trackName = CupManager::getTrackName(CupManager::currentSzs);
+    const u16 trackName = CupManager::getTrackName(CupManager::currentSzs);
     courseName.setText(trackName);
 
     // Initialize the top text
@@ -48,21 +47,20 @@ REPLACE void DemoPage::onInit() {
 
     // Set everything else depending on the mode
     MessageInfo msgInfo;
-
     if (curSection == Section::DEMO_GP) {
 
         // Replace the cup icon
-        u32 cupIdx = raceSettings->cupId;
+        const u32 cupIdx = raceSettings->cupId;
         const char* cupIcon = CupManager::replaceCupIcon(&topText, cupIdx);
         topText.setMatIcon("cup_icon", cupIcon);
 
         // Set the cup name in the message info
-        msgInfo.messageIds[0] = CupManager::GetCupList()[cupIdx].cupName;
+        msgInfo.messageIds[0] = CupManager::GetCup(cupIdx)->cupName;
 
         // Set the text depending on the race number
         topText.setText(Message::Race::GP_RACE_1 + raceSettings->raceNumber, &msgInfo);
-    
-    } else if (curSection == Section::DEMO_VS) {
+    }
+    else if (curSection == Section::DEMO_VS) {
 
         // Set the VS flag as the icon
         topText.setMatIcon("cup_icon", "icon_11_flag");
@@ -90,28 +88,29 @@ REPLACE void DemoPage::onInit() {
                 break;
         }
 
-        // Update the race number and insert it into the message together with race count and mirror word
-        msgInfo.setCondMessageValue(2, raceSettings->modeFlags & RaceConfig::Settings::FLAG_MIRROR != 0, true);
-        msgInfo.intVals[0] = ++globalCtx->currentRace;
+        // Update race number
+        globalCtx->currentRace++;
+
+        // Insert it into the message together with race count and mirror word
+        msgInfo.setCondMessageValue(2, raceSettings->isMirror(), true);
+        msgInfo.intVals[0] = globalCtx->currentRace;
         msgInfo.intVals[1] = globalCtx->raceCount;
 
         // Set the message number
-        u32 msgId = (raceSettings->modeFlags & RaceConfig::Settings::FLAG_TEAMS) ?
-                    Message::Race::TEAM_VS :
-                    Message::Race::VS;
-
+        const u32 msgId = raceSettings->isTeams() ? Message::Race::TEAM_VS : Message::Race::VS;
         topText.setText(msgId, &msgInfo);
-    
-    } else if (curSection == Section::DEMO_BT) {
+    }
+    else if (curSection == Section::DEMO_BT) {
 
         // Update race number
         globalCtx->currentRace++;
 
-        // Set icon and top text depending on the battle mode
+        // Set icon and top text depending on the battle type
         if (raceSettings->battleType == RaceConfig::Settings::BATTLE_BALLOON) {
             topText.setMatIcon("cup_icon", "icon_09_balloon");
             topText.setText(Message::Race::BALLOON_BATTLE);
-        } else {
+        }
+        else {
             topText.setMatIcon("cup_icon", "icon_10_coin");
             topText.setText(Message::Race::COIN_RUNNERS);
         }
@@ -129,9 +128,10 @@ REPLACE void DemoPage::onInit() {
             insertChild(childIdx++, blueBubble, 0);
             blueBubble->load(true, i);
         }
-    
+    }
+
     // On other modes, hide the top text altogether
-    } else {
+    else {
         topText.hidden = true;
     }
 }

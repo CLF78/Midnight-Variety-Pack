@@ -1,13 +1,12 @@
-#include <common/Common.hpp>
-#include <game/kart/KartObjectProxy.hpp>
-#include <game/kart/KartBoost.hpp>
+#pragma once
+#include "KartBoost.hpp"
+#include "KartObjectProxy.hpp"
 #include <game/system/RaceConfig.hpp>
 #include <revolution/mtx.h>
 
 class KartMove : public KartObjectProxy {
 public:
-
-    enum DriftState{
+    enum DriftState {
         NOT_DRIFTING,
         CHARGING,
         MT_CHARGED,
@@ -44,10 +43,10 @@ public:
     virtual void calcMtCharge();
     virtual void cancelWheelie();
 
-    bool addMtCharge(u32 currentDriftState, short *mtCharge, short baseMtCharge, u32 maxMtCharge);
+    bool addMtCharge(u32 currentDriftState, short* mtCharge, short baseMtCharge, u32 maxMtCharge);
     void calcManualDrift();
     void clearDrift();
-    void releaseMt(bool unk0, u32 unk1);
+    void releaseMt(bool forceOverride, u32 forcedDriftState);
     void activateBoost(u32 type, u32 duration);
 
     float speedMultiplier;
@@ -63,13 +62,11 @@ public:
 
     float acceleration;
     float draftMultiplier;
+    UNK(0xCA - 0x38);
 
-    u8 unk[0xCA-0x38];
-
-    s16 umtCharge; // Custom field (using padding)
+    s16 umtCharge; // Custom field (previously padding)
     int hopStickX;
-
-    u8 unk2[0xFC - 0xD0];
+    UNK(0xFC - 0xD0);
 
     s16 driftState;
     s16 mtCharge;
@@ -78,12 +75,10 @@ public:
     float outsideDriftBonus;
 
     KartBoost boost;
-
-    u8 unk3[0x1F4-0x12C];
+    UNK(0x1F4 - 0x12C);
 
     VEC3 cannonExitDir;
-
-    u8 unk4[0x2C4 - 0x200];
+    UNK(0x2C4 - 0x200);
 
     static const float speedModifiers[RaceConfig::Settings::CC_COUNT];
     static float kartSpeedLimit;
@@ -99,3 +94,4 @@ public:
     virtual ~KartMoveBike();
     virtual void calcMtCharge();
 };
+size_assert(KartMoveBike, sizeof(KartMove));

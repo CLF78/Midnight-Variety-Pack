@@ -1,22 +1,21 @@
-#include <common/Common.hpp>
+#pragma once
+#include "RKNetFriend.hpp"
+#include "RKNetMutex.hpp"
+#include "RKNetPacketHolder.hpp"
+#include "RKNetStatusData.hpp"
+#include "WifiDisconnectInfo.hpp"
+#include "packet/RKNetPacketCommon.hpp"
 #include <dwc/dwc_node.h>
 #include <egg/core/eggExpHeap.hpp>
 #include <egg/core/eggTaskThread.hpp>
-#include <game/net/RKNetFriend.hpp>
-#include <game/net/RKNetMutex.hpp>
-#include <game/net/RKNetPacketHolder.hpp>
-#include <game/net/RKNetStatusData.hpp>
-#include <game/net/WifiDisconnectInfo.hpp>
-#include <game/net/packet/RKNetPacketCommon.hpp>
 
 class RKNetController {
 public:
-
     struct Sub {
         s64 _0; // A timer
         u32 connectionCount;
         u32 playerCount;
-        u32 availableAids; // Bitfield
+        u32 availableAids;       // Bitfield
         u32 directConnectedAids; // Bitfield
         u32 groupId;
         u32 friendToJoin;
@@ -25,8 +24,9 @@ public:
         u8 hostAid;
         DWCConnectionUserData connectionUserDatas[12]; // 1 per aid
         bool matchingSuspended;
-        // 4 bytes padding
+        PAD(4);
     };
+    size_assert(Sub, 0x58);
 
     enum ConnectionState {
         STATE_SHUTDOWN,
@@ -48,35 +48,39 @@ public:
         SEARCH_BT_REG,
     };
 
-    Sub* getCurrentSub() {
-        return &subs[currentSub];
-    }
+    const Sub* getCurrentSub() const { return &subs[currentSub]; }
 
-    RKNetPacketHolder* getPacketSendBuffer(u8 aid, u8 section) {
+    RKNetPacketHolder* getPacketSendBuffer(u8 aid, u8 section) const {
         return splitSendRACEPackets[lastSendBufferUsed[aid]][aid]->sections[section];
     }
 
-    RKNetPacketHolder* getPacketRecvBuffer(u8 aid, u8 section) {
+    RKNetPacketHolder* getPacketRecvBuffer(u8 aid, u8 section) const {
         return splitRecvRACEPackets[lastRecvBufferUsed[aid][section]][aid]->sections[section];
     }
 
-    bool isPlayerHost() {
-        Sub* sub = getCurrentSub();
+    bool isPlayerHost() const {
+        const Sub* sub = getCurrentSub();
         return sub->myAid == sub->hostAid;
     }
 
-    bool isLocalPlayer(u8 aid) {
-        Sub* sub = getCurrentSub();
-        return aid == sub->myAid;
-    }
-
-    bool isConnectedPlayer(u8 aid) {
-        Sub* sub = getCurrentSub();
-        if (isLocalPlayer(aid)) return false;
+    bool isPlayerConnected(u8 aid) const {
+        const Sub* sub = getCurrentSub();
         return (1 << aid) & sub->availableAids;
     }
 
-    RKNetController(EGG::Heap* heap);
+    bool isLocalPlayer(u8 aid) const {
+        const Sub* sub = getCurrentSub();
+        return aid == sub->myAid;
+    }
+
+    bool isRemotePlayer(u8 aid) const {
+        if (isLocalPlayer(aid)) {
+            return false;
+        }
+        return isPlayerConnected(aid);
+    }
+
+    explicit RKNetController(EGG::Heap* heap);
     virtual ~RKNetController();
 
     bool isConnectedToAnyone();
@@ -93,7 +97,7 @@ public:
 
     ConnectionState connState;
     WifiDisconnectInfo disconnectInfo;
-    // 4 bytes padding
+    PAD(4);
 
     Sub subs[2];
     SearchType searchType;
@@ -101,18 +105,20 @@ public:
 
     RKNetRACEPacketHolder* splitSendRACEPackets[2][12]; // Double buffered, 1 per aid
     RKNetRACEPacketHolder* splitRecvRACEPackets[2][12]; // Double buffered, 1 per aid
-    RKNetPacketHolder* fullSendRACEPackets[12]; // 1 per aid
+    RKNetPacketHolder* fullSendRACEPackets[12];         // 1 per aid
 
-    s64 lastRACESendTimes[12]; // Time since a packet was last sent to each aid
-    s64 lastRACERecvTimes[12]; // Time since a packet was last received from each aid
+    s64 lastRACESendTimes[12];  // Time since a packet was last sent to each aid
+    s64 lastRACERecvTimes[12];  // Time since a packet was last received from each aid
     s64 RACESendTimesTaken[12]; // Time between the last two packets sent to each aid
     s64 RACERecvTimesTaken[12]; // Time between the last two packets received from each aid
-    u8 lastRACESendAid; // The last aid a packet was sent to
+    u8 lastRACESendAid;         // The last aid a packet was sent to
 
     // Modified structure
-    // 3 bytes padding
+    PAD(3);
     u8* fullRecvRACEPackets[12];
-    u8 unused[0x25E4 - 0x394];
+    PAD(0x25E4 - 0x394);
+    // u8 fullRecvRACEPackets[12][736];
+    // PAD(3);
 
     RKNetStatusData ownStatus;
     RKNetFriend friendStatus[30];
@@ -122,7 +128,7 @@ public:
     bool _2757; // Something with disc errors
 
     bool profanityCheckFailed;
-    // 3 bytes padding
+    PAD(3);
     int badWordsNum;
 
     // Used for matchmaking
@@ -131,21 +137,21 @@ public:
     int vr;
     int br;
 
-    int lastSendBufferUsed[12]; // 1 per aid
+    int lastSendBufferUsed[12];                      // 1 per aid
     int lastRecvBufferUsed[12][RKNET_SECTION_COUNT]; // 1 per packet section per aid
     int currentSub;
     RKNetAidPidMap aidPidMap;
-    u32 disconnectedAids; // Bitfield
+    u32 disconnectedAids;      // Bitfield
     u32 disconnectedPlayerIds; // Bitfield
 
     // Used for matchmaking
     u16 maxVrGaps[10];
     u16 maxBrGaps[10];
-    // 4 bytes padding
+    PAD(4);
 
     s64 countdownTimers[12]; // Used in RACEHEADER_1
-    u32 _29C0; // Another timer
-    // 4 bytes padding
+    u32 _29C0;               // Another timer
+    PAD(4);
 
     static RKNetController* instance;
     static u32 packetBufferSizes[RKNET_SECTION_COUNT];

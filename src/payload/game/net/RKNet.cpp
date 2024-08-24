@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <game/net/RKNet.hpp>
-#include <game/net/RKNetController.hpp>
+#include "RKNet.hpp"
+#include "RKNetController.hpp"
 #include <game/ui/page/FriendRoomJoinPage.hpp>
 #include <nw4r/ut/Lock.hpp>
 #include <revolutionex/net/NETDigest.h>
@@ -18,23 +17,25 @@ namespace RKNet {
 REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
 
     // Bail if the packet doesn't even include a full header
-    if (dataLength < sizeof(RKNetRACEPacketHeader))
+    if (dataLength < sizeof(RKNetRACEPacketHeader)) {
         return;
+    }
 
     // Get the PID of the AID that sent the packet
-    u32 pid = -1;
-    if (DWCNodeInfo* info = DWCi_NodeInfoList_GetNodeInfoForAid(aid))
-        u32 pid = info->profileId;
+    int pid = -1;
+    if (DWCNodeInfo* info = DWCi_NodeInfoList_GetNodeInfoForAid(aid)) {
+        pid = info->profileId;
+    }
 
     // Verify the checksum
     // The game already does this later, but we shouldn't disconnect a player because a packet got corrupted
     RKNetRACEPacketHeader* header = (RKNetRACEPacketHeader*)data;
-    u32 savedChecksum = header->checksum;
+    const u32 savedChecksum = header->checksum;
     header->checksum = 0;
-    u32 realChecksum = NETCalcCRC32(data, dataLength);
+    const u32 realChecksum = NETCalcCRC32(data, dataLength);
     header->checksum = savedChecksum;
     if (realChecksum != savedChecksum) {
-        LOG_WARN("Detected corrupted packet from PID %d", pid);
+        LOG_WARN("Detected corrupted packet from AID %d (PID %d)", aid, pid);
         return;
     }
 
@@ -45,12 +46,13 @@ REPLACE void UserRecvCallback(u32 aid, void* data, u32 dataLength) {
     }
 
     // Lock interrupts
-    nw4r::ut::AutoInterruptLock lock;
-    LOG_WARN("Detected malicious packet from PID %d", pid);
+    const nw4r::ut::AutoInterruptLock lock;
+    LOG_WARN("Detected malicious packet from AID %d (PID %d)", aid, pid);
 
     // Kick the offending player if we're host
-    if (RKNetController::instance->isPlayerHost())
+    if (RKNetController::instance->isPlayerHost()) {
         Wiimmfi::Kick::ScheduleForAID(aid);
+    }
 
     // Warn the user if possible
     if (FriendRoomJoinPage* page = FriendRoomJoinPage::getPage()) {

@@ -1,5 +1,4 @@
-#include <common/Common.hpp>
-#include <game/ui/Section.hpp>
+#include "Section.hpp"
 #include <mvp/cup/BattleCupSelectPageEx.hpp>
 #include <mvp/cup/BattleStageSelectPageEx.hpp>
 #include <mvp/cup/RaceCourseSelectPageEx.hpp>
@@ -8,8 +7,8 @@
 #include <mvp/online/WifiMenuPageEx.hpp>
 #include <mvp/online/WifiModeSelectPageEx.hpp>
 #include <mvp/online/YesNoPopupPageEx.hpp>
-#include <mvp/transmission/TransmissionSelectPage.hpp>
 #include <mvp/transmission/MultiTransmissionSelectPage.hpp>
+#include <mvp/transmission/TransmissionSelectPage.hpp>
 
 ///////////////////////////
 // Page Expansion System //
@@ -66,9 +65,9 @@ REPLACE_STATIC Page* Section::createPage(Page::PageId pageId) {
 }
 
 // Apply section page replacements (all pages)
-REPLACE void Section::addPages(SectionId sectionId) {
+REPLACE void Section::addPages(Section::SectionId sectionId) {
 
-    switch(sectionId) {
+    switch (sectionId) {
 
         // Replace save error page to prevent using the game without saving
         case SAVE_CANNOT_FLUSH:
@@ -126,9 +125,9 @@ REPLACE void Section::addPages(SectionId sectionId) {
 }
 
 // Apply section page replacements (initial pages)
-REPLACE void Section::addActivePages(SectionId sectionId) {
+REPLACE void Section::addActivePages(Section::SectionId sectionId) {
 
-    switch(sectionId) {
+    switch (sectionId) {
 
         // Replace save error page to prevent using the game without saving
         case SAVE_CANNOT_FLUSH:
@@ -151,7 +150,7 @@ REPLACE void Section::addPage(Page::PageId pageId) {
 
 // Allow adding custom initial pages
 REPLACE void Section::addActivePage(Page::PageId pageId) {
-    Page::AnimationDirection direction = animationDirection;
+    const Page::AnimationDirection direction = animationDirection;
     Page* page = getPage(pageId);
     activePages[activePageCount++] = page;
 
@@ -172,7 +171,7 @@ REPLACE Page* Section::activatePage(Page::PageId pageId, Page::AnimationDirectio
 
 // Initialize custom pages
 REPLACE void Section::init(Section::SectionId sectionId) {
-    for (int i = 0; i < ARRAY_SIZE(extraPages); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(extraPages); i++) {
         extraPages[i] = nullptr;
     }
 
@@ -186,10 +185,11 @@ REPLACE void Section::deinit() {
     popActivePages(0);
 
     // Remove regular pages
-    for (int i = 0; i < ARRAY_SIZE(pages); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(pages); i++) {
         Page* page = pages[i];
-        if (page == nullptr)
+        if (page == nullptr) {
             continue;
+        }
 
         page->onDeinit();
         delete page;
@@ -197,10 +197,11 @@ REPLACE void Section::deinit() {
     }
 
     // Remove custom pages
-    for (int i = 0; i < ARRAY_SIZE(extraPages); i++) {
+    for (u32 i = 0; i < ARRAY_SIZE(extraPages); i++) {
         Page* page = extraPages[i];
-        if (page == nullptr)
+        if (page == nullptr) {
             continue;
+        }
 
         page->onDeinit();
         delete page;
@@ -220,6 +221,7 @@ kmHookFn void CalcActivationFix(Section* self, Page::PageId pageId, Page::Animat
     replacementPage->activate();
 }
 
+// clang-format off
 // Glue code
 kmBranchDefAsm(0x80623118, 0x8062316C) {
     nofralloc

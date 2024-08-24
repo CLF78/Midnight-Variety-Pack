@@ -1,8 +1,8 @@
-#include <mvp/Log.hpp>
+#include "Log.hpp"
 
 Logger Logger::Instance;
 
-void Logger::HaltWrapper(const char* fmt, ...) {
+void Logger::HaltWrapper(const char* fmt, ...) const {
 
     // Set up buffer and va_list
     char buffer[512];
@@ -14,7 +14,8 @@ void Logger::HaltWrapper(const char* fmt, ...) {
     va_end(args);
 
     // Halt the game
-    unsigned int fg = 0xFFFFFFFF, bg = 0;
+    unsigned int fg = 0xFFFFFFFF;
+    unsigned int bg = 0;
     mHaltFn(&fg, &bg, buffer);
 }
 

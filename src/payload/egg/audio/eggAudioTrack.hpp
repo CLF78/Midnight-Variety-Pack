@@ -1,11 +1,12 @@
-#include <common/Common.hpp>
+#pragma once
 
 namespace EGG {
 
 class AudioTrack;
-struct AudioTrackCallback{
-    void (*callbackFunc);
-    AudioTrack* ptr;
+
+struct AudioTrackCallback {
+    Func callbackFunc;
+    AudioTrack* owner;
 };
 size_assert(AudioTrackCallback, 0x8);
 

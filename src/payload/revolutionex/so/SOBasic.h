@@ -1,4 +1,4 @@
-#include <common/Common.h>
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,6 +28,7 @@ typedef struct {
     u16 port;  // port number
     u32 addr;  // ip address
 } SOSockAddrIn;
+size_cassert(SOSockAddrIn, 0x8);
 
 typedef struct {
     char* name;
@@ -36,6 +37,7 @@ typedef struct {
     s16 length;
     u32** addrList;
 } SOHostEnt;
+size_cassert(SOHostEnt, 0x10);
 
 #ifdef __cplusplus
 }

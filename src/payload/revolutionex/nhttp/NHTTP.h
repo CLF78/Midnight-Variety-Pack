@@ -1,5 +1,5 @@
-#include <common/Common.h>
-#include <revolutionex/nhttp/NHTTPInternal.h>
+#pragma once
+#include "NHTTPInternal.h"
 
 #ifdef __cplusplus
 extern "C" {

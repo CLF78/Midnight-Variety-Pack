@@ -1,14 +1,14 @@
-#include <common/Common.hpp>
+#pragma once
+#include "Page.hpp"
 #include <game/system/Mii.hpp>
-#include <game/ui/page/Page.hpp>
-#include <game/ui/ctrl/LayoutUIControl.hpp>
 #include <game/ui/InputHandler.hpp>
 #include <game/ui/MessageInfo.hpp>
-#include <game/ui/input/MultiControlInputManager.hpp>
-#include <game/ui/ctrl/PushButton.hpp>
 #include <game/ui/ctrl/CtrlMenuBackButton.hpp>
 #include <game/ui/ctrl/CtrlMenuInstructionText.hpp>
 #include <game/ui/ctrl/CtrlMenuPageTitleText.hpp>
+#include <game/ui/ctrl/LayoutUIControl.hpp>
+#include <game/ui/ctrl/PushButton.hpp>
+#include <game/ui/input/MultiControlInputManager.hpp>
 
 class MenuPage : public Page {
 public:
@@ -69,7 +69,7 @@ public:
     CtrlMenuPageTitleText* titleText;
     CtrlMenuInstructionText* instructionText;
 
-    u8 _2BC[0x50];
+    UNK(0x30C - 0x2BC);
     u32 movieCount;
 
     MessageInfo text;
@@ -93,6 +93,7 @@ public:
     int movieStartFrame;
     int extraChildNumber;
     bool locked;
+    PAD(3);
 
     MultiControlInputManager multiControlInputManager;
     u32 curChildCount;

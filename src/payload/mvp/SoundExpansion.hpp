@@ -1,4 +1,8 @@
-// Internal defines for custom SFX system
+#pragma once
+
+////////////////////////////////////////////
+// Internal defines for custom SFX system //
+////////////////////////////////////////////
 
 // Replaced SFX mask
 #define SASR_BIT (1 << 31)

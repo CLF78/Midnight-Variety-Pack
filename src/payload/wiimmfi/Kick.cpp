@@ -1,9 +1,8 @@
-#include <common/Common.hpp>
+#include "Kick.hpp"
 #include <dwc/dwc_main.h>
 #include <dwc/dwc_match.h>
 #include <nw4r/ut/Lock.hpp>
 #include <platform/string.h>
-#include <wiimmfi/Kick.hpp>
 
 namespace Wiimmfi {
 namespace Kick {
@@ -16,14 +15,14 @@ kmListHookDefCpp(RaceStartHook) {
     sMustEndRace = false;
 }
 
-void ScheduleForAID(int aid) {
+void ScheduleForAID(u32 aid) {
     LOG_DEBUG("Scheduled kick for AID %d.", aid);
     sAidsToBeKicked |= (1 << aid);
 }
 
-void ScheduleForAIDs(u32 aids) {
-    LOG_DEBUG("Scheduled kick for AIDs %08X.", aids);
-    sAidsToBeKicked |= aids;
+void ScheduleForAIDs(u32 aidMask) {
+    LOG_DEBUG("Scheduled kick for AIDs %08X.", aidMask);
+    sAidsToBeKicked |= aidMask;
 }
 
 void ScheduleForEveryone() {
@@ -34,22 +33,25 @@ void ScheduleForEveryone() {
 void CalcKick() {
 
     // If the aid bitfield is empty, bail
-    if (!sAidsToBeKicked)
+    if (!sAidsToBeKicked) {
         return;
+    }
 
     // Lock interrupts
     LOG_DEBUG("Executing kick task on AID map %08X...", sAidsToBeKicked);
-    nw4r::ut::AutoInterruptLock lock;
+    const nw4r::ut::AutoInterruptLock lock;
 
     // If the bitfield is full, close all connections immediately
-    if (sAidsToBeKicked == 0xFFFFFFFF)
+    if (sAidsToBeKicked == 0xFFFFFFFF) {
         DWC_CloseAllConnectionsHard();
+    }
 
     // Otherwise kick each aid separately
     else {
         for (int i = 0; i < 12; i++) {
-            if (sAidsToBeKicked >> i & 1)
+            if (sAidsToBeKicked >> i & 1) {
                 DWC_CloseConnectionHard(i);
+            }
         }
     }
 
@@ -61,17 +63,19 @@ void CalcKick() {
 int ParseKickMessage(GPConnection conn, char* data) {
 
     // Ignore kick commands if we don't have the necessary structures
-    if (!stpMatchCnt || stpMatchCnt->nodeInfoList.nodeCount > 1)
+    if (!stpMatchCnt || stpMatchCnt->nodeInfoList.nodeCount > 1) {
         return GP_ERROR_NONE;
+    }
 
     // If the kick command isn't found, bail
     char* kickCmd = strstr(data, KICK_MSG);
-    if (!kickCmd)
+    if (!kickCmd) {
         return GP_ERROR_NONE;
+    }
 
     // Obtain the kick type
     strshift(kickCmd, KICK_MSG);
-    u32 kickType = strtoul(kickCmd, nullptr, 10);
+    const u32 kickType = strtoul(kickCmd, nullptr, 10);
 
     // Act based on the kick type
     switch (kickType) {
@@ -116,7 +120,7 @@ int ParseKickMessage(GPConnection conn, char* data) {
 
             // Shift the string and read the pid to an integer
             strshift(pidKickParam, KICK_MSG_PARAM_PID);
-            u32 pidToKick = strtoul(pidKickParam, nullptr, 10);
+            const int pidToKick = strtol(pidKickParam, nullptr, 10);
 
             // Get the node info
             // If it exists, kick the corresponding aid

@@ -1,10 +1,10 @@
-#include <egg/core/eggHeap.hpp>
+#pragma once
+#include "eggHeap.hpp"
 
 namespace EGG {
 
 class ExpHeap : public Heap {
 public:
-
     struct GroupSizeRecord {
         u32 entries[256];
     };

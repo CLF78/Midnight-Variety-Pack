@@ -1,4 +1,3 @@
-#include <common/Common.hpp>
 #include <game/system/SaveManager.hpp>
 
 //////////////////////////

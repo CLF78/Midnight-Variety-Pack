@@ -1,6 +1,6 @@
-#include <common/Common.h>
+#pragma once
+#include "gpiBuffer.h"
 #include <gs/darray.h>
-#include <gs/gp/gpiBuffer.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,6 +20,7 @@ struct GPIPeer {
     DArray messages;
     GPIPeer* next;
 };
+size_cassert(GPIPeer, 0x40);
 
 #ifdef __cplusplus
 }

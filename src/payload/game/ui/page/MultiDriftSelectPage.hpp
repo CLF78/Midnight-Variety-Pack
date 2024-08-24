@@ -1,7 +1,7 @@
-#include <common/Common.hpp>
+#pragma once
+#include "MenuPage.hpp"
 #include <game/ui/SectionManager.hpp>
 #include <game/ui/UIControlTimer.hpp>
-#include <game/ui/page/MenuPage.hpp>
 
 class MultiDriftSelectPage : public MenuPage {
 public:
@@ -31,8 +31,9 @@ public:
     void onBackPress(u32 hudSlotId);
 
     static MultiDriftSelectPage* getPage() {
-        return (MultiDriftSelectPage*)SectionManager::instance->curSection->getPage(Page::DRIFT_SELECT_MULTI_PLAYER);
-    };
+        return (MultiDriftSelectPage*)
+            SectionManager::instance->curSection->getPage(Page::DRIFT_SELECT_MULTI_PLAYER);
+    }
 
     UIControlTimer* timer;
     void* boundingBoxes;

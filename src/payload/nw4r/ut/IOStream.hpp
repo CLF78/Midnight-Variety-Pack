@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <nw4r/ut/RuntimeTypeInfo.hpp>
+#pragma once
+#include "RuntimeTypeInfo.hpp"
 
 namespace nw4r {
 namespace ut {
@@ -24,6 +24,8 @@ public:
     virtual u32 GetBufferAlign() const = 0;
 
     bool available;
+    PAD(3);
+
     s32 asyncResult;
     IOStreamCallback callback;
     void* arg;

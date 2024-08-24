@@ -1,7 +1,6 @@
-#include <common/Common.hpp>
+#include "CtrlMenuBattleStageSelectCup.hpp"
 #include <game/ui/ControlLoader.hpp>
 #include <game/ui/UIUtils.hpp>
-#include <game/ui/ctrl/CtrlMenuBattleStageSelectCup.hpp>
 #include <mvp/cup/BattleCupSelectPageEx.hpp>
 #include <mvp/cup/BattleStageSelectPageEx.hpp>
 #include <mvp/cup/CupManager.hpp>
@@ -17,17 +16,17 @@ REPLACE void CtrlMenuBattleStageSelectCup::initSelf() {
     // Get pages and selected cup
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
     BattleStageSelectPageEx* coursePage = BattleStageSelectPageEx::getPage();
-    u32 selectedCup = cupPage->selectedButtonId;
+    const u32 selectedCup = cupPage->selectedButtonId;
 
     // Update each cup
-    for (int i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
+    for (u32 i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
 
         // Get cup
         CtrlMenuBattleStageSelectCupSub* cup = coursePage->getCupButton(i);
 
         // Set name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
-        u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
+        const u16 cupName = CupManager::GetCup(cupIdx, true)->cupName;
         cup->setText(cupName);
 
         // Set icon
@@ -56,13 +55,13 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
     BattleCupSelectPageEx* cupPage = BattleCupSelectPageEx::getPage();
 
     // Load the main controller
-    u8 playerCount = UIUtils::getPlayerCount();
+    const u8 playerCount = UIUtils::getPlayerCount();
     const char* mainCtr = (playerCount <= 2) ? "CupSelectCupNULL" : "CupSelectCupNULL_4";
     loader.load("control", "CupSelectNULL", mainCtr, nullptr);
 
     // Initialize children
     initChildren(BattleCupSelectPageEx::getCupCount());
-    for (int i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
+    for (u32 i = 0; i < BattleCupSelectPageEx::getCupCount(); i++) {
 
         // Get button variant
         char buffer[20];
@@ -74,14 +73,11 @@ REPLACE void CtrlMenuBattleStageSelectCup::load() {
 
         // Initialize it
         ControlLoader buttonLoader(cup);
-        buttonLoader.load("control",
-                          "CourseSelectCup",
-                          buffer,
-                          CtrlMenuBattleStageSelectCup::cupAnimNames);
+        buttonLoader.load("control", "CourseSelectCup", buffer, cupAnimNames);
 
         // Set cup name
-        u32 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
-        u16 cupName = CupManager::GetCupList(true)[cupIdx].cupName;
+        const u16 cupIdx = CupManager::getCupIdxFromButton(i, cupPage->curPage, true);
+        const u16 cupName = CupManager::GetCup(cupIdx, true)->cupName;
         cup->setText(cupName);
 
         // Set cup icon

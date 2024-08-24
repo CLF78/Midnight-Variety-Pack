@@ -1,10 +1,10 @@
-#include <common/Common.hpp>
+#pragma once
 
 namespace EGG {
 
 class TaskThread {
 public:
-    bool request(Func func, s32 arg0, s32 arg1); 
+    bool request(Func func, s32 arg0, s32 arg1);
 };
 
 } // namespace EGG

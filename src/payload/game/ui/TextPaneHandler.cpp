@@ -1,6 +1,5 @@
-#include <common/Common.hpp>
-#include <game/ui/MessageInfo.hpp>
-#include <game/ui/TextMgr.hpp>
+#include "MessageInfo.hpp"
+#include "TextMgr.hpp"
 
 //////////////////////////////
 // Conditional Text Display //
@@ -15,17 +14,20 @@ kmWrite32(0x805CEB08, 0x60000000);
 kmHookFn u32 InsertSpace(bool cond, MessageEscapeSequence* sequence, MessageInfo* msgInfo) {
 
     // If the condition returned false, use the first message as is
-    if (!cond)
+    if (!cond) {
         return sequence->settings[1];
+    }
 
     // If the message requires a prepended space, insert it
-    if (msgInfo->prependSpace)
+    if (msgInfo->prependSpace) {
         TextMgr::instance->putChar(L' ');
+    }
 
     // Get the second message instead
     return sequence->settings[2];
 }
 
+// clang-format off
 // Glue code
 kmBranchDefAsm(0x805CEB3C, 0x805CEB50) {
     nofralloc

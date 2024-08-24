@@ -1,5 +1,5 @@
-#include <common/Common.hpp>
-#include <game/ui/input/MenuInputManager.hpp>
+#pragma once
+#include "MenuInputManager.hpp"
 
 class ButtonInfo {
 public:
@@ -7,5 +7,6 @@ public:
 
     u32 pressTimes[MenuInputManager::INPUT_COUNT];
     bool buttonHeld[MenuInputManager::INPUT_COUNT];
+    PAD(3);
 };
 size_assert(ButtonInfo, 0x34);
