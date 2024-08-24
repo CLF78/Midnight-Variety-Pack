@@ -10,7 +10,7 @@ void MessageQueue::Clear() {
         }
     }
 
-    localPlayerCount = 1;
+    localPlayerCount = 0;
     queueEnabled = false;
 }
 
