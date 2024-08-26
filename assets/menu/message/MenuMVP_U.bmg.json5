@@ -29,6 +29,12 @@
     "3376": {
         string: "{1 char|}",
     },
+    "3377": {
+        string: "{1 char|}",
+    },
+    "3378": {
+        string: "{1 char|}",
+    },
     "20000": {
         string: "{font scale|80}150cc",
     },

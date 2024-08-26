@@ -87,7 +87,6 @@ REPLACE void RacePage::initControls(Controls controls) {
     }
 
     // Initialize the message queue
-    MessageQueue::instance.Clear();
     if (controls & MESSAGE_QUEUE) {
 
         // Set the local player count and enable the queue

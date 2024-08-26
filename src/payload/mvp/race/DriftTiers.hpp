@@ -1,5 +1,6 @@
 #pragma once
 #include <egg/effect/eggEffect.hpp>
+#include <egg/effect/eggEffectResource.hpp>
 #include <game/effect/PlayerEffects.hpp>
 #include <game/kart/KartObject.hpp>
 
@@ -18,23 +19,29 @@ public:
 
     explicit ExpPlayerEffects(KartObject* kartObject) : PlayerEffects(kartObject) {}
     virtual ~ExpPlayerEffects() {
-
-        EGG::Effect** array = isBike ? rk_orangeMT : rk_purpleMT;
-        const u32 effCount = isBike ? SmtEffectsCount : UmtEffectsCount;
-
-        if (array != nullptr) {
-            for (u32 i = 0; i < effCount; ++i) {
-                delete (array[i]);
+        if (isBike) {
+            EGG::Effect** array = rk_orangeMT;
+            if (array != nullptr) {
+                for (int i = 0; i < smtEffectsCount; ++i) delete(array[i]);
+                delete[] array;
             }
-            delete[] array;
+        }
+        else {
+            EGG::Effect** array = rk_purpleMT;
+            if (array != nullptr) {
+                for (int i = 0; i < umtEffectsCount; ++i) delete(array[i]);
+                delete[] array;
+            }
         }
     }
 
-    EGG::Effect** rk_purpleMT;
-    EGG::Effect** rk_orangeMT;
+    static EGG::Effect** rk_purpleMT;
+    static EGG::Effect** rk_orangeMT;
 
-    static const u32 SmtEffectsCount = 8;
-    static const u32 UmtEffectsCount = 8;
-    static const char* UMTNames[SmtEffectsCount];
-    static const char* SMTNames[SmtEffectsCount];
+    static const int smtEffectsCount = 8;
+    static const int umtEffectsCount = 8;
+    static const char* umtNames[umtEffectsCount];
+    static const char* smtNames[smtEffectsCount];
+    static EGG::EffectResource* umtEffects;
+    static EGG::EffectResource* smtEffects;
 };

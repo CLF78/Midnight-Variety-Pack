@@ -64,17 +64,17 @@ REPLACE void RaceConfig::loadNextCourse() {}
 REPLACE u32 RaceConfig::Player::computeGPRank() {
 
     // Initialize score thresholds
-    static const u8 scores[RANK_COUNT - 1] = { GP_SCORE_3_STARS, GP_SCORE_2_STARS, GP_SCORE_1_STAR };
+    static const u8 scores[3] = { GP_SCORE_3_STARS, GP_SCORE_2_STARS, GP_SCORE_1_STAR };
 
-    // Calculate the score
+    // Check if the star rank score thresholds were met
     for (u32 i = 0; i < ARRAY_SIZE(scores); i++) {
         if (gpScore >= scores[i]) {
             return i;
         }
     }
 
-    // None of the thresholds were reached, the player is a failure
-    return RANK_GOLDEN_CUP;
+    // Otherwise use the player's position in the standings as a ranking
+    return (gpRank < 4) ? RANK_GOLDEN_CUP + gpRank - 1 : RANK_LOSER;
 }
 
 ///////////////////////////////

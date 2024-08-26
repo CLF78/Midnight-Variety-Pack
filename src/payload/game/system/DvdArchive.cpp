@@ -30,7 +30,7 @@ REPLACE void DvdArchive::decompress(const char* path, EGG::Heap* heap) {
     state = DvdArchive::DECOMPRESSED;
 
     // Check if it's a track file, if not bail
-    if (!strstart(path, "Race/Course/")) {
+    if (path && !strstart(path, "Race/Course/")) {
         return;
     }
 

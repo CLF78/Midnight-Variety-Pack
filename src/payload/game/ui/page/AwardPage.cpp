@@ -15,7 +15,7 @@
 REPLACE_STATIC AwardPage::CreditsType AwardPage::getCreditsType(u32 cupId, u32 engineClass, bool isMirror,
                                                                 u32 rank) {
 
-    // Copied check from the original function
+    // If the player is not on the podium, do not trigger the credits
     if (rank == 0 || rank > 3) {
         return AwardPage::CREDITS_NONE;
     }
@@ -50,6 +50,11 @@ REPLACE void AwardPage::initRank() {
     RaceConfig* rconfig = RaceConfig::instance;
     const u32 gpRank = rconfig->awardsScenario.players[0].computeGPRank();
 
+    // If the rank is a losing rank, do not save it
+    if (gpRank >= RaceConfig::Player::RANK_LOSER) {
+        return;
+    }
+
     // Get current license, bail if invalid
     SaveManager* save = SaveManager::instance;
     if (save->currentLicenseId == -1) {
@@ -63,11 +68,8 @@ REPLACE void AwardPage::initRank() {
         return;
     }
 
-    // Store the data
-    cupData->mCompleted = true;
-    cupData->mRank = gpRank;
-
-    // Mark license as dirty
+    // Store the data and mark license as dirty
+    cupData->Set(true, gpRank);
     SectionManager::instance->saveGhostManager->markLicensesDirty();
 }
 
