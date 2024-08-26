@@ -5,12 +5,11 @@
 #include <game/system/MultiDvdArchive.hpp>
 #include <nw4r/math/types.hpp>
 
-class EffectsManager {
+class EffectInfo {
 public:
-    int GetRuntimeTypeInfo();
-    void Reset();
+    static EffectInfo* instance;
 
-    static EffectsManager* CreateInstance(void* heap);
+    void clear();
 
     u32 playerCount;
     u32 localPlayerCount;
@@ -48,9 +47,10 @@ public:
     UNK(0x9EE - 0x9E0);
     PAD(2);
 
-    virtual ~EffectsManager();
+    virtual ~EffectInfo();
 
-    static EffectsManager* sInstance;
+    static EffectInfo* sInstance;
     static void* eggEffectMgr;
 };
-size_assert(EffectsManager, 0x9F4);
+
+size_assert(EffectInfo, 0x9F4);
