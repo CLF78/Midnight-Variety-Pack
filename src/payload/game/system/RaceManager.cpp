@@ -5,7 +5,7 @@
 #include <game/sound/RaceSoundManager.hpp>
 #include <game/ui/MessageInfo.hpp>
 #include <mvp/cup/CupManager.hpp>
-#include <mvp/race/MessageQueue.hpp>
+#include <mvp/racemsg/MessageQueue.hpp>
 #include <wiimmfi/Reporting.hpp>
 
 ///////////////////////

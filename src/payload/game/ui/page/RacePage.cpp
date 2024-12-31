@@ -1,7 +1,7 @@
 #include "RacePage.hpp"
 #include <game/system/RaceConfig.hpp>
-#include <mvp/race/CtrlRaceMessageDisplay.hpp>
-#include <mvp/race/MessageQueue.hpp>
+#include <mvp/racemsg/CtrlRaceMessageDisplay.hpp>
+#include <mvp/racemsg/MessageQueue.hpp>
 #include <platform/stdio.h>
 
 ///////////////////////////////
