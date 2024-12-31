@@ -21,7 +21,7 @@ public:
     RUNTIME_TYPE_INFO;
     RUNTIME_TYPENAME_INFO(CtrlRaceMessageDisplay);
 
-    void load(u32 localPlayerCount, u32 playerIdx, u32 queuePos);
+    void load(u32 queuePos);
     void showMessage();
 
     nw4r::lyt::Pane* textBox;

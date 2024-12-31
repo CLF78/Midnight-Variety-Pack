@@ -12,6 +12,11 @@ public:
             }
         }
 
+        void ClearText() {
+            msgId = 0;
+            msgInfo.reset();
+        }
+
         void Clear() {
             msgId = 0;
             msgInfo.reset();
@@ -25,10 +30,11 @@ public:
 
     MessageQueue() { Clear(); }
     void Clear();
-    void Push(u32 msgId, MessageInfo* msgInfo, u32 playerFlags = 0xFFFFFFFF);
+    void ClearText();
+    void Push(u32 msgId, MessageInfo* msgInfo);
     u32 GetMessageCount(u32 localPlayerCount) const;
 
-    Entry entries[2][6]; // 6 per player at most
+    Entry entries[6]; // reduced to 3 in multiplayer
     u32 localPlayerCount;
     bool queueEnabled;
 

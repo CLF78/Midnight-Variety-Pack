@@ -5,12 +5,11 @@
 
 RUNTIME_TYPE_INFO_DEFINE(CtrlRaceMessageDisplay, CtrlRaceBase);
 
-void CtrlRaceMessageDisplay::load(u32 localPlayerCount, u32 localPlayerIdx, u32 queuePos) {
+void CtrlRaceMessageDisplay::load(u32 queuePos) {
 
     // Load the correct BRCTR variant
     char buffer[32];
-    localPlayerCount = (localPlayerCount == 3) ? 4 : localPlayerCount;
-    snprintf(buffer, sizeof(buffer), "Message_%d_%d_%d", localPlayerCount, localPlayerIdx, queuePos);
+    snprintf(buffer, sizeof(buffer), "Message_%d", queuePos);
 
     ControlLoader loader(this);
     loader.load("game_image", "MessageQueueMessage", buffer, nullptr);
