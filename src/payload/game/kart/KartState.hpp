@@ -98,7 +98,9 @@ public:
 
     void handleStartBoost();
 
+    bool isAccelerating() const { return ((bitfield0 & ACCELERATE) != 0); }
     bool isBraking(bool forceOverride = false) const { return ((bitfield0 & BRAKE) != 0 && !forceOverride); }
+    bool isDriftingAuto() const { return ((bitfield0 & DRIFT_AUTO) != 0); }
 
     bool isVehicleInRace() const {
         return (bitfield2 & (UNK_100 | HAS_STOPPED_B2 | HAS_VANISHED | IN_A_BULLET)) == 0;

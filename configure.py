@@ -215,10 +215,8 @@ COMMON_ASSETS = {
         Path(COMMON_ASSETS_DIR, 'driverParam.bin'): None,
         Path(COMMON_ASSETS_DIR, 'itembox.brres'): None,
         Path(COMMON_ASSETS_DIR, 'itemBoxNiseRtpa.brres'): None,
-        Path(COMMON_ASSETS_DIR, 'orange.breff'): Path('Effect', 'orange.breff'),
-        Path(COMMON_ASSETS_DIR, 'orange.breft'): Path('Effect', 'orange.breft'),
-        Path(COMMON_ASSETS_DIR, 'purple.breff'): Path('Effect', 'purple.breff'),
-        Path(COMMON_ASSETS_DIR, 'purple.breft'): Path('Effect', 'purple.breft')
+        Path(COMMON_ASSETS_DIR, 'RKRaceEx.breff'): Path('Effect', 'RKRaceEx.breff'),
+        Path(COMMON_ASSETS_DIR, 'RKRaceEx.breft'): Path('Effect', 'RKRaceEx.breft')
     }
 }
 
