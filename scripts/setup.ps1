@@ -231,6 +231,17 @@ if (!(Test-Path "..\tools\wuj5\wuj5.py")) {
     Write-Host "wuj5 installed successfully!"
 }
 
+# Check for wuj5 installation
+Write-Host "Checking for breffconv installation..."
+if (!(Test-Path "..\tools\breffconv\breff_converter.py")) {
+
+    # Download breffconv and install it
+    DownloadFile -Url "https://github.com/CLF78/Actually-Working-BREFF-Converter/archive/refs/heads/main.zip" -Dest "breffconv.zip" -Name "breffconv"
+    Expand-Archive breffconv.zip .\ -Force
+    xcopy breffconv-main ..\tools\breffconv\ /E /Y /Q
+    Write-Host "breffconv installed successfully!"
+}
+
 # Remove temporary directory
 Set-Location "..\"
 Remove-Item tmp -Recurse -Force
