@@ -97,7 +97,7 @@ if (!(HasValidDotnetVersion)) {
 Write-Host "Checking for Python installation..."
 Get-Command python -ErrorAction SilentlyContinue | Out-Null
 if ($?) {
-    python -c "import sys; exit_code = 0 if sys.version_info >= (3, 9) else 1; sys.exit(exit_code)"
+    python -c "import sys; exit_code = 0 if sys.version_info >= (3, 11) else 1; sys.exit(exit_code)"
 }
 
 # Install if any of the two checks failed
