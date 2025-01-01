@@ -148,6 +148,7 @@ JSON_OUT_FILE = Path(XML_ROOT_DIR, f'{XML_PATCH_ID}.json')
 #########
 
 BMG_MERGE = Path(TOOL_DIR, 'bmg_tools', 'merge.py')
+BREFFCONV = Path(TOOL_DIR, 'breffconv', 'breff_converter.py')
 CC = Path(file) if (file := shutil.which('mwcceppc.exe')) else Path(TOOL_DIR, 'cw', 'mwcceppc.exe')
 CUP_BUILDER = Path(TOOL_DIR, 'cup_builder', 'exporter.py')
 CW_WRAPPER = Path(TOOL_DIR, 'cw', 'mwcceppc_wine_wrapper.py')
@@ -215,7 +216,7 @@ COMMON_ASSETS = {
         Path(COMMON_ASSETS_DIR, 'driverParam.bin'): None,
         Path(COMMON_ASSETS_DIR, 'itembox.brres'): None,
         Path(COMMON_ASSETS_DIR, 'itemBoxNiseRtpa.brres'): None,
-        Path(COMMON_ASSETS_DIR, 'RKRaceEx.breff'): Path('Effect', 'RKRaceEx.breff'),
+        Path(COMMON_ASSETS_DIR, 'RKRaceEx.breff.d'): Path('Effect', 'RKRaceEx.breff'),
         Path(COMMON_ASSETS_DIR, 'RKRaceEx.breft'): Path('Effect', 'RKRaceEx.breft')
     }
 }
@@ -431,6 +432,10 @@ writer.rule('json_patch_gen',
 writer.rule('xml_patch_gen',
             command=f'{sys.executable} {XML_PATCH_GENERATOR} $out $gameid $modname $patchid $patches $externals',
             description='Generate Riivolution XML')
+
+writer.rule('breffconv',
+            command=f'{sys.executable} {BREFFCONV} encode $in_dir -d $out -o',
+            description='Encode $out_short with BREFFConv')
 
 ########################
 # Write Build Commands #
