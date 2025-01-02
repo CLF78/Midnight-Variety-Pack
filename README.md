@@ -34,6 +34,7 @@ Midnight x Variety Pack (or MVP for short) is a WIP custom track distribution cr
 
 The following Python packages are also required:
 - [json5](https://pypi.org/project/json5/)
+- [orjson](https://pypi.org/project/orjson/)
 - [ninja](https://pypi.org/project/ninja/)
 
 These additional packages are required for running the Cup Builder tool:

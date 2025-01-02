@@ -208,6 +208,10 @@ if (!$?) {
 Write-Host "Checking for json5 installation..."
 InstallPythonPackage -Package "json5"
 
+# Check and eventually install orjson
+Write-Host "Checking for orjson installation..."
+InstallPythonPackage -Package "orjson"
+
 # Check and eventually install qtpy
 "Checking for qtpy installation..."
 InstallPythonPackage -Package "qtpy"
