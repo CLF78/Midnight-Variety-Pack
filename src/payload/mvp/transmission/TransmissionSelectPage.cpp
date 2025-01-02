@@ -2,6 +2,7 @@
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
 #include <game/util/Random.hpp>
+#include <mvp/save/SaveExpansionDrift.hpp>
 
 TransmissionSelectPage::TransmissionSelectPage() {
 
@@ -20,7 +21,7 @@ void TransmissionSelectPage::onActivate() {
 
     // Load custom movie
     // TODO make actual custom movies
-    static const char* movies[] = {"thp/button/drift_select.thp"};
+    static const char* movies[] = { "thp/button/drift_select.thp" };
     loadMovies(movies, ARRAY_SIZE(movies));
 
     // Set button texts
@@ -39,9 +40,11 @@ void TransmissionSelectPage::onActivate() {
     MenuPage::onActivate();
 
     // Set the default selection
-    // TODO decide how to select the default button
-    PushButton* lastSelectedButton = buttons[BUTTON_INSIDE];
-    setSelection(lastSelectedButton);
+    RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[0];
+    u8 defaultTransmission = SaveExpansionDrift::GetSection()->GetData(0)->Get(player->vehicleId);
+    u8 buttonIdx = (defaultTransmission == RaceConfig::Player::TRANSMISSION_INSIDE) ? BUTTON_INSIDE :
+                                                                                      BUTTON_OUTSIDE;
+    setSelection(buttons[buttonIdx]);
 }
 
 void TransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotId) {
@@ -56,12 +59,14 @@ void TransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotId) {
 
         case BUTTON_INSIDE:
             player->transmission = RaceConfig::Player::TRANSMISSION_INSIDE;
+            SaveExpansionDrift::GetSection()->GetData(0)->Set(player->vehicleId, player->transmission);
             loadNextPageById(Page::DRIFT_SELECT, button);
             setCPUTransmissions();
             break;
 
         case BUTTON_OUTSIDE:
             player->transmission = RaceConfig::Player::TRANSMISSION_OUTSIDE;
+            SaveExpansionDrift::GetSection()->GetData(0)->Set(player->vehicleId, player->transmission);
             loadNextPageById(Page::DRIFT_SELECT, button);
             setCPUTransmissions();
             break;

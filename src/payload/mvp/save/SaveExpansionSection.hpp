@@ -6,6 +6,7 @@ public:
     enum SectionId {
         SECTION_CUP_COMPLETION,
         SECTION_RATING,
+        SECTION_DRIFT,
         SECTION_COUNT,
     };
 
