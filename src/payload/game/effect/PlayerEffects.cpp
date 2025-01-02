@@ -31,6 +31,10 @@ REPLACE void PlayerEffects::init() {
         expansion.kartUmtEffects.Create(this);
         expansion.kartUmtEffects.CheckLoaded();
     }
+    else {
+        expansion.bikeSmtEffects.Create(this);
+        expansion.bikeSmtEffects.CheckLoaded();
+    }
 }
 
 // Initialize the custom effects if enabled
@@ -43,6 +47,9 @@ REPLACE void PlayerEffects::reduceEmitRatios() {
     // these have to remain enabled just in case
     if (!isBike) {
         expansion.kartUmtEffects.ReduceEmitRatios();
+    }
+    else {
+        expansion.bikeSmtEffects.ReduceEmitRatios();
     }
 }
 

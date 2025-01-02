@@ -45,6 +45,37 @@ public:
         rk_brakeSmk_1,
     };
 
+    enum BikeDriftEffects {
+        rk_driftSmokeB,
+        rk_driftSpark1LB_Spark00,
+        rk_driftSpark1LB_Spark01,
+        rk_driftSpark1RB_Spark00,
+        rk_driftSpark1RB_Spark01,
+        rk_driftSpark1CB_Spark00,
+        rk_driftSpark1CB_Spark01,
+        rk_driftSpark1LB1T_Chip00,
+        rk_driftSpark1LB1T_Spark00,
+        rk_driftSpark1LB1T_Spark01,
+        rk_driftSpark1RB1T_Chip00,
+        rk_driftSpark1RB1T_Spark00,
+        rk_driftSpark1RB1T_Spark01,
+        rk_driftSpark1CB1T_Chip00,
+        rk_driftSpark1CB1T_Spark00,
+        rk_driftSpark1CB1T_Spark01,
+        rk_driftSpark1LB_Chip00,
+        rk_driftSpark1RB_Chip00,
+        rk_hangOnL,
+        rk_hangOnR,
+        rk_hangOnLTail,
+        rk_hangOnRTail,
+        rk_start0B,
+        rk_start1B,
+        rk_start2B,
+        rk_brakeSmkB,
+        rk_autoDriftLB,
+        rk_autoDriftRB,
+    };
+
     enum WheelType {
         REAR_WHEEL_L,
         REAR_WHEEL_R,
