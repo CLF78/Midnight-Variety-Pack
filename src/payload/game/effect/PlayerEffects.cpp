@@ -23,11 +23,14 @@ REPLACE PlayerEffects::~PlayerEffects() {}
 REPLACE void PlayerEffects::init() {
     REPLACED();
 
-    // Allocate effects from the custom groups
-    expansion.kartUmtEffects.Create(this);
-
-    // Check that the effects are loaded
-    expansion.kartUmtEffects.CheckLoaded();
+    // Allocate effects from the custom groups and check that they're loaded
+    // Yes, these could be disabled in more conditions (like automatic or inside drift), but
+    // due to the shitty network protocol we cannot know what other players are running, so
+    // these have to remain enabled just in case
+    if (!isBike) {
+        expansion.kartUmtEffects.Create(this);
+        expansion.kartUmtEffects.CheckLoaded();
+    }
 }
 
 // Initialize the custom effects if enabled
@@ -35,7 +38,12 @@ REPLACE void PlayerEffects::reduceEmitRatios() {
     REPLACED();
 
     // Apply the change to custom effects as well
-    expansion.kartUmtEffects.ReduceEmitRatios();
+    // Yes, these could be disabled in more conditions (like automatic or inside drift), but
+    // due to the shitty network protocol we cannot know what other players are running, so
+    // these have to remain enabled just in case
+    if (!isBike) {
+        expansion.kartUmtEffects.ReduceEmitRatios();
+    }
 }
 
 //////////////////////
