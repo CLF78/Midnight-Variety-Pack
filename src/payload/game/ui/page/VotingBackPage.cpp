@@ -189,6 +189,9 @@ REPLACE void VotingBackPage::setupRace() {
         player->characterId = character;
         player->vehicleId = vehicle;
 
+        // Set the transmission
+        player->transmission = selectPlayer->transmission;
+
         // Set the previous position, score and star rank
         player->prevFinishPos = selectPlayer->prevRaceRank;
         player->previousScore = selectPlayer->sumPoints;

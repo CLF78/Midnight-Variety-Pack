@@ -1,6 +1,7 @@
 #pragma once
 #include "RKNetPacketCommon.hpp"
 #include <game/system/Identifiers.hpp>
+#include <game/system/RaceConfig.hpp>
 #include <mvp/cup/CupData.hpp>
 #include <mvp/online/RepickQueue.hpp>
 #pragma pack(push, 1)
@@ -9,7 +10,7 @@ struct RKNetSELECTPlayer {
 
     RKNetSELECTPlayer() :
         prevRaceRank(0), sumPoints(0), character(CHARACTER_COUNT), vehicle(VEHICLE_COUNT),
-        vanillaCourseVote(CupData::VANILLA_UNDECIDED_TRACK_VOTE), starRank(0) {}
+        transmission(RaceConfig::Player::TRANSMISSION_DEFAULT), starRank(0) {}
 
     u16 prevRaceRank;
     u16 sumPoints;
@@ -17,7 +18,7 @@ struct RKNetSELECTPlayer {
     u8 vehicle;
 
     // Modified structure
-    u8 vanillaCourseVote;
+    u8 transmission;
     // u8 courseVote;
 
     u8 starRank;
