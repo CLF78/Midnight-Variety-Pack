@@ -14,6 +14,7 @@ public:
     virtual ~TransmissionSelectPage() {}
 
     virtual void onActivate();
+    virtual void afterCalc();
     virtual void onSelectChange(PushButton* button, u32 hudSlotId);
 
     void onButtonClick(PushButton* button, u32 hudSlotId);
