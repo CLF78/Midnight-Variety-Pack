@@ -19,6 +19,12 @@ public:
     virtual ~MultiTransmissionSelectPage() {}
 
     virtual void onActivate();
+    virtual void afterCalc();
+
+    static MultiTransmissionSelectPage* getPage() {
+        return (MultiTransmissionSelectPage*)
+            SectionManager::instance->curSection->getPage(Page::TRANSMISSION_SELECT_MULTI_PLAYER);
+    }
 
     void onButtonClick(PushButton* button, u32 hudSlotId);
     static void setCPUTransmissions();

@@ -44,6 +44,8 @@ public:
 
     RUNTIME_TYPE_INFO_NODECL;
 
+    void startRoom();
+
     void forceConnectionError() {
         if (playerRoomState == JOINED_AS_GUEST) {
             playerRoomState = CONNECTION_ERROR;

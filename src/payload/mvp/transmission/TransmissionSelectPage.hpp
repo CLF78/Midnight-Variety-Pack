@@ -15,7 +15,13 @@ public:
 
     virtual void onActivate();
     virtual void afterCalc();
+
     virtual void onSelectChange(PushButton* button, u32 hudSlotId);
+
+    static TransmissionSelectPage* getPage() {
+        return (TransmissionSelectPage*)
+            SectionManager::instance->curSection->getPage(Page::TRANSMISSION_SELECT);
+    }
 
     void onButtonClick(PushButton* button, u32 hudSlotId);
     void onBackPress(u32 hudSlotId);

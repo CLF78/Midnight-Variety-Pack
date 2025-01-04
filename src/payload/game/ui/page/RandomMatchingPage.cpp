@@ -1,6 +1,9 @@
 #include <game/net/RKNetRH1Handler.hpp>
 #include <game/system/RaceConfig.hpp>
+#include <game/ui/page/RandomMatchingPage.hpp>
 #include <mvp/cup/CupManager.hpp>
+#include <mvp/transmission/MultiTransmissionSelectPage.hpp>
+#include <mvp/transmission/TransmissionSelectPage.hpp>
 
 ///////////////////////////////////////////////
 // Custom Cup System / Custom Engine Classes //
@@ -41,4 +44,21 @@ kmBranchDefCpp(0x80609FE0, 0x8060A038, void) {
 
     // Store custom course data
     CupManager::SetCourse(settings, RKNetRH1Handler::instance->getTrackId());
+}
+
+/////////////////////////
+// Transmission Select //
+/////////////////////////
+
+// Store the timer reference in the transmission selection pages
+REPLACE void RandomMatchingPage::onActivate() {
+    REPLACED();
+
+    if (TransmissionSelectPage* transmissionSelectPage = TransmissionSelectPage::getPage()) {
+        transmissionSelectPage->timer = &timer;
+    }
+
+    if (MultiTransmissionSelectPage* multiTransmissionSelectPage = MultiTransmissionSelectPage::getPage()) {
+        multiTransmissionSelectPage->timer = &timer;
+    }
 }

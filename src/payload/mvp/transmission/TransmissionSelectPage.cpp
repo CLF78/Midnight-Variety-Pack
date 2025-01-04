@@ -53,33 +53,36 @@ void TransmissionSelectPage::onActivate() {
 
 void TransmissionSelectPage::afterCalc() {
 
-    // Check if the page is on a timer that has ended
-    if (pageState == STATE_ACTIVE && timer != nullptr) {
-        if (timer->value <= 0.0f) {
-
-            // Get the current selected button (or pick the default selection if none is selected)
-            PushButton* selectedButton = nullptr;
-            if (buttons[BUTTON_INSIDE]->isSelected()) {
-                selectedButton = buttons[BUTTON_INSIDE];
-            }
-            else if (buttons[BUTTON_OUTSIDE]->isSelected()) {
-                selectedButton = buttons[BUTTON_OUTSIDE];
-            }
-            else {
-                RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[0];
-                u8 defaultTransmission = SaveExpansionDrift::GetSection()->GetData(0)->Get(player->vehicleId);
-                u8 buttonIdx = (defaultTransmission == RaceConfig::Player::TRANSMISSION_INSIDE) ?
-                                   BUTTON_INSIDE :
-                                   BUTTON_OUTSIDE;
-                selectedButton = buttons[buttonIdx];
-            }
-
-            // Select the button and force-click it
-            onSelectChange(selectedButton, 0);
-            selectedButton->selectFocus();
-            onButtonClick(selectedButton, 0);
-        }
+    // Check if the page is active
+    if (pageState != STATE_ACTIVE || timer != nullptr) {
+        return;
     }
+
+    // Check that the timer has ended
+    if (timer->value > 0.0f) {
+        return;
+    }
+
+    // Get the current selected button (or pick the default selection if none is selected)
+    PushButton* selectedButton = nullptr;
+    if (buttons[BUTTON_INSIDE]->isSelected()) {
+        selectedButton = buttons[BUTTON_INSIDE];
+    }
+    else if (buttons[BUTTON_OUTSIDE]->isSelected()) {
+        selectedButton = buttons[BUTTON_OUTSIDE];
+    }
+    else {
+        RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[0];
+        u8 defaultTransmission = SaveExpansionDrift::GetSection()->GetData(0)->Get(player->vehicleId);
+        u8 buttonIdx = (defaultTransmission == RaceConfig::Player::TRANSMISSION_INSIDE) ? BUTTON_INSIDE :
+                                                                                          BUTTON_OUTSIDE;
+        selectedButton = buttons[buttonIdx];
+    }
+
+    // Select the button and force-click it
+    onSelectChange(selectedButton, 0);
+    selectedButton->selectFocus();
+    selectedButton->click(0);
 }
 
 void TransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotId) {

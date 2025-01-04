@@ -1,6 +1,5 @@
 #pragma once
 #include "SaveExpansionSection.hpp"
-#include <common/Common.h>
 #include <game/system/Identifiers.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <game/system/SaveManager.hpp>
