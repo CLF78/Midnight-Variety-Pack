@@ -114,5 +114,6 @@ REPLACE void VotingPage::beforeInAnim() {
     for (int i = 0; i < localPlayerCount; i++) {
         RKNetSELECTPlayer* playerData = &RKNetSELECTHandler::instance->sendPacket.playerData[i];
         playerData->transmission = RaceConfig::instance->menuScenario.players[i].transmission;
+        LOG_DEBUG("Broadcasting transmission value %d", playerData->transmission);
     }
 }

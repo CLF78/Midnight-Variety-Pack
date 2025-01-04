@@ -17,6 +17,7 @@ public:
     virtual void afterCalc();
 
     virtual void onSelectChange(PushButton* button, u32 hudSlotId);
+    virtual PushButton* loadButton(int buttonIdx);
 
     static TransmissionSelectPage* getPage() {
         return (TransmissionSelectPage*)

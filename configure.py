@@ -235,6 +235,7 @@ UI_ASSETS = {
 	},
 
     'GlobeMVP': {
+        Path(UI_ASSETS_DIR, 'button', 'ctrl', 'GlobeTransmissionSelect.brctr.json5'): None,
         Path(UI_ASSETS_DIR, 'button', 'ctrl', 'WifiMenuModeSelect.brctr.json5'): None,
         Path(UI_ASSETS_DIR, 'button', 'ctrl', 'WifiMenuSingleTop.brctr.json5'): None,
     },
@@ -244,6 +245,7 @@ UI_ASSETS = {
         Path(UI_ASSETS_DIR, 'button', 'ctrl', 'BattleStageSelectStage.brctr.json5'): None,
 		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowLeft.brctr.json5'): None,
 		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowRight.brctr.json5'): None,
+		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'TransmissionSelect.brctr.json5'): None,
 		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'WifiMemberConfirmButton.brctr.json5'): None,
         Path(UI_ASSETS_DIR, 'control', 'ctrl', 'BattleCupSelectStage.brctr.json5'): None,
         Path(CUP_ICONS_BUILD_DIR): Path('cups')

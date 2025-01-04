@@ -2,6 +2,7 @@
 #include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
 #include <game/ui/SectionManager.hpp>
+#include <game/ui/ctrl/CtrlMenuMovieButton.hpp>
 #include <game/util/Random.hpp>
 #include <mvp/save/SaveExpansionDrift.hpp>
 
@@ -28,33 +29,55 @@ void TransmissionSelectPage::onActivate() {
         loadMovies(movies, ARRAY_SIZE(movies));
     }
 
-    // Set button texts
-    static const u32 buttonTexts[BUTTON_COUNT] = {
-        Message::Menu::TRANSMISSION_INSIDE,
-        Message::Menu::TRANSMISSION_OUTSIDE,
-        Message::Menu::HELP,
-    };
-
-    for (u32 i = 0; i < ARRAY_SIZE(buttonTexts); i++) {
-        buttons[i]->setText(buttonTexts[i]);
-    }
-
     // Set the title text and activate the page
     titleBmgId = Message::Menu::TRANSMISSION_TITLE;
     MenuPage::onActivate();
 
     // Set the default selection
-    RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[0];
-    u8 defaultTransmission = SaveExpansionDrift::GetSection()->GetData(0)->Get(player->vehicleId);
+    u32 vehicle = SectionManager::instance->globalContext->playerVehicles[0];
+    u8 defaultTransmission = SaveExpansionDrift::GetSection()->GetData(0)->Get(vehicle);
     u8 buttonIdx = (defaultTransmission == RaceConfig::Player::TRANSMISSION_INSIDE) ? BUTTON_INSIDE :
                                                                                       BUTTON_OUTSIDE;
     setSelection(buttons[buttonIdx]);
 }
 
+PushButton* TransmissionSelectPage::loadButton(int buttonIdx) {
+
+    // Load help button
+    if (buttonIdx == BUTTON_HELP) {
+        PushButton* button = new PushButton();
+        insertChild(curChildCount++, button, 0);
+        button->load("button", "DriftHelp", "DriftHelp", activePlayers, false, false);
+        return button;
+    }
+
+    // Get scene id
+    Section::SectionId sectionId = (Section::SectionId)SectionManager::instance->curSection->sectionId;
+    Scene::SceneId sceneId = Section::getSceneId(sectionId);
+    static const char* buttonVariants[2] = { "ButtonInside", "ButtonOutside" };
+
+    // Load online-specific buttons
+    if (sceneId == Scene::SCENE_GLOBE) {
+        PushButton* button = new PushButton();
+        insertChild(curChildCount++, button, 0);
+        button->load("button", "GlobeTransmissionSelect", buttonVariants[buttonIdx], activePlayers, false,
+                     false);
+        return button;
+    }
+
+    // Else load regular buttons
+    CtrlMenuMovieButton* button = new CtrlMenuMovieButton();
+    insertChild(curChildCount++, button, 0);
+    button->load("button", "TransmissionSelect", buttonVariants[buttonIdx], activePlayers, false, false);
+    button->setMovieCrop("black_base", ((float)buttonIdx) * 0.5f, ((float)(buttonIdx + 1)) * 0.5f, 0.0f,
+                         1.0f);
+    return button;
+}
+
 void TransmissionSelectPage::afterCalc() {
 
     // Check if the page is active
-    if (pageState != STATE_ACTIVE || timer != nullptr) {
+    if (pageState != STATE_ACTIVE || timer == nullptr) {
         return;
     }
 
@@ -81,7 +104,7 @@ void TransmissionSelectPage::afterCalc() {
 
     // Select the button and force-click it
     onSelectChange(selectedButton, 0);
-    selectedButton->selectFocus();
+    selectedButton->select(0);
     selectedButton->click(0);
 }
 

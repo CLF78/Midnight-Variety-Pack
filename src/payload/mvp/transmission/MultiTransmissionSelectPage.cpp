@@ -29,8 +29,8 @@ void MultiTransmissionSelectPage::onActivate() {
         buttons[insideBtnIdx]->hidden = false;
         buttons[insideBtnIdx]->inputManager.unselectable = false;
 
-        RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[i];
-        u8 defaultTransmission = SaveExpansionDrift::GetSection()->GetData(i)->Get(player->vehicleId);
+        u32 vehicle = SectionManager::instance->globalContext->playerVehicles[i];
+        u8 defaultTransmission = SaveExpansionDrift::GetSection()->GetData(i)->Get(vehicle);
         u8 buttonIdx = (defaultTransmission == RaceConfig::Player::TRANSMISSION_INSIDE) ? insideBtnIdx :
                                                                                           outsideBtnIdx;
         buttons[buttonIdx]->selectDefault(i);
@@ -40,7 +40,7 @@ void MultiTransmissionSelectPage::onActivate() {
 void MultiTransmissionSelectPage::afterCalc() {
 
     // Check if the page is active
-    if (pageState != STATE_ACTIVE || timer != nullptr) {
+    if (pageState != STATE_ACTIVE || timer == nullptr) {
         return;
     }
 
@@ -78,7 +78,7 @@ void MultiTransmissionSelectPage::afterCalc() {
 
         // Select the button and force-click it
         onSelectChange(selectedButton, i);
-        selectedButton->selectFocus();
+        selectedButton->select(i);
         selectedButton->click(i);
     }
 }
