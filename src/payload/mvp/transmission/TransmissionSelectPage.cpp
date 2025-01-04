@@ -72,8 +72,8 @@ void TransmissionSelectPage::afterCalc() {
         selectedButton = buttons[BUTTON_OUTSIDE];
     }
     else {
-        RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[0];
-        u8 defaultTransmission = SaveExpansionDrift::GetSection()->GetData(0)->Get(player->vehicleId);
+        u32 vehicle = SectionManager::instance->globalContext->playerVehicles[0];
+        u8 defaultTransmission = SaveExpansionDrift::GetSection()->GetData(0)->Get(vehicle);
         u8 buttonIdx = (defaultTransmission == RaceConfig::Player::TRANSMISSION_INSIDE) ? BUTTON_INSIDE :
                                                                                           BUTTON_OUTSIDE;
         selectedButton = buttons[buttonIdx];
@@ -89,6 +89,7 @@ void TransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotId) {
 
     // Get the first player, as this is a single player page
     RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[0];
+    u32 vehicle = SectionManager::instance->globalContext->playerVehicles[0];
     switch (button->buttonId) {
 
         case BACK_BUTTON:
@@ -97,14 +98,14 @@ void TransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotId) {
 
         case BUTTON_INSIDE:
             player->transmission = RaceConfig::Player::TRANSMISSION_INSIDE;
-            SaveExpansionDrift::GetSection()->GetData(0)->Set(player->vehicleId, player->transmission);
+            SaveExpansionDrift::GetSection()->GetData(0)->Set(vehicle, player->transmission);
             loadNextPageById(Page::DRIFT_SELECT, button);
             setCPUTransmissions();
             break;
 
         case BUTTON_OUTSIDE:
             player->transmission = RaceConfig::Player::TRANSMISSION_OUTSIDE;
-            SaveExpansionDrift::GetSection()->GetData(0)->Set(player->vehicleId, player->transmission);
+            SaveExpansionDrift::GetSection()->GetData(0)->Set(vehicle, player->transmission);
             loadNextPageById(Page::DRIFT_SELECT, button);
             setCPUTransmissions();
             break;

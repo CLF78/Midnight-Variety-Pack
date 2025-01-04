@@ -69,8 +69,8 @@ void MultiTransmissionSelectPage::afterCalc() {
             selectedButton = buttons[outsideBtnIdx];
         }
         else {
-            RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[i];
-            u8 defaultTransmission = SaveExpansionDrift::GetSection()->GetData(i)->Get(player->vehicleId);
+            u32 vehicle = SectionManager::instance->globalContext->playerVehicles[i];
+            u8 defaultTransmission = SaveExpansionDrift::GetSection()->GetData(i)->Get(vehicle);
             u8 buttonIdx = (defaultTransmission == RaceConfig::Player::TRANSMISSION_INSIDE) ? insideBtnIdx :
                                                                                               outsideBtnIdx;
             selectedButton = buttons[buttonIdx];
@@ -96,6 +96,7 @@ void MultiTransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotI
     // Regular handling
     else {
         RaceConfig::Player* player = &RaceConfig::instance->menuScenario.players[hudSlotId];
+        u32 vehicle = SectionManager::instance->globalContext->playerVehicles[hudSlotId];
         switch (button->buttonId) {
 
             case BUTTON_OUTSIDE_P1:
@@ -103,8 +104,7 @@ void MultiTransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotI
             case BUTTON_OUTSIDE_P3:
             case BUTTON_OUTSIDE_P4:
                 player->transmission = RaceConfig::Player::TRANSMISSION_OUTSIDE;
-                SaveExpansionDrift::GetSection()->GetData(hudSlotId)->Set(player->vehicleId,
-                                                                          player->transmission);
+                SaveExpansionDrift::GetSection()->GetData(hudSlotId)->Set(vehicle, player->transmission);
                 buttons[button->buttonId + 1]->hidden = true;
                 buttons[button->buttonId + 1]->inputManager.unselectable = true;
                 break;
@@ -114,8 +114,7 @@ void MultiTransmissionSelectPage::onButtonClick(PushButton* button, u32 hudSlotI
             case BUTTON_INSIDE_P3:
             case BUTTON_INSIDE_P4:
                 player->transmission = RaceConfig::Player::TRANSMISSION_INSIDE;
-                SaveExpansionDrift::GetSection()->GetData(hudSlotId)->Set(player->vehicleId,
-                                                                          player->transmission);
+                SaveExpansionDrift::GetSection()->GetData(hudSlotId)->Set(vehicle, player->transmission);
                 buttons[button->buttonId - 1]->hidden = true;
                 buttons[button->buttonId - 1]->inputManager.unselectable = true;
                 break;
