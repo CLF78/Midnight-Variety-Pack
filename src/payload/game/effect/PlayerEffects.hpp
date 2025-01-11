@@ -45,6 +45,10 @@ public:
         rk_brakeSmk_1,
     };
 
+    enum BikeEffects {
+        rk_wheelie = 7,
+    };
+
     enum BikeDriftEffects {
         rk_driftSmokeB,
         rk_driftSpark1LB_Spark00,
@@ -79,18 +83,21 @@ public:
     enum WheelType {
         REAR_WHEEL_L,
         REAR_WHEEL_R,
-        REAR_WHEEL_BIKE,
+        REAR_WHEEL_BIKE = REAR_WHEEL_R,
     };
 
     explicit PlayerEffects(KartObject* kartObject);
     virtual ~PlayerEffects();
 
+    // Main functions
     void init();
     void loadEffects();
     void reduceEmitRatios();
 
     void updateKartDriftEffects();
+    void updateBikeDriftEffects();
 
+    // Kart effects
     void createKartDriftBlueExplodingSparks();   // 806a26a0
     void createKartDriftOrangeExplodingSparks(); // 806a290c
     void createKartDriftPurpleExplodingSparks(); // custom
@@ -126,6 +133,45 @@ public:
     void killKartDriftPurpleExplodingSparks(); // custom
     void killKartDriftPurpleSparks();          // custom
 
+    // Bike effects
+    void createBikeDriftBlueExplodingSparks(int hopStickDirection);   // 806a326c
+    void createBikeDriftOrangeExplodingSparks(int hopStickDirection); // custom
+
+    void updateBikeEffectsByHopstickDir(int hopStickDirection, int leftStartIdx, int leftEndIdx,
+                                        int rightStartIdx, int rightEndIdx, VEC3* pos); // 806a2f20
+
+    void updateBikeEffectsExByHopstickDir(int hopStickDirection, int leftStartIdx, int leftEndIdx,
+                                          int rightStartIdx, int rightEndIdx, VEC3* pos,
+                                          int centerStartIdx = BikeSmtEffects::rk_driftSpark2CB_Spark00,
+                                          int centerEndIdx = BikeSmtEffects::rk_driftSpark2CB_Spark01
+                                                           + 1); // custom
+
+    void updateBikeOutsideDriftSmoke(int hopStickDirection); // 806a2ce4
+    void updateBikeDriftTailGrind(int hopStickDirection);    // replaces 806a37b8
+    void updateBikeInsideDriftSmoke(int hopStickDirection);  // replaces 806a3898
+    void updateBikeDriftBlueChips(int hopStickDirection);    // 806a35cc
+    void updateBikeDriftOrangeChips(int hopStickDirection);  // custom
+    void updateBikeDriftBlueSparks(int hopStickDirection);   // 806a3138
+    void updateBikeDriftOrangeSparks(int hopStickDirection); // custom
+    void updateBikeDriftBlueExplodingSparks();               // 806a33b4
+    void updateBikeDriftOrangeExplodingSparks();             // custom
+    void updateBikeBrakeSmoke();                             // 806a2e8c
+
+    void fadeBikeOutsideDriftSmoke();                         // 806a2e04
+    void fadeBikeDriftTailGrind();                            // 806a381c
+    void fadeBikeInsideDriftSmoke();                          // 806a38e4
+    void fadeBikeDriftBlueSparksByDir(int hopStickDirection); // 806a3184
+    void fadeBikeDriftBlueSparks();                           // custom
+    void fadeBikeDriftOrangeSparks();                         // custom
+    void fadeBikeBrakeSmoke();                                // 806a2ea0
+
+    void killBikeDriftBlueChips();             // 806a36c8
+    void killBikeDriftOrangeChips();           // custom
+    void killBikeDriftBlueExplodingSparks();   // custom
+    void killBikeDriftOrangeExplodingSparks(); // custom
+    void killBikeDriftBlueSparks();            // custom
+    void killBikeDriftOrangeSparks();          // custom
+
     bool IsWheelOnGround(int wheelIdx) const {
         return (wheelsOnFloor[wheelIdx] || wheelNotOnFloorTimers[wheelIdx] < wheelNotOnFloorThreshold);
     }
@@ -159,7 +205,8 @@ public:
     UNK(0x80 - 0x38);
 
     u32 wheelNotOnFloorTimers[2];
-    UNK(0x118 - 0x88);
+    bool isWheelieing;
+    UNK(0x118 - 0x89);
 
     KartObject* kartObject;
     UNK(0x124 - 0x11C);
@@ -190,7 +237,10 @@ public:
     bool bikeDriftEffectsLoaded[28];
     float bikeEffectEmitRatios[8];
     float bikeDriftEffectEmitRatios[28];
-    UNK(0x6F4 - 0x6CC);
+    UNK(4);
+
+    VEC3 playerPosition;
+    UNK(0x6F4 - 0x6DC);
 
     MTX34 playerMat;
     u32 gameScreenIdx;
@@ -205,7 +255,10 @@ public:
 
     VEC3 wheelPositions[2];
     VEC3 prevWheelPositions[2];
-    UNK(0x988 - 0x7EC);
+    UNK(0x818 - 0x7EC);
+
+    MTX34 playerMatBike; // unsure of purpose
+    UNK(0x988 - 0x848);
 
     s16 blueChipAppearThreshold;
     s16 orangeChipAppearThreshold;
