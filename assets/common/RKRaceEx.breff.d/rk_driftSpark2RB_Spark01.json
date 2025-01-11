@@ -208,15 +208,15 @@
   },
   "particle": {
     "color1Primary": {
-      "r": 135,
+      "r": 255,
       "g": 255,
-      "b": 255,
+      "b": 135,
       "a": 255
     },
     "color1Secondary": {
-      "r": 0,
+      "r": 255,
       "g": 91,
-      "b": 255,
+      "b": 0,
       "a": 0
     },
     "color2Primary": {
@@ -294,7 +294,7 @@
           "b": {
             "interpolation": "Linear",
             "range": [
-              255,
+              0,
               25
             ]
           }
@@ -360,7 +360,7 @@
           "r": {
             "interpolation": "Linear",
             "range": [
-              135,
+              255,
               25
             ]
           },
@@ -374,7 +374,7 @@
           "b": {
             "interpolation": "Linear",
             "range": [
-              255,
+              135,
               25
             ]
           }
