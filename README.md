@@ -1,7 +1,11 @@
 # Midnight x Variety Pack
-Midnight x Variety Pack (or MVP for short) is a WIP custom track distribution created by NuoKart, CLF78 and Brawlboxgaming.
+Midnight x Variety Pack (or MVP for short) is a discontinued custom track distribution created by NuoKart, CLF78 and Brawlboxgaming.
+
+> [!WARNING]
+> The project has been abandoned. Use it at your own risk.
 
 ## Table of Contents
+- [Feature List](#feature-list)
 - [Project Setup - Automatic (Windows Only)](#project-setup---automatic-windows-only)
 - [Project Setup - Manual](#project-setup---manual)
     - [Required Tools and Dependencies](#required-tools-and-dependencies)
@@ -16,6 +20,9 @@ Midnight x Variety Pack (or MVP for short) is a WIP custom track distribution cr
 - [Contributing](#contributing)
   - [Setting up the Development Environment](#setting-up-the-development-environment)
   - [Visual Studio Code-Specific Features](#visual-studio-code-specific-features)
+
+## Feature List
+TODO
 
 ## Project Setup - Automatic (Windows Only)
 - Clone this repository to a folder of choice (make sure the path to the folder has no spaces in it!);
@@ -72,7 +79,6 @@ I'm not covering this. Figure it out yourself.
 - Install dotnet, which is required for running Kamek;
 - Install WINE, which is required for running CodeWarrior;
 - Since the CodeWarrior installer will fail on WINE, the files will need to be extracted manually:
-    - To do so, first make sure the cabextract package is installed;
     - Place the CodeWarrior installer in the same folder as `extractCW.sh`, then run the aforementioned script;
     - All the files will be placed to the correct folder automatically.
 - Install Wiimm's SZS Tools;
