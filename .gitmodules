@@ -1,3 +1,6 @@
 [submodule "wuj5"]
 	path = tools/wuj5
 	url = https://github.com/stblr/wuj5.git
+[submodule "tools/breffconv"]
+	path = tools/breffconv
+	url = https://github.com/CLF78/Actually-Working-BREFF-Converter.git

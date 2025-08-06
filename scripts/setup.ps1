@@ -97,7 +97,7 @@ if (!(HasValidDotnetVersion)) {
 Write-Host "Checking for Python installation..."
 Get-Command python -ErrorAction SilentlyContinue | Out-Null
 if ($?) {
-    python -c "import sys; exit_code = 0 if sys.version_info >= (3, 9) else 1; sys.exit(exit_code)"
+    python -c "import sys; exit_code = 0 if sys.version_info >= (3, 11) else 1; sys.exit(exit_code)"
 }
 
 # Install if any of the two checks failed
@@ -208,6 +208,10 @@ if (!$?) {
 Write-Host "Checking for json5 installation..."
 InstallPythonPackage -Package "json5"
 
+# Check and eventually install orjson
+Write-Host "Checking for orjson installation..."
+InstallPythonPackage -Package "orjson"
+
 # Check and eventually install qtpy
 "Checking for qtpy installation..."
 InstallPythonPackage -Package "qtpy"
@@ -229,6 +233,17 @@ if (!(Test-Path "..\tools\wuj5\wuj5.py")) {
     Expand-Archive wuj5.zip .\ -Force
     xcopy wuj5-main ..\tools\wuj5\ /E /Y /Q
     Write-Host "wuj5 installed successfully!"
+}
+
+# Check for wuj5 installation
+Write-Host "Checking for breffconv installation..."
+if (!(Test-Path "..\tools\breffconv\breff_converter.py")) {
+
+    # Download breffconv and install it
+    DownloadFile -Url "https://github.com/CLF78/Actually-Working-BREFF-Converter/archive/refs/heads/master.zip" -Dest "breffconv.zip" -Name "breffconv"
+    Expand-Archive breffconv.zip .\ -Force
+    xcopy breffconv-master ..\tools\breffconv\ /E /Y /Q
+    Write-Host "breffconv installed successfully!"
 }
 
 # Remove temporary directory

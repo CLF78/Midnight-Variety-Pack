@@ -24,6 +24,10 @@ class AssetManager():
             timestampFile = Path(source, '.extracted')
             writer.build('copy_dir', dest, [], implicit_inputs=[timestampFile], in_dir=source, in_short=source.name)
 
+        # Encode BREFF files with breffconv
+        elif source.suffixes == ['.breff', '.d'] and not isCopy:
+            writer.build('breffconv', dest, source.glob('*.json'), in_dir=source, out_short=dest.name)
+
         # Encode JSON5 files with wuj5
         elif source.suffix == '.json5' and not isCopy:
             writer.build('wuj5', dest, source, in_short=source.name)

@@ -1,21 +1,25 @@
 #pragma once
 #include "PlayerEffects.hpp"
-#include <game/gfx/ModelDirector.hpp>
-#include <game/kart/KartCollide.hpp>
-#include <game/system/MultiDvdArchive.hpp>
-#include <nw4r/math/types.hpp>
+#include <egg/effect/eggEffectManager.hpp>
+#include <egg/effect/eggEffectResource.hpp>
+#include <mvp/effectex/EffectInfoEx.hpp>
 
 class EffectInfo {
 public:
-    static EffectInfo* instance;
+    EffectInfo() : _9E4(0.0f), _9E8(0.0f) {}
 
+    void init(Scene::SceneId sceneId);
+    void loadRaceEffects();
+    void loadPlayerEffects();
     void clear();
+
+    static void initStaticInstance(EGG::Heap* heap);
 
     u32 playerCount;
     u32 localPlayerCount;
     UNK(4);
 
-    u32 sceneId;
+    Scene::SceneId sceneId;
     UNK(2);
 
     u16 resCount;
@@ -32,10 +36,10 @@ public:
     UNK(4);
 
     bool isGV;
-    bool isMT;
+    bool isAwards;
     UNK(2);
 
-    void* resources[9];
+    EGG::EffectResource* resources[9];
     PlayerEffects** players;
     void* menus;
     void* mgWhiteFog;
@@ -44,13 +48,19 @@ public:
 
     void** sub9d8s;
     u16* objectsEffectsId;
-    UNK(0x9EE - 0x9E0);
+    UNK(0x9E4 - 0x9E0);
+
+    float _9E4;
+    float _9E8;
+    u16 _9EC;
     PAD(2);
 
     virtual ~EffectInfo();
 
-    static EffectInfo* sInstance;
-    static void* eggEffectMgr;
-};
+    // Expansion structure
+    EffectInfoEx expansion;
 
-size_assert(EffectInfo, 0x9F4);
+    static EffectInfo* instance;
+    static EGG::EffectManager* eggEffectMgr;
+};
+size_assert(EffectInfo, 0x9F4 + sizeof(EffectInfoEx));

@@ -16,6 +16,12 @@ public:
         DRIFT_STATE_COUNT
     };
 
+    enum HopStickDirection {
+        HOPSTICK_LEFT = -1,
+        HOPSTICK_CENTER,
+        HOPSTICK_RIGHT,
+    };
+
     KartMove();
     virtual ~KartMove();
     virtual void createComponents();
@@ -65,7 +71,7 @@ public:
     UNK(0xCA - 0x38);
 
     s16 umtCharge; // Custom field (previously padding)
-    int hopStickX;
+    HopStickDirection hopStickX;
     UNK(0xFC - 0xD0);
 
     s16 driftState;

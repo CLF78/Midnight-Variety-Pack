@@ -27,12 +27,14 @@ Midnight x Variety Pack (or MVP for short) is a WIP custom track distribution cr
 - [CodeWarrior for MPC55xx/MPC56xx v2.10 Special Edition](https://nxp.com/lgfiles/devsuites/PowerPC/CW55xx_v2_10_SE.exe) ([mirror](https://cache.nxp.com/lgfiles/devsuites/PowerPC/CW55xx_v2_10_SE.exe))
 - [Kamek](https://github.com/Treeki/Kamek/releases) (use the latest build as it introduces/fixes features that the mod depends on)
 - [.NET Core](https://dotnet.microsoft.com/en-us/download/dotnet) (version 6.0 or later)
-- [Python](https://www.python.org/downloads/) (version 3.9 or later)
+- [Python](https://www.python.org/downloads/) (version 3.11 or later)
 - [Wiimm's SZS Tools](https://szs.wiimm.de/download.html)
+- [Actually Working BREFF Converter](https://github.com/CLF78/Actually-Working-BREFF-Converter)
 - [wuj5](https://github.com/stblr/wuj5)
 
 The following Python packages are also required:
 - [json5](https://pypi.org/project/json5/)
+- [orjson](https://pypi.org/project/orjson/)
 - [ninja](https://pypi.org/project/ninja/)
 
 These additional packages are required for running the Cup Builder tool:
@@ -59,6 +61,7 @@ The following dependencies are additionally required on Linux:
     - Copy `license.dat` from the main CodeWarrior directory to the `cw` folder as well;
 - Download Kamek and copy it to the `kamek` folder (inside `tools`);
 - Download wuj5 and copy it to the `wuj5` folder (unless already present);
+- Download Actually Working BREFF Converter and copy it to the `breffconv` folder (unless already present);
 
 #### Installation - Mac
 I'm not covering this. Figure it out yourself.
@@ -75,6 +78,7 @@ I'm not covering this. Figure it out yourself.
 - Install Wiimm's SZS Tools;
 - Download Kamek and copy it to the `kamek` folder inside `tools`;
 - Download wuj5 and copy it to the `wuj5` folder (unless already present);
+- Download Actually Working BREFF Converter and copy it to the `breffconv` folder (unless already present);
 
 ## Building
 - Run `configure.py` to create the Ninja build script;

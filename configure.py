@@ -22,8 +22,8 @@ from tools.utils.path_utils import change_root, change_stem_suffix, escape_win_p
 # Dependency Checks #
 #####################
 
-if sys.version_info < (3, 9):
-    raise SystemExit('Please update your copy of Python to 3.9 or greater. Currently running on: ' + sys.version.split()[0])
+if sys.version_info < (3, 11):
+    raise SystemExit('Please update your copy of Python to 3.11 or greater. Currently running on: ' + sys.version.split()[0])
 
 try:
     import json5
@@ -148,6 +148,7 @@ JSON_OUT_FILE = Path(XML_ROOT_DIR, f'{XML_PATCH_ID}.json')
 #########
 
 BMG_MERGE = Path(TOOL_DIR, 'bmg_tools', 'merge.py')
+BREFFCONV = Path(TOOL_DIR, 'breffconv', 'breff_converter.py')
 CC = Path(file) if (file := shutil.which('mwcceppc.exe')) else Path(TOOL_DIR, 'cw', 'mwcceppc.exe')
 CUP_BUILDER = Path(TOOL_DIR, 'cup_builder', 'exporter.py')
 CW_WRAPPER = Path(TOOL_DIR, 'cw', 'mwcceppc_wine_wrapper.py')
@@ -215,10 +216,8 @@ COMMON_ASSETS = {
         Path(COMMON_ASSETS_DIR, 'driverParam.bin'): None,
         Path(COMMON_ASSETS_DIR, 'itembox.brres'): None,
         Path(COMMON_ASSETS_DIR, 'itemBoxNiseRtpa.brres'): None,
-        Path(COMMON_ASSETS_DIR, 'orange.breff'): Path('Effect', 'orange.breff'),
-        Path(COMMON_ASSETS_DIR, 'orange.breft'): Path('Effect', 'orange.breft'),
-        Path(COMMON_ASSETS_DIR, 'purple.breff'): Path('Effect', 'purple.breff'),
-        Path(COMMON_ASSETS_DIR, 'purple.breft'): Path('Effect', 'purple.breft')
+        Path(COMMON_ASSETS_DIR, 'RKRaceEx.breff.d'): Path('Effect', 'RKRaceEx.breff'),
+        Path(COMMON_ASSETS_DIR, 'RKRaceEx.breft'): Path('Effect', 'RKRaceEx.breft')
     }
 }
 
@@ -236,6 +235,7 @@ UI_ASSETS = {
 	},
 
     'GlobeMVP': {
+        Path(UI_ASSETS_DIR, 'button', 'ctrl', 'GlobeTransmissionSelect.brctr.json5'): None,
         Path(UI_ASSETS_DIR, 'button', 'ctrl', 'WifiMenuModeSelect.brctr.json5'): None,
         Path(UI_ASSETS_DIR, 'button', 'ctrl', 'WifiMenuSingleTop.brctr.json5'): None,
     },
@@ -245,6 +245,7 @@ UI_ASSETS = {
         Path(UI_ASSETS_DIR, 'button', 'ctrl', 'BattleStageSelectStage.brctr.json5'): None,
 		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowLeft.brctr.json5'): None,
 		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'CupSelectCupArrowRight.brctr.json5'): None,
+		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'TransmissionSelect.brctr.json5'): None,
 		Path(UI_ASSETS_DIR, 'button', 'ctrl', 'WifiMemberConfirmButton.brctr.json5'): None,
         Path(UI_ASSETS_DIR, 'control', 'ctrl', 'BattleCupSelectStage.brctr.json5'): None,
         Path(CUP_ICONS_BUILD_DIR): Path('cups')
@@ -433,6 +434,10 @@ writer.rule('json_patch_gen',
 writer.rule('xml_patch_gen',
             command=f'{sys.executable} {XML_PATCH_GENERATOR} $out $gameid $modname $patchid $patches $externals',
             description='Generate Riivolution XML')
+
+writer.rule('breffconv',
+            command=f'{sys.executable} {BREFFCONV} encode $in_dir -d $out -o',
+            description='Encode $out_short with BREFFConv')
 
 ########################
 # Write Build Commands #

@@ -2,8 +2,10 @@
 #include "VotingBackPage.hpp"
 #include <game/net/RKNetController.hpp>
 #include <game/net/RKNetSelectHandler.hpp>
+#include <game/net/packet/RKNetSelectPacket.hpp>
 #include <game/sound/SoundEffect.hpp>
 #include <game/system/Identifiers.hpp>
+#include <game/system/RaceConfig.hpp>
 #include <game/ui/Message.hpp>
 #include <mvp/cup/CupData.hpp>
 #include <mvp/cup/CupManager.hpp>
@@ -95,4 +97,23 @@ kmBranchDefAsm(0x80644310, 0x80644418) {
     mr r3, r27
     bl StoreWinningVote
     blr
+}
+
+/////////////////////////
+// Transmission Select //
+/////////////////////////
+
+// VotingPage::beforeInAnim() override
+// Share the selected transmission with other players
+REPLACE void VotingPage::beforeInAnim() {
+
+    // Call original function
+    REPLACED();
+
+    // Set the transmission for each player
+    for (int i = 0; i < localPlayerCount; i++) {
+        RKNetSELECTPlayer* playerData = &RKNetSELECTHandler::instance->sendPacket.playerData[i];
+        playerData->transmission = RaceConfig::instance->menuScenario.players[i].transmission;
+        LOG_DEBUG("Broadcasting transmission value %d", playerData->transmission);
+    }
 }

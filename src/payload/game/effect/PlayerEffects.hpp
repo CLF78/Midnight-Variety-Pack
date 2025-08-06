@@ -1,51 +1,274 @@
 #pragma once
 #include <egg/effect/eggEffect.hpp>
-#include <game/gfx/ModelDirector.hpp>
-#include <game/kart/KartCollide.hpp>
 #include <game/kart/KartObject.hpp>
 #include <game/system/RaceConfig.hpp>
-#include <nw4r/math/types.hpp>
-#include <nw4r/ut/Color.hpp>
+#include <mvp/effectex/PlayerEffectsEx.hpp>
 
 class PlayerEffects {
 public:
+    enum KartDriftEffect {
+        rk_driftSmoke,
+        rk_driftSmoke_1,
+        rk_driftSpark1L_Spark00,
+        rk_driftSpark1L_Spark01,
+        rk_driftSpark1R_Spark00,
+        rk_driftSpark1R_Spark01,
+        rk_driftSpark2L_Spark00,
+        rk_driftSpark2L_Spark01,
+        rk_driftSpark2R_Spark00,
+        rk_driftSpark2R_Spark01,
+        rk_driftSpark1L1T_Chip00,
+        rk_driftSpark1L1T_Spark00,
+        rk_driftSpark1L1T_Spark01,
+        rk_driftSpark1R1T_Chip00,
+        rk_driftSpark1R1T_Spark00,
+        rk_driftSpark1R1T_Spark01,
+        rk_driftSpark2L1T_Chip00,
+        rk_driftSpark2L1T_Spark00,
+        rk_driftSpark2L1T_Spark01,
+        rk_driftSpark2R1T_Chip00,
+        rk_driftSpark2R1T_Spark00,
+        rk_driftSpark2R1T_Spark01,
+        rk_driftSpark1L_Chip00,
+        rk_driftSpark1R_Chip00,
+        rk_driftSpark2L_Chip00,
+        rk_driftSpark2R_Chip00,
+        rk_start0,
+        rk_start1,
+        rk_start2,
+        rk_start0_1,
+        rk_start1_1,
+        rk_start2_1,
+        rk_autoDriftL,
+        rk_autoDriftR,
+        rk_brakeSmk,
+        rk_brakeSmk_1,
+    };
+
+    enum BikeEffects {
+        rk_wheelie = 7,
+    };
+
+    enum BikeDriftEffects {
+        rk_driftSmokeB,
+        rk_driftSpark1LB_Spark00,
+        rk_driftSpark1LB_Spark01,
+        rk_driftSpark1RB_Spark00,
+        rk_driftSpark1RB_Spark01,
+        rk_driftSpark1CB_Spark00,
+        rk_driftSpark1CB_Spark01,
+        rk_driftSpark1LB1T_Chip00,
+        rk_driftSpark1LB1T_Spark00,
+        rk_driftSpark1LB1T_Spark01,
+        rk_driftSpark1RB1T_Chip00,
+        rk_driftSpark1RB1T_Spark00,
+        rk_driftSpark1RB1T_Spark01,
+        rk_driftSpark1CB1T_Chip00,
+        rk_driftSpark1CB1T_Spark00,
+        rk_driftSpark1CB1T_Spark01,
+        rk_driftSpark1LB_Chip00,
+        rk_driftSpark1RB_Chip00,
+        rk_hangOnL,
+        rk_hangOnR,
+        rk_hangOnLTail,
+        rk_hangOnRTail,
+        rk_start0B,
+        rk_start1B,
+        rk_start2B,
+        rk_brakeSmkB,
+        rk_autoDriftLB,
+        rk_autoDriftRB,
+    };
+
+    enum WheelType {
+        REAR_WHEEL_L,
+        REAR_WHEEL_R,
+        REAR_WHEEL_BIKE = REAR_WHEEL_R,
+    };
+
     explicit PlayerEffects(KartObject* kartObject);
     virtual ~PlayerEffects();
 
+    // Main functions
     void init();
-    void reset();
     void loadEffects();
-    void killEffects(bool killAll);
-    void update();
-    void updateValues();
+    void reduceEmitRatios();
 
-    void createEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex);
+    void updateKartDriftEffects();
+    void updateBikeDriftEffects();
+
+    // Kart effects
+    void createKartDriftBlueExplodingSparks();   // 806a26a0
+    void createKartDriftOrangeExplodingSparks(); // 806a290c
+    void createKartDriftPurpleExplodingSparks(); // custom
+
+    void updateKartDriftSmoke();                 // 806a1820
+    void updateKartDriftBlueChips();             // 806a2118
+    void updateKartDriftBlueExplodingSparks();   // 806a2780
+    void updateKartDriftBlueSparks();            // 806a1d70
+    void updateKartDriftOrangeChips();           // 806a2348
+    void updateKartDriftOrangeExplodingSparks(); // 806a29ec
+    void updateKartDriftOrangeSparks();          // 806a1fd8
+    void updateKartDriftPurpleChips();           // custom
+    void updateKartDriftPurpleExplodingSparks(); // custom
+    void updateKartDriftPurpleSparks();          // custom
+    void updateKartBrakeSmoke();                 // 806a1cc8
+
+    void fadeKartDriftSmoke();        // 806a1938
+    void fadeKartDriftBlueChips();    // 806a21f4
+    void fadeKartDriftBlueSparks();   // 806a1e4c
+    void fadeKartDriftOrangeChips();  // 806a2424
+    void fadeKartDriftOrangeSparks(); // 806a20b4
+    void fadeKartDriftPurpleChips();  // custom
+    void fadeKartDriftPurpleSparks(); // custom
+    void fadeKartBrakeSmoke();        // 806a1d1c
+
+    void killKartDriftBlueChips();             // 806a2258
+    void killKartDriftBlueExplodingSparks();   // 806a27e4
+    void killKartDriftBlueSparks();            // 806a1eb0
+    void killKartDriftOrangeExplodingSparks(); // 806a2a50
+    void killKartDriftOrangeChips();           // 806a2488
+    void killKartDriftOrangeSparks();          // custom
+    void killKartDriftPurpleChips();           // custom
+    void killKartDriftPurpleExplodingSparks(); // custom
+    void killKartDriftPurpleSparks();          // custom
+
+    // Bike effects
+    void createBikeDriftBlueExplodingSparks(int hopStickDirection);   // 806a326c
+    void createBikeDriftOrangeExplodingSparks(int hopStickDirection); // custom
+
+    void updateBikeEffectsByHopstickDir(int hopStickDirection, int leftStartIdx, int leftEndIdx,
+                                        int rightStartIdx, int rightEndIdx, VEC3* pos); // 806a2f20
+
+    void updateBikeEffectsExByHopstickDir(int hopStickDirection, int leftStartIdx, int leftEndIdx,
+                                          int rightStartIdx, int rightEndIdx, VEC3* pos,
+                                          int centerStartIdx = BikeSmtEffects::rk_driftSpark2CB_Spark00,
+                                          int centerEndIdx = BikeSmtEffects::rk_driftSpark2CB_Spark01
+                                                           + 1); // custom
+
+    void updateBikeOutsideDriftSmoke(int hopStickDirection); // 806a2ce4
+    void updateBikeDriftTailGrind(int hopStickDirection);    // replaces 806a37b8
+    void updateBikeInsideDriftSmoke(int hopStickDirection);  // replaces 806a3898
+    void updateBikeDriftBlueChips(int hopStickDirection);    // 806a35cc
+    void updateBikeDriftOrangeChips(int hopStickDirection);  // custom
+    void updateBikeDriftBlueSparks(int hopStickDirection);   // 806a3138
+    void updateBikeDriftOrangeSparks(int hopStickDirection); // custom
+    void updateBikeDriftBlueExplodingSparks();               // 806a33b4
+    void updateBikeDriftOrangeExplodingSparks();             // custom
+    void updateBikeBrakeSmoke();                             // 806a2e8c
+
+    void fadeBikeOutsideDriftSmoke();                         // 806a2e04
+    void fadeBikeDriftTailGrind();                            // 806a381c
+    void fadeBikeInsideDriftSmoke();                          // 806a38e4
+    void fadeBikeDriftBlueSparksByDir(int hopStickDirection); // 806a3184
+    void fadeBikeDriftBlueSparks();                           // custom
+    void fadeBikeDriftOrangeSparks();                         // custom
+    void fadeBikeBrakeSmoke();                                // 806a2ea0
+
+    void killBikeDriftBlueChips();             // 806a36c8
+    void killBikeDriftOrangeChips();           // custom
+    void killBikeDriftBlueExplodingSparks();   // custom
+    void killBikeDriftOrangeExplodingSparks(); // custom
+    void killBikeDriftBlueSparks();            // custom
+    void killBikeDriftOrangeSparks();          // custom
+
+    bool IsWheelOnGround(int wheelIdx) const {
+        return (wheelsOnFloor[wheelIdx] || wheelNotOnFloorTimers[wheelIdx] < wheelNotOnFloorThreshold);
+    }
+
+    void createEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex,
+                            u32 lastEffectIndex); // 8069797c
+
     void createAndUpdateEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex,
-                                     const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale);
+                                     MTX34* playerMat, VEC3* wheelPos, bool updateScale);
 
     void updateEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex,
-                            const MTX34& playerMat2, const VEC3& wheelPos, bool r9);
+                            MTX34* playerMat, VEC3* wheelPos, bool updateScale);
 
     void followFadeEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex,
-                                const MTX34& playerMat2, const VEC3& wheelPos, bool updateScale);
+                                MTX34* playerMat, VEC3* wheelPos, bool updateScale);
 
-    void killEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex);
+    void killEffectsByIdx(EGG::Effect** effectsArray, u32 firstEffectIndex, u32 lastEffectIndex); // 806a25ec
 
-    static RaceConfig* GetRaceData();
-    static u8* GetCourseId(RaceConfig* racedata);
+    UNK(0xD - 0x4);
+    bool isInsideDrift;
+    bool isAutoDrift;
+    bool isHumanPlayer;
+    bool isRemoteCPU;
+    bool isHumanPlayer2P;
+    bool isRemoteCPU2P;
+    bool isHumanPlayer3P4P;
+    bool isCPU3P4P;
+    UNK(0x34 - 0x15);
 
-    UNK(0x118 - 0x4);
+    u32 mtCharge;
+    UNK(0x80 - 0x38);
+
+    u32 wheelNotOnFloorTimers[2];
+    bool isWheelieing;
+    UNK(0x118 - 0x89);
 
     KartObject* kartObject;
     UNK(0x124 - 0x11C);
 
     u32 isBike;
-    UNK(0x12E - 0x128);
-
+    bool hasThreeWheels;
+    bool isRealPlayer;
+    bool isRemoteCPUPlayer;
+    bool isGhost;
+    bool isTTReplay;
+    bool isRealOrGhost;
     u8 playerId;
     UNK(0x134 - 0x12F);
 
     int playerIdPlus2;
-    UNK(0xAE8 - 0x138);
+    UNK(0x52C - 0x138);
+
+    EGG::Effect** kartEffects;
+    EGG::Effect** kartDriftEffects;
+    bool kartEffectsLoaded[8];
+    bool kartDriftEffectsLoaded[36];
+    float kartEffectEmitRatios[8];
+    float kartDriftEffectEmitRatios[36];
+
+    EGG::Effect** bikeEffects;
+    EGG::Effect** bikeDriftEffects;
+    bool bikeEffectsLoaded[8];
+    bool bikeDriftEffectsLoaded[28];
+    float bikeEffectEmitRatios[8];
+    float bikeDriftEffectEmitRatios[28];
+    UNK(4);
+
+    VEC3 playerPosition;
+    UNK(0x6F4 - 0x6DC);
+
+    MTX34 playerMat;
+    u32 gameScreenIdx;
+    float internalVelocity;
+    UNK(0x7A0 - 0x72C);
+
+    s16 driftState;
+    UNK(0x7B9 - 0x7A2);
+
+    bool wheelsOnFloor[2];
+    PAD(1);
+
+    VEC3 wheelPositions[2];
+    VEC3 prevWheelPositions[2];
+    UNK(0x818 - 0x7EC);
+
+    MTX34 playerMatBike; // unsure of purpose
+    UNK(0x988 - 0x848);
+
+    s16 blueChipAppearThreshold;
+    s16 orangeChipAppearThreshold;
+    s16 loopedSparkAppearThreshold;
+    UNK(0xAE0 - 0x98E);
+
+    u8 wheelNotOnFloorThreshold;
+    UNK(0xAE8 - 0xAE1);
+
+    // Expansion structure
+    PlayerEffectsEx expansion;
 };
-size_assert(PlayerEffects, 0xAE8);
+size_assert(PlayerEffects, 0xAE8 + sizeof(PlayerEffectsEx));

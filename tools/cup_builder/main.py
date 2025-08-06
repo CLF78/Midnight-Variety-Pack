@@ -8,8 +8,8 @@
 import os
 import sys
 
-if sys.version_info < (3, 9):
-    raise SystemExit('Please update your copy of Python to 3.9 or greater. Currently running on: ' + sys.version.split()[0])
+if sys.version_info < (3, 11):
+    raise SystemExit('Please update your copy of Python to 3.11 or greater. Currently running on: ' + sys.version.split()[0])
 
 # Import json5
 try:

@@ -46,7 +46,7 @@ public:
     PAD(0x24);
     // u32 arenaOrder[10];
 
-    u32 humanPlayerCount;
+    u32 localPlayerCount;
     u32 _128;
 
     int playerCharacters[4];

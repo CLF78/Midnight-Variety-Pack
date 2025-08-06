@@ -28,6 +28,7 @@ public:
     bool isSelected();
     void select(u32 localPlayerId);
     void selectDefault(u32 localPlayerId);
+    void selectFocus();
     void click(u32 localPlayerId);
 
     float getDelay();
